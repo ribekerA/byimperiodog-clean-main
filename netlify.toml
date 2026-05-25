@@ -2,7 +2,10 @@
 [build]
   command = "npm run build"
   publish = ".next"
-  functions = "netlify/functions"
+
+# @netlify/plugin-nextjs handles SSR, API routes, ISR and asset routing for Next.js 13+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [dev]
   command = "npm run dev"
@@ -131,15 +134,11 @@
   force = true
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# 5️⃣ REDIRECT UNIVERSAL PARA NEXT.JS (DEVE VIR POR ÚLTIMO)
+# 5️⃣ ROTEAMENTO NEXT.JS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# ⚠️ IMPORTANTE: Esta regra COM STATUS 200 faz "masking" (URL muda, conteúdo é servido)
-#    Isso permite ao Next.js renderizar 404s customizados sem mudar URL no browser
-
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/server"
-  status = 200
+# @netlify/plugin-nextjs (declarado acima) cria automaticamente as funções
+# serverless necessárias para SSR, API routes e ISR.
+# Nenhum redirect manual para /.netlify/functions/server é necessário.
 
 # ============================================================================
 # HEADERS - Segurança e SEO
