@@ -16,11 +16,15 @@ import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 import type { Webhook, CreateWebhookPayload } from '@/types/webhooks';
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
-);
+// Guard: createClient throws if URL is empty — during `next build` env vars are
+// not available, so we skip construction and let handlers fail gracefully at runtime.
+const supabaseAdmin = (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+  ? createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
+      { auth: { persistSession: false } }
+    )
+  : (null as any);
 
 export async function GET(request: NextRequest) {
   try {
