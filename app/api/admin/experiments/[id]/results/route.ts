@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
  * GET /api/admin/experiments/[id]/results - Busca resultados do experimento
  */
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -16,13 +16,15 @@ import type { ExperimentResults, ExperimentMetrics } from '@/types/experiments';
 
 // Guard: createClient throws if URL is empty — during `next build` env vars are
 // not available, so we skip construction and let handlers fail gracefully at runtime.
-const supabaseAdmin = (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+// Explicit SupabaseClient type preserves the generic chain so TypeScript can infer
+// callback parameter types in array methods (data: any[] not data: any).
+const supabaseAdmin: SupabaseClient = (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
   ? createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY,
       { auth: { persistSession: false } }
     )
-  : (null as any);
+  : (null as unknown as SupabaseClient);
 
 export async function GET(
   request: NextRequest,
