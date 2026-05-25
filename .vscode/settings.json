@@ -1,0 +1,33 @@
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "chat.agent.maxRequests": 1000000,
+  "deno.enablePaths": [
+    "supabase/functions"
+  ],
+  "deno.lint": true,
+  "deno.unstable": [
+    "bare-node-builtins",
+    "byonm",
+    "sloppy-imports",
+    "unsafe-proto",
+    "webgpu",
+    "broadcast-channel",
+    "worker-options",
+    "cron",
+    "kv",
+    "ffi",
+    "fs",
+    "http",
+    "net"
+  ],
+  "chat.tools.terminal.autoApprove": {
+    "netlify": true,
+    "npm install": true,
+    "supabase": true,
+    "git add": true,
+    "git commit": true,
+    "git push": true
+  }
+}

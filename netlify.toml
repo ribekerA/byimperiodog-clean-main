@@ -1,0 +1,180 @@
+# Netlify configuration for Next.js project
+[build]
+  command = "npm run build"
+  publish = ".next"
+  functions = "netlify/functions"
+
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 3000
+  autoLaunch = false
+
+# ============================================================================
+# REDIRECTS - ORDEM IMPORTA! (Mais específicas PRIMEIRO)
+# ============================================================================
+# 💡 Regra de Ouro: Netlify processa redirects de cima para baixo
+#    Primeira regra que matchear, vence!
+#    Mais específicas (exatas) devem estar antes de wildcard patterns
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 1️⃣ REDIRECTS ESPECÍFICOS HUNGARIAN (Bloqueio de Páginas Fantasma)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# "Pomerániai" em húngaro → Redireciona para catálogo de filhotes
+[[redirects]]
+  from = "/pomeraniai"
+  to = "/filhotes"
+  status = 301
+  force = true
+
+# "Prémium kölyökkutyák elérhetők" em húngaro → Redireciona para filhotes
+[[redirects]]
+  from = "/premium-kolyokkutyak-elerhetok"
+  to = "/filhotes"
+  status = 301
+  force = true
+
+# Variações com hífens e parâmetros do URL antigo
+[[redirects]]
+  from = "/pomeraniai-*"
+  to = "/filhotes"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/kolyokkutyak*"
+  to = "/filhotes"
+  status = 301
+  force = true
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 2️⃣ BLOQUEIO TOTAL DE ROTAS /HU/* (Qualquer idioma húngaro)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Captura /hu/* e qualquer blog post com sufixo -hu
+
+[[redirects]]
+  from = "/hu/*"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/*-hu"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/*-hu-HU"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "*-hu"
+  to = "/"
+  status = 301
+  force = true
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 3️⃣ REDIRECTS DE ADMIN (Rota Protegida)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# /admin (sem trailing slash) → /admin/login
+# Isso força login para qualquer acesso direto a /admin
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/login"
+  status = 307
+  force = false
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 4️⃣ REDIRECTS DE ROTAS ANTIGAS / QUEBRADAS (Prevenção de 404)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Redirecionamentos de termos antigos/misspellings comuns
+[[redirects]]
+  from = "/spitz"
+  to = "/filhotes"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/puppies"
+  to = "/filhotes"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/galeria"
+  to = "/filhotes"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/preco"
+  to = "/preco-spitz-anao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/reservar"
+  to = "/reserve-seu-filhote"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/sobre-nos"
+  to = "/sobre"
+  status = 301
+  force = true
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 5️⃣ REDIRECT UNIVERSAL PARA NEXT.JS (DEVE VIR POR ÚLTIMO)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ⚠️ IMPORTANTE: Esta regra COM STATUS 200 faz "masking" (URL muda, conteúdo é servido)
+#    Isso permite ao Next.js renderizar 404s customizados sem mudar URL no browser
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+
+# ============================================================================
+# HEADERS - Segurança e SEO
+# ============================================================================
+
+# Headers para /admin/* - Bloqueio de indexação e proteção
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet"
+    X-Frame-Options = "DENY"
+    Cache-Control = "no-cache, no-store, must-revalidate, private"
+
+# Headers para /api/admin/* - Segurança
+[[headers]]
+  for = "/api/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    X-Frame-Options = "DENY"
+    Cache-Control = "no-cache, no-store, must-revalidate, private"
+
+# Headers para arquivos estáticos - Cache agressivo
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Headers para imagens - Cache moderado (ISR)
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# Environment variables (add your Supabase keys and others here)
+#[[headers]]
+#  for = "/api/*"
+#  [headers.values]
+#    Access-Control-Allow-Origin = "*"

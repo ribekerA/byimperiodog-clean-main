@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Bloquear rotas administrativas
+Disallow: /admin/
+Disallow: /admin
+Disallow: /(admin)/
+
+# Bloquear rotas de preview e drafts
+Disallow: /blog/preview/
+Disallow: /api/
+
+# Permitir recursos públicos
+Allow: /fonts/
+Allow: /images/
+Allow: /*.css$
+Allow: /*.js$
+
+Sitemap: https://www.byimperiodog.com.br/sitemap.xml
+

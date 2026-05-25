@@ -1,0 +1,24 @@
+export type AdminLead = {
+  id: string;
+  nome?: string | null;
+  name?: string | null;
+  telefone?: string | null;
+  phone?: string | null;
+  cidade?: string | null;
+  city?: string | null;
+  estado?: string | null;
+  state?: string | null;
+  cor_preferida?: string | null;
+  color?: string | null;
+  status?: string | null;
+  created_at?: string | null;
+  page?: string | null;
+  page_slug?: string | null;
+  utm_source?: string | null;
+  utm_medium?: string | null;
+  utm_campaign?: string | null;
+  referer?: string | null;
+  source?: string | null;
+  notes?: string | null;
+  mensagem?: string | null;
+};

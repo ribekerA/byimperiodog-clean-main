@@ -1,0 +1,22 @@
+﻿# Ignorar dependências e builds locais
+node_modules
+.next
+.contentlayer
+coverage
+artifacts
+artifact_contentlayer
+playwright-report
+reports
+test-results
+
+# Arquivos temporários/pesados
+backup.zip
+*.tgz
+*.log
+
+# Conteúdo e dados não necessários no deploy
+sql
+docs
+
+# IDE/config local
+.vscode

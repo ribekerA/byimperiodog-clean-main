@@ -1,0 +1,42 @@
+name: Deploy Debug
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install packages
+        run: npm ci
+
+      - name: Run contentlayer build (log)
+        run: |
+          set -o pipefail || true
+          npx contentlayer build 2>&1 | tee contentlayer.log
+
+      - name: Upload contentlayer log
+        uses: actions/upload-artifact@v4
+        with:
+          name: contentlayer-log
+          path: contentlayer.log
+
+      - name: Run next build (log)
+        run: |
+          set -o pipefail || true
+          npm run build 2>&1 | tee build.log
+
+      - name: Upload build log
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log

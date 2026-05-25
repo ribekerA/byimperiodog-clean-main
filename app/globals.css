@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Base neutrals — sólidos sem transparência */
+  --bg: #faf5ef;
+  --bg-2: #f2e8de;
+  --background: #fffdf8;
+  --surface: #ffffff; /* Sólido para Header/Footer */
+  --surface-dark: #0c1e1a; /* Verde escuro sólido para rodapé */
+  --surface-dark-2: #102722;
+  --surface-2: #f5ebdf;
+  --border: #e2d6c7;
+  --foreground: #201a16;
+  --text: #2a231f;
+  --text-light: #f6f7f7; /* Texto sobre fundos escuros */
+  --text-muted: #5a4d42; /* Melhorado contraste WCAG AA 4.5:1 */
+
+  /* Brand palette */
+  --brand: #1f4d3a;
+  --brand-teal: #0ea5a3; /* Turquesa sólido */
+  --brand-foreground: #ffffff;
+  --brand-contrast: #ffffff;
+
+  --accent: #f3b562;
+  --accent-foreground: #3b2715;
+  --accent-contrast: #3b2715;
+
+  --whatsapp: #1f8a5c;
+  --whatsapp-contrast: #ffffff;
+
+  --success: #2f855a;
+  --warning: #c27803;
+  --error: #c53030;
+
+  --ease-out: cubic-bezier(.4,0,.2,1);
+}
+
+@layer base {
+  /* overflow-x: clip não cria novo stacking context (ao contrário de hidden),
+     o que evita quebrar position: sticky em headers e sidebars */
+  body { overflow-x: clip; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-dm-sans), var(--font-inter), "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration-color: var(--brand); }
+  a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 2px; }
+  button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  /* Feedback tátil universal para todos os botões */
+  button:active, [role="button"]:active { opacity: .88; }
+}
+
+body.admin-shell [data-site-shell="navbar"],
+body.admin-shell [data-site-shell="footer"],
+body.admin-shell [data-site-shell="cta"] {
+  display: none !important;
+}
+
+@layer components {
+  .btn-base { @apply inline-flex items-center justify-center font-medium transition focus-visible:focus-ring disabled:opacity-60 disabled:pointer-events-none rounded-xl min-h-[44px]; }
+  .btn { @apply btn-base px-4 py-3 bg-[var(--surface-2)] text-[var(--text)] shadow-sm hover:shadow focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-opacity-40 focus-visible:ring-offset-2; }
+  .btn-brand { @apply btn-base px-4 py-2 bg-brand text-[var(--brand-foreground)] shadow-sm hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-opacity-40 focus-visible:ring-offset-2; }
+  .btn-accent { @apply btn-base px-4 py-2 bg-accent text-[var(--accent-foreground)] shadow-sm hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-opacity-40 focus-visible:ring-offset-2; }
+  .btn-outline { @apply btn-base px-4 py-2 border border-[var(--border)] text-[var(--text)] bg-white hover:bg-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-opacity-40 focus-visible:ring-offset-2; }
+  .btn-whatsapp { @apply btn-base px-4 py-2 bg-whatsapp text-[var(--whatsapp-contrast)] shadow-sm hover:brightness-105 focus-visible:ring-2 focus-visible:ring-[var(--whatsapp)] focus-visible:ring-opacity-40 focus-visible:ring-offset-2; }
+
+  .badge { @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold tracking-wide; }
+  .badge-neutral { @apply badge bg-[var(--surface-2)] text-[var(--text)] ring-1 ring-[var(--border)]; }
+  .badge-brand { @apply badge bg-brand text-[var(--brand-foreground)]; }
+  .badge-accent { @apply badge bg-accent text-[var(--accent-foreground)]; }
+  .badge-outline { @apply badge border border-[var(--border)] text-[var(--text-muted)]; }
+}
+
+/* Motion helpers */
+.u-hover-card { transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out); will-change: transform; }
+
+/* Hover só em dispositivos que realmente fazem hover (não em touch) */
+@media (hover: hover) and (pointer: fine) {
+  .u-hover-card:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 12px 24px -18px rgba(32,26,22,.4), 0 6px 12px -10px rgba(32,26,22,.25); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .u-hover-card, .u-fade-in { transition: none !important; }
+  .u-hover-card:hover { transform: none; box-shadow: none; }
+}
+
+.u-fade-in { opacity: 0; animation: fade-in-up .4s var(--ease-out) forwards; }
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.parallax-root { position: relative; overflow: clip; }
+.parallax-root [data-parallax-layer] { position: relative; will-change: transform; transition: transform .25s linear; }
+
+@layer utilities {
+  a { text-underline-offset: 3px; }
+  .container { max-width: 72rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+}
+
+.text-brand-strong { color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.link-brand { color: var(--brand); font-weight: 500; }
+.link-brand:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+.on-accent, .on-brand, .on-whatsapp { color: #ffffff !important; font-weight: 600; }
+.bg-accent, .bg-brand, .bg-whatsapp { --tw-text-opacity: 1; }
+
+.placeholder-strong { color: #75685b; }
+.text-muted-strong { color: var(--text-muted); font-weight: 500; }
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.05); }
+  60% { transform: scale(0.97); }
+}
+/* Animação só quando o usuário não preferir reduzir movimento */
+@media (prefers-reduced-motion: no-preference) {
+  .heartbeat:hover { animation: heartbeat .7s ease-in-out; }
+}
+
+.dark {
+  --background: #0f1916;
+  --surface: #161f1b;
+  --surface-2: #1f2622;
+  --border: #2d3731;
+  --text: #f4f6f5;
+  --text-muted: #9bb4a9;
+  --brand: #4ac49b;
+  --brand-foreground: #0e160f;
+  --brand-contrast: #0e160f;
+  --accent: #f5c477;
+  --accent-foreground: #20170f;
+  --accent-contrast: #20170f;
+  --whatsapp: #36d08a;
+  --whatsapp-contrast: #0e160f;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-3px); }
+  40%, 60% { transform: translateX(3px); }
+}
+
+/* WhatsApp float pulse — chama atenção suavemente */
+@keyframes wa-pulse {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(37,211,102,.50); }
+  50%  { transform: scale(1.10); box-shadow: 0 0 0 12px rgba(37,211,102,.00); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(37,211,102,.00); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .animate-wa-pulse { animation: wa-pulse 1.4s ease-in-out; }
+}
+
+/* ── Selects com seta customizada ──────────────────────────────────────────── */
+/* Aplique .select-styled em <select> para aparência consistente com os inputs */
+.select-styled {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235a4d42' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 2.25rem;
+}
+
+/* ── Indicador de spinner (usado no LeadForm e em qualquer botão async) ──── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-fast {
+  animation: spin .7s linear infinite;
+}
+
+/* ── Scroll hint — esconde scrollbar mas mantém funcionalidade ─────────────── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Safe area bottom padding para iPhone com Dynamic Island ──────────────── */
+.pb-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
+.bottom-safe { bottom: max(1.5rem, env(safe-area-inset-bottom)); }
+

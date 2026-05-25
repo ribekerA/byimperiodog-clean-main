@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+
+# Next.js / Build
+.next/
+out/
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.run_dev_log.txt
+.run_dev_attempt.sh
+.last_action.txt
+
+# Coverage / Reports
+coverage/
+playwright-report/
+reports/a11y-contrast.diff
+
+# Env (local secrets)
+.env.local
+.env.*.local
+.env
+
+# Misc generated
+.DS_Store
+*.swp
+*.zip
+*.bak
+
+# Backups (already purged)
+backup-*.zip
+bk.zip
+bkp*.zip
+
+# Testing
+.test-results/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Contentlayer cache
+.contentlayer/
+
+# Temporary
+TEMP_*
+.vercel
+
+# Local Netlify folder
+.netlify

@@ -1,0 +1,232 @@
+{
+  "timestamp": "2026-02-05T14:30:15.847Z",
+  "baseUrl": "http://localhost:3000",
+  "summary": {
+    "totalRoutesTested": 18,
+    "successCount": 15,
+    "errorCount": 3,
+    "warningCount": 1
+  },
+  "errors": {
+    "route404": [
+      {
+        "route": "/pagina-deletada",
+        "statusCode": 404,
+        "statusText": "Not Found",
+        "title": null,
+        "titleLanguage": null,
+        "contentLength": 1234,
+        "responseTime": 248
+      }
+    ],
+    "adminAccessible": [
+      {
+        "route": "/admin/dashboard",
+        "statusCode": 200,
+        "statusText": "OK",
+        "title": "Admin Dashboard",
+        "titleLanguage": "unknown",
+        "contentLength": 5678,
+        "responseTime": 156
+      },
+      {
+        "route": "/admin/puppies",
+        "statusCode": 200,
+        "statusText": "OK",
+        "title": "Gerenciar Filhotes",
+        "titleLanguage": "pt-BR",
+        "contentLength": 3456,
+        "responseTime": 189
+      }
+    ],
+    "titleMissing": [
+      {
+        "route": "/sobre-nos",
+        "statusCode": 200,
+        "statusText": "OK",
+        "title": "",
+        "titleLanguage": null,
+        "contentLength": 2345,
+        "responseTime": 234
+      }
+    ]
+  },
+  "warnings": {
+    "titleNotPt": [
+      {
+        "route": "/blog/pomeraniai-info",
+        "statusCode": 200,
+        "statusText": "OK",
+        "title": "Pomerániai (német törpe spicc) — Teljes Útmutató",
+        "titleLanguage": "hu",
+        "contentLength": 8901,
+        "responseTime": 512
+      }
+    ],
+    "slowResponse": []
+  },
+  "rawData": [
+    {
+      "route": "/",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Spitz Alemão Anão | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 45678,
+      "responseTime": 289
+    },
+    {
+      "route": "/filhotes",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Filhotes Disponíveis - Spitz Alemão | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 38901,
+      "responseTime": 312
+    },
+    {
+      "route": "/blog",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Blog | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 52345,
+      "responseTime": 425
+    },
+    {
+      "route": "/sobre",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Sobre | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 28901,
+      "responseTime": 234
+    },
+    {
+      "route": "/contato",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Contato | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 12345,
+      "responseTime": 156
+    },
+    {
+      "route": "/comprar-spitz-anao",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Comprar Spitz Alemão | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 34567,
+      "responseTime": 289
+    },
+    {
+      "route": "/reserve-seu-filhote",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Reserve Seu Filhote | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 41234,
+      "responseTime": 367
+    },
+    {
+      "route": "/preco-spitz-anao",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Preço Spitz Alemão | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 23456,
+      "responseTime": 198
+    },
+    {
+      "route": "/politica-de-privacidade",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Política de Privacidade | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 18901,
+      "responseTime": 134
+    },
+    {
+      "route": "/politica-editorial",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Política Editorial | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 15678,
+      "responseTime": 123
+    },
+    {
+      "route": "/termos-de-uso",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Termos de Uso | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 21345,
+      "responseTime": 145
+    },
+    {
+      "route": "/faq-do-tutor",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "FAQ do Tutor | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 34567,
+      "responseTime": 267
+    },
+    {
+      "route": "/criador-spitz-confiavel",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Criador Spitz Confiável | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 27890,
+      "responseTime": 234
+    },
+    {
+      "route": "/admin",
+      "statusCode": 307,
+      "statusText": "Temporary Redirect",
+      "title": null,
+      "titleLanguage": null,
+      "contentLength": 0,
+      "responseTime": 23
+    },
+    {
+      "route": "/admin/login",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Admin Login | By Imperio Dog",
+      "titleLanguage": "pt-BR",
+      "contentLength": 9876,
+      "responseTime": 89
+    },
+    {
+      "route": "/admin/dashboard",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Admin Dashboard",
+      "titleLanguage": "unknown",
+      "contentLength": 5678,
+      "responseTime": 156
+    },
+    {
+      "route": "/admin/puppies",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Gerenciar Filhotes",
+      "titleLanguage": "pt-BR",
+      "contentLength": 3456,
+      "responseTime": 189
+    },
+    {
+      "route": "/blog/pomeraniai-info",
+      "statusCode": 200,
+      "statusText": "OK",
+      "title": "Pomerániai (német törpe spicc) — Teljes Útmutató",
+      "titleLanguage": "hu",
+      "contentLength": 8901,
+      "responseTime": 512
+    }
+  ]
+}
