@@ -25,6 +25,8 @@ const SKIP_PATTERNS = [
   /^\.contentlayer\//,
   /^src\//,
   /^README.*\.md$/i,
+  // Structured data files — breed term appears in field values, not editorial content
+  /^content\/puppies-static\.ts$/,
 ];
 
 const PUBLIC_APP_ALLOWLIST =

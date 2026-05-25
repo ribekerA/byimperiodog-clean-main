@@ -53,10 +53,10 @@ export function generateMetadata({ params }: Props): Metadata {
 
   const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
   const corLabel = (puppy as any).cor ?? puppy.color ?? "";
-  const title = `${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel} | By Império Dog`;
+  const title = `${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} | By Império Dog`;
   const description =
     (puppy as any).description ??
-    `Filhote Spitz Alemão Anão ${corLabel} ${sexLabel} em Bragança Paulista, SP. Pedigree CBKC, laudos veterinários e mentoria vitalícia. By Império Dog.`;
+    `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Pedigree CBKC, laudos veterinários e mentoria vitalícia. By Império Dog.`;
   const firstImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
   const ogImage = `/og/filhote/${puppy.slug}`;
@@ -113,7 +113,7 @@ export default function PuppyPage({ params }: Props) {
   const colorSlug = (puppy.color ?? (puppy as any).cor ?? "").toLowerCase();
   const description =
     (puppy as any).description ??
-    `Filhote Spitz Alemão Anão ${corLabel} ${sexLabel} em Bragança Paulista, SP. Pedigree CBKC, laudos veterinários e mentoria vitalícia inclusa.`;
+    `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Pedigree CBKC, laudos veterinários e mentoria vitalícia inclusa.`;
 
   const status = ((puppy.status ?? "available") as string) as "available" | "reserved" | "sold";
   const isSold = status === "sold" || status === "vendido" as string;

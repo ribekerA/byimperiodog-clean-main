@@ -52,7 +52,7 @@ export default function ColorLandingPage({ params }: Props) {
   const businessLd  = buildLocalBusinessLD();
 
   const waLink = buildWhatsAppLink({
-    message:     `Olá! Tenho interesse em filhotes Spitz Alemão Anão ${seo.h1}. Pode me informar disponibilidade?`,
+    message:     `Olá! Tenho interesse em filhotes Spitz Alemão Anão (Lulu da Pomerânia) ${seo.h1}. Pode me informar disponibilidade?`,
     utmSource:   "site",
     utmMedium:   "color_page",
     utmCampaign: "filhote_cor",

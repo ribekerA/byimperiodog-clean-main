@@ -1,26 +1,26 @@
-# Spitz Alemão Anão é Bom para Apartamento? A Resposta Direta da Criadora
+# Spitz Alemão Anão (Lulu da Pomerânia) é Bom para Apartamento? A Resposta Direta da Criadora
 
 **Publicar em**: Blog By Império Dog  
 **Slug sugerido**: `spitz-alemao-anao-bom-para-apartamento`  
-**Meta description**: O Spitz Alemão Anão é um dos cães mais adaptados à vida em apartamento — mas existem cuidados específicos. A criadora da By Império Dog explica o que funciona e o que evitar.  
+**Meta description**: O Spitz Alemão Anão (Lulu da Pomerânia) é um dos cães mais adaptados à vida em apartamento — mas existem cuidados específicos. A criadora da By Império Dog explica o que funciona e o que evitar.  
 **Categoria**: Raça / Comportamento  
 **Tags**: spitz alemão anão, apartamento, comportamento, cuidados  
 
 ---
 
-Se você mora em apartamento e está pesquisando sobre Spitz Alemão Anão, a resposta curta é: **sim, é uma das raças mais adaptadas à vida em condomínio do Brasil**. Mas existem nuances que fazem toda a diferença entre um Spitz feliz e um Spitz com problemas comportamentais.
+Se você mora em apartamento e está pesquisando sobre Spitz Alemão Anão (Lulu da Pomerânia), a resposta curta é: **sim, é uma das raças mais adaptadas à vida em condomínio do Brasil**. Mas existem nuances que fazem toda a diferença entre um Spitz feliz e um Spitz com problemas comportamentais.
 
 Neste artigo, respondo as dúvidas mais frequentes que recebo de famílias interessadas em trazer um filhote para apartamentos de São Paulo e outras grandes cidades.
 
 ---
 
-## Por que o Spitz Alemão Anão se adapta bem ao apartamento?
+## Por que o Spitz Alemão Anão (Lulu da Pomerânia) se adapta bem ao apartamento?
 
-A adaptação não é por acaso. O Spitz foi refinado ao longo de décadas para ser um cão de companhia de interior — e isso está na sua genética.
+A adaptação não é por acaso. O Lulu da Pomerânia foi refinado ao longo de décadas para ser um cão de companhia de interior — e isso está na sua genética.
 
 **Tamanho**: Com no máximo 22 cm de altura e entre 1,5 e 3,5 kg na fase adulta, o Spitz ocupa pouco espaço e não precisa de grandes áreas para correr.
 
-**Exercício moderado**: Ao contrário de Golden Retrievers ou Border Collies, o Spitz Alemão Anão não é uma raça de alto drive energético. Dois passeios curtos por dia (15 a 20 minutos cada) são suficientes para a saúde física e mental do adulto.
+**Exercício moderado**: Ao contrário de Golden Retrievers ou Border Collies, o Spitz Alemão Anão (Lulu da Pomerânia) não é uma raça de alto drive energético. Dois passeios curtos por dia (15 a 20 minutos cada) são suficientes para a saúde física e mental do adulto.
 
 **Sociabilidade com rotina**: O Spitz gosta de rotina e ambiente familiar. Ele se acostuma rapidamente com o espaço do apartamento, especialmente quando é introduzido ao lar ainda filhote.
 
@@ -28,12 +28,12 @@ A adaptação não é por acaso. O Spitz foi refinado ao longo de décadas para 
 
 ---
 
-## O que NÃO funciona: os erros mais comuns em apartamento
+## O que NÃO funciona: os erros mais comuns em apartamento com Spitz Alemão Anão (Lulu da Pomerânia)
 
 Adaptar bem ao apartamento não significa que "qualquer situação funciona". Esses são os erros que vejo com mais frequência em famílias que compram sem se preparar:
 
 ### 1. Deixar o Spitz sozinho por muitas horas
-O Spitz Alemão Anão tem vínculo forte com a família. Ficar mais de 6 a 8 horas sozinho por dia, sem estímulo ou companhia, gera ansiedade — que se manifesta em latidos excessivos, destruição de objetos e comportamento regressivo.
+O Lulu da Pomerânia tem vínculo forte com a família. Ficar mais de 6 a 8 horas sozinho por dia, sem estímulo ou companhia, gera ansiedade — que se manifesta em latidos excessivos, destruição de objetos e comportamento regressivo.
 
 **O que fazer**: Se você trabalha fora o dia inteiro, considere um daycare ou um segundo animal como companhia. Câmeras interativas e brinquedos de enriquecimento ajudam, mas não substituem presença.
 
@@ -50,7 +50,7 @@ Spitz têm dificuldade de regular temperatura, especialmente filhotes. Pisos fri
 
 ---
 
-## O Spitz late muito no apartamento?
+## O Spitz Alemão Anão (Lulu da Pomerânia) late muito no apartamento?
 
 É a pergunta número um de tutores em condomínio — e justo.
 
@@ -64,7 +64,7 @@ Treinamento com reforço positivo a partir das 10–12 semanas também ajuda sig
 
 ---
 
-## Spitz Alemão Anão e vizinhos: o que considerar
+## Spitz Alemão Anão (Lulu da Pomerânia) e vizinhos: o que considerar
 
 - **Apartamentos com regimento restritivo a cães**: o Spitz se encaixa facilmente nas regras de porte máximo da maioria dos condomínios.
 - **Elevador**: socialize o filhote com o elevador desde a primeira semana em casa — trate como experiência positiva com petiscos e calma.
@@ -82,9 +82,9 @@ Todos os nossos filhotes saem com:
 
 ---
 
-## Resumo: é bom para apartamento?
+## Resumo: Spitz Alemão Anão (Lulu da Pomerânia) é bom para apartamento?
 
-| Fator | Spitz Alemão Anão |
+| Fator | Spitz Alemão Anão / Lulu da Pomerânia |
 |-------|------------------|
 | Tamanho | ✅ Ideal (até 22 cm, 1,5–3,5 kg) |
 | Exercício necessário | ✅ Moderado (2x passeio por dia) |

@@ -11,7 +11,7 @@ import { routes } from "@/lib/route";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Sobre a By Império Dog | Canil Spitz Alemão Anão em Bragança Paulista desde 2012",
+  title: "Sobre a By Império Dog | Canil Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista desde 2012",
   description:
     "Conheça a história da By Império Dog: 10+ anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade em Bragança Paulista, SP. Metodologia familiar, pedigree CBKC e mentoria vitalícia para tutores de todo o Brasil.",
   keywords: [
@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/sobre",
-    title: "Sobre a By Império Dog — Canil Spitz Alemão Anão, Bragança Paulista desde 2012",
+    title: "Sobre a By Império Dog — Canil Spitz Alemão Anão (Lulu da Pomerânia), Bragança Paulista desde 2012",
     description:
-      "10+ anos criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, pedigree CBKC e mentoria vitalícia.",
+      "10+ anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, pedigree CBKC e mentoria vitalícia.",
   },
 };
 

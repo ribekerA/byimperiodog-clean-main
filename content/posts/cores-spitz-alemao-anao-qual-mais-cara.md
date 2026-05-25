@@ -1,14 +1,14 @@
-# Cores do Spitz Alemão Anão: Qual a Mais Cara e Por Quê?
+# Cores do Spitz Alemão Anão (Lulu da Pomerânia): Qual a Mais Cara e Por Quê?
 
 **Publicar em**: Blog By Império Dog  
 **Slug sugerido**: `cores-spitz-alemao-anao-qual-mais-cara`  
-**Meta description**: Creme, preto, laranja ou wolf sable — qual cor do Spitz Alemão Anão é mais cara e por quê? A criadora explica os critérios reais de precificação por cor, sexo e disponibilidade.  
+**Meta description**: Creme, preto, laranja ou wolf sable — qual cor do Spitz Alemão Anão (Lulu da Pomerânia) é mais cara e por quê? A criadora explica os critérios reais de precificação por cor, sexo e disponibilidade.  
 **Categoria**: Preços / Raça  
-**Tags**: spitz alemão cores, creme, preto, wolf sable, laranja, preço spitz  
+**Tags**: spitz alemão anão lulu da pomerania, creme, preto, wolf sable, laranja, preço spitz  
 
 ---
 
-Uma das perguntas mais frequentes que recebo antes de qualquer reserva é: *"Qual é a cor mais cara do Spitz Alemão Anão?"*
+Uma das perguntas mais frequentes que recebo antes de qualquer reserva é: *"Qual é a cor mais cara do Spitz Alemão Anão (Lulu da Pomerânia)?"*
 
 A resposta envolve genética, disponibilidade e demanda — e vale entender o raciocínio por trás dos preços para não ser surpreendido.
 
@@ -16,7 +16,7 @@ A resposta envolve genética, disponibilidade e demanda — e vale entender o ra
 
 ## As quatro cores reconhecidas pela CBKC
 
-O Spitz Alemão Anão (Lulu da Pomerânia) tem quatro cores reconhecidas pelo padrão oficial da CBKC e FCI:
+O Spitz Alemão Anão — também conhecido como Lulu da Pomerânia — tem quatro cores reconhecidas pelo padrão oficial da CBKC e FCI:
 
 1. **Laranja** — A cor mais icônica e tradicional da raça
 2. **Creme** — Pelagem cor de marfim, a mais valorizada
@@ -27,7 +27,7 @@ Cada cor tem uma lógica própria de precificação baseada em disponibilidade, 
 
 ---
 
-## Ranking de preços por cor (By Império Dog, 2025)
+## Ranking de preços por cor do Spitz Alemão Anão / Lulu da Pomerânia (By Império Dog, 2025)
 
 ### 🥇 Creme — o mais valorizado
 
@@ -70,7 +70,7 @@ Laranja fêmea: **R$ 10.000**. Macho: **R$ 7.000**.
 
 ---
 
-## Por que fêmeas sempre custam mais?
+## Por que fêmeas do Spitz Alemão Anão (Lulu da Pomerânia) custam mais?
 
 Em todas as cores, fêmeas têm preço superior aos machos — em média 20% a 30% a mais.
 
@@ -98,9 +98,9 @@ Na By Império Dog, o preço de qualquer filhote inclui:
 
 ---
 
-## A cor muda o temperamento?
+## A cor muda o temperamento do Spitz Alemão Anão (Lulu da Pomerânia)?
 
-Não. Não há nenhuma evidência científica de que cor de pelagem influencia temperamento em Spitz Alemão Anão.
+Não. Não há nenhuma evidência científica de que cor de pelagem influencia temperamento nesta raça.
 
 Fêmea creme, macho laranja, macho preto — todos têm a mesma base comportamental característica da raça: curioso, expressivo, inteligente, afetivo e com instinto de alerta.
 
@@ -128,4 +128,4 @@ Acesse o catálogo atualizado ou fale diretamente comigo no WhatsApp:
 
 ---
 
-*By Império Dog — Bragança Paulista, SP. Criação especializada em Spitz Alemão Anão desde 2012.*
+*By Império Dog — Bragança Paulista, SP. Criação especializada em Spitz Alemão Anão (Lulu da Pomerânia) desde 2012.*

@@ -10,19 +10,19 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 
 const CATALOG_FAQS = [
   {
-    question: "Como funciona o processo de reserva de um filhote de Spitz Alemão Anão?",
+    question: "Como funciona o processo de reserva de um filhote de Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
       "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os laudos do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (pedigree CBKC, vacinação, laudo cardiológico e microchip).",
   },
   {
-    question: "Quais são as cores de Spitz Alemão Anão disponíveis?",
+    question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
     answer:
       "Na By Império Dog trabalhamos com quatro cores: Creme (mais valorizada, a partir de R$ 9.000), Laranja (a mais icônica da raça, a partir de R$ 7.000), Preto (cor rara e elegante, a partir de R$ 8.000) e Wolf Sable (padrão exótico reconhecido pela FCI, a partir de R$ 7.500). A disponibilidade varia conforme as ninhadas.",
   },
   {
-    question: "Qual a diferença de preço entre Spitz Alemão Fêmea e Macho?",
+    question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
     answer:
-      "As fêmeas de Spitz Alemão Anão costumam custar mais do que os machos por conta da maior demanda. Fêmeas variam de R$ 10.000 a R$ 15.000 (dependendo da cor). Machos variam de R$ 7.000 a R$ 9.000. Todos os valores incluem pedigree CBKC, laudos veterinários e mentoria vitalícia.",
+      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) costumam custar mais do que os machos por conta da maior demanda. Fêmeas variam de R$ 10.000 a R$ 15.000 (dependendo da cor). Machos variam de R$ 7.000 a R$ 9.000. Todos os valores incluem pedigree CBKC, laudos veterinários e mentoria vitalícia.",
   },
   {
     question: "Os filhotes são entregues com quais documentos?",
@@ -42,10 +42,10 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/filhotes" },
   openGraph: {
-    title:       "Filhotes de Spitz Alemão Anão — By Império Dog",
+    title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
     description: "Catálogo de filhotes com pedigree CBKC, laudos veterinários e mentoria vitalícia. Bragança Paulista, SP.",
     type:        "website",
-    images:      [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630, alt: "Filhotes Spitz Alemão Anão disponíveis — By Império Dog" }],
+    images:      [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630, alt: "Filhotes Spitz Alemão Anão (Lulu da Pomerânia) disponíveis — By Império Dog" }],
   },
 };
 

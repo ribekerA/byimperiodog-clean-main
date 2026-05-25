@@ -48,7 +48,7 @@ export default function SexLandingPage({ params }: Props) {
   const businessLd = buildLocalBusinessLD();
 
   const waLink = buildWhatsAppLink({
-    message: `Olá! Tenho interesse em ${seo.h1} Spitz Alemão Anão. Pode me informar disponibilidade e valores?`,
+    message: `Olá! Tenho interesse em ${seo.h1} Spitz Alemão Anão (Lulu da Pomerânia). Pode me informar disponibilidade e valores?`,
     utmSource: "site",
     utmMedium: "sex_page",
     utmCampaign: "filhote_sexo",

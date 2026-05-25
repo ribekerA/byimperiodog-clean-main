@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
       "Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Pedigree CBKC, laudos veterinários e mentoria vitalícia inclusos. 10+ anos, 180+ famílias atendidas.",
-    images: [{ url: "/og/home.jpg", width: 1200, height: 630, alt: "Filhote de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP" }],
+    images: [{ url: "/og/home.jpg", width: 1200, height: 630, alt: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog, Bragança Paulista SP" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -62,10 +62,10 @@ function formatPrice(cents: number) {
 
 // Links estratégicos — PageRank distribution para landing pages
 const RACE_LINKS = [
-  { emoji: "🐾", label: "Spitz Alemão Anão — A Raça", href: "/spitz-alemao",              desc: "Origem, características, temperamento e cuidados" },
+  { emoji: "🐾", label: "Spitz Alemão Anão — A Raça", href: "/spitz-alemao",              desc: "Lulu da Pomerânia — origem, características, temperamento e cuidados" },
   { emoji: "💰", label: "Tabela de Preços 2025",       href: "/preco-spitz-anao",          desc: "Valores por cor e sexo — sem surpresas" },
   { emoji: "🛡️", label: "Como Comprar com Segurança", href: "/comprar-spitz-anao",         desc: "Guia passo a passo para não cair em golpes" },
-  { emoji: "🍼", label: "Filhote de Spitz Alemão",    href: "/filhote-de-spitz-alemao",   desc: "Como escolher, primeiros cuidados e vacinação" },
+  { emoji: "🍼", label: "Filhote de Spitz Alemão",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
   { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, laudos e red flags para evitar" },
   { emoji: "📍", label: "Canil no Interior de SP",    href: "/canil-spitz-alemao-interior-sp", desc: "Cidades atendidas — Bragança Paulista e região" },
 ] as const;
@@ -248,7 +248,7 @@ export default function HomePage() {
                               // eslint-disable-next-line @next/next/no-img-element
                               <img
                                 src={cover}
-                                alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
+                                alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
                                 className="h-full w-full object-cover"
                                 loading={i < 2 ? "eager" : "lazy"}
                               />
@@ -336,7 +336,7 @@ export default function HomePage() {
                               // eslint-disable-next-line @next/next/no-img-element
                               <img
                                 src={cover}
-                                alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
+                                alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
                                 className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                                 loading={i < 2 ? "eager" : "lazy"}
                               />

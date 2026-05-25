@@ -15,13 +15,13 @@ export type Guide = {
 export const guides: Guide[] = [
   {
     slug: "como-escolher-spitz-alemao-anao",
-    title: "Como Escolher um Spitz Alemão Anão: Guia Definitivo 2025",
+    title: "Como Escolher um Spitz Alemão Anão (Lulu da Pomerânia): Guia Definitivo 2025",
     metaDescription:
-      "Aprenda tudo sobre como escolher o Spitz Alemão Anão ideal: macho x fêmea, diferenças entre cores, documentação obrigatória e como reconhecer um criador confiável.",
+      "Aprenda tudo sobre como escolher o Spitz Alemão Anão (Lulu da Pomerânia) ideal: macho x fêmea, diferenças entre cores, documentação obrigatória e como reconhecer um criador confiável.",
     publishedAt: "2025-01-10",
     updatedAt: "2025-05-01",
     excerpt:
-      "Escolher um Spitz Alemão Anão vai muito além da cor da pelagem. Este guia cobre tudo que você precisa saber antes de reservar seu filhote.",
+      "Escolher um Spitz Alemão Anão (Lulu da Pomerânia) vai muito além da cor da pelagem. Este guia cobre tudo que você precisa saber antes de reservar seu filhote.",
     readingMinutes: 8,
     sections: [
       {
@@ -71,7 +71,7 @@ export const guides: Guide[] = [
       {
         question: "O que é pedigree CBKC e por que importa?",
         answer:
-          "O pedigree CBKC é o registro oficial de linhagem emitido pelo Kennel Club do Brasil. Comprova que o filhote é puro-sangue Spitz Alemão Anão com árvore genealógica rastreável.",
+          "O pedigree CBKC é o registro oficial de linhagem emitido pelo Kennel Club do Brasil. Comprova que o filhote é puro-sangue Spitz Alemão Anão (Lulu da Pomerânia) com árvore genealógica rastreável.",
       },
       {
         question: "Posso pagar parcelado?",
@@ -79,7 +79,7 @@ export const guides: Guide[] = [
           "Depende do criador. Na By Império Dog, as condições de reserva e pagamento são negociadas diretamente via WhatsApp com transparência total.",
       },
       {
-        question: "Spitz Alemão Anão é bom para quem trabalha fora?",
+        question: "Spitz Alemão Anão (Lulu da Pomerânia) é bom para quem trabalha fora?",
         answer:
           "Sim, desde que tenha companhia durante boa parte do dia. O Spitz não suporta isolamento prolongado. Considere adotar dois filhotes se passar muitas horas fora.",
       },
@@ -88,9 +88,9 @@ export const guides: Guide[] = [
   },
   {
     slug: "spitz-alemao-anao-alimentacao",
-    title: "Alimentação do Spitz Alemão Anão: Guia Completo",
+    title: "Alimentação do Spitz Alemão Anão (Lulu da Pomerânia): Guia Completo",
     metaDescription:
-      "Tudo sobre a alimentação do Spitz Alemão Anão: ração ideal, quantidade por peso e idade, alimentos proibidos, suplementação e dicas da criadora.",
+      "Tudo sobre a alimentação do Spitz Alemão Anão (Lulu da Pomerânia): ração ideal, quantidade por peso e idade, alimentos proibidos, suplementação e dicas da criadora.",
     publishedAt: "2025-01-20",
     updatedAt: "2025-05-01",
     excerpt:
@@ -108,7 +108,7 @@ export const guides: Guide[] = [
       {
         heading: "Quantidade certa para evitar sobrepeso",
         paragraphs: [
-          "O Spitz Alemão Anão adulto pesa entre 1,5 e 3,5 kg. A quantidade diária de ração varia entre 40 e 90g dependendo do peso, nível de atividade e formulação da ração.",
+          "O Spitz Alemão Anão (Lulu da Pomerânia) adulto pesa entre 1,5 e 3,5 kg. A quantidade diária de ração varia entre 40 e 90g dependendo do peso, nível de atividade e formulação da ração.",
           "Sempre siga a tabela de alimentação do fabricante como ponto de partida. Ajuste conforme a condição corporal do animal — costelas palpáveis mas não visíveis é o padrão ideal.",
           "O Spitz tem predisposição ao sobrepeso quando excessivamente mimado com petiscos. Mantenha os petiscos como recompensa, nunca como refeição.",
         ],
@@ -180,7 +180,7 @@ export const guides: Guide[] = [
       {
         heading: "O que o padrão FCI define",
         paragraphs: [
-          "O padrão FCI N° 97 descreve o Spitz Alemão (Deutsche Spitz) em cinco variedades de tamanho: Wolfsspitz (Keeshond), Großspitz (Grande), Mittelspitz (Médio), Kleinspitz (Pequeno) e Zwergspitz (Anão / Pomeranian).",
+          "O padrão FCI N° 97 descreve o Spitz Alemão — Lulu da Pomerânia — (Deutsche Spitz) em cinco variedades de tamanho: Wolfsspitz (Keeshond), Großspitz (Grande), Mittelspitz (Médio), Kleinspitz (Pequeno) e Zwergspitz (Anão / Pomeranian).",
           "O Zwergspitz/Pomeranian — nosso 'Anão' — tem peso entre 1,5 e 3 kg e altura máxima de 22 cm. Qualquer animal vendido como 'micro' ou 'nano' abaixo dessas medidas não corresponde ao padrão oficial.",
         ],
       },
@@ -194,14 +194,14 @@ export const guides: Guide[] = [
     ],
     faqs: [
       {
-        question: "Existe diferença entre Spitz Alemão Anão e Pomeranian?",
+        question: "Existe diferença entre Spitz Alemão Anão (Lulu da Pomerânia) e Pomeranian?",
         answer:
-          "Não. São o mesmo cão com nomes diferentes dependendo do país. No Brasil (CBKC), o nome oficial é 'Spitz Alemão'. Nos EUA (AKC), é 'Pomeranian'. Na Alemanha, é 'Zwergspitz'. Geneticamente idênticos.",
+          "Não. São o mesmo cão com nomes diferentes dependendo do país. No Brasil (CBKC), o nome oficial é 'Spitz Alemão' (Lulu da Pomerânia). Nos EUA (AKC), é 'Pomeranian'. Na Alemanha, é 'Zwergspitz'. Geneticamente idênticos.",
       },
       {
         question: "Spitz Médio e Spitz Anão são a mesma raça?",
         answer:
-          "São da mesma família (Spitz Alemão), mas tamanhos oficialmente distintos. O Médio tem entre 29 e 36 cm e o Anão tem no máximo 22 cm. Características físicas semelhantes, mas porte e preço bem diferentes.",
+          "São da mesma família Spitz Alemão (Lulu da Pomerânia), mas tamanhos oficialmente distintos. O Médio tem entre 29 e 36 cm e o Anão tem no máximo 22 cm. Características físicas semelhantes, mas porte e preço bem diferentes.",
       },
       {
         question: "Lulu da Pomerânia 'branco' é o mesmo que Spitz Creme?",
@@ -218,9 +218,9 @@ export const guides: Guide[] = [
   },
   {
     slug: "cuidados-basicos-spitz-alemao-anao",
-    title: "Cuidados Básicos com o Spitz Alemão Anão: Do Banho ao Veterinário",
+    title: "Cuidados Básicos com o Spitz Alemão Anão (Lulu da Pomerânia): Do Banho ao Veterinário",
     metaDescription:
-      "Guia completo de cuidados básicos com o Spitz Alemão Anão: escovação, banho, unhas, saúde preventiva e atividade física ideal para a raça.",
+      "Guia completo de cuidados básicos com o Spitz Alemão Anão (Lulu da Pomerânia): escovação, banho, unhas, saúde preventiva e atividade física ideal para a raça.",
     publishedAt: "2025-02-20",
     updatedAt: "2025-05-01",
     excerpt:
@@ -230,7 +230,7 @@ export const guides: Guide[] = [
       {
         heading: "Cuidados com a pelagem: escovação e banho",
         paragraphs: [
-          "O Spitz Alemão Anão tem pelagem dupla: subpelo denso e pelo externo longo. Essa estrutura exige escovação pelo menos duas vezes por semana com escova de pinos e pente de aço para evitar nós.",
+          "O Spitz Alemão Anão (Lulu da Pomerânia) tem pelagem dupla: subpelo denso e pelo externo longo. Essa estrutura exige escovação pelo menos duas vezes por semana com escova de pinos e pente de aço para evitar nós.",
           "O banho deve ser feito mensalmente com shampoo específico para pelagem dupla. Use secador em temperatura baixa para secar completamente — pelo úmido retido junto ao subpelo favorece dermatites.",
           "Nas trocas sazonais de pelo (primavera e outono), escove diariamente por 2 a 3 semanas para remover o subpelo solto e evitar acúmulo.",
         ],
@@ -276,7 +276,7 @@ export const guides: Guide[] = [
           "Sim, quando bem socializado desde filhote. Apresentações graduais e calmas são fundamentais. O Spitz tende a aceitar bem gatos que conhece desde cedo.",
       },
       {
-        question: "Qual a expectativa de vida do Spitz Alemão Anão?",
+        question: "Qual a expectativa de vida do Spitz Alemão Anão (Lulu da Pomerânia)?",
         answer:
           "Entre 12 e 16 anos quando bem cuidado. A raça é longevia entre os cães pequenos. Alimentação adequada, veterinário regular e estimulação mental são os principais fatores de longevidade.",
       },
@@ -285,9 +285,9 @@ export const guides: Guide[] = [
   },
   {
     slug: "preparando-chegada-filhote-spitz",
-    title: "Como Preparar a Chegada do Filhote de Spitz Alemão Anão",
+    title: "Como Preparar a Chegada do Filhote de Spitz Alemão Anão (Lulu da Pomerânia)",
     metaDescription:
-      "Checklist completo para preparar a chegada do filhote de Spitz: enxoval, adaptação do ambiente, primeiros dias, veterinário e socialização inicial.",
+      "Checklist completo para preparar a chegada do filhote de Spitz Alemão Anão (Lulu da Pomerânia): enxoval, adaptação do ambiente, primeiros dias, veterinário e socialização inicial.",
     publishedAt: "2025-03-01",
     updatedAt: "2025-05-01",
     excerpt:
@@ -351,19 +351,19 @@ export const guides: Guide[] = [
   },
   {
     slug: "quanto-custa-ter-spitz-alemao-anao",
-    title: "Quanto Custa Ter um Spitz Alemão Anão por Mês? (2025)",
+    title: "Quanto Custa Ter um Spitz Alemão Anão (Lulu da Pomerânia) por Mês? (2025)",
     metaDescription:
-      "Descubra o custo real mensal de ter um Spitz Alemão Anão: ração premium, veterinário, banho, vacinas, petiscos e acessórios. Planilha completa para se preparar antes de comprar.",
+      "Descubra o custo real mensal de ter um Spitz Alemão Anão (Lulu da Pomerânia): ração premium, veterinário, banho, vacinas, petiscos e acessórios. Planilha completa para se preparar antes de comprar.",
     publishedAt: "2025-06-01",
     updatedAt: "2025-06-01",
     excerpt:
-      "Além do valor do filhote, há custos mensais que muitos tutores não calculam antes de comprar. Veja o custo real detalhado de manter um Spitz Alemão Anão com qualidade de vida.",
+      "Além do valor do filhote, há custos mensais que muitos tutores não calculam antes de comprar. Veja o custo real detalhado de manter um Spitz Alemão Anão (Lulu da Pomerânia) com qualidade de vida.",
     readingMinutes: 9,
     sections: [
       {
         heading: "Ração — o maior custo mensal",
         paragraphs: [
-          "Um adulto de Spitz Alemão Anão (1,5 a 3,5 kg) come entre 40 e 80g de ração por dia, dependendo do peso e da marca. Rações premium para raças pequenas custam entre R$ 60 e R$ 150 por kg.",
+          "Um adulto de Spitz Alemão Anão — Lulu da Pomerânia — (1,5 a 3,5 kg) come entre 40 e 80g de ração por dia, dependendo do peso e da marca. Rações premium para raças pequenas custam entre R$ 60 e R$ 150 por kg.",
           "Na prática, um pacote de 1 kg dura entre 15 e 25 dias para um adulto. Custo médio mensal com ração premium: R$ 80 a R$ 180. Rações veterinárias (N&D, Royal Canin, Orijen) ficam na faixa superior e oferecem melhor custo-benefício na saúde a longo prazo.",
           "Filhotes comem proporcionalmente mais que adultos em relação ao peso — planeje gastar entre 20% e 30% a mais durante os primeiros 12 meses.",
         ],
@@ -371,7 +371,7 @@ export const guides: Guide[] = [
       {
         heading: "Banho e tosa — cuidados com a pelagem dupla",
         paragraphs: [
-          "O Spitz Alemão Anão tem pelagem dupla que precisa de banho a cada 15–21 dias para evitar odor e dermatites. O banho em pet shop varia de R$ 60 a R$ 130 para a raça, dependendo da cidade e do tamanho.",
+          "O Spitz Alemão Anão (Lulu da Pomerânia) tem pelagem dupla que precisa de banho a cada 15–21 dias para evitar odor e dermatites. O banho em pet shop varia de R$ 60 a R$ 130 para a raça, dependendo da cidade e do tamanho.",
           "Tosa de acabamento (não corte — a pelagem do Spitz não deve ser raspada) custa R$ 30 a R$ 60 adicionais. Uma escova profissional durante o período de muda pode chegar a R$ 100.",
           "Custo mensal estimado com grooming: R$ 120 a R$ 280. Tutores que aprendem a escovar em casa (3–4x por semana) reduzem o custo em até 40%.",
         ],
@@ -389,13 +389,13 @@ export const guides: Guide[] = [
         paragraphs: [
           "Petiscos dentais (importantes para raças pequenas propensas a tártaro): R$ 20 a R$ 60 por mês. Brinquedos: R$ 20 a R$ 80 por mês, dependendo da frequência de troca.",
           "Coleira, guia, cama, caixinha de transporte são custos únicos de aquisição: R$ 300 a R$ 800 no primeiro mês. Em seguida, reposição esporádica.",
-          "Roupinhas e acessórios são opcionais, mas o Spitz Alemão Anão tem baixa tolerância ao frio abaixo de 15°C — uma roupinha para dias frios é funcional, não somente estética.",
+          "Roupinhas e acessórios são opcionais, mas o Spitz Alemão Anão (Lulu da Pomerânia) tem baixa tolerância ao frio abaixo de 15°C — uma roupinha para dias frios é funcional, não somente estética.",
         ],
       },
       {
         heading: "Resumo: custo mensal total estimado",
         paragraphs: [
-          "Considerando ração premium, banho quinzenal, saúde preventiva e petiscos, o custo mensal médio de um Spitz Alemão Anão adulto fica entre R$ 400 e R$ 700 por mês.",
+          "Considerando ração premium, banho quinzenal, saúde preventiva e petiscos, o custo mensal médio de um Spitz Alemão Anão (Lulu da Pomerânia) adulto fica entre R$ 400 e R$ 700 por mês.",
           "No primeiro ano, com vacinas do filhote, acessórios iniciais e consultas de acompanhamento mais frequentes, o custo fica entre R$ 600 e R$ 1.200 por mês.",
           "Comparado a raças maiores, o Spitz é uma raça de custo mensal baixo — consome menos ração e precisa de menos espaço. O investimento inicial no filhote é maior, mas o custo de vida é acessível.",
         ],
@@ -403,22 +403,22 @@ export const guides: Guide[] = [
     ],
     faqs: [
       {
-        question: "Quanto gasto por mês com um Spitz Alemão Anão?",
+        question: "Quanto gasto por mês com um Spitz Alemão Anão (Lulu da Pomerânia)?",
         answer:
           "Em média, entre R$ 400 e R$ 700 por mês para um adulto (ração premium, banho quinzenal, saúde preventiva e petiscos). No primeiro ano, o custo pode ser de R$ 600 a R$ 1.200 por mês incluindo vacinas iniciais e acessórios.",
       },
       {
-        question: "Qual a melhor ração para Spitz Alemão Anão?",
+        question: "Qual a melhor ração para Spitz Alemão Anão (Lulu da Pomerânia)?",
         answer:
           "Rações premium para raças pequenas como N&D, Royal Canin Mini, Orijen Small ou Purina Pro Plan Small são indicadas. O critério principal é proteína animal como primeiro ingrediente e ausência de corantes e conservantes artificiais.",
       },
       {
-        question: "Precisa de plano de saúde para Spitz Alemão?",
+        question: "Precisa de plano de saúde para Spitz Alemão (Lulu da Pomerânia)?",
         answer:
           "Não é obrigatório, mas é recomendado para quem quer previsibilidade de gastos. Planos entre R$ 80 e R$ 180 mensais cobrem consultas de rotina e exames. Para cão adulto saudável, a reserva de emergência (R$ 3.000–5.000) pode substituir o plano.",
       },
       {
-        question: "Com que frequência o Spitz Alemão precisa de banho?",
+        question: "Com que frequência o Spitz Alemão (Lulu da Pomerânia) precisa de banho?",
         answer:
           "A cada 15 a 21 dias. A pelagem dupla retém odor e pode desenvolver fungos se o intervalo for muito longo ou se a secagem for incompleta após o banho.",
       },
