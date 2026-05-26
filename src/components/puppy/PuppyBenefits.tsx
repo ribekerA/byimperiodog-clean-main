@@ -17,7 +17,7 @@ export function PuppyBenefits() {
     {
       icon: Stethoscope,
       title: "Acompanhamento veterinário completo",
-      description: "Exames genéticos, cardiológicos e protocolo de vacinação com laudos digitais.",
+      description: "Exames genéticos, laudos de saúde e protocolo de vacinação com documentação digital.",
     },
     {
       icon: Heart,
@@ -32,7 +32,7 @@ export function PuppyBenefits() {
     {
       icon: Shield,
       title: "Garantia de saúde e procedência",
-      description: "Contrato detalhado, pedigree CBKC e rastreabilidade completa da linhagem.",
+      description: "Contrato detalhado, registro oficial e rastreabilidade completa da linhagem.",
     },
     {
       icon: Video,

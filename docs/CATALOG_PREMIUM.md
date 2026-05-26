@@ -57,7 +57,7 @@ A home page (`app/page.tsx`) agora usa o componente premium:
   <h3 itemprop="name">Nome do Filhote</h3>
   <div itemprop="color">Cor • Sexo • Idade</div>
   <ul aria-label="Benefícios inclusos">
-    <li>Pedigree CBKC + Microchip</li>
+    <li>Registro oficial + Microchip</li>
     <li>Vacinas e vermífugos em dia</li>
     <li>Mentoria vitalícia</li>
   </ul>

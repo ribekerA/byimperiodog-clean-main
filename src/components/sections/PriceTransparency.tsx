@@ -2,8 +2,8 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const INCLUDED = [
-  { icon: "📋", title: "Pedigree CBKC", desc: "Registro oficial reconhecido internacionalmente" },
-  { icon: "❤️", title: "Laudo cardiológico", desc: "Atestado de saúde cardíaca antes da entrega" },
+  { icon: "📋", title: "Registro oficial", desc: "Documento oficial reconhecido internacionalmente" },
+  { icon: "❤️", title: "Laudo de saúde", desc: "Exame veterinário completo antes da entrega" },
   { icon: "💉", title: "Vacinação completa", desc: "Protocolo vacinal em dia, carteira assinada" },
   { icon: "🔖", title: "Microchip", desc: "Identificação permanente e rastreável" },
   { icon: "🌿", title: "Vermifugação", desc: "Tratamento preventivo incluso" },

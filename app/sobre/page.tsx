@@ -13,11 +13,11 @@ import { buildLocalBusinessLD } from "@/lib/structured-data";
 export const metadata: Metadata = {
   title: "Sobre a By Império Dog | Canil Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista desde 2012",
   description:
-    "Conheça a história da By Império Dog: 10+ anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade em Bragança Paulista, SP. Metodologia familiar, pedigree CBKC e mentoria vitalícia para tutores de todo o Brasil.",
+    "Conheça a história da By Império Dog: 10+ anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade em Bragança Paulista, SP. Metodologia familiar, registro oficial e mentoria vitalícia para tutores de todo o Brasil.",
   keywords: [
     "criador Spitz Alemão Anão confiável", "canil Lulu da Pomerânia Bragança Paulista",
     "By Império Dog sobre", "história canil Spitz Alemão SP",
-    "canil responsável CBKC interior SP",
+    "canil responsável interior SP",
   ],
   alternates: { canonical: "/sobre" },
   openGraph: {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     url: "/sobre",
     title: "Sobre a By Império Dog — Canil Spitz Alemão Anão (Lulu da Pomerânia), Bragança Paulista desde 2012",
     description:
-      "10+ anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, pedigree CBKC e mentoria vitalícia.",
+      "10+ anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia.",
   },
 };
 
@@ -40,7 +40,7 @@ const timeline = [
     year: "2016",
     title: "Certificações e planejamento genético",
     description:
-      "A criação foi homologada pela CBKC, com matrizes e padreadors testados para garantir saúde e temperamento equilibrado.",
+      "A criação foi especializada, com matrizes e padreadors testados para garantir saúde e temperamento equilibrado.",
   },
   {
     year: "2019",
@@ -73,7 +73,7 @@ const values = [
     icon: Shield,
     title: "Transparência absoluta",
     description:
-      "Apresentamos pedigree, exames laboratoriais, relatórios veterinários e contrato claro em cada etapa do processo.",
+      "Apresentamos o registro oficial, exames laboratoriais, relatórios veterinários e contrato claro em cada etapa do processo.",
   },
 ] as const;
 

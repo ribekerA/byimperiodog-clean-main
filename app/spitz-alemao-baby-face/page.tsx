@@ -12,7 +12,7 @@ const PAGE_URL = `${SITE_URL}/spitz-alemao-baby-face`;
 export const metadata: Metadata = {
   title: "Spitz Alemão Baby Face — O que é, Características e Preço | By Império Dog",
   description:
-    "O Spitz Alemão Baby Face tem focinho mais curto e aparência infantil. Saiba o que é, se é reconhecido pela CBKC, preço, cuidados especiais e como encontrar filhotes legítimos.",
+    "O Spitz Alemão Baby Face tem focinho mais curto e aparência infantil. Saiba o que é, se é reconhecido pela FCI, preço, cuidados especiais e como encontrar filhotes legítimos.",
   keywords: [
     "Spitz Alemão Baby Face",
     "Lulu da Pomerânia Baby Face",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/spitz-alemao-baby-face" },
   openGraph: {
     title: "Spitz Alemão Baby Face — O que é e Como Identificar | By Império Dog",
-    description: "O que é o Baby Face, por que não é reconhecido pela CBKC, cuidados especiais e preço.",
+    description: "O que é o Baby Face, por que não é reconhecido pela FCI, cuidados especiais e preço.",
     type: "article",
   },
 };
@@ -36,9 +36,9 @@ const FAQS = [
       "O 'Baby Face' é um tipo de Spitz Alemão Anão com focinho visivelmente mais curto e achatado, olhos maiores e aparência facial mais infantil ('cara de bebê'). Não é uma raça separada — é uma variação fenotípica dentro do Spitz Alemão Anão. Em inglês, também chamado de 'Extreme Bear Face' ou 'Teddy Face'.",
   },
   {
-    question: "O Baby Face é reconhecido pela CBKC ou FCI?",
+    question: "O Baby Face é reconhecido pela FCI?",
     answer:
-      "Não. O padrão oficial da CBKC e FCI prevê focinho proporcional ao crânio, com perfil de 'raposa'. O Baby Face com focinho muito curto foge do padrão oficial e cães com essa conformação não devem ser usados para reprodução por criadores responsáveis registrados. A demanda é alta por conta do apelo estético, mas a conformação achatada pode causar problemas respiratórios (BOAS).",
+      "Não. O padrão oficial da FCI prevê focinho proporcional ao crânio, com perfil de 'raposa'. O Baby Face com focinho muito curto foge do padrão oficial e cães com essa conformação não devem ser usados para reprodução por criadores responsáveis registrados. A demanda é alta por conta do apelo estético, mas a conformação achatada pode causar problemas respiratórios (BOAS).",
   },
   {
     question: "O Spitz Alemão Baby Face tem problemas de saúde?",
@@ -48,7 +48,7 @@ const FAQS = [
   {
     question: "O Baby Face é mais caro?",
     answer:
-      "Alguns criadores cobram mais pelo apelo estético. Porém, a By Império Dog não seleciona reprodutores com base em conformação achatada extrema — priorizamos saúde, temperamento e padrão CBKC. Nossos filhotes têm o perfil 'foxface' saudável, com faces arredondadas naturais que vêm da linha genética, sem exageros estruturais.",
+      "Alguns criadores cobram mais pelo apelo estético. Porém, a By Império Dog não seleciona reprodutores com base em conformação achatada extrema — priorizamos saúde, temperamento e padrão FCI. Nossos filhotes têm o perfil 'foxface' saudável, com faces arredondadas naturais que vêm da linha genética, sem exageros estruturais.",
   },
   {
     question: "Como identificar um Baby Face legítimo vs marketing enganoso?",
@@ -95,7 +95,7 @@ export default function SpitzAlemaobabyFacePage() {
           O "Baby Face" ou "Bear Face" refere-se a Spitz Alemão Anão com focinho mais curto que o padrão oficial, criando uma aparência facial mais arredondada e "infantil". Surgiu como tendência estética — especialmente no Japão — e se popularizou nas redes sociais pelo visual fofo exagerado.
         </p>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          Importante: <strong>não é uma variedade racial reconhecida</strong> pela CBKC ou FCI. O padrão oficial prevê focinho de "raposa" (foxface), proporcional ao crânio. Cães com conformação achatada demais fogem do padrão e têm maior predisposição a problemas respiratórios.
+          Importante: <strong>não é uma variedade racial reconhecida</strong> pela FCI. O padrão oficial prevê focinho de "raposa" (foxface), proporcional ao crânio. Cães com conformação achatada demais fogem do padrão e têm maior predisposição a problemas respiratórios.
         </p>
       </section>
 

@@ -23,7 +23,7 @@ const TESTIMONIALS = [
     city: "Belo Horizonte, MG",
     puppy: "Spitz Preto Macho",
     stars: 5,
-    text: "Comprei para minha filha de aniversário e foi a melhor decisão. O Zeus veio com pedigree CBKC, laudo cardiológico e um enxoval completo. A criadora foi transparente em tudo — preço, documentação, saúde. Confiança total.",
+    text: "Comprei para minha filha de aniversário e foi a melhor decisão. O Zeus veio com registro oficial, laudo de saúde e um enxoval completo. A criadora foi transparente em tudo — preço, documentação, saúde. Confiança total.",
   },
   {
     photo: "/clientes/fernanda.jpeg",

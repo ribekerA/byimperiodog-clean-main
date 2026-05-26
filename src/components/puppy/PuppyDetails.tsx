@@ -89,7 +89,7 @@ export function PuppyDetails({ puppy }: Props) {
               </span>
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-sm font-medium text-zinc-600">Pedigree CBKC</div>
+              <div className="text-sm font-medium text-zinc-600">Registro oficial</div>
               <div className="mt-0.5 text-base font-semibold text-zinc-900">
                 {puppy.hasPedigree ? "Sim" : "Não"}
               </div>

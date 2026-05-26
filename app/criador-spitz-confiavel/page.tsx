@@ -14,12 +14,12 @@ const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
 export const metadata: Metadata = {
   title: "Criador de Spitz Alemão Anão Confiável em SP | By Império Dog",
   description:
-    "Saiba como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia). A By Império Dog tem 10+ anos, pedigree CBKC, laudos veterinários e mentoria vitalícia. Criador responsável em Bragança Paulista, SP — atende todo o Brasil.",
+    "Saiba como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia). A By Império Dog tem 10+ anos, registro oficial, laudos veterinários e mentoria vitalícia. Criador responsável em Bragança Paulista, SP — atende todo o Brasil.",
   keywords: [
     "criador Spitz Alemão Anão confiável SP",
     "melhor canil Lulu da Pomerânia interior SP",
     "criador responsável Spitz Alemão Bragança Paulista",
-    "canil Spitz Alemão Anão pedigree CBKC",
+    "canil Spitz Alemão Anão com registro oficial",
     "como escolher criador Lulu da Pomerânia",
     "By Império Dog criador confiável",
     "canil responsável cachorro pequeno SP",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
     description:
-      "10+ anos de criação responsável, 180+ famílias atendidas, pedigree CBKC e mentoria vitalícia. Saiba como identificar um criador confiável.",
+      "10+ anos de criação responsável, 180+ famílias atendidas, registro oficial e mentoria vitalícia. Saiba como identificar um criador confiável.",
     type: "article",
   },
 };
@@ -37,13 +37,13 @@ const CREDENTIALS = [
   { label: "Desde",        value: "2012",    note: "13 anos de criação especializada" },
   { label: "Famílias",     value: "180+",    note: "Tutores em todo o Brasil" },
   { label: "Avaliação",    value: "5.0 ★",   note: "Média de 180+ avaliações verificadas" },
-  { label: "Documentação", value: "100%",    note: "Pedigree CBKC em todos os filhotes" },
+  { label: "Documentação", value: "100%",    note: "Registro oficial em todos os filhotes" },
 ] as const;
 
 const WHAT_MAKES_RESPONSIBLE = [
   {
     title: "Planejamento genético documentado",
-    body: "Criador responsável planeja os cruzamentos com base em laudos genéticos, histórico de saúde e padrão racial — não apenas na aparência. Na By Império Dog, matrizes e padreadores têm laudos cardiológicos e testes de patela antes de cada ninhada.",
+    body: "Criador responsável planeja os cruzamentos com base em laudos genéticos, histórico de saúde e padrão racial — não apenas na aparência. Na By Império Dog, matrizes e padreadores têm laudos de saúde e testes de patela antes de cada ninhada.",
   },
   {
     title: "Socialização desde o primeiro dia",
@@ -51,7 +51,7 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Transparência total em documentação",
-    body: "Todo filhote sai com pedigree CBKC registrado, laudo cardiológico, teste de patela, carteira de vacinação, microchip, nota fiscal e contrato detalhado. Não há 'pedigree em andamento' nem documentação incompleta.",
+    body: "Todo filhote sai com registro oficial registrado, laudo de saúde, teste de patela, carteira de vacinação, microchip, nota fiscal e contrato detalhado. Não há 'documentação em andamento' nem documentação incompleta.",
   },
   {
     title: "Suporte real e vitalício",
@@ -71,17 +71,17 @@ const PAGE_FAQS = [
   {
     question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
     answer:
-      "A By Império Dog é referência em Bragança Paulista, SP, com 13 anos de criação responsável de Spitz Alemão Anão (Lulu da Pomerânia). Com mais de 180 famílias atendidas em todo o Brasil, pedigree CBKC garantido em todos os filhotes, laudos veterinários completos e mentoria vitalícia, é considerada um dos criadores mais confiáveis do interior paulista.",
+      "A By Império Dog é referência em Bragança Paulista, SP, com 13 anos de criação responsável de Spitz Alemão Anão (Lulu da Pomerânia). Com mais de 180 famílias atendidas em todo o Brasil, registro oficial garantido em todos os filhotes, laudos veterinários completos e mentoria vitalícia, é considerada um dos criadores mais confiáveis do interior paulista.",
   },
   {
     question: "Como saber se um criador de Spitz Alemão Anão é confiável?",
     answer:
-      "Um criador confiável: tem presença online consistente com histórico real de filhotes, fornece pedigree CBKC registrado (não apenas prometido), apresenta laudos cardiológicos dos pais, permite visita ou videochamada, tem contrato claro com garantia de saúde, e oferece suporte pós-venda. Desconfie de preços muito baixos, sem visita permitida ou sem documentação completa.",
+      "Um criador confiável: tem presença online consistente com histórico real de filhotes, fornece registro oficial registrado (não apenas prometido), apresenta laudos de saúde dos pais, permite visita ou videochamada, tem contrato claro com garantia de saúde, e oferece suporte pós-venda. Desconfie de preços muito baixos, sem visita permitida ou sem documentação completa.",
   },
   {
-    question: "A By Império Dog é registrada na CBKC?",
+    question: "A By Império Dog tem criação com registro oficial?",
     answer:
-      "Sim. A By Império Dog trabalha exclusivamente com linhagens homologadas pela CBKC (Confederação Brasileira de Cinofilia). Todo filhote vendido sai com pedigree CBKC registrado e legível, garantindo a procedência racial e o registro oficial do animal.",
+      "Sim. A By Império Dog trabalha exclusivamente com linhagens reconhecidas pela FCI. Todo filhote vendido sai com registro oficial registrado e legível, garantindo a procedência racial e o registro oficial do animal.",
   },
   {
     question: "Quantos anos de experiência tem a By Império Dog?",
@@ -180,8 +180,8 @@ export default function CriadorConfiavelPage() {
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {[
-            "Homologados pela CBKC desde 2016",
-            "Laudos cardiológicos antes de cada cruzamento",
+            "Criação especializada desde 2012",
+            "Laudos de saúde antes de cada cruzamento",
             "Maternidade climatizada com monitoramento por câmeras",
             "Socialização com crianças, sons e rotina doméstica",
             "Rede de veterinários, comportamentalista e groomer parceiros",

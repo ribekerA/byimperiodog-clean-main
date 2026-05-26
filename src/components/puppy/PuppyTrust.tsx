@@ -56,7 +56,7 @@ export function PuppyTrust() {
             </div>
             <h3 className="mt-4 text-base font-semibold text-zinc-900">Origem rastreável</h3>
             <p className="mt-2 text-sm text-zinc-600">
-              Pedigree CBKC com histórico completo da linhagem e exames dos pais
+              Registro oficial com histórico completo da linhagem e exames dos pais
             </p>
           </CardContent>
         </Card>

@@ -53,7 +53,7 @@ export function buildProductLD(puppy: Puppy, baseUrl: string = 'https://byimperi
       },
       {
         '@type': 'PropertyValue',
-        name: 'Pedigree CBKC',
+        name: 'Registro oficial',
         value: puppy.hasPedigree ? 'Sim' : 'Não',
       },
       {

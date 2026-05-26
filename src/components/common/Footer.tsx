@@ -125,7 +125,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Criação responsável</h3>
             <ul className="space-y-2 text-sm text-zinc-400">
-              {["Pedigree CBKC incluso", "Laudos cardiológicos", "Mentoria vitalícia", "10+ anos de experiência", "Bragança Paulista, SP"].map((item) => (
+              {["Registro oficial incluso", "Laudos de saúde", "Mentoria vitalícia", "10+ anos de experiência", "Bragança Paulista, SP"].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <span className="text-emerald-500" aria-hidden="true">✓</span>
                   {item}

@@ -56,7 +56,7 @@ export default function FeaturedPuppies({ puppies }: Props) {
           </h2>
           <p className="mt-4 text-base leading-relaxed text-zinc-600">
             Criados com socialização guiada, alimentação premium e acompanhamento veterinário.
-            Cada filhote entregue com pedigree CBKC e laudos em mãos.
+            Cada filhote entregue com registro oficial e laudos em mãos.
           </p>
         </div>
 

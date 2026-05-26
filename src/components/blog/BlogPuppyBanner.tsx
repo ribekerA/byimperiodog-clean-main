@@ -50,7 +50,7 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
             )}
           </p>
           <p className="mt-0.5 text-sm text-zinc-600">
-            Criação By Império Dog · pedigree CBKC, laudos e mentoria vitalícia inclusos.
+            Criação By Império Dog · registro oficial, laudos e mentoria vitalícia inclusos.
           </p>
         </div>
 

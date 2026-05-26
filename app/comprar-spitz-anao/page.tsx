@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   keywords: [
     "comprar Spitz Alemão Anão",
     "onde comprar Lulu da Pomerânia confiável",
-    "como comprar filhote Spitz Alemão pedigree",
+    "como comprar filhote Spitz Alemão com documentação",
     "Lulu da Pomerânia à venda SP",
     "canil Spitz Alemão responsável interior SP",
     "comprar Pomeranian Brasil com garantia",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
 };
 
 const CHECKLIST_YES = [
-  "Pedigree CBKC registrado (não apenas 'em andamento')",
-  "Laudo cardiológico (ecocardiograma) dos pais e do filhote",
+  "Registro oficial registrado (não apenas 'em andamento')",
+  "Laudo de saúde dos pais e do filhote",
   "Teste de patela bilateral",
   "Carteira de vacinação com carimbos veterinários reais",
   "Contrato claro com garantia de saúde e suporte pós-venda",
@@ -46,7 +46,7 @@ const CHECKLIST_YES = [
 
 const CHECKLIST_NO = [
   "Preço muito abaixo do mercado (menos de R$ 3.000)",
-  "Sem pedigree ou 'pedigree no futuro'",
+  "Sem documentação ou 'registro no futuro'",
   "Não permite visitar ou fazer videochamada",
   "Filhotes entregues com menos de 60 dias",
   "Sem contrato ou contrato genérico sem garantia",
@@ -55,23 +55,23 @@ const CHECKLIST_NO = [
 ] as const;
 
 const STEPS = [
-  { num: "01", title: "Pesquise e compare criadores", body: "Busque criadores registrados na CBKC com histórico online, avaliações reais de clientes e presença nas redes sociais. Desconfie de quem não tem referências." },
-  { num: "02", title: "Solicite documentação dos pais", body: "Exija o pedigree dos pais, laudos cardiológicos e histórico de saúde antes de qualquer pagamento. Um criador responsável apresenta tudo sem hesitar." },
+  { num: "01", title: "Pesquise e compare criadores", body: "Busque criadores com histórico online, avaliações reais de clientes e presença nas redes sociais. Desconfie de quem não tem referências." },
+  { num: "02", title: "Solicite documentação dos pais", body: "Exija o registro oficial dos pais, laudos de saúde e histórico veterinário antes de qualquer pagamento. Um criador responsável apresenta tudo sem hesitar." },
   { num: "03", title: "Faça uma visita ou videochamada", body: "Ver o ambiente onde o filhote cresceu é essencial. Na By Império Dog fazemos videochamadas e recebemos visitas agendadas." },
   { num: "04", title: "Confirme reserva com contrato", body: "A reserva é formalizada com contrato detalhado e sinal. O contrato cobre garantia de saúde, suporte pós-venda e responsabilidades de ambas as partes." },
-  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com pedigree CBKC, laudo cardiológico, carteira de vacinação, microchip, nota fiscal e acesso à mentoria vitalícia." },
+  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, carteira de vacinação, microchip, nota fiscal e acesso à mentoria vitalícia." },
 ] as const;
 
 const PAGE_FAQS = [
   {
     question: "Onde comprar Spitz Alemão Anão (Lulu da Pomerânia) com segurança?",
     answer:
-      "A By Império Dog é um canil familiar especializado em Spitz Alemão Anão localizado em Bragança Paulista, SP, com mais de 10 anos de criação responsável e mais de 180 famílias atendidas. Todos os filhotes têm pedigree CBKC, laudos veterinários e mentoria vitalícia. Atendemos famílias de todo o Brasil.",
+      "A By Império Dog é um canil familiar especializado em Spitz Alemão Anão localizado em Bragança Paulista, SP, com mais de 10 anos de criação responsável e mais de 180 famílias atendidas. Todos os filhotes têm registro oficial, laudos veterinários e mentoria vitalícia. Atendemos famílias de todo o Brasil.",
   },
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão?",
     answer:
-      "Os documentos essenciais são: pedigree CBKC registrado, laudo cardiológico (ecocardiograma), carteira de vacinação com V8/V10 e antirrábica, teste de patela, histórico de vermifugação, microchip implantado, nota fiscal e contrato de compra com garantia de saúde. Sem esses documentos, a compra é de alto risco.",
+      "Os documentos essenciais são: registro oficial registrado, laudo de saúde, carteira de vacinação com V8/V10 e antirrábica, teste de patela, histórico de vermifugação, microchip implantado, nota fiscal e contrato de compra com garantia de saúde. Sem esses documentos, a compra é de alto risco.",
   },
   {
     question: "Como funciona a entrega do filhote em outro estado?",
@@ -91,7 +91,7 @@ const PAGE_FAQS = [
   {
     question: "Como evitar golpes ao comprar Spitz Alemão Anão pela internet?",
     answer:
-      "Verifique: presença consistente nas redes sociais com histórico de filhotes, avaliações reais de clientes (não só prints), pedigree CBKC verificável, contrato detalhado e possibilidade de visita ou videochamada. Desconfie de preços muito abaixo do mercado, pagamento apenas por Pix antecipado e criadores que não permitem qualquer forma de verificação presencial.",
+      "Verifique: presença consistente nas redes sociais com histórico de filhotes, avaliações reais de clientes (não só prints), registro oficial verificável, contrato detalhado e possibilidade de visita ou videochamada. Desconfie de preços muito abaixo do mercado, pagamento apenas por Pix antecipado e criadores que não permitem qualquer forma de verificação presencial.",
   },
   {
     question: "Quanto tempo leva o processo de compra?",

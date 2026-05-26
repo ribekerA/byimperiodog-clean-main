@@ -38,7 +38,7 @@ export const staticPuppies = [
     priceCents: 1500000,
     currency: "BRL",
     description:
-      "Fêmea Creme de pelagem sedosa e temperamento dócil. Topo da hierarquia em valor e demanda. Socializada desde o nascimento em ambiente familiar. Pedigree CBKC, vacinação em dia e mentoria vitalícia inclusa.",
+      "Fêmea Creme de pelagem sedosa e temperamento dócil. Topo da hierarquia em valor e demanda. Socializada desde o nascimento em ambiente familiar. Registro oficial, vacinação em dia e mentoria vitalícia inclusa.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,
@@ -94,7 +94,7 @@ export const staticPuppies = [
     priceCents: 1300000,
     currency: "BRL",
     description:
-      "Fêmea Preta de pelagem brilhante e estrutura compacta. Segunda cor mais valorizada — disponibilidade raramente aberta. Criada com socialização guiada, laudos cardiológicos e pedigree CBKC.",
+      "Fêmea Preta de pelagem brilhante e estrutura compacta. Segunda cor mais valorizada — disponibilidade raramente aberta. Criada com socialização guiada, laudos de saúde e registro oficial.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,
@@ -211,7 +211,7 @@ export const staticPuppies = [
     priceCents: 900000,
     currency: "BRL",
     description:
-      "Macho Creme com estrutura compacta dentro do padrão FCI (até 22 cm). Criado com socialização guiada, alimentação premium e acompanhamento veterinário completo. Pedigree CBKC.",
+      "Macho Creme com estrutura compacta dentro do padrão FCI (até 22 cm). Criado com socialização guiada, alimentação premium e acompanhamento veterinário completo. Registro oficial.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,
@@ -324,7 +324,7 @@ export const staticPuppies = [
     priceCents: 700000,
     currency: "BRL",
     description:
-      "Macho Laranja com expressão marcante e pelagem densa. Linhagem comprovada com laudos cardiológicos e exames genéticos. Pedigree CBKC entregue antes da reserva.",
+      "Macho Laranja com expressão marcante e pelagem densa. Linhagem comprovada com laudos de saúde e exames genéticos. Registro oficial entregue antes da reserva.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,

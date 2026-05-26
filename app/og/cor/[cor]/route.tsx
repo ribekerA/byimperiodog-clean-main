@@ -152,7 +152,7 @@ export async function GET(
           </div>
 
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "4px" }}>
-            {["Pedigree CBKC", "Mentoria vitalícia", "Laudos veterinários"].map((tag) => (
+            {["Registro oficial", "Mentoria vitalícia", "Laudos veterinários"].map((tag) => (
               <div
                 key={tag}
                 style={{

@@ -153,7 +153,7 @@ export const posts: BlogPost[] = [
     subtitle: "Diagnostico proativo para Spitz ate 22 cm com acompanhamento veterinario especializado",
     category: "Saude",
     excerpt:
-      "Linha do tempo completa de exames geneticos, cardiologicos e laboratoriais que entregamos antes da reserva e durante o primeiro ano.",
+      "Linha do tempo completa de exames geneticos, de saude e laboratoriais que entregamos antes da reserva e durante o primeiro ano.",
     coverUrl: "/blog/saude-protocolos-spitz.webp",
     publishedAt: "2024-09-18T08:00:00.000Z",
     author: { name: "Equipe By Imperio Dog" },
@@ -168,7 +168,7 @@ export const posts: BlogPost[] = [
       return (
         <article className="max-w-none space-y-6 text-zinc-800">
           <p>
-            Antes da reserva, disponibilizamos laudos geneticos (prcd-PRA, alopecia X), painel cardiologico e hemograma completo.
+            Antes da reserva, disponibilizamos laudos geneticos (prcd-PRA, alopecia X), exames de saude completos e hemograma.
             No primeiro ano, seguimos com eco cardiograma, acompanhamentos ortopedicos e revisao nutricional trimestral.
           </p>
           <h3 className="text-lg font-semibold text-zinc-900">Cronograma sugerido</h3>

@@ -12,7 +12,7 @@ const CATALOG_FAQS = [
   {
     question: "Como funciona o processo de reserva de um filhote de Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os laudos do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (pedigree CBKC, vacinação, laudo cardiológico e microchip).",
+      "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os laudos do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (registro oficial, vacinação, laudo de saúde e microchip).",
   },
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
@@ -22,28 +22,28 @@ const CATALOG_FAQS = [
   {
     question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
     answer:
-      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) costumam custar mais do que os machos por conta da maior demanda. Fêmeas variam de R$ 10.000 a R$ 15.000 (dependendo da cor). Machos variam de R$ 7.000 a R$ 9.000. Todos os valores incluem pedigree CBKC, laudos veterinários e mentoria vitalícia.",
+      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) costumam custar mais do que os machos por conta da maior demanda. Fêmeas variam de R$ 10.000 a R$ 15.000 (dependendo da cor). Machos variam de R$ 7.000 a R$ 9.000. Todos os valores incluem registro oficial, laudos veterinários e mentoria vitalícia.",
   },
   {
     question: "Os filhotes são entregues com quais documentos?",
     answer:
-      "Todos os filhotes saem com pedigree CBKC registrado, laudo cardiológico, carteira de vacinação completa, teste de patela, histórico de vermifugação, microchip implantado, nota fiscal e contrato. Além disso, o tutor recebe acesso à mentoria vitalícia direto com a criadora.",
+      "Todos os filhotes saem com registro oficial registrado, laudo de saúde, carteira de vacinação completa, teste de patela, histórico de vermifugação, microchip implantado, nota fiscal e contrato. Além disso, o tutor recebe acesso à mentoria vitalícia direto com a criadora.",
   },
 ];
 
 export const metadata: Metadata = {
   title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Disponíveis | By Império Dog",
-  description: "Catálogo de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Cores: Creme, Laranja, Preto, Wolf Sable. Pedigree CBKC, laudos e mentoria vitalícia. Bragança Paulista, SP — entrega em todo o Brasil.",
+  description: "Catálogo de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Cores: Creme, Laranja, Preto, Wolf Sable. Registro oficial, laudos e mentoria vitalícia. Bragança Paulista, SP — entrega em todo o Brasil.",
   keywords: [
     "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
     "comprar Spitz Alemão creme", "filhote Pomeranian SP",
-    "canil Spitz Alemão Bragança Paulista", "Lulu da Pomerânia pedigree CBKC",
+    "canil Spitz Alemão Bragança Paulista", "Lulu da Pomerânia com registro oficial",
     "Spitz Alemão laranja preto wolf sable", "filhote cachorro pequeno SP",
   ],
   alternates: { canonical: "/filhotes" },
   openGraph: {
     title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
-    description: "Catálogo de filhotes com pedigree CBKC, laudos veterinários e mentoria vitalícia. Bragança Paulista, SP.",
+    description: "Catálogo de filhotes com registro oficial, laudos veterinários e mentoria vitalícia. Bragança Paulista, SP.",
     type:        "website",
     images:      [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630, alt: "Filhotes Spitz Alemão Anão (Lulu da Pomerânia) disponíveis — By Império Dog" }],
   },

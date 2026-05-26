@@ -14,21 +14,21 @@ const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 export const metadata: Metadata = {
   title: "Preço do Spitz Alemão Anão (Lulu da Pomerânia) em 2025 | By Império Dog",
   description:
-    "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Wolf Sable. Pedigree CBKC, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
+    "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Wolf Sable. Registro oficial, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
     "preço filhote Spitz Alemão 2025",
     "Spitz Alemão Anão creme valor",
     "Lulu da Pomerânia preço fêmea macho",
-    "custo Spitz Alemão com pedigree CBKC",
+    "custo Spitz Alemão com registro oficial",
     "por que Spitz Alemão é caro",
   ],
   alternates: { canonical: "/preco-spitz-anao" },
   openGraph: {
     title: "Tabela de Preços do Spitz Alemão Anão (2025) | By Império Dog",
     description:
-      "Machos de R$ 7.000 a R$ 9.000 e fêmeas de R$ 10.000 a R$ 15.000 — inclui pedigree CBKC, laudos veterinários e mentoria vitalícia.",
+      "Machos de R$ 7.000 a R$ 9.000 e fêmeas de R$ 10.000 a R$ 15.000 — inclui registro oficial, laudos veterinários e mentoria vitalícia.",
     type: "article",
   },
 };
@@ -41,8 +41,8 @@ const PRICE_TABLE = [
 ] as const;
 
 const INCLUDED_ITEMS = [
-  "Pedigree CBKC registrado e legalizado",
-  "Laudo cardiológico (ecocardiograma)",
+  "Registro oficial registrado e legalizado",
+  "Laudo de saúde veterinário",
   "Teste de patela bilateral",
   "Carteira de vacinação completa (V8/V10 + antirrábica)",
   "Histórico de vermifugação",
@@ -56,12 +56,12 @@ const PAGE_FAQS = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 7.000 e R$ 15.000. Machos variam de R$ 7.000 (laranja) a R$ 9.000 (creme). Fêmeas, por maior demanda, variam de R$ 10.000 (laranja) a R$ 15.000 (creme). Todos os valores incluem pedigree CBKC, laudo cardiológico, vacinação completa, microchip e mentoria vitalícia.",
+      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 7.000 e R$ 15.000. Machos variam de R$ 7.000 (laranja) a R$ 9.000 (creme). Fêmeas, por maior demanda, variam de R$ 10.000 (laranja) a R$ 15.000 (creme). Todos os valores incluem registro oficial, laudo de saúde, vacinação completa, microchip e mentoria vitalícia.",
   },
   {
     question: "Por que o Spitz Alemão Anão é tão caro?",
     answer:
-      "O custo elevado reflete investimentos reais: matrizes e padreadores testados geneticamente, exames cardiológicos, teste de patela, pedigree CBKC, veterinários especializados, maternidade monitorada, socialização intensiva e mentoria pós-venda vitalícia. Criadores sérios não vendem 'baratos' — o preço cobre cuidado real, não apenas o filhote.",
+      "O custo elevado reflete investimentos reais: matrizes e padreadores testados geneticamente, exames de saúde completos, teste de patela, registro oficial, veterinários especializados, maternidade monitorada, socialização intensiva e mentoria pós-venda vitalícia. Criadores sérios não vendem 'baratos' — o preço cobre cuidado real, não apenas o filhote.",
   },
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
@@ -71,12 +71,12 @@ const PAGE_FAQS = [
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
     answer:
-      "A cor creme (champagne) é a mais valorizada e cara, chegando a R$ 15.000 para fêmeas. Logo depois vem o preto (R$ 13.000 fêmea, R$ 8.000 macho), que é raro e difícil de encontrar com pedigree. O laranja e o wolf sable são as mais acessíveis, começando em R$ 7.000 para machos.",
+      "A cor creme (champagne) é a mais valorizada e cara, chegando a R$ 15.000 para fêmeas. Logo depois vem o preto (R$ 13.000 fêmea, R$ 8.000 macho), que é raro e difícil de encontrar com registro oficial. O laranja e o wolf sable são as mais acessíveis, começando em R$ 7.000 para machos.",
   },
   {
     question: "O que está incluso no preço da By Império Dog?",
     answer:
-      "Todo filhote da By Império Dog sai com: pedigree CBKC, laudo cardiológico, teste de patela, carteira de vacinação atualizada, histórico de vermifugação, microchip, nota fiscal, contrato e mentoria vitalícia. Não há cobranças extras — o valor anunciado é o valor final.",
+      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, teste de patela, carteira de vacinação atualizada, histórico de vermifugação, microchip, nota fiscal, contrato e mentoria vitalícia. Não há cobranças extras — o valor anunciado é o valor final.",
   },
   {
     question: "Existe parcelamento ou condições especiais?",
@@ -86,7 +86,7 @@ const PAGE_FAQS = [
   {
     question: "Posso encontrar Spitz Alemão Anão mais barato em outros lugares?",
     answer:
-      "Existem filhotes sendo anunciados por preços menores — geralmente sem pedigree, sem laudos, sem garantia e com histórico veterinário duvidoso. Evite comprá-los: o risco de problemas cardíacos (colapso de traqueia, MVP), displasia de patela e outras condições genéticas é alto em linhagens sem controle. O investimento inicial num criador responsável evita custos veterinários muito maiores no futuro.",
+      "Existem filhotes sendo anunciados por preços menores — geralmente sem documentação, sem laudos, sem garantia e com histórico veterinário duvidoso. Evite comprá-los: o risco de problemas cardíacos (colapso de traqueia, MVP), displasia de patela e outras condições genéticas é alto em linhagens sem controle. O investimento inicial num criador responsável evita custos veterinários muito maiores no futuro.",
   },
 ] as const;
 
@@ -129,7 +129,7 @@ export default function PrecoSpitzPage() {
           Tabela de preços por cor e sexo
         </h2>
         <p className="mb-6 text-sm text-zinc-600">
-          Todos os filhotes da By Império Dog são entregues com pedigree CBKC, laudos veterinários e mentoria vitalícia inclusos no valor abaixo. Não há custos ocultos.
+          Todos os filhotes da By Império Dog são entregues com registro oficial, laudos veterinários e mentoria vitalícia inclusos no valor abaixo. Não há custos ocultos.
         </p>
         <div className="overflow-x-auto rounded-2xl border border-zinc-200 shadow-sm">
           <table className="w-full min-w-[480px] text-sm">
@@ -186,10 +186,10 @@ export default function PrecoSpitzPage() {
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Cor e raridade", body: "O creme é extremamente difícil de produzir com consistência genética. O preto é raro no Brasil com pedigree. Cores mais difíceis demandam mais cruzamentos e são mais caras." },
+            { title: "Cor e raridade", body: "O creme é extremamente difícil de produzir com consistência genética. O preto é raro no Brasil com registro oficial. Cores mais difíceis demandam mais cruzamentos e são mais caras." },
             { title: "Sexo", body: "Fêmeas têm demanda 2–3× maior que machos, o que eleva naturalmente o preço de mercado." },
-            { title: "Linhagem e genética", body: "Matrizes e reprodutores com títulos de exposição, laudos cardiológicos negativos e histórico de filhotes saudáveis valem mais — e produzem filhotes mais seguros." },
-            { title: "Documentação completa", body: "Pedigree CBKC, laudo cardiológico e teste de patela são exames caros. Criadores que os incluem precisam cobrar mais — e devem." },
+            { title: "Linhagem e genética", body: "Matrizes e reprodutores com títulos de exposição, laudos de saúde e histórico de filhotes saudáveis valem mais — e produzem filhotes mais seguros." },
+            { title: "Documentação completa", body: "Registro oficial, laudo de saúde e teste de patela são exames caros. Criadores que os incluem precisam cobrar mais — e devem." },
           ].map((card) => (
             <article key={card.title} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
               <h3 className="text-sm font-semibold text-zinc-900">{card.title}</h3>

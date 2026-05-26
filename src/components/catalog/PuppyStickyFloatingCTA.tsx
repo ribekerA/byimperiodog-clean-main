@@ -115,7 +115,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
               {price && (
                 <div className="mb-3 flex items-center justify-between">
                   <p className="text-xl font-extrabold text-[var(--accent)]">{price}</p>
-                  <p className="text-[11px] text-zinc-400">CBKC incluso</p>
+                  <p className="text-[11px] text-zinc-400">Documentação inclusa</p>
                 </div>
               )}
 

@@ -31,13 +31,13 @@ const AiMatchmakerChat = dynamic(() => import("@/components/sections/AiMatchmake
 export const metadata: Metadata = {
   title: "Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista | By Império Dog",
   description:
-    "Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com pedigree CBKC, laudo cardiológico, vacinação e mentoria vitalícia. 10+ anos, 180+ famílias. Entregamos em todo o Brasil.",
+    "Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudo de saúde, vacinação e mentoria vitalícia. 10+ anos, 180+ famílias. Entregamos em todo o Brasil.",
   keywords: [
     "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
     "filhote Spitz Alemão", "canil Bragança Paulista",
     "canil Spitz Alemão SP", "Lulu da Pomerânia à venda SP",
     "comprar Spitz Alemão Anão", "canil confiável Spitz",
-    "pedigree CBKC Spitz", "Lulu da Pomerânia interior SP",
+    "registro oficial Spitz Alemão Anão", "Lulu da Pomerânia interior SP",
   ],
   alternates: { canonical: "/" },
   openGraph: {
@@ -45,13 +45,13 @@ export const metadata: Metadata = {
     url: "/",
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
-      "Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Pedigree CBKC, laudos veterinários e mentoria vitalícia inclusos. 10+ anos, 180+ famílias atendidas.",
+      "Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos. 10+ anos, 180+ famílias atendidas.",
     images: [{ url: "/og/home.jpg", width: 1200, height: 630, alt: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog, Bragança Paulista SP" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
-    description: "Criação responsável em Bragança Paulista, SP. Pedigree CBKC, laudos e mentoria vitalícia inclusos.",
+    description: "Criação responsável em Bragança Paulista, SP. Registro oficial, laudos e mentoria vitalícia inclusos.",
     images: ["/og/home.jpg"],
   },
 };
@@ -72,8 +72,8 @@ const RACE_LINKS = [
 
 // Diferenciais — definidos fora para evitar recriação a cada render
 const DIFFERENTIALS = [
-  { emoji: "🏅", title: "Pedigree CBKC incluso", body: "Toda documentação oficial entregue antes da reserva. Sem surpresas, sem letras miúdas." },
-  { emoji: "🩺", title: "Saúde validada", body: "Laudo cardiológico, exames genéticos e vacinação em dia. O filhote chega pronto." },
+  { emoji: "🏅", title: "Registro oficial incluso", body: "Toda documentação oficial entregue antes da reserva. Sem surpresas, sem letras miúdas." },
+  { emoji: "🩺", title: "Saúde validada", body: "Laudo de saúde, exames genéticos e vacinação em dia. O filhote chega pronto." },
   { emoji: "🏡", title: "Socialização guiada", body: "Criados em ambiente familiar com estímulos visuais, auditivos e de contato desde o nascimento." },
   { emoji: "💬", title: "Mentoria vitalícia", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
   { emoji: "🚗", title: "Logística assistida", body: "Orientação completa sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },
@@ -82,8 +82,8 @@ const DIFFERENTIALS = [
 
 // Prova social — barra de trust signals
 const TRUST_SIGNALS = [
-  "Pedigree CBKC oficial",
-  "Laudos cardiológicos",
+  "Registro oficial",
+  "Laudos de saúde",
   "Mentoria vitalícia inclusa",
   "10+ anos de criação",
   "180+ famílias atendidas",
@@ -128,7 +128,7 @@ const ORGANIZATION_LD = {
   description: "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
   knowsAbout: [
     "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
-    "criação responsável de cães", "pedigree CBKC", "genética canina",
+    "criação responsável de cães", "registro oficial", "genética canina",
     "socialização de filhotes", "mentoria para tutores de pets",
   ],
   sameAs: [
@@ -276,7 +276,7 @@ export default function HomePage() {
                             {price > 0 && (
                               <p className="text-lg font-extrabold text-[var(--accent)]">{formatPrice(price)}</p>
                             )}
-                            <p className="text-[9px] text-zinc-400">CBKC incluso</p>
+                            <p className="text-[9px] text-zinc-400">Documentação inclusa</p>
                           </div>
                           <a
                             href={waLink}
@@ -296,11 +296,11 @@ export default function HomePage() {
                 <li className="w-[56vw] max-w-[200px] shrink-0 snap-start">
                   <Link
                     href="/filhotes"
-                    className="flex h-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-emerald-200 bg-emerald-50/60 p-5 text-center"
+                    className="flex h-full flex-col items-center justify-center gap-4 rounded-2xl bg-emerald-600 p-5 text-center shadow-md active:scale-[0.97] transition-transform"
                   >
-                    <span className="text-3xl">🐾</span>
-                    <span className="text-sm font-bold text-emerald-700">Ver todos os filhotes</span>
-                    <span className="text-xs text-zinc-500">→</span>
+                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-2xl">🐾</span>
+                    <span className="text-sm font-bold leading-snug text-white">Ver todos os filhotes</span>
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-emerald-700 text-sm font-bold shadow-sm">→</span>
                   </Link>
                 </li>
               </ul>
@@ -366,7 +366,7 @@ export default function HomePage() {
                             {price > 0 && (
                               <p className="text-xl font-extrabold text-[var(--accent)]">{formatPrice(price)}</p>
                             )}
-                            <p className="text-[10px] text-zinc-400">pedigree CBKC incluso</p>
+                            <p className="text-[10px] text-zinc-400">registro oficial incluso</p>
                           </div>
                           <a
                             href={waLink}

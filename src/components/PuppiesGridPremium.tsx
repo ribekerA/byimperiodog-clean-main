@@ -1086,7 +1086,7 @@ export default function PuppiesGridPremium({ initialItems = [], initialFilters }
           Nossos Filhotes Disponíveis
         </h2>
         <p className="mt-3 text-lg text-zinc-700">
-          Spitz Alemão Anão de criação responsável com pedigree CBKC
+          Spitz Alemão Anão (Lulu da Pomerânia) de criação responsável com registro oficial
         </p>
       </header>
 

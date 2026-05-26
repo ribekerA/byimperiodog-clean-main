@@ -54,7 +54,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   creme: {
     seoTitle: "Spitz Alemão Anão Creme | Filhotes Disponíveis – By Império Dog",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, pedigree CBKC, laudos veterinários e mentoria vitalícia inclusa.",
+      "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Creme",
     intro:
       "O Spitz Creme é a cor mais valorizada e disputada da raça. Sua pelagem sedosa cor de marfim, combinada com olhos escuros expressivos, faz dele o Spitz mais procurado por famílias que buscam sofisticação. Disponibilidade limitada — consulte agenda de ninhadas.",
@@ -69,7 +69,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço de um Spitz Alemão Anão Creme?",
         answer:
-          "Na By Império Dog, a Fêmea Creme começa em R$ 15.000 e o Macho em R$ 9.000. Todos os valores incluem pedigree CBKC, vacinação completa, laudos cardiológicos e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Creme começa em R$ 15.000 e o Macho em R$ 9.000. Todos os valores incluem registro oficial, vacinação completa, laudos de saúde e mentoria vitalícia.",
       },
       {
         question: "Por que o Spitz Creme é mais caro que outras cores?",
@@ -91,7 +91,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   laranja: {
     seoTitle: "Spitz Alemão Anão Laranja | Filhotes Disponíveis – By Império Dog",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça, temperamento alegre. Pedigree CBKC e mentoria vitalícia.",
+      "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça, temperamento alegre. Registro oficial e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Laranja",
     intro:
       "O Spitz Laranja é a cor mais icônica e reconhecida da raça no mundo. Sua pelagem vibrante dentro do padrão FCI combina com um temperamento alegre e extremamente afetivo. Ideal para famílias que amam um cão com personalidade marcante e presença visual.",
@@ -106,7 +106,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Laranja?",
         answer:
-          "Na By Império Dog, a Fêmea Laranja começa em R$ 10.000 e o Macho em R$ 7.000. Inclui pedigree CBKC, vacinação, laudos e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Laranja começa em R$ 10.000 e o Macho em R$ 7.000. Inclui registro oficial, vacinação, laudos e mentoria vitalícia.",
       },
       {
         question: "Spitz Laranja é dócil com crianças?",
@@ -116,7 +116,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Spitz Laranja é diferente de Lulu da Pomerânia?",
         answer:
-          "São o mesmo cão. No Brasil o nome popular é Lulu da Pomerânia, mas a nomenclatura oficial da CBKC e FCI é Spitz Alemão Anão. O padrão racial, saúde e características são idênticos.",
+          "São o mesmo cão. No Brasil o nome popular é Lulu da Pomerânia, mas a nomenclatura oficial da FCI é Spitz Alemão Anão. O padrão racial, saúde e características são idênticos.",
       },
       {
         question: "Com que frequência devo dar banho no Spitz Laranja?",
@@ -128,7 +128,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   preto: {
     seoTitle: "Spitz Alemão Anão Preto | Filhotes Disponíveis – By Império Dog",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Cor rara e elegante. Pedigree CBKC, laudos veterinários e mentoria vitalícia inclusa.",
+      "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Cor rara e elegante. Registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Preto",
     intro:
       "O Spitz Preto é uma das colorações mais elegantes e menos comuns da raça. Sua pelagem brilhante preta, aliada à estrutura compacta e expressão marcante, faz dele uma escolha sofisticada para quem busca exclusividade. A disponibilidade é limitada — ninhadas abertas esporadicamente.",
@@ -143,7 +143,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Preto?",
         answer:
-          "Na By Império Dog, a Fêmea Preta começa em R$ 13.000 e o Macho em R$ 8.000. Incluem pedigree CBKC, vacinação, laudos e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Preta começa em R$ 13.000 e o Macho em R$ 8.000. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
       },
       {
         question: "Por que o Spitz Preto é raro?",
@@ -165,7 +165,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   "wolf-sable": {
     seoTitle: "Spitz Alemão Anão Wolf Sable | Filhotes Disponíveis – By Império Dog",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Wolf Sable (cinza/laranja) em Bragança Paulista, SP. Cor rara reconhecida pela FCI. Pedigree CBKC e mentoria vitalícia.",
+      "Filhotes de Spitz Alemão Anão Wolf Sable (cinza/laranja) em Bragança Paulista, SP. Cor rara reconhecida pela FCI. Registro oficial e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Wolf Sable",
     intro:
       "O Wolf Sable é a coloração bicolor mais exótica do Spitz Alemão Anão. Com máscara facial cinza sobre base laranja, imita o padrão selvagem do lobo. Reconhecida pela FCI como cor oficial, é raramente encontrada em criações especializadas no Brasil — o que torna cada filhote uma oportunidade única.",
@@ -185,7 +185,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Wolf Sable?",
         answer:
-          "Na By Império Dog, a Fêmea Wolf Sable começa em R$ 11.000 e o Macho em R$ 7.500. Incluem pedigree CBKC, vacinação, laudos e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Wolf Sable começa em R$ 11.000 e o Macho em R$ 7.500. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
       },
       {
         question: "O Spitz Wolf Sable muda de cor com o tempo?",
@@ -216,7 +216,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
   femea: {
     seoTitle: "Spitz Alemão Anão Fêmea | Filhotes Disponíveis – By Império Dog",
     metaDescription:
-      "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento dócil e apegado. Pedigree CBKC, laudos veterinários e mentoria vitalícia.",
+      "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento dócil e apegado. Registro oficial, laudos veterinários e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Fêmea",
     intro:
       "A Spitz Fêmea é reconhecida pelo temperamento especialmente dócil e pelo vínculo profundo que cria com a família. Com pelagem exuberante e porte delicado, é a escolha favorita de quem busca um companheiro equilibrado, afetivo e de presença marcante.",
@@ -253,7 +253,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
   macho: {
     seoTitle: "Spitz Alemão Anão Macho | Filhotes Disponíveis – By Império Dog",
     metaDescription:
-      "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento alegre e brincalhão. Pedigree CBKC, laudos veterinários e mentoria vitalícia.",
+      "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento alegre e brincalhão. Registro oficial, laudos veterinários e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Macho",
     intro:
       "O Spitz Macho combina personalidade marcante com um temperamento alegre e brincalhão que conquista toda a família. Com porte compacto dentro do padrão FCI e pelagem densa, é a opção com o melhor custo-benefício dentro da raça para quem busca um Spitz de qualidade premium.",

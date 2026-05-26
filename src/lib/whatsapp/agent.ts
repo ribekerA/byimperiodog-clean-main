@@ -38,11 +38,11 @@ export interface AgentResponse {
 const FAQ: Array<{ q: string; a: string }> = [
   {
     q: "qual o preço / valor / quanto custa",
-    a: "Os filhotes variam de R$ 3.500 a R$ 5.500 dependendo da cor e sexo. O valor inclui pedigree CBKC, laudo cardiológico, vacinação, microchip, mentoria vitalícia e enxoval.",
+    a: "Os filhotes variam de R$ 3.500 a R$ 5.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, vacinação, microchip, mentoria vitalícia e enxoval.",
   },
   {
-    q: "pedigree cbkc incluso",
-    a: "Sim! Todos os nossos filhotes têm pedigree CBKC oficial incluso no valor. Você recebe a documentação antes de confirmar a reserva.",
+    q: "registro incluso",
+    a: "Sim! Todos os nossos filhotes têm registro oficial incluso no valor. Você recebe a documentação antes de confirmar a reserva.",
   },
   {
     q: "entrega transporte frete envio",
@@ -62,7 +62,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "saúde vacinação laudo exame",
-    a: "Todos os filhotes têm vacinação completa em dia, laudo cardiológico, microchip e acompanhamento veterinário desde o nascimento.",
+    a: "Todos os filhotes têm vacinação completa em dia, laudo de saúde, microchip e acompanhamento veterinário desde o nascimento.",
   },
   {
     q: "localização onde fica endereço",

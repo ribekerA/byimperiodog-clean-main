@@ -12,19 +12,19 @@ const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
 export const metadata: Metadata = {
   title: "Spitz Alemão Preto — Raça Rara, Preço e Filhotes | By Império Dog",
   description:
-    "O Spitz Alemão Anão Preto é uma das cores mais raras da raça no Brasil. Saiba por que é raro, qual o preço, o que exigir de um criador e como encontrar filhotes com pedigree CBKC. Criadora em Bragança Paulista, SP.",
+    "O Spitz Alemão Anão Preto é uma das cores mais raras da raça no Brasil. Saiba por que é raro, qual o preço, o que exigir de um criador e como encontrar filhotes com registro oficial. Criadora em Bragança Paulista, SP.",
   keywords: [
     "Spitz Alemão preto",
     "Lulu da Pomerânia preto",
     "Spitz Alemão preto raro",
     "Spitz Alemão preto preço",
-    "filhote Spitz Alemão preto pedigree",
+    "filhote Spitz Alemão preto com documentação",
     "Spitz Alemão preto SP",
   ],
   alternates: { canonical: "/spitz-alemao-preto" },
   openGraph: {
     title: "Spitz Alemão Anão Preto — Cor Rara | By Império Dog",
-    description: "Por que o Spitz Alemão preto é raro? Preço, disponibilidade e como garantir um filhote com pedigree.",
+    description: "Por que o Spitz Alemão preto é raro? Preço, disponibilidade e como garantir um filhote com registro oficial.",
     type: "article",
   },
 };
@@ -38,12 +38,12 @@ const FAQS = [
   {
     question: "Qual o preço do Spitz Alemão Anão preto?",
     answer:
-      "Na By Império Dog, o Spitz Alemão preto custa R$ 8.000 (machos) e R$ 13.000 (fêmeas). Por ser uma cor rara, o preço é superior ao laranja e ao wolf sable, mas abaixo do creme. Todos incluem pedigree CBKC, laudos veterinários, vacinação completa, microchip e mentoria vitalícia.",
+      "Na By Império Dog, o Spitz Alemão preto custa R$ 8.000 (machos) e R$ 13.000 (fêmeas). Por ser uma cor rara, o preço é superior ao laranja e ao wolf sable, mas abaixo do creme. Todos incluem registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia.",
   },
   {
-    question: "Como saber se o Spitz Alemão preto tem pedigree legítimo?",
+    question: "Como saber se o Spitz Alemão preto tem registro oficial legítimo?",
     answer:
-      "Exija o número de registro do pedigree CBKC e consulte diretamente no site da CBKC. Um pedigree legítimo tem número verificável, nome dos pais e avós, e dados do criador. Desconfie de 'pedigrees em andamento' ou documentos não verificáveis.",
+      "Exija o número de registro do registro oficial e confirme com o criador. Um registro legítimo tem número verificável, nome dos pais e avós, e dados do criador. Desconfie de 'documentação em andamento' ou documentos não verificáveis.",
   },
   {
     question: "O Spitz Alemão preto muda de cor com o tempo?",
@@ -85,7 +85,7 @@ export default function SpitzAlemaoPretoPage() {
           Spitz Alemão Anão Preto — a cor mais rara da raça
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          O Spitz Alemão Anão na cor preta é o mais difícil de encontrar com pedigree CBKC no Brasil. Poucos criadores especializados trabalham com esta linhagem — e a By Império Dog é um deles.
+          O Spitz Alemão Anão na cor preta é o mais difícil de encontrar com registro oficial no Brasil. Poucos criadores especializados trabalham com esta linhagem — e a By Império Dog é um deles.
         </p>
       </header>
 
@@ -120,7 +120,7 @@ export default function SpitzAlemaoPretoPage() {
           </div>
         </div>
         <ul className="space-y-1.5 text-sm text-zinc-700">
-          {["Pedigree CBKC registrado", "Laudo cardiológico", "Teste de patela", "Vacinação completa", "Microchip", "Nota fiscal", "Mentoria vitalícia"].map((i) => (
+          {["Registro oficial", "Laudo de saúde", "Teste de patela", "Vacinação completa", "Microchip", "Nota fiscal", "Mentoria vitalícia"].map((i) => (
             <li key={i} className="flex items-center gap-2"><span className="text-emerald-600">✓</span>{i}</li>
           ))}
         </ul>

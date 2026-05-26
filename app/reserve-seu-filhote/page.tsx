@@ -14,7 +14,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https:
 export const metadata: Metadata = {
   title: "Reserve seu Filhote de Spitz Alemão Anão | By Império Dog",
   description:
-    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão com pedigree CBKC, socialização guiada e mentoria vitalícia. Processo transparente e suporte direto com a criadora.",
+    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão com registro oficial, socialização guiada e mentoria vitalícia. Processo transparente e suporte direto com a criadora.",
   alternates: { canonical: "/reserve-seu-filhote" },
   openGraph: {
     type: "website",
@@ -29,7 +29,7 @@ const benefits = [
   {
     icon: Shield,
     title: "Garantia de Saúde",
-    description: "Exames genéticos, laudos veterinários, pedigree CBKC e protocolo vacinal completo entregues antes da reserva final.",
+    description: "Exames genéticos, laudos veterinários, registro oficial e protocolo vacinal completo entregues antes da reserva final.",
   },
   {
     icon: HeartHandshake,
@@ -96,7 +96,7 @@ const faqEntries = [
   },
   {
     question: "O que está incluso na reserva?",
-    answer: "Pedigree CBKC, carteira de vacinação, vermifugação, exames laboratoriais, microchip opcional, kit de boas-vindas, contrato digital e mentoria vitalícia.",
+    answer: "Registro oficial, carteira de vacinação, vermifugação, exames laboratoriais, microchip opcional, kit de boas-vindas, contrato digital e mentoria vitalícia.",
   },
   {
     question: "E se eu desistir após a reserva?",

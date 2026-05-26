@@ -16,7 +16,7 @@ const SELLING_POINTS = [
   {
     icon: ShieldCheck,
     title: "Saúde validada",
-    description: "Exames genéticos, laudos cardiológicos e pedigree CBKC entregues antes da reserva.",
+    description: "Exames genéticos, laudos de saúde e registro oficial entregues antes da reserva.",
   },
   {
     icon: HeartHandshake,

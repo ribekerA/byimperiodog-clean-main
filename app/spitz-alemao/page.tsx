@@ -37,7 +37,7 @@ const CHARACTERISTICS = [
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
   { label: "Cores reconhecidas", value: "Creme, Laranja, Preto, Wolf Sable" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
-  { label: "Registro oficial", value: "CBKC / FCI — Grupo V" },
+  { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
 ];
 
@@ -60,7 +60,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "As cores reconhecidas pela CBKC e FCI são: Laranja (a mais icônica), Creme (a mais valorizada), Preto (rara no Brasil) e Wolf Sable (padrão exótico com pelos tricolores). Cada cor tem particularidades no preço e na disponibilidade.",
+      "As cores reconhecidas pela FCI são: Laranja (a mais icônica), Creme (a mais valorizada), Preto (rara no Brasil) e Wolf Sable (padrão exótico com pelos tricolores). Cada cor tem particularidades no preço e na disponibilidade.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
@@ -70,7 +70,7 @@ const FAQS = [
   {
     question: "Qual a diferença entre Spitz Alemão e Lulu da Pomerânia?",
     answer:
-      "São nomes para a mesma raça. 'Lulu da Pomerânia' é o nome popular no Brasil; 'Spitz Alemão Anão' é a denominação oficial da CBKC e FCI. Em inglês, a raça é chamada de 'Pomeranian'.",
+      "São nomes para a mesma raça. 'Lulu da Pomerânia' é o nome popular no Brasil; 'Spitz Alemão Anão' é a denominação oficial da FCI. Em inglês, a raça é chamada de 'Pomeranian'.",
   },
 ];
 
@@ -130,7 +130,7 @@ export default function SpitzAlemaoPage() {
           O Spitz Alemão Anão descende dos <strong>Spitz nórdicos</strong>, cães utilizados como pastores e companheiros na região da Pomerânia (atual fronteira entre Alemanha e Polônia). No século XIX, a raça foi refinada na Inglaterra, onde a Rainha Vitória criou exemplares — o que contribuiu para a redução do porte para o que conhecemos hoje como "Anão". O nome popular "Lulu da Pomerânia" vem exatamente desta região histórica.
         </p>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          Hoje, a raça é reconhecida pela <strong>FCI (Fédération Cynologique Internationale)</strong> como Spitz Alemão Anão e pela <strong>CBKC (Confederação Brasileira de Cinofilia)</strong> no Brasil, sendo criada e registrada com padrão racial definido — pelagem, estrutura, temperamento e cores reconhecidas.
+          Hoje, a raça é reconhecida internacionalmente pela <strong>FCI (Fédération Cynologique Internationale)</strong> como Spitz Alemão Anão, sendo criada e registrada com padrão racial definido — pelagem, estrutura, temperamento e cores reconhecidas.
         </p>
       </section>
 
@@ -162,7 +162,7 @@ export default function SpitzAlemaoPage() {
             { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Império Dog fornece plano alimentar personalizado." },
             { t: "Exercício", b: "2 passeios curtos por dia (15–20 min cada) são suficientes. Não suporta calor intenso — evite saídas no pico do calor." },
             { t: "Dentes", b: "Raças pequenas são propensas a tartaro. Escovação 2–3× por semana + petiscos dentais. Consulta veterinária anual para limpeza profissional." },
-            { t: "Veterinário", b: "Consulta anual de rotina, vacinação em dia (V8/V10 + antirrábica) e exame cardiológico a partir dos 3 anos (raça com predisposição a sopro cardíaco)." },
+            { t: "Veterinário", b: "Consulta anual de rotina, vacinação em dia (V8/V10 + antirrábica) e avaliação veterinária completa a partir dos 3 anos (raça com predisposição a sopro cardíaco)." },
           ].map((item) => (
             <li key={item.t} className="flex items-start gap-3">
               <span className="mt-0.5 flex-none rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">{item.t}</span>
@@ -174,7 +174,7 @@ export default function SpitzAlemaoPage() {
 
       {/* Cores */}
       <section aria-labelledby="cores-heading" className="space-y-4">
-        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores reconhecidas pela CBKC</h2>
+        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores reconhecidas pela FCI</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },

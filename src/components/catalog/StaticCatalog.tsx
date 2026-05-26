@@ -88,7 +88,7 @@ export default function StaticCatalog({ puppies }: Props) {
           Filhotes disponíveis
         </h1>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
-          Cada filhote sai com pedigree CBKC, laudos veterinários e mentoria vitalícia. Saúde documentada, sem surpresas.
+          Cada filhote sai com registro oficial, laudos veterinários e mentoria vitalícia. Saúde documentada, sem surpresas.
         </p>
       </div>
 

@@ -66,8 +66,8 @@ const STATUS_CONFIG = {
 } as const;
 
 const INCLUDED = [
-  { icon: "📋", title: "Pedigree CBKC",       desc: "Registro oficial da raça"        },
-  { icon: "❤️", title: "Laudo cardiológico",  desc: "Atestado de saúde cardíaca"      },
+  { icon: "📋", title: "Registro oficial",     desc: "Documento oficial da raça"        },
+  { icon: "❤️", title: "Laudo de saúde",      desc: "Exame veterinário completo"      },
   { icon: "💉", title: "Vacinação completa",  desc: "Protocolo vacinal em dia"        },
   { icon: "🔖", title: "Microchip",           desc: "Identificação permanente"        },
   { icon: "🎓", title: "Mentoria vitalícia",  desc: "Suporte direto com a criadora"   },
@@ -170,7 +170,7 @@ export default function PuppyDetailPanel({
         >
           <div>
             <p className="text-3xl font-extrabold text-[var(--accent)]">{price}</p>
-            <p className="mt-0.5 text-xs text-zinc-500">Pedigree CBKC, laudos e mentoria inclusos</p>
+            <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, laudos e mentoria inclusos</p>
           </div>
 
           {/* Badge de escassez pulsante */}

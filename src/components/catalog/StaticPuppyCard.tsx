@@ -197,7 +197,7 @@ export default function StaticPuppyCard({
             <span className="text-xl font-extrabold text-[var(--accent)]">
               {formatPrice(price)}
             </span>
-            <span className="text-[10px] font-medium text-zinc-400">CBKC incluso</span>
+            <span className="text-[10px] font-medium text-zinc-400">Documentação inclusa</span>
           </div>
 
           {/* CTA WhatsApp + Heart — linha com dois elementos */}

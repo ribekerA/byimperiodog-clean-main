@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Script from "next/script";
 import type { Metadata } from "next";
 
@@ -10,35 +10,35 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/canil-spitz-alemao-interior-sp`;
 
 export const metadata: Metadata = {
-  title: "Canil Spitz Alemão Anão no Interior de SP | By Império Dog — Bragança Paulista",
+  title: "Canil Spitz AlemÃ£o AnÃ£o no Interior de SP | By ImpÃ©rio Dog â€” BraganÃ§a Paulista",
   description:
-    "O melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo fica em Bragança Paulista. 13 anos de criação, pedigree CBKC, laudos e mentoria vitalícia. Atende Campinas, Sorocaba, São José dos Campos e todo SP.",
+    "O melhor canil de Spitz AlemÃ£o AnÃ£o (Lulu da PomerÃ¢nia) no interior de SÃ£o Paulo fica em BraganÃ§a Paulista. 13 anos de criaÃ§Ã£o, registro oficial, laudos e mentoria vitalÃ­cia. Atende Campinas, Sorocaba, SÃ£o JosÃ© dos Campos e todo SP.",
   keywords: [
-    "canil Spitz Alemão interior SP",
-    "canil Lulu da Pomerânia interior São Paulo",
-    "Spitz Alemão Bragança Paulista SP",
-    "melhor canil Spitz Alemão SP",
-    "filhote Lulu da Pomerânia interior SP",
-    "criador Spitz Alemão Campinas SP",
+    "canil Spitz AlemÃ£o interior SP",
+    "canil Lulu da PomerÃ¢nia interior SÃ£o Paulo",
+    "Spitz AlemÃ£o BraganÃ§a Paulista SP",
+    "melhor canil Spitz AlemÃ£o SP",
+    "filhote Lulu da PomerÃ¢nia interior SP",
+    "criador Spitz AlemÃ£o Campinas SP",
   ],
   alternates: { canonical: "/canil-spitz-alemao-interior-sp" },
   openGraph: {
-    title: "Canil Spitz Alemão Anão — Interior de SP | By Império Dog",
-    description: "Referência no interior de SP: 13 anos de criação responsável de Spitz Alemão Anão em Bragança Paulista.",
+    title: "Canil Spitz AlemÃ£o AnÃ£o â€” Interior de SP | By ImpÃ©rio Dog",
+    description: "ReferÃªncia no interior de SP: 13 anos de criaÃ§Ã£o responsÃ¡vel de Spitz AlemÃ£o AnÃ£o em BraganÃ§a Paulista.",
     type: "website",
   },
 };
 
 const CITIES = [
-  "Bragança Paulista (sede)",
+  "BraganÃ§a Paulista (sede)",
   "Atibaia",
-  "Jundiaí",
-  "Campinas e Região",
+  "JundiaÃ­",
+  "Campinas e RegiÃ£o",
   "Sorocaba",
-  "São José dos Campos",
-  "Taubaté",
+  "SÃ£o JosÃ© dos Campos",
+  "TaubatÃ©",
   "Americana",
-  "Ribeirão Preto",
+  "RibeirÃ£o Preto",
   "Franca",
   "Bauru",
   "Todo o interior de SP",
@@ -46,41 +46,41 @@ const CITIES = [
 
 const FAQS = [
   {
-    question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
+    question: "Qual o melhor canil de Spitz AlemÃ£o AnÃ£o no interior de SP?",
     answer:
-      "A By Império Dog é reconhecida como referência no interior de São Paulo com 13 anos de especialização exclusiva em Spitz Alemão Anão. Localizada em Bragança Paulista, conta com mais de 180 famílias atendidas, pedigree CBKC em 100% dos filhotes, laudos veterinários completos e mentoria vitalícia — um conjunto de diferenciais que poucos criadores da região oferecem.",
+      “A By ImpÃ©rio Dog Ã© reconhecida como referÃªncia no interior de SÃ£o Paulo com 13 anos de especializaÃ§Ã£o exclusiva em Spitz AlemÃ£o AnÃ£o. Localizada em BraganÃ§a Paulista, conta com mais de 180 famÃ­lias atendidas, registro oficial em 100% dos filhotes, laudos veterinÃ¡rios completos e mentoria vitalÃ­cia â€” um conjunto de diferenciais que poucos criadores da regiÃ£o oferecem.”,
   },
   {
-    question: "Vocês entregam em Campinas, Sorocaba e outras cidades do interior?",
+    question: "VocÃªs entregam em Campinas, Sorocaba e outras cidades do interior?",
     answer:
-      "Sim. Atendemos famílias de todo o interior de SP. Para cidades próximas, é possível fazer a entrega pessoalmente ou o tutor vir buscar em Bragança Paulista. Para cidades mais distantes, o filhote pode ser transportado por transportadora especializada ou pelo próprio tutor após visita.",
+      "Sim. Atendemos famÃ­lias de todo o interior de SP. Para cidades prÃ³ximas, Ã© possÃ­vel fazer a entrega pessoalmente ou o tutor vir buscar em BraganÃ§a Paulista. Para cidades mais distantes, o filhote pode ser transportado por transportadora especializada ou pelo prÃ³prio tutor apÃ³s visita.",
   },
   {
-    question: "Bragança Paulista é perto de Campinas?",
+    question: "BraganÃ§a Paulista Ã© perto de Campinas?",
     answer:
-      "Bragança Paulista fica a aproximadamente 90 km de Campinas (cerca de 1h de carro). É facilmente acessível pela Rodovia D. Pedro I (SP-065). Para tutores de Campinas, Jundiaí, Atibaia, Itatiba e cidades vizinhas, é uma opção próxima.",
+      "BraganÃ§a Paulista fica a aproximadamente 90 km de Campinas (cerca de 1h de carro). Ã‰ facilmente acessÃ­vel pela Rodovia D. Pedro I (SP-065). Para tutores de Campinas, JundiaÃ­, Atibaia, Itatiba e cidades vizinhas, Ã© uma opÃ§Ã£o prÃ³xima.",
   },
   {
-    question: "Existe algum canil de Spitz Alemão Anão em Campinas?",
+    question: "Existe algum canil de Spitz AlemÃ£o AnÃ£o em Campinas?",
     answer:
-      "Há criadores na região de Campinas, mas a recomendação é sempre verificar procedência, pedigree CBKC, laudos veterinários e suporte pós-venda antes de qualquer decisão. A By Império Dog em Bragança Paulista é a referência mais próxima com todo esse conjunto de garantias documentado.",
+      "HÃ¡ criadores na regiÃ£o de Campinas, mas a recomendaÃ§Ã£o Ã© sempre verificar procedÃªncia, registro oficial, laudos veterinÃ¡rios e suporte pÃ³s-venda antes de qualquer decisÃ£o. A By ImpÃ©rio Dog em BraganÃ§a Paulista Ã© a referÃªncia mais prÃ³xima com todo esse conjunto de garantias documentado.",
   },
   {
     question: "Como agendar uma visita ao canil?",
     answer:
-      "Visitas são bem-vindas por agendamento via WhatsApp. Também realizamos videochamadas para quem não pode se deslocar. O processo de conhecer o canil, os pais e os filhotes é parte fundamental antes da decisão de compra.",
+      "Visitas sÃ£o bem-vindas por agendamento via WhatsApp. TambÃ©m realizamos videochamadas para quem nÃ£o pode se deslocar. O processo de conhecer o canil, os pais e os filhotes Ã© parte fundamental antes da decisÃ£o de compra.",
   },
 ];
 
 export default function CanilInteriorSPPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi que vocês são referência de canil de Spitz Alemão no interior de SP. Pode me informar sobre disponibilidade de filhotes?")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("OlÃ¡! Vi que vocÃªs sÃ£o referÃªncia de canil de Spitz AlemÃ£o no interior de SP. Pode me informar sobre disponibilidade de filhotes?")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
-    { name: "Início", url: `${SITE_URL}/` },
-    { name: "Canil Spitz Alemão — Interior SP", url: PAGE_URL },
+    { name: "InÃ­cio", url: `${SITE_URL}/` },
+    { name: "Canil Spitz AlemÃ£o â€” Interior SP", url: PAGE_URL },
   ]);
   const faqLd      = buildFAQLD(FAQS);
   const businessLd = buildLocalBusinessLD();
@@ -94,12 +94,12 @@ export default function CanilInteriorSPPage() {
       <Script id="ld-isp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Referência no interior de São Paulo</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">ReferÃªncia no interior de SÃ£o Paulo</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Canil Spitz Alemão Anão no Interior de SP — By Império Dog
+          Canil Spitz AlemÃ£o AnÃ£o no Interior de SP â€” By ImpÃ©rio Dog
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Se você mora no interior de São Paulo e procura um criador responsável de Spitz Alemão Anão (Lulu da Pomerânia), a By Império Dog em Bragança Paulista é referência na região há 13 anos.
+          Se vocÃª mora no interior de SÃ£o Paulo e procura um criador responsÃ¡vel de Spitz AlemÃ£o AnÃ£o (Lulu da PomerÃ¢nia), a By ImpÃ©rio Dog em BraganÃ§a Paulista Ã© referÃªncia na regiÃ£o hÃ¡ 13 anos.
         </p>
       </header>
 
@@ -108,10 +108,10 @@ export default function CanilInteriorSPPage() {
         <h2 id="cred-isp-heading" className="sr-only">Credenciais</h2>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
-            { v: "2012", l: "Fundação" },
-            { v: "13+", l: "Anos de criação" },
-            { v: "180+", l: "Famílias atendidas" },
-            { v: "100%", l: "Com pedigree CBKC" },
+            { v: "2012", l: "FundaÃ§Ã£o" },
+            { v: "13+", l: "Anos de criaÃ§Ã£o" },
+            { v: "180+", l: "FamÃ­lias atendidas" },
+            { v: "100%", l: "Com registro oficial" },
           ].map((c) => (
             <div key={c.l} className="rounded-2xl border border-zinc-200 bg-white p-4 text-center shadow-sm">
               <p className="text-2xl font-bold text-emerald-600">{c.v}</p>
@@ -128,7 +128,7 @@ export default function CanilInteriorSPPage() {
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {CITIES.map((city) => (
             <li key={city} className="flex items-center gap-2 rounded-xl bg-zinc-50 border border-zinc-100 px-3 py-2 text-sm text-zinc-700">
-              <span className="text-emerald-500">✓</span>
+              <span className="text-emerald-500">âœ“</span>
               {city}
             </li>
           ))}
@@ -160,10 +160,10 @@ export default function CanilInteriorSPPage() {
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">Ver filhotes ou agendar visita</h2>
-        <p className="mt-2 text-sm text-zinc-600">Atendemos famílias de todo o interior de SP — pessoalmente ou com entrega.</p>
+        <p className="mt-2 text-sm text-zinc-600">Atendemos famÃ­lias de todo o interior de SP â€” pessoalmente ou com entrega.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
-            Ver filhotes disponíveis
+            Ver filhotes disponÃ­veis
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
@@ -174,16 +174,16 @@ export default function CanilInteriorSPPage() {
       </section>
 
       <RelatedPages links={[
-        { label: "Lulu da Pomerânia em Bragança Paulista", href: "/lulu-da-pomerania-braganca-paulista", desc: "Localização, visitas e como chegar" },
-        { label: "Spitz Alemão Anão — A Raça",            href: "/spitz-alemao",                        desc: "Características, temperamento e cuidados" },
-        { label: "Ver Filhotes Disponíveis",              href: "/filhotes",                            desc: "Catálogo atualizado com fotos e valores" },
+        { label: "Lulu da PomerÃ¢nia em BraganÃ§a Paulista", href: "/lulu-da-pomerania-braganca-paulista", desc: "LocalizaÃ§Ã£o, visitas e como chegar" },
+        { label: "Spitz AlemÃ£o AnÃ£o â€” A RaÃ§a",            href: "/spitz-alemao",                        desc: "CaracterÃ­sticas, temperamento e cuidados" },
+        { label: "Ver Filhotes DisponÃ­veis",              href: "/filhotes",                            desc: "CatÃ¡logo atualizado com fotos e valores" },
       ]} />
 
-      <nav aria-label="Navegação estrutural">
+      <nav aria-label="NavegaÃ§Ã£o estrutural">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
-          <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
+          <li><Link href="/" className="hover:text-emerald-700">InÃ­cio</Link></li>
           <li aria-hidden>/</li>
-          <li className="font-medium text-zinc-600" aria-current="page">Canil Spitz Alemão — Interior SP</li>
+          <li className="font-medium text-zinc-600" aria-current="page">Canil Spitz AlemÃ£o â€” Interior SP</li>
         </ol>
       </nav>
     </main>

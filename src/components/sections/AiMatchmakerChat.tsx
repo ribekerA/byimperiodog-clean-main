@@ -202,7 +202,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
         {priceCents > 0 && (
           <p className="text-lg font-extrabold text-emerald-700">{formatPrice(priceCents)}</p>
         )}
-        <p className="text-[9px] text-zinc-400 -mt-1">pedigree CBKC incluso</p>
+        <p className="text-[9px] text-zinc-400 -mt-1">registro oficial incluso</p>
 
         <PawConfettiButton
           href={waLink}

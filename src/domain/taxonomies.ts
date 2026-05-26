@@ -298,7 +298,7 @@ export const SEARCH_INTENTS = {
     keywords: [
       "spitz alemão macho laranja são paulo",
       "lulu pomerania fêmea branca filhote",
-      "spitz alemão anão pedigree cbkc",
+      "spitz alemão anão registro oficial",
       "filhote spitz alemão 2 meses vacinado",
       "comprar spitz alemão parcelado",
       "spitz alemão mini toy",

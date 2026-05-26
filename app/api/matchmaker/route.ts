@@ -17,7 +17,7 @@ import type { NextRequest } from "next/server";
 
 const CATALOG = `
 FILHOTES DISPONÍVEIS — By Império Dog (Bragança Paulista, SP):
-Todos acompanham: pedigree CBKC • vacinação completa • microchip • laudo cardiológico • enxoval • mentoria vitalícia
+Todos acompanham: registro oficial • vacinação completa • microchip • laudo de saúde • enxoval • mentoria vitalícia
 
 SLUG                                    | Nome                 | Sexo   | Cor         | Preço
 spitz-alemao-anao-creme-femea           | Spitz Creme Fêmea    | Fêmea  | Creme       | R$15.000
@@ -56,7 +56,7 @@ Quando tiver informação suficiente, finalize com o bloco MATCHES (veja formato
 
 ### SKILL 2 — Informar preços
 Se perguntarem sobre preço, informe o valor do filhote específico ou da cor de interesse.
-Mencione que todos incluem pedigree, vacinas, microchip e mentoria.
+Mencione que todos incluem registro oficial, vacinas, microchip e mentoria.
 
 ### SKILL 3 — Explicar a raça
 Se perguntarem sobre características, temperamento, tamanho, cuidados ou saúde do Spitz Alemão Anão:
@@ -69,7 +69,7 @@ Se perguntarem sobre características, temperamento, tamanho, cuidados ou saúde
 Se perguntarem como funciona: o interessado entra em contato via WhatsApp, a criadora faz uma entrevista rápida para conhecer a família, fecha reserva com sinal e combina a entrega.
 
 ### SKILL 5 — Lidar com dúvidas e objeções
-- "É caro demais": explique o que está incluído (vacinas, pedigree, microchip, mentoria vitalícia) e o custo de adquirir separado vs. tudo incluso
+- "É caro demais": explique o que está incluído (vacinas, registro oficial, microchip, mentoria vitalícia) e o custo de adquirir separado vs. tudo incluso
 - "Tenho apartamento pequeno": tranquilize, o Spitz se adapta muito bem
 - "Nunca tive cachorro": diga que a mentoria vitalícia é exatamente para isso
 - "Viajo muito": pergunte quanto tempo fica fora e ajude a avaliar

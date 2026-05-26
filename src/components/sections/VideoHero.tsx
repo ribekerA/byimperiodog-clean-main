@@ -255,7 +255,7 @@ export default function VideoHero() {
             transition={{ duration: 0.65, delay: 0.98, ease: EASE }}
             className="mx-auto max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl"
           >
-            Saúde documentada, pedigree CBKC e mentoria vitalícia.{" "}
+            Saúde documentada, registro oficial e mentoria vitalícia.{" "}
             <strong className="font-semibold text-white">
               10 anos de criação responsável
             </strong>{" "}
@@ -302,7 +302,7 @@ export default function VideoHero() {
             {[
               { value: "10+", label: "anos" },
               { value: "180+", label: "famílias" },
-              { value: "CBKC", label: "pedigree" },
+              { value: "FCI", label: "registro" },
             ].map((item, i, arr) => (
               <div key={item.label} className="flex items-center gap-1.5 sm:gap-2.5">
                 <dt className="text-xl font-bold text-white sm:text-2xl">{item.value}</dt>

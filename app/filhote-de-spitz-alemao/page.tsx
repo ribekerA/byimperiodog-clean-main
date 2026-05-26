@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "filhote de Spitz Alemão Anão",
     "filhote Lulu da Pomerânia",
     "como escolher filhote Spitz Alemão",
-    "filhote Spitz Alemão pedigree Brasil",
+    "filhote Spitz Alemão com documentação Brasil",
     "cuidados filhote Spitz Alemão",
     "filhote Lulu da Pomerânia disponível SP",
   ],
@@ -33,7 +33,7 @@ const FIRST_DAYS = [
   { title: "Ambiente seguro", body: "Prepare um espaço calmo com cama, tapete higiênico e brinquedos. Evite visitantes nas primeiras 48–72 horas para não sobrecarregar o filhote." },
   { title: "Alimentação", body: "Mantenha a ração indicada pela criadora por pelo menos 15 dias antes de qualquer troca. Mudanças bruscas de dieta causam diarreia em filhotes pequenos." },
   { title: "Hidratação", body: "Água fresca disponível 24h. Filhotes de porte muito pequeno podem sofrer hipoglicemia — alimentação a cada 4–6 horas é essencial nos primeiros dias." },
-  { title: "Veterinário", body: "Agende consulta veterinária nas primeiras 72 horas. Leve a carteira de vacinação, histórico de vermifugação e laudo cardiológico entregues pela criadora." },
+  { title: "Veterinário", body: "Agende consulta veterinária nas primeiras 72 horas. Leve a carteira de vacinação, histórico de vermifugação e o laudo de saúde entregues pela criadora." },
   { title: "Temperatura", body: "Filhotes têm dificuldade de regular temperatura. Mantenha entre 22–24°C. Evite correntes de ar, piso frio e ar-condicionado direto." },
   { title: "Socialização gradual", body: "Permita exploração no espaço seguro antes de apresentar outros animais ou crianças. Respeite o ritmo do filhote para evitar trauma." },
 ];
@@ -52,7 +52,7 @@ const FAQS = [
   {
     question: "O que perguntar ao criador antes de comprar o filhote?",
     answer:
-      "Pergunte: (1) Os pais têm laudo cardiológico? (2) O filhote tem pedigree CBKC? (3) Quais exames foram feitos? (4) Qual o protocolo de vacinação? (5) Posso fazer visita ou videochamada? (6) Tem contrato de venda? (7) Qual o suporte pós-venda? Se o criador hesitar em qualquer dessas, é um sinal de alerta.",
+      "Pergunte: (1) Os pais têm laudo de saúde? (2) O filhote tem registro oficial? (3) Quais exames foram feitos? (4) Qual o protocolo de vacinação? (5) Posso fazer visita ou videochamada? (6) Tem contrato de venda? (7) Qual o suporte pós-venda? Se o criador hesitar em qualquer dessas, é um sinal de alerta.",
   },
   {
     question: "O filhote de Spitz Alemão Anão é difícil de adestrar?",
@@ -106,8 +106,8 @@ export default function FilhoteDeSpitzPage() {
         </p>
         <ul className="space-y-3">
           {[
-            { t: "Procedência documentada", b: "Pedigree CBKC registrado nos pais e garantia de registro no filhote. Sem isso, não há garantia racial ou rastreabilidade genética." },
-            { t: "Laudos veterinários dos pais", b: "Laudo cardiológico (ecocardiograma) e teste de patela bilateral dos reprodutores antes de cada ninhada." },
+            { t: "Procedência documentada", b: "Registro oficial nos pais e garantia de registro no filhote. Sem isso, não há garantia racial ou rastreabilidade genética." },
+            { t: "Laudos veterinários dos pais", b: "Laudo de saúde e teste de patela bilateral dos reprodutores antes de cada ninhada." },
             { t: "Socialização comprovada", b: "Filhotes criados dentro de casa, com contato humano diário, sons e rotinas domésticas têm temperamento muito mais equilibrado." },
             { t: "Carteira de vacinação em dia", b: "A primeira dose da vacina múltipla (V8/V10) deve estar aplicada antes da entrega." },
             { t: "Contrato com garantia", b: "Contrato claro com garantia de saúde, responsabilidades e suporte pós-venda." },

@@ -80,7 +80,7 @@ interface Puppy {
   canonicalUrl?: string;
 
   // SAÚDE E DOCUMENTAÇÃO
-  hasPedigree: boolean;
+  hasPedigree: boolean; // Tem pedigree oficial
   pedigreeNumber?: string;
   pedigreeUrl?: string;
   vaccinationStatus: "up-to-date" | "partial" | "pending";
@@ -240,7 +240,7 @@ PuppyHelpers.generateSeoTitle(puppy);
 // → "Thor • Spitz Alemão Anão Macho Laranja | By Império Dog"
 
 PuppyHelpers.generateSeoDescription(puppy);
-// → "Conheça Thor, filhote de Spitz Alemão Anão laranja macho. R$ 3.500,00. Pedigree CBKC..."
+// → "Conheça Thor, filhote de Spitz Alemão Anão laranja macho. R$ 3.500,00. Pedigree oficial..."
 
 PuppyHelpers.generateSeoKeywords(puppy);
 // → ["spitz alemão laranja", "lulu da pomerânia macho", ...]
@@ -448,7 +448,7 @@ const BUSINESS_RULES = {
   },
 
   requiredDocuments: [
-    "Pedigree CBKC",
+    "Pedigree oficial",
     "Carteira de vacinação",
     "Atestado de saúde veterinário",
     "Contrato de compra e venda",

@@ -377,7 +377,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <ThemeProvider>
           <div className="flex min-h-screen flex-col">
             {!isAdminRoute && <Header />}
-            {!isAdminRoute && <div aria-hidden className="h-20" />}
             <main className="flex-1" id="conteudo-principal" role="main">
               {children}
             </main>

@@ -195,7 +195,7 @@ export async function GET(
                 {fmtPrice(priceCents)}
               </div>
               <div style={{ fontSize: "13px", color: subColor }}>
-                pedigree CBKC incluso
+                registro oficial incluso
               </div>
             </div>
           )}
@@ -209,7 +209,7 @@ export async function GET(
               marginTop:  "8px",
             }}
           >
-            {["Pedigree CBKC", "Mentoria vitalícia", "Laudos veterinários"].map((tag) => (
+            {["Registro oficial", "Mentoria vitalícia", "Laudos veterinários"].map((tag) => (
               <div
                 key={tag}
                 style={{

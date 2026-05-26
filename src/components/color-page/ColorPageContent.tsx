@@ -219,7 +219,7 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
               <p className="text-xl font-extrabold text-[var(--accent,#059669)]">
                 {formatPrice(priceCents)}
               </p>
-              <p className="text-[10px] text-zinc-400">pedigree CBKC incluso</p>
+              <p className="text-[10px] text-zinc-400">registro oficial incluso</p>
             </div>
           )}
           <PawConfettiButton
@@ -438,7 +438,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 priceMin > 0
                   ? { value: formatPrice(priceMin), label: "a partir de" }
                   : null,
-                { value: "Pedigree CBKC", label: "incluso" },
+                { value: "Registro oficial", label: "incluso" },
                 { value: "Mentoria", label: "vitalícia" },
               ]
                 .filter(Boolean)
@@ -527,7 +527,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   Incluso
                 </p>
                 <p className={`mt-0.5 font-bold ${heroDark ? "text-white" : "text-zinc-900"}`}>
-                  Pedigree CBKC
+                  Registro oficial
                 </p>
                 <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
                   + Mentoria vitalícia

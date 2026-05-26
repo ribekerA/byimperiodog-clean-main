@@ -86,8 +86,8 @@ export interface Puppy {
   // ==========================================
   // SAÚDE E DOCUMENTAÇÃO
   // ==========================================
-  hasPedigree: boolean; // Tem pedigree CBKC
-  pedigreeNumber?: string; // Número do pedigree CBKC
+  hasPedigree: boolean; // Tem pedigree oficial
+  pedigreeNumber?: string; // Número do pedigree oficial
   pedigreeUrl?: string; // URL do PDF do pedigree
   
   vaccinationStatus: "up-to-date" | "partial" | "pending"; // Status de vacinação
@@ -330,7 +330,7 @@ export const PuppyHelpers = {
     const sexLabel = puppy.sex === "male" ? "macho" : "fêmea";
     const price = PuppyPrice.fromCents(puppy.priceCents).format();
 
-    return `Conheça ${puppy.name}, filhote de Spitz Alemão Anão ${puppy.color} ${sexLabel}. ${price}. Pedigree CBKC, entrega segura e suporte vitalício. By Império Dog.`;
+    return `Conheça ${puppy.name}, filhote de Spitz Alemão Anão ${puppy.color} ${sexLabel}. ${price}. Registro oficial, entrega segura e suporte vitalício. By Império Dog.`;
   },
 
   /**
@@ -346,7 +346,7 @@ export const PuppyHelpers = {
       `spitz alemão anão ${puppy.color}`,
       `comprar spitz alemão ${puppy.state.toLowerCase()}`,
       `by império dog ${puppy.color}`,
-      `spitz ${sexLabel} pedigree`,
+      `spitz ${sexLabel} registro oficial`,
     ];
   },
 

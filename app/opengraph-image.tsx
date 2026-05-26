@@ -110,7 +110,7 @@ export default function Image() {
             padding: "0 60px",
           }}
         >
-          {["Pedigree CBKC", "Laudos veterinários", "180+ famílias", "Mentoria vitalícia"].map(
+          {["Registro oficial", "Laudos veterinários", "180+ famílias", "Mentoria vitalícia"].map(
             (tag) => (
               <div
                 key={tag}

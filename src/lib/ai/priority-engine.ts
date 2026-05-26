@@ -106,7 +106,7 @@ export async function generatePriorityTasks(): Promise<PriorityTask[]> {
     .forEach((p) => {
       tasks.push({
         title: `Oferecer upsell: ${p.name || p.slug || p.id}`,
-        detail: `Preço premium. Apresentar benefícios extras (garantia, entrega, pedigree).`,
+        detail: `Preço premium. Apresentar benefícios extras (garantia, entrega, registro oficial).`,
         priority: 55,
         type: "upsell",
       });

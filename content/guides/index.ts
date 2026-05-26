@@ -27,7 +27,7 @@ export const guides: Guide[] = [
       {
         heading: "Entenda o padrão racial antes de comprar",
         paragraphs: [
-          "O Spitz Alemão Anão (Lulu da Pomerânia) deve ter, no máximo, 22 cm de altura e pelagem dupla e densa. Criadores sérios seguem o padrão FCI e apresentam laudo de medição junto ao pedigree CBKC.",
+          "O Spitz Alemão Anão (Lulu da Pomerânia) deve ter, no máximo, 22 cm de altura e pelagem dupla e densa. Criadores sérios seguem o padrão FCI e apresentam laudo de medição junto ao registro oficial.",
           "Desconfie de vendedores que oferecem 'Spitz micro' ou 'nano' abaixo de 20 cm — esses termos não existem no padrão oficial e frequentemente indicam seleção de exemplares com problemas de saúde.",
         ],
       },
@@ -36,7 +36,7 @@ export const guides: Guide[] = [
         paragraphs: [
           "Fêmeas tendem a ser mais apegadas e criar vínculos seletivos e profundos com a família. São ideais para quem busca um companheiro leal e dócil. O preço é superior ao macho em todas as cores.",
           "Machos são geralmente mais brincalhões, extrovertidos e menos territoriais quando castrados. Têm custo menor e são excelentes para famílias com crianças pequenas que preferem um cão com mais energia.",
-          "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem os mesmos laudos, pedigree e acompanhamento na By Império Dog.",
+          "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem os mesmos laudos, registro oficial e acompanhamento na By Império Dog.",
         ],
       },
       {
@@ -49,7 +49,7 @@ export const guides: Guide[] = [
       {
         heading: "Como reconhecer um criador confiável",
         paragraphs: [
-          "Um criador sério apresenta pedigree CBKC do filhote e dos pais, laudo cardiológico, exames genéticos (opcionais mas recomendados) e vacinação em dia com carteirinha assinada por veterinário.",
+          "Um criador sério apresenta registro oficial do filhote e dos pais, laudo de saúde, exames genéticos (opcionais mas recomendados) e vacinação em dia com carteirinha assinada por veterinário.",
           "Visite o ambiente antes de reservar. Os filhotes devem conviver com os pais, estar limpos, curiosos e sem sinais de medo ou apatia. Criadores que recusam visitas são um sinal de alerta.",
           "Mentoria pós-venda é o diferencial que separa criadores comprometidos dos comercializadores. Pergunte diretamente: 'Posso entrar em contato depois da entrega?' A resposta diz muito.",
         ],
@@ -57,7 +57,7 @@ export const guides: Guide[] = [
       {
         heading: "Documentação obrigatória",
         paragraphs: [
-          "O mínimo exigível ao receber seu filhote: Pedigree CBKC, carteirinha de vacinação com pelo menos V10 e antirrábica, microchip implantado e laudo de saúde veterinário.",
+          "O mínimo exigível ao receber seu filhote: registro oficial, carteirinha de vacinação com pelo menos V10 e antirrábica, microchip implantado e laudo de saúde veterinário.",
           "Na By Império Dog, toda a documentação é entregue antes ou no momento da reserva. Você não paga pelo filhote sem ter visto os documentos.",
         ],
       },
@@ -69,9 +69,9 @@ export const guides: Guide[] = [
           "Entre 60 e 75 dias de vida. Antes disso, a socialização com a mãe e irmãos é fundamental para o equilíbrio comportamental. Criadores sérios não entregam antes dos 60 dias.",
       },
       {
-        question: "O que é pedigree CBKC e por que importa?",
+        question: "O que é registro oficial e por que importa?",
         answer:
-          "O pedigree CBKC é o registro oficial de linhagem emitido pelo Kennel Club do Brasil. Comprova que o filhote é puro-sangue Spitz Alemão Anão (Lulu da Pomerânia) com árvore genealógica rastreável.",
+          "O registro oficial é o documento de linhagem que comprova que o filhote é puro-sangue Spitz Alemão Anão (Lulu da Pomerânia) com árvore genealógica rastreável.",
       },
       {
         question: "Posso pagar parcelado?",
@@ -166,7 +166,7 @@ export const guides: Guide[] = [
       {
         heading: "São o mesmo cão",
         paragraphs: [
-          "Sim, o Spitz Alemão Anão e o Lulu da Pomerânia são a mesma raça. A FCI (Federação Cinológica Internacional) e a CBKC (Confederação Brasileira de Cinologia) reconhecem oficialmente a raça como 'Spitz Alemão' dividido em cinco tamanhos, sendo o 'Anão' (Kleinspitz / Zwergspitz) o menor deles.",
+          "Sim, o Spitz Alemão Anão e o Lulu da Pomerânia são a mesma raça. A FCI (Federação Cinológica Internacional) reconhece oficialmente a raça como 'Spitz Alemão' dividido em cinco tamanhos, sendo o 'Anão' (Kleinspitz / Zwergspitz) o menor deles.",
           "No Brasil, o apelido 'Lulu da Pomerânia' se popularizou nas décadas de 1980 e 1990 por influência americana, onde a raça é chamada de 'Pomeranian'. O nome homenageia a região histórica da Pomerânia (hoje norte da Polônia e Alemanha).",
         ],
       },
@@ -174,7 +174,7 @@ export const guides: Guide[] = [
         heading: "Por que o nome causa confusão?",
         paragraphs: [
           "O problema surge porque alguns vendedores comercializam 'Spitz Alemão' e 'Lulu da Pomerânia' como raças diferentes para justificar diferenças de preço ou para disfarçar cruzamentos inadequados.",
-          "Geneticamente, comportamentalmente e morfologicamente, são a mesma raça. Um filhote com pedigree CBKC registrado como 'Spitz Alemão Anão' e outro como 'Lulu da Pomerânia' são documentalmente idênticos — a CBKC aceita os dois termos.",
+          "Geneticamente, comportamentalmente e morfologicamente, são a mesma raça. Um filhote registrado como 'Spitz Alemão Anão' e outro como 'Lulu da Pomerânia' são documentalmente idênticos.",
         ],
       },
       {
@@ -187,7 +187,7 @@ export const guides: Guide[] = [
       {
         heading: "Como isso impacta a compra",
         paragraphs: [
-          "Ao buscar um filhote, tanto 'Spitz Alemão Anão' quanto 'Lulu da Pomerânia' são buscas válidas. O que importa é o pedigree CBKC e a qualidade do criador, não o nome usado no anúncio.",
+          "Ao buscar um filhote, tanto 'Spitz Alemão Anão' quanto 'Lulu da Pomerânia' são buscas válidas. O que importa é o registro oficial e a qualidade do criador, não o nome usado no anúncio.",
           "Desconfie de quem vende 'Lulu Pomerânia importado' a preços absurdos — não existe vantagem real em filhotes importados para um comprador brasileiro que busca companheirismo.",
         ],
       },
@@ -196,7 +196,7 @@ export const guides: Guide[] = [
       {
         question: "Existe diferença entre Spitz Alemão Anão (Lulu da Pomerânia) e Pomeranian?",
         answer:
-          "Não. São o mesmo cão com nomes diferentes dependendo do país. No Brasil (CBKC), o nome oficial é 'Spitz Alemão' (Lulu da Pomerânia). Nos EUA (AKC), é 'Pomeranian'. Na Alemanha, é 'Zwergspitz'. Geneticamente idênticos.",
+          "Não. São o mesmo cão com nomes diferentes dependendo do país. No Brasil, o nome popular é 'Lulu da Pomerânia' e o nome oficial da raça é 'Spitz Alemão'. Nos EUA (AKC), é 'Pomeranian'. Na Alemanha, é 'Zwergspitz'. Geneticamente idênticos.",
       },
       {
         question: "Spitz Médio e Spitz Anão são a mesma raça?",
@@ -211,7 +211,7 @@ export const guides: Guide[] = [
       {
         question: "Como saber se o filhote é puro-sangue?",
         answer:
-          "Pela apresentação do pedigree CBKC emitido em nome do filhote (não só dos pais). O documento lista no mínimo três gerações de ancestrais registrados.",
+          "Pela apresentação do registro oficial emitido em nome do filhote (não só dos pais). O documento lista no mínimo três gerações de ancestrais registrados.",
       },
     ],
     relatedColors: ["creme", "laranja", "preto", "wolf-sable"],
@@ -255,7 +255,7 @@ export const guides: Guide[] = [
         paragraphs: [
           "Esquema vacinal padrão: V10 anual (Cinomose, Hepatite, Parvovirose, Leptospirose, Coronavirose, Parainfluenza), antirrábica anual e vermifugação trimestral.",
           "Consulta veterinária semestral é o mínimo para cães adultos saudáveis. A partir dos 7 anos, trimestral com exames de sangue de rotina.",
-          "O Spitz tem predisposição genética a colapso de traqueia, luxação de patela e doença cardíaca (especialmente fêmeas). Laudo cardiológico em filhotes e anual em adultos é fortemente recomendado.",
+          "O Spitz tem predisposição genética a colapso de traqueia, luxação de patela e doença cardíaca (especialmente fêmeas). Laudo de saúde em filhotes e revisão veterinária anual em adultos é fortemente recomendado.",
         ],
       },
     ],

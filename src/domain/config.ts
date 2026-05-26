@@ -101,7 +101,7 @@ export const BUSINESS_RULES = {
 
   // Documentação obrigatória
   requiredDocuments: [
-    "Pedigree CBKC",
+    "Registro oficial",
     "Carteira de vacinação",
     "Atestado de saúde veterinário",
     "Contrato de compra e venda",
@@ -151,9 +151,9 @@ export const SEO_CONFIG = {
   // Descrições padrão
   defaultDescriptions: {
     puppy:
-      "Conheça {name}, filhote de Spitz Alemão Anão {color} {sex}. Pedigree CBKC, suporte vitalício e entrega segura. By Império Dog - criadora especializada.",
+      "Conheça {name}, filhote de Spitz Alemão Anão {color} {sex}. Registro oficial, suporte vitalício e entrega segura. By Império Dog - criadora especializada.",
     catalog:
-      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com pedigree CBKC, garantia de saúde e suporte vitalício. Entrega em todo Brasil. By Império Dog.",
+      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com registro oficial, garantia de saúde e suporte vitalício. Entrega em todo Brasil. By Império Dog.",
   },
 
   // Schema.org types usados

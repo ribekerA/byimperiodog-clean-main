@@ -194,17 +194,18 @@ export function CustomCursor() {
           pointerEvents: "none",
           userSelect:    "none",
           borderRadius:  "50%",
-          border:        "1.5px solid",
+          border:        "2.5px solid",
+          boxShadow:     "0 0 0 1.5px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3)",
           willChange:    "transform, width, height, opacity",
         }}
         animate={{
-          width:       isHover ? 44 : 28,
-          height:      isHover ? 44 : 28,
+          width:       isHover ? 52 : 36,
+          height:      isHover ? 52 : 36,
           opacity:     visible ? 1 : 0,
           scale:       isClick ? 0.62 : 1,
           borderColor: isHover
-            ? "rgba(52, 211, 153, 0.85)"
-            : "rgba(255, 255, 255, 0.65)",
+            ? "rgba(52, 211, 153, 1)"
+            : "rgba(255, 255, 255, 0.95)",
         }}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
       />
@@ -225,11 +226,12 @@ export function CustomCursor() {
           userSelect:    "none",
           borderRadius:  "50%",
           backgroundColor: "rgb(52, 211, 153)",
+          boxShadow:     "0 0 0 1.5px rgba(0,0,0,0.5)",
           willChange:    "transform, width, height, opacity",
         }}
         animate={{
-          width:   isHover ? 0 : isClick ? 12 : 7,
-          height:  isHover ? 0 : isClick ? 12 : 7,
+          width:   isHover ? 0 : isClick ? 14 : 10,
+          height:  isHover ? 0 : isClick ? 14 : 10,
           opacity: visible ? 1 : 0,
         }}
         transition={{ type: "spring", stiffness: 380, damping: 24 }}
