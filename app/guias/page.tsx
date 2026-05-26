@@ -65,7 +65,7 @@ export default function GuiasIndexPage() {
           </span>
           <span className="flex items-center gap-1.5">
             <span className="text-emerald-400" aria-hidden="true">✓</span>
-            Atualizados em 2025
+            Atualizados em {new Date().getFullYear()}
           </span>
           <span className="flex items-center gap-1.5">
             <span className="text-emerald-400" aria-hidden="true">✓</span>

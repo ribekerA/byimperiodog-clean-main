@@ -234,9 +234,9 @@ export default function SpitzAlemaoPage() {
       </section>
 
       <RelatedPages links={[
-        { label: "Lulu da Pomerânia",         href: "/lulu-da-pomerania",        desc: "Guia completo + preços 2025" },
+        { label: "Lulu da Pomerânia",         href: "/lulu-da-pomerania",        desc: `Guia completo + preços ${new Date().getFullYear()}` },
         { label: "Filhote de Spitz Alemão",   href: "/filhote-de-spitz-alemao",  desc: "Como escolher e cuidar do filhote" },
-        { label: "Tabela de Preços",          href: "/preco-spitz-anao",         desc: "Valores por cor e sexo — 2025" },
+        { label: "Tabela de Preços",          href: "/preco-spitz-anao",         desc: `Valores por cor e sexo — ${new Date().getFullYear()}` },
       ]} />
 
       <nav aria-label="Navegação estrutural">

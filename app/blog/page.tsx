@@ -38,74 +38,80 @@ type CategoryDefinition = {
   title: string;
   description: string;
   highlight: string;
+  color: string;
   match: (post: PublicPost) => boolean;
   cta: { label: string; href: string };
 };
 
 const CATEGORY_DEFINITIONS: CategoryDefinition[] = [
   {
-    id: "guia-do-tutor",
-    title: "Guia do Tutor",
+    id: "comportamento",
+    title: "Comportamento",
     description:
-      "Rotinas, enxoval, planejamento financeiro e a jornada completa para receber um Spitz equilibrado em casa.",
-    highlight: "Checklist premium e mentoria vital�cia para fam�lias exigentes.",
-    match: (post) => includesCategory(post, ["guia", "tutor", "planejamento"]),
-    cta: { label: "Planejar rotina", href: "/sobre" },
+      "Socialização guiada, enriquecimento ambiental e reforço positivo focado em lares urbanos.",
+    highlight: "Protocolos semanais com vídeos e check-ins pelo WhatsApp.",
+    color: "bg-violet-50 border-violet-200 text-violet-700",
+    match: (post) => includesCategory(post, ["adestramento", "comportamento", "socializacao", "tutor", "guia"]),
+    cta: { label: "Conhecer nosso processo", href: "/sobre#processo" },
+  },
+  {
+    id: "saude",
+    title: "Saúde",
+    description:
+      "Preventivo completo: exames genéticos, cardiológicos e protocolos veterinários para Spitz.",
+    highlight: "Transparência total com laudos digitais e acompanhamento pós-entrega.",
+    color: "bg-emerald-50 border-emerald-200 text-emerald-700",
+    match: (post) => includesCategory(post, ["saude", "clínico", "veterin", "check-up", "exame"]),
+    cta: { label: "Entender exames", href: "/faq#saude" },
+  },
+  {
+    id: "preco",
+    title: "Preços",
+    description:
+      "Respostas diretas sobre investimento, formas de pagamento e o que está incluído no valor.",
+    highlight: "Conteúdo didático produzido com base nas dúvidas reais dos tutores.",
+    color: "bg-amber-50 border-amber-200 text-amber-700",
+    match: (post) => includesCategory(post, ["preco", "investimento", "valor", "custo"]),
+    cta: { label: "Ver preços", href: "/preco-spitz-anao" },
   },
   {
     id: "cuidados",
     title: "Cuidados",
     description:
-      "Nutri��o personalizada, higiene estrat�gica e protocolos preventivos para manter o Spitz saud�vel e confiante.",
-    highlight: "Orienta��es da neonatologia ao primeiro ano com suporte cont�nuo.",
-    match: (post) => includesCategory(post, ["cuidado", "rotina", "nutri", "higiene"]),
+      "Nutrição personalizada, higiene estratégica e protocolos preventivos para manter o Spitz saudável.",
+    highlight: "Orientações da neonatologia ao primeiro ano com suporte contínuo.",
+    color: "bg-blue-50 border-blue-200 text-blue-700",
+    match: (post) => includesCategory(post, ["cuidado", "rotina", "nutri", "higiene", "enxoval"]),
     cta: { label: "Ver dicas de cuidados", href: "/faq#cuidados" },
   },
   {
-    id: "adestramento",
-    title: "Adestramento",
+    id: "raca",
+    title: "Raça",
     description:
-      "Socializa��o guiada, enriquecimento ambiental e refor�o positivo focado em lares urbanos com agenda cheia.",
-    highlight: "Protocolos semanais com v�deos e check-ins pelo WhatsApp.",
-    match: (post) => includesCategory(post, ["adestramento", "comportamento", "socializacao"]),
-    cta: { label: "Conhecer nosso processo", href: "/sobre#processo" },
-  },
-  {
-    id: "saude",
-    title: "Sa�de",
-    description:
-      "Preventivo completo: exames gen�ticos, cardiol�gicos e protocolos veterin�rios para Spitz at� 22 cm.",
-    highlight: "Transpar�ncia total com laudos digitais e acompanhamento p�s-entrega.",
-    match: (post) => includesCategory(post, ["saude", "cl�nico", "veterin", "check-up"]),
-    cta: { label: "Entender exames", href: "/faq#saude" },
-  },
-  {
-    id: "perguntas-frequentes",
-    title: "Perguntas Frequentes",
-    description:
-      "Respostas diretas sobre investimento, log�stica, conviv�ncia com crian�as e integra��o com outros pets.",
-    highlight: "Conte�do did�tico produzido com base nas d�vidas reais dos tutores.",
-    match: (post) => includesCategory(post, ["pergunta", "faq", "investimento", "logistica"]),
-    cta: { label: "FAQ completo", href: "/faq" },
+      "Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia): características, padrão e história da raça.",
+    highlight: "Guias completos escritos pela criadora com 13 anos de experiência.",
+    color: "bg-rose-50 border-rose-200 text-rose-700",
+    match: (post) => includesCategory(post, ["raca", "spitz", "pomerani", "historico", "caracteristica"]),
+    cta: { label: "Conhecer a raça", href: "/spitz-alemao" },
   },
 ];
 
 // Revalidate cache every 60 seconds in production, but disable cache in development
-export const revalidate = process.env.NODE_ENV === 'production' ? 60 : 0;
+export const revalidate = process.env.NODE_ENV === "production" ? 60 : 0;
 // Force dynamic rendering to always show latest posts
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Guia completo do tutor de Spitz Alem�o An�o (Lulu da Pomer�nia)",
+  title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
   description:
-    "Conte�do evergreen para quem busca Spitz Alem�o An�o (Lulu da Pomer�nia) com responsabilidade: cuidados, rotina, comportamento, sa�de preventiva e respostas das principais d�vidas.",
+    "Guias escritos pela criadora com 13 anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia): cuidados, rotina, comportamento, saúde preventiva e preços.",
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",
     url: "/blog",
-    title: "Blog | By Imp�rio Dog",
+    title: "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão",
     description:
-      "Pilares evergreen sobre sa�de, rotina e comportamento do Spitz Alem�o An�o (Lulu da Pomer�nia) para uma decis�o respons�vel.",
+      "Pilares evergreen sobre saúde, rotina e comportamento do Spitz Alemão Anão (Lulu da Pomerânia).",
   },
 };
 
@@ -113,290 +119,473 @@ type PageSearchParams = {
   q?: string;
   sort?: SortOption;
   page?: string;
+  categoria?: string;
 };
 
-export default async function BlogListPage({ searchParams }: { searchParams?: PageSearchParams }) {
+export default async function BlogListPage({
+  searchParams,
+}: {
+  searchParams?: PageSearchParams;
+}) {
   const sort = searchParams?.sort === "antigos" ? "antigos" : "recentes";
   const searchTerm = (searchParams?.q || "").trim();
   const pageNum = Number(searchParams?.page || 1);
+  const activeCat = searchParams?.categoria || "todos";
   const fetchState = await fetchPosts({ sort, page: pageNum });
 
-  const heroLinks = [
-    {
-      title: "Filhotes dispon�veis sob consulta",
-      description: "Acesso antecipado �s ninhadas com sa�de validada e mentoria vital�cia.",
-      href: "/filhotes",
-    },
-    {
-      title: "Processo By Imperio Dog",
-      description: "Entenda cada etapa: entrevista, socializa��o, entrega humanizada e suporte 24h.",
-      href: "/sobre#processo",
-    },
-    {
-      title: "FAQ para tutores",
-      description: "Perguntas frequentes sobre investimento, log�stica e rotina em fam�lia.",
-      href: "/faq",
-    },
-  ];
+  const siteBase = (
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br"
+  ).replace(/\/$/, "");
 
   // Em caso de ambiente Supabase ausente, tentamos fallback ao Contentlayer
   if (fetchState.status === "env-missing") {
     const fallback = await fetchFromContentlayer();
     if (fallback.status === "ok") {
-      // Reusa o mesmo template, apenas troca a fonte de dados
-      const filtered = searchTerm
-        ? fallback.posts.filter((post) => {
-            const target = `${post.title} ${post.excerpt ?? ""} ${post.category ?? ""}`.toLowerCase();
-            return target.includes(searchTerm.toLowerCase());
-          })
-        : fallback.posts;
-
-      const featured = filtered[0] ?? fallback.posts[0];
-      const collections = buildCollections(filtered);
-
-      const metaTitleStr = typeof metadata.title === "string" ? metadata.title : "Blog | By Imp�rio Dog";
-      const metaDescStr = metadata.description ?? "Conte�do evergreen sobre sa�de, rotina e comportamento do Spitz Alem�o An�o (Lulu da Pomer�nia).";
-      const blogSchema = buildBlogSchema({
-        url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br",
-        headline: metaTitleStr,
-        description: metaDescStr,
-        posts: fallback.posts.slice(0, 12),
-      });
-      const siteBase = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
-      const crumbs = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "In�cio", item: `${siteBase}/` },
-          { "@type": "ListItem", position: 2, name: "Blog", item: `${siteBase}/blog` },
-        ],
-      };
-      const itemList = {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        "@id": `${siteBase}/blog#itemlist`,
-        itemListElement: filtered.map((p, idx) => ({
-          "@type": "ListItem",
-          position: idx + 1,
-          url: `${siteBase}/blog/${p.slug}`,
-          name: p.title,
-        })),
-      };
-
-      const guiaDoTutorCollection = collections.find(c => c.definition.id === "guia-do-tutor");
-      const otherCollections = collections.filter(c => c.definition.id !== "guia-do-tutor");
-
-      return (
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-16 sm:px-6 lg:px-8">
-          <SeoJsonLd data={[blogSchema, crumbs, itemList]} />
-          <Hero searchTerm={searchTerm} links={heroLinks} />
-          {featured ? <FeaturedPost post={featured} /> : null}
-          {searchTerm && filtered.length === 0 ? (
-            <EmptyState
-              title="Nenhum artigo corresponde ao termo pesquisado"
-              message="Use palavras-chave como sa�de, rotina, comportamento ou investimento."
-            />
-          ) : null}
-          {guiaDoTutorCollection && guiaDoTutorCollection.posts.length > 0 && !searchTerm ? (
-            <GuiaDoTutorSection collection={guiaDoTutorCollection} />
-          ) : null}
-          {otherCollections.map((collection) =>
-            collection.posts.length > 0 ? (
-              <CategorySection key={collection.definition.id} collection={collection} />
-            ) : null
-          )}
-        </div>
-      );
+      return renderPage({ posts: fallback.posts, searchTerm, activeCat, siteBase, sort, pagination: null });
     }
-    // Se fallback também não tiver posts, mostra estado vazio
-    return (
-      <div className="mx-auto max-w-4xl px-4 py-16">
-        <Hero searchTerm={searchTerm} links={heroLinks} />
-        <EmptyState
-          title="Nenhum artigo publicado ainda"
-          message="Assim que novos conte�dos estiverem prontos, voc� ser� notificado nas redes sociais."
-        />
-      </div>
-    );
+    return renderEmpty(searchTerm, "Nenhum artigo publicado ainda", "Assim que novos conteúdos estiverem prontos, você será notificado nas redes sociais.");
   }
 
   if (fetchState.status === "error") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 py-16">
-        <Hero searchTerm={searchTerm} links={heroLinks} />
-        <EmptyState
-          title="N�o foi poss�vel carregar os artigos"
-          message={fetchState.message || "Tente novamente em instantes."}
-        />
-      </div>
-    );
+    return renderEmpty(searchTerm, "Não foi possível carregar os artigos", fetchState.message || "Tente novamente em instantes.");
   }
 
   if (fetchState.status === "empty") {
-    return (
-      <div className="mx-auto max-w-4xl px-4 py-16">
-        <Hero searchTerm={searchTerm} links={heroLinks} />
-        {/* tenta fallback para Contentlayer também quando não houver posts no Supabase */}
-        {await (async () => {
-          const fb = await fetchFromContentlayer();
-          if (fb.status !== "ok") {
-            return (
-              <EmptyState
-                title="Nenhum artigo publicado ainda"
-                message="Assim que novos conte�dos estiverem prontos, voc� ser� notificado nas redes sociais."
-              />
-            );
-          }
-          const filtered = searchTerm
-            ? fb.posts.filter((post) => {
-                const target = `${post.title} ${post.excerpt ?? ""} ${post.category ?? ""}`.toLowerCase();
-                return target.includes(searchTerm.toLowerCase());
-              })
-            : fb.posts;
-          const guiaDoTutorCollection = buildCollections(filtered).find(c => c.definition.id === "guia-do-tutor");
-          const otherCollections = buildCollections(filtered).filter(c => c.definition.id !== "guia-do-tutor");
-          return (
-            <div className="mt-10 space-y-10">
-              {guiaDoTutorCollection && guiaDoTutorCollection.posts.length > 0 ? (
-                <GuiaDoTutorSection collection={guiaDoTutorCollection} />
-              ) : null}
-              {otherCollections.map((collection) =>
-                collection.posts.length > 0 ? (
-                  <CategorySection key={collection.definition.id} collection={collection} />
-                ) : null
-              )}
-            </div>
-          );
-        })()}
-      </div>
-    );
+    const fb = await fetchFromContentlayer();
+    if (fb.status === "ok") {
+      return renderPage({ posts: fb.posts, searchTerm, activeCat, siteBase, sort, pagination: null });
+    }
+    return renderEmpty(searchTerm, "Nenhum artigo publicado ainda", "Assim que novos conteúdos estiverem prontos, você será notificado nas redes sociais.");
   }
 
-  const filtered = searchTerm
-    ? fetchState.posts.filter((post) => {
-        const target = `${post.title} ${post.excerpt ?? ""} ${post.category ?? ""}`.toLowerCase();
-        return target.includes(searchTerm.toLowerCase());
-      })
-    : fetchState.posts;
+  return renderPage({
+    posts: fetchState.posts,
+    searchTerm,
+    activeCat,
+    siteBase,
+    sort,
+    pagination: {
+      page: fetchState.page,
+      pageSize: fetchState.pageSize,
+      total: fetchState.total,
+      hasNext: fetchState.hasNext,
+      hasPrev: fetchState.hasPrev,
+    },
+  });
+}
 
-  const featured = filtered[0] ?? fetchState.posts[0];
-  const collections = buildCollections(filtered);
+// ─── Render helpers ──────────────────────────────────────────────────────────
 
-  const metaTitleStr = typeof metadata.title === "string" ? metadata.title : "Blog | By Imp�rio Dog";
-  const metaDescStr = metadata.description ?? "Conte�do evergreen sobre sa�de, rotina e comportamento do Spitz Alem�o An�o (Lulu da Pomer�nia).";
+function renderEmpty(searchTerm: string, title: string, message: string) {
+  return (
+    <div className="min-h-screen bg-white">
+      <BlogHero searchTerm={searchTerm} />
+      <div className="mx-auto max-w-4xl px-5 py-16">
+        <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-10 text-center">
+          <p className="text-2xl font-bold text-zinc-800">{title}</p>
+          <p className="mt-3 text-zinc-500">{message}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function renderPage({
+  posts,
+  searchTerm,
+  activeCat,
+  siteBase,
+  sort,
+  pagination,
+}: {
+  posts: PublicPost[];
+  searchTerm: string;
+  activeCat: string;
+  siteBase: string;
+  sort: SortOption;
+  pagination: { page: number; pageSize: number; total: number; hasNext: boolean; hasPrev: boolean } | null;
+}) {
+  const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão";
+  const metaDescStr =
+    "Guias escritos pela criadora com 13 anos de experiência sobre Spitz Alemão Anão.";
+
   const blogSchema = buildBlogSchema({
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br",
     headline: metaTitleStr,
     description: metaDescStr,
-    posts: fetchState.posts.slice(0, 12),
+    posts: posts.slice(0, 12),
   });
-  const siteBase = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
   const crumbs = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "In�cio", item: `${siteBase}/` },
+      { "@type": "ListItem", position: 1, name: "Início", item: `${siteBase}/` },
       { "@type": "ListItem", position: 2, name: "Blog", item: `${siteBase}/blog` },
     ],
   };
-  const itemList = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    "@id": `${siteBase}/blog#itemlist`,
-    itemListElement: filtered.map((p, idx) => ({
-      "@type": "ListItem",
-      position: idx + 1,
-      url: `${siteBase}/blog/${p.slug}`,
-      name: p.title,
-    })),
-  };
 
-  // Separar "Guia do Tutor" para destaque
-  const guiaDoTutorCollection = collections.find(c => c.definition.id === "guia-do-tutor");
-  const otherCollections = collections.filter(c => c.definition.id !== "guia-do-tutor");
+  const filtered = searchTerm
+    ? posts.filter((post) => {
+        const target = `${post.title} ${post.excerpt ?? ""} ${post.category ?? ""}`.toLowerCase();
+        return target.includes(searchTerm.toLowerCase());
+      })
+    : activeCat !== "todos"
+      ? posts.filter((post) => {
+          const def = CATEGORY_DEFINITIONS.find((d) => d.id === activeCat);
+          return def ? def.match(post) : true;
+        })
+      : posts;
+
+  const featured = filtered[0] ?? posts[0];
+  const rest = filtered.slice(1);
+  const collections = buildCollections(posts);
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-16 px-4 py-16 sm:px-6 lg:px-8">
-  <SeoJsonLd data={[blogSchema, crumbs, itemList]} />
-      <Hero searchTerm={searchTerm} links={heroLinks} />
-      {featured ? <FeaturedPost post={featured} /> : null}
+    <div className="min-h-screen bg-white">
+      <SeoJsonLd data={[blogSchema, crumbs]} />
 
-      {/* An�ncio de resultados para leitores de tela */}
-      <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-        {searchTerm && filtered.length > 0 && `${filtered.length} artigo${filtered.length > 1 ? 's' : ''} encontrado${filtered.length > 1 ? 's' : ''} para "${searchTerm}"`}
-        {searchTerm && filtered.length === 0 && `Nenhum artigo encontrado para "${searchTerm}"`}
-      </div>
+      {/* Hero */}
+      <BlogHero searchTerm={searchTerm} />
 
-      {searchTerm && filtered.length === 0 ? (
-        <EmptyState
-          title="Nenhum artigo corresponde ao termo pesquisado"
-          message="Use palavras-chave como sa�de, rotina, comportamento ou investimento."
-        />
-      ) : null}
+      <div className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+        {/* Category tabs */}
+        <div className="sticky top-0 z-30 -mx-4 bg-white/95 backdrop-blur-sm sm:-mx-6 lg:-mx-8">
+          <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none] sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden">
+            {[{ id: "todos", title: "Todos" }, ...CATEGORY_DEFINITIONS].map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/blog?categoria=${cat.id}${searchTerm ? `&q=${encodeURIComponent(searchTerm)}` : ""}`}
+                className={`shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition ${
+                  activeCat === cat.id
+                    ? "border-emerald-600 bg-emerald-600 text-white"
+                    : "border-zinc-200 text-zinc-600 hover:border-emerald-400 hover:text-emerald-700"
+                }`}
+              >
+                {cat.title}
+              </Link>
+            ))}
+          </div>
+        </div>
 
-      {/* Guia do Tutor em destaque */}
-      {guiaDoTutorCollection && guiaDoTutorCollection.posts.length > 0 && !searchTerm ? (
-        <GuiaDoTutorSection collection={guiaDoTutorCollection} />
-      ) : null}
+        {/* Screen reader announcement */}
+        <div className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          {searchTerm && filtered.length > 0 &&
+            `${filtered.length} artigo${filtered.length > 1 ? "s" : ""} encontrado${filtered.length > 1 ? "s" : ""} para "${searchTerm}"`}
+          {searchTerm && filtered.length === 0 && `Nenhum artigo encontrado para "${searchTerm}"`}
+        </div>
 
-      {otherCollections.map((collection) =>
-        collection.posts.length > 0 ? (
-          <CategorySection key={collection.definition.id} collection={collection} />
-        ) : null
-      )}
-
-      {fetchState.status === "ok" ? (
-        <nav className="mx-auto mt-2 flex items-center justify-center gap-3">
-          {fetchState.hasPrev ? (
+        {/* No results */}
+        {filtered.length === 0 && (
+          <div className="mt-12 rounded-2xl border border-zinc-100 bg-zinc-50 p-10 text-center">
+            <p className="text-xl font-bold text-zinc-800">Nenhum artigo encontrado</p>
+            <p className="mt-2 text-zinc-500">
+              Use palavras-chave como saúde, rotina, comportamento ou investimento.
+            </p>
             <Link
-              href={`/blog?${new URLSearchParams({ q: searchTerm || "", sort, page: String((fetchState.page || 1) - 1) })}`}
-              className="rounded-pill border border-border px-4 py-2 text-sm"
+              href="/blog"
+              className="mt-6 inline-flex rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
             >
-              Anteriores
+              Ver todos os artigos
             </Link>
-          ) : null}
-          <span className="text-xs text-text-soft">
-            P�gina {fetchState.page} de {Math.max(1, Math.ceil(fetchState.total / fetchState.pageSize))}
-          </span>
-          {fetchState.hasNext ? (
-            <Link
-              href={`/blog?${new URLSearchParams({ q: searchTerm || "", sort, page: String((fetchState.page || 1) + 1) })}`}
-              className="rounded-pill border border-border px-4 py-2 text-sm"
-            >
-              Pr�ximos
-            </Link>
-          ) : null}
-        </nav>
-      ) : null}
+          </div>
+        )}
 
-      <aside className="grid gap-6 rounded-3xl border border-border bg-surface p-8 shadow-soft sm:grid-cols-3">
-        {heroLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="group flex flex-col gap-3 rounded-2xl border border-border/60 bg-surface-subtle p-5 transition hover:-translate-y-1 hover:border-brand/70"
-          >
-            <h3 className="text-base font-semibold text-text group-hover:text-brand">{link.title}</h3>
-            <p className="text-sm text-text-muted">{link.description}</p>
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">
-              Leia tamb�m
+        {/* Featured post */}
+        {featured && !searchTerm && activeCat === "todos" && (
+          <div className="mt-8">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
+              Artigo em destaque
+            </p>
+            <FeaturedPost post={featured} />
+          </div>
+        )}
+
+        {/* Collections by category (when no filter active) */}
+        {!searchTerm && activeCat === "todos" && (
+          <div className="mt-16 space-y-16">
+            {collections.map((collection) =>
+              collection.posts.length > 0 ? (
+                <CategorySection key={collection.definition.id} collection={collection} />
+              ) : null
+            )}
+          </div>
+        )}
+
+        {/* Filtered grid */}
+        {(searchTerm || activeCat !== "todos") && filtered.length > 0 && (
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {pagination && (
+          <nav className="mt-12 flex items-center justify-center gap-3">
+            {pagination.hasPrev ? (
+              <Link
+                href={`/blog?${new URLSearchParams({ q: searchTerm || "", sort, page: String((pagination.page || 1) - 1) })}`}
+                className="rounded-full border border-zinc-200 px-5 py-2 text-sm font-medium hover:border-emerald-500 hover:text-emerald-700"
+              >
+                ← Anteriores
+              </Link>
+            ) : null}
+            <span className="text-xs text-zinc-400">
+              Página {pagination.page} de{" "}
+              {Math.max(1, Math.ceil(pagination.total / pagination.pageSize))}
             </span>
-          </Link>
-        ))}
-      </aside>
+            {pagination.hasNext ? (
+              <Link
+                href={`/blog?${new URLSearchParams({ q: searchTerm || "", sort, page: String((pagination.page || 1) + 1) })}`}
+                className="rounded-full border border-zinc-200 px-5 py-2 text-sm font-medium hover:border-emerald-500 hover:text-emerald-700"
+              >
+                Próximos →
+              </Link>
+            ) : null}
+          </nav>
+        )}
+
+        {/* Mini FAQ + CTA final */}
+        <BlogFooterSection />
+      </div>
     </div>
   );
 }
+
+// ─── Components ───────────────────────────────────────────────────────────────
+
+function BlogHero({ searchTerm }: { searchTerm: string }) {
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-16 sm:py-20">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-30"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 20% 60%, #059669 0%, transparent 50%), radial-gradient(circle at 80% 30%, #065f46 0%, transparent 50%)",
+        }}
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-4xl text-center">
+        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-700/60 bg-emerald-900/50 px-4 py-1 text-xs font-bold uppercase tracking-widest text-emerald-300">
+          Conteúdo Premium · Gratuito
+        </span>
+        <h1 className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-5xl">
+          Tudo que você precisa saber sobre o{" "}
+          <span className="text-emerald-400">Spitz Alemão Anão</span>
+        </h1>
+        <p className="mt-4 text-base text-zinc-300 sm:text-lg">
+          Guias escritos pela criadora com 13 anos de experiência.
+          Sem jargão, sem enrolação.
+        </p>
+        <form
+          action="/blog"
+          method="GET"
+          className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row"
+        >
+          <label htmlFor="blog-search-hero" className="sr-only">
+            Pesquisar artigos
+          </label>
+          <input
+            id="blog-search-hero"
+            name="q"
+            defaultValue={searchTerm}
+            placeholder="Buscar: saúde, rotina, comportamento, preço..."
+            className="flex-1 rounded-full border border-emerald-800/60 bg-emerald-950/70 px-5 py-3 text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+          />
+          <button
+            type="submit"
+            className="rounded-full bg-emerald-600 hover:bg-emerald-500 px-6 py-3 text-sm font-semibold text-white transition"
+          >
+            Buscar
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+function FeaturedPost({ post }: { post: PublicPost }) {
+  const formattedDate = formatDate(post.published_at || post.updated_at);
+  const minutes = estimateReadingTime(post.content_mdx ?? post.excerpt ?? "");
+  const href = `/blog/${post.slug}`;
+
+  return (
+    <article className="grid overflow-hidden rounded-3xl border border-zinc-100 bg-white shadow-sm transition hover:shadow-md lg:grid-cols-[1.6fr,1fr]">
+      {/* Content */}
+      <div className="order-2 flex flex-col justify-between gap-5 p-8 lg:order-1 lg:p-10">
+        <div className="space-y-3">
+          {post.category && (
+            <span className="inline-block rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+              {post.category}
+            </span>
+          )}
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
+            <Link href={href} className="hover:text-emerald-700 transition">
+              {post.title}
+            </Link>
+          </h2>
+          {post.excerpt && (
+            <p className="text-zinc-500 text-sm leading-relaxed line-clamp-3">{post.excerpt}</p>
+          )}
+        </div>
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-3 text-xs text-zinc-400">
+            {formattedDate && <span>{formattedDate}</span>}
+            {minutes ? (
+              <span className="rounded-full bg-zinc-100 px-3 py-1 font-semibold text-zinc-600">
+                {minutes} min de leitura
+              </span>
+            ) : null}
+          </div>
+          <Link
+            href={href}
+            className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition"
+          >
+            Ler artigo →
+          </Link>
+        </div>
+      </div>
+
+      {/* Image */}
+      <div className="relative order-1 min-h-[220px] overflow-hidden bg-emerald-50 lg:order-2">
+        {post.cover_url ? (
+          <Image
+            src={post.cover_url}
+            alt={post.cover_alt || post.title}
+            fill
+            priority
+            fetchPriority="high"
+            sizes="(max-width: 1024px) 100vw, 40vw"
+            className="h-full w-full object-cover"
+            placeholder="blur"
+            blurDataURL={BLUR_DATA_URL}
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-5xl">🐾</div>
+        )}
+      </div>
+    </article>
+  );
+}
+
+function CategorySection({
+  collection,
+}: {
+  collection: { definition: CategoryDefinition; posts: PublicPost[] };
+}) {
+  const { definition, posts } = collection;
+
+  return (
+    <section aria-labelledby={`categoria-${definition.id}`} className="space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-1">
+          <span
+            className={`inline-block rounded-full border px-3 py-0.5 text-xs font-bold uppercase tracking-wider ${definition.color}`}
+          >
+            {definition.title}
+          </span>
+          <h2
+            id={`categoria-${definition.id}`}
+            className="text-2xl font-bold tracking-tight text-zinc-900"
+          >
+            {definition.title}
+          </h2>
+          <p className="max-w-2xl text-sm text-zinc-500">{definition.description}</p>
+          <p className="text-xs font-semibold text-emerald-700">{definition.highlight}</p>
+        </div>
+        <Link
+          href={definition.cta.href}
+          className="shrink-0 rounded-full border border-zinc-200 px-5 py-2 text-sm font-semibold text-zinc-700 hover:border-emerald-500 hover:text-emerald-700 transition"
+        >
+          {definition.cta.label}
+        </Link>
+      </div>
+
+      <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {posts.map((post) => (
+          <BlogCard key={post.id} post={post} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const MINI_FAQ = [
+  {
+    q: "Os artigos são escritos por quem?",
+    a: "Todo o conteúdo é produzido ou revisado pela criadora, com 13 anos de experiência exclusiva com Spitz Alemão Anão (Lulu da Pomerânia). Sem terceiros, sem conteúdo genérico.",
+  },
+  {
+    q: "Posso compartilhar os artigos?",
+    a: "Sim, e incentivamos! Os conteúdos são gratuitos e produzidos para ajudar futuros tutores a tomar decisões mais conscientes.",
+  },
+  {
+    q: "Como recebo novos conteúdos?",
+    a: "Siga nosso Instagram @byimperiodog ou entre em contato pelo WhatsApp para receber novidades em primeira mão.",
+  },
+];
+
+function BlogFooterSection() {
+  return (
+    <div className="mt-20 space-y-10">
+      {/* Mini FAQ */}
+      <section className="rounded-3xl border border-zinc-100 bg-zinc-50 p-8 sm:p-10">
+        <h2 className="text-lg font-bold text-zinc-900">Perguntas sobre o blog</h2>
+        <dl className="mt-6 space-y-5">
+          {MINI_FAQ.map((item) => (
+            <div key={item.q}>
+              <dt className="text-sm font-semibold text-zinc-900">{item.q}</dt>
+              <dd className="mt-1 text-sm text-zinc-500">{item.a}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* CTA */}
+      <section className="rounded-3xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-8 text-center text-white sm:p-10">
+        <h2 className="text-2xl font-bold">Pronto para conhecer um filhote?</h2>
+        <p className="mt-3 text-emerald-100">
+          Mais de 180 famílias já encontraram o Spitz ideal conosco. Pode ser a sua vez.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/filhotes"
+            className="rounded-full bg-white px-6 py-3 text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition"
+          >
+            Ver filhotes disponíveis
+          </Link>
+          <Link
+            href="/contato"
+            className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition"
+          >
+            Falar com a criadora
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── Data helpers ─────────────────────────────────────────────────────────────
 
 function includesCategory(post: PublicPost, tags: string[]) {
   const category = (post.category || "").toLowerCase();
   const hasTag = tags.some((tag) => category.includes(tag));
   if (hasTag) return true;
   const normalizedTags = (post.tags ?? []) as string[] | undefined;
-  return normalizedTags ? normalizedTags.some((tag) => tags.includes(tag.toLowerCase())) : false;
+  return normalizedTags
+    ? normalizedTags.some((tag) => tags.includes(tag.toLowerCase()))
+    : false;
 }
 
-async function fetchPosts({ sort, page }: { sort: SortOption; page: number }): Promise<FetchState> {
+async function fetchPosts({
+  sort,
+  page,
+}: {
+  sort: SortOption;
+  page: number;
+}): Promise<FetchState> {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -405,7 +594,8 @@ async function fetchPosts({ sort, page }: { sort: SortOption; page: number }): P
       return { status: "env-missing" };
     }
 
-    const { posts, page: current, pageSize, total, hasNext, hasPrev } = await listPostsWithMeta({ page, pageSize: 12, sort, status: "published" });
+    const { posts, page: current, pageSize, total, hasNext, hasPrev } =
+      await listPostsWithMeta({ page, pageSize: 12, sort, status: "published" });
     const mapped = (posts ?? []) as PublicPost[];
     if (!mapped.length) {
       const fb = await fetchFromContentlayer(12);
@@ -418,7 +608,6 @@ async function fetchPosts({ sort, page }: { sort: SortOption; page: number }): P
     if (process.env.NODE_ENV !== "production") {
       console.error("[blog] falha ao carregar posts", message);
     }
-    // tentativa final de fallback
     const fb = await fetchFromContentlayer(12);
     if (fb.status === "ok") return fb;
     return { status: "error", message };
@@ -445,218 +634,17 @@ async function fetchFromContentlayer(limit = 12): Promise<FetchState> {
     }));
     if (!mapped.length) return { status: "empty" };
     return { status: "ok", posts: mapped, page, pageSize, total, hasNext: false, hasPrev: false };
-  } catch (e) {
+  } catch {
     return { status: "empty" };
   }
 }
 
 function buildCollections(posts: PublicPost[]) {
-  const fallback = posts.filter((post) => !post.category);
   return CATEGORY_DEFINITIONS.map((definition) => {
     const filtered = posts.filter((post) => definition.match(post));
-    const bucket =
-      filtered.length > 0
-        ? filtered
-        : definition.id === "guia-do-tutor"
-          ? fallback.length > 0
-            ? fallback
-            : posts
-          : [];
+    const bucket = filtered.length > 0 ? filtered : [];
     return { definition, posts: bucket.slice(0, 4) };
   });
-}
-
-function Hero({ searchTerm, links }: { searchTerm: string; links: Array<{ title: string; description: string; href: string }> }) {
-  return (
-    <header className="flex flex-col gap-8 rounded-3xl border border-border bg-surface p-8 shadow-soft sm:p-10 lg:flex-row lg:items-center">
-      <div className="flex-1 space-y-4">
-        <span className="inline-flex items-center gap-2 rounded-pill bg-brand/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-brand">
-          Conte�do premium para tutores
-        </span>
-        <h1 className="text-3xl font-serif text-text sm:text-4xl">
-          Blog By Imperio Dog: decis�o com responsabilidade come�a pelo conhecimento.
-        </h1>
-        <p className="text-sm text-text-muted">
-          Damos transpar�ncia total sobre rotina, sa�de e comportamento do Spitz Alem�o An�o (Lulu da Pomer�nia).
-          Leia os pilares evergreen e avance para o formul�rio sob consulta quando estiver pronto.
-        </p>
-        <form className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <label htmlFor="blog-search" className="sr-only">
-            Pesquisar artigos
-          </label>
-          <input
-            id="blog-search"
-            name="q"
-            defaultValue={searchTerm}
-            placeholder="Buscar por sa�de, rotina, comportamento..."
-            className="flex-1 rounded-pill border border-border bg-surface-subtle px-5 py-3 text-sm text-text focus:ring-2 focus:ring-brand/30"
-          />
-          <button
-            type="submit"
-            className="inline-flex items-center justify-center rounded-pill bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground shadow-soft hover:bg-brand-600"
-          >
-            Pesquisar
-          </button>
-        </form>
-      </div>
-      <div className="grid flex-1 gap-4 sm:grid-cols-2">
-        {links.slice(0, 2).map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="group flex flex-col gap-2 rounded-2xl border border-border/60 bg-surface-subtle p-5 transition hover:-translate-y-1 hover:border-brand/70"
-          >
-            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">Leia tamb�m</span>
-            <h3 className="text-base font-semibold text-text group-hover:text-brand">{link.title}</h3>
-            <p className="text-sm text-text-muted">{link.description}</p>
-          </Link>
-        ))}
-      </div>
-    </header>
-  );
-}
-
-function FeaturedPost({ post }: { post: PublicPost }) {
-  const formattedDate = formatDate(post.published_at || post.updated_at);
-  const minutes = estimateReadingTime(post.content_mdx ?? post.excerpt ?? "");
-  const href = `/blog/${post.slug}`;
-
-  return (
-    <article className="relative grid gap-6 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-surface via-surface to-surface-subtle shadow-soft lg:grid-cols-[1.45fr,1fr]">
-      <div className="order-2 flex flex-col justify-between gap-4 p-8 lg:order-1 lg:p-10">
-        <div className="space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-pill bg-brand/15 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-brand">
-            Destaque
-          </span>
-          <h2 className="text-3xl font-serif text-text">
-            <Link href={href} className="transition hover:text-brand">
-              {post.title}
-            </Link>
-          </h2>
-          {post.excerpt ? <p className="text-sm text-text-muted">{post.excerpt}</p> : null}
-        </div>
-        <div className="flex flex-wrap items-center gap-3 text-xs text-text-soft">
-          {formattedDate ? <span>{formattedDate}</span> : null}
-          {minutes ? (
-            <span className="rounded-pill bg-surface-subtle px-3 py-1 font-semibold text-text">
-              {minutes} min de leitura
-            </span>
-          ) : null}
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href={href}
-            className="inline-flex items-center justify-center rounded-pill bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground shadow-soft hover:bg-brand-600"
-          >
-            Ler artigo completo
-          </Link>
-          <Link
-            href="/filhotes"
-            className="inline-flex items-center justify-center rounded-pill border border-border px-5 py-2 text-sm font-semibold text-text hover:border-brand"
-          >
-            Ver filhotes sob consulta
-          </Link>
-        </div>
-      </div>
-      <div className="relative order-1 min-h-[240px] overflow-hidden bg-surface-subtle lg:order-2">
-        {post.cover_url ? (
-          <Image
-            src={post.cover_url}
-            alt={post.cover_alt || post.title}
-            fill
-            priority
-            fetchPriority="high"
-            sizes="(max-width: 1024px) 100vw, 45vw"
-            className="h-full w-full object-cover transition duration-700 hover:scale-[1.03]"
-            placeholder="blur"
-            blurDataURL={BLUR_DATA_URL}
-            decoding="async"
-            draggable={false}
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center text-sm font-semibold uppercase tracking-[0.28em] text-text-soft">
-            Conte�do exclusivo
-          </div>
-        )}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-black/0" />
-      </div>
-    </article>
-  );
-}
-
-function CategorySection({
-  collection,
-}: {
-  collection: { definition: CategoryDefinition; posts: PublicPost[] };
-}) {
-  const { definition, posts } = collection;
-
-  return (
-    <section aria-labelledby={`categoria-${definition.id}`} className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-2">
-          <h2 id={`categoria-${definition.id}`} className="text-2xl font-serif text-text">
-            {definition.title}
-          </h2>
-          <p className="max-w-2xl text-sm text-text-muted">{definition.description}</p>
-        </div>
-        <Link
-          href={definition.cta.href}
-          className="inline-flex items-center justify-center rounded-pill border border-border px-5 py-2 text-sm font-semibold text-text hover:border-brand"
-        >
-          {definition.cta.label}
-        </Link>
-      </div>
-
-      <p className="text-xs uppercase tracking-[0.3em] text-brand">{definition.highlight}</p>
-
-      <div className="grid auto-rows-fr gap-6 md:grid-cols-2">
-        {posts.map((post) => (
-          <BlogCard key={post.id} post={post} />
-        ))}
-      </div>
-    </section>
-  );
-}
-function GuiaDoTutorSection({
-  collection,
-}: {
-  collection: { definition: CategoryDefinition; posts: PublicPost[] };
-}) {
-  const { definition, posts } = collection;
-
-  return (
-    <section
-      aria-labelledby="guia-tutor-heading"
-      className="space-y-6 rounded-3xl border-2 border-brand/20 bg-gradient-to-br from-brand/5 via-surface to-surface p-8 shadow-lg"
-    >
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-pill bg-brand px-4 py-1 text-xs font-semibold uppercase tracking-[0.32em] text-white">
-            Guia do Tutor
-          </span>
-          <h2 id="guia-tutor-heading" className="text-3xl font-serif text-text">
-            {definition.title}
-          </h2>
-          <p className="max-w-3xl text-base text-text-muted">{definition.description}</p>
-        </div>
-        <Link
-          href={definition.cta.href}
-          className="inline-flex items-center justify-center rounded-pill border border-brand/30 px-5 py-2 text-sm font-semibold text-brand hover:border-brand hover:bg-brand/10"
-        >
-          {definition.cta.label}
-        </Link>
-      </div>
-
-      <p className="text-sm font-semibold text-brand">{definition.highlight}</p>
-
-      <div className="grid auto-rows-fr gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <BlogCard key={post.id} post={post} />
-        ))}
-      </div>
-    </section>
-  );
 }
 
 function formatDate(value?: string | null) {
@@ -668,15 +656,6 @@ function formatDate(value?: string | null) {
     month: "short",
     year: "numeric",
   }).format(date);
-}
-
-function EmptyState({ title, message }: { title: string; message: string }) {
-  return (
-    <div className="space-y-3 rounded-2xl border border-border bg-surface-subtle px-6 py-10 text-center shadow-soft">
-      <h2 className="text-lg font-semibold text-text">{title}</h2>
-      <p className="text-sm text-text-muted">{message}</p>
-    </div>
-  );
 }
 
 function buildBlogSchema({
@@ -712,6 +691,3 @@ function buildBlogSchema({
     })),
   };
 }
-
-
-

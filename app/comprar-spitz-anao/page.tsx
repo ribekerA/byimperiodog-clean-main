@@ -248,7 +248,7 @@ export default function ComprarSpitzPage() {
       {/* Breadcrumb navegacional */}
       <RelatedPages links={[
         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel",  desc: "O que exigir antes de fechar negócio" },
-        { label: "Tabela de Preços 2025",                href: "/preco-spitz-anao",         desc: "Valores por cor e sexo em detalhe" },
+        { label: `Tabela de Preços ${new Date().getFullYear()}`,                href: "/preco-spitz-anao",         desc: "Valores por cor e sexo em detalhe" },
         { label: "Filhote de Spitz Alemão",              href: "/filhote-de-spitz-alemao",  desc: "Primeiros cuidados e o que verificar" },
       ]} />
 

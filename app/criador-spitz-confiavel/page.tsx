@@ -262,7 +262,7 @@ export default function CriadorConfiavelPage() {
       {/* Breadcrumb navegacional */}
       <RelatedPages links={[
         { label: "Como Comprar com Segurança",  href: "/comprar-spitz-anao",       desc: "Guia passo a passo para a compra segura" },
-        { label: "Tabela de Preços 2025",       href: "/preco-spitz-anao",         desc: "Preços reais por cor, sexo e incluso" },
+        { label: `Tabela de Preços ${new Date().getFullYear()}`,       href: "/preco-spitz-anao",         desc: "Preços reais por cor, sexo e incluso" },
         { label: "Spitz Alemão Anão — A Raça",  href: "/spitz-alemao",             desc: "Tudo sobre temperamento e cuidados" },
       ]} />
 

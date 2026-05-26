@@ -166,7 +166,7 @@ export default function SpitzAlemaoPretoPage() {
 
       <RelatedPages links={[
         { label: "Spitz Alemão Anão — Raça Completa", href: "/spitz-alemao",     desc: "Todas as cores, temperamento e cuidados" },
-        { label: "Tabela de Preços 2025",            href: "/preco-spitz-anao",  desc: "Comparativo de preços por cor e sexo" },
+        { label: `Tabela de Preços ${new Date().getFullYear()}`,            href: "/preco-spitz-anao",  desc: "Comparativo de preços por cor e sexo" },
         { label: "Como Comprar com Segurança",       href: "/comprar-spitz-anao", desc: "Evite golpes — guia passo a passo" },
       ]} />
 

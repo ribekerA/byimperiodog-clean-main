@@ -63,7 +63,7 @@ function formatPrice(cents: number) {
 // Links estratégicos — PageRank distribution para landing pages
 const RACE_LINKS = [
   { emoji: "🐾", label: "Spitz Alemão Anão — A Raça", href: "/spitz-alemao",              desc: "Lulu da Pomerânia — origem, características, temperamento e cuidados" },
-  { emoji: "💰", label: "Tabela de Preços 2025",       href: "/preco-spitz-anao",          desc: "Valores por cor e sexo — sem surpresas" },
+  { emoji: "💰", label: `Tabela de Preços ${new Date().getFullYear()}`,       href: "/preco-spitz-anao",          desc: "Valores por cor e sexo — sem surpresas" },
   { emoji: "🛡️", label: "Como Comprar com Segurança", href: "/comprar-spitz-anao",         desc: "Guia passo a passo para não cair em golpes" },
   { emoji: "🍼", label: "Filhote de Spitz Alemão",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
   { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, laudos e red flags para evitar" },

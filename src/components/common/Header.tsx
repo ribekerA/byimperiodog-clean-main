@@ -6,6 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { routes, type AppRoutes } from "@/lib/route";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -23,11 +25,11 @@ const NAV_LINKS: { label: string; href: AppRoutes | string }[] = [
 // Dropdown "Raça" — páginas informacionais e de intenção
 const RACA_LINKS = [
   { label: "Spitz Alemão Anão",        href: "/spitz-alemao",              desc: "Raça completa: origem, temperamento, cores" },
-  { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: "Guia completo + preços 2025" },
+  { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: `Guia completo + preços ${CURRENT_YEAR}` },
   { label: "Filhote de Spitz Alemão",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
   { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Cor rara — disponibilidade" },
   { label: "Spitz Alemão Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
-  { label: "Tabela de Preços",         href: "/preco-spitz-anao",          desc: "Valores por cor e sexo — 2025" },
+  { label: "Tabela de Preços",         href: "/preco-spitz-anao",          desc: `Valores por cor e sexo — ${CURRENT_YEAR}` },
   { label: "Como Comprar",             href: "/comprar-spitz-anao",        desc: "Guia passo a passo seguro" },
   { label: "Criador Confiável",        href: "/criador-spitz-confiavel",   desc: "Como identificar procedência" },
 ] as const;
@@ -38,6 +40,15 @@ export default function Header() {
   const [racaOpen, setRacaOpen] = useState(false);
   const [mobileRacaOpen, setMobileRacaOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleRacaEnter = () => {
+    if (closeTimeout.current) clearTimeout(closeTimeout.current);
+    setRacaOpen(true);
+  };
+  const handleRacaLeave = () => {
+    closeTimeout.current = setTimeout(() => setRacaOpen(false), 180);
+  };
 
   const whatsappLink = useMemo(
     () =>
@@ -87,8 +98,8 @@ export default function Header() {
             <div
               ref={dropdownRef}
               className="relative"
-              onMouseEnter={() => setRacaOpen(true)}
-              onMouseLeave={() => setRacaOpen(false)}
+              onMouseEnter={handleRacaEnter}
+              onMouseLeave={handleRacaLeave}
             >
               <button
                 type="button"
@@ -111,6 +122,8 @@ export default function Header() {
                 <div
                   role="menu"
                   className="absolute left-0 top-full z-50 mt-1 w-72 rounded-2xl border border-zinc-100 bg-white p-2 shadow-xl"
+                  onMouseEnter={handleRacaEnter}
+                  onMouseLeave={handleRacaLeave}
                 >
                   {RACA_LINKS.map((link) => (
                     <Link

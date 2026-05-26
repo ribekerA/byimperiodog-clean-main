@@ -12,7 +12,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: "Preço do Spitz Alemão Anão (Lulu da Pomerânia) em 2025 | By Império Dog",
+  title: `Preço do Spitz Alemão Anão (Lulu da Pomerânia) em ${new Date().getFullYear()} | By Império Dog`,
   description:
     "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Wolf Sable. Registro oficial, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
   keywords: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/preco-spitz-anao" },
   openGraph: {
-    title: "Tabela de Preços do Spitz Alemão Anão (2025) | By Império Dog",
+    title: `Tabela de Preços do Spitz Alemão Anão (${new Date().getFullYear()}) | By Império Dog`,
     description:
       "Machos de R$ 7.000 a R$ 9.000 e fêmeas de R$ 10.000 a R$ 15.000 — inclui registro oficial, laudos veterinários e mentoria vitalícia.",
     type: "article",
@@ -114,7 +114,7 @@ export default function PrecoSpitzPage() {
 
       {/* ── HERO ── */}
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Tabela de preços atualizada — 2025</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Tabela de preços atualizada — {new Date().getFullYear()}</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Preço do Spitz Alemão Anão (Lulu da Pomerânia)
         </h1>
