@@ -16,6 +16,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 const NAV_LINKS: { label: string; href: AppRoutes | string }[] = [
   { label: "Início",    href: routes.home },
   { label: "Filhotes",  href: routes.filhotes },
+  { label: "Galeria",   href: "/galeria" },
   { label: "Blog",      href: routes.blog },
   { label: "Processo",  href: routes.sobre },
   { label: "FAQ",       href: "/faq-do-tutor" },
@@ -26,6 +27,7 @@ const NAV_LINKS: { label: string; href: AppRoutes | string }[] = [
 const RACA_LINKS = [
   { label: "Spitz Alemão Anão",        href: "/spitz-alemao",              desc: "Raça completa: origem, temperamento, cores" },
   { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: `Guia completo + preços ${CURRENT_YEAR}` },
+  { label: "Pomeranian",               href: "/pomeranian",                desc: "= Lulu da Pomerânia = Spitz Alemão Anão" },
   { label: "Filhote de Spitz Alemão",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
   { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Cor rara — disponibilidade" },
   { label: "Spitz Alemão Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },

@@ -17,12 +17,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/contato`,                lastModified: NOW, changeFrequency: "monthly", priority: 0.75 },
     { url: `${SITE_URL}/faq-do-tutor`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.80 },
     { url: `${SITE_URL}/blog`,                   lastModified: NOW, changeFrequency: "daily",   priority: 0.90 },
+    { url: `${SITE_URL}/galeria`,                lastModified: NOW, changeFrequency: "weekly",  priority: 0.75 },
     { url: `${SITE_URL}/guias`,                  lastModified: NOW, changeFrequency: "weekly",  priority: 0.85 },
     { url: `${SITE_URL}/reserve-seu-filhote`,    lastModified: NOW, changeFrequency: "monthly", priority: 0.70 },
 
     // ─── Raça / informacional ─────────────────────────────────────────────────
     { url: `${SITE_URL}/spitz-alemao`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },
     { url: `${SITE_URL}/lulu-da-pomerania`,      lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },
+    { url: `${SITE_URL}/pomeranian`,             lastModified: NOW, changeFrequency: "monthly", priority: 0.90 },
     { url: `${SITE_URL}/spitz-alemao-preto`,     lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },
     { url: `${SITE_URL}/spitz-alemao-baby-face`, lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },
     { url: `${SITE_URL}/filhote-de-spitz-alemao`,lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },

@@ -10,9 +10,20 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 const NAV_ITEMS = [
   { label: "Início", href: routes.home },
   { label: "Filhotes", href: routes.filhotes },
-  { label: "Processo", href: routes.sobre },
+  { label: "Galeria de vídeos", href: "/galeria" },
+  { label: "Guias", href: "/guias" },
   { label: "Blog", href: routes.blog },
+  { label: "Processo", href: routes.sobre },
   { label: "Contato", href: routes.contato },
+];
+
+const RACA_ITEMS = [
+  { label: "Spitz Alemão Anão", href: "/spitz-alemao" },
+  { label: "Lulu da Pomerânia", href: "/lulu-da-pomerania" },
+  { label: "Pomeranian", href: "/pomeranian" },
+  { label: "Filhote de Spitz", href: "/filhote-de-spitz-alemao" },
+  { label: "Tabela de Preços", href: "/preco-spitz-anao" },
+  { label: "Como Comprar", href: "/comprar-spitz-anao" },
 ];
 
 const SUPPORT_ITEMS = [
@@ -62,7 +73,7 @@ export default function Footer() {
 
       {/* ── Footer body ─────────────────────────────────────────────────────── */}
       <div className="bg-zinc-900 text-zinc-400">
-        <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-4 sm:px-8">
+        <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-12 sm:grid-cols-2 lg:grid-cols-5 sm:px-8">
           {/* Brand */}
           <div className="space-y-4">
             <Link href={routes.home} className="inline-flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900">
@@ -92,6 +103,23 @@ export default function Footer() {
             <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Navegação</h3>
             <ul className="space-y-1">
               {NAV_ITEMS.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="inline-flex py-1.5 text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Raça */}
+          <nav aria-label="Sobre a raça" className="space-y-3">
+            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">A raça</h3>
+            <ul className="space-y-1">
+              {RACA_ITEMS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
