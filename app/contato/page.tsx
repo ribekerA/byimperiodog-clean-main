@@ -39,7 +39,7 @@ const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://youtube.com/
 export const metadata: Metadata = {
   title: "Contato | By Império Dog — Fale direto com a criadora",
   description:
-    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Resposta rápida, sem enrolação. Criadora do Spitz Alemão Anão em Bragança Paulista, SP.",
+    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Resposta rápida, sem enrolação. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
   alternates: { canonical: `${SITE_URL}/contato` },
   openGraph: {
     type: "website",
@@ -403,7 +403,7 @@ export default function ContatoPage() {
             Pronto para dar o primeiro passo?
           </h2>
           <p className="mt-4 text-emerald-100">
-            Uma conversa de 5 minutos é suficiente para saber se um Spitz Alemão Anão
+            Uma conversa de 5 minutos é suficiente para saber se um Spitz Alemão Anão (Lulu da Pomerânia)
             da By Império Dog combina com a sua família.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">

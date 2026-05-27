@@ -205,9 +205,9 @@ function renderPage({
   sort: SortOption;
   pagination: { page: number; pageSize: number; total: number; hasNext: boolean; hasPrev: boolean } | null;
 }) {
-  const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão";
+  const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)";
   const metaDescStr =
-    "Guias escritos pela criadora com 13 anos de experiência sobre Spitz Alemão Anão.";
+    "Guias escritos pela criadora com 13 anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia).";
 
   const blogSchema = buildBlogSchema({
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br",
@@ -372,7 +372,8 @@ function BlogHero({ searchTerm }: { searchTerm: string }) {
         </span>
         <h1 className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-5xl">
           Tudo que você precisa saber sobre o{" "}
-          <span className="text-emerald-400">Spitz Alemão Anão</span>
+          <span className="text-emerald-400">Spitz Alemão Anão</span>{" "}
+            <span className="text-zinc-300 text-2xl sm:text-3xl font-normal">(Lulu da Pomerânia)</span>
         </h1>
         <p className="mt-4 text-base text-zinc-300 sm:text-lg">
           Guias escritos pela criadora com 13 anos de experiência.

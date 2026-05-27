@@ -17,7 +17,7 @@ import { buildLocalBusinessLD } from "@/lib/structured-data";
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br").replace(/\/$/, "");
 
 export const metadata: Metadata = {
-  title: "Sobre a By Império Dog | Canil Spitz Alemão Anão desde 2012 — Bragança Paulista",
+  title: "Sobre a By Império Dog | Canil Spitz Alemão Anão (Lulu da Pomerânia) desde 2012",
   description:
     "Conheça a história da By Império Dog: 13 anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade em Bragança Paulista, SP. Metodologia familiar, registro oficial e mentoria vitalícia.",
   keywords: [
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/sobre`,
-    title: "Sobre a By Império Dog — 13 anos criando Spitz Alemão Anão em Bragança Paulista",
+    title: "Sobre a By Império Dog — 13 anos criando Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
-      "13 anos criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia.",
+      "13 anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia.",
   },
 };
 
@@ -42,7 +42,7 @@ const TIMELINE = [
     year: "2012",
     title: "O primeiro Spitz chegou",
     description:
-      "Por puro amor à raça, a família Império recebeu a primeira fêmea de Spitz Alemão Anão e começou um longo estudo sobre genética, saúde e padrões da raça.",
+      "Por puro amor à raça, a família Império recebeu a primeira fêmea de Spitz Alemão Anão (Lulu da Pomerânia) e começou um longo estudo sobre genética, saúde e padrões da raça.",
     emoji: "🐾",
   },
   {
@@ -70,7 +70,7 @@ const TIMELINE = [
     year: "2026",
     title: "Mais de 180 famílias felizes",
     description:
-      "Hoje, mais de 180 famílias espalhadas pelo Brasil confiam na By Império Dog para escolher seu Spitz Alemão Anão. E cada uma recebe mentoria vitalícia.",
+      "Hoje, mais de 180 famílias espalhadas pelo Brasil confiam na By Império Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria vitalícia.",
     emoji: "💚",
   },
 ] as const;
@@ -156,7 +156,7 @@ export default function SobrePage() {
     url: `${SITE_URL}/sobre`,
     name: "Sobre a By Império Dog",
     description:
-      "13 anos criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia em Bragança Paulista.",
+      "13 anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia em Bragança Paulista.",
     isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Imperio Dog" },
   };
 
