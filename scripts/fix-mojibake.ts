@@ -4,11 +4,11 @@
 /**
  * Corrige textos com mojibake (UTF-8 interpretado como ISO-8859-1/latin1).
  * - Cria backup em blog_post_revisions (snapshot jsonb).
- * - Atualiza campos textuais somente quando necessário.
+ * - Atualiza campos textuais somente quando necess�rio.
  *
  * Uso:
- *   npm run fix:mojibake          # dry-run (padrão)
- *   npm run fix:mojibake --write  # aplica alterações
+ *   npm run fix:mojibake          # dry-run (padr�o)
+ *   npm run fix:mojibake --write  # aplica altera��es
  */
 
 import process from "node:process";
@@ -35,7 +35,7 @@ const client = supabaseAdmin();
 
 function decodeIfNeeded(value: string | null) {
   if (!value) return { changed: false, value };
-  if (!/[ÃÂ�]/.test(value)) {
+  if (!/[��?]/.test(value)) {
     return { changed: false, value };
   }
   try {
@@ -98,7 +98,7 @@ async function run() {
 
     if (revisionError) {
       console.error(
-        `[fix-mojibake] Falha ao criar revisão para ${post.id}:`,
+        `[fix-mojibake] Falha ao criar revis�o para ${post.id}:`,
         revisionError.message
       );
       continue;
@@ -129,7 +129,7 @@ async function run() {
   );
 
   if (!WRITE_MODE) {
-    console.log('Execute novamente com "--write" para aplicar as alterações.');
+    console.log('Execute novamente com "--write" para aplicar as altera��es.');
   }
 }
 

@@ -1,4 +1,4 @@
-﻿import { CheckCircle, MapPin, Phone, Shield, Star, Truck } from "lucide-react";
+import { CheckCircle, MapPin, Phone, Shield, Star, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
@@ -14,15 +14,15 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  title: "Filhotes de Spitz AlemÃ£o AnÃ£o (Lulu da PomerÃ¢nia) no Rio de Janeiro (RJ) | By Imperio Dog",
+  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro (RJ) | By Imperio Dog",
   description:
-    "Compre filhotes de Spitz AlemÃ£o AnÃ£o (Lulu da PomerÃ¢nia) no Rio de Janeiro com entrega segura na capital, NiterÃ³i, regiÃ£o metropolitana e interior. Registro oficial e suporte vitalÃ­cio.",
+    "Compre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro com entrega segura na capital, Niterói, região metropolitana e interior. Registro oficial e suporte vitalício.",
   alternates: { canonical: canonical("/filhotes/rio-de-janeiro") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/rio-de-janeiro"),
-    title: "Filhotes de Spitz AlemÃ£o (Lulu da PomerÃ¢nia) no Rio de Janeiro",
-    description: "Compre Spitz AlemÃ£o (Lulu da PomerÃ¢nia) com entrega em todo RJ. Criadora especializada.",
+    title: "Filhotes de Spitz Alemão (Lulu da Pomerânia) no Rio de Janeiro",
+    description: "Compre Spitz Alemão (Lulu da Pomerânia) com entrega em todo RJ. Criadora especializada.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630 }],
   },
 };
@@ -30,51 +30,51 @@ export const metadata: Metadata = {
 const rjCities = [
   "Rio de Janeiro Capital",
   "Zona Sul (Copacabana, Ipanema, Leblon)",
-  "Zona Norte (Tijuca, MaracanÃ£)",
+  "Zona Norte (Tijuca, Maracanã)",
   "Barra da Tijuca",
-  "NiterÃ³i",
-  "SÃ£o GonÃ§alo",
+  "Niterói",
+  "São Gonçalo",
   "Duque de Caxias",
-  "Nova IguaÃ§u",
-  "PetrÃ³polis",
-  "Cabo Frio e RegiÃ£o dos Lagos",
+  "Nova Iguaçu",
+  "Petrópolis",
+  "Cabo Frio e Região dos Lagos",
   "Campos dos Goytacazes",
 ];
 
 const faqRJ = [
   {
-    question: "VocÃªs fazem entrega no Rio de Janeiro?",
+    question: "Vocês fazem entrega no Rio de Janeiro?",
     answer:
-      "Sim! Fazemos entrega em toda a capital carioca, NiterÃ³i, regiÃ£o metropolitana e interior do RJ. A entrega Ã© segura, com transporte especializado para filhotes, e vocÃª recebe todas as orientaÃ§Ãµes necessÃ¡rias.",
+      "Sim! Fazemos entrega em toda a capital carioca, Niterói, região metropolitana e interior do RJ. A entrega é segura, com transporte especializado para filhotes, e você recebe todas as orientações necessárias.",
   },
   {
     question: "Posso buscar o filhote pessoalmente?",
     answer:
-      "Sim! Nosso criatÃ³rio fica em BraganÃ§a Paulista (SP), mas recebemos tutores do Rio de Janeiro que preferem buscar pessoalmente. VocÃª pode conhecer toda nossa estrutura e os pais dos filhotes mediante agendamento.",
+      "Sim! Nosso criatório fica em Bragança Paulista (SP), mas recebemos tutores do Rio de Janeiro que preferem buscar pessoalmente. Você pode conhecer toda nossa estrutura e os pais dos filhotes mediante agendamento.",
   },
   {
     question: "Qual o valor da entrega para o Rio de Janeiro?",
     answer:
-      "O valor da entrega varia conforme a regiÃ£o e distÃ¢ncia. Para capital e regiÃ£o metropolitana temos condiÃ§Ãµes especiais. Consulte nossa equipe via WhatsApp para saber o valor exato para sua cidade.",
+      "O valor da entrega varia conforme a região e distância. Para capital e região metropolitana temos condições especiais. Consulte nossa equipe via WhatsApp para saber o valor exato para sua cidade.",
   },
   {
-    question: "O filhote vem com documentaÃ§Ã£o e vacinas?",
+    question: "O filhote vem com documentação e vacinas?",
     answer:
-      "Sim! Todos os filhotes vÃªm com registro oficial, primeira dose da vacina V10, vermifugaÃ§Ã£o completa, atestado veterinÃ¡rio e contrato. Fornecemos orientaÃ§Ã£o completa sobre o calendÃ¡rio de vacinas.",
+      "Sim! Todos os filhotes vêm com registro oficial, primeira dose da vacina V10, vermifugação completa, atestado veterinário e contrato. Fornecemos orientação completa sobre o calendário de vacinas.",
   },
   {
-    question: "Spitz AlemÃ£o (Lulu da PomerÃ¢nia) se adapta bem ao clima do Rio?",
+    question: "Spitz Alemão (Lulu da Pomerânia) se adapta bem ao clima do Rio?",
     answer:
-      "Sim! Apesar da pelagem farta, o Spitz AlemÃ£o (Lulu da PomerÃ¢nia) se adapta muito bem ao clima carioca. Recomendamos manter o filhote em ambientes frescos nas horas mais quentes e garantir acesso constante a Ã¡gua. A tosa higiÃªnica ajuda no conforto.",
+      "Sim! Apesar da pelagem farta, o Spitz Alemão (Lulu da Pomerânia) se adapta muito bem ao clima carioca. Recomendamos manter o filhote em ambientes frescos nas horas mais quentes e garantir acesso constante a água. A tosa higiênica ajuda no conforto.",
   },
 ];
 
 export default function FilhotesRioDeJaneiroPage() {
   const waText =
-    "OlÃ¡! Gostaria de informaÃ§Ãµes sobre filhotes de Spitz AlemÃ£o (Lulu da PomerÃ¢nia) disponÃ­veis no Rio de Janeiro.";
+    "Olá! Gostaria de informações sobre filhotes de Spitz Alemão (Lulu da Pomerânia) disponíveis no Rio de Janeiro.";
   const waLink = `${WA_LINK}?text=${encodeURIComponent(waText)}`;
 
-  // Local Business JSON-LD especÃ­fico para RJ
+  // Local Business JSON-LD específico para RJ
   const localBusinessLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -119,7 +119,7 @@ export default function FilhotesRioDeJaneiroPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "InÃ­cio", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 1, name: "Início", item: `${SITE_URL}/` },
       { "@type": "ListItem", position: 2, name: "Filhotes", item: `${SITE_URL}/filhotes` },
       { "@type": "ListItem", position: 3, name: "Rio de Janeiro", item: `${SITE_URL}/filhotes/rio-de-janeiro` },
     ],
@@ -151,12 +151,12 @@ export default function FilhotesRioDeJaneiroPage() {
             Atendemos todo o Rio de Janeiro
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
-            Filhotes de Spitz AlemÃ£o AnÃ£o (Lulu da PomerÃ¢nia)
+            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
             <span className="block text-[var(--brand)]">no Rio de Janeiro (RJ)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-secondary)]">
-            Compre seu Spitz AlemÃ£o AnÃ£o (Lulu da PomerÃ¢nia) com seguranÃ§a e entrega em toda a capital, NiterÃ³i, regiÃ£o
-            metropolitana e interior do RJ. Criadora especializada com suporte vitalÃ­cio.
+            Compre seu Spitz Alemão Anão (Lulu da Pomerânia) com segurança e entrega em toda a capital, Niterói, região
+            metropolitana e interior do RJ. Criadora especializada com suporte vitalício.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -169,7 +169,7 @@ export default function FilhotesRioDeJaneiroPage() {
               Falar com a Criadora
             </a>
             <Link href="#filhotes-disponiveis" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
-              Ver Filhotes DisponÃ­veis
+              Ver Filhotes Disponíveis
             </Link>
           </div>
         </section>
@@ -177,7 +177,7 @@ export default function FilhotesRioDeJaneiroPage() {
         {/* Atendimento no RJ */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
           <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">
-            Atendemos Toda a RegiÃ£o do Rio de Janeiro
+            Atendemos Toda a Região do Rio de Janeiro
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {rjCities.map((city) => (
@@ -215,22 +215,22 @@ export default function FilhotesRioDeJaneiroPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Star className="h-8 w-8 text-[var(--brand)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Criadora de ReferÃªncia</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Anos de experiÃªncia e tutores satisfeitos no RJ</p>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Criadora de Referência</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Anos de experiência e tutores satisfeitos no RJ</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Phone className="h-8 w-8 text-[var(--brand)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte VitalÃ­cio</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Acompanhamento permanente apÃ³s a compra</p>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte Vitalício</h3>
+              <p className="text-sm text-[var(--text-secondary)]">Acompanhamento permanente após a compra</p>
             </div>
           </div>
         </section>
 
-        {/* Filhotes DisponÃ­veis */}
+        {/* Filhotes Disponíveis */}
         <section id="filhotes-disponiveis" className="mx-auto mt-20 max-w-7xl px-5">
-          <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">Filhotes DisponÃ­veis</h2>
+          <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">Filhotes Disponíveis</h2>
           <PuppiesGrid />
         </section>
 
@@ -247,7 +247,7 @@ export default function FilhotesRioDeJaneiroPage() {
               >
                 <summary className="flex cursor-pointer items-start justify-between gap-4 font-semibold text-[var(--text)] marker:content-none">
                   <span>{item.question}</span>
-                  <span className="flex-shrink-0 text-[var(--brand)] transition-transform group-open:rotate-180">â–¼</span>
+                  <span className="flex-shrink-0 text-[var(--brand)] transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <p className="mt-4 text-[var(--text-secondary)]">{item.answer}</p>
               </details>
@@ -258,7 +258,7 @@ export default function FilhotesRioDeJaneiroPage() {
         {/* CTA Final */}
         <section className="mx-auto mt-20 max-w-4xl px-5 text-center">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
-            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz AlemÃ£o (Lulu da PomerÃ¢nia) no Rio de Janeiro?</h2>
+            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão (Lulu da Pomerânia) no Rio de Janeiro?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-secondary)]">
               Fale agora com nossa equipe e garanta seu filhote com entrega segura em todo o RJ
             </p>

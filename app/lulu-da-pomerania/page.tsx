@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import Script from "next/script";
 import type { Metadata } from "next";
 
@@ -10,68 +10,68 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania`;
 
 export const metadata: Metadata = {
-  title: "Lulu da PomerÃ¢nia â€” RaÃ§a, PreÃ§o, Cuidados e Filhotes | By ImpÃ©rio Dog",
+  title: "Lulu da Pomerânia — Raça, Preço, Cuidados e Filhotes | By Império Dog",
   description:
-    "Guia completo sobre o Lulu da PomerÃ¢nia (Spitz AlemÃ£o AnÃ£o): caracterÃ­sticas, personalidade, preÃ§os em 2025, cuidados, cores e onde comprar com seguranÃ§a. Criadora responsÃ¡vel em BraganÃ§a Paulista, SP.",
+    "Guia completo sobre o Lulu da Pomerânia (Spitz Alemão Anão): características, personalidade, preços em 2025, cuidados, cores e onde comprar com segurança. Criadora responsável em Bragança Paulista, SP.",
   keywords: [
-    "Lulu da PomerÃ¢nia",
-    "Lulu da PomerÃ¢nia preÃ§o",
-    "Lulu da PomerÃ¢nia filhotes",
-    "Lulu da PomerÃ¢nia cuidados",
-    "Lulu da PomerÃ¢nia caracterÃ­sticas",
-    "comprar Lulu da PomerÃ¢nia",
-    "Lulu da PomerÃ¢nia SP",
+    "Lulu da Pomerânia",
+    "Lulu da Pomerânia preço",
+    "Lulu da Pomerânia filhotes",
+    "Lulu da Pomerânia cuidados",
+    "Lulu da Pomerânia características",
+    "comprar Lulu da Pomerânia",
+    "Lulu da Pomerânia SP",
   ],
   alternates: { canonical: "/lulu-da-pomerania" },
   openGraph: {
-    title: "Lulu da PomerÃ¢nia â€” Guia Completo da RaÃ§a | By ImpÃ©rio Dog",
-    description: "CaracterÃ­sticas, preÃ§os, cuidados e onde comprar Lulu da PomerÃ¢nia com seguranÃ§a.",
+    title: "Lulu da Pomerânia — Guia Completo da Raça | By Império Dog",
+    description: "Características, preços, cuidados e onde comprar Lulu da Pomerânia com segurança.",
     type: "article",
   },
 };
 
 const FAQS = [
   {
-    question: "Lulu da PomerÃ¢nia e Spitz AlemÃ£o AnÃ£o sÃ£o a mesma raÃ§a?",
+    question: "Lulu da Pomerânia e Spitz Alemão Anão são a mesma raça?",
     answer:
-      "Sim, sÃ£o nomes para exatamente o mesmo cÃ£o. 'Lulu da PomerÃ¢nia' Ã© o apelido popular no Brasil; 'Spitz AlemÃ£o AnÃ£o' Ã© a denominaÃ§Ã£o oficial reconhecida pela FCI. Em inglÃªs, a raÃ§a Ã© chamada 'Pomeranian'. Qualquer uma dessas buscas refere-se ao mesmo animal fofo, compacto e de pelagem densa.",
+      "Sim, são nomes para exatamente o mesmo cão. 'Lulu da Pomerânia' é o apelido popular no Brasil; 'Spitz Alemão Anão' é a denominação oficial reconhecida pela FCI. Em inglês, a raça é chamada 'Pomeranian'. Qualquer uma dessas buscas refere-se ao mesmo animal fofo, compacto e de pelagem densa.",
   },
   {
-    question: "Quanto custa um Lulu da PomerÃ¢nia?",
+    question: "Quanto custa um Lulu da Pomerânia?",
     answer:
-      “Na By ImpÃ©rio Dog, os preÃ§os variam de R$ 7.000 a R$ 15.000 dependendo da cor e do sexo. Machos a partir de R$ 7.000 (laranja) e fÃªmeas a partir de R$ 10.000. O valor inclui registro oficial, laudos veterinÃ¡rios, vacinaÃ§Ã£o completa, microchip e mentoria vitalÃ­cia â€” sem cobranÃ§as extras.”,
+      "Na By Império Dog, os preços variam de R$ 7.000 a R$ 15.000 dependendo da cor e do sexo. Machos a partir de R$ 7.000 (laranja) e fêmeas a partir de R$ 10.000. O valor inclui registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia — sem cobranças extras.",
   },
   {
-    question: "O Lulu da PomerÃ¢nia Ã© bom com crianÃ§as?",
+    question: "O Lulu da Pomerânia é bom com crianças?",
     answer:
-      "Sim, desde que a interaÃ§Ã£o seja supervisionada e a socializaÃ§Ã£o seja feita corretamente desde filhote. O Lulu da PomerÃ¢nia Ã© afetivo e brincalhÃ£o, mas por ser de porte muito pequeno, crianÃ§as muito novas podem machucar o animal sem querer. Recomendamos famÃ­lias com crianÃ§as acima de 6 anos.",
+      "Sim, desde que a interação seja supervisionada e a socialização seja feita corretamente desde filhote. O Lulu da Pomerânia é afetivo e brincalhão, mas por ser de porte muito pequeno, crianças muito novas podem machucar o animal sem querer. Recomendamos famílias com crianças acima de 6 anos.",
   },
   {
-    question: "Lulu da PomerÃ¢nia perde muito pelo?",
+    question: "Lulu da Pomerânia perde muito pelo?",
     answer:
-      "Sim. A pelagem dupla e densa solta pelos, especialmente em duas Ã©pocas de muda por ano. EscovaÃ§Ã£o frequente (3â€“4Ã— por semana) reduz significativamente a quantidade de pelos pelo apartamento ou casa.",
+      "Sim. A pelagem dupla e densa solta pelos, especialmente em duas épocas de muda por ano. Escovação frequente (3–4× por semana) reduz significativamente a quantidade de pelos pelo apartamento ou casa.",
   },
   {
-    question: "Qual a expectativa de vida do Lulu da PomerÃ¢nia?",
+    question: "Qual a expectativa de vida do Lulu da Pomerânia?",
     answer:
-      "Entre 12 e 16 anos. RaÃ§as pequenas geralmente vivem mais do que raÃ§as grandes. Com criaÃ§Ã£o responsÃ¡vel (sem problemas genÃ©ticos hereditÃ¡rios), alimentaÃ§Ã£o adequada e acompanhamento veterinÃ¡rio regular, muitos chegam ao meio da faixa ou alÃ©m.",
+      "Entre 12 e 16 anos. Raças pequenas geralmente vivem mais do que raças grandes. Com criação responsável (sem problemas genéticos hereditários), alimentação adequada e acompanhamento veterinário regular, muitos chegam ao meio da faixa ou além.",
   },
   {
-    question: "O Lulu da PomerÃ¢nia precisa de banho frequente?",
+    question: "O Lulu da Pomerânia precisa de banho frequente?",
     answer:
-      "A cada 15â€“21 dias Ã© o ideal. A pelagem densa pode reter odores e sujeira se o intervalo for muito longo. A secagem completa apÃ³s o banho Ã© obrigatÃ³ria â€” pelo Ãºmido por horas favorece fungos e dermatites.",
+      "A cada 15–21 dias é o ideal. A pelagem densa pode reter odores e sujeira se o intervalo for muito longo. A secagem completa após o banho é obrigatória — pelo úmido por horas favorece fungos e dermatites.",
   },
 ];
 
 export default function LuluDaPomeraniaPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("OlÃ¡! Vi a pÃ¡gina sobre Lulu da PomerÃ¢nia no site da By ImpÃ©rio Dog e gostaria de informaÃ§Ãµes sobre filhotes.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Lulu da Pomerânia no site da By Império Dog e gostaria de informações sobre filhotes.")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
-    { name: "InÃ­cio", url: `${SITE_URL}/` },
-    { name: "Lulu da PomerÃ¢nia", url: PAGE_URL },
+    { name: "Início", url: `${SITE_URL}/` },
+    { name: "Lulu da Pomerânia", url: PAGE_URL },
   ]);
   const faqLd      = buildFAQLD(FAQS);
   const businessLd = buildLocalBusinessLD();
@@ -86,23 +86,23 @@ export default function LuluDaPomeraniaPage() {
 
       {/* HERO */}
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Guia completo da raÃ§a</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Guia completo da raça</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Lulu da PomerÃ¢nia â€” tudo que vocÃª precisa saber
+          Lulu da Pomerânia — tudo que você precisa saber
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          O Lulu da PomerÃ¢nia Ã© um dos cÃ£es de companhia mais amados do Brasil â€” pequeno, fofo, inteligente e cheio de personalidade. Aqui vocÃª encontra tudo: o que Ã© a raÃ§a, quanto custa, como cuidar e onde encontrar filhotes com procedÃªncia.
+          O Lulu da Pomerânia é um dos cães de companhia mais amados do Brasil — pequeno, fofo, inteligente e cheio de personalidade. Aqui você encontra tudo: o que é a raça, quanto custa, como cuidar e onde encontrar filhotes com procedência.
         </p>
       </header>
 
-      {/* O que Ã© */}
+      {/* O que é */}
       <section aria-labelledby="oque-heading" className="space-y-3">
-        <h2 id="oque-heading" className="text-2xl font-bold text-zinc-900">O que Ã© o Lulu da PomerÃ¢nia?</h2>
+        <h2 id="oque-heading" className="text-2xl font-bold text-zinc-900">O que é o Lulu da Pomerânia?</h2>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          O Lulu da PomerÃ¢nia Ã© o nome popular no Brasil para o <strong>Spitz AlemÃ£o AnÃ£o</strong> â€” uma raÃ§a de pequeno porte originÃ¡ria da regiÃ£o da PomerÃ¢nia (atual norte da Alemanha e PolÃ´nia). No mundo, Ã© conhecido como <strong>Pomeranian</strong>. Todos esses nomes se referem ao mesmo cÃ£o compacto, com pelagem dupla densa, orelhas eretas pontudas e rabo enrolado sobre o dorso.
+          O Lulu da Pomerânia é o nome popular no Brasil para o <strong>Spitz Alemão Anão</strong> — uma raça de pequeno porte originária da região da Pomerânia (atual norte da Alemanha e Polônia). No mundo, é conhecido como <strong>Pomeranian</strong>. Todos esses nomes se referem ao mesmo cão compacto, com pelagem dupla densa, orelhas eretas pontudas e rabo enrolado sobre o dorso.
         </p>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          Pesa entre 1,5 e 3,5 kg na fase adulta e atinge no mÃ¡ximo 22 cm de altura na cernelha. Apesar do tamanho diminuto, tem <em>personalidade gigante</em>: Ã© curioso, expressivo, adora atenÃ§Ã£o e aprende comandos com facilidade.
+          Pesa entre 1,5 e 3,5 kg na fase adulta e atinge no máximo 22 cm de altura na cernelha. Apesar do tamanho diminuto, tem <em>personalidade gigante</em>: é curioso, expressivo, adora atenção e aprende comandos com facilidade.
         </p>
       </section>
 
@@ -111,12 +111,12 @@ export default function LuluDaPomeraniaPage() {
         <h2 id="personalidade-heading" className="text-2xl font-bold text-zinc-900">Personalidade e comportamento</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { emoji: "ðŸ§ ", t: "Muito inteligente", b: "Aprende comandos rÃ¡pido. Ideal para treino positivo." },
-            { emoji: "ðŸ’›", t: "Afetivo", b: "Cria laÃ§os fortes com a famÃ­lia. Gosta de colo e atenÃ§Ã£o." },
-            { emoji: "ðŸ ", t: "Ã“timo para apto", b: "Adapta-se muito bem a apartamentos com espaÃ§o limitado." },
-            { emoji: "ðŸŽ­", t: "Expressivo", b: "Demonstra humor, alegria e curiosidade visivelmente." },
-            { emoji: "ðŸ””", t: "Alerta", b: "Bom 'vigia' natural. Avisa sobre movimentos externos." },
-            { emoji: "ðŸ‘¶", t: "SociÃ¡vel", b: "Quando bem socializado, convive bem com crianÃ§as e outros pets." },
+            { emoji: "🧠", t: "Muito inteligente", b: "Aprende comandos rápido. Ideal para treino positivo." },
+            { emoji: "💛", t: "Afetivo", b: "Cria laços fortes com a família. Gosta de colo e atenção." },
+            { emoji: "🏠", t: "Ótimo para apto", b: "Adapta-se muito bem a apartamentos com espaço limitado." },
+            { emoji: "🎭", t: "Expressivo", b: "Demonstra humor, alegria e curiosidade visivelmente." },
+            { emoji: "🔔", t: "Alerta", b: "Bom 'vigia' natural. Avisa sobre movimentos externos." },
+            { emoji: "👶", t: "Sociável", b: "Quando bem socializado, convive bem com crianças e outros pets." },
           ].map((card) => (
             <article key={card.t} className="rounded-2xl border border-zinc-100 bg-white p-4 shadow-sm">
               <span className="text-2xl">{card.emoji}</span>
@@ -127,18 +127,18 @@ export default function LuluDaPomeraniaPage() {
         </div>
       </section>
 
-      {/* PreÃ§os */}
+      {/* Preços */}
       <section aria-labelledby="precos-heading" className="rounded-3xl border border-emerald-100 bg-emerald-50/40 p-6 sm:p-8 space-y-4">
-        <h2 id="precos-heading" className="text-2xl font-bold text-zinc-900">Quanto custa um Lulu da PomerÃ¢nia?</h2>
+        <h2 id="precos-heading" className="text-2xl font-bold text-zinc-900">Quanto custa um Lulu da Pomerânia?</h2>
         <p className="text-sm text-zinc-700">
-          Na By ImpÃ©rio Dog os preÃ§os sÃ£o:
+          Na By Império Dog os preços são:
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Laranja Macho",    valor: "R$ 7.000", tag: "a partir de" },
-            { cor: "Laranja FÃªmea",    valor: "R$ 10.000", tag: "a partir de" },
+            { cor: "Laranja Fêmea",    valor: "R$ 10.000", tag: "a partir de" },
             { cor: "Wolf Sable Macho", valor: "R$ 7.500", tag: "a partir de" },
-            { cor: "Creme FÃªmea",      valor: "R$ 15.000", tag: "mais valorizado" },
+            { cor: "Creme Fêmea",      valor: "R$ 15.000", tag: "mais valorizado" },
           ].map((p) => (
             <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs text-zinc-400 uppercase tracking-wide">{p.tag}</p>
@@ -147,12 +147,12 @@ export default function LuluDaPomeraniaPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, vacinaÃ§Ã£o, microchip e mentoria vitalÃ­cia. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa â†’</Link></p>
+        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, vacinação, microchip e mentoria vitalícia. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
       </section>
 
       {/* FAQ */}
       <section aria-labelledby="faq-lulu-heading" itemScope itemType="https://schema.org/FAQPage">
-        <h2 id="faq-lulu-heading" className="mb-6 text-2xl font-bold text-zinc-900">Perguntas frequentes sobre o Lulu da PomerÃ¢nia</h2>
+        <h2 id="faq-lulu-heading" className="mb-6 text-2xl font-bold text-zinc-900">Perguntas frequentes sobre o Lulu da Pomerânia</h2>
         <dl className="divide-y divide-zinc-100">
           {FAQS.map((item, i) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
@@ -175,10 +175,10 @@ export default function LuluDaPomeraniaPage() {
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">Pronto para conhecer os filhotes?</h2>
-        <p className="mt-2 text-sm text-zinc-600">Acesse o catÃ¡logo atualizado ou fale com a criadora diretamente.</p>
+        <p className="mt-2 text-sm text-zinc-600">Acesse o catálogo atualizado ou fale com a criadora diretamente.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
-            Ver filhotes disponÃ­veis
+            Ver filhotes disponíveis
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
@@ -189,16 +189,16 @@ export default function LuluDaPomeraniaPage() {
       </section>
 
       <RelatedPages links={[
-        { label: "Spitz AlemÃ£o AnÃ£o",       href: "/spitz-alemao",         desc: "Ficha tÃ©cnica, origem e temperamento" },
-        { label: "Tabela de PreÃ§os 2025",   href: "/preco-spitz-anao",     desc: "Valores por cor e sexo em detalhe" },
-        { label: "Como Comprar com SeguranÃ§a", href: "/comprar-spitz-anao", desc: "Guia passo a passo para nÃ£o cair em golpes" },
+        { label: "Spitz Alemão Anão",       href: "/spitz-alemao",         desc: "Ficha técnica, origem e temperamento" },
+        { label: "Tabela de Preços 2025",   href: "/preco-spitz-anao",     desc: "Valores por cor e sexo em detalhe" },
+        { label: "Como Comprar com Segurança", href: "/comprar-spitz-anao", desc: "Guia passo a passo para não cair em golpes" },
       ]} />
 
-      <nav aria-label="NavegaÃ§Ã£o estrutural">
+      <nav aria-label="Navegação estrutural">
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
-          <li><Link href="/" className="hover:text-emerald-700">InÃ­cio</Link></li>
+          <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
-          <li className="font-medium text-zinc-600" aria-current="page">Lulu da PomerÃ¢nia</li>
+          <li className="font-medium text-zinc-600" aria-current="page">Lulu da Pomerânia</li>
         </ol>
       </nav>
     </main>

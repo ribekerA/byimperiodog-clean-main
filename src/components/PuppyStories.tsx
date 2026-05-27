@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import clsx from 'classnames';
 import { Heart, Share2, X, ChevronLeft, ChevronRight, Phone } from 'lucide-react';
 import Image from 'next/image';
@@ -10,7 +10,7 @@ import passthroughImageLoader from '@/lib/passthrough-image-loader';
 import track from '@/lib/track';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
 
-// Tipagem básica (pode ser estendida conforme o backend evoluir)
+// Tipagem b�sica (pode ser estendida conforme o backend evoluir)
 export interface PuppyStoryItem {
   id: string;
   name?: string | null;
@@ -28,8 +28,8 @@ interface PuppyStoriesProps {
   open: boolean;
   onClose: () => void;
   /**
-   * Se true, avança automaticamente a cada autoAdvanceMs.
-   * (Por padrão desativado; pode ser ligado depois se quiser comportamento mais parecido com IG Stories.)
+   * Se true, avan�a automaticamente a cada autoAdvanceMs.
+   * (Por padr�o desativado; pode ser ligado depois se quiser comportamento mais parecido com IG Stories.)
    */
   autoPlay?: boolean;
   autoAdvanceMs?: number;
@@ -37,9 +37,9 @@ interface PuppyStoriesProps {
 
 function buildWaMessage(p: PuppyStoryItem) {
   const name = p.nome || p.name || "Filhote";
-  const color = p.cor || p.color || "cor em avaliação";
-  const gender = p.gender === "male" ? "macho" : p.gender === "female" ? "fêmea" : "sexo em avaliação";
-  return `Olá! Tenho interesse no filhote ${name} (${color}, ${gender}). Pode me enviar mais informações?`;
+  const color = p.cor || p.color || "cor em avalia��o";
+  const gender = p.gender === "male" ? "macho" : p.gender === "female" ? "f�mea" : "sexo em avalia��o";
+  return `Ol�! Tenho interesse no filhote ${name} (${color}, ${gender}). Pode me enviar mais informa��es?`;
 }
 
 function buildWaLink(p: PuppyStoryItem) {
@@ -66,7 +66,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
   const [, force] = useState({});
   const inactivityTimer = useRef<number | null>(null);
 
-  // Preload próxima e anterior
+  // Preload pr�xima e anterior
   useEffect(()=>{
     const nextItem = items[(index + 1) % items.length];
     const prevItem = items[(index - 1 + items.length) % items.length];
@@ -170,7 +170,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
     touchStart.current = null; touchDiff.current = 0;
   };
 
-  // Auto-hide UI após inatividade (apenas se não estiver interagindo com inputs)
+  // Auto-hide UI ap�s inatividade (apenas se n�o estiver interagindo com inputs)
   const bumpActivity = useCallback(() => {
     setUiVisible(true);
     if (inactivityTimer.current) window.clearTimeout(inactivityTimer.current);
@@ -210,7 +210,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
     return () => document.removeEventListener('keydown', handleEsc);
   }, [open, onClose]);
 
-  // Anunciar mudança para tecnologias assistivas
+  // Anunciar mudan�a para tecnologias assistivas
   const liveRef = useRef<HTMLDivElement | null>(null);
   useEffect(()=>{
     if (!liveRef.current) return;
@@ -277,8 +277,8 @@ export default function PuppyStories(props: PuppyStoriesProps) {
             <div className="space-y-1">
               <h3 className="text-base font-semibold leading-tight drop-shadow">{current?.nome || current?.name}</h3>
               <p className="text-xs text-zinc-200/90 leading-snug line-clamp-2">
-                {(current?.cor || current?.color) && <><span>{current.cor || current.color}</span> â€¢ </>}
-                {current?.gender === 'male' ? 'Macho' : current?.gender === 'female' ? 'Fêmea' : 'Sexo indef.'}
+                {(current?.cor || current?.color) && <><span>{current.cor || current.color}</span> • </>}
+                {current?.gender === 'male' ? 'Macho' : current?.gender === 'female' ? 'F�mea' : 'Sexo indef.'}
               </p>
             </div>
             <button
@@ -332,7 +332,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
               </div>
               <div className="flex w-full justify-between px-1 text-[10px] sm:text-[11px] text-zinc-300">
                 <span>Story {index + 1}/{items.length}</span>
-                <span>Tocar p/ UI â€¢ â† / â†’</span>
+                <span>Tocar p/ UI • ← / →</span>
               </div>
             </div>
           )}
@@ -349,7 +349,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
             <button
               type="button"
               tabIndex={-1}
-              aria-label="Próximo story"
+              aria-label="Pr�ximo story"
               onClick={next}
               className="pointer-events-auto h-full w-full bg-transparent"
             />
@@ -364,7 +364,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
           </button>
           <button
             type="button"
-            aria-label="Próximo story"
+            aria-label="Pr�ximo story"
             onClick={next}
             className={clsx("absolute right-3 top-1/2 -translate-y-1/2 min-h-[48px] min-w-[48px] flex items-center justify-center rounded-full bg-black/90 transition hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black", uiVisible ? 'opacity-100' : 'opacity-0')}
           >
@@ -378,7 +378,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
       {/* Backdrop button is rendered above, before the content wrapper */}
       <style jsx global>{`
         @keyframes pf-story-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-        /* Evita seleção acidental de texto durante taps rápidos */
+        /* Evita sele��o acidental de texto durante taps r�pidos */
         body.user-select-none * { user-select: none; }
       `}</style>
     </div>,
@@ -389,7 +389,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
 /*
 Como integrar:
 -----------------
-1. Em um componente pai que já lista os filhotes:
+1. Em um componente pai que j� lista os filhotes:
 
   const [open, setOpen] = useState(false);
   const [storyIndex, setStoryIndex] = useState(0);
@@ -400,7 +400,7 @@ Como integrar:
                 open={open}
                 onClose={() => setOpen(false)} />
 
-2. Ajustar fonte da imagem para garantir proporção 9:16 quando disponÃ­vel.
+2. Ajustar fonte da imagem para garantir propor��o 9:16 quando disponível.
 */
 
 

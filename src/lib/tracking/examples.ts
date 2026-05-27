@@ -1,9 +1,9 @@
-﻿/**
+/**
  * Exemplos de uso do backend de Tracking Settings
- * By ImpÃ©rio Dog - Sistema de Pixels/Analytics
+ * By Império Dog - Sistema de Pixels/Analytics
  * 
- * Este arquivo contÃ©m exemplos de como consumir as APIs de tracking
- * tanto no frontend pÃºblico quanto no painel admin.
+ * Este arquivo contém exemplos de como consumir as APIs de tracking
+ * tanto no frontend público quanto no painel admin.
  */
 
 import type {
@@ -15,15 +15,15 @@ import type {
 } from '@/types/tracking';
 
 // ============================================================================
-// 1. FRONTEND PÃšBLICO - Buscar configuraÃ§Ãµes de tracking (GET)
+// 1. FRONTEND PÚBLICO - Buscar configurações de tracking (GET)
 // ============================================================================
 
 /**
- * Busca as configuraÃ§Ãµes pÃºblicas de tracking (pixels e analytics)
+ * Busca as configurações públicas de tracking (pixels e analytics)
  * Usado no frontend para injetar scripts dinamicamente
  * 
  * Endpoint: GET /api/settings/tracking
- * Auth: NÃ£o requer autenticaÃ§Ã£o (pÃºblico)
+ * Auth: Não requer autenticação (público)
  */
 export async function getPublicTrackingSettings(): Promise<PublicTrackingSettings | null> {
   try {
@@ -85,15 +85,15 @@ export function ExampleUsageInComponent() {
 }
 
 // ============================================================================
-// 2. PAINEL ADMIN - Buscar todas as configuraÃ§Ãµes (GET)
+// 2. PAINEL ADMIN - Buscar todas as configurações (GET)
 // ============================================================================
 
 /**
- * Busca todas as configuraÃ§Ãµes (incluindo tokens secretos)
+ * Busca todas as configurações (incluindo tokens secretos)
  * Usado apenas no painel admin
  * 
  * Endpoint: GET /api/admin/settings
- * Auth: Requer autenticaÃ§Ã£o de admin
+ * Auth: Requer autenticação de admin
  */
 export async function getAdminTrackingSettings(): Promise<TrackingSettings | null> {
   try {
@@ -102,12 +102,12 @@ export async function getAdminTrackingSettings(): Promise<TrackingSettings | nul
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // Incluir cookies de autenticaÃ§Ã£o
+      credentials: 'include', // Incluir cookies de autenticação
     });
 
     if (!response.ok) {
       if (response.status === 401) {
-        console.error('NÃ£o autenticado como admin');
+        console.error('Não autenticado como admin');
         return null;
       }
       console.error('Erro ao buscar settings:', response.statusText);
@@ -123,14 +123,14 @@ export async function getAdminTrackingSettings(): Promise<TrackingSettings | nul
 }
 
 // ============================================================================
-// 3. PAINEL ADMIN - Atualizar configuraÃ§Ãµes (POST)
+// 3. PAINEL ADMIN - Atualizar configurações (POST)
 // ============================================================================
 
 /**
- * Atualiza as configuraÃ§Ãµes de tracking no painel admin
+ * Atualiza as configurações de tracking no painel admin
  * 
  * Endpoint: POST /api/admin/settings
- * Auth: Requer autenticaÃ§Ã£o de admin
+ * Auth: Requer autenticação de admin
  */
 export async function updateTrackingSettings(
   payload: UpdateTrackingPayload
@@ -141,7 +141,7 @@ export async function updateTrackingSettings(
       headers: {
         'Content-Type': 'application/json',
       },
-      credentials: 'include', // Incluir cookies de autenticaÃ§Ã£o
+      credentials: 'include', // Incluir cookies de autenticação
       body: JSON.stringify(payload),
     });
 
@@ -150,7 +150,7 @@ export async function updateTrackingSettings(
     if (!response.ok) {
       return {
         success: false,
-        error: data.error || 'Erro ao atualizar configuraÃ§Ãµes',
+        error: data.error || 'Erro ao atualizar configurações',
       };
     }
 
@@ -162,7 +162,7 @@ export async function updateTrackingSettings(
     console.error('Erro ao atualizar tracking settings:', error);
     return {
       success: false,
-      error: 'Erro de conexÃ£o com o servidor',
+      error: 'Erro de conexão com o servidor',
     };
   }
 }
@@ -187,7 +187,7 @@ export const exampleUpdateMultiplePixels: UpdateTrackingPayload = {
 };
 
 /**
- * Exemplo 3: ConfiguraÃ§Ã£o completa com todos os pixels
+ * Exemplo 3: Configuração completa com todos os pixels
  */
 export const exampleFullConfiguration: UpdateTrackingPayload = {
   gtm_id: 'GTM-ABC123',
@@ -234,7 +234,7 @@ export const exampleCustomPixels: UpdateTrackingPayload = {
 // ============================================================================
 
 /**
- * Exemplo de formulÃ¡rio de configuraÃ§Ã£o no painel admin
+ * Exemplo de formulário de configuração no painel admin
  */
 export function ExampleAdminForm() {
   /*
@@ -250,7 +250,7 @@ export function ExampleAdminForm() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     
-    // Carregar configuraÃ§Ãµes atuais
+    // Carregar configurações atuais
     useEffect(() => {
       getAdminTrackingSettings().then((settings) => {
         if (settings) {
@@ -260,7 +260,7 @@ export function ExampleAdminForm() {
       });
     }, []);
     
-    // Salvar configuraÃ§Ãµes
+    // Salvar configurações
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       setLoading(true);
@@ -307,7 +307,7 @@ export function ExampleAdminForm() {
         {success && <div className="success">Salvo com sucesso!</div>}
         
         <button type="submit" disabled={loading}>
-          {loading ? 'Salvando...' : 'Salvar ConfiguraÃ§Ãµes'}
+          {loading ? 'Salvando...' : 'Salvar Configurações'}
         </button>
       </form>
     );
@@ -321,12 +321,12 @@ export function ExampleAdminForm() {
 
 /**
  * Dispara um evento de teste no Facebook Pixel
- * Usado no botão "Testar Pixel" do painel admin
+ * Usado no bot�o "Testar Pixel" do painel admin
  */
 export function testFacebookPixel(_pixelId: string) {
   if (typeof window === 'undefined') return;
 
-  // Verifica se o fbq está disponível
+  // Verifica se o fbq est� dispon�vel
   const win = window as unknown as { fbq?: (...args: unknown[]) => void };
   if (typeof win.fbq === 'function') {
     win.fbq('track', 'Lead', {
@@ -336,7 +336,7 @@ export function testFacebookPixel(_pixelId: string) {
     });
     alert('Evento de teste enviado! Verifique no Event Manager do Facebook.');
   } else {
-    alert('Facebook Pixel nÃ£o estÃ¡ carregado na pÃ¡gina. Certifique-se de que o ID estÃ¡ configurado e o script foi injetado.');
+    alert('Facebook Pixel não está carregado na página. Certifique-se de que o ID está configurado e o script foi injetado.');
   }
 }
 
@@ -346,7 +346,7 @@ export function testFacebookPixel(_pixelId: string) {
 export function testGoogleAnalytics(_measurementId: string) {
   if (typeof window === 'undefined') return;
 
-  // Verifica se o gtag está disponível
+  // Verifica se o gtag est� dispon�vel
   const win = window as unknown as { gtag?: (...args: unknown[]) => void };
   if (typeof win.gtag === 'function') {
     win.gtag('event', 'test_event', {
@@ -356,7 +356,7 @@ export function testGoogleAnalytics(_measurementId: string) {
     });
     alert('Evento de teste enviado! Verifique no Google Analytics em Tempo Real.');
   } else {
-    alert('Google Analytics nÃ£o estÃ¡ carregado na pÃ¡gina. Certifique-se de que o ID estÃ¡ configurado e o script foi injetado.');
+    alert('Google Analytics não está carregado na página. Certifique-se de que o ID está configurado e o script foi injetado.');
   }
 }
 
@@ -380,7 +380,7 @@ export async function updatePublicTrackingIds(payload: {
     if (!response.ok) {
       return {
         success: false,
-        error: (data as TrackingAPIError)?.error || 'Erro ao salvar configurações de tracking',
+        error: (data as TrackingAPIError)?.error || 'Erro ao salvar configura��es de tracking',
       };
     }
 
