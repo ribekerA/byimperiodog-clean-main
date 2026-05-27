@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 // Curated videos with humanized titles and descriptions
-export const GALLERY_VIDEOS = [
+const GALLERY_VIDEOS = [
   {
     src: "/filhotes/videos/apresentacao-canil.mp4",
     title: "Apresentação do Canil",
