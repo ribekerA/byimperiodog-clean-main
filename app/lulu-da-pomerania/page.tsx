@@ -8,11 +8,12 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania`;
+const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
   title: "Lulu da Pomerânia — Raça, Preço, Cuidados e Filhotes | By Império Dog",
   description:
-    "Guia completo sobre o Lulu da Pomerânia (Spitz Alemão Anão): características, personalidade, preços em 2025, cuidados, cores e onde comprar com segurança. Criadora responsável em Bragança Paulista, SP.",
+    `Guia completo sobre o Lulu da Pomerânia (Spitz Alemão Anão): características, personalidade, preços em ${CURRENT_YEAR}, cuidados, cores e onde comprar com segurança. Criadora responsável em Bragança Paulista, SP.`,
   keywords: [
     "Lulu da Pomerânia",
     "Lulu da Pomerânia preço",
@@ -83,6 +84,17 @@ export default function LuluDaPomeraniaPage() {
       <Script id="ld-lulu-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <Script id="ld-lulu-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <Script id="ld-lulu-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <Script id="ld-breed-synonyms"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "about": {
+          "@type": "Thing",
+          "name": "Spitz Alemão Anão",
+          "alternateName": ["Lulu da Pomerânia", "Pomeranian", "Pomerânio", "Spitz Alemão", "Spitz Anão", "Mini Spitz"],
+          "description": "Raça de cão de pequeno porte originária da Pomerânia, conhecido como Lulu da Pomerânia no Brasil e Pomeranian em inglês.",
+          "sameAs": "https://www.fci.be/en/nomenclature/SPITZ-ALLEMAND-NAIN-97.html"
+        }
+      }) }} />
 
       {/* HERO */}
       <header className="space-y-4">
@@ -94,6 +106,16 @@ export default function LuluDaPomeraniaPage() {
           O Lulu da Pomerânia é um dos cães de companhia mais amados do Brasil — pequeno, fofo, inteligente e cheio de personalidade. Aqui você encontra tudo: o que é a raça, quanto custa, como cuidar e onde encontrar filhotes com procedência.
         </p>
       </header>
+
+      {/* Três nomes */}
+      <section aria-labelledby="nomes-lulu-heading" className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 sm:p-6">
+        <h2 id="nomes-lulu-heading" className="text-base font-bold text-emerald-900">
+          Lulu da Pomerânia, Spitz Alemão Anão e Pomeranian — são o mesmo cão
+        </h2>
+        <p className="mt-2 text-sm text-emerald-800 leading-relaxed">
+          O <strong>Lulu da Pomerânia</strong> é o nome mais popular no Brasil para esta raça. Oficialmente, pela FCI, a raça se chama <strong>Spitz Alemão Anão</strong>. No mundo inteiro é conhecido como <strong>Pomeranian</strong> (em inglês). Outros nomes usados: <em>Spitz Anão</em>, <em>Mini Spitz</em>, <em>Pomerânio</em>. Todos referem-se ao mesmo cão compacto, fofo e cheio de personalidade.
+        </p>
+      </section>
 
       {/* O que é */}
       <section aria-labelledby="oque-heading" className="space-y-3">

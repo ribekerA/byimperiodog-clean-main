@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     "como escolher criador Lulu da Pomerânia",
     "By Império Dog criador confiável",
     "canil responsável cachorro pequeno SP",
+    "Pomeranian",
+    "Pomeranian Brasil",
   ],
   alternates: { canonical: "/criador-spitz-confiavel" },
   openGraph: {

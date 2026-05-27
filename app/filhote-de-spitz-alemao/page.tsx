@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     "filhote Spitz Alemão com documentação Brasil",
     "cuidados filhote Spitz Alemão",
     "filhote Lulu da Pomerânia disponível SP",
+    "Pomeranian",
+    "Pomeranian Brasil",
   ],
   alternates: { canonical: "/filhote-de-spitz-alemao" },
   openGraph: {

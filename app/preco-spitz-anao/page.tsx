@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     "Lulu da Pomerânia preço fêmea macho",
     "custo Spitz Alemão com registro oficial",
     "por que Spitz Alemão é caro",
+    "Pomeranian",
+    "Pomeranian Brasil",
   ],
   alternates: { canonical: "/preco-spitz-anao" },
   openGraph: {

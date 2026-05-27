@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     "Spitz Alemão preto preço",
     "filhote Spitz Alemão preto com documentação",
     "Spitz Alemão preto SP",
+    "Pomeranian",
+    "Pomeranian Brasil",
   ],
   alternates: { canonical: "/spitz-alemao-preto" },
   openGraph: {

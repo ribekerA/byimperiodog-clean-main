@@ -94,6 +94,17 @@ export default function SpitzAlemaoPage() {
       <Script id="ld-spitz-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <Script id="ld-spitz-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <Script id="ld-spitz-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <Script id="ld-breed-synonyms"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "about": {
+          "@type": "Thing",
+          "name": "Spitz Alemão Anão",
+          "alternateName": ["Lulu da Pomerânia", "Pomeranian", "Pomerânio", "Spitz Alemão", "Spitz Anão", "Mini Spitz"],
+          "description": "Raça de cão de pequeno porte originária da Pomerânia, conhecido como Lulu da Pomerânia no Brasil e Pomeranian em inglês.",
+          "sameAs": "https://www.fci.be/en/nomenclature/SPITZ-ALLEMAND-NAIN-97.html"
+        }
+      }) }} />
 
       {/* HERO */}
       <header className="space-y-4">
@@ -105,6 +116,16 @@ export default function SpitzAlemaoPage() {
           O Spitz Alemão Anão (também chamado de Lulu da Pomerânia ou Pomeranian) é uma das raças de cães de pequeno porte mais procuradas do Brasil. Nesta página você encontra tudo: origem, características, temperamento, cuidados e o que esperar da criação responsável.
         </p>
       </header>
+
+      {/* Três nomes */}
+      <section aria-labelledby="nomes-heading" className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5 sm:p-6">
+        <h2 id="nomes-heading" className="text-base font-bold text-emerald-900">
+          Spitz Alemão Anão, Lulu da Pomerânia e Pomeranian — são o mesmo cão
+        </h2>
+        <p className="mt-2 text-sm text-emerald-800 leading-relaxed">
+          A raça tem três nomes populares: <strong>Spitz Alemão Anão</strong> (nome oficial FCI), <strong>Lulu da Pomerânia</strong> (apelido mais comum no Brasil) e <strong>Pomeranian</strong> (nome em inglês, usado mundialmente). São exatamente o mesmo animal — compacto, de pelagem dupla densa e personalidade marcante.
+        </p>
+      </section>
 
       {/* Ficha técnica */}
       <section aria-labelledby="ficha-heading">

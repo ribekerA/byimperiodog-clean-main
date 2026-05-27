@@ -1,137 +1,137 @@
-# ✅ Fix: Encoding UTF-8 Blog Corrigido
+# ? Fix: Encoding UTF-8 Blog Corrigido
 
 **Data:** 26 de outubro de 2025  
 **Commits:** 78a578f, 01deb8e  
-**Status:** ✅ RESOLVIDO
+**Status:** ? RESOLVIDO
 
 ---
 
-## 🐛 Problema Identificado
+## ?? Problema Identificado
 
-O usuário reportou via screenshot que os caracteres acentuados no blog estavam sendo exibidos incorretamente:
+O usu"rio reportou via screenshot que os caracteres acentuados no blog estavam sendo exibidos incorretamente:
 
 ### Caracteres Corrompidos (Mojibake):
-- `decisÃ£o` → deveria ser **decisão**
-- `comeÃ§a` → deveria ser **começa**  
-- `vitalÃ­cia` → deveria ser **vitalícia**
-- `famÃ­lias` → deveria ser **famílias**
-- `socializaÃ§Ã£o` → deveria ser **socialização**
-- `disponÃveis` → deveria ser **disponíveis**
-- `tambÃ©m` → deveria ser **também**
-- `saÃºde` → deveria ser **saúde**
+- `decisão` ? deveria ser **decis"o**
+- `começa` ? deveria ser **come"a**  
+- `vitalícia` ? deveria ser **vital"cia**
+- `famílias` ? deveria ser **fam"lias**
+- `socialização` ? deveria ser **socializa""o**
+- `dispon"veis` ? deveria ser **dispon"veis**
+- `também` ? deveria ser **tamb"m**
+- `saúde` ? deveria ser **sa"de**
 
 ### Root Cause:
-- **Mojibake:** Problema clássico de charset encoding
+- **Mojibake:** Problema cl"ssico de charset encoding
 - Texto UTF-8 sendo interpretado como Latin-1/ISO-8859-1
-- Arquivos salvos com BOM ou encoding misto no código-fonte
+- Arquivos salvos com BOM ou encoding misto no c"digo-fonte
 
 ---
 
-## 🔍 Diagnóstico
+## ?? Diagn"stico
 
-1. **Script de detecção:** `node scripts/check-encoding.mjs`
-   - Detectou **1291 ocorrências** em múltiplos arquivos
+1. **Script de detec""o:** `node scripts/check-encoding.mjs`
+   - Detectou **1291 ocorr"ncias** em m"ltiplos arquivos
    - Principais afetados: `app/blog/page.tsx`, componentes, SQL, tests
 
-2. **Arquivo crítico:** `app/blog/page.tsx`
-   - 11 ocorrências de mojibake no código-fonte
-   - Afetava diretamente a interface do blog visível ao usuário
+2. **Arquivo cr"tico:** `app/blog/page.tsx`
+   - 11 ocorr"ncias de mojibake no c"digo-fonte
+   - Afetava diretamente a interface do blog vis"vel ao usu"rio
 
 ---
 
-## ✅ Solução Aplicada
+## ? Solu""o Aplicada
 
-### 1. Script Automático
+### 1. Script Autom"tico
 ```bash
 node scripts/fix-encoding.mjs --write
-# Corrigiu 193 ocorrências em 7 arquivos
+# Corrigiu 193 ocorr"ncias em 7 arquivos
 ```
 
-### 2. Correções Manuais em `app/blog/page.tsx`
+### 2. Corre""es Manuais em `app/blog/page.tsx`
 
 | Linha | Antes | Depois |
 |-------|-------|--------|
-| 49 | `vitalÃ­cia para famÃ­lias` | `vitalícia para famílias` |
-| 58 | `OrientaçÃµes...contÃ­nuo` | `Orientações...contínuo` |
-| 67 | `vÃ­deos` | `vídeos` |
-| 77 | `clÃ­nico` | `clínico` |
-| 84 | `logÃ­stica` | `logística` |
-| 123 | `Ã s...vitalÃ­cia` | `às...vitalícia` |
-| 133 | `logÃ­stica...famÃ­lia` | `logística...família` |
-| 155 | `possÃ­vel` | `possível` |
+| 49 | `vitalícia para famílias` | `vital"cia para fam"lias` |
+| 58 | `Orienta"ões...contínuo` | `Orienta""es...cont"nuo` |
+| 67 | `vídeos` | `v"deos` |
+| 77 | `clínico` | `cl"nico` |
+| 84 | `logística` | `log"stica` |
+| 123 | `" s...vitalícia` | `"s...vital"cia` |
+| 133 | `logística...família` | `log"stica...fam"lia` |
+| 155 | `possível` | `poss"vel` |
 
-### 3. Validações
+### 3. Valida""es
 ```bash
-npm run typecheck  # ✅ PASS
-git status         # ✅ No errors
+npm run typecheck  # ? PASS
+git status         # ? No errors
 ```
 
 ---
 
-## 📦 Commits Realizados
+## ?? Commits Realizados
 
 ### Commit 1: `78a578f` - Fix mojibake and encoding issues
-- Corrigiu caracteres corrompidos em múltiplos arquivos
-- Aplicou script automático de correção
+- Corrigiu caracteres corrompidos em m"ltiplos arquivos
+- Aplicou script autom"tico de corre""o
 
 ### Commit 2: `01deb8e` - Update page.tsx
-- Correções finais manuais em app/blog/page.tsx
-- 8 ocorrências de mojibake resolvidas
+- Corre""es finais manuais em app/blog/page.tsx
+- 8 ocorr"ncias de mojibake resolvidas
 
 ---
 
-## 🎯 Resultado
+## ?? Resultado
 
 ### Antes:
-```
-Blog By Imperio Dog: decisÃ£o com responsabilidade comeÃ§a pelo conhecimento.
-Checklist premium e mentoria vitalÃ­cia para famÃ­lias exigentes.
-```
-
-### Depois:
 ```
 Blog By Imperio Dog: decisão com responsabilidade começa pelo conhecimento.
 Checklist premium e mentoria vitalícia para famílias exigentes.
 ```
 
+### Depois:
+```
+Blog By Imperio Dog: decis"o com responsabilidade come"a pelo conhecimento.
+Checklist premium e mentoria vital"cia para fam"lias exigentes.
+```
+
 ---
 
-## 🛠️ Ferramentas Criadas
+## ??? Ferramentas Criadas
 
 ### `scripts/check-encoding.mjs`
-- Detecta sequências de mojibake em arquivos
-- Usa regex para encontrar padrões UTF-8 corrompidos
+- Detecta sequ"ncias de mojibake em arquivos
+- Usa regex para encontrar padr"es UTF-8 corrompidos
 - Output: lista de arquivos e linhas afetadas
 
 ### `scripts/fix-encoding.mjs`
 - Converte automaticamente mojibake para UTF-8 correto
 - Modo dry-run para preview
-- Modo --write para aplicar correções
+- Modo --write para aplicar corre""es
 
-### Mapa de Conversão:
+### Mapa de Convers"o:
 ```javascript
 const MOJIBAKE_MAP = {
-  'Ã¡': 'á', 'Ã©': 'é', 'Ã­': 'í', 'Ã³': 'ó', 'Ãº': 'ú',
-  'Ã£': 'ã', 'Ãµ': 'õ', 'Ã§': 'ç', 'Ãª': 'ê', 'Ã´': 'ô',
-  'Ã ': 'à', 'Ã¢': 'â', 'Ã¼': 'ü', 'Ã±': 'ñ'
+  'á': '"', 'é': '"', 'í': '"', 'ó': '"', 'ú': '"',
+  'ã': '"', 'õ': '"', 'ç': '"', 'ê': '"', 'ô': '"',
+  '" ': '"', 'â': '"', 'ü': '"', 'ñ': '"'
 };
 ```
 
 ---
 
-## 📊 Estatísticas
+## ?? Estat"sticas
 
 - **Arquivos analisados:** 500+
 - **Arquivos corrigidos:** 8 (app/blog/page.tsx + 7 via script)
-- **Ocorrências corrigidas:** 201 total
-  - 193 via script automático
+- **Ocorr"ncias corrigidas:** 201 total
+  - 193 via script autom"tico
   - 8 manualmente em page.tsx
-- **Tempo de correção:** ~5 minutos
-- **Validações:** 100% PASS
+- **Tempo de corre""o:** ~5 minutos
+- **Valida""es:** 100% PASS
 
 ---
 
-## 🚀 Prevenção Futura
+## ?? Preven""o Futura
 
 ### 1. Configurar `.editorconfig` (recomendado)
 ```ini
@@ -168,25 +168,25 @@ indent_size = 2
 
 ---
 
-## ✅ Checklist de Validação
+## ? Checklist de Valida""o
 
 - [x] Caracteres exibidos corretamente no navegador
 - [x] TypeCheck passing (zero erros)
 - [x] Git clean (commits pushed)
-- [x] Scripts de detecção/correção criados
-- [x] Documentação completa
-- [x] Prevenção configurada
+- [x] Scripts de detec""o/corre""o criados
+- [x] Documenta""o completa
+- [x] Preven""o configurada
 
 ---
 
-## 🎉 Conclusão
+## ?? Conclus"o
 
-O problema de encoding foi **100% resolvido**. Todos os caracteres acentuados portugueses agora são exibidos corretamente no blog. Scripts automáticos foram criados para detectar e corrigir futuros problemas de mojibake.
+O problema de encoding foi **100% resolvido**. Todos os caracteres acentuados portugueses agora s"o exibidos corretamente no blog. Scripts autom"ticos foram criados para detectar e corrigir futuros problemas de mojibake.
 
-**Status:** PRONTO PARA PRODUÇÃO 🚀
+**Status:** PRONTO PARA PRODU""O ??
 
 ---
 
-**Última atualização:** 26 de outubro de 2025  
-**Responsável:** GitHub Copilot  
+**"ltima atualiza""o:** 26 de outubro de 2025  
+**Respons"vel:** GitHub Copilot  
 **Commits:** 78a578f, 01deb8e

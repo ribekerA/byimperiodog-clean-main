@@ -19,6 +19,8 @@ export const metadata: Metadata = {
     "canil Lulu da Pomerânia interior SP",
     "filhote Spitz Alemão Bragança Paulista SP",
     "criador Spitz Alemão perto de mim interior SP",
+    "Pomeranian",
+    "Pomeranian Brasil",
   ],
   alternates: { canonical: "/lulu-da-pomerania-braganca-paulista" },
   openGraph: {
