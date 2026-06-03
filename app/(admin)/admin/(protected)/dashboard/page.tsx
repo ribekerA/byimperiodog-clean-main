@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Users, PawPrint, BarChart2, Plus, TrendingUp, TrendingDown, Minus } from "lucide-react";
 
 import { generateDeepInsights } from "@/lib/ai/deep-insights";
 import { generateDecisions } from "@/lib/ai/decision-engine";
@@ -10,6 +12,9 @@ import { OperationalAlertsPanel, type OperationalAlerts } from "./OperationalAle
 import { refreshOperationalInsightsAction } from "./actions";
 import { DashboardErrorNotifier } from "./DashboardErrorNotifier";
 import { mapDeepInsightsToPayload } from "./insights";
+import { DashboardChartsSection } from "./DashboardChartsSection";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Dashboard | Admin",
@@ -25,9 +30,17 @@ type LeadRow = {
   cor_preferida?: string | null;
   sexo_preferido?: string | null;
   status?: string | null;
+  utm_source?: string | null;
   lead_ai_insights?: {
     matched_puppy_id?: string | null;
   } | null;
+};
+
+type SourceBreakdownItem = {
+  source: string;
+  count: number;
+  pct: number;
+  fechados: number;
 };
 
 type PuppyRow = {
@@ -67,6 +80,8 @@ type LatestLead = {
   matchedPuppy?: { id: string; name?: string | null } | null;
 };
 
+type DayPoint = { label: string; value: number };
+
 type DashboardSnapshot = {
   metrics: {
     leadsToday: number;
@@ -76,12 +91,16 @@ type DashboardSnapshot = {
     puppiesAvail: number;
     puppiesReserved: number;
     puppiesSold: number;
+    revenueEstCents: number;
+    avgResponseHours: number | null;
   };
   ops: OpsSnapshot;
   demandRisks: DemandRiskItem[];
   aiInsights: AIInsightPayload;
   decisions: Awaited<ReturnType<typeof generateDecisions>>;
   latestLeads: LatestLead[];
+  leadsByDay: DayPoint[];
+  sourceBreakdown: SourceBreakdownItem[];
 };
 
 function createEmptySnapshot(): DashboardSnapshot {
@@ -94,12 +113,16 @@ function createEmptySnapshot(): DashboardSnapshot {
       puppiesAvail: 0,
       puppiesReserved: 0,
       puppiesSold: 0,
+      revenueEstCents: 0,
+      avgResponseHours: null,
     },
     ops: { leadsNoResponse: 0, puppiesNoPrice: 0, puppiesNoPhoto: 0, puppies90: 0 },
     demandRisks: [],
     aiInsights: mapDeepInsightsToPayload({}),
     decisions: [] as Awaited<ReturnType<typeof generateDecisions>>,
     latestLeads: [],
+    leadsByDay: [],
+    sourceBreakdown: [],
   };
 }
 
@@ -125,22 +148,29 @@ async function fetchSnapshot(): Promise<DashboardSnapshot> {
   const [
     { data: leads, error: leadsError },
     { data: puppies, error: puppiesError },
+    { data: responseLogs },
     demandPredictions,
     deepInsights,
     decisions,
   ] = await Promise.all([
     sb
       .from("leads")
-      .select("id,created_at,nome,cidade,estado,cor_preferida,sexo_preferido,status,lead_ai_insights!left(matched_puppy_id)")
+      .select("id,created_at,nome,cidade,estado,cor_preferida,sexo_preferido,status,utm_source,lead_ai_insights")
       .gte("created_at", daysAgoIso(120))
       .order("created_at", { ascending: false }),
     sb
       .from("puppies")
       .select("id,name,status,price_cents,created_at,color,midia")
       .order("created_at", { ascending: false }),
-    recalcDemandPredictions(),
-    generateDeepInsights(),
-    generateDecisions(),
+    sb
+      .from("autosales_logs")
+      .select("lead_id,created_at")
+      .gte("created_at", daysAgoIso(30))
+      .order("created_at", { ascending: true })
+      .limit(1000),
+    recalcDemandPredictions().catch(() => [] as Awaited<ReturnType<typeof recalcDemandPredictions>>),
+    generateDeepInsights().catch(() => ({} as Awaited<ReturnType<typeof generateDeepInsights>>)),
+    generateDecisions().catch(() => [] as Awaited<ReturnType<typeof generateDecisions>>),
   ]);
 
   if (leadsError) {
@@ -172,6 +202,51 @@ async function fetchSnapshot(): Promise<DashboardSnapshot> {
     return days >= 90 && (p.status || "available") === "available";
   }).length;
 
+  // Receita estimada: soma dos price_cents dos filhotes vendidos
+  const revenueEstCents = puppiesArr
+    .filter((p) => p.status === "sold")
+    .reduce((sum, p) => sum + (p.price_cents ?? 0), 0);
+
+  // Tempo médio de resposta: diff entre created_at do lead e primeiro log de autosales
+  const firstLogByLead = new Map<string, string>();
+  (responseLogs ?? []).forEach((log: { lead_id: string; created_at: string }) => {
+    if (!firstLogByLead.has(log.lead_id)) firstLogByLead.set(log.lead_id, log.created_at);
+  });
+  const leadLookupForResponse = new Map(leadsArr.map((l) => [l.id, l.created_at]));
+  const responseDiffs: number[] = [];
+  firstLogByLead.forEach((logAt, leadId) => {
+    const leadCreatedAt = leadLookupForResponse.get(leadId);
+    if (!leadCreatedAt) return;
+    const diffMs = new Date(logAt).getTime() - new Date(leadCreatedAt).getTime();
+    if (diffMs >= 0) responseDiffs.push(diffMs / 3_600_000);
+  });
+  const avgResponseHours =
+    responseDiffs.length > 0
+      ? responseDiffs.reduce((s, v) => s + v, 0) / responseDiffs.length
+      : null;
+
+  // Breakdown de fonte: leads 30d agrupados por utm_source
+  const start30 = daysAgoIso(30);
+  const leads30 = leadsArr.filter((l) => l.created_at >= start30);
+  const sourceMap = new Map<string, { count: number; fechados: number }>();
+  leads30.forEach((l) => {
+    const src = l.utm_source?.trim() || "direto";
+    const entry = sourceMap.get(src) ?? { count: 0, fechados: 0 };
+    entry.count += 1;
+    if (l.status === "fechado") entry.fechados += 1;
+    sourceMap.set(src, entry);
+  });
+  const totalLeads30 = leads30.length;
+  const sourceBreakdown: SourceBreakdownItem[] = Array.from(sourceMap.entries())
+    .map(([source, { count, fechados }]) => ({
+      source,
+      count,
+      pct: totalLeads30 > 0 ? Math.round((count / totalLeads30) * 100) : 0,
+      fechados,
+    }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 6);
+
   const aiInsights = mapDeepInsightsToPayload(deepInsights);
 
   const latestLeads: LatestLead[] = leadsArr.slice(0, 5).map((lead) => {
@@ -187,6 +262,26 @@ async function fetchSnapshot(): Promise<DashboardSnapshot> {
       matchedPuppy,
     };
   });
+
+  // Leads por dia — últimos 14 dias
+  const start14 = daysAgoIso(14);
+  const buckets14 = new Map<string, number>();
+  leadsArr
+    .filter((l) => l.created_at >= start14)
+    .forEach((l) => {
+      const day = l.created_at.slice(0, 10);
+      buckets14.set(day, (buckets14.get(day) ?? 0) + 1);
+    });
+  // fill any missing days with 0
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = d.toISOString().slice(0, 10);
+    if (!buckets14.has(key)) buckets14.set(key, 0);
+  }
+  const leadsByDay: DayPoint[] = Array.from(buckets14.entries())
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([label, value]) => ({ label, value }));
 
   // Risco: demanda alta x estoque baixo por cor
   const colorStock = new Map<string, number>();
@@ -213,12 +308,14 @@ async function fetchSnapshot(): Promise<DashboardSnapshot> {
     .slice(0, 6);
 
   return {
-    metrics: { leadsToday, leads7d, leadsPrev7, leadsDelta, puppiesAvail, puppiesReserved, puppiesSold },
+    metrics: { leadsToday, leads7d, leadsPrev7, leadsDelta, puppiesAvail, puppiesReserved, puppiesSold, revenueEstCents, avgResponseHours },
     ops: { leadsNoResponse, puppiesNoPrice, puppiesNoPhoto, puppies90 },
     demandRisks,
     aiInsights,
     decisions,
     latestLeads,
+    leadsByDay,
+    sourceBreakdown,
   };
 }
 
@@ -243,20 +340,48 @@ function statusTone(delta: number) {
 
 export default async function DashboardPage() {
   const { data: snapshot, error: snapshotError } = await loadDashboardSnapshot();
-  const { metrics, ops, demandRisks, aiInsights, decisions, latestLeads } = snapshot;
+  const { metrics, ops, demandRisks, aiInsights, decisions, latestLeads, leadsByDay, sourceBreakdown } = snapshot;
   const operationalAlerts = buildOperationalAlerts(ops, demandRisks);
 
   return (
     <div className="space-y-6">
       <DashboardErrorNotifier message={snapshotError} />
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-3xl font-semibold text-[var(--text)]">Console operacional</h1>
-          <p className="text-sm text-[var(--text-muted)]">Visao em tempo quase real com IA aplicada.</p>
-        </div>
-      </header>
 
-      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      {/* Header + Quick Actions */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-[var(--text)]">Console operacional</h1>
+          <p className="mt-0.5 text-sm text-[var(--text-muted)]">Visão em tempo real com IA aplicada.</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href="/admin/blog/editor"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+          >
+            <Plus className="h-3.5 w-3.5" aria-hidden /> Novo post
+          </Link>
+          <Link
+            href="/admin/leads"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-emerald-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+          >
+            <Users className="h-3.5 w-3.5" aria-hidden /> Leads
+          </Link>
+          <Link
+            href="/admin/puppies"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-emerald-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+          >
+            <PawPrint className="h-3.5 w-3.5" aria-hidden /> Estoque
+          </Link>
+          <Link
+            href="/admin/analytics"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-emerald-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+          >
+            <BarChart2 className="h-3.5 w-3.5" aria-hidden /> Analytics
+          </Link>
+        </div>
+      </div>
+
+      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
         <SmartCard
           label="Leads hoje"
           value={metrics.leadsToday}
@@ -273,7 +398,26 @@ export default async function DashboardPage() {
         />
         <SmartCard label="Disponíveis" value={metrics.puppiesAvail} tone={metrics.puppiesAvail > 0 ? "good" : "bad"} helper="Estoque atual" />
         <SmartCard label="Reservados" value={metrics.puppiesReserved} tone="neutral" helper="Acompanhar confirmações" />
+        <SmartCard
+          label="Receita estimada"
+          value={new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(metrics.revenueEstCents / 100)}
+          tone={metrics.revenueEstCents > 0 ? "good" : "neutral"}
+          helper="Total de filhotes vendidos"
+        />
+        <SmartCard
+          label="Tempo de resposta"
+          value={metrics.avgResponseHours !== null ? `${metrics.avgResponseHours.toFixed(1)}h` : "—"}
+          tone={metrics.avgResponseHours === null ? "neutral" : metrics.avgResponseHours <= 2 ? "good" : metrics.avgResponseHours <= 6 ? "neutral" : "bad"}
+          helper="Média lead → 1ª mensagem (30d)"
+        />
       </section>
+
+      <DashboardChartsSection
+        leadsByDay={leadsByDay}
+        puppiesAvail={metrics.puppiesAvail}
+        puppiesReserved={metrics.puppiesReserved}
+        puppiesSold={metrics.puppiesSold}
+      />
 
       <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm" aria-labelledby="latest-leads-heading">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -317,13 +461,46 @@ export default async function DashboardPage() {
         )}
       </section>
 
+      {sourceBreakdown.length > 0 && (
+        <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm" aria-labelledby="source-breakdown-heading">
+          <h2 id="source-breakdown-heading" className="text-lg font-semibold text-[var(--text)]">Origem dos leads (30d)</h2>
+          <p className="text-sm text-[var(--text-muted)]">Qual canal traz mais leads e conversões.</p>
+          <div className="mt-3 overflow-hidden rounded-xl border border-[var(--border)]">
+            <table className="min-w-full divide-y divide-[var(--border)] text-sm">
+              <thead className="bg-[var(--surface-2)] text-left text-[11px] uppercase tracking-wide text-[var(--text-muted)]">
+                <tr>
+                  <th className="px-4 py-2">Fonte</th>
+                  <th className="px-4 py-2 text-right">Leads</th>
+                  <th className="px-4 py-2 text-right">% do total</th>
+                  <th className="px-4 py-2 text-right">Fechados</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border)] bg-white">
+                {sourceBreakdown.map((row) => (
+                  <tr key={row.source} className="hover:bg-[var(--surface)]">
+                    <td className="px-4 py-2 font-medium capitalize text-[var(--text)]">{row.source}</td>
+                    <td className="px-4 py-2 text-right tabular-nums text-[var(--text)]">{row.count}</td>
+                    <td className="px-4 py-2 text-right tabular-nums text-[var(--text-muted)]">{row.pct}%</td>
+                    <td className="px-4 py-2 text-right">
+                      <span className={`font-semibold ${row.fechados > 0 ? "text-emerald-700" : "text-[var(--text-muted)]"}`}>
+                        {row.fechados}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
       <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
         <h2 className="text-lg font-semibold text-[var(--text)]">Indicadores operacionais</h2>
         <div className="mt-3 grid gap-3 md:grid-cols-2">
-          <IssueCard label="Leads sem resposta" value={ops.leadsNoResponse} severity={ops.leadsNoResponse > 5 ? "high" : "medium"} />
-          <IssueCard label="Filhotes sem preço" value={ops.puppiesNoPrice} severity={ops.puppiesNoPrice > 0 ? "high" : "low"} />
-          <IssueCard label="Filhotes sem foto" value={ops.puppiesNoPhoto} severity={ops.puppiesNoPhoto > 0 ? "high" : "low"} />
-          <IssueCard label="Filhotes > 90 dias" value={ops.puppies90} severity={ops.puppies90 > 0 ? "warning" : "low"} />
+          <IssueCard label="Leads sem resposta" value={ops.leadsNoResponse} severity={ops.leadsNoResponse > 5 ? "high" : ops.leadsNoResponse > 0 ? "medium" : "low"} />
+          <IssueCard label="Filhotes sem preço" value={ops.puppiesNoPrice} severity={ops.puppiesNoPrice > 3 ? "high" : ops.puppiesNoPrice > 0 ? "warning" : "low"} />
+          <IssueCard label="Filhotes sem foto" value={ops.puppiesNoPhoto} severity={ops.puppiesNoPhoto > 3 ? "high" : ops.puppiesNoPhoto > 0 ? "warning" : "low"} />
+          <IssueCard label="Filhotes > 90 dias" value={ops.puppies90} severity={ops.puppies90 > 2 ? "high" : ops.puppies90 > 0 ? "warning" : "low"} />
         </div>
       </section>
 
@@ -408,35 +585,54 @@ function SmartCard({
   tone: "good" | "bad" | "neutral";
   helper?: string;
 }) {
-  const toneClass =
-    tone === "good" ? "text-emerald-700 bg-emerald-50" : tone === "bad" ? "text-rose-700 bg-rose-50" : "text-[var(--text)] bg-[var(--surface)]";
+  const borderClass =
+    tone === "good" ? "border-emerald-200" : tone === "bad" ? "border-rose-200" : "border-[var(--border)]";
+  const badgeClass =
+    tone === "good"
+      ? "text-emerald-700 bg-emerald-50"
+      : tone === "bad"
+      ? "text-rose-700 bg-rose-50"
+      : "text-[var(--text-muted)] bg-[var(--surface)]";
   const displayValue = value ?? "—";
+  const TrendIcon =
+    delta === undefined ? null : delta > 0 ? TrendingUp : delta < 0 ? TrendingDown : Minus;
   return (
-    <div className="rounded-xl border border-[var(--border)] bg-white p-4 shadow-sm" role="status" aria-live="polite">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">{label}</p>
-      <p className="mt-2 text-3xl font-bold text-[var(--text)]">{displayValue}</p>
-      {delta !== undefined && (
-        <span className={`mt-1 inline-flex rounded-full px-2 py-0.5 text-[11px] font-semibold ${toneClass}`}>
-          {delta >= 0 ? "+" : ""}
-          {delta.toFixed(1)}%
-        </span>
-      )}
-      {helper && <p className="text-xs text-[var(--text-muted)]">{helper}</p>}
+    <div className={`rounded-xl border-2 ${borderClass} bg-white p-4 shadow-sm`} role="status" aria-live="polite">
+      <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--text-muted)]">{label}</p>
+      <p className="mt-1.5 text-4xl font-bold tabular-nums text-[var(--text)]">{displayValue}</p>
+      <div className="mt-2 flex items-center gap-2">
+        {delta !== undefined && TrendIcon && (
+          <span className={`inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-[11px] font-bold ${badgeClass}`}>
+            <TrendIcon className="h-3 w-3" aria-hidden />
+            {delta >= 0 ? "+" : ""}{delta.toFixed(1)}%
+          </span>
+        )}
+        {helper && <p className="text-[11px] text-[var(--text-muted)]">{helper}</p>}
+      </div>
     </div>
   );
 }
 
 function IssueCard({ label, value, severity }: { label: string; value: number; severity: "low" | "medium" | "warning" | "high" }) {
-  const tone =
-    severity === "high"
-      ? "bg-rose-50 text-rose-800"
-      : severity === "warning" || severity === "medium"
-        ? "bg-amber-50 text-amber-800"
-        : "bg-[var(--surface)] text-[var(--text)]";
+  const isOk = severity === "low";
+  const wrapClass = isOk
+    ? "bg-white border-[var(--border)]"
+    : severity === "high"
+      ? "bg-rose-50 border-rose-200"
+      : "bg-amber-50 border-amber-200";
+  const valueClass = isOk
+    ? "text-emerald-600"
+    : severity === "high"
+      ? "text-rose-700"
+      : "text-amber-700";
+  const dot = isOk ? "bg-emerald-400" : severity === "high" ? "bg-rose-500" : "bg-amber-400";
   return (
-    <div className={`rounded-xl border border-[var(--border)] px-3 py-2 ${tone}`} role="status" aria-live="polite">
-      <p className="text-sm font-semibold">{label}</p>
-      <p className="text-2xl font-bold">{value}</p>
+    <div className={`rounded-xl border px-4 py-3 ${wrapClass}`} role="status" aria-live="polite">
+      <div className="flex items-center gap-2">
+        <span className={`h-2 w-2 rounded-full ${dot}`} aria-hidden />
+        <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[var(--text-muted)]">{label}</p>
+      </div>
+      <p className={`mt-1 text-3xl font-bold tabular-nums ${valueClass}`}>{value}</p>
     </div>
   );
 }

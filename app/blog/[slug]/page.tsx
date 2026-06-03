@@ -10,11 +10,13 @@ import remarkGfm from "remark-gfm";
 import BlogCTAs from "@/components/blog/BlogCTAs";
 import BlogPuppyBanner from "@/components/blog/BlogPuppyBanner";
 import Comments from "@/components/blog/Comments";
+import FloatingReadCTA from "@/components/blog/FloatingReadCTA";
 import PostCard from "@/components/blog/PostCard";
 import Prose from "@/components/blog/Prose";
 import ReadingProgress from "@/components/blog/ReadingProgress";
 import ScrollAnalytics from "@/components/blog/ScrollAnalytics";
 import ShareButtons from "@/components/blog/ShareButtons";
+import StickyArticleCTA from "@/components/blog/StickyArticleCTA";
 import TocNav from "@/components/blog/Toc";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadForm from "@/components/LeadForm";
@@ -24,7 +26,8 @@ import SeoJsonLd from "@/components/SeoJsonLd";
 import { compileBlogMdx } from "@/lib/blog/mdx/compile";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { getRelatedUnified } from "@/lib/blog/related";
-import { buildBlogMetadata, buildArticleJsonLd } from "@/lib/blog/seo";
+import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
+import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import { blogPostingSchema } from "@/lib/schema";
 import { supabaseAnon } from "@/lib/supabaseAnon";
@@ -49,6 +52,7 @@ interface Post {
   category?: string | null;
   tags?: string[] | null;
   lang?: string | null;
+  faq?: { q: string; a: string }[] | null;
 }
 
 interface Author {
@@ -68,21 +72,47 @@ interface RelatedAny {
 type MDXComponentsMap = Record<string, React.ComponentType<Record<string, unknown>>>;
 
 async function fetchPost(slug: string, opts: { preview: boolean }): Promise<Post | null> {
+  // 1. Tenta Supabase primeiro
   try {
     const sb = supabaseAnon();
     const { data, error } = await sb
       .from("blog_posts")
       .select(
-        "id,slug,title,subtitle,excerpt,content_mdx,cover_url,cover_alt,published_at,created_at,updated_at,status,author_id,seo_title,seo_description,category,tags,lang"
+        "id,slug,title,subtitle,excerpt,content_mdx,cover_url,cover_alt,published_at,created_at,updated_at,status,author_id,seo_title,seo_description,category,tags,lang,faq"
       )
       .eq("slug", slug)
       .maybeSingle();
 
-    if (error) throw error;
-    if (!data) return null;
-    if (data.status === "published") return data as Post;
-    if (opts.preview && (data.status === "review" || data.status === "draft")) return data as Post;
-    return null;
+    if (!error && data) {
+      if (data.status === "published") return data as Post;
+      if (opts.preview && (data.status === "review" || data.status === "draft")) return data as Post;
+    }
+  } catch {}
+
+  // 2. Fallback: lê do sistema de arquivos MDX
+  try {
+    const mdx = await getMdxPostBySlug(slug);
+    if (!mdx) return null;
+    return {
+      id:              mdx.slug,
+      slug:            mdx.slug,
+      title:           mdx.title,
+      subtitle:        null,
+      excerpt:         mdx.excerpt ?? null,
+      content_mdx:     mdx.bodyRaw ?? null,
+      cover_url:       mdx.cover ?? null,
+      cover_alt:       mdx.title,
+      published_at:    mdx.date ?? new Date().toISOString(),
+      created_at:      mdx.date ?? new Date().toISOString(),
+      updated_at:      mdx.updated ?? mdx.date ?? null,
+      status:          "published",
+      author_id:       null,
+      seo_title:       null,
+      seo_description: mdx.excerpt ?? null,
+      category:        mdx.category ?? null,
+      tags:            mdx.tags ?? null,
+      lang:            "pt-BR",
+    } as Post;
   } catch {
     return null;
   }
@@ -126,18 +156,32 @@ export default async function BlogPostPage({
   searchParams?: { preview?: string };
 }) {
   const preview = process.env.NODE_ENV !== "production" && searchParams?.preview === "1";
-  const post = await fetchPost(params.slug, { preview });
+  let post: Post | null = null;
+  try {
+    post = await fetchPost(params.slug, { preview });
+  } catch (e) {
+    console.error('[blog/slug] fetchPost threw:', e);
+    return notFound();
+  }
 
   if (!post) return notFound();
 
   const author = await fetchAuthor(post.author_id);
-  const compiled = post.content_mdx ? await compileBlogMdx(post.content_mdx) : null;
+  let compiled = null;
+  try {
+    compiled = post.content_mdx ? await compileBlogMdx(post.content_mdx) : null;
+  } catch (e) {
+    console.error('[blog/slug] compileBlogMdx error:', e);
+  }
   const minutes = compiled?.readingTimeMinutes || estimateReadingTime(post.content_mdx || "");
   const related = (await getRelatedUnified(post.slug, 6)) as RelatedAny[];
+  const faqFromMdx = extractFaqFromMdx(post.content_mdx ?? "");
+  const faqFromDb = Array.isArray(post.faq) ? (post.faq as { q: string; a: string }[]) : [];
+  const faqItems = faqFromMdx.length > 0 ? faqFromMdx : faqFromDb;
   const { article, breadcrumb, faqBlock } = buildArticleJsonLd(
     post as Post & { content_mdx?: string | null },
     author,
-    { toc: compiled?.toc }
+    { toc: compiled?.toc, faq: faqItems.length > 0 ? faqItems : undefined }
   );
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br";
@@ -156,6 +200,12 @@ export default async function BlogPostPage({
   });
 
   const structuredData = [article, breadcrumb, faqBlock, blogSchema].filter(Boolean);
+
+  const waPhone = (process.env.NEXT_PUBLIC_WA_PHONE || "").replace(/\D/g, "");
+  const postUrl = `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`;
+  const sidebarWhatsappUrl = waPhone
+    ? whatsappLeadUrl(waPhone, { pageType: "blog", url: postUrl })
+    : `https://wa.me/5511968633239?text=${encodeURIComponent(`Olá! Li o artigo "${post.title}" e gostaria de saber mais sobre os filhotes.`)}`;
 
   const interlinks = [
     {
@@ -176,10 +226,11 @@ export default async function BlogPostPage({
   ];
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl px-4 py-10">
+    <div className="relative mx-auto w-full max-w-6xl px-4 pt-6 pb-16 sm:pt-8 sm:pb-20 lg:pt-10">
       <PageViewPing pageType="blog" />
       <SeoJsonLd data={structuredData} />
       <ReadingProgress />
+      <FloatingReadCTA whatsappUrl={sidebarWhatsappUrl} />
 
       {preview && post.status !== "published" ? (
         <div className="mb-6 flex flex-wrap items-center gap-3 rounded-md border border-amber-400 bg-amber-50 p-3 text-sm text-amber-800">
@@ -195,62 +246,83 @@ export default async function BlogPostPage({
       ) : null}
 
       <Breadcrumbs
-        className="mb-6"
+        className="mb-8"
         items={[
           { label: "Início", href: "/" },
           { label: "Blog", href: "/blog" },
-          { label: post.title, href: `/blog/${post.slug}` },
+          { label: post.title.length > 55 ? post.title.slice(0, 55) + "…" : post.title, href: `/blog/${post.slug}` },
         ]}
       />
 
-      <article className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
-        <div className="w-full flex-1 space-y-10">
-          <header className="space-y-4">
-            <span className="inline-flex items-center gap-2 rounded-pill bg-brand/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-brand">
-              {post.category || "Conteúdo premium"}
-            </span>
-            <h1 className="text-3xl font-serif text-text sm:text-4xl">{post.title}</h1>
-            {post.subtitle ? <p className="text-base text-text-muted">{post.subtitle}</p> : null}
-            <div className="flex flex-wrap items-center gap-3 text-xs text-text-soft">
-              {post.published_at ? <span>Publicado em {formatDate(post.published_at)}</span> : null}
-              {post.updated_at && post.updated_at !== post.published_at ? (
-                <span className="rounded-pill bg-surface-subtle px-3 py-1 font-medium text-text">Atualizado em {formatDate(post.updated_at)}</span>
-              ) : null}
-              {minutes ? (
-                <span className="rounded-pill bg-surface-subtle px-3 py-1 font-semibold text-text">
-                  {minutes} min de leitura
-                </span>
-              ) : null}
-            </div>
-            {author ? (
-              <div className="mt-2 flex items-center gap-3 text-sm text-text">
-                {author.avatar_url ? (
-                  <Image
-                    src={author.avatar_url}
-                    alt={author.name}
-                    width={36}
-                    height={36}
-                    className="h-9 w-9 rounded-full border object-cover"
-                  />
-                ) : (
-                  <div className="h-9 w-9 rounded-full border bg-surface-subtle" aria-hidden />
-                )}
-                <div>
-                  <span className="text-text-muted">Por </span>
-                  {author.slug ? (
-                    <Link href={`/autores/${author.slug}`} className="font-medium underline-offset-2 hover:underline">
-                      {author.name}
-                    </Link>
-                  ) : (
-                    <span className="font-medium">{author.name}</span>
-                  )}
-                </div>
-              </div>
-            ) : null}
-          </header>
+      <article lang={post.lang || "pt-BR"} className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
 
+        {/* ── Reading column ── */}
+        <div className="w-full min-w-0 flex-1">
+
+          {/* Header — constrained to reading measure */}
+          <div className="mx-auto w-full max-w-[72ch]">
+            <header>
+              {/* Category badge */}
+              <span className="inline-flex items-center rounded-full border border-brand/20 bg-brand/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.35em] text-brand">
+                {post.category || "Conteúdo premium"}
+              </span>
+
+              {/* Title — editorial tight leading gives look intencional, não sloppy */}
+              <h1 className="mt-3 font-serif leading-[1.1] tracking-tight text-text text-[1.5rem] sm:text-[1.875rem] lg:text-[2.375rem]">
+                {post.title}
+              </h1>
+
+              {post.subtitle ? (
+                <p className="mt-3 text-base leading-relaxed text-text-muted">{post.subtitle}</p>
+              ) : null}
+
+              {/* Compact meta row: avatar · author · date · reading time */}
+              <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-text-soft">
+                {author ? (
+                  <span className="flex items-center gap-1.5">
+                    {author.avatar_url ? (
+                      <Image
+                        src={author.avatar_url}
+                        alt={author.name}
+                        width={20}
+                        height={20}
+                        className="h-5 w-5 rounded-full border object-cover"
+                      />
+                    ) : null}
+                    <span className="font-medium text-text-muted">
+                      {author.slug ? (
+                        <Link href={`/autores/${author.slug}`} className="underline-offset-2 hover:text-text hover:underline">
+                          {author.name}
+                        </Link>
+                      ) : author.name}
+                    </span>
+                  </span>
+                ) : null}
+                {author && (post.published_at || minutes) ? (
+                  <span aria-hidden className="opacity-30 select-none">·</span>
+                ) : null}
+                {post.published_at ? (
+                  <time dateTime={post.published_at}>{formatDate(post.published_at)}</time>
+                ) : null}
+                {post.published_at && minutes ? (
+                  <span aria-hidden className="opacity-30 select-none">·</span>
+                ) : null}
+                {minutes ? <span>{minutes} min de leitura</span> : null}
+                {post.updated_at && post.updated_at !== post.published_at ? (
+                  <>
+                    <span aria-hidden className="opacity-30 select-none">·</span>
+                    <span className="rounded-full bg-surface-subtle px-2 py-0.5 font-medium text-text">
+                      Atualizado {formatDate(post.updated_at)}
+                    </span>
+                  </>
+                ) : null}
+              </div>
+            </header>
+          </div>
+
+          {/* Hero image — full column width for visual impact */}
           {post.cover_url ? (
-            <figure className="overflow-hidden rounded-3xl border border-border bg-surface-subtle shadow-soft">
+            <figure className="mt-6 overflow-hidden rounded-2xl border border-border bg-surface-subtle shadow-soft sm:mt-8 sm:rounded-3xl">
               <Image
                 src={post.cover_url}
                 alt={post.cover_alt || post.title}
@@ -258,101 +330,126 @@ export default async function BlogPostPage({
                 height={720}
                 priority
                 fetchPriority="high"
-                className="h-full w-full object-cover"
+                className="w-full h-auto"
                 sizes="(max-width: 1024px) 100vw, 65vw"
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
-                decoding="async"
+                decoding="sync"
                 draggable={false}
               />
-              {post.cover_alt ? (
-                <figcaption className="px-5 py-3 text-xs text-text-soft">{post.cover_alt}</figcaption>
+              {post.cover_alt && post.cover_alt !== post.title ? (
+                <figcaption className="border-t border-border/40 px-5 py-2.5 text-xs text-text-soft">
+                  {post.cover_alt}
+                </figcaption>
               ) : null}
             </figure>
           ) : null}
 
-          <div className="flex flex-col gap-4 rounded-2xl border-y border-border py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand">Compartilhe</p>
-              <p className="text-sm text-text-muted">Leve conhecimento premium para outros tutores responsáveis.</p>
+          {/* All post-image content — constrained to reading measure */}
+          <div className="mx-auto mt-6 w-full max-w-[72ch] space-y-8 sm:mt-8 sm:space-y-10">
+
+            {/* Share bar */}
+            <div className="border-y border-border py-4">
+              <ShareButtons title={post.title} url={`${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`} />
             </div>
-            <ShareButtons title={post.title} url={`${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`} />
-          </div>
 
-          <Prose>
-            {post.content_mdx ? (
-              <MDXRemote
-                source={post.content_mdx}
-                components={mdxComponents as MDXComponentsMap}
-                options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] } }}
-              />
-            ) : (
-              <p className="italic text-text-muted">Conteúdo em atualização.</p>
+            {/* Mobile TOC */}
+            {compiled?.toc && (
+              <details className="lg:hidden rounded-2xl border border-border bg-surface-subtle px-5 py-4">
+                <summary className="flex cursor-pointer list-none select-none items-center justify-between gap-2 text-sm font-semibold text-text [&::-webkit-details-marker]:hidden">
+                  <span>Neste artigo</span>
+                  <span className="text-xs leading-none text-text-muted">▾</span>
+                </summary>
+                <div className="mt-4 border-t border-border pt-3">
+                  <TocNav toc={compiled.toc} />
+                </div>
+              </details>
             )}
-          </Prose>
 
-          <BlogPuppyBanner postTitle={post.title} />
+            {/* Article body */}
+            <Prose>
+              {post.content_mdx ? (
+                <MDXRemote
+                  source={post.content_mdx}
+                  components={mdxComponents as MDXComponentsMap}
+                  options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] } }}
+                />
+              ) : (
+                <p className="italic text-text-muted">Conteúdo em atualização.</p>
+              )}
+            </Prose>
 
-          <section className="mt-10">
-            <h2 className="text-xl font-semibold">Quero receber recomendações</h2>
-            <LeadForm context={{ pageType: "blog", slug: post.slug }} />
-            {process.env.NEXT_PUBLIC_WA_PHONE && (
-              <div className="pt-2">
-                <a
-                  className="inline-block rounded bg-green-600 px-4 py-2 text-white"
-                  target="_blank"
-                  rel="noreferrer"
-                  href={whatsappLeadUrl(process.env.NEXT_PUBLIC_WA_PHONE.replace(/\D/g, ""), { pageType: "blog", url: `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}` })}
+            <BlogPuppyBanner postTitle={post.title} />
+
+            <section aria-labelledby="lead-section-title">
+              <h2 id="lead-section-title" className="text-xl font-semibold text-text">
+                Quero receber recomendações
+              </h2>
+              <LeadForm context={{ pageType: "blog", slug: post.slug }} />
+              {process.env.NEXT_PUBLIC_WA_PHONE && (
+                <div className="pt-3">
+                  <a
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground shadow-soft transition hover:bg-brand-600 focus-ring"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    href={whatsappLeadUrl(process.env.NEXT_PUBLIC_WA_PHONE.replace(/\D/g, ""), { pageType: "blog", url: `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}` })}
+                  >
+                    Falar no WhatsApp
+                  </a>
+                </div>
+              )}
+            </section>
+
+            <aside aria-label="Links relacionados" className="grid gap-3 rounded-3xl border border-border bg-surface-subtle p-5 shadow-soft sm:grid-cols-3">
+              {interlinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group flex flex-col gap-1.5 rounded-2xl border border-border/60 bg-surface p-4 transition hover:-translate-y-0.5 hover:border-brand/70"
                 >
-                  Falar no WhatsApp
-                </a>
-              </div>
-            )}
-          </section>
-
-          <aside className="grid gap-4 rounded-3xl border border-border bg-surface-subtle p-6 shadow-soft sm:grid-cols-3">
-            {interlinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="group flex flex-col gap-2 rounded-2xl border border-border/60 bg-surface p-4 transition hover:-translate-y-1 hover:border-brand/70"
-              >
-                <span className="text-xs font-semibold uppercase tracking-[0.3em] text-brand">Leia também</span>
-                <h3 className="text-sm font-semibold text-text group-hover:text-brand">{item.title}</h3>
-                <p className="text-xs text-text-muted">{item.description}</p>
-              </Link>
-            ))}
-          </aside>
-
-          <BlogCTAs postTitle={post.title} category={post.category} />
-
-          <div className="mt-16 border-t border-border pt-12">
-            <Comments postId={post.id} />
-          </div>
-
-          {related?.length ? (
-            <aside className="mt-20 border-t border-border pt-12">
-              <h2 className="mb-6 text-2xl font-serif text-text">Artigos relacionados</h2>
-              <ul className="grid gap-6 sm:grid-cols-2">
-                {related.slice(0, 4).map((relatedPost) => (
-                  <PostCard
-                    key={relatedPost.slug}
-                    href={`/blog/${relatedPost.slug}`}
-                    title={relatedPost.title}
-                    coverUrl={relatedPost.cover_url}
-                    excerpt={relatedPost.excerpt}
-                    date={relatedPost.published_at}
-                    readingTime={null}
-                  />
-                ))}
-              </ul>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand">Leia também</span>
+                  <h3 className="text-sm font-semibold leading-snug text-text group-hover:text-brand">{item.title}</h3>
+                  <p className="text-xs leading-relaxed text-text-muted">{item.description}</p>
+                </Link>
+              ))}
             </aside>
-          ) : null}
+
+            <BlogCTAs postTitle={post.title} category={post.category} />
+
+            <div className="border-t border-border pt-10">
+              <Comments postId={post.id} />
+            </div>
+
+            {related?.length ? (
+              <aside aria-labelledby="related-posts-title" className="border-t border-border pt-10">
+                <h2 id="related-posts-title" className="mb-5 text-xl font-serif text-text">
+                  Artigos relacionados
+                </h2>
+                <ul className="grid gap-5 sm:grid-cols-2">
+                  {related.slice(0, 4).map((relatedPost) => (
+                    <PostCard
+                      key={relatedPost.slug}
+                      href={`/blog/${relatedPost.slug}`}
+                      title={relatedPost.title}
+                      coverUrl={relatedPost.cover_url}
+                      excerpt={relatedPost.excerpt}
+                      date={relatedPost.published_at}
+                      readingTime={null}
+                    />
+                  ))}
+                </ul>
+              </aside>
+            ) : null}
+
+          </div>
         </div>
 
-        <div className="hidden w-full max-w-xs shrink-0 lg:block">
+        {/* ── Sidebar TOC + CTA ── */}
+        <div className="hidden w-full max-w-[16rem] shrink-0 lg:block">
           {compiled?.toc ? <TocNav toc={compiled.toc} /> : null}
+          <StickyArticleCTA whatsappUrl={sidebarWhatsappUrl} />
         </div>
+
       </article>
 
       <ScrollAnalytics postId={post.id} readingTimeMin={minutes} />

@@ -28,6 +28,7 @@ export type ParsedLeadFilters = {
   city?: string;
   dateFrom?: string;
   dateTo?: string;
+  search?: string;
 };
 
 export type LeadAiSummary = {
@@ -60,6 +61,7 @@ export type LeadListItem = {
   page?: string | null;
   preferredSex?: string | null;
   source?: string | null;
+  mensagem?: string | null;
   aiSummary?: LeadAiSummary | null;
   matchedPuppy?: LeadPuppyMatch | null;
   aiAdvisor: LeadAdvisorSnapshot;
@@ -196,7 +198,8 @@ export function parseLeadFilters(searchParams: Record<string, string | string[] 
   const pageParam = Number(firstParam(searchParams.page));
   const page = Number.isFinite(pageParam) && pageParam > 0 ? Math.floor(pageParam) : 1;
 
-  const filters: ParsedLeadFilters = { statuses, colors, city, dateFrom, dateTo };
+  const search = firstParam(searchParams.search)?.trim().slice(0, 100) || undefined;
+  const filters: ParsedLeadFilters = { statuses, colors, city, dateFrom, dateTo, search };
   return { filters, page };
 }
 
@@ -235,6 +238,10 @@ export async function fetchAdminLeads({
   }
   if (filters.dateTo) {
     query = query.lte("created_at", `${filters.dateTo}T23:59:59Z`);
+  }
+  if (filters.search) {
+    const s = `%${filters.search}%`;
+    query = query.or(`nome.ilike.${s},telefone.ilike.${s}`);
   }
 
   const [listRes, statusAggRes, colorRes, cityRes] = await Promise.all([
@@ -326,6 +333,7 @@ export async function fetchAdminLeads({
       page: (row.page_slug ?? row.page ?? null) as string | null,
       preferredSex: (row.sexo_preferido ?? (row as any).sexo ?? null) as string | null,
       source: (row.utm_campaign ?? row.utm_source ?? row.utm_medium ?? row.source ?? row.referer ?? null) as string | null,
+      mensagem: ((row as any).mensagem ?? (row as any).notes ?? null) as string | null,
       aiSummary: ai
         ? {
             risk: ai.risk,

@@ -7,6 +7,7 @@ const items = [
   { href:'/admin/blog', label:'Posts' },
   { href:'/admin/blog/editor', label:'Novo/Editor' },
   { href:'/admin/blog/editor/wizard', label:'Wizard IA' },
+  { href:'/admin/blog/autopilot', label:'Autopilot IA' },
   { href:'/admin/blog/schedule', label:'Agenda' },
   { href:'/admin/blog/comments', label:'Comentários' },
   { href:'/admin/blog/analytics', label:'Analytics' },

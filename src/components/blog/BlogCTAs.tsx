@@ -52,6 +52,44 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
 
   return (
     <div className="space-y-8">
+      {/* Newsletter — full-width, topo da seção */}
+      <div className="rounded-3xl border border-border bg-gradient-to-br from-emerald-50 to-white p-6 shadow-soft sm:p-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-1.5">
+            <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-brand">Newsletter · Tutores premium</p>
+            <h3 className="text-xl font-serif text-text">Receba o guia exclusivo do 1.º ano do Spitz</h3>
+            <p className="text-sm text-text-muted">
+              Nutrição, comportamento, rotinas e saúde — direto no seu e-mail. Sem spam.
+            </p>
+          </div>
+          <form
+            className="flex w-full flex-col gap-2 sm:w-auto sm:min-w-[300px] sm:flex-row"
+            action="https://byimperiodog.us21.list-manage.com/subscribe/post"
+            method="POST"
+          >
+            <input type="hidden" name="utm_source" value="blog" />
+            <input type="hidden" name="utm_medium" value="newsletter_cta" />
+            <input type="hidden" name="utm_campaign" value="blog_post" />
+            <label htmlFor="newsletter-email-blog" className="sr-only">Seu melhor e-mail</label>
+            <input
+              id="newsletter-email-blog"
+              name="EMAIL"
+              type="email"
+              required
+              placeholder="Seu melhor e-mail"
+              className="flex-1 rounded-pill border border-border bg-white px-4 py-2.5 text-sm text-text shadow-sm focus:ring-2 focus:ring-brand/30 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground shadow-soft transition hover:bg-brand-600 focus-ring whitespace-nowrap"
+            >
+              Quero receber
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* WhatsApp CTA principal */}
       <div className="rounded-3xl border border-border bg-surface-subtle p-8 shadow-soft">
         <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground shadow-soft">
@@ -62,7 +100,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
               Pronto para uma conversa sob consulta?
             </h3>
             <p className="text-sm text-text-muted">
-              Atendimento humano, analise de perfil em ate 30 minutos e material exclusivo para planejar a chegada do Spitz.
+              Atendimento humano, análise de perfil em até 30 minutos e material exclusivo para planejar a chegada do Spitz.
             </p>
           </div>
           <a
@@ -78,7 +116,8 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      {/* Content cards */}
+      <div className="grid gap-6 md:grid-cols-3">
         {highlightCards.map((item) => (
           <article
             key={item.href}
@@ -88,49 +127,13 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
             <p className="text-sm text-text-muted">{item.description}</p>
             <Link
               href={`${item.href}?utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=${item.utmContent}`}
-              className="inline-flex items-center justify-center gap-2 rounded-pill border border-border px-5 py-2 text-sm font-semibold text-text transition hover:border-brand focus-ring"
+              className="mt-auto inline-flex items-center justify-center gap-2 rounded-pill border border-border px-5 py-2 text-sm font-semibold text-text transition hover:border-brand focus-ring"
             >
               Acessar agora
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </article>
         ))}
-
-        <article className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-6 shadow-soft">
-          <h4 className="text-lg font-semibold text-text">Newsletter para tutores premium</h4>
-          <p className="text-sm text-text-muted">
-            Receba insights trimestrais sobre nutricao, comportamento e investimentos para o primeiro ano.
-          </p>
-          <form
-            className="flex flex-col gap-3 sm:flex-row"
-            action="https://byimperiodog.us21.list-manage.com/subscribe/post"
-            method="POST"
-          >
-            <input type="hidden" name="utm_source" value="blog" />
-            <input type="hidden" name="utm_medium" value="cta" />
-            <input type="hidden" name="utm_campaign" value="blog_post" />
-            <label htmlFor="newsletter-email-blog" className="sr-only">
-              Seu melhor e-mail
-            </label>
-            <input
-              id="newsletter-email-blog"
-              name="EMAIL"
-              type="email"
-              required
-              placeholder="Seu melhor e-mail"
-              className="flex-1 rounded-pill border border-border bg-surface-subtle px-4 py-2 text-sm text-text focus:ring-2 focus:ring-brand/30"
-            />
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-pill bg-brand px-5 py-2 text-sm font-semibold text-brand-foreground shadow-soft hover:bg-brand-600 focus-ring"
-            >
-              Quero receber
-            </button>
-          </form>
-          <p className="text-xs text-text-soft">
-            Sem spam. Cancelamento com um clique.
-          </p>
-        </article>
       </div>
     </div>
   );
