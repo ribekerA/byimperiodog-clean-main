@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BookOpen, Bot, Calendar, Clock, MessageSquare, TrendingUp } from "lucide-react";
 
 import { BlogSubnav } from "@/components/admin/BlogSubnav";
+import GscPanel from "@/components/admin/GscPanel";
 import ReindexEmbeddingsButton from "@/components/admin/ReindexEmbeddingsButton";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -287,6 +288,11 @@ export default async function BlogAnalyticsPage() {
           </ol>
         </section>
       )}
+
+      {/* Google Search Console */}
+      <section className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm">
+        <GscPanel />
+      </section>
 
       {/* Rascunhos pendentes */}
       {recentDrafts.length > 0 && (

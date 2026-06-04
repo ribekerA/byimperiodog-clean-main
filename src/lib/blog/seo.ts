@@ -53,6 +53,35 @@ function stripMarkdown(src: string): string {
     .trim();
 }
 
+// Extrai pares Q&A do MDX para o FAQ Schema do Google
+export function extractFaqFromMdx(mdx: string): { q: string; a: string }[] {
+  if (!mdx) return [];
+  const results: { q: string; a: string }[] = [];
+
+  // Padrão 1: ### Pergunta? \n\n Resposta
+  const qPattern = /###\s+([^#\n]{10,120}\?)\s*\n+([\s\S]{20,600}?)(?=\n#{1,3}\s|\n---|\n\*\*\*|$)/g;
+  let m: RegExpExecArray | null;
+  while ((m = qPattern.exec(mdx)) !== null && results.length < 10) {
+    const q = m[1].trim();
+    const a = stripMarkdown(m[2]).slice(0, 320).trim();
+    if (q && a.length >= 20) results.push({ q, a });
+  }
+
+  // Padrão 2: **Pergunta?** \n Resposta (inline bold Q&A)
+  if (results.length === 0) {
+    const boldQ = /\*\*([^*]{10,120}\?)\*\*\s*\n+([\s\S]{20,400}?)(?=\n\*\*[^*]+\?|$)/g;
+    while ((boldQ.exec(mdx)) !== null && results.length < 8) {
+      const mm = boldQ.exec(mdx);
+      if (!mm) break;
+      const q = mm[1].trim();
+      const a = stripMarkdown(mm[2]).slice(0, 320).trim();
+      if (q && a.length >= 20) results.push({ q, a });
+    }
+  }
+
+  return results;
+}
+
 interface BuildMetadataOptions { baseUrl?: string }
 
 export function buildBlogMetadata(post: BasePost & { content_mdx?: string | null }, opts: BuildMetadataOptions = {}) {
@@ -87,12 +116,18 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
   const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.byimperiodog.com.br').replace(/\/$/, '');
   const url = `${site}/blog/${post.slug}`;
   const description = post.seo_description || deriveExcerpt(post) || undefined;
+  // Extrai os primeiros ~500 chars do conteúdo como articleBody para rich snippets
+  const articleBody = post.content_mdx
+    ? stripMarkdown(post.content_mdx).slice(0, 500).trim() || undefined
+    : undefined;
+
   const article: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     headline: post.title,
     description,
+    articleBody,
     image: post.cover_url ? [post.cover_url] : undefined,
     author: author ? { '@type': 'Person', name: author.name, url: author.slug ? `${site}/autores/${author.slug}` : undefined } : { '@type': 'Organization', name: 'By Imperio Dog' },
     datePublished: post.published_at || post.created_at || undefined,
@@ -100,7 +135,8 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
     publisher: { '@type': 'Organization', name: 'By Imperio Dog', logo: { '@type': 'ImageObject', url: `${site}/byimperiologo.png` } },
     articleSection: post.category || undefined,
     keywords: post.tags && post.tags.length ? post.tags.join(', ') : undefined,
-    inLanguage: post.lang || 'pt-BR'
+    inLanguage: post.lang || 'pt-BR',
+    wordCount: post.content_mdx ? post.content_mdx.split(/\s+/).filter(Boolean).length : undefined,
   };
 
   if (extras.toc && extras.toc.length > 2) {

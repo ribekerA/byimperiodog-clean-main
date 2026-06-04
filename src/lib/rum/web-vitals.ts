@@ -1,7 +1,4 @@
-// PATH: src/lib/rum/web-vitals.ts
-// Coleta básica de Web Vitals (LCP, INP, CLS, FID, TTFB, FCP)
-// Pode ser expandido para enviar a endpoint /api/rum futuramente.
-import { onCLS, onLCP, onINP, onFCP, onTTFB } from 'web-vitals';
+import { onCLS, onFCP, onINP, onLCP, onTTFB } from "web-vitals";
 
 export interface WebVitalMetric {
   name: string;
@@ -12,10 +9,24 @@ export interface WebVitalMetric {
 
 let initialized = false;
 
-export function initWebVitals(logger: (m: WebVitalMetric) => void = console.log) {
-  if (initialized || typeof window === 'undefined') return;
+function sendVital(metric: WebVitalMetric) {
+  try {
+    const page = window.location.pathname;
+    const body = JSON.stringify({ name: metric.name, value: metric.value, id: metric.id, page });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon("/api/rum", new Blob([body], { type: "application/json" }));
+    } else {
+      fetch("/api/rum", { method: "POST", body, headers: { "Content-Type": "application/json" }, keepalive: true }).catch(() => {});
+    }
+  } catch {
+    // never block
+  }
+}
+
+export function initWebVitals(logger: (m: WebVitalMetric) => void = sendVital) {
+  if (initialized || typeof window === "undefined") return;
   initialized = true;
-  const wrap = (cb: any) => (metric: any) => {
+  const wrap = (cb: (m: WebVitalMetric) => void) => (metric: WebVitalMetric) => {
     try { cb(metric); } catch { /* noop */ }
   };
   onCLS(wrap(logger));
