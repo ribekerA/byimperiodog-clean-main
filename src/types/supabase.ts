@@ -1713,7 +1713,7 @@ export type Database = {
           laudo_path: string | null
           lead_id: string | null
           payload: Json | null
-          puppy_id: string
+          puppy_id: string | null
           signed_at: string | null
           status: Database["public"]["Enums"]["contract_status"]
           total_price_cents: number | null
@@ -1728,7 +1728,7 @@ export type Database = {
           laudo_path?: string | null
           lead_id?: string | null
           payload?: Json | null
-          puppy_id: string
+          puppy_id?: string | null
           signed_at?: string | null
           status?: Database["public"]["Enums"]["contract_status"]
           total_price_cents?: number | null
@@ -1743,7 +1743,7 @@ export type Database = {
           laudo_path?: string | null
           lead_id?: string | null
           payload?: Json | null
-          puppy_id?: string
+          puppy_id?: string | null
           signed_at?: string | null
           status?: Database["public"]["Enums"]["contract_status"]
           total_price_cents?: number | null

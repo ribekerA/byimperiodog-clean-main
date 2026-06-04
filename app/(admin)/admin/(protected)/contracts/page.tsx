@@ -16,17 +16,19 @@ import { useToast } from "@/components/ui/toast";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+const SQL_MIGRATION = `-- Execute no Supabase SQL Editor para habilitar contratos sem filhote vinculado:
+ALTER TABLE contracts ALTER COLUMN puppy_id DROP NOT NULL;`;
+
 type ContractItem = {
   id: string;
   code: string;
   status: "pendente" | "assinado" | "cancelado";
   signed_at: string | null;
   created_at: string;
-  puppyName: string;
-  puppy_id: string;
   payload: Record<string, string> | null;
   hemograma_path: string | null;
   laudo_path: string | null;
+  signature_path: string | null;
   total_price_cents: number | null;
 };
 
@@ -62,10 +64,14 @@ export default function ContractsPage() {
   const [loading,   setLoading]   = useState(true);
   const [expanded,  setExpanded]  = useState<string | null>(null);
   const [copied,    setCopied]    = useState<string | null>(null);
-  const [creating,  setCreating]  = useState(false);
-  const [newPuppyId, setNewPuppyId] = useState("");
-  const [newPrice,   setNewPrice]   = useState("");
-  const [showCreate, setShowCreate] = useState(false);
+  const [creating,      setCreating]      = useState(false);
+  const [newPrice,      setNewPrice]      = useState("");
+  const [newFilhote,    setNewFilhote]    = useState("");
+  const [newCor,        setNewCor]        = useState("");
+  const [newSexo,       setNewSexo]       = useState("");
+  const [newNascimento, setNewNascimento] = useState("");
+  const [showCreate,    setShowCreate]    = useState(false);
+  const [sqlAlert,      setSqlAlert]      = useState(false);
 
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://www.byimperiodog.com.br";
 
@@ -95,23 +101,25 @@ export default function ContractsPage() {
   }
 
   async function createContract() {
-    if (!newPuppyId.trim()) { push({ type: "error", message: "Informe o ID do filhote" }); return; }
     setCreating(true);
     try {
       const res  = await adminFetch("/api/admin/contracts", {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
         body:    JSON.stringify({
-          puppy_id:          newPuppyId.trim(),
-          total_price_cents: newPrice ? Math.round(parseFloat(newPrice.replace(",", ".")) * 100) : null,
+          nome_filhote:       newFilhote.trim()    || undefined,
+          cor:                newCor.trim()        || undefined,
+          sexo:               newSexo              || undefined,
+          nascimento_filhote: newNascimento        || undefined,
+          total_price_cents:  newPrice ? Math.round(parseFloat(newPrice.replace(",", ".")) * 100) : null,
         }),
       });
       const json = await res.json();
+      if (json.error === "puppy_id_not_null") { setSqlAlert(true); return; }
       if (!json.ok) throw new Error(json.error);
       push({ type: "success", message: `Contrato ${json.code} criado!` });
       setShowCreate(false);
-      setNewPuppyId("");
-      setNewPrice("");
+      setNewFilhote(""); setNewCor(""); setNewSexo(""); setNewNascimento(""); setNewPrice("");
       load();
     } catch (e) {
       push({ type: "error", message: e instanceof Error ? e.message : "Erro ao criar contrato" });
@@ -159,21 +167,48 @@ export default function ContractsPage() {
         ))}
       </div>
 
+      {/* SQL migration alert */}
+      {sqlAlert && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 space-y-3">
+          <p className="text-sm font-semibold text-amber-900">⚠️ Ação necessária no Supabase</p>
+          <p className="text-xs text-amber-800">Execute o SQL abaixo no Supabase SQL Editor para habilitar contratos sem filhote vinculado:</p>
+          <pre className="rounded-lg border border-amber-200 bg-white p-3 text-[11px] text-zinc-700 overflow-x-auto">{SQL_MIGRATION}</pre>
+          <button onClick={() => setSqlAlert(false)} className="text-xs text-amber-700 underline">Fechar</button>
+        </div>
+      )}
+
       {/* Create form */}
       {showCreate && (
         <div className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm space-y-3">
           <h2 className="text-base font-semibold text-[var(--text)]">Gerar novo contrato</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <div>
-              <label className="mb-1 block text-xs font-semibold text-[var(--text-muted)]">ID do filhote (Supabase) *</label>
-              <input value={newPuppyId} onChange={(e) => setNewPuppyId(e.target.value)}
-                placeholder="uuid do filhote"
+              <label className="mb-1 block text-xs font-semibold text-[var(--text-muted)]">Nome do filhote</label>
+              <input value={newFilhote} onChange={(e) => setNewFilhote(e.target.value)} placeholder="Aurora"
+                className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[var(--text-muted)]">Cor</label>
+              <input value={newCor} onChange={(e) => setNewCor(e.target.value)} placeholder="Laranja"
+                className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[var(--text-muted)]">Sexo</label>
+              <select value={newSexo} onChange={(e) => setNewSexo(e.target.value)}
+                className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none">
+                <option value="">Selecione</option>
+                <option value="Fêmea">Fêmea</option>
+                <option value="Macho">Macho</option>
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold text-[var(--text-muted)]">Data de nascimento do filhote</label>
+              <input type="date" value={newNascimento} onChange={(e) => setNewNascimento(e.target.value)}
                 className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" />
             </div>
             <div>
               <label className="mb-1 block text-xs font-semibold text-[var(--text-muted)]">Valor total (R$)</label>
-              <input value={newPrice} onChange={(e) => setNewPrice(e.target.value)}
-                placeholder="3500"
+              <input value={newPrice} onChange={(e) => setNewPrice(e.target.value)} placeholder="3500"
                 className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none" />
             </div>
           </div>
@@ -226,7 +261,7 @@ export default function ContractsPage() {
                   <>
                     <tr key={c.id} className="hover:bg-[var(--surface)] cursor-pointer" onClick={() => setExpanded(isOpen ? null : c.id)}>
                       <td className="px-4 py-3 font-mono text-xs font-semibold text-[var(--text)]">{c.code}</td>
-                      <td className="px-4 py-3 font-medium text-[var(--text)]">{c.puppyName}</td>
+                      <td className="px-4 py-3 font-medium text-[var(--text)]">{(c.payload as Record<string,string>)?.nome_filhote ?? "—"}</td>
                       <td className="px-4 py-3 text-[var(--text-muted)]">{buyer?.nome ?? "—"}</td>
                       <td className="px-4 py-3 text-right font-semibold text-[var(--text)]">{fmt(c.total_price_cents)}</td>
                       <td className="px-4 py-3 text-center">
@@ -244,10 +279,10 @@ export default function ContractsPage() {
                             {copied === c.code ? <Check className="h-3 w-3 text-emerald-600" /> : <Copy className="h-3 w-3" />}
                             Copiar link
                           </button>
-                          <a href={contractLink} target="_blank" rel="noopener noreferrer"
+                          <a href={`${contractLink}/documento`} target="_blank" rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] px-2 py-1 text-[11px] font-semibold text-[var(--text)] hover:bg-[var(--surface)]">
-                            <ExternalLink className="h-3 w-3" />
+                            className="inline-flex items-center gap-1 rounded-lg border border-emerald-300 bg-emerald-50 px-2 py-1 text-[11px] font-semibold text-emerald-700 hover:bg-emerald-100">
+                            <ExternalLink className="h-3 w-3" /> Doc
                           </a>
                         </div>
                       </td>
