@@ -7,7 +7,9 @@ import { TiltCard } from "@/components/motion/TiltCard";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import NotifyMeButton from "@/components/NotifyMeButton";
 import { staticPuppies } from "@/content/puppies-static";
+import { getBadgesForPuppy, type CatalogBadge } from "@/lib/ai/catalog-badges";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -26,6 +28,10 @@ type StaticPuppyCardProps = {
   images: string[];
   description?: string;
   priority?: boolean;
+  /** Badges pré-computados pelo servidor (score, leads, etc.) */
+  badges?: CatalogBadge[];
+  /** Contagem de leads com interesse nesta cor (para badge de demanda) */
+  leadCount?: number;
 };
 
 // ─── Mapas de cor ─────────────────────────────────────────────────────────────
@@ -76,6 +82,8 @@ export default function StaticPuppyCard({
   images,
   description,
   priority = false,
+  badges: badgesProp,
+  leadCount = 0,
 }: StaticPuppyCardProps) {
   const corLabel = cor ?? color ?? "";
   const corKey = (color ?? cor ?? "").toLowerCase();
@@ -86,17 +94,30 @@ export default function StaticPuppyCard({
   const price = priceCents ?? price_cents;
   const cover = images.find((img) => !img.endsWith(".mp4")) ?? images[0];
   const statusCfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.available;
-  const isSold = status === "sold" || status === "vendido";
-  const glowColor = COLOR_GLOW[corKey] ?? DEFAULT_GLOW;
+  const isSold     = status === "sold"     || status === "vendido";
+  const isReserved = status === "reserved" || status === "reservado";
+  const isUnavailable = isSold || isReserved;
+  const glowColor  = COLOR_GLOW[corKey] ?? DEFAULT_GLOW;
 
   // Escassez da cor
   const availableOfSameColor = (staticPuppies as any[]).filter((p) => {
-    const pColor = (p.color ?? p.cor ?? "").toLowerCase();
+    const pColor  = (p.color ?? p.cor ?? "").toLowerCase();
     const pStatus = p.status ?? "available";
     return pColor === corKey && pStatus !== "sold" && pStatus !== "vendido";
   }).length;
-  const isLastOfColor = availableOfSameColor === 1 && !isSold;
-  const isAlmostGone = availableOfSameColor === 2 && !isSold;
+  const isLastOfColor  = availableOfSameColor === 1 && !isUnavailable;
+  const isAlmostGone   = availableOfSameColor === 2 && !isUnavailable;
+
+  // Badges de demanda — usa dados do servidor se disponíveis, senão heurística local
+  const computedBadges: CatalogBadge[] = badgesProp ?? getBadgesForPuppy({
+    score:            leadCount > 5 ? 85 : leadCount > 2 ? 72 : 50,
+    flag:             isLastOfColor ? "hot" : isAlmostGone ? "normal" : "normal",
+    leadCount,
+    ageDays:          0,
+    similarAvailable: availableOfSameColor,
+    status,
+  });
+  const topBadge = computedBadges[0] ?? null;
 
   const waLink = useMemo(
     () =>
@@ -156,13 +177,18 @@ export default function StaticPuppyCard({
               </span>
             )}
 
-            {/* Escassez — bottom-left da foto */}
-            {isLastOfColor && (
-              <span className="absolute bottom-3 left-3 rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--accent-foreground)] shadow">
-                Último desta cor
+            {/* Badge de demanda IA — bottom-left da foto */}
+            {topBadge && !isUnavailable && (
+              <span className="absolute bottom-3 left-3 rounded-full bg-black/70 px-2.5 py-0.5 text-[10px] font-bold text-white shadow backdrop-blur-sm">
+                {topBadge.label}
               </span>
             )}
-            {!isLastOfColor && isAlmostGone && (
+            {!topBadge && isLastOfColor && (
+              <span className="absolute bottom-3 left-3 rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--accent-foreground)] shadow">
+                ⚡ Último desta cor
+              </span>
+            )}
+            {!topBadge && !isLastOfColor && isAlmostGone && (
               <span className="absolute bottom-3 left-3 rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--accent-foreground)] shadow">
                 Apenas 2 disponíveis
               </span>
@@ -200,8 +226,8 @@ export default function StaticPuppyCard({
             <span className="text-[10px] font-medium text-zinc-400">Documentação inclusa</span>
           </div>
 
-          {/* CTA WhatsApp + Heart — linha com dois elementos */}
-          {!isSold && (
+          {/* CTA: WhatsApp (disponível) | NotifyMe (reservado/vendido) */}
+          {!isUnavailable ? (
             <div className="flex items-center gap-2">
               <PawConfettiButton
                 href={waLink}
@@ -213,20 +239,13 @@ export default function StaticPuppyCard({
                 count={14}
                 aria-label={`Entrar em contato sobre ${name} via WhatsApp`}
               >
-                <WhatsAppIcon
-                  className="h-4 w-4 shrink-0"
-                  aria-hidden="true"
-                />
+                <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
                 Tenho interesse
               </PawConfettiButton>
-
-              <HeartBurstButton
-                puppyId={id}
-                size={18}
-                className="h-11 w-11"
-                aria-label={`Curtir ${name}`}
-              />
+              <HeartBurstButton puppyId={id} size={18} className="h-11 w-11" aria-label={`Curtir ${name}`} />
             </div>
+          ) : (
+            <NotifyMeButton color={corKey} colorLabel={corLabel} />
           )}
 
           <Link

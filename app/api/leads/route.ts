@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { sendLeadAutoResponse } from "@/lib/email";
 
 // Schema de validação server-side alinhado com o funil de leads (contato + contexto + LGPD)
 const leadSchema = z.object({
@@ -71,7 +72,7 @@ export async function POST(req: NextRequest) {
     const utm_content = url.searchParams.get("utm_content") ?? body.utm_content ?? null;
     const utm_term = url.searchParams.get("utm_term") ?? body.utm_term ?? null;
 
-    const { error } = await supabaseAdmin()
+    const { data: inserted, error } = await supabaseAdmin()
       .from("leads")
       .insert({
         nome: data.nome,
@@ -105,11 +106,39 @@ export async function POST(req: NextRequest) {
         utm_term,
         source: utm_source || "site_org",
         status: "novo",
-      });
+      })
+      .select("id")
+      .single();
 
     if (error) {
       console.error("[API /leads] Supabase error:", error);
       return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    // ── Automação pós-captura (fire-and-forget, nunca bloqueia a resposta) ──
+    if (inserted?.id) {
+      const leadId = inserted.id;
+
+      // 1. Dispara sequência AutoSales (análise de IA + agendamento de follow-ups)
+      const isWaitlist = data.page_type === "notify_me";
+      if (!isWaitlist) {
+        import("@/lib/ai/autoSalesEngine")
+          .then(({ createAutoSalesSequence }) => createAutoSalesSequence(leadId))
+          .catch((err) => console.error("[API /leads] autoSales:", err));
+      }
+
+      // 2. E-mail automático de confirmação (requer RESEND_API_KEY + email no body)
+      const emailAddr = (body as { email?: string }).email ?? null;
+      if (emailAddr) {
+        sendLeadAutoResponse({
+          name:  data.nome,
+          phone: data.telefone,
+          city:  data.cidade,
+          color: data.cor_preferida ?? null,
+          sex:   data.sexo_preferido ?? null,
+          email: emailAddr,
+        }).catch(() => {});
+      }
     }
 
     return NextResponse.json({ ok: true });
