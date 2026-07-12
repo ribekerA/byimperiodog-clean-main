@@ -3,6 +3,13 @@
   command = "npm run build"
   publish = ".next"
 
+# O type-check do Next.js estoura o limite padrão de heap do Node durante o
+# build (mesmo erro reproduzido localmente: "JavaScript heap out of memory"
+# logo após "Checking validity of types ..." — sem stack trace, processo só
+# morre). Aumenta o limite disponível para essa etapa.
+[build.environment]
+  NODE_OPTIONS = "--max-old-space-size=4096"
+
 # @netlify/plugin-nextjs handles SSR, API routes, ISR and asset routing for Next.js 13+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
