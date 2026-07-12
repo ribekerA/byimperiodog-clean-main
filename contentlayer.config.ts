@@ -1,7 +1,15 @@
 import { defineDocumentType, makeSource } from '@contentlayer/source-files';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import remarkGfm from 'remark-gfm';
+// remark-gfm@4 (unified v11 / mdast-util-from-markdown v2) quebra dentro do
+// @mdx-js/esbuild@2.3.0 usado pelo Contentlayer, que embute internamente a
+// linha antiga mdast-util-from-markdown@1.x — a extensão de tabela do v4
+// tenta setar uma propriedade em um tokenizer state que essa versão antiga
+// não inicializa (TypeError: Cannot set properties of undefined (setting
+// 'inTable')). O app/blog/[slug]/page.tsx (next-mdx-remote@5 / @mdx-js/mdx@3)
+// já usa o remark-gfm@4 normal; aqui usamos um alias fixado em v3, compatível
+// com o pipeline mais antigo do Contentlayer.
+import remarkGfm from 'remark-gfm-legacy';
 // @ts-ignore - tipos conflitantes de vfile entre dependências
 import rehypePrettyCode from 'rehype-pretty-code';
 
