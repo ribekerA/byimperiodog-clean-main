@@ -30,7 +30,7 @@ const categories: { key: keyof OperationalAlerts; label: string; tone: string }[
   {
     key: "low",
     label: "Baixo impacto",
-    tone: "border-emerald-200 bg-emerald-50 text-emerald-900",
+    tone: "border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] text-[var(--brand)]",
   },
 ];
 const STORAGE_KEY = "byimperiodog:admin:ops-alerts:resolved";

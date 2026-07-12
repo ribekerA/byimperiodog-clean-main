@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Activity,
   BarChart3,
+  Bot,
   Calendar,
   ChevronDown,
   ChevronRight,
   Clapperboard,
+  ClipboardList,
   FileText,
   FlaskConical,
   Globe,
@@ -26,6 +28,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 type Props = { environment: string };
@@ -54,8 +57,10 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Filhotes",        href: "/admin/puppies",       icon: PawPrint },
       { label: "Leads",           href: "/admin/leads",         icon: Users },
+      { label: "AutoSales IA",    href: "/admin/autosales",     icon: Bot },
       { label: "Contratos",       href: "/admin/contracts",     icon: FileText },
       { label: "Avaliações",      href: "/admin/reviews",       icon: Star },
+      { label: "Wizard de Cadastro", href: "/admin/cadastros/wizard", icon: ClipboardList },
     ],
   },
   {
@@ -85,14 +90,14 @@ function NavLink({ item, active, onClick }: { item: NavItem; active: boolean; on
     <a
       href={item.href}
       onClick={onClick}
-      className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500 ${
+      className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
         active
-          ? "bg-emerald-50 text-emerald-800 ring-1 ring-inset ring-emerald-200"
+          ? "bg-[var(--brand-tint-50)] text-[var(--brand)] ring-1 ring-inset ring-[var(--brand-tint-200)]"
           : "text-[var(--text)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
       }`}
       aria-current={active ? "page" : undefined}
     >
-      <Icon className={`h-4 w-4 flex-shrink-0 ${active ? "text-emerald-600" : "text-[var(--text-muted)]"}`} aria-hidden />
+      <Icon className={`h-4 w-4 flex-shrink-0 ${active ? "text-[var(--brand)]" : "text-[var(--text-muted)]"}`} aria-hidden />
       <span className="truncate">{item.label}</span>
     </a>
   );
@@ -113,9 +118,9 @@ function GroupSection({ group, pathname, collapsed }: { group: NavGroup; pathnam
               key={item.href}
               href={item.href}
               title={item.label}
-              className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500 ${
+              className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
                 active
-                  ? "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200"
+                  ? "bg-[var(--brand-tint-50)] text-[var(--brand)] ring-1 ring-inset ring-[var(--brand-tint-200)]"
                   : "text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
               }`}
               aria-current={active ? "page" : undefined}
@@ -153,8 +158,16 @@ function GroupSection({ group, pathname, collapsed }: { group: NavGroup; pathnam
 
 export function AdminNav({ environment }: Props) {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [confirmLogoutOpen, setConfirmLogoutOpen] = useState(false);
+
+  async function handleLogout() {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+    router.refresh();
+  }
 
   return (
     <>
@@ -177,7 +190,7 @@ export function AdminNav({ environment }: Props) {
           <button
             type="button"
             onClick={() => setCollapsed((v) => !v)}
-            className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] shadow-sm transition hover:border-emerald-300 hover:text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] shadow-sm transition hover:border-[var(--brand)] hover:text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
             aria-pressed={!collapsed}
             aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
           >
@@ -203,17 +216,16 @@ export function AdminNav({ environment }: Props) {
               <span>Tracking & Pixels</span>
             </a>
           )}
-          <form action="/api/admin/logout" method="post">
-            <button
-              type="submit"
-              className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-rose-500 transition-colors ${
-                collapsed ? "justify-center" : ""
-              }`}
-            >
-              <LogOut className="h-4 w-4 flex-shrink-0" aria-hidden />
-              {!collapsed && <span>Sair</span>}
-            </button>
-          </form>
+          <button
+            type="button"
+            onClick={() => setConfirmLogoutOpen(true)}
+            className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] transition-colors ${
+              collapsed ? "justify-center" : ""
+            }`}
+          >
+            <LogOut className="h-4 w-4 flex-shrink-0" aria-hidden />
+            {!collapsed && <span>Sair</span>}
+          </button>
         </div>
       </div>
 
@@ -221,7 +233,7 @@ export function AdminNav({ environment }: Props) {
       <button
         type="button"
         onClick={() => setMobileMenuOpen(true)}
-        className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg transition hover:bg-emerald-700 md:hidden"
+        className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-lg transition hover:bg-[var(--brand-hover)] md:hidden"
         aria-label="Abrir menu"
         aria-expanded={mobileMenuOpen}
       >
@@ -265,18 +277,30 @@ export function AdminNav({ environment }: Props) {
               <Zap className="h-4 w-4" aria-hidden />
               <span>Tracking & Pixels</span>
             </a>
-            <form action="/api/admin/logout" method="post">
-              <button
-                type="submit"
-                className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-rose-600 hover:bg-rose-50"
-              >
-                <LogOut className="h-4 w-4" aria-hidden />
-                <span>Sair</span>
-              </button>
-            </form>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setConfirmLogoutOpen(true);
+              }}
+              className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
+            >
+              <LogOut className="h-4 w-4" aria-hidden />
+              <span>Sair</span>
+            </button>
           </div>
         </DialogContent>
       </Dialog>
+
+      <ConfirmDialog
+        open={confirmLogoutOpen}
+        onOpenChange={setConfirmLogoutOpen}
+        title="Sair do painel administrativo?"
+        description="Você precisará fazer login novamente para acessar o admin."
+        confirmLabel="Sair"
+        variant="warning"
+        onConfirm={handleLogout}
+      />
     </>
   );
 }

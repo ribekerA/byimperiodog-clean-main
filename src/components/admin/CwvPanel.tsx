@@ -61,21 +61,21 @@ function formatValue(key: string, val: number | null, isScaled?: boolean): strin
 }
 
 function RatingIcon({ r }: { r: "good" | "needs" | "poor" | null }) {
-  if (r === "good")  return <CheckCircle  className="h-4 w-4 text-emerald-600" />;
+  if (r === "good")  return <CheckCircle  className="h-4 w-4 text-[var(--brand)]" />;
   if (r === "needs") return <AlertTriangle className="h-4 w-4 text-amber-500" />;
   if (r === "poor")  return <XCircle      className="h-4 w-4 text-rose-600" />;
   return null;
 }
 
 function badgeCls(r: "good" | "needs" | "poor" | null) {
-  if (r === "good")  return "border-emerald-200 bg-emerald-50 text-emerald-700";
+  if (r === "good")  return "border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] text-[var(--brand)]";
   if (r === "needs") return "border-amber-200 bg-amber-50 text-amber-700";
   if (r === "poor")  return "border-rose-200 bg-rose-50 text-rose-700";
   return "border-zinc-200 bg-zinc-50 text-zinc-400";
 }
 
 function cardBorder(r: "good" | "needs" | "poor" | null) {
-  if (r === "good")  return "border-emerald-200";
+  if (r === "good")  return "border-[var(--brand-tint-200)]";
   if (r === "needs") return "border-amber-200";
   if (r === "poor")  return "border-rose-300";
   return "border-[var(--border)]";
@@ -88,7 +88,7 @@ function DistBar({ good, needs, poor }: { good: number; needs: number; poor: num
   const pPct = 100 - gPct - nPct;
   return (
     <div className="flex h-2 w-full overflow-hidden rounded-full bg-zinc-100">
-      {gPct > 0 && <div className="bg-emerald-500" style={{ width: `${gPct}%` }} />}
+      {gPct > 0 && <div className="bg-[var(--brand)]" style={{ width: `${gPct}%` }} />}
       {nPct > 0 && <div className="bg-amber-400"   style={{ width: `${nPct}%` }} />}
       {pPct > 0 && <div className="bg-rose-500"    style={{ width: `${pPct}%` }} />}
     </div>
@@ -105,7 +105,7 @@ function Sparkline({ data, metricKey }: { data: TrendPoint[]; metricKey: string 
   const pts = vals.map((v, i) => `${(i / (vals.length - 1)) * w},${h - ((v - min) / (max - min || 1)) * h}`).join(" ");
   return (
     <svg width={w} height={h} className="overflow-visible">
-      <polyline fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" points={pts} className="text-emerald-500" />
+      <polyline fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" points={pts} className="text-[var(--brand)]" />
     </svg>
   );
 }
@@ -137,7 +137,7 @@ export default function CwvPanel() {
   if (loading) {
     return (
       <div className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white p-8">
-        <Loader2 className="h-5 w-5 animate-spin text-emerald-600" />
+        <Loader2 className="h-5 w-5 animate-spin text-[var(--brand)]" />
         <span className="text-sm text-[var(--text-muted)]">Carregando Core Web Vitals...</span>
       </div>
     );
@@ -170,7 +170,7 @@ create index if not exists rum_vitals_idx
   const metricRatings = METRICS.map((m) => computeRating(m.key, summary[m.key]?.p75 ?? null));
   const goodCount = metricRatings.filter((r) => r === "good").length;
   const overallScore = Math.round((goodCount / METRICS.length) * 100);
-  const overallColor = overallScore >= 80 ? "text-emerald-600" : overallScore >= 50 ? "text-amber-600" : "text-rose-600";
+  const overallColor = overallScore >= 80 ? "text-[var(--brand)]" : overallScore >= 50 ? "text-amber-600" : "text-rose-600";
 
   const problemMetrics = METRICS.filter((m) => {
     const r = computeRating(m.key, summary[m.key]?.p75 ?? null);
@@ -184,7 +184,7 @@ create index if not exists rum_vitals_idx
         <div className="flex items-center gap-3">
           <div>
             <h2 className="flex items-center gap-2 text-base font-semibold text-[var(--text)]">
-              <Zap className="h-4 w-4 text-emerald-600" />
+              <Zap className="h-4 w-4 text-[var(--brand)]" />
               Core Web Vitals
             </h2>
             <p className="text-xs text-[var(--text-muted)]">
@@ -199,7 +199,7 @@ create index if not exists rum_vitals_idx
           <div className="flex gap-1">
             {DAYS_OPTS.map((o) => (
               <button key={o.v} onClick={() => { setDays(o.v); load(o.v); }}
-                className={`rounded-full px-3 py-1 text-xs font-semibold transition ${days === o.v ? "bg-emerald-600 text-white" : "border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--surface)]"}`}>
+                className={`rounded-full px-3 py-1 text-xs font-semibold transition ${days === o.v ? "bg-[var(--brand)] text-white" : "border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--surface)]"}`}>
                 {o.label}
               </button>
             ))}
@@ -213,7 +213,7 @@ create index if not exists rum_vitals_idx
           const labels: Record<string, string> = { "visao-geral": "Visão geral", tendencia: "Tendência", paginas: "Páginas lentas", recomendacoes: "Recomendações" };
           return (
             <button key={t} onClick={() => setTab(t)}
-              className={`px-3 py-2 text-xs font-semibold transition ${tab === t ? "border-b-2 border-emerald-600 text-emerald-700" : "text-[var(--text-muted)] hover:text-[var(--text)]"}`}>
+              className={`px-3 py-2 text-xs font-semibold transition ${tab === t ? "border-b-2 border-[var(--brand)] text-[var(--brand)]" : "text-[var(--text-muted)] hover:text-[var(--text)]"}`}>
               {labels[t]}
             </button>
           );
@@ -251,7 +251,7 @@ create index if not exists rum_vitals_idx
                 )}
 
                 <div className="mt-2 flex gap-1 flex-wrap">
-                  {s.good  > 0 && <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700">{s.good} bom</span>}
+                  {s.good  > 0 && <span className="rounded-full bg-[var(--brand-tint-50)] px-1.5 py-0.5 text-[9px] font-semibold text-[var(--brand)]">{s.good} bom</span>}
                   {s.needs > 0 && <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[9px] font-semibold text-amber-700">{s.needs} melhorar</span>}
                   {s.poor  > 0 && <span className="rounded-full bg-rose-50 px-1.5 py-0.5 text-[9px] font-semibold text-rose-700">{s.poor} ruim</span>}
                 </div>
@@ -314,7 +314,7 @@ create index if not exists rum_vitals_idx
                   return (
                     <tr key={i} className="hover:bg-[var(--surface)]">
                       <td className="px-4 py-2.5 font-medium text-[var(--text)] max-w-[280px] truncate">
-                        <a href={p.page} target="_blank" rel="noopener noreferrer" className="hover:underline text-emerald-700">
+                        <a href={p.page} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--brand)]">
                           {p.page}
                         </a>
                       </td>
@@ -340,9 +340,9 @@ create index if not exists rum_vitals_idx
       {tab === "recomendacoes" && (
         <div className="space-y-3">
           {problemMetrics.length === 0 ? (
-            <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-              <CheckCircle className="h-5 w-5 text-emerald-600 flex-shrink-0" />
-              <p className="text-sm font-semibold text-emerald-800">Todas as métricas estão com rating "Bom". Excelente performance!</p>
+            <div className="flex items-center gap-3 rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-4">
+              <CheckCircle className="h-5 w-5 text-[var(--brand)] flex-shrink-0" />
+              <p className="text-sm font-semibold text-[var(--brand)]">Todas as métricas estão com rating "Bom". Excelente performance!</p>
             </div>
           ) : (
             problemMetrics.map((m) => {
@@ -378,7 +378,7 @@ create index if not exists rum_vitals_idx
                 <thead>
                   <tr className="text-[var(--text-muted)]">
                     <th className="text-left py-1 pr-4">Métrica</th>
-                    <th className="text-right pr-4 text-emerald-700">Bom</th>
+                    <th className="text-right pr-4 text-[var(--brand)]">Bom</th>
                     <th className="text-right pr-4 text-amber-600">Melhorar</th>
                     <th className="text-right text-rose-600">Ruim</th>
                   </tr>
@@ -387,7 +387,7 @@ create index if not exists rum_vitals_idx
                   {METRICS.map((m) => (
                     <tr key={m.key} className="border-t border-[var(--border)]">
                       <td className="py-1 pr-4 font-semibold">{m.key}</td>
-                      <td className="pr-4 text-right text-emerald-700">≤ {formatValue(m.key, m.good, m.isScaled)}</td>
+                      <td className="pr-4 text-right text-[var(--brand)]">≤ {formatValue(m.key, m.good, m.isScaled)}</td>
                       <td className="pr-4 text-right text-amber-600">≤ {formatValue(m.key, m.poor, m.isScaled)}</td>
                       <td className="text-right text-rose-600">{`> ${formatValue(m.key, m.poor, m.isScaled)}`}</td>
                     </tr>

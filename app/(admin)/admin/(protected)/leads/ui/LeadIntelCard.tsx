@@ -3,6 +3,8 @@
 import { useState, useTransition } from "react";
 import { AlertCircle, Brain, Loader2 } from "lucide-react";
 
+import { useToast } from "@/components/ui/toast";
+
 type Insight = {
   intent?: string | null;
   urgency?: string | null;
@@ -20,6 +22,7 @@ type Insight = {
 };
 
 export function LeadIntelCard({ leadId, initial }: { leadId: string; initial?: Insight | null }) {
+  const { push } = useToast();
   const [insight, setInsight] = useState<Insight | null | undefined>(initial);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +39,11 @@ export function LeadIntelCard({ leadId, initial }: { leadId: string; initial?: I
         const json = await res.json();
         if (!res.ok) throw new Error(json?.error || "Erro ao processar IA");
         setInsight(json.insight);
+        push({ type: "success", message: "Insight de IA processado." });
       } catch (e) {
-        setError((e as Error).message);
+        const message = (e as Error).message;
+        setError(message);
+        push({ type: "error", message });
       }
     });
   };
@@ -46,10 +52,10 @@ export function LeadIntelCard({ leadId, initial }: { leadId: string; initial?: I
     <section className="space-y-3 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Brain className="h-5 w-5 text-emerald-600" aria-hidden />
+          <Brain className="h-5 w-5 text-[var(--brand)]" aria-hidden />
           <div>
             <p className="text-sm font-semibold text-[var(--text)]">Lead Intelligence</p>
-            <p className="text-xs text-[var(--text-muted)]">Classificação automática e sugestões</p>
+            <p className="text-xs text-[var(--text-muted)]">A IA usa a mensagem do lead para classificar intenção, urgência e risco de perda.</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -57,15 +63,15 @@ export function LeadIntelCard({ leadId, initial }: { leadId: string; initial?: I
             type="button"
             onClick={() => processIntel(true)}
             disabled={pending}
-            className="rounded-full border border-[var(--border)] bg-white px-3 py-1.5 text-xs font-semibold text-[var(--text)] hover:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="rounded-full border border-[var(--border)] bg-white px-3 py-1.5 text-xs font-semibold text-[var(--text)] hover:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
           >
-            {pending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : "Processar IA"}
+            {pending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : "Gerar com IA"}
           </button>
         </div>
       </header>
 
       {error && (
-        <div className="flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+        <div className="flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700" role="alert">
           <AlertCircle className="h-4 w-4" aria-hidden />
           {error}
         </div>
@@ -115,7 +121,7 @@ export function LeadIntelCard({ leadId, initial }: { leadId: string; initial?: I
           )}
         </div>
       ) : (
-        <p className="text-sm text-[var(--text-muted)]">Nenhum insight gerado ainda. Clique em “Processar IA”.</p>
+        <p className="text-sm text-[var(--text-muted)]">Nenhum insight gerado ainda. Clique em “Gerar com IA”.</p>
       )}
     </section>
   );

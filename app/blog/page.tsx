@@ -441,7 +441,7 @@ function FeaturedPost({ post }: { post: PublicPost }) {
           </div>
           <Link
             href={href}
-            className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition"
+            className="ml-auto inline-flex min-h-[44px] items-center gap-1.5 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
           >
             Ler artigo →
           </Link>
@@ -449,7 +449,7 @@ function FeaturedPost({ post }: { post: PublicPost }) {
       </div>
 
       {/* Image */}
-      <div className="relative order-1 min-h-[220px] overflow-hidden bg-emerald-50 lg:order-2">
+      <div className="relative order-1 aspect-[4/3] overflow-hidden bg-emerald-50 sm:aspect-[16/9] lg:order-2 lg:aspect-auto">
         {post.cover_url ? (
           <Image
             src={post.cover_url}
@@ -458,12 +458,14 @@ function FeaturedPost({ post }: { post: PublicPost }) {
             priority
             fetchPriority="high"
             sizes="(max-width: 1024px) 100vw, 40vw"
-            className="h-full w-full object-cover"
+            className="object-cover object-center"
             placeholder="blur"
             blurDataURL={BLUR_DATA_URL}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-5xl">🐾</div>
+          <div className="flex h-full w-full items-center justify-center bg-emerald-50">
+            <span className="text-xs font-medium uppercase tracking-wider text-emerald-400">Sem capa</span>
+          </div>
         )}
       </div>
     </article>
@@ -478,32 +480,29 @@ function CategorySection({
   const { definition, posts } = collection;
 
   return (
-    <section aria-labelledby={`categoria-${definition.id}`} className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div className="space-y-1">
-          <span
-            className={`inline-block rounded-full border px-3 py-0.5 text-xs font-bold uppercase tracking-wider ${definition.color}`}
-          >
+    <section aria-labelledby={`categoria-${definition.id}`} className="space-y-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1.5">
+          <span className={`inline-flex items-center rounded-full border px-3 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] ${definition.color}`}>
             {definition.title}
           </span>
-          <h2
-            id={`categoria-${definition.id}`}
-            className="text-2xl font-bold tracking-tight text-zinc-900"
-          >
+          <h2 id={`categoria-${definition.id}`} className="text-xl font-bold tracking-tight text-zinc-900 sm:text-2xl">
             {definition.title}
           </h2>
-          <p className="max-w-2xl text-sm text-zinc-500">{definition.description}</p>
-          <p className="text-xs font-semibold text-emerald-700">{definition.highlight}</p>
+          <p className="max-w-xl text-sm leading-relaxed text-zinc-500">{definition.description}</p>
+          {definition.highlight && (
+            <p className="text-xs font-semibold text-emerald-700">{definition.highlight}</p>
+          )}
         </div>
         <Link
           href={definition.cta.href}
-          className="shrink-0 rounded-full border border-zinc-200 px-5 py-2 text-sm font-semibold text-zinc-700 hover:border-emerald-500 hover:text-emerald-700 transition"
+          className="inline-flex min-h-[40px] shrink-0 items-center rounded-full border border-zinc-200 px-5 py-2 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
         >
           {definition.cta.label}
         </Link>
       </div>
 
-      <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {posts.map((post) => (
           <BlogCard key={post.id} post={post} />
         ))}
@@ -599,7 +598,7 @@ async function fetchPosts({
       await listPostsWithMeta({ page, pageSize: 12, sort, status: "published" });
     const mapped = (posts ?? []) as PublicPost[];
     if (!mapped.length) {
-      const fb = await fetchFromContentlayer(12);
+      const fb = await fetchFromContentlayer(100);
       if (fb.status === "ok") return fb;
       return { status: "empty" };
     }
@@ -609,7 +608,7 @@ async function fetchPosts({
     if (process.env.NODE_ENV !== "production") {
       console.error("[blog] falha ao carregar posts", message);
     }
-    const fb = await fetchFromContentlayer(12);
+    const fb = await fetchFromContentlayer(100);
     if (fb.status === "ok") return fb;
     return { status: "error", message };
   }

@@ -43,7 +43,7 @@ export default function AdminCommandMenu() {
                 window.location.href = item.href;
               }
             }}
-            className="flex min-h-[44px] items-center rounded-2xl px-3 text-sm text-slate-700 data-[selected=true]:bg-emerald-50"
+            className="flex min-h-[44px] items-center rounded-2xl px-3 text-sm text-slate-700 data-[selected=true]:bg-[var(--brand-tint-50)]"
           >
             {item.label}
           </Command.Item>

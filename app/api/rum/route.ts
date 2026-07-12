@@ -1,5 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
+import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
@@ -47,8 +48,10 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const guard = req.headers.get("x-admin-pass") || req.cookies.get("adm")?.value === "true";
-  if (!guard) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const expectedPass = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
+  const authedByHeader = !!expectedPass && req.headers.get("x-admin-pass") === expectedPass;
+  const session = await verifyAdminSession(req.cookies.get(ADMIN_SESSION_COOKIE)?.value);
+  if (!authedByHeader && !session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
   const days = Math.min(Number(req.nextUrl.searchParams.get("days") ?? "7"), 90);
 

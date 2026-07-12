@@ -34,6 +34,14 @@
   --warning: #c27803;
   --error: #c53030;
 
+  /* Tons derivados de --brand para telas do admin que antes usavam a escala
+     emerald-* do Tailwind (desconectada da identidade verde+dourado do site) */
+  --brand-tint-50: #eef3f0;
+  --brand-tint-100: #dde8e2;
+  --brand-tint-200: #c2d6cb;
+  --brand-tint-300: #a3c0b0;
+  --brand-ring: rgba(31, 77, 58, 0.35);
+
   --ease-out: cubic-bezier(.4,0,.2,1);
 }
 
@@ -122,23 +130,6 @@ body.admin-shell [data-site-shell="cta"] {
   .heartbeat:hover { animation: heartbeat .7s ease-in-out; }
 }
 
-.dark {
-  --background: #0f1916;
-  --surface: #161f1b;
-  --surface-2: #1f2622;
-  --border: #2d3731;
-  --text: #f4f6f5;
-  --text-muted: #9bb4a9;
-  --brand: #4ac49b;
-  --brand-foreground: #0e160f;
-  --brand-contrast: #0e160f;
-  --accent: #f5c477;
-  --accent-foreground: #20170f;
-  --accent-contrast: #20170f;
-  --whatsapp: #36d08a;
-  --whatsapp-contrast: #0e160f;
-}
-
 @keyframes shake {
   10%, 90% { transform: translateX(-1px); }
   20%, 80% { transform: translateX(2px); }
@@ -146,14 +137,27 @@ body.admin-shell [data-site-shell="cta"] {
   40%, 60% { transform: translateX(3px); }
 }
 
-/* WhatsApp float pulse — chama atenção suavemente */
+/* WhatsApp float pulse — compositor-only: só transform + opacity (sem box-shadow) */
 @keyframes wa-pulse {
-  0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(37,211,102,.50); }
-  50%  { transform: scale(1.10); box-shadow: 0 0 0 12px rgba(37,211,102,.00); }
-  100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(37,211,102,.00); }
+  0%   { transform: scale(1);    opacity: 1; }
+  40%  { transform: scale(1.12); opacity: 0.9; }
+  100% { transform: scale(1);    opacity: 1; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .animate-wa-pulse { animation: wa-pulse 1.4s ease-in-out; }
+}
+
+/* ── Override global de acessibilidade — desativa animações decorativas ─── */
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-up,
+  .animate-fade-in,
+  .u-fade-in,
+  .animate-wa-pulse,
+  [class*="animate-"] {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ── Selects com seta customizada ──────────────────────────────────────────── */
@@ -183,3 +187,16 @@ body.admin-shell [data-site-shell="cta"] {
 .pb-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
 .bottom-safe { bottom: max(1.5rem, env(safe-area-inset-bottom)); }
 
+
+
+/* ── slide-up — usado no ReviewRequestPrompt e toasts flutuantes ─────────── */
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up {
+  animation: slide-up 0.3s var(--ease-out, cubic-bezier(0.21,0.47,0.32,0.98)) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-up { animation: none; }
+}

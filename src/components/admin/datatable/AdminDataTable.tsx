@@ -95,7 +95,7 @@ export function AdminDataTable<TData, TValue>({ columns, data, bulkActions = [] 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <input
           type="search"
-          className="w-full max-w-xs rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2"
+          className="w-full max-w-xs rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)] focus:ring-offset-2"
           placeholder="Filtrar..."
           aria-label="Filtrar tabela"
           value={globalFilter ?? ""}
@@ -158,7 +158,7 @@ export function AdminDataTable<TData, TValue>({ columns, data, bulkActions = [] 
                   }}
                   className={cn(
                     "h-[52px] border-b border-slate-100 text-sm text-slate-700 transition",
-                    row.getIsSelected() && "bg-emerald-50/80",
+                    row.getIsSelected() && "bg-[var(--brand-tint-50)]",
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (

@@ -13,6 +13,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import ReviewRequestPrompt from "@/components/ReviewRequestPrompt";
 
 const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "5511968633239";
 
@@ -69,6 +70,7 @@ export function WhatsAppFloat() {
   const pathname = usePathname() ?? "/";
   const [visible, setVisible] = useState(false);
   const [pulse, setPulse] = useState(false);
+  const [showReview, setShowReview] = useState(false);
   const firstPulse = useRef(false);
 
   // Aparece após 3 s — não perturba CLS / LCP
@@ -91,16 +93,20 @@ export function WhatsAppFloat() {
   const handleClick = useCallback(() => {
     const message = resolveMessage(pathname);
     const url = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
-    fireEvent("wa_float_click", {
-      page_path: pathname,
-      wa_phone: WA_PHONE,
-    });
+    // Evento legado (compatibilidade com dashboards existentes)
+    fireEvent("wa_float_click", { page_path: pathname, wa_phone: WA_PHONE });
+    // Evento padrão de conversão GA4
+    fireEvent("lead_whatsapp", { page_path: pathname, source: "float_button" });
     window.open(url, "_blank", "noopener,noreferrer");
+    // Solicita review 5s após o clique — growth loop: visita → WhatsApp → review → mais visibilidade
+    setTimeout(() => setShowReview(true), 5000);
   }, [pathname]);
 
   if (!visible) return null;
 
   return (
+    <>
+    {showReview && <ReviewRequestPrompt trigger="whatsapp" />}
     <button
       type="button"
       onClick={handleClick}
@@ -134,6 +140,7 @@ export function WhatsAppFloat() {
         <path d="M12.001 2C6.478 2 2 6.478 2 12c0 1.85.503 3.58 1.376 5.063L2 22l5.09-1.356A9.94 9.94 0 0 0 12.001 22C17.523 22 22 17.522 22 12S17.523 2 12.001 2Zm0 18.182a8.156 8.156 0 0 1-4.165-1.14l-.298-.178-3.02.804.817-2.96-.194-.305A8.167 8.167 0 0 1 3.82 12c0-4.51 3.67-8.182 8.182-8.182C16.512 3.818 20.182 7.49 20.182 12S16.512 20.182 12 20.182Zm4.49-6.12c-.247-.123-1.456-.72-1.682-.8-.226-.083-.39-.123-.556.122-.165.247-.638.8-.782.966-.144.164-.288.184-.534.06-.248-.123-1.046-.386-1.993-1.228-.737-.655-1.236-1.466-1.38-1.713-.145-.247-.016-.38.108-.503.11-.11.247-.288.37-.431.124-.144.165-.247.248-.412.082-.165.041-.309-.02-.432-.062-.123-.557-1.34-.762-1.836-.2-.48-.404-.415-.556-.423l-.474-.008c-.165 0-.432.062-.659.309-.226.247-.864.845-.864 2.061s.885 2.39 1.007 2.555c.124.165 1.745 2.664 4.228 3.734.59.255 1.05.407 1.41.521.592.19 1.131.163 1.557.1.475-.07 1.457-.596 1.663-1.17.206-.576.206-1.07.144-1.17-.06-.103-.224-.165-.473-.288Z" />
       </svg>
     </button>
+    </>
   );
 }
 

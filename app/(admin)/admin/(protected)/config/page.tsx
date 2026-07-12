@@ -70,7 +70,7 @@ function resolveRuntimeEnvironment() {
   const label = value === "production" ? "Produção" : value === "staging" ? "Staging" : "Development";
   const badgeClass =
     value === "production"
-      ? "bg-emerald-100 text-emerald-800"
+      ? "bg-[var(--brand-tint-100)] text-[var(--brand)]"
       : value === "staging"
         ? "bg-amber-100 text-amber-800"
         : "bg-slate-200 text-slate-800";

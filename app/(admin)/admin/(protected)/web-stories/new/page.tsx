@@ -130,7 +130,7 @@ export default function NewWebStoryPage() {
                     setFormData({ ...formData, ...updates });
                   }}
                   placeholder="Ex: Filhote Spitz Alemão Branco"
-                  className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                 />
                 <p className="mt-1 text-xs text-[var(--text-muted)]">
                   Máximo 70 caracteres (recomendado)
@@ -156,7 +156,7 @@ export default function NewWebStoryPage() {
                       })
                     }
                     placeholder="filhote-spitz-alemao-branco"
-                    className="flex-1 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                    className="flex-1 rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                   />
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default function NewWebStoryPage() {
                   value={formData.publisher}
                   onChange={(e) => setFormData({ ...formData, publisher: e.target.value })}
                   placeholder="By Império Dog"
-                  className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                 />
               </div>
 
@@ -188,7 +188,7 @@ export default function NewWebStoryPage() {
                     value={formData.poster_url}
                     onChange={(e) => setFormData({ ...formData, poster_url: e.target.value })}
                     placeholder="https://..."
-                    className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                    className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                   />
                   <p className="mt-1 text-xs text-[var(--text-muted)]">
                     Mín. 640x853px (proporção 3:4)
@@ -206,7 +206,7 @@ export default function NewWebStoryPage() {
                     value={formData.logo_url}
                     onChange={(e) => setFormData({ ...formData, logo_url: e.target.value })}
                     placeholder="https://..."
-                    className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                    className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                   />
                   <p className="mt-1 text-xs text-[var(--text-muted)]">
                     Mín. 96x96px (proporção 1:1)
@@ -222,7 +222,7 @@ export default function NewWebStoryPage() {
                   onChange={(e) =>
                     setFormData({ ...formData, status: e.target.value as "draft" | "published" })
                   }
-                  className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                  className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                 >
                   <option value="draft">Rascunho</option>
                   <option value="published">Publicada</option>
@@ -237,7 +237,7 @@ export default function NewWebStoryPage() {
               <button
                 type="button"
                 onClick={addPage}
-                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 transition"
+                className="rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--brand-hover)] transition"
               >
                 + Adicionar Página
               </button>
@@ -269,7 +269,7 @@ export default function NewWebStoryPage() {
                         onChange={(e) =>
                           updatePage(page.id, "type", e.target.value as "image" | "video")
                         }
-                        className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                        className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                       >
                         <option value="image">Imagem</option>
                         <option value="video">Vídeo</option>
@@ -287,7 +287,7 @@ export default function NewWebStoryPage() {
                         value={page.media_url}
                         onChange={(e) => updatePage(page.id, "media_url", e.target.value)}
                         placeholder="https://..."
-                        className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                        className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                       />
                     </div>
 
@@ -302,7 +302,7 @@ export default function NewWebStoryPage() {
                         placeholder="Texto para exibir nesta página (máx. ~280 caracteres)"
                         maxLength={280}
                         rows={3}
-                        className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                        className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                       />
                     </div>
 
@@ -320,7 +320,7 @@ export default function NewWebStoryPage() {
                           onChange={(e) =>
                             updatePage(page.id, "duration", parseInt(e.target.value))
                           }
-                          className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                          className="mt-1 w-full rounded-lg border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                         />
                       </div>
                     )}
@@ -341,7 +341,7 @@ export default function NewWebStoryPage() {
             <button
               type="submit"
               disabled={loading}
-              className="rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-lg bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-white hover:bg-[var(--brand-hover)] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Criando..." : "Criar Web Story"}
             </button>

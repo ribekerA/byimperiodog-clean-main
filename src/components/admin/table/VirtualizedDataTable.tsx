@@ -58,7 +58,7 @@ export function VirtualizedDataTable<TData extends { id?: RowId }>(props: Virtua
               setSelected(next);
               onSelectionChange?.(Array.from(next));
             }}
-            className="h-4 w-4 rounded border-emerald-300 text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            className="h-4 w-4 rounded border-[var(--brand-tint-300)] text-[var(--brand)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
           />
         ),
         cell: ({ row }) => {
@@ -76,7 +76,7 @@ export function VirtualizedDataTable<TData extends { id?: RowId }>(props: Virtua
                 setSelected(next);
                 onSelectionChange?.(Array.from(next));
               }}
-              className="h-4 w-4 rounded border-emerald-300 text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              className="h-4 w-4 rounded border-[var(--brand-tint-300)] text-[var(--brand)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
             />
           );
         },
@@ -110,9 +110,9 @@ export function VirtualizedDataTable<TData extends { id?: RowId }>(props: Virtua
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <div {...divProps} className={"rounded-2xl border border-emerald-100 bg-white " + (className ?? "")}> 
+    <div {...divProps} className={"rounded-2xl border border-[var(--brand-tint-100)] bg-white " + (className ?? "")}> 
       {/* Header */}
-      <div role="rowgroup" className="sticky top-0 z-10 border-b border-emerald-100 bg-white/95 backdrop-blur">
+      <div role="rowgroup" className="sticky top-0 z-10 border-b border-[var(--brand-tint-100)] bg-white/95 backdrop-blur">
         <div role="row" className="grid grid-cols-[auto,repeat(var(--cols),minmax(0,1fr))] items-center gap-3 px-3 py-2 text-xs font-semibold text-zinc-600"
             style={{
                // CSS var used to match number of columns excluding the selection checkbox
@@ -127,7 +127,7 @@ export function VirtualizedDataTable<TData extends { id?: RowId }>(props: Virtua
                     <button
                       type="button"
                       onClick={header.column.getToggleSortingHandler()}
-                      className="inline-flex items-center gap-1 rounded px-1 py-0.5 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                      className="inline-flex items-center gap-1 rounded px-1 py-0.5 hover:bg-[var(--brand-tint-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
                     >
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {header.column.getIsSorted() ? (
@@ -162,7 +162,7 @@ export function VirtualizedDataTable<TData extends { id?: RowId }>(props: Virtua
               <div
                 key={row.id}
                 role="row"
-                className="absolute inset-x-0 grid grid-cols-[auto,repeat(var(--cols),minmax(0,1fr))] items-center gap-3 border-b border-emerald-50 px-3"
+                className="absolute inset-x-0 grid grid-cols-[auto,repeat(var(--cols),minmax(0,1fr))] items-center gap-3 border-b border-[var(--brand-tint-50)] px-3"
                 style={{ transform: `translateY(${vRow.start}px)`, height: vRow.size }}
               >
                 {row.getVisibleCells().map(cell => (

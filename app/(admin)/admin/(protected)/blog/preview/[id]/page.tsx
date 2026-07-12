@@ -1,8 +1,7 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { adminFetchSSR } from '@/lib/adminFetchSSR';
-import { AdminShell } from '@/components/admin/AdminShell';
 import { BlogSubnav } from '@/components/admin/BlogSubnav';
+import { adminFetchSSR } from '@/lib/adminFetchSSR';
 
 // Página de preview segura (noindex) para posts ainda não publicados ou agendados.
 // Usa fetch server-side com credencial admin em contexto (assume middleware protege rota).
@@ -24,12 +23,12 @@ export default async function PreviewPage({ params }:{ params:{ id:string } }){
   if(!post) return notFound();
   const isDraft = post.status !== 'published';
   return (
-    <AdminShell>
+    <>
       <BlogSubnav />
       <div className="mx-auto max-w-3xl px-4 py-8">
         <div className="mb-6 flex items-start justify-between gap-4">
           <h1 className="text-2xl font-bold leading-tight flex-1">{post.title || '(sem título)'}</h1>
-          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${isDraft? 'bg-amber-600 text-white':'bg-emerald-600 text-white'}`}>{post.status}</span>
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${isDraft? 'bg-amber-600 text-white':'bg-[var(--brand)] text-white'}`}>{post.status}</span>
         </div>
         <div className="mb-4 flex flex-wrap gap-2 text-[10px] uppercase tracking-wide">
           <span className="rounded bg-[var(--surface-2)] px-2 py-1">PREVIEW</span>
@@ -47,6 +46,6 @@ export default async function PreviewPage({ params }:{ params:{ id:string } }){
           {post.content_mdx?.split(/\n{2,}/).map((blk:string,i:number)=> <p key={i}>{blk}</p>)}
         </article>
       </div>
-    </AdminShell>
+    </>
   );
 }

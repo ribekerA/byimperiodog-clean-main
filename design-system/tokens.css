@@ -40,20 +40,14 @@
 
   /* ========================================
      COLORS
+     Marca, neutros e semânticas (--brand, --accent, --whatsapp, --bg, --surface,
+     --text, --success/--warning/--error etc.) vêm de app/globals.css, importado
+     antes deste arquivo — aqui ficam só os tokens de hover que globals.css não define.
      ======================================== */
-  /* Neutral adjustments (contrast AA) */
-  --bg: #f5f7f9; /* ligeiramente mais escuro para elevar contraste de texto-muted */
-  --surface: #ffffff;
-  --surface-2: #eef2f6; /* +1 step darker */
-  --border: #d9e1ea; /* mais contraste vs surface */
-  --text: #1e2530; /* mínima alteração sem afetar identidade */
-  --text-muted: #5a6b7f; /* + contraste sobre bg novo (~4.6:1) */
-  --accent: #047857;
-  --accent-hover: #036149;
-  --accent-contrast: #ffffff;
-  --success: #059669;
-  --warning: #d97706;
-  --error: #dc2626;
+  --accent-hover: #d59f56;   /* --accent (#f3b562) escurecido para hover */
+  --brand-hover: #26603f;    /* --brand (#1f4d3a) clareado para hover */
+  --whatsapp-hover: #186f49; /* --whatsapp (#1f8a5c) escurecido para hover */
+  --star: #f59e0b;           /* estrelas de avaliação */
 
   /* ========================================
      TYPOGRAPHY SCALE
@@ -97,27 +91,4 @@
   animation: fade-in 450ms cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
 }
 
-[data-theme='dark'] {
-  --bg: #0c0f13;
-  --surface: #161b21;
-  --surface-2: #20262d;
-  --border: #36414c;
-  --text: #f1f5f9;
-  --text-muted: #8fa0b4;
-  --accent: #10b981;
-  --accent-hover: #0d9568;
-  --accent-contrast: #0f1115;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
-  
-  /* Elevations in dark mode */
-  --elevation-1: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --elevation-2: 0 2px 4px -1px rgba(0, 0, 0, 0.5), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --elevation-3: 0 4px 8px -2px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --elevation-4: 0 8px 16px -4px rgba(0, 0, 0, 0.55), 0 4px 8px -2px rgba(0, 0, 0, 0.4);
-  --elevation-5: 0 16px 32px -8px rgba(0, 0, 0, 0.6), 0 8px 16px -4px rgba(0, 0, 0, 0.5);
-}
-
 :root { color-scheme: light; }
-[data-theme='dark'] { color-scheme: dark; }

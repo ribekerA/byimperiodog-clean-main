@@ -127,14 +127,14 @@ export default function Experiments() {
     <div className="mx-auto max-w-7xl space-y-8 p-6">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-emerald-900">Experimentos A/B</h1>
-          <p className="mt-1 text-sm text-emerald-700">
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--brand)]">Experimentos A/B</h1>
+          <p className="mt-1 text-sm text-[var(--brand)]">
             Crie testes, monitore resultados e otimize conversões
           </p>
         </div>
         <button
           onClick={createExperiment}
-          className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+          className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)]"
         >
           <Plus className="h-4 w-4" />
           Novo Experimento
@@ -143,29 +143,29 @@ export default function Experiments() {
 
       {/* Métricas Gerais */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-emerald-600">Ativos</p>
-              <p className="mt-2 text-3xl font-bold text-emerald-900">{runningCount}</p>
+              <p className="text-sm font-medium text-[var(--brand)]">Ativos</p>
+              <p className="mt-2 text-3xl font-bold text-[var(--brand)]">{runningCount}</p>
             </div>
             <Play className="h-8 w-8 text-green-500" />
           </div>
         </div>
-        <div className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-emerald-600">Completos</p>
-              <p className="mt-2 text-3xl font-bold text-emerald-900">{completedCount}</p>
+              <p className="text-sm font-medium text-[var(--brand)]">Completos</p>
+              <p className="mt-2 text-3xl font-bold text-[var(--brand)]">{completedCount}</p>
             </div>
             <CheckCircle className="h-8 w-8 text-blue-500" />
           </div>
         </div>
-        <div className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-emerald-600">Total</p>
-              <p className="mt-2 text-3xl font-bold text-emerald-900">{experiments.length}</p>
+              <p className="text-sm font-medium text-[var(--brand)]">Total</p>
+              <p className="mt-2 text-3xl font-bold text-[var(--brand)]">{experiments.length}</p>
             </div>
             <TrendingUp className="h-8 w-8 text-purple-500" />
           </div>
@@ -175,14 +175,14 @@ export default function Experiments() {
       {/* Lista de Experimentos */}
       <div className="space-y-4">
         {loading ? (
-          <div className="p-4 text-sm text-emerald-700">Carregando experimentos…</div>
+          <div className="p-4 text-sm text-[var(--brand)]">Carregando experimentos…</div>
         ) : experiments.length === 0 ? (
-          <div className="rounded-2xl border border-emerald-100 bg-white p-12 text-center shadow-sm">
-            <Beaker className="mx-auto h-12 w-12 text-emerald-300" />
-            <p className="mt-4 text-emerald-600">Nenhum experimento criado ainda.</p>
+          <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-12 text-center shadow-sm">
+            <Beaker className="mx-auto h-12 w-12 text-[var(--brand-tint-300)]" />
+            <p className="mt-4 text-[var(--brand)]">Nenhum experimento criado ainda.</p>
             <button
               onClick={createExperiment}
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-hover)]"
             >
               <Plus className="h-4 w-4" />
               Criar Primeiro Experimento
@@ -201,12 +201,12 @@ export default function Experiments() {
             return (
               <div
                 key={exp.id}
-                className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm"
+                className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-6 shadow-sm"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3">
-                      <h3 className="text-lg font-semibold text-emerald-900">{exp.name}</h3>
+                      <h3 className="text-lg font-semibold text-[var(--brand)]">{exp.name}</h3>
                       <span
                         className={`rounded-full px-3 py-1 text-xs font-medium ${
                           exp.status === "running"
@@ -233,14 +233,14 @@ export default function Experiments() {
                       )}
                     </div>
                     {exp.description && (
-                      <p className="mt-1 text-sm text-emerald-600">{exp.description}</p>
+                      <p className="mt-1 text-sm text-[var(--brand)]">{exp.description}</p>
                     )}
-                    <p className="mt-1 text-xs text-emerald-500">Chave: {exp.key}</p>
+                    <p className="mt-1 text-xs text-[var(--brand)]">Chave: {exp.key}</p>
                   </div>
                   {exp.status !== "completed" && (
                     <button
                       onClick={() => toggleStatus(exp)}
-                      className="rounded-lg border border-emerald-300 px-4 py-2 text-sm font-medium text-emerald-900 transition hover:bg-emerald-50"
+                      className="rounded-lg border border-[var(--brand-tint-300)] px-4 py-2 text-sm font-medium text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)]"
                     >
                       {exp.status === "running" ? (
                         <>
@@ -261,39 +261,39 @@ export default function Experiments() {
                     <div
                       className={`rounded-xl border p-4 ${
                         winner === "A" && exp.status === "running"
-                          ? "border-emerald-400 bg-emerald-50"
-                          : "border-emerald-100 bg-emerald-50/50"
+                          ? "border-[var(--brand)] bg-[var(--brand-tint-50)]"
+                          : "border-[var(--brand-tint-100)] bg-[var(--brand-tint-50)]"
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <h4 className="font-semibold text-emerald-900">
+                        <h4 className="font-semibold text-[var(--brand)]">
                           Variante A: {variantA.label}
                         </h4>
                         {winner === "A" && exp.status === "running" && (
-                          <Target className="h-5 w-5 text-emerald-600" />
+                          <Target className="h-5 w-5 text-[var(--brand)]" />
                         )}
                       </div>
                       {metricsA ? (
                         <div className="mt-3 space-y-2">
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-emerald-600">Conversões</span>
-                            <span className="font-semibold text-emerald-900">
+                            <span className="text-[var(--brand)]">Conversões</span>
+                            <span className="font-semibold text-[var(--brand)]">
                               {metricsA.conversions}
                             </span>
                           </div>
                           <div className="flex items-center justify-between text-sm">
-                            <span className="text-emerald-600">Visualizações</span>
-                            <span className="font-semibold text-emerald-900">{metricsA.views}</span>
+                            <span className="text-[var(--brand)]">Visualizações</span>
+                            <span className="font-semibold text-[var(--brand)]">{metricsA.views}</span>
                           </div>
                           <div className="mt-3 rounded-lg bg-white p-2 text-center">
-                            <span className="text-2xl font-bold text-emerald-900">
+                            <span className="text-2xl font-bold text-[var(--brand)]">
                               {metricsA.conversionRate.toFixed(2)}%
                             </span>
-                            <p className="text-xs text-emerald-600">Taxa de Conversão</p>
+                            <p className="text-xs text-[var(--brand)]">Taxa de Conversão</p>
                           </div>
                         </div>
                       ) : (
-                        <p className="mt-3 text-sm text-emerald-500">Sem dados ainda</p>
+                        <p className="mt-3 text-sm text-[var(--brand)]">Sem dados ainda</p>
                       )}
                     </div>
                   )}

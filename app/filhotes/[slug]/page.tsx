@@ -6,6 +6,9 @@ import Script from "next/script";
 
 import PuppyCinematicGallery from "@/components/catalog/PuppyCinematicGallery";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
+import LeadEventTracker from "@/components/LeadEventTracker";
+import dynamic from "next/dynamic";
+const NotifyMeButton = dynamic(() => import("@/components/NotifyMeButton"), { ssr: false });
 import PuppyViewerCount from "@/components/catalog/PuppyViewerCount";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
@@ -152,6 +155,8 @@ export default function PuppyPage({ params }: Props) {
       <Script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
       <Script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <Script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      {/* GA4: lead_filhote — disparado quando visitante visualiza a página do filhote */}
+      <LeadEventTracker eventName="lead_filhote" params={{ puppy_slug: puppy.slug, puppy_color: colorSlug, puppy_sex: sexSlug }} />
 
       <main className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 sm:py-8 lg:px-10 lg:pb-16">
 
@@ -199,6 +204,11 @@ export default function PuppyPage({ params }: Props) {
 
             {/* Countdown de reserva */}
             <UrgencyCountdown puppyId={puppy.slug} status={puppy.status ?? "available"} />
+
+            {/* Hooked loop: filhote vendido/reservado → usuário deixa WhatsApp para ser notificado */}
+            {isSold && (
+              <NotifyMeButton color={colorSlug} colorLabel={corLabel} />
+            )}
           </div>
         </div>
 

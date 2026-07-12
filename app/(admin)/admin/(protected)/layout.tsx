@@ -12,10 +12,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
-  const adminIdentity = (() => {
+export default async function AdminProtectedLayout({ children }: { children: React.ReactNode }) {
+  const adminIdentity = await (async () => {
     try {
-      return requireAdminLayout();
+      return await requireAdminLayout();
     } catch {
       redirect("/admin/login");
     }
@@ -25,9 +25,15 @@ export default function AdminProtectedLayout({ children }: { children: React.Rea
 
   return (
     <ToastProvider>
+      <a
+        href="#admin-main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-[var(--brand)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg"
+      >
+        Pular para o conteúdo principal
+      </a>
       <div className="min-h-screen bg-[var(--surface-2)] text-[var(--text)] antialiased">
         <div className="grid min-h-screen grid-cols-1 md:grid-cols-[260px_1fr]">
-          <nav aria-label="Navegacao principal" className="border-b border-[var(--border)] bg-white shadow-sm md:border-b-0 md:border-r">
+          <nav aria-label="Navegacao principal" className="hidden border-b border-[var(--border)] bg-white shadow-sm md:block md:border-b-0 md:border-r">
             <AdminNav environment={environment} />
           </nav>
 
@@ -36,7 +42,7 @@ export default function AdminProtectedLayout({ children }: { children: React.Rea
               <AdminTopbar environment={environment} userName={adminIdentity?.name ?? "Admin"} />
             </header>
 
-            <main className="flex-1 bg-[var(--surface-2)] px-4 py-6 md:px-8" role="main">
+            <main id="admin-main-content" tabIndex={-1} className="flex-1 bg-[var(--surface-2)] px-4 py-6 md:px-8 focus:outline-none" role="main">
               {children}
             </main>
 

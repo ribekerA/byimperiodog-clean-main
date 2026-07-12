@@ -750,7 +750,7 @@ export default function PuppyForm({
             <textarea
               value={values.description}
               onChange={(e) => set("description", e.target.value)}
-              className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-3)] text-sm text-[var(--text)] shadow-[var(--elevation-1)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="mt-2 w-full rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] p-[var(--space-3)] text-sm text-[var(--text)] shadow-[var(--elevation-1)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
               rows={4}
             />
           </label>
@@ -772,7 +772,7 @@ export default function PuppyForm({
               <p className="text-sm font-semibold text-[var(--text)]">Preco sugerido pela IA</p>
               <p className="text-xs text-[var(--text-muted)]">Baseado em cor, sexo, idade e demanda do funil.</p>
             </div>
-            <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">
+            <span className="rounded-full bg-[var(--brand-tint-50)] px-3 py-1 text-xs font-semibold text-[var(--brand)]">
               {demandBadge} - {demandScore} pts
             </span>
           </div>
@@ -784,7 +784,7 @@ export default function PuppyForm({
             <button
               type="button"
               onClick={applyPriceSuggestion}
-              className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+              className="rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
             >
               Aplicar preco
             </button>
@@ -805,7 +805,7 @@ export default function PuppyForm({
             </span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--surface)]">
-            <div className="h-full bg-emerald-500" style={{ width: `${demandScore}%` }} aria-valuenow={demandScore} />
+            <div className="h-full bg-[var(--brand)]" style={{ width: `${demandScore}%` }} aria-valuenow={demandScore} />
           </div>
           <p className="text-xs text-[var(--text-muted)]">Quanto maior o score, mais urgente ajustar preco, fotos e copy.</p>
         </div>
@@ -818,7 +818,7 @@ export default function PuppyForm({
             <button
               type="button"
               onClick={() => setCopySeed((s) => s + 1)}
-              className="text-xs font-semibold text-emerald-700 hover:underline"
+              className="text-xs font-semibold text-[var(--brand)] hover:underline"
             >
               Gerar nova variacao
             </button>
@@ -831,7 +831,7 @@ export default function PuppyForm({
                   <button
                     type="button"
                     onClick={() => applyCopy(variant.id)}
-                    className="text-xs font-semibold text-emerald-700 hover:underline"
+                    className="text-xs font-semibold text-[var(--brand)] hover:underline"
                   >
                     Usar
                   </button>
@@ -881,7 +881,7 @@ export default function PuppyForm({
           <button
             type="button"
             onClick={applyAllSuggestions}
-            className="w-full rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="w-full rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
           >
             Aplicar todas sugestoes
           </button>
@@ -915,7 +915,7 @@ export default function PuppyForm({
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex items-center gap-2 rounded-[var(--radius-full)] bg-emerald-600 px-[var(--space-4)] py-[var(--space-2)] text-sm font-semibold text-white shadow-[var(--elevation-2)] transition hover:bg-emerald-700 hover:shadow-[var(--elevation-3)] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          className="inline-flex items-center gap-2 rounded-[var(--radius-full)] bg-[var(--brand)] px-[var(--space-4)] py-[var(--space-2)] text-sm font-semibold text-white shadow-[var(--elevation-2)] transition hover:bg-[var(--brand-hover)] hover:shadow-[var(--elevation-3)] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
         >
           {submitting ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
           {submitting ? "Salvando..." : "Salvar"}
@@ -948,7 +948,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`mt-2 w-full rounded-[var(--radius-lg)] border px-[var(--space-3)] py-[var(--space-2)] text-sm text-[var(--text)] shadow-[var(--elevation-1)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 ${
+        className={`mt-2 w-full rounded-[var(--radius-lg)] border px-[var(--space-3)] py-[var(--space-2)] text-sm text-[var(--text)] shadow-[var(--elevation-1)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)] ${
           error ? "border-rose-300 bg-rose-50" : "border-[var(--border)] bg-[var(--surface)]"
         }`}
       />
@@ -976,7 +976,7 @@ function Select({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`mt-2 h-10 w-full rounded-[var(--radius-lg)] border px-[var(--space-3)] text-sm text-[var(--text)] shadow-[var(--elevation-1)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 ${
+        className={`mt-2 h-10 w-full rounded-[var(--radius-lg)] border px-[var(--space-3)] text-sm text-[var(--text)] shadow-[var(--elevation-1)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)] ${
           error ? "border-rose-300 bg-rose-50" : "border-[var(--border)] bg-[var(--surface)]"
         }`}
       >

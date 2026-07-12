@@ -3,6 +3,8 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import * as React from 'react';
 
+import { Button } from '@/components/ui/button';
+
 export function ScheduleDrawer({ open, onOpenChange, onConfirm, defaultDate, defaultTime }:{ open:boolean; onOpenChange:(v:boolean)=>void; onConfirm:(iso:string)=>void; defaultDate?:string; defaultTime?:string }){
   const [date,setDate]=React.useState('');
   const [time,setTime]=React.useState('09:00');
@@ -35,9 +37,9 @@ export function ScheduleDrawer({ open, onOpenChange, onConfirm, defaultDate, def
             </div>
             <div className="flex justify-end gap-2">
               <Dialog.Close asChild>
-                <button className="rounded-lg border border-[var(--border)] px-3 py-2 text-sm hover:bg-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--accent)]">Cancelar</button>
+                <Button type="button" variant="outline" size="md">Cancelar</Button>
               </Dialog.Close>
-              <button onClick={confirm} className="rounded-lg bg-[var(--accent)] px-3 py-2 text-sm font-medium text-[var(--accent-contrast)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[var(--accent)]" disabled={!date}>Agendar</button>
+              <Button type="button" variant="solid" size="md" onClick={confirm} disabled={!date}>Agendar</Button>
             </div>
           </div>
         </Dialog.Content>

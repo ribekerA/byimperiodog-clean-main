@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState, useTransition, type FormEvent } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -18,7 +17,9 @@ import {
   Wand2,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, useTransition, type FormEvent } from "react";
 
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useToast } from "@/components/ui/toast";
 
 import type { AdminLeadsPayload, LeadListItem, LeadStatus, ParsedLeadFilters } from "./queries";
@@ -45,7 +46,7 @@ const STATUS_LABELS: Record<LeadStatus, string> = {
 const STATUS_COLORS: Record<LeadStatus, string> = {
   novo: "bg-blue-100 text-blue-700",
   em_contato: "bg-yellow-100 text-yellow-700",
-  fechado: "bg-emerald-100 text-emerald-700",
+  fechado: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
   perdido: "bg-red-100 text-red-700",
 };
 
@@ -253,7 +254,7 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
               placeholder="Buscar por nome ou telefone..."
               value={formState.search}
               onChange={(e) => setFormState((p) => ({ ...p, search: e.target.value }))}
-              className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-4 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] py-2 pl-9 pr-4 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
             />
           </div>
 
@@ -288,7 +289,7 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
                 {colorOptions.map((color) => {
                   const checked = formState.colors.has(color);
                   return (
-                    <label key={color} className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-[var(--border)] cursor-pointer ${checked ? "bg-emerald-100 text-emerald-700" : "bg-white"}`}>
+                    <label key={color} className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-[var(--border)] cursor-pointer ${checked ? "bg-[var(--brand-tint-100)] text-[var(--brand)]" : "bg-white"}`}>
                       <input type="checkbox" className="sr-only" checked={checked}
                         onChange={(e) => {
                           const next = new Set(formState.colors);
@@ -307,9 +308,9 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
 
             {/* City */}
             <div className="space-y-2 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Cidade</p>
-              <select value={formState.city} onChange={(e) => setFormState((p) => ({ ...p, city: e.target.value }))}
-                className="w-full rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20">
+              <label htmlFor="lead-city-filter" className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Cidade</label>
+              <select id="lead-city-filter" value={formState.city} onChange={(e) => setFormState((p) => ({ ...p, city: e.target.value }))}
+                className="w-full rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]">
                 <option value="">Todas</option>
                 {cityOptions.map((city) => <option key={city} value={city}>{city}</option>)}
               </select>
@@ -322,9 +323,9 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
               </p>
               <div className="grid grid-cols-2 gap-2">
                 <input type="date" value={formState.dateFrom} onChange={(e) => setFormState((p) => ({ ...p, dateFrom: e.target.value }))}
-                  className="w-full rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none" aria-label="Data inicial" />
+                  className="w-full rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none" aria-label="Data inicial" />
                 <input type="date" value={formState.dateTo} onChange={(e) => setFormState((p) => ({ ...p, dateTo: e.target.value }))}
-                  className="w-full rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none" aria-label="Data final" />
+                  className="w-full rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none" aria-label="Data final" />
               </div>
             </div>
           </div>
@@ -335,7 +336,7 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
               <RotateCcw className="h-4 w-4" /> Limpar filtros
             </button>
             <button type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--brand-hover)]">
               <Filter className="h-4 w-4" /> Aplicar
             </button>
           </div>
@@ -354,10 +355,10 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
               </div>
             );
           })}
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-emerald-600">Conversão</p>
-            <p className="text-2xl font-bold text-emerald-700">{conversionRate}%</p>
-            <p className="text-xs text-emerald-500">leads → fechado</p>
+          <div className="rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--brand)]">Conversão</p>
+            <p className="text-2xl font-bold text-[var(--brand)]">{conversionRate}%</p>
+            <p className="text-xs text-[var(--brand)]">leads → fechado</p>
           </div>
         </div>
 
@@ -381,7 +382,7 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
         </div>
 
         {isPending && (
-          <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm text-emerald-800" role="status" aria-live="polite">
+          <div className="flex items-center gap-2 rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] px-4 py-2 text-sm text-[var(--brand)]" role="status" aria-live="polite">
             <Loader2 className="h-4 w-4 animate-spin" /> Atualizando leads...
           </div>
         )}
@@ -428,18 +429,21 @@ function LeadsTable({
   onCopyMessage: (lead: LeadListItem) => void;
   onOpenWhatsApp: (lead: LeadListItem) => void;
 }) {
+  const [confirmCloseLead, setConfirmCloseLead] = useState<LeadListItem | null>(null);
+
   return (
     <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white shadow-sm">
       <table className="min-w-full divide-y divide-[var(--border)] text-sm">
+        <caption className="sr-only">Tabela com {items.length} leads, mostrando contato, interesse, filhote sugerido e status</caption>
         <thead className="bg-[var(--surface-2)] text-left text-[11px] uppercase tracking-wide text-[var(--text-muted)]">
           <tr>
-            <th className="px-4 py-3">Lead</th>
-            <th className="px-4 py-3">Contato</th>
-            <th className="px-4 py-3">Interesse</th>
-            <th className="px-4 py-3">Filhote / IA</th>
-            <th className="px-4 py-3">Status</th>
-            <th className="px-4 py-3">Criado</th>
-            <th className="px-4 py-3">Ações</th>
+            <th scope="col" className="px-4 py-3">Lead</th>
+            <th scope="col" className="px-4 py-3">Contato</th>
+            <th scope="col" className="px-4 py-3">Interesse</th>
+            <th scope="col" className="px-4 py-3">Filhote / IA</th>
+            <th scope="col" className="px-4 py-3">Status</th>
+            <th scope="col" className="px-4 py-3">Criado</th>
+            <th scope="col" className="px-4 py-3">Ações</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-[var(--border)] bg-white">
@@ -478,7 +482,7 @@ function LeadsTable({
                   <div className="flex flex-wrap items-center gap-1.5 text-sm text-[var(--text-muted)]">
                     <span className="text-xs">{lead.phone || EMPTY_VALUE}</span>
                     <button type="button" onClick={() => onOpenWhatsApp(lead)}
-                      className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 hover:bg-emerald-100">
+                      className="inline-flex items-center gap-1 rounded-full bg-[var(--brand-tint-50)] px-2 py-0.5 text-[11px] font-semibold text-[var(--brand)] hover:bg-[var(--brand-tint-100)]">
                       <MessageCircle className="h-3 w-3" /> Abrir
                     </button>
                     <button type="button" onClick={() => onCopyMessage(lead)}
@@ -518,7 +522,7 @@ function LeadsTable({
                     )}
                     <div className="flex flex-wrap gap-1">
                       {score !== null && (
-                        <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700">
+                        <span className="rounded-full bg-[var(--brand-tint-50)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand)]">
                           IA {score}
                         </span>
                       )}
@@ -537,7 +541,7 @@ function LeadsTable({
                     value={lead.status}
                     onChange={(e) => onStatusChange(lead.id, e.target.value as LeadStatus)}
                     disabled={mutatingId === lead.id}
-                    className={`rounded-full border px-3 py-1 text-xs font-semibold focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 ${STATUS_COLORS[lead.status]}`}
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)] ${STATUS_COLORS[lead.status]}`}
                     aria-label={`Status de ${lead.name}`}
                   >
                     {LEAD_STATUS_OPTIONS.map((s) => (
@@ -566,9 +570,9 @@ function LeadsTable({
                       </button>
                     )}
                     {lead.status !== "fechado" && lead.status !== "perdido" && (
-                      <button type="button" onClick={() => onStatusChange(lead.id, "fechado")}
+                      <button type="button" onClick={() => setConfirmCloseLead(lead)}
                         disabled={mutatingId === lead.id}
-                        className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] font-semibold text-[var(--text)] hover:bg-emerald-50 disabled:opacity-50">
+                        className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-2 py-0.5 text-[11px] font-semibold text-[var(--text)] hover:bg-[var(--brand-tint-50)] disabled:opacity-50">
                         <Wand2 className="h-3 w-3" /> Fechar
                       </button>
                     )}
@@ -580,6 +584,17 @@ function LeadsTable({
           })}
         </tbody>
       </table>
+
+      <ConfirmDialog
+        open={confirmCloseLead !== null}
+        onOpenChange={(open) => { if (!open) setConfirmCloseLead(null); }}
+        title="Marcar lead como fechado?"
+        description={`Isso muda o status de "${confirmCloseLead?.name || "Lead"}" para Fechado.`}
+        confirmLabel="Sim, fechar"
+        onConfirm={() => {
+          if (confirmCloseLead) onStatusChange(confirmCloseLead.id, "fechado");
+        }}
+      />
     </div>
   );
 }

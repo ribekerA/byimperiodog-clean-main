@@ -5,6 +5,7 @@ import Script from "next/script";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import LeadForm from "@/components/LeadForm";
+import TrustBar from "@/components/TrustBar";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { routes } from "@/lib/route";
@@ -221,6 +222,7 @@ export default function ReserveSeuFilhotePage() {
           <p className="mt-2 text-sm text-[var(--text-muted)]">
             Preencha o formulário abaixo e entraremos em contato em até 2 horas para agendar a entrevista de alinhamento.
           </p>
+          <TrustBar className="mt-4" />
           <div className="mt-6">
             <LeadForm />
           </div>

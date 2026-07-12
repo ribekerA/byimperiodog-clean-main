@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
+import { ADMIN_SESSION_COOKIE, verifyAdminSession, type AdminSessionPayload } from "@/lib/adminSession";
 import { createLogger } from "@/lib/logger";
 import {
   DEFAULT_ROLE,
@@ -21,10 +22,8 @@ type ApiGuardOptions = {
   permission?: AdminPermission;
 };
 
-function isAuthenticatedCookie(store = cookies()) {
-  const adm = store.get("adm")?.value;
-  const legacy = store.get("admin_auth")?.value;
-  return adm === "true" || adm === "1" || legacy === "1";
+async function getVerifiedSession(store = cookies()): Promise<AdminSessionPayload | null> {
+  return verifyAdminSession(store.get(ADMIN_SESSION_COOKIE)?.value);
 }
 
 function resolveRoleFromRequest(req: Request | NextRequest): AdminRole {
@@ -42,23 +41,19 @@ export type AdminIdentity = {
 
 const adminAuthLogger = createLogger("admin:auth");
 
-function resolveIdentityFromCookies(store = cookies()): AdminIdentity {
-  const role = getRoleFromCookies(store);
-  const email = store.get("admin_email")?.value ?? null;
-  const nameFromCookie = store.get("admin_name")?.value ?? null;
-  const fallbackName = email ? email.split("@")[0] ?? "Admin" : "Admin";
-  return { role, email, name: nameFromCookie || fallbackName };
+function identityFromSession(payload: AdminSessionPayload): AdminIdentity {
+  return { role: payload.role, email: payload.email, name: payload.name };
 }
 
-export function requireAdminLayout(options: LayoutGuardOptions = {}) {
+export async function requireAdminLayout(options: LayoutGuardOptions = {}) {
   const store = cookies();
-  const authenticated = isAuthenticatedCookie(store);
-  if (!authenticated) {
-    adminAuthLogger.warn("Admin layout guard bloqueou acesso sem cookie de sessao");
+  const session = await getVerifiedSession(store);
+  if (!session) {
+    adminAuthLogger.warn("Admin layout guard bloqueou acesso sem sessao valida");
     redirect("/admin/login");
   }
 
-  const identity = resolveIdentityFromCookies(store);
+  const identity = identityFromSession(session);
   if (options.permission && !hasPermission(identity.role, options.permission)) {
     adminAuthLogger.warn("Admin sem permissao tentou acessar recurso", {
       role: identity.role,
@@ -70,21 +65,24 @@ export function requireAdminLayout(options: LayoutGuardOptions = {}) {
   return identity;
 }
 
-export function redirectIfAuthed() {
-  if (isAuthenticatedCookie()) redirect("/admin/dashboard");
+export async function redirectIfAuthed() {
+  const session = await getVerifiedSession();
+  if (session) redirect("/admin/dashboard");
 }
 
 export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOptions = {}) {
-  const expected = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
-  if (!expected) {
-    if (options.permission) {
-      const role = resolveRoleFromRequest(req);
-      if (!hasPermission(role, options.permission)) {
-        return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
-      }
+  // Nota: este guard e sincrono e nao verifica a assinatura do admin_session (isso exigiria
+  // async em ~90 call sites). A defesa real contra forjar cookies vive no middleware.ts,
+  // que verifica a assinatura HMAC antes de qualquer /api/admin/* chegar aqui. Este guard
+  // e uma segunda camada e, por isso, precisa falhar fechado quando nada bate.
+  const checkPermission = (): NextResponse | null => {
+    if (!options.permission) return null;
+    const role = resolveRoleFromRequest(req);
+    if (!hasPermission(role, options.permission)) {
+      return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
     }
     return null;
-  }
+  };
 
   try {
     const nreq = req as NextRequest;
@@ -92,27 +90,16 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
       (nreq.cookies?.get?.("admin_auth")?.value) === "1" ||
       (nreq.cookies?.get?.("adm")?.value) === "true";
     if (cookieAuth) {
-      if (options.permission) {
-        const role = resolveRoleFromRequest(req);
-        if (!hasPermission(role, options.permission)) {
-          return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
-        }
-      }
-      return null;
+      return checkPermission();
     }
   } catch {
     // ignore cookie access failures on generic Request
   }
 
+  const expected = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
   const pass = req.headers.get("x-admin-pass");
-  if (pass === expected) {
-    if (options.permission) {
-      const role = resolveRoleFromRequest(req);
-      if (!hasPermission(role, options.permission)) {
-        return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
-      }
-    }
-    return null;
+  if (expected && pass === expected) {
+    return checkPermission();
   }
 
   return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });

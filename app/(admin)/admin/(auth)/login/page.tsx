@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
         <label className="block text-sm font-semibold text-[var(--text)]">
           Email
           <div
-            className={`mt-2 flex items-center gap-2 rounded-lg border bg-[var(--surface)] px-3 py-2 focus-within:ring-2 focus-within:ring-emerald-500 ${
+            className={`mt-2 flex items-center gap-2 rounded-lg border bg-[var(--surface)] px-3 py-2 focus-within:ring-2 focus-within:ring-[var(--brand-ring)] ${
               error?.toLowerCase().includes("email") ? "border-rose-300 ring-1 ring-rose-200" : "border-[var(--border)]"
             }`}
           >
@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
         <label className="block text-sm font-semibold text-[var(--text)]">
           Senha
           <div
-            className={`mt-2 flex items-center gap-2 rounded-lg border bg-[var(--surface)] px-3 py-2 focus-within:ring-2 focus-within:ring-emerald-500 ${
+            className={`mt-2 flex items-center gap-2 rounded-lg border bg-[var(--surface)] px-3 py-2 focus-within:ring-2 focus-within:ring-[var(--brand-ring)] ${
               error?.toLowerCase().includes("senha") || error?.toLowerCase().includes("login") ? "border-rose-300 ring-1 ring-rose-200" : "border-[var(--border)]"
             }`}
           >
@@ -99,7 +99,7 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand)] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
           {loading ? "Entrando..." : "Entrar"}

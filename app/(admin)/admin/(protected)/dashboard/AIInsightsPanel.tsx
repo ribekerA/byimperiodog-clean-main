@@ -25,7 +25,7 @@ type AIInsightsPanelProps = {
 const riskTone: Record<AIRiskLevel, string> = {
   alto: "bg-rose-100 text-rose-900",
   medio: "bg-amber-100 text-amber-900",
-  baixo: "bg-emerald-100 text-emerald-900",
+  baixo: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
 };
 
 export function AIInsightsPanel({ action, initialInsight, fallbackText }: AIInsightsPanelProps) {
@@ -37,11 +37,11 @@ export function AIInsightsPanel({ action, initialInsight, fallbackText }: AIInsi
   return (
     <section
       aria-label="Insights operacionais da IA"
-      className="rounded-3xl border border-[var(--border)] bg-white p-6 shadow-lg focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-emerald-500"
+      className="rounded-3xl border border-[var(--border)] bg-white p-6 shadow-lg focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[var(--brand)]"
     >
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <Brain className="h-6 w-6 text-emerald-600" aria-hidden />
+          <Brain className="h-6 w-6 text-[var(--brand)]" aria-hidden />
           <div>
             <h2 className="text-lg font-semibold text-[var(--text)]">IA • Operação em foco</h2>
             <p className="text-sm text-[var(--text-muted)]">Resumo sintético com oportunidades, riscos e próximos passos.</p>
@@ -50,7 +50,7 @@ export function AIInsightsPanel({ action, initialInsight, fallbackText }: AIInsi
         <button
           type="button"
           onClick={() => execute().catch(() => undefined)}
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-1.5 text-sm font-semibold text-[var(--text)] shadow-sm transition hover:bg-[var(--surface-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-1.5 text-sm font-semibold text-[var(--text)] shadow-sm transition hover:bg-[var(--surface-2)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
         >
           <RefreshCcw className={`h-4 w-4 ${isPending ? "animate-spin" : ""}`} aria-hidden />
           Atualizar
@@ -87,7 +87,7 @@ export function AIInsightsPanel({ action, initialInsight, fallbackText }: AIInsi
               <InsightList
                 title="Oportunidades"
                 icon={<Lightbulb className="h-4 w-4" aria-hidden />}
-                tone="text-emerald-700"
+                tone="text-[var(--brand)]"
                 items={insight?.opportunities ?? []}
                 loading={isSkeleton}
                 emptyLabel="Nenhuma oportunidade identificada."
@@ -145,7 +145,7 @@ function InsightList({ title, icon, tone, items, loading, emptyLabel }: InsightL
         <ul className="space-y-2" role="list">
           {items.map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-[var(--text)]">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 text-emerald-500" aria-hidden />
+              <CheckCircle2 className="mt-0.5 h-4 w-4 text-[var(--brand)]" aria-hidden />
               <span>{item}</span>
             </li>
           ))}

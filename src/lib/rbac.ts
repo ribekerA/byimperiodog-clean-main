@@ -46,8 +46,8 @@ export function normalizeRole(role?: string | null): AdminRole {
 }
 
 export function hasPermission(role: AdminRole, permission: AdminPermission): boolean {
-  // Emergência: NEXT_PUBLIC_ADMIN_OPEN=1 bypassa verificação (dev/demo)
-  if (process.env.NEXT_PUBLIC_ADMIN_OPEN === "1") return true;
+  // Emergência: NEXT_PUBLIC_ADMIN_OPEN=1 bypassa verificação (dev/demo apenas — nunca em producao)
+  if (process.env.NEXT_PUBLIC_ADMIN_OPEN === "1" && process.env.NODE_ENV !== "production") return true;
   if (role === "owner") return true;
   return ROLE_PERMISSIONS[role]?.includes(permission) ?? false;
 }

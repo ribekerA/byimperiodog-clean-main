@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { FileText, ShieldCheck } from "lucide-react";
 
 import ContractForm from "@/components/ContractForm";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { rateLimit } from "@/lib/rateLimit";
 
 export const metadata: Metadata = {
   title: "Dados para Contrato | By Império Dog",
@@ -16,6 +18,7 @@ type ContractRow = {
   status: string;
   puppy_id: string;
   signed_at: string | null;
+  expires_at: string | null;
 };
 
 type PuppyRow = { id: string; name?: string | null };
@@ -23,27 +26,43 @@ type PuppyRow = { id: string; name?: string | null };
 async function fetchContract(code: string): Promise<{ contract: ContractRow; puppy: PuppyRow | null } | null> {
   try {
     const sb = supabaseAdmin();
-    const { data: contract } = await sb
+    let { data: contract, error } = await sb
       .from("contracts")
-      .select("id,code,status,puppy_id,signed_at")
+      .select("id,code,status,puppy_id,signed_at,expires_at")
       .eq("code", code)
       .maybeSingle();
 
+    // Fallback enquanto a migração de expires_at (sql/migration_contracts_expires_at.sql) não roda em produção.
+    if (error && String(error.message).includes("expires_at")) {
+      ({ data: contract } = await sb
+        .from("contracts")
+        .select("id,code,status,puppy_id,signed_at")
+        .eq("code", code)
+        .maybeSingle());
+    }
+
     if (!contract) return null;
+    const row = contract as ContractRow;
+    // Só o link de preenchimento expira — uma vez assinado, o contrato vira documento permanente (garantia de saúde etc.).
+    if (row.status !== "assinado" && row.expires_at && new Date(row.expires_at).getTime() < Date.now()) return null;
 
     const { data: puppy } = await sb
       .from("puppies")
       .select("id,name")
-      .eq("id", (contract as ContractRow).puppy_id)
+      .eq("id", row.puppy_id)
       .maybeSingle();
 
-    return { contract: contract as ContractRow, puppy: puppy as PuppyRow | null };
+    return { contract: row, puppy: puppy as PuppyRow | null };
   } catch {
     return null;
   }
 }
 
 export default async function ContractPage({ params }: { params: { code: string } }) {
+  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const rl = rateLimit(`contract-view:${ip}`, 30, 60_000);
+  if (!rl.allowed) notFound();
+
   const result = await fetchContract(params.code);
   if (!result) notFound();
 

@@ -1,7 +1,8 @@
 export const dynamic = "force-dynamic";
 
-import { type NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "crypto";
+
+import { type NextRequest, NextResponse } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -16,7 +17,7 @@ export async function GET(req: NextRequest) {
       .from("contracts")
       .select("id,code,status,signed_at,created_at,payload,hemograma_path,laudo_path,signature_path,total_price_cents,lead_id")
       .order("created_at", { ascending: false })
-      .limit(200);
+      .limit(2000);
 
     if (error) throw error;
 
@@ -47,6 +48,8 @@ export async function POST(req: NextRequest) {
       nascimento_filhote: nascimento_filhote ?? "",
     };
 
+    const expiresAt = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString();
+
     const { data, error } = await sb
       .from("contracts")
       .insert({
@@ -55,6 +58,7 @@ export async function POST(req: NextRequest) {
         status:            "pendente",
         total_price_cents: total_price_cents ?? null,
         payload,
+        expires_at:        expiresAt,
       } as Parameters<ReturnType<typeof sb.from>["insert"]>[0])
       .select("id,code")
       .single();
@@ -73,8 +77,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         ok: false,
         error: "puppy_id_not_null",
-        message: "Execute o SQL abaixo no Supabase SQL Editor para habilitar contratos sem filhote vinculado:",
-        sql: "ALTER TABLE contracts ALTER COLUMN puppy_id DROP NOT NULL;",
+        message: "Peça ao time técnico para aplicar a migração pendente que permite contratos sem filhote vinculado.",
+      }, { status: 422 });
+    }
+
+    // Instrução de migration caso expires_at ainda não exista no DB
+    if (msg.includes("expires_at")) {
+      return NextResponse.json({
+        ok: false,
+        error: "expires_at_missing",
+        message: "Peça ao time técnico para aplicar a migração pendente de expiração de contratos (sql/migration_contracts_expires_at.sql).",
       }, { status: 422 });
     }
 

@@ -13,6 +13,8 @@ import Script from "next/script";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import LeadForm from "@/components/LeadForm";
+import LeadEventTracker from "@/components/LeadEventTracker";
+import TrustBar from "@/components/TrustBar";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { routes } from "@/lib/route";
 
@@ -117,6 +119,7 @@ export default function ContatoPage() {
     <main>
       <Script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       <Script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <LeadEventTracker eventName="lead_contato" />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">
@@ -157,6 +160,7 @@ export default function ContatoPage() {
               Enviar e-mail
             </a>
           </div>
+          <TrustBar className="mt-6" variant="dark" />
         </div>
       </section>
 

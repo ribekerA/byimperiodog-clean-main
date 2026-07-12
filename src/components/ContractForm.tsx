@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { CheckCircle, FileText, Loader2, Paperclip, Upload } from "lucide-react";
+import { useState } from "react";
 
 import SignaturePad from "@/components/SignaturePad";
 
@@ -129,7 +129,7 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div>
+        <div role="alert" aria-live="assertive" className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div>
       )}
 
       {/* ── Dados do comprador ──────────────────────────────────────── */}
@@ -137,32 +137,32 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Dados do comprador</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="sm:col-span-2">
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Nome completo *</label>
-            <input name="nome" required placeholder="Exatamente como consta no documento" className={inputCls} />
+            <label htmlFor="nome" className="mb-1 block text-xs font-semibold text-zinc-600">Nome completo *</label>
+            <input id="nome" name="nome" required placeholder="Exatamente como consta no documento" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">CPF *</label>
-            <input name="cpf" required placeholder="000.000.000-00" className={inputCls} />
+            <label htmlFor="cpf" className="mb-1 block text-xs font-semibold text-zinc-600">CPF *</label>
+            <input id="cpf" name="cpf" required placeholder="000.000.000-00" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">RG</label>
-            <input name="rg" placeholder="000000000" className={inputCls} />
+            <label htmlFor="rg" className="mb-1 block text-xs font-semibold text-zinc-600">RG</label>
+            <input id="rg" name="rg" placeholder="000000000" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Telefone / WhatsApp *</label>
-            <input name="telefone" required placeholder="(11) 99999-9999" className={inputCls} />
+            <label htmlFor="telefone" className="mb-1 block text-xs font-semibold text-zinc-600">Telefone / WhatsApp *</label>
+            <input id="telefone" name="telefone" required placeholder="(11) 99999-9999" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Data de nascimento</label>
-            <input name="nascimento" type="date" className={inputCls} />
+            <label htmlFor="nascimento" className="mb-1 block text-xs font-semibold text-zinc-600">Data de nascimento</label>
+            <input id="nascimento" name="nascimento" type="date" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">E-mail</label>
-            <input name="email" type="email" placeholder="seu@email.com" className={inputCls} />
+            <label htmlFor="email" className="mb-1 block text-xs font-semibold text-zinc-600">E-mail</label>
+            <input id="email" name="email" type="email" placeholder="seu@email.com" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Endereço completo *</label>
-            <input name="endereco" required placeholder="Rua, nº, bairro, cidade — UF" className={inputCls} />
+            <label htmlFor="endereco" className="mb-1 block text-xs font-semibold text-zinc-600">Endereço completo *</label>
+            <input id="endereco" name="endereco" required placeholder="Rua, nº, bairro, cidade — UF" className={inputCls} />
           </div>
         </div>
       </section>
@@ -172,20 +172,20 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
         <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Dados do filhote</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Nome do filhote</label>
-            <input name="nome_filhote" defaultValue={puppyName ?? ""} placeholder="Nome dado ao filhote" className={inputCls} />
+            <label htmlFor="nome_filhote" className="mb-1 block text-xs font-semibold text-zinc-600">Nome do filhote</label>
+            <input id="nome_filhote" name="nome_filhote" defaultValue={puppyName ?? ""} placeholder="Nome dado ao filhote" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Data de nascimento</label>
-            <input name="nascimento_filhote" type="date" className={inputCls} />
+            <label htmlFor="nascimento_filhote" className="mb-1 block text-xs font-semibold text-zinc-600">Data de nascimento</label>
+            <input id="nascimento_filhote" name="nascimento_filhote" type="date" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Cor</label>
-            <input name="cor" defaultValue={puppyColor ?? ""} placeholder="Ex.: Laranja, Creme, Preto" className={inputCls} />
+            <label htmlFor="cor" className="mb-1 block text-xs font-semibold text-zinc-600">Cor</label>
+            <input id="cor" name="cor" defaultValue={puppyColor ?? ""} placeholder="Ex.: Laranja, Creme, Preto" className={inputCls} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-600">Sexo</label>
-            <select name="sexo" defaultValue={puppySex ?? ""} className={inputCls}>
+            <label htmlFor="sexo" className="mb-1 block text-xs font-semibold text-zinc-600">Sexo</label>
+            <select id="sexo" name="sexo" defaultValue={puppySex ?? ""} className={inputCls}>
               <option value="">Selecione</option>
               <option value="Fêmea">Fêmea</option>
               <option value="Macho">Macho</option>

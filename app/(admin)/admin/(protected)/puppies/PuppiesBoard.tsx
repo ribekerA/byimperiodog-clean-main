@@ -7,7 +7,7 @@ import type { AdminPuppyListItem, AdminPuppyStatus } from "./queries";
 type BoardStatus = Exclude<AdminPuppyStatus, "unavailable">;
 
 const COLUMNS: { key: BoardStatus; label: string; tone: string }[] = [
-  { key: "available", label: "Disponível", tone: "bg-emerald-50 border-emerald-100" },
+  { key: "available", label: "Disponível", tone: "bg-[var(--brand-tint-50)] border-[var(--brand-tint-100)]" },
   { key: "reserved", label: "Reservado", tone: "bg-amber-50 border-amber-100" },
   { key: "sold", label: "Vendido", tone: "bg-rose-50 border-rose-100" },
   { key: "coming_soon", label: "Em breve", tone: "bg-slate-50 border-slate-200" },
@@ -73,13 +73,13 @@ export function PuppiesBoard({ items, leadCounts, onStatusChange, mutatingId }: 
                           {[p.color || "Cor ?", p.sex ? (p.sex === "male" ? "Macho" : "Fêmea") : "Sexo ?"].join(" • ")}
                         </p>
                         <p className="text-xs text-[var(--text-muted)]">{[p.city, p.state].filter(Boolean).join(", ") || "Local ?"}</p>
-                        <p className="text-[11px] font-semibold text-emerald-700">{leads} lead{leads === 1 ? "" : "s"}</p>
+                        <p className="text-[11px] font-semibold text-[var(--brand)]">{leads} lead{leads === 1 ? "" : "s"}</p>
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-2 border-t border-[var(--border)] px-3 py-2">
                       <a
                         href={`/admin/puppies/edit/${p.id}`}
-                        className="text-xs font-semibold text-[var(--text)] hover:text-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+                        className="text-xs font-semibold text-[var(--text)] hover:text-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
                       >
                         Editar
                       </a>
@@ -89,8 +89,8 @@ export function PuppiesBoard({ items, leadCounts, onStatusChange, mutatingId }: 
                             key={target.key}
                             type="button"
                             onClick={() => onStatusChange(p.id, target.key)}
-                            className={`rounded-full px-2 py-1 text-[11px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500 ${
-                              p.status === target.key ? "bg-emerald-100 text-emerald-800" : "bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--text)]"
+                            className={`rounded-full px-2 py-1 text-[11px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
+                              p.status === target.key ? "bg-[var(--brand-tint-100)] text-[var(--brand)]" : "bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--text)]"
                             }`}
                             aria-label={`Marcar ${p.name} como ${target.label}`}
                             disabled={mutatingId === p.id}
@@ -101,7 +101,7 @@ export function PuppiesBoard({ items, leadCounts, onStatusChange, mutatingId }: 
                         <button
                           type="button"
                           onClick={() => onStatusChange(p.id, "unavailable")}
-                          className={`rounded-full px-2 py-1 text-[11px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500 ${
+                          className={`rounded-full px-2 py-1 text-[11px] font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
                             p.status === "unavailable" ? "bg-red-100 text-red-800" : "bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--text)]"
                           }`}
                           aria-label={`Arquivar ${p.name}`}

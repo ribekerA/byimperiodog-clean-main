@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
-import { Filter, LayoutGrid, Loader2, RotateCcw, SlidersHorizontal, TableProperties } from "lucide-react";
+import { Filter, LayoutGrid, Loader2, RotateCcw, SlidersHorizontal, TableProperties, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState, useTransition } from "react";
 
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useToast } from "@/components/ui/toast";
 
 import { PuppiesBoard } from "./PuppiesBoard";
@@ -54,6 +55,11 @@ const SORT_LABELS: Record<AdminPuppySort, string> = {
 
 const VIEW_STORAGE_KEY = "byimperiodog:admin:puppies:view";
 const EMPTY_FILTERS: ParsedPuppyFilters = { statuses: [], colors: [] };
+const STATUS_LABEL_LOOKUP: Record<AdminPuppyStatus, string> = STATUS_OPTIONS.reduce(
+  (acc, option) => ({ ...acc, [option.value]: option.label }),
+  {} as Record<AdminPuppyStatus, string>,
+);
+const DESTRUCTIVE_STATUSES: AdminPuppyStatus[] = ["sold", "unavailable"];
 
 function buildFormState(filters: ParsedPuppyFilters, sort: AdminPuppySort): FilterFormState {
   return {
@@ -73,12 +79,22 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
   const { push } = useToast();
   const [view, setView] = useState<"table" | "board">("table");
   const [mutatingId, setMutatingId] = useState<string | null>(null);
+  const [pendingChange, setPendingChange] = useState<{ id: string; name: string; status: AdminPuppyStatus } | null>(null);
   const [formState, setFormState] = useState<FilterFormState>(() => buildFormState(filters, sort));
   const [isPending, startTransition] = useTransition();
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkMutating, setBulkMutating] = useState(false);
+  const [pendingBulkStatus, setPendingBulkStatus] = useState<AdminPuppyStatus | null>(null);
+  const [selectionVersion, setSelectionVersion] = useState(0);
 
   useEffect(() => {
     setFormState(buildFormState(filters, sort));
   }, [filters, sort]);
+
+  useEffect(() => {
+    setSelectedIds(new Set());
+    setSelectionVersion((v) => v + 1);
+  }, [items]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -151,12 +167,8 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
     });
   };
 
-  const handleStatusChange = async (id: string, status: AdminPuppyStatus) => {
-    const isDestructive = status === "sold" || status === "unavailable";
-    if (isDestructive && typeof window !== "undefined") {
-      const confirmed = window.confirm("Tem certeza? Esta ação altera o status de forma definitiva.");
-      if (!confirmed) return;
-    }
+  const applyStatusChange = async (id: string, status: AdminPuppyStatus) => {
+    const puppy = items.find((p) => p.id === id);
     setMutatingId(id);
     try {
       const res = await fetch("/api/admin/puppies/status", {
@@ -168,13 +180,62 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
         const payload = await res.json().catch(() => ({}));
         throw new Error(payload?.error || "Erro ao atualizar status");
       }
-      push({ type: "success", message: "Status atualizado com sucesso." });
+      push({ type: "success", message: `${puppy?.name ?? "Filhote"}: status alterado para ${STATUS_LABEL_LOOKUP[status]}.` });
       router.refresh();
     } catch (error) {
       push({ type: "error", message: error instanceof Error ? error.message : "Erro ao atualizar status" });
     } finally {
       setMutatingId(null);
     }
+  };
+
+  const handleStatusChange = (id: string, status: AdminPuppyStatus) => {
+    if (DESTRUCTIVE_STATUSES.includes(status)) {
+      const puppy = items.find((p) => p.id === id);
+      setPendingChange({ id, name: puppy?.name ?? "este filhote", status });
+      return;
+    }
+    void applyStatusChange(id, status);
+  };
+
+  const handleSelectionChange = (ids: string[]) => {
+    setSelectedIds(new Set(ids));
+  };
+
+  const applyBulkStatus = async (status: AdminPuppyStatus) => {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) return;
+    setBulkMutating(true);
+    const results = await Promise.allSettled(
+      ids.map((id) =>
+        fetch("/api/admin/puppies/status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, status }),
+        }).then((res) => {
+          if (!res.ok) throw new Error("Falha ao atualizar");
+        }),
+      ),
+    );
+    const failed = results.filter((r) => r.status === "rejected").length;
+    const succeeded = ids.length - failed;
+    if (succeeded > 0) {
+      push({ type: "success", message: `${succeeded} filhote(s) atualizado(s) para ${STATUS_LABEL_LOOKUP[status]}.` });
+    }
+    if (failed > 0) {
+      push({ type: "error", message: `${failed} atualização(ões) falharam.` });
+    }
+    setSelectedIds(new Set());
+    setBulkMutating(false);
+    router.refresh();
+  };
+
+  const handleBulkStatusChange = (status: AdminPuppyStatus) => {
+    if (DESTRUCTIVE_STATUSES.includes(status)) {
+      setPendingBulkStatus(status);
+      return;
+    }
+    void applyBulkStatus(status);
   };
 
   const activeFilters = useMemo(() => {
@@ -217,7 +278,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
                       type="checkbox"
                       checked={formState.statuses.has(option.value)}
                       onChange={() => toggleStatus(option.value)}
-                      className="h-4 w-4 rounded border-[var(--border)] text-emerald-600 focus:ring-emerald-500"
+                      className="h-4 w-4 rounded border-[var(--border)] text-[var(--brand)] focus:ring-[var(--brand-ring)]"
                     />
                     {option.label}
                   </label>
@@ -239,7 +300,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
                       type="checkbox"
                       checked={formState.colors.has(color)}
                       onChange={() => toggleColor(color)}
-                      className="h-4 w-4 rounded border-[var(--border)] text-emerald-600 focus:ring-emerald-500"
+                      className="h-4 w-4 rounded border-[var(--border)] text-[var(--brand)] focus:ring-[var(--brand-ring)]"
                     />
                     {color.replace(/-/g, " ")}
                   </label>
@@ -256,7 +317,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
                   key={option.label}
                   type="button"
                   onClick={() => setFormState((prev) => ({ ...prev, sex: option.value }))}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${formState.sex === option.value ? "bg-emerald-600 text-white" : "bg-[var(--surface)] text-[var(--text)]"}`}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${formState.sex === option.value ? "bg-[var(--brand)] text-white" : "bg-[var(--surface)] text-[var(--text)]"}`}
                   aria-pressed={formState.sex === option.value}
                 >
                   {option.label}
@@ -277,7 +338,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
                 placeholder="Mínimo"
                 value={formState.minPrice}
                 onChange={(e) => setFormState((prev) => ({ ...prev, minPrice: e.target.value }))}
-                className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
               />
               <span className="text-sm text-[var(--text-muted)]">até</span>
               <input
@@ -286,7 +347,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
                 placeholder="Máximo"
                 value={formState.maxPrice}
                 onChange={(e) => setFormState((prev) => ({ ...prev, maxPrice: e.target.value }))}
-                className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
               />
             </div>
             <label className="block text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]" htmlFor="search-term">
@@ -297,7 +358,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
               type="search"
               value={formState.search}
               onChange={(e) => setFormState((prev) => ({ ...prev, search: e.target.value }))}
-              className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm text-[var(--text)] focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="w-full rounded-lg border border-[var(--border)] px-3 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
             />
           </div>
         </div>
@@ -312,7 +373,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
           </button>
           <button
             type="submit"
-            className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--brand-hover)]"
           >
             <Filter className="h-4 w-4" aria-hidden /> Aplicar filtros
           </button>
@@ -332,7 +393,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
             <select
               value={formState.sort}
               onChange={(e) => handleSortChange(e.target.value as AdminPuppySort)}
-              className="ml-2 rounded-full border border-[var(--border)] bg-white px-3 py-1.5 text-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              className="ml-2 rounded-full border border-[var(--border)] bg-white px-3 py-1.5 text-sm focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
             >
               {Object.entries(SORT_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>
@@ -345,15 +406,15 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
             <button
               type="button"
               onClick={() => setView("table")}
-              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${view === "table" ? "bg-emerald-600 text-white" : "text-[var(--text)]"}`}
+              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${view === "table" ? "bg-[var(--brand)] text-white" : "text-[var(--text)]"}`}
               aria-pressed={view === "table"}
             >
               <TableProperties className="h-4 w-4" aria-hidden /> Tabela
             </button>
             <button
               type="button"
-              onClick={() => setView("board")}
-              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${view === "board" ? "bg-emerald-600 text-white" : "text-[var(--text)]"}`}
+              onClick={() => { setView("board"); setSelectedIds(new Set()); setSelectionVersion((v) => v + 1); }}
+              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold ${view === "board" ? "bg-[var(--brand)] text-white" : "text-[var(--text)]"}`}
               aria-pressed={view === "board"}
             >
               <LayoutGrid className="h-4 w-4" aria-hidden /> Kanban
@@ -372,7 +433,7 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
       </div>
 
       {isPending && (
-        <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800" role="status" aria-live="polite">
+        <div className="flex items-center gap-2 rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] px-3 py-2 text-sm text-[var(--brand)]" role="status" aria-live="polite">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Atualizando dados...
         </div>
       )}
@@ -385,8 +446,76 @@ export function PuppiesPageClient({ items, leadCounts, filters, sort, total, has
       ) : view === "board" ? (
         <PuppiesBoard items={items} leadCounts={leadCounts} onStatusChange={handleStatusChange} mutatingId={mutatingId} />
       ) : (
-        <PuppiesTable items={items} leadCounts={leadCounts} onStatusChange={handleStatusChange} mutatingId={mutatingId} />
+        <PuppiesTable
+          key={selectionVersion}
+          items={items}
+          leadCounts={leadCounts}
+          onStatusChange={handleStatusChange}
+          mutatingId={mutatingId}
+          selectionEnabled
+          onSelectionChange={handleSelectionChange}
+          selectionDisabled={bulkMutating}
+        />
       )}
+
+      {selectedIds.size > 0 && (
+        <div
+          className="fixed bottom-4 left-1/2 z-40 flex -translate-x-1/2 flex-wrap items-center gap-3 rounded-2xl border border-[var(--border)] bg-white px-4 py-3 shadow-lg"
+          role="region"
+          aria-label="Ações em massa"
+        >
+          <p className="text-sm font-semibold text-[var(--text)]">
+            {selectedIds.size} selecionado{selectedIds.size > 1 ? "s" : ""}
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            {STATUS_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                disabled={bulkMutating}
+                onClick={() => handleBulkStatusChange(option.value)}
+                className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-semibold text-[var(--text)] hover:bg-[var(--surface-2)] disabled:opacity-50"
+              >
+                Marcar como {option.label.toLowerCase()}
+              </button>
+            ))}
+          </div>
+          {bulkMutating && <Loader2 className="h-4 w-4 animate-spin text-[var(--text-muted)]" aria-hidden />}
+          <button
+            type="button"
+            onClick={() => setSelectedIds(new Set())}
+            disabled={bulkMutating}
+            aria-label="Limpar seleção"
+            className="rounded-full p-1.5 text-[var(--text-muted)] hover:bg-[var(--surface-2)] disabled:opacity-50"
+          >
+            <X className="h-4 w-4" aria-hidden />
+          </button>
+        </div>
+      )}
+
+      <ConfirmDialog
+        open={pendingChange !== null}
+        onOpenChange={(open) => { if (!open) setPendingChange(null); }}
+        title={pendingChange ? `Marcar ${pendingChange.name} como ${STATUS_LABEL_LOOKUP[pendingChange.status]}?` : ""}
+        description="Esta ação altera o status do filhote imediatamente no site e no funil de leads."
+        confirmLabel="Sim, confirmar"
+        variant="danger"
+        onConfirm={() => {
+          if (pendingChange) void applyStatusChange(pendingChange.id, pendingChange.status);
+        }}
+      />
+
+      <ConfirmDialog
+        open={pendingBulkStatus !== null}
+        onOpenChange={(open) => { if (!open) setPendingBulkStatus(null); }}
+        title={pendingBulkStatus ? `Marcar ${selectedIds.size} filhote(s) como ${STATUS_LABEL_LOOKUP[pendingBulkStatus]}?` : ""}
+        description="Esta ação altera o status de todos os filhotes selecionados imediatamente no site e no funil de leads."
+        confirmLabel="Sim, confirmar"
+        variant="danger"
+        onConfirm={() => {
+          if (pendingBulkStatus) void applyBulkStatus(pendingBulkStatus);
+        }}
+      />
     </div>
   );
 }

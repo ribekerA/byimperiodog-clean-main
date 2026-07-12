@@ -9,10 +9,11 @@ export interface Toast { id:string; message:React.ReactNode; type?:ToastType; du
 interface ToastContextProps { push:(t:Omit<Toast,'id'>)=>void; remove:(id:string)=>void; }
 const ToastContext = createContext<ToastContextProps|undefined>(undefined);
 
+const _noopToast: ToastContextProps = { push: () => {}, remove: () => {} };
+
 export function useToast(){
   const ctx = useContext(ToastContext);
-  if(!ctx) throw new Error('useToast: ToastProvider ausente');
-  return ctx;
+  return ctx ?? _noopToast;
 }
 
 export function ToastProvider({ children }: { children:React.ReactNode }){

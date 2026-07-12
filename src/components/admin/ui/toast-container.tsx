@@ -24,7 +24,7 @@ const ICONS: Record<ToastType, typeof CheckCircle2> = {
 };
 
 const STYLES: Record<ToastType, string> = {
-  success: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  success: "border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] text-[var(--brand)]",
   error: "border-red-200 bg-red-50 text-red-700",
   info: "border-blue-200 bg-blue-50 text-blue-700",
 };

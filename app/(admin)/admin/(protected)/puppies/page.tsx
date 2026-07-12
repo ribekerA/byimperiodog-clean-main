@@ -21,7 +21,7 @@ export default async function AdminPuppiesPage({ searchParams }: { searchParams?
         </div>
         <a
           href="/admin/puppies/new"
-          className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-full)] bg-emerald-600 px-[var(--space-4)] py-[var(--space-2)] text-sm font-semibold text-white shadow-[var(--elevation-2)] transition hover:bg-emerald-700 hover:shadow-[var(--elevation-3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
+          className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-full)] bg-[var(--brand)] px-[var(--space-4)] py-[var(--space-2)] text-sm font-semibold text-white shadow-[var(--elevation-2)] transition hover:bg-[var(--brand-hover)] hover:shadow-[var(--elevation-3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
         >
           Novo filhote
         </a>

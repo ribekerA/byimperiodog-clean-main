@@ -10,13 +10,30 @@ type Props = {
 };
 
 const LABEL_MAP: Record<string, string> = {
-  admin: "Admin",
-  dashboard: "Dashboard",
-  puppies: "Estoque de Filhotes",
-  leads: "Leads & Funil",
-  relatorios: "Analytics",
-  analytics: "Analytics",
-  tracking: "Configuracoes & Tracking",
+  admin:        "Admin",
+  dashboard:    "Dashboard",
+  blog:         "Blog",
+  puppies:      "Filhotes",
+  leads:        "Leads",
+  analytics:    "Analytics",
+  relatorios:   "Relatórios",
+  reviews:      "Avaliações",
+  config:       "Configurações",
+  settings:     "Configurações",
+  seo:          "SEO",
+  media:        "Mídia",
+  webhooks:     "Webhooks",
+  experiments:  "Experimentos",
+  content:      "Conteúdo",
+  calendar:     "Calendário",
+  tracking:     "Tracking & Pixels",
+  system:       "Sistema",
+  health:       "Saúde do Sistema",
+  "web-stories":"Web Stories",
+  "pixel-experiments": "Experimentos de Pixel",
+  editor:       "Editor",
+  new:          "Novo",
+  edit:         "Editar",
 };
 
 export function AdminTopbar({ environment, userName = "Admin" }: Props) {
@@ -45,7 +62,7 @@ export function AdminTopbar({ environment, userName = "Admin" }: Props) {
                 <li key={crumb.href} className="flex items-center gap-2">
                   <a
                     href={crumb.href}
-                    className={`font-semibold ${isLast ? "text-[var(--text)]" : "text-[var(--text-muted)] hover:text-emerald-700"}`}
+                    className={`font-semibold ${isLast ? "text-[var(--text)]" : "text-[var(--text-muted)] hover:text-[var(--brand-hover)]"}`}
                     aria-current={isLast ? "page" : undefined}
                   >
                     {crumb.label}

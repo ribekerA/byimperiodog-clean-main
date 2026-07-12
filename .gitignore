@@ -56,3 +56,9 @@ TEMP_*
 
 # Local Netlify folder
 .netlify
+
+# Local HTTPS dev certs (mkcert)
+*.pem
+
+# Claude Code local settings
+.claude/

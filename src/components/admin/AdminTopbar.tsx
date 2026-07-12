@@ -30,13 +30,13 @@ export default function AdminTopbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-emerald-100 bg-white/95 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[var(--brand-tint-100)] bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-emerald-200 bg-white px-3 text-sm text-zinc-700 shadow-sm hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--brand-tint-200)] bg-white px-3 text-sm text-zinc-700 shadow-sm hover:bg-[var(--brand-tint-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
             aria-label="Abrir busca (Cmd/Ctrl+K)"
           >
             <Search className="h-4 w-4" aria-hidden />
@@ -47,7 +47,7 @@ export default function AdminTopbar() {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[var(--brand)] px-4 text-sm font-semibold text-white shadow-sm hover:bg-[var(--brand-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
             aria-label="Novo cadastro (N)"
           >
             <Plus className="h-4 w-4" aria-hidden />
@@ -55,7 +55,7 @@ export default function AdminTopbar() {
           </button>
           <button
             type="button"
-            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-emerald-200 bg-white px-3 text-sm text-zinc-700 shadow-sm hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-[var(--brand-tint-200)] bg-white px-3 text-sm text-zinc-700 shadow-sm hover:bg-[var(--brand-tint-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
             aria-label="Ajuda (Shift+/)"
           >
             <HelpCircle className="h-4 w-4" aria-hidden />

@@ -25,9 +25,9 @@ import {
   buildSiteNavigationLD,
   buildLocalBusinessLD,
 } from "@/lib/tracking";
+import { buildDogBreederLD } from "@/lib/structured-data";
 import { getTrackingConfig } from "@/lib/tracking/getTrackingConfig";
 
-import { ThemeProvider } from "../design-system/theme-provider";
 
 import { dmSans, inter } from "./fonts";
 
@@ -35,15 +35,10 @@ import { dmSans, inter } from "./fonts";
 const RecentSalesPopup = NextDynamic(() => import("@/components/RecentSalesPopup"), { ssr: false });
 const ConsentBanner = NextDynamic(() => import("@/components/ConsentBanner"), { ssr: false });
 const TrackingScripts = NextDynamic(() => import("@/components/TrackingScripts"), { ssr: false });
+const AttributionTracker = NextDynamic(() => import("@/components/AttributionTracker"), { ssr: false });
 // Botão fixo de WhatsApp — carregado após hidratação para não bloquear LCP
 const WhatsAppFloat = NextDynamic(
   () => import("@/components/WhatsAppFloat").then((m) => ({ default: m.WhatsAppFloat })),
-  { ssr: false }
-);
-
-// Cursor personalizado com rastro de patinhas — apenas desktop, sem SSR
-const CustomCursor = NextDynamic(
-  () => import("@/components/motion/CustomCursor").then((m) => ({ default: m.CustomCursor })),
   { ssr: false }
 );
 
@@ -66,7 +61,11 @@ export const revalidate = 0;
 function resolvePathname() {
   const reqHeaders = headers();
 
-  // Tenta primeiro os headers customizados
+  // Header injetado pelo middleware — o mais confiável em qualquer ambiente
+  const injected = reqHeaders.get("x-next-pathname");
+  if (injected && injected.startsWith("/")) return injected;
+
+  // Tenta depois os headers customizados da plataforma
   const candidates = [
     "x-invoke-path",
     "x-matched-path",
@@ -347,6 +346,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
           />
         )}
+        {!isAdminRoute && (
+          <script
+            type="application/ld+json"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(buildDogBreederLD()) }}
+          />
+        )}
 
         {/** Pixels custom HTML removidos por seguranca. Apenas modelos oficiais via <Pixels />. */}
       </head>
@@ -373,20 +379,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         {/* Dispara page_view em navegacoes SPA (somente quando os pixels existem) */}
         {!isAdminRoute && <TrackingScripts />}
+        {/* Captura UTM params para atribuição first/last touch */}
+        {!isAdminRoute && <AttributionTracker />}
 
-        <ThemeProvider>
-          <div className="flex min-h-screen flex-col">
-            {!isAdminRoute && <Header />}
-            <main className="flex-1" id="conteudo-principal" role="main">
-              {children}
-            </main>
-            {!isAdminRoute && <Footer />}
-            {!isAdminRoute && <WhatsAppFloat />}
-            {!isAdminRoute && <RecentSalesPopup />}
-            {!isAdminRoute && <ConsentBanner />}
-            {!isAdminRoute && <CustomCursor />}
-          </div>
-        </ThemeProvider>
+        <div className="flex min-h-screen flex-col">
+          {!isAdminRoute && <Header />}
+          <main className="flex-1" id="conteudo-principal" role="main">
+            {children}
+          </main>
+          {!isAdminRoute && <Footer />}
+          {!isAdminRoute && <WhatsAppFloat />}
+          {!isAdminRoute && <RecentSalesPopup />}
+          {!isAdminRoute && <ConsentBanner />}
+        </div>
         <SpeedInsights />
         <ToastContainer />
       </body>

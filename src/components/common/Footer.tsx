@@ -106,7 +106,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="inline-flex py-1.5 text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                    className="inline-flex min-h-[48px] items-center py-1.5 text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   >
                     {item.label}
                   </Link>
@@ -123,7 +123,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="inline-flex py-1.5 text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                    className="inline-flex min-h-[48px] items-center py-1.5 text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   >
                     {item.label}
                   </Link>
@@ -140,7 +140,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="inline-flex py-1.5 text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                    className="inline-flex min-h-[48px] items-center py-1.5 text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   >
                     {item.label}
                   </Link>

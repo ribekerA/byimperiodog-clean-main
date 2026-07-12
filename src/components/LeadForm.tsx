@@ -30,8 +30,11 @@ const schema = z.object({
     .string()
     .min(10, "Informe um WhatsApp válido com DDD")
     .regex(/^\d{10,11}$/, "Use apenas números (DDD + telefone)"),
-  cidade: z.string().min(2, "Informe a cidade"),
-  estado: z.string().length(2, "Informe a UF (ex: SP)").toUpperCase(),
+  cidade: z.union([z.string().min(2, "Informe ao menos 2 caracteres"), z.literal("")]).optional(),
+  estado: z.union([
+    z.enum(["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"]),
+    z.literal(""),
+  ]).optional(),
   sexo_preferido: z
     .enum(["macho", "femea", "tanto_faz"], {
       errorMap: () => ({ message: "Selecione uma preferência" }),
@@ -191,7 +194,7 @@ export default function LeadForm({ context, className }: Props) {
             placeholder="11999887766"
             maxLength={11}
           />
-          <p className="text-[11px] text-[var(--text-muted)]" aria-live="polite">
+          <p className="text-xs text-[var(--text-muted)]" aria-live="polite">
             Somente números com DDD — ex: <span className="font-mono">11999887766</span>
           </p>
           {errors.telefone && (
@@ -206,7 +209,7 @@ export default function LeadForm({ context, className }: Props) {
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="contato-cidade" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-            Cidade *
+            Cidade
           </label>
           <input
             id="contato-cidade"
@@ -214,7 +217,6 @@ export default function LeadForm({ context, className }: Props) {
             autoComplete="address-level2"
             {...register("cidade")}
             aria-invalid={errors.cidade ? "true" : "false"}
-            aria-required="true"
             className="w-full rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm placeholder:text-[var(--text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
             placeholder="Ex: Bragança Paulista"
           />
@@ -226,19 +228,21 @@ export default function LeadForm({ context, className }: Props) {
         </div>
         <div className="flex flex-col gap-1.5">
           <label htmlFor="contato-estado" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-            UF *
+            Estado
           </label>
-          <input
+          <select
             id="contato-estado"
-            type="text"
             autoComplete="address-level1"
             {...register("estado")}
             aria-invalid={errors.estado ? "true" : "false"}
-            aria-required="true"
-            className="w-full rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm placeholder:text-[var(--text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40 uppercase"
-            placeholder="SP"
-            maxLength={2}
-          />
+            className="w-full select-styled rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
+            defaultValue=""
+          >
+            <option value="">Selecione...</option>
+            {["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"].map((uf) => (
+              <option key={uf} value={uf}>{uf}</option>
+            ))}
+          </select>
           {errors.estado && (
             <p className="text-sm text-rose-600" role="alert">
               {errors.estado.message}
@@ -358,6 +362,17 @@ export default function LeadForm({ context, className }: Props) {
         )}
       </div>
 
+      {/* Prova social + garantia de resposta (CRO: reduz ansiedade antes do clique) */}
+      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-xl bg-emerald-50 px-3 py-2">
+        <span className="flex items-center gap-1 text-xs text-emerald-800">
+          <span aria-hidden="true">⚡</span> Resposta em até 30 min (seg–sáb, 9h–18h)
+        </span>
+        <span className="hidden text-emerald-300 sm:inline" aria-hidden="true">·</span>
+        <span className="flex items-center gap-1 text-xs text-emerald-800">
+          <span aria-hidden="true">★</span> 180+ famílias atendidas em todo o Brasil
+        </span>
+      </div>
+
       {/* Submit e feedback */}
       <div className="space-y-3">
         <button
@@ -381,13 +396,13 @@ export default function LeadForm({ context, className }: Props) {
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
             </svg>
           )}
-          {isSubmitting ? "Enviando..." : "Quero receber orientação personalizada"}
+          {isSubmitting ? "Enviando..." : "Quero conhecer os filhotes disponíveis"}
         </button>
 
         <div className="text-xs text-[var(--text-muted)]" aria-live="polite">
           {status === "success" && (
             <p className="rounded-xl bg-emerald-50 px-3 py-2 text-emerald-900">
-              Tudo certo. Recebemos seu contato! Você será redirecionado ao WhatsApp em instantes.
+              Tudo certo! Você será redirecionado ao WhatsApp em instantes para continuar a conversa.
             </p>
           )}
           {status === "error" && errorMessage && (
@@ -398,8 +413,7 @@ export default function LeadForm({ context, className }: Props) {
         </div>
 
         <p className="text-xs text-[var(--text-muted)]">
-          * Campos obrigatórios. Respondemos de segunda a sábado, das 9h às 19h. Seus dados são protegidos conforme
-          LGPD.
+          Seus dados são protegidos conforme a LGPD. Respondemos apenas por WhatsApp, sem spam.
         </p>
       </div>
     </form>

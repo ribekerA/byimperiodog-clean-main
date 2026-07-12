@@ -23,14 +23,14 @@ export default async function BlogEditorPage({ searchParams }: PageProps) {
       <BlogSubnav />
       <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-emerald-900">Editor de Post</h1>
-          <p className="text-sm text-emerald-700">
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--brand)]">Editor de Post</h1>
+          <p className="text-sm text-[var(--brand)]">
             Preencha título, conteúdo, SEO e agendamento com validações em tempo real.
           </p>
         </div>
         <Link
           href="/admin/blog"
-          className="inline-flex min-h-[36px] items-center rounded-full border border-emerald-200 px-4 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+          className="inline-flex min-h-[36px] items-center rounded-full border border-[var(--brand-tint-200)] px-4 text-sm font-semibold text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
         >
           Voltar para lista
         </Link>

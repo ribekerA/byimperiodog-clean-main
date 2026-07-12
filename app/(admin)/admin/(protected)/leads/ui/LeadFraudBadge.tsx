@@ -1,7 +1,9 @@
 "use client";
 
 import { ShieldAlert, ShieldCheck, ShieldQuestion, Loader2 } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
+
+import { useToast } from "@/components/ui/toast";
 
 type Fraud = {
   score: number;
@@ -11,15 +13,27 @@ type Fraud = {
 };
 
 const palette: Record<Fraud["badge"], string> = {
-  low: "bg-emerald-100 text-emerald-800",
+  low: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
   medium: "bg-amber-100 text-amber-800",
   high: "bg-rose-100 text-rose-800",
 };
 
+const storageKey = (leadId: string) => `lead-fraud-${leadId}`;
+
 export function LeadFraudBadge({ leadId }: { leadId: string }) {
+  const { push } = useToast();
   const [pending, start] = useTransition();
   const [fraud, setFraud] = useState<Fraud | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const cached = sessionStorage.getItem(storageKey(leadId));
+    if (cached) {
+      try {
+        setFraud(JSON.parse(cached));
+      } catch {}
+    }
+  }, [leadId]);
 
   const run = () => {
     setError(null);
@@ -33,8 +47,12 @@ export function LeadFraudBadge({ leadId }: { leadId: string }) {
         const json = await res.json();
         if (!res.ok) throw new Error(json?.error || "Erro ao avaliar fraude");
         setFraud(json.fraud);
+        sessionStorage.setItem(storageKey(leadId), JSON.stringify(json.fraud));
+        push({ type: "success", message: "Análise de fraude concluída." });
       } catch (e) {
-        setError((e as Error).message);
+        const message = (e as Error).message;
+        setError(message);
+        push({ type: "error", message });
       }
     });
   };
@@ -55,7 +73,7 @@ export function LeadFraudBadge({ leadId }: { leadId: string }) {
           {icon}
           <div>
             <p className="text-sm font-semibold text-[var(--text)]">FraudGuard AI</p>
-            <p className="text-xs text-[var(--text-muted)]">Detecta padrões suspeitos no lead.</p>
+            <p className="text-xs text-[var(--text-muted)]">A IA usa mensagem, telefone e origem do lead para detectar padrões suspeitos.</p>
           </div>
         </div>
         <button
@@ -64,11 +82,11 @@ export function LeadFraudBadge({ leadId }: { leadId: string }) {
           disabled={pending}
           className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white transition hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-500 disabled:opacity-60"
         >
-          {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Analisar"}
+          {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Gerar com IA"}
         </button>
       </div>
 
-      {error && <p className="mt-2 text-sm text-rose-700">{error}</p>}
+      {error && <p className="mt-2 text-sm text-rose-700" role="alert">{error}</p>}
 
       {fraud && (
         <div className="mt-3 space-y-2">

@@ -1,7 +1,7 @@
 // PATH: src/components/blog/ModernEditorWrapper.tsx
 "use client";
 
-import { Save, Eye, Calendar, Tag, Image as ImageIcon, FileText, Sparkles } from "lucide-react";
+import { Save, Eye, Calendar, Tag, Image as ImageIcon, FileText, Sparkles, Images } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -59,7 +59,33 @@ export default function ModernEditorWrapper({ post }: ModernEditorWrapperProps) 
   const router = useRouter();
   const { push: pushToast } = useToast();
   const [saving, setSaving] = useState(false);
+  const [injectingImages, setInjectingImages] = useState(false);
   const [activeTab, setActiveTab] = useState<"editor" | "seo" | "meta">("editor");
+
+  const handleInjectImages = async () => {
+    if (!post?.id) return;
+    setInjectingImages(true);
+    try {
+      const res = await fetch("/api/admin/blog/ai/inject-images", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ postId: post.id, maxImages: 3 }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Falha ao gerar imagens");
+      pushToast({
+        message: `${data.injected} imagem(ns) inseridas no artigo. Recarregue para ver.`,
+        type: "success",
+      });
+    } catch (err) {
+      pushToast({
+        message: err instanceof Error ? err.message : "Erro ao gerar imagens",
+        type: "error",
+      });
+    } finally {
+      setInjectingImages(false);
+    }
+  };
   const [slugEdited, setSlugEdited] = useState(!!post?.slug);
 
   const { register, watch, setValue, handleSubmit, formState } = useForm<FormState>({
@@ -161,6 +187,17 @@ export default function ModernEditorWrapper({ post }: ModernEditorWrapperProps) 
           >
             <Eye className="h-4 w-4" />
             Preview
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleInjectImages}
+            disabled={!post?.id || injectingImages}
+            title="Gera e injeta imagens AI nos principais H2 do artigo via OpenAI"
+          >
+            <Images className="h-4 w-4" />
+            {injectingImages ? "Gerando..." : "Imagens IA"}
           </Button>
           <Button type="submit" size="sm" disabled={saving}>
             <Save className="h-4 w-4" />

@@ -1,12 +1,20 @@
 export const dynamic = "force-dynamic";
-﻿import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+﻿import { cookies, headers } from "next/headers";
+import { NextResponse } from "next/server";
 
-import { serializeRoleCookie } from "@/lib/rbac";
-import { supabaseAnon } from "@/lib/supabaseAnon";
+import { ADMIN_SESSION_COOKIE, ADMIN_SESSION_MAX_AGE, signAdminSession } from "@/lib/adminSession";
+import { rateLimit } from "@/lib/rateLimit";
+import { normalizeRole, serializeRoleCookie } from "@/lib/rbac";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { supabaseAnon } from "@/lib/supabaseAnon";
 
 export async function POST(req: Request) {
+  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const rl = rateLimit(`admin-login:${ip}`, 10, 60_000);
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "Muitas tentativas. Aguarde um minuto e tente novamente." }, { status: 429 });
+  }
+
   const { email, password } = (await req.json().catch(() => ({}))) as { email?: string; password?: string };
   if (!email || !password) {
     return NextResponse.json({ error: "Credenciais obrigatorias" }, { status: 400 });
@@ -36,13 +44,37 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Acesso negado" }, { status: 403 });
   }
 
-  const res = NextResponse.json({ ok: true });
   // Cookies de sessao admin
   const displayName =
     (authData.user.user_metadata?.name as string | undefined) ||
     (authData.user.user_metadata?.full_name as string | undefined) ||
     authData.user.email?.split("@")[0] ||
     "Admin";
+  const role = normalizeRole(adminRow.role);
+
+  let sessionToken: string;
+  try {
+    sessionToken = await signAdminSession({
+      userId: authData.user.id,
+      email: authData.user.email ?? email,
+      name: displayName,
+      role,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Configuracao de sessao admin ausente (ADMIN_SESSION_SECRET)" },
+      { status: 500 }
+    );
+  }
+
+  const res = NextResponse.json({ ok: true });
+  cookies().set(ADMIN_SESSION_COOKIE, sessionToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: ADMIN_SESSION_MAX_AGE,
+  });
 
   cookies().set("admin_auth", "1", {
     httpOnly: true,
@@ -79,7 +111,7 @@ export async function POST(req: Request) {
     path: "/",
     maxAge: 60 * 60 * 8,
   });
-  const roleCookie = serializeRoleCookie(adminRow.role || "owner");
+  const roleCookie = serializeRoleCookie(role);
   cookies().set(roleCookie.name, roleCookie.value, roleCookie.options);
   return res;
 }

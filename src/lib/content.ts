@@ -18,38 +18,13 @@ export type BlogPost = {
 
 const CMS = (process.env.CMS_DRIVER || 'contentlayer').toLowerCase();
 
-// Lazy import to avoid type errors when Contentlayer hasn't generated types yet.
-// Try multiple resolutions: the package alias 'contentlayer/generated' (TS path)
-// may not resolve at build time in Next/Vercel, so fall back to loading
-// the generated files under `.contentlayer/generated` using a file URL.
-import { pathToFileURL } from 'url';
+// Import estático gerado por scripts/gen-contentlayer.mjs (roda no predev)
+// Webpack bundla normalmente — sem tricks de require/eval
+import { generatedPosts } from './_generated-posts';
 
-async function loadContentlayerPosts(): Promise<any[]> {
+function loadContentlayerPosts(): any[] {
   try {
-    // First try the conventional import used during development/TS builds.
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const mod = await import('contentlayer/generated');
-      return (mod as any).allPosts || [];
-    } catch (err) {
-      // If that fails (webpack/exports resolution on CI), try loading the
-      // generated file directly from the workspace `.contentlayer` folder.
-      const candidate = `${process.cwd()}/.contentlayer/generated/index.mjs`;
-      try {
-        const url = pathToFileURL(candidate).href;
-        const mod = await import(url);
-        return (mod as any).allPosts || [];
-      } catch (err2) {
-        // last-ditch: try without explicit index (some setups export directory)
-        try {
-          const url2 = pathToFileURL(`${process.cwd()}/.contentlayer/generated`).href;
-          const mod = await import(url2);
-          return (mod as any).allPosts || [];
-        } catch (err3) {
-          return [];
-        }
-      }
-    }
+    return Array.isArray(generatedPosts) ? (generatedPosts as any[]) : [];
   } catch {
     return [];
   }
@@ -68,7 +43,7 @@ function normalizePost(p: any): BlogPost {
     author: p.author || null,
     readingTime: p.readingTime || p.reading_time || null,
     url: p.url || (p.slug ? `/blog/${p.slug}` : undefined),
-    bodyRaw: p.body?.raw || p.content_mdx || null,
+    bodyRaw: p.body?.raw || p.content_mdx || p.bodyRaw || null,
   };
 }
 
@@ -84,7 +59,7 @@ export async function getAllPosts(opts?: { page?: number; pageSize?: number; q?:
     return { items: [], total: 0, page, pageSize };
   }
 
-  const src = await loadContentlayerPosts();
+  const src = loadContentlayerPosts();
   let items = src.map(normalizePost);
   if (q) {
     items = items.filter((p) =>
@@ -111,7 +86,7 @@ export async function getPostBySlug(slug: string) {
     // TODO: fetch sanity by slug
     return null;
   }
-  const src = await loadContentlayerPosts();
+  const src = loadContentlayerPosts();
   const hit = src.find((p) => p.slug === slug || p._raw?.sourceFileName?.replace?.(/\.mdx$/, '') === slug);
   return hit ? normalizePost(hit) : null;
 }
@@ -121,7 +96,7 @@ export async function getPostsByTag(tag: string, limit = 12) {
   if (CMS === 'sanity') {
     return [];
   }
-  const src = await loadContentlayerPosts();
+  const src = loadContentlayerPosts();
   const items = src.map(normalizePost).filter((p) => (p.tags || []).map((t) => String(t).toLowerCase()).includes(tag.toLowerCase()));
   return items.slice(0, limit);
 }
@@ -131,7 +106,7 @@ export async function getRelatedPosts(slug: string, limit = 4) {
   if (CMS === 'sanity') {
     return [];
   }
-  const src = await loadContentlayerPosts();
+  const src = loadContentlayerPosts();
   const items = src.map(normalizePost);
   const post = items.find((p) => p.slug === slug);
   if (!post) return items.slice(0, limit);

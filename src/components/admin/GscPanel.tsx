@@ -29,7 +29,7 @@ function fmt(n: number) {
 }
 
 function posColor(pos: number) {
-  if (pos <= 3)  return "text-emerald-600";
+  if (pos <= 3)  return "text-[var(--brand)]";
   if (pos <= 10) return "text-amber-600";
   return "text-zinc-400";
 }
@@ -37,7 +37,7 @@ function posColor(pos: number) {
 function KpiCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <div className="rounded-lg bg-emerald-50 p-2 text-emerald-600">{icon}</div>
+      <div className="rounded-lg bg-[var(--brand-tint-50)] p-2 text-[var(--brand)]">{icon}</div>
       <div>
         <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">{label}</p>
         <p className="text-xl font-bold tabular-nums text-[var(--text)]">{value}</p>
@@ -72,7 +72,7 @@ export default function GscPanel() {
   if (loading) {
     return (
       <div className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white p-8">
-        <Loader2 className="h-5 w-5 animate-spin text-emerald-600" />
+        <Loader2 className="h-5 w-5 animate-spin text-[var(--brand)]" />
         <p className="text-sm text-[var(--text-muted)]">Carregando dados do Google Search Console...</p>
       </div>
     );
@@ -113,7 +113,7 @@ export default function GscPanel() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="flex items-center gap-2 text-base font-semibold text-[var(--text)]">
-            <Search className="h-4 w-4 text-emerald-600" />
+            <Search className="h-4 w-4 text-[var(--brand)]" />
             Google Search Console
           </h2>
           {dateRange.start && (
@@ -127,7 +127,7 @@ export default function GscPanel() {
             <button
               key={o.value}
               onClick={() => handleDays(o.value)}
-              className={`rounded-full px-3 py-1 text-xs font-semibold transition ${days === o.value ? "bg-emerald-600 text-white" : "border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--surface)]"}`}
+              className={`rounded-full px-3 py-1 text-xs font-semibold transition ${days === o.value ? "bg-[var(--brand)] text-white" : "border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--surface)]"}`}
             >
               {o.label}
             </button>
@@ -149,7 +149,7 @@ export default function GscPanel() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-2 text-sm font-semibold transition ${tab === t ? "border-b-2 border-emerald-600 text-emerald-700" : "text-[var(--text-muted)] hover:text-[var(--text)]"}`}
+            className={`px-4 py-2 text-sm font-semibold transition ${tab === t ? "border-b-2 border-[var(--brand)] text-[var(--brand)]" : "text-[var(--text-muted)] hover:text-[var(--text)]"}`}
           >
             {t === "queries" ? "Top queries" : "Top páginas"}
           </button>
@@ -175,7 +175,7 @@ export default function GscPanel() {
                 <tr key={i} className="hover:bg-[var(--surface)]">
                   <td className="px-4 py-2.5 font-medium text-[var(--text)] max-w-[260px] truncate" title={label}>
                     {tab === "pages" ? (
-                      <a href={label} target="_blank" rel="noopener noreferrer" className="hover:underline text-emerald-700">
+                      <a href={label} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--brand)]">
                         {label}
                       </a>
                     ) : label}

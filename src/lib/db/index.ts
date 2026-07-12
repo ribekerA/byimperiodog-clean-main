@@ -800,7 +800,7 @@ export const scheduleRepo = {
 };
 
 export const mediaRepo = {
-  async listAssets(params?: { tag?: string; limit?: number; role?: string }): Promise<ListResult<MediaAsset>> {
+  async listAssets(params?: { tag?: string; limit?: number; offset?: number; role?: string }): Promise<ListResult<MediaAsset>> {
     const client = getClient();
     if (!client) return { items: [], total: 0 };
     let query = client
@@ -810,7 +810,10 @@ export const mediaRepo = {
       })
       .order("created_at", { ascending: false });
     if (params?.tag) query = query.contains?.("tags", [params.tag]) ?? query;
-    if (typeof params?.limit === "number") query = query.limit(params.limit);
+    if (typeof params?.limit === "number") {
+      const offset = params?.offset ?? 0;
+      query = query.range(offset, offset + params.limit - 1);
+    }
     if (params?.role) {
       const pivot = await client.from("post_media").select("media_id").eq("role", params.role);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

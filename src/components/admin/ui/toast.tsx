@@ -18,11 +18,11 @@ export function showAdminToast(options: AdminToastOptions) {
 }
 
 const toastVariants = cva(
-  "pointer-events-auto min-w-[260px] rounded-xl border px-4 py-3 text-sm shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500",
+  "pointer-events-auto min-w-[260px] rounded-xl border px-4 py-3 text-sm shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]",
   {
     variants: {
       variant: {
-        success: "border-emerald-200 bg-emerald-50 text-emerald-900",
+        success: "border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] text-[var(--brand)]",
         error: "border-rose-200 bg-rose-50 text-rose-900",
         info: "border-slate-200 bg-white text-slate-800",
       },

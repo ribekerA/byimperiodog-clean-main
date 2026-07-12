@@ -50,8 +50,8 @@ export function ConfigTabs({ initialGeneral, trackingEnvironment, trackingConfig
               aria-controls={`${tab.id}-panel`}
               data-state={activeTab === tab.id ? "active" : "inactive"}
               onClick={() => setActiveTab(tab.id)}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/60 ${
-                activeTab === tab.id ? "bg-emerald-600 text-white" : "text-[var(--text-muted)] hover:text-[var(--text)]"
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] ${
+                activeTab === tab.id ? "bg-[var(--brand)] text-white" : "text-[var(--text-muted)] hover:text-[var(--text)]"
               }`}
             >
               {tab.icon}
@@ -64,7 +64,7 @@ export function ConfigTabs({ initialGeneral, trackingEnvironment, trackingConfig
           <span
             className={`inline-flex items-center rounded-full px-3 py-1 text-[var(--text)] ${
               runtimeEnvValue === "production"
-                ? "bg-emerald-100 text-emerald-800"
+                ? "bg-[var(--brand-tint-100)] text-[var(--brand)]"
                 : runtimeEnvValue === "staging"
                   ? "bg-amber-100 text-amber-800"
                   : "bg-slate-200 text-slate-800"

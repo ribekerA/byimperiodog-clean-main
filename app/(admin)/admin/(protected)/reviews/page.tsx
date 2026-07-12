@@ -10,7 +10,11 @@
  *  • Feedback visual imediato
  */
 
-import { useCallback, useEffect, useState } from "react";
+import type { ColumnDef } from "@tanstack/react-table";
+import { Loader2 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { VirtualizedDataTable } from "@/components/admin/table/VirtualizedDataTable";
 import { StarRating } from "@/components/reviews/StarRating";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -47,7 +51,7 @@ function formatDate(iso: string) {
 
 const STATUS_BADGE: Record<FilterStatus, string> = {
   pending:  "bg-amber-100 text-amber-800",
-  approved: "bg-emerald-100 text-emerald-800",
+  approved: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
   rejected: "bg-red-100 text-red-800",
 };
 
@@ -70,7 +74,7 @@ export default function ReviewsModerationPage() {
     setLoading(true);
     setError(null);
     try {
-      const res  = await fetch(`/api/admin/reviews?status=${status}&limit=100`);
+      const res  = await fetch(`/api/admin/reviews?status=${status}&limit=2000`);
       const json = await res.json();
       if (!res.ok) throw new Error(json.error ?? "Erro ao carregar");
       setReviews(json.reviews ?? []);
@@ -105,6 +109,107 @@ export default function ReviewsModerationPage() {
   }
 
   const pendingCount = reviews.length;
+
+  const columns = useMemo<ColumnDef<Review, unknown>[]>(
+    () => [
+      {
+        id: "filhote",
+        header: "Filhote",
+        cell: ({ row }) => (
+          <a
+            href={`/filhotes/${row.original.puppy_slug}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-[var(--brand)] hover:underline text-xs font-medium"
+          >
+            {row.original.puppy_slug}
+          </a>
+        ),
+      },
+      {
+        id: "reviewer",
+        header: "Reviewer",
+        cell: ({ row }) => (
+          <div>
+            <p className="font-medium text-zinc-900">{row.original.reviewer_name}</p>
+            {row.original.reviewer_city && <p className="text-xs text-zinc-400">{row.original.reviewer_city}</p>}
+          </div>
+        ),
+      },
+      {
+        id: "nota",
+        header: "Nota",
+        cell: ({ row }) => (
+          <div className="flex items-center gap-1">
+            <StarRating value={row.original.rating} size="sm" />
+            <span className="text-xs font-bold text-zinc-600">{row.original.rating}</span>
+          </div>
+        ),
+      },
+      {
+        id: "comentario",
+        header: "Comentário",
+        cell: ({ row }) => {
+          const review = row.original;
+          return (
+            <div className="max-w-xs">
+              <p className="line-clamp-3 text-zinc-700">{review.comment}</p>
+              {review.photo_url && (
+                <a
+                  href={review.photo_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 inline-block text-xs text-blue-500 hover:underline"
+                >
+                  📷 Ver foto
+                </a>
+              )}
+              <span className={`mt-1.5 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_BADGE[review.status]}`}>
+                {STATUS_LABEL[review.status]}
+              </span>
+            </div>
+          );
+        },
+      },
+      {
+        id: "data",
+        header: "Data",
+        cell: ({ row }) => <span className="whitespace-nowrap text-xs text-zinc-400">{formatDate(row.original.created_at)}</span>,
+      },
+      {
+        id: "acoes",
+        header: "Ações",
+        cell: ({ row }) => {
+          const review = row.original;
+          return (
+            <div className="flex items-center justify-end gap-2">
+              {review.status !== "approved" && (
+                <button
+                  type="button"
+                  onClick={() => act(review.id, "approved")}
+                  disabled={acting === review.id}
+                  className="rounded-lg bg-[var(--brand)] px-3 py-1.5 text-xs font-bold text-white transition hover:bg-[var(--brand-hover)] disabled:opacity-50"
+                >
+                  ✓ Aprovar
+                </button>
+              )}
+              {review.status !== "rejected" && (
+                <button
+                  type="button"
+                  onClick={() => act(review.id, "rejected")}
+                  disabled={acting === review.id}
+                  className="rounded-lg bg-red-100 px-3 py-1.5 text-xs font-bold text-red-700 transition hover:bg-red-200 disabled:opacity-50"
+                >
+                  ✗ Rejeitar
+                </button>
+              )}
+            </div>
+          );
+        },
+      },
+    ],
+    [acting],
+  );
 
   return (
     <div className="space-y-6 px-4 py-6 lg:px-8">
@@ -146,9 +251,7 @@ export default function ReviewsModerationPage() {
       {/* Estado de carregamento */}
       {loading && (
         <div className="flex items-center gap-2 py-8 text-sm text-zinc-400">
-          <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="40" strokeLinecap="round" />
-          </svg>
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
           Carregando...
         </div>
       )}
@@ -177,107 +280,15 @@ export default function ReviewsModerationPage() {
 
       {/* Tabela */}
       {!loading && !error && reviews.length > 0 && (
-        <div className="overflow-x-auto rounded-xl border border-zinc-200">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-zinc-50 text-left text-xs font-semibold uppercase tracking-wider text-zinc-500">
-                <th className="px-4 py-3">Filhote</th>
-                <th className="px-4 py-3">Reviewer</th>
-                <th className="px-4 py-3 w-20">Nota</th>
-                <th className="px-4 py-3">Comentário</th>
-                <th className="px-4 py-3 w-32">Data</th>
-                <th className="px-4 py-3 w-36 text-right">Ações</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-100">
-              {reviews.map((review) => (
-                <tr
-                  key={review.id}
-                  className={`transition-colors ${acting === review.id ? "opacity-50" : "hover:bg-zinc-50"}`}
-                >
-                  {/* Filhote */}
-                  <td className="px-4 py-3">
-                    <a
-                      href={`/filhotes/${review.puppy_slug}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-emerald-600 hover:underline text-xs font-medium"
-                    >
-                      {review.puppy_slug}
-                    </a>
-                  </td>
-
-                  {/* Reviewer */}
-                  <td className="px-4 py-3">
-                    <p className="font-medium text-zinc-900">{review.reviewer_name}</p>
-                    {review.reviewer_city && (
-                      <p className="text-xs text-zinc-400">{review.reviewer_city}</p>
-                    )}
-                  </td>
-
-                  {/* Nota */}
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-1">
-                      <StarRating value={review.rating} size="sm" />
-                      <span className="text-xs font-bold text-zinc-600">{review.rating}</span>
-                    </div>
-                  </td>
-
-                  {/* Comentário */}
-                  <td className="px-4 py-3 max-w-xs">
-                    <p className="line-clamp-3 text-zinc-700">{review.comment}</p>
-                    {review.photo_url && (
-                      <a
-                        href={review.photo_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-1 text-xs text-blue-500 hover:underline"
-                      >
-                        📷 Ver foto
-                      </a>
-                    )}
-                    <span
-                      className={`mt-1.5 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_BADGE[review.status]}`}
-                    >
-                      {STATUS_LABEL[review.status]}
-                    </span>
-                  </td>
-
-                  {/* Data */}
-                  <td className="px-4 py-3 text-xs text-zinc-400 whitespace-nowrap">
-                    {formatDate(review.created_at)}
-                  </td>
-
-                  {/* Ações */}
-                  <td className="px-4 py-3 text-right">
-                    <div className="flex items-center justify-end gap-2">
-                      {review.status !== "approved" && (
-                        <button
-                          type="button"
-                          onClick={() => act(review.id, "approved")}
-                          disabled={acting === review.id}
-                          className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
-                        >
-                          ✓ Aprovar
-                        </button>
-                      )}
-                      {review.status !== "rejected" && (
-                        <button
-                          type="button"
-                          onClick={() => act(review.id, "rejected")}
-                          disabled={acting === review.id}
-                          className="rounded-lg bg-red-100 px-3 py-1.5 text-xs font-bold text-red-700 transition hover:bg-red-200 disabled:opacity-50"
-                        >
-                          ✗ Rejeitar
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
+        <div className="overflow-hidden rounded-xl border border-zinc-200">
+          <VirtualizedDataTable
+            columns={columns}
+            data={reviews}
+            height={560}
+            enableSelection={false}
+            role="table"
+            aria-label="Avaliações de filhotes para moderação"
+          />
           <div className="border-t border-zinc-100 px-4 py-2 text-xs text-zinc-400">
             {pendingCount} {filter === "pending" ? "aguardando moderação" : "registros"}
           </div>

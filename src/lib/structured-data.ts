@@ -137,6 +137,79 @@ export function buildArticleLD(opts: {
   };
 }
 
+/**
+ * Schema DogBreeder — identifica o negócio como criador especializado de raça.
+ * Complementa o LocalBusiness com foco em Spitz Alemão Anão (Lulu da Pomerânia).
+ * Injetado na homepage e nas páginas de filhote para rastreamento pela busca orgânica.
+ */
+export function buildDogBreederLD() {
+  return {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "PetStore"],
+    "@id": `${SITE_URL}/#dogbreeder`,
+    name: "By Império Dog — Canil Spitz Alemão Anão",
+    alternateName: ["Canil By Império Dog", "By Imperio Dog", "Criador Spitz Alemão"],
+    description:
+      "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) com registro CBKC. Especialista em Baby Face, cor preta, creme e laranja. Filhotes disponíveis em Bragança Paulista, SP, com entrega para todo o Brasil.",
+    url: SITE_URL,
+    telephone: "+55-11-96863-3239",
+    priceRange: "R$ 7.000 – R$ 15.000",
+    image: `${SITE_URL}/og/home.jpg`,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/byimperiologo.svg`,
+      width: 120,
+      height: 120,
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Bragança Paulista",
+      addressLocality: "Bragança Paulista",
+      addressRegion: "SP",
+      postalCode: "12900-000",
+      addressCountry: "BR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: -22.9538,
+      longitude: -46.5429,
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "Brasil",
+    },
+    knowsAbout: [
+      "Spitz Alemão Anão",
+      "Lulu da Pomerânia",
+      "Pomeranian",
+      "Spitz Alemão Preto",
+      "Spitz Alemão Baby Face",
+      "Lulu da Pomerânia Baby Face",
+      "criação responsável de cães",
+      "registro CBKC",
+      "filhote Spitz Alemão",
+      "canil Spitz Alemão interior São Paulo",
+    ],
+    makesOffer: [
+      {
+        "@type": "Offer",
+        name: "Filhote Spitz Alemão Anão — Lulu da Pomerânia",
+        description:
+          "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) com registro CBKC, laudos veterinários, vacinação completa e mentoria vitalícia.",
+        priceCurrency: "BRL",
+        url: `${SITE_URL}/filhotes`,
+      },
+    ],
+    sameAs: [
+      "https://www.instagram.com/byimperiodog",
+      "https://www.facebook.com/byimperiodog",
+      "https://www.youtube.com/@byimperiodog",
+      "https://www.tiktok.com/@byimperiodogs",
+      "https://www.pinterest.com/byimperiodog",
+    ],
+  };
+}
+
 export function buildLocalBusinessLD() {
   return {
     "@context": "https://schema.org",

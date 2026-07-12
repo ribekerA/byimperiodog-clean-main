@@ -1,16 +1,18 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
+
 /**
  * Middleware para proteção de rotas /admin e regras globais
- * 
+ *
  * Rules:
  * 1. Força www em produção se configurado
- * 2. Protege /admin/* com cookie "admin_session"
- * 3. Protege /api/admin/* com cookie ou header "x-admin-pass"
+ * 2. Protege /admin/* com cookie assinado "admin_session" (HMAC, ver src/lib/adminSession.ts)
+ * 3. Protege /api/admin/* com o mesmo cookie assinado ou header "x-admin-pass"
  * 4. Remove indexação SEO de /admin (X-Robots-Tag)
  */
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const url = req.nextUrl.clone();
 
@@ -37,12 +39,18 @@ export function middleware(req: NextRequest) {
   }
 
   // ============================================================================
-  // 3) REGRA: Proteção de rotas /admin/* (exigir cookie "admin_session")
+  // 3) REGRA: Proteção de rotas /admin/* (exigir cookie assinado "admin_session" valido)
   // ============================================================================
-  const adminSession = req.cookies.get("admin_session")?.value || "";
-  const hasSession = adminSession.length > 0;
   const isAdminPath = pathname.startsWith("/admin");
+  const isAdminApiPath = pathname.startsWith("/api/admin");
   const isAdminLogin = pathname === "/admin/login";
+
+  let hasSession = false;
+  if (isAdminPath || isAdminApiPath) {
+    const sessionToken = req.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+    const verified = await verifyAdminSession(sessionToken);
+    hasSession = verified !== null;
+  }
 
   if (isAdminPath) {
     // Se é /admin/login e JÁ tem sessão, redirecionar para dashboard
@@ -61,7 +69,7 @@ export function middleware(req: NextRequest) {
   // ============================================================================
   // 4) REGRA: Proteção de /api/admin/* (cookie OU header "x-admin-pass")
   // ============================================================================
-  if (pathname.startsWith("/api/admin") && pathname !== "/api/admin/login") {
+  if (isAdminApiPath && pathname !== "/api/admin/login") {
     const expectedPass = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
     const headerPass = req.headers.get("x-admin-pass");
     const authedByHeader = !!expectedPass && headerPass === expectedPass;
@@ -76,15 +84,20 @@ export function middleware(req: NextRequest) {
   }
 
   // ============================================================================
-  // 5) REGRA: SEO - Adicionar X-Robots-Tag para /admin (noindex, nofollow)
+  // 5) REGRA: SEO + pathname propagation para Server Components
+  // x-next-pathname injeta o path atual nos headers de request para que o
+  // root layout possa detectar isAdminRoute sem depender de headers instáveis.
   // ============================================================================
-  if (isAdminPath || pathname.startsWith("/api/admin")) {
-    const res = NextResponse.next();
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-next-pathname", pathname);
+
+  if (isAdminPath || isAdminApiPath) {
+    const res = NextResponse.next({ request: { headers: requestHeaders } });
     res.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
     return res;
   }
 
-  return NextResponse.next();
+  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {

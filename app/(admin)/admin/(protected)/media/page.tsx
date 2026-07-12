@@ -14,33 +14,46 @@ interface MediaFile {
   file_path?: string;
 }
 
+const PAGE_SIZE = 60;
+
+function mapMediaItems(items: Record<string, unknown>[]): MediaFile[] {
+  return items.map((it) => ({
+    id: (it["id"] as string) || (it["asset_id"] as string) || crypto.randomUUID(),
+    name:
+      (it["name"] as string) ||
+      (it["file_name"] as string) ||
+      (it["filename"] as string) ||
+      (typeof it["file_path"] === "string" ? (it["file_path"] as string).split("/").pop() : undefined) ||
+      "arquivo",
+    url: (it["url"] as string) || (it["public_url"] as string) || (it["src"] as string) || "",
+    size: Number((it["size"] as number) || 0),
+    type: (it["type"] as string) || (it["mime_type"] as string) || "",
+    uploadedAt: (it["created_at"] as string) || (it["uploaded_at"] as string) || new Date().toISOString(),
+    file_path: it["file_path"] as string | undefined,
+  }));
+}
+
 export default function MediaLibrary() {
   const [files, setFiles] = useState<MediaFile[]>([]);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const loadPage = async (offset: number) => {
+    const res = await fetch(`/api/admin/media?limit=${PAGE_SIZE}&offset=${offset}`, { cache: "no-store" });
+    const json = await res.json();
+    const items = Array.isArray(json) ? json : json.items || json.data || [];
+    const mapped = mapMediaItems(items as Record<string, unknown>[]);
+    setTotal(typeof json.total === "number" ? json.total : mapped.length);
+    return mapped;
+  };
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
       try {
-        const res = await fetch("/api/admin/media", { cache: "no-store" });
-        const json = await res.json();
-        const items = Array.isArray(json) ? json : json.items || json.data || [];
-        type Raw = Record<string, unknown>;
-        const mapped: MediaFile[] = (items as Raw[]).map((it) => ({
-          id: (it["id"] as string) || (it["asset_id"] as string) || crypto.randomUUID(),
-          name:
-            (it["name"] as string) ||
-            (it["file_name"] as string) ||
-            (it["filename"] as string) ||
-            (typeof it["file_path"] === "string" ? (it["file_path"] as string).split("/").pop() : undefined) ||
-            "arquivo",
-          url: (it["url"] as string) || (it["public_url"] as string) || (it["src"] as string) || "",
-          size: Number((it["size"] as number) || 0),
-          type: (it["type"] as string) || (it["mime_type"] as string) || "",
-          uploadedAt: (it["created_at"] as string) || (it["uploaded_at"] as string) || new Date().toISOString(),
-          file_path: it["file_path"] as string | undefined,
-        }));
+        const mapped = await loadPage(0);
         setFiles(mapped);
       } catch (e) {
         console.error(e);
@@ -50,6 +63,18 @@ export default function MediaLibrary() {
     };
     load();
   }, []);
+
+  const handleLoadMore = async () => {
+    setLoadingMore(true);
+    try {
+      const mapped = await loadPage(files.length);
+      setFiles((prev) => [...prev, ...mapped]);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = e.target.files;
@@ -76,6 +101,7 @@ export default function MediaLibrary() {
           file_path: it?.file_path,
         };
         setFiles((prev) => [newFile, ...prev]);
+        setTotal((t) => t + 1);
       } catch (err) {
         console.error(err);
       }
@@ -94,6 +120,7 @@ export default function MediaLibrary() {
       console.error(e);
     } finally {
       setFiles((prev) => prev.filter((f) => f.id !== id));
+      setTotal((t) => Math.max(0, t - 1));
     }
   };
 
@@ -113,12 +140,12 @@ export default function MediaLibrary() {
     <div className="mx-auto max-w-7xl space-y-8 p-6">
       <header className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-emerald-900">Biblioteca de Mídia</h1>
-          <p className="mt-1 text-sm text-emerald-700">
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--brand)]">Biblioteca de Mídia</h1>
+          <p className="mt-1 text-sm text-[var(--brand)]">
             Gerencie uploads, compressão e organize seus arquivos
           </p>
         </div>
-        <label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600">
+        <label className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)]">
           <Upload className="h-4 w-4" />
           Upload Arquivos
           <input
@@ -131,14 +158,14 @@ export default function MediaLibrary() {
         </label>
       </header>
 
-      <div className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-6 shadow-sm">
         {loading ? (
-          <div className="flex items-center justify-center py-12 text-emerald-700">Carregando…</div>
+          <div className="flex items-center justify-center py-12 text-[var(--brand)]">Carregando…</div>
         ) : files.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <ImageIcon className="h-16 w-16 text-emerald-200" />
-            <h3 className="mt-4 text-lg font-semibold text-emerald-900">Nenhum arquivo</h3>
-            <p className="mt-2 text-sm text-emerald-600">
+            <ImageIcon className="h-16 w-16 text-[var(--brand-tint-300)]" />
+            <h3 className="mt-4 text-lg font-semibold text-[var(--brand)]">Nenhum arquivo</h3>
+            <p className="mt-2 text-sm text-[var(--brand)]">
               Faça upload de imagens para começar
             </p>
           </div>
@@ -147,9 +174,9 @@ export default function MediaLibrary() {
             {files.map((file) => (
               <div
                 key={file.id}
-                className="group relative overflow-hidden rounded-xl border border-emerald-100 bg-emerald-50/50 transition hover:border-emerald-200 hover:shadow-md"
+                className="group relative overflow-hidden rounded-xl border border-[var(--brand-tint-100)] bg-[var(--brand-tint-50)] transition hover:border-[var(--brand)] hover:shadow-md"
               >
-                <div className="aspect-video w-full overflow-hidden bg-emerald-100">
+                <div className="aspect-video w-full overflow-hidden bg-[var(--brand-tint-100)]">
                   {file.type.startsWith("image/") ? (
                     <Image
                       src={file.url}
@@ -161,22 +188,22 @@ export default function MediaLibrary() {
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center">
-                      <ImageIcon className="h-12 w-12 text-emerald-400" />
+                      <ImageIcon className="h-12 w-12 text-[var(--brand)]" />
                     </div>
                   )}
                 </div>
                 <div className="p-3">
-                  <h4 className="truncate text-sm font-medium text-emerald-900">
+                  <h4 className="truncate text-sm font-medium text-[var(--brand)]">
                     {file.name}
                   </h4>
-                  <p className="mt-1 text-xs text-emerald-600">
+                  <p className="mt-1 text-xs text-[var(--brand)]">
                     {formatFileSize(file.size)}
                   </p>
                 </div>
                 <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 transition group-hover:opacity-100">
                   <button
                     onClick={() => handleCopyUrl(file.url, file.id)}
-                    className="rounded-lg bg-white/90 p-2 text-emerald-900 transition hover:bg-white"
+                    className="rounded-lg bg-white/90 p-2 text-[var(--brand)] transition hover:bg-white"
                     title="Copiar URL"
                   >
                     {copiedId === file.id ? (
@@ -188,7 +215,7 @@ export default function MediaLibrary() {
                   <a
                     href={file.url}
                     download={file.name}
-                    className="rounded-lg bg-white/90 p-2 text-emerald-900 transition hover:bg-white"
+                    className="rounded-lg bg-white/90 p-2 text-[var(--brand)] transition hover:bg-white"
                     title="Download"
                   >
                     <Download className="h-4 w-4" />
@@ -203,6 +230,19 @@ export default function MediaLibrary() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+        {!loading && files.length > 0 && files.length < total && (
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <p className="text-xs text-[var(--brand)]">{files.length} de {total} arquivos</p>
+            <button
+              type="button"
+              onClick={handleLoadMore}
+              disabled={loadingMore}
+              className="rounded-full border border-[var(--brand-tint-200)] bg-white px-5 py-2 text-sm font-semibold text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)] disabled:opacity-50"
+            >
+              {loadingMore ? "Carregando…" : "Carregar mais"}
+            </button>
           </div>
         )}
       </div>

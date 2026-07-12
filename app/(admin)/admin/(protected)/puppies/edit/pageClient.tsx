@@ -32,7 +32,7 @@ export function PuppyEditLauncher() {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder="ex.: 613bb0ae-7be7-4dc5..."
-          className={`mt-2 w-full rounded-xl border px-3 py-2 text-sm text-[var(--text)] shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 ${
+          className={`mt-2 w-full rounded-xl border px-3 py-2 text-sm text-[var(--text)] shadow-sm focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)] ${
             error ? "border-rose-300 bg-rose-50" : "border-[var(--border)] bg-[var(--surface)]"
           }`}
         />
@@ -41,7 +41,7 @@ export function PuppyEditLauncher() {
       <div className="flex items-center gap-2">
         <button
           type="submit"
-          className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+          className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)]"
           disabled={isPending}
         >
           {isPending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <ArrowRight className="h-4 w-4" aria-hidden />} Ir para edição

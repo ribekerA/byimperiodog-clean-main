@@ -6,7 +6,7 @@ export function AdminBadge({ children, className }: { children: React.ReactNode;
   return (
     <span
       className={cn(
-        "inline-flex min-h-[28px] items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700",
+        "inline-flex min-h-[28px] items-center rounded-full bg-[var(--brand-tint-100)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[var(--brand)]",
         className,
       )}
     >

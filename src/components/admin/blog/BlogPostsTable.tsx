@@ -41,7 +41,7 @@ const STATUS_VARIANTS: Record<string, string> = {
   draft: "bg-zinc-100 text-zinc-700",
   review: "bg-amber-100 text-amber-700",
   scheduled: "bg-amber-100 text-amber-700",
-  published: "bg-emerald-100 text-emerald-700",
+  published: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
   archived: "bg-slate-200 text-slate-600",
 };
 
@@ -268,7 +268,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
             Buscar posts
           </label>
           <div className="relative flex w-full max-w-md items-center">
-            <Search className="absolute left-3 h-4 w-4 text-emerald-600" aria-hidden />
+            <Search className="absolute left-3 h-4 w-4 text-[var(--brand)]" aria-hidden />
             <Input
               id="blog-search"
               placeholder="Buscar por título ou slug"
@@ -286,7 +286,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
                   setStatusFilter(event.target.value as StatusFilter);
                   setPage(1);
                 }}
-                className="rounded-xl border border-emerald-200 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                className="rounded-xl border border-[var(--brand-tint-200)] bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
               >
                 {Object.entries(STATUS_LABELS).map(([value, label]) => (
                   <option key={value} value={value}>
@@ -304,7 +304,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
                   setPerPage(Number(event.target.value) as typeof PAGE_SIZES[number]);
                   setPage(1);
                 }}
-                className="rounded-xl border border-emerald-200 bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                className="rounded-xl border border-[var(--brand-tint-200)] bg-white px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
               >
                 {PAGE_SIZES.map((size) => (
                   <option key={size} value={size}>
@@ -350,7 +350,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
       ) : null}
 
       {pendingSelected > 0 ? (
-        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+        <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] px-4 py-3 text-sm text-[var(--brand)]">
           <span className="font-semibold">
             {pendingSelected} selecionado(s)
           </span>
@@ -401,19 +401,19 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
 
       <div
         ref={parentRef}
-        className="relative max-h-[70vh] overflow-auto rounded-2xl border border-emerald-100 bg-white"
+        className="relative max-h-[70vh] overflow-auto rounded-2xl border border-[var(--brand-tint-100)] bg-white"
         role="grid"
         aria-busy={isLoading}
         aria-rowcount={rows.length}
       >
-        <div className="sticky top-0 z-10 grid grid-cols-[48px,1.5fr,1.1fr,1fr,0.7fr,0.6fr,0.6fr,0.8fr] items-center gap-3 border-b border-emerald-100 bg-emerald-50 px-4 py-3 text-xs font-semibold uppercase text-emerald-800">
+        <div className="sticky top-0 z-10 grid grid-cols-[48px,1.5fr,1.1fr,1fr,0.7fr,0.6fr,0.6fr,0.8fr] items-center gap-3 border-b border-[var(--brand-tint-100)] bg-[var(--brand-tint-50)] px-4 py-3 text-xs font-semibold uppercase text-[var(--brand)]">
           <div>
             <input
               type="checkbox"
               aria-label="Selecionar todos os posts desta página"
               checked={rows.length > 0 && allSelectedOnPage}
               onChange={(event) => toggleSelectAllOnPage(event.target.checked)}
-              className="h-4 w-4 rounded border-emerald-300 text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              className="h-4 w-4 rounded border-[var(--brand-tint-300)] text-[var(--brand)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
             />
           </div>
           <div>Título</div>
@@ -434,7 +434,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
                 key={row.id}
                 role="row"
                 aria-rowindex={virtualRow.index + 1}
-                className="absolute inset-x-0 grid grid-cols-[48px,1.5fr,1.1fr,1fr,0.7fr,0.6fr,0.6fr,0.8fr] items-center gap-3 border-b border-emerald-50 px-4 py-3 text-sm text-zinc-800"
+                className="absolute inset-x-0 grid grid-cols-[48px,1.5fr,1.1fr,1fr,0.7fr,0.6fr,0.6fr,0.8fr] items-center gap-3 border-b border-[var(--brand-tint-50)] px-4 py-3 text-sm text-zinc-800"
                 style={{ transform: `translateY(${top}px)`, height: virtualRow.size }}
               >
                 <div>
@@ -443,7 +443,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
                     aria-label={`Selecionar ${row.slug}`}
                     checked={selectedIds.has(row.id)}
                     onChange={(event) => toggleSelectRow(row.id, event.target.checked)}
-                    className="h-4 w-4 rounded border-emerald-300 text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                    className="h-4 w-4 rounded border-[var(--brand-tint-300)] text-[var(--brand)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -451,7 +451,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
                   <div className="flex flex-wrap gap-2 text-xs text-zinc-500">
                     <a
                       href={`/admin/blog/editor?id=${row.id}`}
-                      className="inline-flex items-center gap-1 rounded-full border border-emerald-200 px-3 py-1 text-[11px] font-semibold text-emerald-700 transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
+                      className="inline-flex items-center gap-1 rounded-full border border-[var(--brand-tint-200)] px-3 py-1 text-[11px] font-semibold text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
                     >
                       <MoreHorizontal className="h-3.5 w-3.5" aria-hidden /> Editar
                     </a>
@@ -494,7 +494,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
                     <>
                       <span className="font-semibold">{row.metrics.views ?? 0}</span> / {row.metrics.leads ?? 0}
                       {row.metrics.ctr ? (
-                        <span className="ml-1 text-xs text-emerald-600">({(row.metrics.ctr * 100).toFixed(1)}%)</span>
+                        <span className="ml-1 text-xs text-[var(--brand)]">({(row.metrics.ctr * 100).toFixed(1)}%)</span>
                       ) : null}
                     </>
                   ) : (
@@ -517,7 +517,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
 
         {isLoading ? (
           <div className="absolute inset-0 flex items-center justify-center bg-white/70">
-            <Loader2 className="h-6 w-6 animate-spin text-emerald-600" aria-hidden />
+            <Loader2 className="h-6 w-6 animate-spin text-[var(--brand)]" aria-hidden />
           </div>
         ) : null}
       </div>
@@ -559,7 +559,7 @@ export default function BlogPostsTable({ initialData }: BlogPostsTableProps) {
               type="datetime-local"
               value={scheduleDate}
               onChange={(event) => setScheduleDate(event.target.value)}
-              className="w-full rounded-xl border border-emerald-200 px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              className="w-full rounded-xl border border-[var(--brand-tint-200)] px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
             />
           </label>
           <DialogActions>

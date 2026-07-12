@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Activity, AlertTriangle, BadgeCheck, Copy, Flame, Gauge, Loader2, MessageCircle, Sparkles } from "lucide-react";
 
 import { useToast } from "@/components/ui/toast";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 
 import type { LeadAdvisorSnapshot, AdvisorMessageStyle } from "@/lib/ai/leadAdvisor";
 
@@ -124,6 +125,7 @@ export function LeadDetailClient({
   const { push } = useToast();
   const [mutating, setMutating] = useState<LeadStatus | null>(null);
   const [copyingStyle, setCopyingStyle] = useState<string | null>(null);
+  const [pendingStatusSuggestion, setPendingStatusSuggestion] = useState<LeadStatus | null>(null);
   const suggestedStatus = STATUS_SUGGESTION_TO_STATUS[advisor.status.suggestion] ?? null;
 
   const primaryStyle = advisor.messages[0]?.id;
@@ -185,7 +187,7 @@ export function LeadDetailClient({
             >
               <Flame className="h-3.5 w-3.5" aria-hidden /> Prioridade {PRIORITY_LABELS[advisor.priority.level]}
             </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand-tint-50)] px-3 py-1 text-[var(--brand)]">
               <Gauge className="h-3.5 w-3.5" aria-hidden /> Compatibilidade {advisor.compatibility.score}%
             </span>
           </div>
@@ -206,7 +208,7 @@ export function LeadDetailClient({
           <button
             type="button"
             onClick={openWhatsApp}
-            className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--brand-hover)]"
           >
             <MessageCircle className="h-4 w-4" aria-hidden /> Abrir conversa
           </button>
@@ -249,7 +251,7 @@ export function LeadDetailClient({
                   onClick={() => handleStatusChange(option.value)}
                   disabled={mutating === option.value}
                   className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-[var(--border)] ${
-                    lead.status === option.value ? "bg-emerald-100 text-emerald-800" : "bg-white text-[var(--text)]"
+                    lead.status === option.value ? "bg-[var(--brand-tint-100)] text-[var(--brand)]" : "bg-white text-[var(--text)]"
                   }`}
                 >
                   {mutating === option.value ? "..." : option.label}
@@ -271,7 +273,7 @@ export function LeadDetailClient({
           advisor={advisor}
           currentStatus={lead.status}
           suggestedStatus={suggestedStatus}
-          onApply={handleStatusChange}
+          onApply={setPendingStatusSuggestion}
           mutating={mutating}
         />
         <LeadLossCard
@@ -290,12 +292,12 @@ export function LeadDetailClient({
                 <p className="text-sm font-semibold text-[var(--text)]">Filhote associado</p>
                 <p className="text-xs text-[var(--text-muted)]">Match do funil</p>
               </div>
-              <BadgeCheck className="h-5 w-5 text-emerald-600" aria-hidden />
+              <BadgeCheck className="h-5 w-5 text-[var(--brand)]" aria-hidden />
             </div>
             <div className="rounded-xl bg-[var(--surface)] p-3 text-sm text-[var(--text)]">
               <p className="text-base font-semibold">{matchedPuppy.name}</p>
               <p className="text-xs text-[var(--text-muted)]">{matchedPuppy.color || EMPTY_VALUE}</p>
-              <a href={`/admin/puppies/${matchedPuppy.id}`} className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:underline">
+              <a href={`/admin/puppies/${matchedPuppy.id}`} className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[var(--brand)] hover:underline">
                 Abrir ficha
               </a>
             </div>
@@ -335,6 +337,23 @@ export function LeadDetailClient({
           ))}
         </ul>
       </section>
+
+      <ConfirmDialog
+        open={pendingStatusSuggestion !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingStatusSuggestion(null);
+        }}
+        title="Aplicar status sugerido pela IA?"
+        description={`A IA sugeriu marcar este lead como "${
+          STATUS_OPTIONS.find((o) => o.value === pendingStatusSuggestion)?.label ?? pendingStatusSuggestion
+        }". Confirme para aplicar essa mudança de status.`}
+        confirmLabel="Aplicar status"
+        variant={pendingStatusSuggestion === "perdido" ? "danger" : "default"}
+        onConfirm={() => {
+          if (pendingStatusSuggestion) void handleStatusChange(pendingStatusSuggestion);
+          setPendingStatusSuggestion(null);
+        }}
+      />
     </div>
   );
 }

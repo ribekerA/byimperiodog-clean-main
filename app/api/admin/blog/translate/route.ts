@@ -11,10 +11,13 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 interface TranslateReq { post_id: string; target_lang: string; force?: boolean }
 
+const SUPPORTED_LANGS = ['pt-BR', 'en-US'];
+
 export async function POST(req: Request){
   try {
     const body = await req.json() as TranslateReq;
     if(!body.post_id || !body.target_lang) return NextResponse.json({ ok:false, error:'post_id e target_lang obrigatórios'}, { status:400 });
+    if(!SUPPORTED_LANGS.includes(body.target_lang)) return NextResponse.json({ ok:false, error:`Idioma não suportado: ${body.target_lang}`}, { status:403 });
     const lang = body.target_lang;
     const sb = supabaseAdmin();
     // Carrega post base

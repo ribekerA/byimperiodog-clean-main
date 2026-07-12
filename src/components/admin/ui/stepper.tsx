@@ -23,9 +23,9 @@ export default function Stepper({ steps, currentStep, onStepChange }: StepperPro
             <button
               type="button"
               className={cn(
-                "flex h-9 w-9 items-center justify-center rounded-full border text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
-                state === "completed" && "border-emerald-500 bg-emerald-500 text-white",
-                state === "active" && "border-emerald-500 text-emerald-700",
+                "flex h-9 w-9 items-center justify-center rounded-full border text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2",
+                state === "completed" && "border-[var(--brand)] bg-[var(--brand)] text-white",
+                state === "active" && "border-[var(--brand)] text-[var(--brand)]",
                 state === "pending" && "border-slate-200 text-slate-400",
               )}
               onClick={() => onStepChange?.(index)}

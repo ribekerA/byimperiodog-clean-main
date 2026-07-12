@@ -130,10 +130,10 @@ export function MediaManager({
       <div className="space-y-[var(--space-4)] rounded-[var(--radius-2xl)] border border-[var(--border)] bg-white p-[var(--space-4)] shadow-[var(--elevation-2)]">
         <div className="flex items-center justify-between">
           <h2 className="flex items-center gap-2 text-lg font-semibold text-[var(--text)]">
-            <ImageIcon className="h-5 w-5 text-emerald-600" aria-hidden />
+            <ImageIcon className="h-5 w-5 text-[var(--brand)]" aria-hidden />
             Fotos ({photos.length})
           </h2>
-          <label className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--radius-md)] bg-emerald-600 px-[var(--space-3)] py-[var(--space-2)] text-sm font-semibold text-white shadow-[var(--elevation-1)] transition hover:bg-emerald-700 hover:shadow-[var(--elevation-2)] focus-within:outline-none focus-within:ring-2 focus-within:ring-emerald-500 focus-within:ring-offset-2">
+          <label className="inline-flex cursor-pointer items-center gap-2 rounded-[var(--radius-md)] bg-[var(--brand)] px-[var(--space-3)] py-[var(--space-2)] text-sm font-semibold text-white shadow-[var(--elevation-1)] transition hover:bg-[var(--brand-hover)] hover:shadow-[var(--elevation-2)] focus-within:outline-none focus-within:ring-2 focus-within:ring-[var(--brand-ring)] focus-within:ring-offset-2">
             <Upload className="h-4 w-4" aria-hidden />
             Upload Fotos
             <input
@@ -181,7 +181,7 @@ export function MediaManager({
                 {/* Order indicator or cover star */}
                 <div
                   className={`absolute left-2 top-2 flex h-6 w-6 items-center justify-center rounded-[var(--radius-full)] text-xs font-bold text-white shadow-[var(--elevation-2)] ${
-                    index === 0 ? "bg-amber-500" : "bg-emerald-600"
+                    index === 0 ? "bg-amber-500" : "bg-[var(--brand)]"
                   }`}
                 >
                   {index === 0 ? <Star className="h-4 w-4 fill-white" aria-hidden /> : index + 1}

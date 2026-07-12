@@ -261,7 +261,7 @@ export default function BlogSchedulePage() {
             <p className="max-w-2xl text-sm text-[var(--text-muted)]">
               Visualize publicacoes agendadas, organize campanhas sazonais e ajuste datas com rapidez. Clique em um dia para ver detalhes ou usar o formulario ao lado para criar novos agendamentos.
             </p>
-            {feedback ? <p className="text-sm text-emerald-600">{feedback}</p> : null}
+            {feedback ? <p className="text-sm text-[var(--brand)]">{feedback}</p> : null}
             {error ? <p className="text-sm text-red-600">{error}</p> : null}
           </div>
           <div className="flex flex-wrap items-center gap-2">

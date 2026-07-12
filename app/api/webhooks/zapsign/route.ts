@@ -4,9 +4,22 @@ import { type NextRequest, NextResponse } from "next/server";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-// ZapSign envia um POST a cada mudança de status no documento
+// ZapSign envia um POST a cada mudança de status no documento.
+// Autenticidade verificada via header customizado configurado no painel ZapSign
+// (Configurações > Integrações > Api ZapSign > Webhooks > headers), não por HMAC do payload
+// — a API do ZapSign não assina o corpo da requisição, apenas ecoa headers configurados por nós.
 export async function POST(req: NextRequest) {
   try {
+    const expectedSecret = process.env.ZAPSIGN_WEBHOOK_SECRET;
+    if (!expectedSecret) {
+      console.error("[webhook/zapsign] ZAPSIGN_WEBHOOK_SECRET não configurado — recusando requisição");
+      return NextResponse.json({ ok: false, error: "webhook não configurado" }, { status: 500 });
+    }
+    const authHeader = req.headers.get("authorization");
+    if (authHeader !== `Bearer ${expectedSecret}`) {
+      return NextResponse.json({ ok: false, error: "não autorizado" }, { status: 401 });
+    }
+
     const body = await req.json();
 
     // Estrutura do webhook ZapSign:

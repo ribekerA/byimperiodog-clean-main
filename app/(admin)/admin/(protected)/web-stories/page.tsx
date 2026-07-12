@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -72,7 +73,7 @@ export default function WebStoriesPage() {
             </div>
             <Link
               href="/admin/web-stories/new"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-700 transition"
+              className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-[var(--brand-hover)] transition"
             >
               + Nova Web Story
             </Link>
@@ -94,7 +95,7 @@ export default function WebStoriesPage() {
 
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="h-8 w-8 animate-spin rounded-full border-4 border-emerald-600 border-t-transparent" />
+            <Loader2 className="h-8 w-8 animate-spin text-[var(--brand)]" aria-hidden />
           </div>
         ) : stories.length === 0 ? (
           <motion.div
@@ -123,7 +124,7 @@ export default function WebStoriesPage() {
             </p>
             <Link
               href="/admin/web-stories/new"
-              className="mt-6 inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-emerald-700 transition"
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-[var(--brand-hover)] transition"
             >
               Criar primeira Web Story
             </Link>
@@ -138,7 +139,7 @@ export default function WebStoriesPage() {
                 transition={{ delay: index * 0.05 }}
                 className="group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-lg hover:shadow-xl transition"
               >
-                <div className="aspect-[9/16] w-full overflow-hidden bg-gradient-to-br from-emerald-100 to-emerald-200">
+                <div className="aspect-[9/16] w-full overflow-hidden bg-gradient-to-br from-[var(--brand-tint-100)] to-[var(--brand-tint-200)]">
                   {story.poster_url ? (
                     <Image
                       src={story.poster_url}
@@ -150,7 +151,7 @@ export default function WebStoriesPage() {
                   ) : (
                     <div className="flex h-full w-full items-center justify-center">
                       <svg
-                        className="h-20 w-20 text-emerald-400"
+                        className="h-20 w-20 text-[var(--brand)]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -174,7 +175,7 @@ export default function WebStoriesPage() {
                     <span
                       className={`inline-flex rounded-full px-2 py-1 text-[10px] font-semibold uppercase tracking-wide ${
                         story.status === "published"
-                          ? "bg-emerald-100 text-emerald-800"
+                          ? "bg-[var(--brand-tint-100)] text-[var(--brand)]"
                           : "bg-amber-100 text-amber-800"
                       }`}
                     >
@@ -197,7 +198,7 @@ export default function WebStoriesPage() {
                       href={`/web-stories/${story.slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-center text-xs font-semibold text-white hover:bg-emerald-700 transition"
+                      className="flex-1 rounded-lg bg-[var(--brand)] px-3 py-2 text-center text-xs font-semibold text-white hover:bg-[var(--brand-hover)] transition"
                     >
                       Ver
                     </a>
@@ -221,19 +222,19 @@ export default function WebStoriesPage() {
           </h2>
           <ul className="mt-4 space-y-2 text-sm text-[var(--text-muted)]">
             <li className="flex items-start gap-2">
-              <span className="text-emerald-600">✓</span>
+              <span className="text-[var(--brand)]">✓</span>
               <span>Web Stories aparecem no Google Discover e Pesquisa como cards visuais</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-600">✓</span>
+              <span className="text-[var(--brand)]">✓</span>
               <span>Formato otimizado para mobile com navegação por toque/deslize</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-600">✓</span>
+              <span className="text-[var(--brand)]">✓</span>
               <span>Todas as stories são páginas AMP válidas e indexáveis pelo Google</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-emerald-600">✓</span>
+              <span className="text-[var(--brand)]">✓</span>
               <span>Suporte a vídeos, imagens, animações e texto</span>
             </li>
           </ul>

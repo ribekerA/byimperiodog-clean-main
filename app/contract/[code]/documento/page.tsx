@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import type { Metadata } from "next";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { rateLimit } from "@/lib/rateLimit";
+
+import { PrintButton } from "./PrintButton";
 
 export const metadata: Metadata = {
   title: "Contrato de Compra e Venda | By Império Dog",
@@ -73,6 +77,10 @@ function fmtBirthDate(v?: string | null) {
 }
 
 export default async function ContractDocumento({ params }: { params: { code: string } }) {
+  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const rl = rateLimit(`contract-doc:${ip}`, 30, 60_000);
+  if (!rl.allowed) notFound();
+
   const contract = await fetchContract(params.code);
   if (!contract) notFound();
 
@@ -121,9 +129,7 @@ export default async function ContractDocumento({ params }: { params: { code: st
             <span style={{ fontSize: 13, color: "#166534" }}>
               {contract.status === "assinado" ? "✓ Contrato assinado digitalmente" : "⏳ Contrato pendente de assinatura"}
             </span>
-            <button onClick={() => window.print()} style={{ background: "#166534", color: "#fff", border: "none", borderRadius: 6, padding: "6px 16px", cursor: "pointer", fontSize: 12 }}>
-              Imprimir / Salvar PDF
-            </button>
+            <PrintButton />
           </div>
 
           <h1>Contrato de Compra e Venda de Filhote<br />Spitz Alemão – Lulu da Pomerânia</h1>
@@ -267,10 +273,6 @@ export default async function ContractDocumento({ params }: { params: { code: st
             </p>
           </div>
         </div>
-
-        <script dangerouslySetInnerHTML={{ __html: `
-          document.querySelector('button')?.addEventListener('click', () => window.print());
-        `}} />
       </body>
     </html>
   );

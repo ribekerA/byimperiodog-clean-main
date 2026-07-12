@@ -13,7 +13,8 @@
  */
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useCallback, useId, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
+import { isFavorited, toggleFavorite } from "@/lib/favorites";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -83,8 +84,15 @@ export function HeartBurstButton({
   const instanceId = useId();
   const reduced = useReducedMotion();
 
+  // Hydrate from localStorage after mount (SSR-safe)
+  useEffect(() => {
+    if (puppyId) {
+      setLiked(isFavorited(puppyId));
+    }
+  }, [puppyId]);
+
   const toggle = useCallback(() => {
-    const next = !liked;
+    const next = puppyId ? toggleFavorite(puppyId) : !liked;
     setLiked(next);
     onLike?.(next);
 

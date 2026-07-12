@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 interface ReadingProgressProps { targetSelector?: string; height?: number; className?: string }
 
-export default function ReadingProgress({ targetSelector = 'article', height = 3, className }: ReadingProgressProps){
+export default function ReadingProgress({ targetSelector = 'article', height = 2, className }: ReadingProgressProps){
   const [pct, setPct] = useState(0);
   useEffect(()=>{
     const el = document.querySelector(targetSelector);
@@ -27,7 +27,7 @@ export default function ReadingProgress({ targetSelector = 'article', height = 3
       className={className || 'fixed left-0 top-0 z-40 w-full bg-transparent'}
       style={{ height }}
     >
-      <div className="h-full origin-left bg-emerald-600 transition-[width] duration-150" style={{ width: pct + '%' }} />
+      <div className="h-full origin-left bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400 transition-[width] duration-150" style={{ width: pct + '%' }} />
     </div>
   );
 }

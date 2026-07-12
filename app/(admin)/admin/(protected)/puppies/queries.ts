@@ -78,7 +78,7 @@ type ColorRow = { color: string | null };
 
 type LeadAggRow = { page_slug: string | null; count: number };
 
-const DEFAULT_LIMIT = 200;
+const DEFAULT_LIMIT = 2000;
 const NUMBER_REGEX = /^\d+(?:[\.,]\d+)?$/;
 
 const normalizeSearch = (value?: string) => value?.normalize("NFD").replace(/[`´~^]/g, "").trim();

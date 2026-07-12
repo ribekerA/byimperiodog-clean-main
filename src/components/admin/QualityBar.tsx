@@ -3,7 +3,7 @@ import * as React from 'react';
 
 export function QualityBar({ score }:{ score:number }){
   const pct = Math.max(0, Math.min(100, Math.round(score)));
-  const color = pct>=85? 'bg-emerald-600' : pct>=70? 'bg-amber-600' : 'bg-red-600';
+  const color = pct>=85? 'bg-[var(--brand)]' : pct>=70? 'bg-amber-600' : 'bg-red-600';
   const descId = React.useId();
   return (
     <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">

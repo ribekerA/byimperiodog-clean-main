@@ -356,25 +356,25 @@ export default async function DashboardPage() {
         <div className="flex flex-wrap gap-2">
           <Link
             href="/admin/blog/editor"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--brand)] px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
           >
             <Plus className="h-3.5 w-3.5" aria-hidden /> Novo post
           </Link>
           <Link
             href="/admin/leads"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-emerald-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-[var(--brand)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
           >
             <Users className="h-3.5 w-3.5" aria-hidden /> Leads
           </Link>
           <Link
             href="/admin/puppies"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-emerald-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-[var(--brand)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
           >
             <PawPrint className="h-3.5 w-3.5" aria-hidden /> Estoque
           </Link>
           <Link
             href="/admin/analytics"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-emerald-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-xs font-semibold text-[var(--text)] shadow-sm transition hover:border-[var(--brand)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
           >
             <BarChart2 className="h-3.5 w-3.5" aria-hidden /> Analytics
           </Link>
@@ -482,7 +482,7 @@ export default async function DashboardPage() {
                     <td className="px-4 py-2 text-right tabular-nums text-[var(--text)]">{row.count}</td>
                     <td className="px-4 py-2 text-right tabular-nums text-[var(--text-muted)]">{row.pct}%</td>
                     <td className="px-4 py-2 text-right">
-                      <span className={`font-semibold ${row.fechados > 0 ? "text-emerald-700" : "text-[var(--text-muted)]"}`}>
+                      <span className={`font-semibold ${row.fechados > 0 ? "text-[var(--brand)]" : "text-[var(--text-muted)]"}`}>
                         {row.fechados}
                       </span>
                     </td>
@@ -522,7 +522,7 @@ export default async function DashboardPage() {
                       ? "bg-rose-100 text-rose-800"
                       : pred.risk === "alerta"
                       ? "bg-amber-100 text-amber-800"
-                      : "bg-emerald-100 text-emerald-800"
+                      : "bg-[var(--brand-tint-100)] text-[var(--brand)]"
                   }`}
                 >
                   {pred.risk === "critico" ? "Risco" : pred.risk === "alerta" ? "Alerta" : "OK"}
@@ -586,10 +586,10 @@ function SmartCard({
   helper?: string;
 }) {
   const borderClass =
-    tone === "good" ? "border-emerald-200" : tone === "bad" ? "border-rose-200" : "border-[var(--border)]";
+    tone === "good" ? "border-[var(--brand-tint-200)]" : tone === "bad" ? "border-rose-200" : "border-[var(--border)]";
   const badgeClass =
     tone === "good"
-      ? "text-emerald-700 bg-emerald-50"
+      ? "text-[var(--brand)] bg-[var(--brand-tint-50)]"
       : tone === "bad"
       ? "text-rose-700 bg-rose-50"
       : "text-[var(--text-muted)] bg-[var(--surface)]";
@@ -621,11 +621,11 @@ function IssueCard({ label, value, severity }: { label: string; value: number; s
       ? "bg-rose-50 border-rose-200"
       : "bg-amber-50 border-amber-200";
   const valueClass = isOk
-    ? "text-emerald-600"
+    ? "text-[var(--brand)]"
     : severity === "high"
       ? "text-rose-700"
       : "text-amber-700";
-  const dot = isOk ? "bg-emerald-400" : severity === "high" ? "bg-rose-500" : "bg-amber-400";
+  const dot = isOk ? "bg-[var(--brand)]" : severity === "high" ? "bg-rose-500" : "bg-amber-400";
   return (
     <div className={`rounded-xl border px-4 py-3 ${wrapClass}`} role="status" aria-live="polite">
       <div className="flex items-center gap-2">

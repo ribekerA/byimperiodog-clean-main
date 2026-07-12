@@ -70,7 +70,7 @@ export function LeadStatusSuggestionCard({ advisor, currentStatus, suggestedStat
         type="button"
         disabled={!canApply || mutating === suggestedStatus}
         onClick={() => suggestedStatus && onApply(suggestedStatus)}
-        className="mt-4 inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+        className="mt-4 inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
       >
         {mutating === suggestedStatus ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : "Aplicar status"}
       </button>
@@ -128,7 +128,7 @@ export function LeadMessageStyles({ messages, onCopy, copyingStyle }: LeadMessag
           <p className="text-sm font-semibold text-[var(--text)]">Estilos de mensagem</p>
           <p className="text-xs text-[var(--text-muted)]">IA sugere 3 variações</p>
         </div>
-        <PawPrint className="h-5 w-5 text-emerald-500" aria-hidden />
+        <PawPrint className="h-5 w-5 text-[var(--brand)]" aria-hidden />
       </header>
       <div className="mt-4 grid gap-3 md:grid-cols-3">
         {messages.map((message) => (

@@ -6,14 +6,18 @@ import { forwardRef } from "react";
 
 import { cn } from "@/lib/cn";
 
+// Botão para widgets internos do admin (wizard, upload, datatable) — rounded-full, token --brand.
+// A maioria do site público e boa parte do admin usa Button em src/components/ui/button.tsx
+// (rounded-lg, token --accent) — os dois coexistem de propósito e não devem ser fundidos
+// sem migrar ~60 arquivos de uma vez.
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center gap-2 rounded-full text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        primary: "bg-emerald-600 text-white hover:bg-emerald-700",
-        outline: "border border-emerald-200 text-emerald-700 hover:border-emerald-300 hover:bg-emerald-50",
-        ghost: "text-emerald-700 hover:bg-emerald-50",
+        primary: "bg-[var(--brand)] text-white hover:bg-[var(--brand-hover)]",
+        outline: "border border-[var(--brand-tint-200)] text-[var(--brand)] hover:border-[var(--brand)] hover:bg-[var(--brand-tint-50)]",
+        ghost: "text-[var(--brand)] hover:bg-[var(--brand-tint-50)]",
         destructive: "bg-rose-600 text-white hover:bg-rose-700",
       },
       size: {

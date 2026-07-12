@@ -73,19 +73,19 @@ type SitemapData = {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function scoreColor(s: number) {
-  if (s >= 75) return "text-emerald-600";
+  if (s >= 75) return "text-[var(--brand)]";
   if (s >= 50) return "text-yellow-600";
   return "text-red-600";
 }
 
 function scoreBg(s: number) {
-  if (s >= 75) return "border-emerald-200 bg-emerald-50";
+  if (s >= 75) return "border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)]";
   if (s >= 50) return "border-yellow-200 bg-yellow-50";
   return "border-red-200 bg-red-50";
 }
 
 function barColor(s: number) {
-  if (s >= 75) return "bg-emerald-400";
+  if (s >= 75) return "bg-[var(--brand)]";
   if (s >= 50) return "bg-yellow-400";
   return "bg-red-400";
 }
@@ -340,15 +340,15 @@ export default function SeoHub() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-emerald-900">SEO Hub</h1>
-          <p className="mt-1 text-sm text-emerald-600">
+          <h1 className="text-3xl font-bold tracking-tight text-[var(--brand)]">SEO Hub</h1>
+          <p className="mt-1 text-sm text-[var(--brand)]">
             Auditoria · Autopilot · Sitemap · Robots · Redirects
           </p>
         </div>
         <button
           onClick={loadDashboard}
           disabled={loadingDashboard}
-          className="flex items-center gap-2 rounded-lg border border-emerald-200 px-3 py-2 text-sm font-medium text-emerald-700 transition hover:bg-emerald-50 disabled:opacity-50"
+          className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-200)] px-3 py-2 text-sm font-medium text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)] disabled:opacity-50"
         >
           {loadingDashboard ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -364,20 +364,20 @@ export default function SeoHub() {
         <div className={`rounded-2xl border p-6 shadow-sm ${scoreBg(metrics.score)}`}>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-emerald-600">SEO Score</p>
+              <p className="text-sm font-medium text-[var(--brand)]">SEO Score</p>
               <p className={`mt-1 text-4xl font-bold ${scoreColor(metrics.score)}`}>
                 {metrics.score}
-                <span className="text-base font-normal text-emerald-500">/100</span>
+                <span className="text-base font-normal text-[var(--brand)]">/100</span>
               </p>
             </div>
-            <TrendingUp className="h-8 w-8 text-emerald-400" />
+            <TrendingUp className="h-8 w-8 text-[var(--brand)]" />
           </div>
         </div>
-        <div className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-emerald-600">Páginas Indexadas</p>
-              <p className="mt-1 text-4xl font-bold text-emerald-900">{metrics.indexed}</p>
+              <p className="text-sm font-medium text-[var(--brand)]">Páginas Indexadas</p>
+              <p className="mt-1 text-4xl font-bold text-[var(--brand)]">{metrics.indexed}</p>
             </div>
             <Search className="h-8 w-8 text-blue-400" />
           </div>
@@ -403,9 +403,9 @@ export default function SeoHub() {
       </div>
 
       {/* Main panel */}
-      <div className="rounded-2xl border border-emerald-100 bg-white shadow-sm">
+      <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white shadow-sm">
         {/* Tab nav */}
-        <div className="border-b border-emerald-100">
+        <div className="border-b border-[var(--brand-tint-100)]">
           <nav className="flex gap-0.5 overflow-x-auto px-4" aria-label="Tabs">
             {TABS.map(({ id, label, icon: Icon, badge }) => (
               <button
@@ -413,8 +413,8 @@ export default function SeoHub() {
                 onClick={() => setActiveTab(id)}
                 className={`relative flex shrink-0 items-center gap-2 border-b-2 px-4 py-4 text-sm font-medium transition ${
                   activeTab === id
-                    ? "border-emerald-600 text-emerald-900"
-                    : "border-transparent text-emerald-500 hover:border-emerald-300 hover:text-emerald-800"
+                    ? "border-[var(--brand)] text-[var(--brand)]"
+                    : "border-transparent text-[var(--brand)] hover:border-[var(--brand)] hover:text-[var(--brand-hover)]"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -436,7 +436,7 @@ export default function SeoHub() {
               {/* Score trend */}
               {scoreHistory.length > 1 && (
                 <section>
-                  <h3 className="mb-3 text-sm font-semibold text-emerald-700">
+                  <h3 className="mb-3 text-sm font-semibold text-[var(--brand)]">
                     Evolução do Score — últimas {Math.min(14, scoreHistory.length)} auditorias
                   </h3>
                   <div className="flex h-14 items-end gap-1">
@@ -450,7 +450,7 @@ export default function SeoHub() {
                           className={`w-full rounded-t transition-all ${barColor(pt.score)}`}
                           style={{ height: `${Math.max(6, (pt.score / 100) * 56)}px` }}
                         />
-                        <span className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded bg-emerald-900 px-1.5 py-0.5 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        <span className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 rounded bg-[var(--brand)] px-1.5 py-0.5 text-[10px] text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                           {pt.score}
                         </span>
                       </div>
@@ -461,14 +461,14 @@ export default function SeoHub() {
 
               {/* Quick actions */}
               <section>
-                <h3 className="mb-3 text-sm font-semibold text-emerald-700">Ações Rápidas</h3>
+                <h3 className="mb-3 text-sm font-semibold text-[var(--brand)]">Ações Rápidas</h3>
                 <div className="flex flex-wrap gap-3">
                   <button
                     onClick={() => {
                       setActiveTab("autopilot");
                       runAutopilot();
                     }}
-                    className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                    className="flex items-center gap-2 rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-hover)]"
                   >
                     <Zap className="h-4 w-4" />
                     Rodar Autopilot
@@ -478,21 +478,21 @@ export default function SeoHub() {
                       setActiveTab("audit");
                       setAuditLoaded(false);
                     }}
-                    className="flex items-center gap-2 rounded-lg border border-emerald-300 px-4 py-2 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-50"
+                    className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-300)] px-4 py-2 text-sm font-semibold text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)]"
                   >
                     <RefreshCw className="h-4 w-4" />
                     Nova Auditoria
                   </button>
                   <button
                     onClick={() => setActiveTab("sitemap")}
-                    className="flex items-center gap-2 rounded-lg border border-emerald-300 px-4 py-2 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-50"
+                    className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-300)] px-4 py-2 text-sm font-semibold text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)]"
                   >
                     <FileText className="h-4 w-4" />
                     Ver Sitemap
                   </button>
                   <button
                     onClick={() => setActiveTab("redirects")}
-                    className="flex items-center gap-2 rounded-lg border border-emerald-300 px-4 py-2 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-50"
+                    className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-300)] px-4 py-2 text-sm font-semibold text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)]"
                   >
                     <ArrowRight className="h-4 w-4" />
                     Redirects
@@ -503,21 +503,21 @@ export default function SeoHub() {
               {/* Priority issues preview */}
               <section>
                 <div className="mb-3 flex items-center justify-between">
-                  <h3 className="text-sm font-semibold text-emerald-700">Problemas Prioritários</h3>
+                  <h3 className="text-sm font-semibold text-[var(--brand)]">Problemas Prioritários</h3>
                   <button
                     onClick={() => setActiveTab("audit")}
-                    className="flex items-center gap-1 text-xs text-emerald-600 hover:underline"
+                    className="flex items-center gap-1 text-xs text-[var(--brand)] hover:underline"
                   >
                     Ver todos ({auditIssues.length}) <ChevronRight className="h-3 w-3" />
                   </button>
                 </div>
                 {loadingDashboard ? (
-                  <div className="flex items-center gap-2 py-4 text-sm text-emerald-600">
+                  <div className="flex items-center gap-2 py-4 text-sm text-[var(--brand)]">
                     <Loader2 className="h-4 w-4 animate-spin" /> Carregando...
                   </div>
                 ) : auditIssues.filter((i) => i.priority === "Alta").length === 0 ? (
-                  <div className="flex items-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700">
-                    <Check className="h-4 w-4 text-emerald-600" />
+                  <div className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-4 text-sm text-[var(--brand)]">
+                    <Check className="h-4 w-4 text-[var(--brand)]" />
                     Nenhum erro crítico — bom trabalho!
                   </div>
                 ) : (
@@ -532,10 +532,10 @@ export default function SeoHub() {
                         >
                           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-500" />
                           <div className="min-w-0 flex-1">
-                            <code className="block truncate text-xs font-mono text-emerald-800">
+                            <code className="block truncate text-xs font-mono text-[var(--brand)]">
                               {issue.page}
                             </code>
-                            <p className="mt-0.5 text-sm text-emerald-900">{issue.issue}</p>
+                            <p className="mt-0.5 text-sm text-[var(--brand)]">{issue.issue}</p>
                           </div>
                         </div>
                       ))}
@@ -549,14 +549,14 @@ export default function SeoHub() {
           {activeTab === "audit" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-emerald-900">Auditoria de SEO</h3>
+                <h3 className="text-lg font-semibold text-[var(--brand)]">Auditoria de SEO</h3>
                 <button
                   onClick={() => {
                     setAuditLoaded(false);
                     runAudit();
                   }}
                   disabled={loadingAudit}
-                  className="flex items-center gap-2 rounded-lg border border-emerald-300 px-3 py-1.5 text-sm font-medium text-emerald-700 transition hover:bg-emerald-50 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-300)] px-3 py-1.5 text-sm font-medium text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)] disabled:opacity-50"
                 >
                   {loadingAudit ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -585,12 +585,12 @@ export default function SeoHub() {
               )}
 
               {loadingAudit ? (
-                <div className="flex items-center gap-2 py-6 text-sm text-emerald-700">
+                <div className="flex items-center gap-2 py-6 text-sm text-[var(--brand)]">
                   <Loader2 className="h-5 w-5 animate-spin" /> Analisando {metrics.indexed} páginas...
                 </div>
               ) : auditIssues.length === 0 ? (
-                <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-6 text-sm text-emerald-700">
-                  <Check className="h-5 w-5 text-emerald-600" />
+                <div className="flex items-center gap-2 rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-6 text-sm text-[var(--brand)]">
+                  <Check className="h-5 w-5 text-[var(--brand)]" />
                   Ótimo! Nenhum problema de SEO encontrado.
                 </div>
               ) : (
@@ -603,7 +603,7 @@ export default function SeoHub() {
                     .map((issue, idx) => (
                       <div
                         key={idx}
-                        className="flex items-start gap-3 rounded-xl border border-emerald-100 bg-white p-4 transition hover:border-emerald-200 hover:shadow-sm"
+                        className="flex items-start gap-3 rounded-xl border border-[var(--brand-tint-100)] bg-white p-4 transition hover:border-[var(--brand)] hover:shadow-sm"
                       >
                         <AlertCircle
                           className={`mt-0.5 h-5 w-5 shrink-0 ${
@@ -612,7 +612,7 @@ export default function SeoHub() {
                         />
                         <div className="min-w-0 flex-1 space-y-1">
                           <div className="flex flex-wrap items-center gap-2">
-                            <code className="max-w-xs truncate rounded bg-emerald-100 px-2 py-0.5 text-xs font-mono text-emerald-900">
+                            <code className="max-w-xs truncate rounded bg-[var(--brand-tint-100)] px-2 py-0.5 text-xs font-mono text-[var(--brand)]">
                               {issue.page}
                             </code>
                             <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${priorityCls(issue.priority)}`}>
@@ -628,7 +628,7 @@ export default function SeoHub() {
                               {issue.type === "error" ? "Erro" : "Aviso"}
                             </span>
                           </div>
-                          <p className="text-sm text-emerald-900">{issue.issue}</p>
+                          <p className="text-sm text-[var(--brand)]">{issue.issue}</p>
                         </div>
                       </div>
                     ))}
@@ -642,8 +642,8 @@ export default function SeoHub() {
             <div className="space-y-6">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-emerald-900">SEO Autopilot</h3>
-                  <p className="mt-1 text-sm text-emerald-600">
+                  <h3 className="text-lg font-semibold text-[var(--brand)]">SEO Autopilot</h3>
+                  <p className="mt-1 text-sm text-[var(--brand)]">
                     Analisa posts, filhotes e leads para gerar títulos, metas, FAQs e JSON-LD
                     automaticamente.
                   </p>
@@ -652,7 +652,7 @@ export default function SeoHub() {
                   <button
                     onClick={runAutopilot}
                     disabled={runningAutopilot || applyingAutopilot}
-                    className="flex items-center gap-2 rounded-lg border border-emerald-300 px-4 py-2 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-50 disabled:opacity-50"
+                    className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-300)] px-4 py-2 text-sm font-semibold text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)] disabled:opacity-50"
                   >
                     {runningAutopilot ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -665,7 +665,7 @@ export default function SeoHub() {
                     <button
                       onClick={applyAutopilot}
                       disabled={applyingAutopilot || runningAutopilot}
-                      className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50"
+                      className="flex items-center gap-2 rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-hover)] disabled:opacity-50"
                     >
                       {applyingAutopilot ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -679,19 +679,19 @@ export default function SeoHub() {
               </div>
 
               {autopilotApplied && (
-                <div className="flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-700">
-                  <Check className="h-5 w-5 text-emerald-600" />
+                <div className="flex items-center gap-2 rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-4 text-sm text-[var(--brand)]">
+                  <Check className="h-5 w-5 text-[var(--brand)]" />
                   Autopilot aplicado com sucesso — títulos, metas e FAQs atualizados.
                 </div>
               )}
 
               {!autopilotResult && !runningAutopilot && !autopilotApplied && (
-                <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-emerald-200 bg-emerald-50/50 py-12 text-center">
-                  <Zap className="h-10 w-10 text-emerald-400" />
-                  <p className="text-sm font-medium text-emerald-700">
+                <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] py-12 text-center">
+                  <Zap className="h-10 w-10 text-[var(--brand)]" />
+                  <p className="text-sm font-medium text-[var(--brand)]">
                     Clique em <strong>Analisar</strong> para rodar o Autopilot SEO.
                   </p>
-                  <p className="text-xs text-emerald-500">
+                  <p className="text-xs text-[var(--brand)]">
                     Analisa posts, filhotes e leads em tempo real. Não aplica nada sem confirmação.
                   </p>
                 </div>
@@ -699,8 +699,8 @@ export default function SeoHub() {
 
               {runningAutopilot && (
                 <div className="flex flex-col items-center gap-3 py-10">
-                  <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
-                  <p className="text-sm text-emerald-700">Analisando conteúdo e dados de leads...</p>
+                  <Loader2 className="h-8 w-8 animate-spin text-[var(--brand)]" />
+                  <p className="text-sm text-[var(--brand)]">Analisando conteúdo e dados de leads...</p>
                 </div>
               )}
 
@@ -709,29 +709,29 @@ export default function SeoHub() {
                   {/* Issues */}
                   {autopilotResult.issues.length > 0 && (
                     <section>
-                      <h4 className="mb-3 text-sm font-semibold text-emerald-800">
+                      <h4 className="mb-3 text-sm font-semibold text-[var(--brand)]">
                         Problemas Detectados ({autopilotResult.issues.length})
                       </h4>
                       <div className="max-h-60 space-y-2 overflow-y-auto pr-1">
                         {autopilotResult.issues.slice(0, 25).map((issue, i) => (
                           <div
                             key={i}
-                            className="flex items-start gap-3 rounded-lg border border-emerald-100 bg-white p-3 text-sm"
+                            className="flex items-start gap-3 rounded-lg border border-[var(--brand-tint-100)] bg-white p-3 text-sm"
                           >
                             <span
                               className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${severityDot(issue.severity)}`}
                             />
                             <div className="min-w-0">
-                              <code className="text-xs font-mono text-emerald-600">{issue.page.slug}</code>
-                              <p className="text-emerald-900">{issue.message}</p>
+                              <code className="text-xs font-mono text-[var(--brand)]">{issue.page.slug}</code>
+                              <p className="text-[var(--brand)]">{issue.message}</p>
                               {issue.suggestion && (
-                                <p className="mt-0.5 text-xs text-emerald-500">{issue.suggestion}</p>
+                                <p className="mt-0.5 text-xs text-[var(--brand)]">{issue.suggestion}</p>
                               )}
                             </div>
                           </div>
                         ))}
                         {autopilotResult.issues.length > 25 && (
-                          <p className="pl-1 text-xs text-emerald-400">
+                          <p className="pl-1 text-xs text-[var(--brand)]">
                             +{autopilotResult.issues.length - 25} mais problemas...
                           </p>
                         )}
@@ -742,14 +742,14 @@ export default function SeoHub() {
                   {/* Keyword opportunities */}
                   {autopilotResult.keywordOpportunities.length > 0 && (
                     <section>
-                      <h4 className="mb-3 text-sm font-semibold text-emerald-800">
+                      <h4 className="mb-3 text-sm font-semibold text-[var(--brand)]">
                         Keywords por Demanda de Leads
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {autopilotResult.keywordOpportunities.map((kw, i) => (
                           <span
                             key={i}
-                            className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-800"
+                            className="rounded-full bg-[var(--brand-tint-100)] px-3 py-1 text-sm font-medium text-[var(--brand)]"
                           >
                             {kw}
                           </span>
@@ -761,27 +761,27 @@ export default function SeoHub() {
                   {/* Generated meta */}
                   {autopilotResult.generatedMeta.length > 0 && (
                     <section>
-                      <h4 className="mb-3 text-sm font-semibold text-emerald-800">
+                      <h4 className="mb-3 text-sm font-semibold text-[var(--brand)]">
                         Títulos e Metas Geradas ({autopilotResult.generatedMeta.length})
                       </h4>
                       <div className="max-h-52 space-y-2 overflow-y-auto pr-1">
                         {autopilotResult.generatedMeta.slice(0, 12).map((meta, i) => (
                           <div
                             key={i}
-                            className="rounded-lg border border-emerald-100 bg-white p-3 text-sm"
+                            className="rounded-lg border border-[var(--brand-tint-100)] bg-white p-3 text-sm"
                           >
-                            <code className="text-xs font-mono text-emerald-500">
+                            <code className="text-xs font-mono text-[var(--brand)]">
                               {meta.kind === "blog" ? "/blog/" : "/filhotes/"}
                               {meta.slug}
                             </code>
-                            <p className="mt-1 font-medium text-emerald-900">{meta.title}</p>
-                            <p className="mt-0.5 text-xs text-emerald-600 line-clamp-2">
+                            <p className="mt-1 font-medium text-[var(--brand)]">{meta.title}</p>
+                            <p className="mt-0.5 text-xs text-[var(--brand)] line-clamp-2">
                               {meta.description}
                             </p>
                           </div>
                         ))}
                         {autopilotResult.generatedMeta.length > 12 && (
-                          <p className="pl-1 text-xs text-emerald-400">
+                          <p className="pl-1 text-xs text-[var(--brand)]">
                             +{autopilotResult.generatedMeta.length - 12} mais...
                           </p>
                         )}
@@ -792,22 +792,22 @@ export default function SeoHub() {
                   {/* Suggested posts */}
                   {autopilotResult.suggestedPosts.length > 0 && (
                     <section>
-                      <h4 className="mb-3 text-sm font-semibold text-emerald-800">
+                      <h4 className="mb-3 text-sm font-semibold text-[var(--brand)]">
                         Posts Sugeridos por Oportunidade de Keyword
                       </h4>
                       <div className="space-y-2">
                         {autopilotResult.suggestedPosts.map((post, i) => (
                           <div
                             key={i}
-                            className="rounded-lg border border-emerald-100 bg-emerald-50/40 p-4"
+                            className="rounded-lg border border-[var(--brand-tint-100)] bg-[var(--brand-tint-50)] p-4"
                           >
-                            <p className="text-sm font-semibold text-emerald-900">{post.title}</p>
-                            <p className="mt-1 text-xs text-emerald-600">{post.description}</p>
+                            <p className="text-sm font-semibold text-[var(--brand)]">{post.title}</p>
+                            <p className="mt-1 text-xs text-[var(--brand)]">{post.description}</p>
                             <div className="mt-2 flex flex-wrap gap-1">
                               {post.keywords.map((kw, j) => (
                                 <span
                                   key={j}
-                                  className="rounded bg-emerald-100 px-1.5 py-0.5 text-xs text-emerald-700"
+                                  className="rounded bg-[var(--brand-tint-100)] px-1.5 py-0.5 text-xs text-[var(--brand)]"
                                 >
                                   {kw}
                                 </span>
@@ -822,22 +822,22 @@ export default function SeoHub() {
                   {/* Pages by interest */}
                   {autopilotResult.pagesRankedByInterest.length > 0 && (
                     <section>
-                      <h4 className="mb-3 text-sm font-semibold text-emerald-800">
+                      <h4 className="mb-3 text-sm font-semibold text-[var(--brand)]">
                         Páginas com Mais Interesse de Leads
                       </h4>
                       <div className="space-y-1">
                         {autopilotResult.pagesRankedByInterest.slice(0, 8).map((pg, i) => (
                           <div
                             key={i}
-                            className="flex items-center gap-3 rounded-lg border border-emerald-50 px-4 py-2"
+                            className="flex items-center gap-3 rounded-lg border border-[var(--brand-tint-50)] px-4 py-2"
                           >
-                            <span className="w-5 text-right text-xs font-bold text-emerald-400">
+                            <span className="w-5 text-right text-xs font-bold text-[var(--brand)]">
                               #{i + 1}
                             </span>
-                            <code className="flex-1 truncate text-xs font-mono text-emerald-800">
+                            <code className="flex-1 truncate text-xs font-mono text-[var(--brand)]">
                               {pg.slug}
                             </code>
-                            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                            <span className="rounded-full bg-[var(--brand-tint-100)] px-2 py-0.5 text-xs font-medium text-[var(--brand)]">
                               {pg.hits} leads
                             </span>
                           </div>
@@ -849,13 +849,13 @@ export default function SeoHub() {
                   {/* Actions */}
                   {autopilotResult.actions.length > 0 && (
                     <section>
-                      <h4 className="mb-3 text-sm font-semibold text-emerald-800">
+                      <h4 className="mb-3 text-sm font-semibold text-[var(--brand)]">
                         Ações Recomendadas
                       </h4>
                       <ul className="space-y-1.5">
                         {autopilotResult.actions.map((action, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-emerald-800">
-                            <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                          <li key={i} className="flex items-start gap-2 text-sm text-[var(--brand)]">
+                            <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand)]" />
                             {action}
                           </li>
                         ))}
@@ -888,12 +888,12 @@ export default function SeoHub() {
           {activeTab === "sitemap" && (
             <div className="space-y-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <h3 className="text-lg font-semibold text-emerald-900">Sitemap XML</h3>
+                <h3 className="text-lg font-semibold text-[var(--brand)]">Sitemap XML</h3>
                 <div className="flex gap-2">
                   <button
                     onClick={loadSitemap}
                     disabled={loadingSitemap}
-                    className="flex items-center gap-2 rounded-lg border border-emerald-300 px-3 py-1.5 text-sm text-emerald-700 transition hover:bg-emerald-50 disabled:opacity-50"
+                    className="flex items-center gap-2 rounded-lg border border-[var(--brand-tint-300)] px-3 py-1.5 text-sm text-[var(--brand)] transition hover:bg-[var(--brand-tint-50)] disabled:opacity-50"
                   >
                     {loadingSitemap ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
@@ -907,8 +907,8 @@ export default function SeoHub() {
                     disabled={pingingGoogle || pingDone}
                     className={`flex items-center gap-2 rounded-lg px-4 py-1.5 text-sm font-semibold transition ${
                       pingDone
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-emerald-600 text-white hover:bg-emerald-700"
+                        ? "bg-[var(--brand-tint-100)] text-[var(--brand)]"
+                        : "bg-[var(--brand)] text-white hover:bg-[var(--brand-hover)]"
                     } disabled:opacity-50`}
                   >
                     {pingingGoogle ? (
@@ -924,20 +924,20 @@ export default function SeoHub() {
               </div>
 
               {loadingSitemap ? (
-                <div className="flex items-center gap-2 py-6 text-sm text-emerald-700">
+                <div className="flex items-center gap-2 py-6 text-sm text-[var(--brand)]">
                   <Loader2 className="h-4 w-4 animate-spin" /> Carregando...
                 </div>
               ) : sitemapData ? (
                 <>
                   {/* Sitemap URL bar */}
-                  <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-                    <FileText className="h-5 w-5 shrink-0 text-emerald-600" />
-                    <code className="flex-1 text-sm text-emerald-900">{sitemapData.sitemapUrl}</code>
+                  <div className="flex items-center gap-3 rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-4">
+                    <FileText className="h-5 w-5 shrink-0 text-[var(--brand)]" />
+                    <code className="flex-1 text-sm text-[var(--brand)]">{sitemapData.sitemapUrl}</code>
                     <a
                       href={sitemapData.sitemapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-emerald-600 transition hover:text-emerald-800"
+                      className="text-[var(--brand)] transition hover:text-[var(--brand-hover)]"
                     >
                       <ExternalLink className="h-4 w-4" />
                     </a>
@@ -953,37 +953,37 @@ export default function SeoHub() {
                     ].map((s) => (
                       <div
                         key={s.label}
-                        className="rounded-xl border border-emerald-100 bg-white p-4 text-center shadow-sm"
+                        className="rounded-xl border border-[var(--brand-tint-100)] bg-white p-4 text-center shadow-sm"
                       >
-                        <p className="text-2xl font-bold text-emerald-900">{s.value}</p>
-                        <p className="mt-1 text-xs text-emerald-600">{s.label}</p>
+                        <p className="text-2xl font-bold text-[var(--brand)]">{s.value}</p>
+                        <p className="mt-1 text-xs text-[var(--brand)]">{s.label}</p>
                       </div>
                     ))}
                   </div>
 
                   {/* URL preview */}
                   <div>
-                    <h4 className="mb-2 text-sm font-semibold text-emerald-700">
+                    <h4 className="mb-2 text-sm font-semibold text-[var(--brand)]">
                       Preview de URLs (primeiras {Math.min(20, sitemapData.urls.length)})
                     </h4>
-                    <div className="max-h-64 overflow-y-auto rounded-xl border border-emerald-100">
+                    <div className="max-h-64 overflow-y-auto rounded-xl border border-[var(--brand-tint-100)]">
                       {sitemapData.urls.slice(0, 20).map((url, i) => (
                         <div
                           key={i}
-                          className="flex items-center gap-3 border-b border-emerald-50 px-4 py-2 last:border-0 hover:bg-emerald-50/50"
+                          className="flex items-center gap-3 border-b border-[var(--brand-tint-50)] px-4 py-2 last:border-0 hover:bg-[var(--brand-tint-50)]"
                         >
-                          <span className="w-8 text-right text-xs text-emerald-400">{url.priority}</span>
-                          <code className="flex-1 truncate text-xs font-mono text-emerald-900">
+                          <span className="w-8 text-right text-xs text-[var(--brand)]">{url.priority}</span>
+                          <code className="flex-1 truncate text-xs font-mono text-[var(--brand)]">
                             {url.loc}
                           </code>
-                          <span className="text-xs text-emerald-400">{url.changefreq}</span>
+                          <span className="text-xs text-[var(--brand)]">{url.changefreq}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 </>
               ) : (
-                <div className="py-4 text-sm text-emerald-600">
+                <div className="py-4 text-sm text-[var(--brand)]">
                   Não foi possível carregar o sitemap.
                 </div>
               )}
@@ -994,12 +994,12 @@ export default function SeoHub() {
           {activeTab === "redirects" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-emerald-900">
+                <h3 className="text-lg font-semibold text-[var(--brand)]">
                   Redirects ({redirects.length})
                 </h3>
                 <button
                   onClick={() => setShowAddRedirect((v) => !v)}
-                  className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                  className="flex items-center gap-2 rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-hover)]"
                 >
                   {showAddRedirect ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                   {showAddRedirect ? "Cancelar" : "Novo Redirect"}
@@ -1008,11 +1008,11 @@ export default function SeoHub() {
 
               {/* Add form */}
               {showAddRedirect && (
-                <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5">
-                  <h4 className="mb-4 text-sm font-semibold text-emerald-800">Novo Redirect</h4>
+                <div className="rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-5">
+                  <h4 className="mb-4 text-sm font-semibold text-[var(--brand)]">Novo Redirect</h4>
                   <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-emerald-700">
+                      <label className="mb-1 block text-xs font-medium text-[var(--brand)]">
                         De (path)
                       </label>
                       <input
@@ -1020,11 +1020,11 @@ export default function SeoHub() {
                         placeholder="/pagina-antiga"
                         value={newFrom}
                         onChange={(e) => setNewFrom(e.target.value)}
-                        className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 font-mono text-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
+                        className="w-full rounded-lg border border-[var(--brand-tint-200)] bg-white px-3 py-2 font-mono text-sm focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-emerald-700">
+                      <label className="mb-1 block text-xs font-medium text-[var(--brand)]">
                         Para (URL ou path)
                       </label>
                       <input
@@ -1032,15 +1032,15 @@ export default function SeoHub() {
                         placeholder="/pagina-nova"
                         value={newTo}
                         onChange={(e) => setNewTo(e.target.value)}
-                        className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 font-mono text-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
+                        className="w-full rounded-lg border border-[var(--brand-tint-200)] bg-white px-3 py-2 font-mono text-sm focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-emerald-700">Tipo</label>
+                      <label className="mb-1 block text-xs font-medium text-[var(--brand)]">Tipo</label>
                       <select
                         value={newCode}
                         onChange={(e) => setNewCode(Number(e.target.value) as 301 | 302)}
-                        className="rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none"
+                        className="rounded-lg border border-[var(--brand-tint-200)] bg-white px-3 py-2 text-sm focus:border-[var(--brand)] focus:outline-none"
                       >
                         <option value={301}>301 — Permanente</option>
                         <option value={302}>302 — Temporário</option>
@@ -1051,7 +1051,7 @@ export default function SeoHub() {
                     <button
                       onClick={createRedirect}
                       disabled={savingRedirect || !newFrom || !newTo}
-                      className="flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50"
+                      className="flex items-center gap-2 rounded-lg bg-[var(--brand)] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-hover)] disabled:opacity-50"
                     >
                       {savingRedirect ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -1065,24 +1065,24 @@ export default function SeoHub() {
               )}
 
               {loadingRedirects ? (
-                <div className="flex items-center gap-2 py-6 text-sm text-emerald-700">
+                <div className="flex items-center gap-2 py-6 text-sm text-[var(--brand)]">
                   <Loader2 className="h-4 w-4 animate-spin" /> Carregando...
                 </div>
               ) : redirects.length === 0 ? (
-                <div className="rounded-xl border border-dashed border-emerald-200 p-8 text-center text-sm text-emerald-500">
+                <div className="rounded-xl border border-dashed border-[var(--brand-tint-200)] p-8 text-center text-sm text-[var(--brand)]">
                   Nenhum redirect configurado.
                 </div>
               ) : (
-                <div className="overflow-hidden rounded-xl border border-emerald-100">
+                <div className="overflow-hidden rounded-xl border border-[var(--brand-tint-100)]">
                   <table className="w-full text-sm">
-                    <thead className="border-b border-emerald-100 bg-emerald-50">
+                    <thead className="border-b border-[var(--brand-tint-100)] bg-[var(--brand-tint-50)]">
                       <tr>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-emerald-700">De</th>
-                        <th className="px-4 py-3 text-left text-xs font-semibold text-emerald-700">Para</th>
-                        <th className="px-4 py-3 text-center text-xs font-semibold text-emerald-700">
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-[var(--brand)]">De</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-[var(--brand)]">Para</th>
+                        <th className="px-4 py-3 text-center text-xs font-semibold text-[var(--brand)]">
                           Tipo
                         </th>
-                        <th className="px-4 py-3 text-right text-xs font-semibold text-emerald-700">
+                        <th className="px-4 py-3 text-right text-xs font-semibold text-[var(--brand)]">
                           Hits
                         </th>
                         <th className="px-4 py-3" />
@@ -1092,13 +1092,13 @@ export default function SeoHub() {
                       {redirects.map((r, i) => (
                         <tr
                           key={i}
-                          className="border-b border-emerald-50 last:border-0 hover:bg-emerald-50/40"
+                          className="border-b border-[var(--brand-tint-50)] last:border-0 hover:bg-[var(--brand-tint-50)]"
                         >
                           <td className="px-4 py-3">
-                            <code className="text-xs font-mono text-emerald-900">{r.from_path}</code>
+                            <code className="text-xs font-mono text-[var(--brand)]">{r.from_path}</code>
                           </td>
                           <td className="px-4 py-3">
-                            <code className="text-xs font-mono text-emerald-600">{r.to_url}</code>
+                            <code className="text-xs font-mono text-[var(--brand)]">{r.to_url}</code>
                           </td>
                           <td className="px-4 py-3 text-center">
                             <span
@@ -1111,7 +1111,7 @@ export default function SeoHub() {
                               {r.code}
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-right text-xs text-emerald-500">
+                          <td className="px-4 py-3 text-right text-xs text-[var(--brand)]">
                             {r.hits ?? 0}
                           </td>
                           <td className="px-4 py-3 text-right">
@@ -1154,36 +1154,36 @@ export default function SeoHub() {
           {activeTab === "robots" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-emerald-900">Robots.txt</h3>
+                <h3 className="text-lg font-semibold text-[var(--brand)]">Robots.txt</h3>
                 {robotsSaved && (
-                  <span className="flex items-center gap-1 text-sm font-medium text-emerald-600">
+                  <span className="flex items-center gap-1 text-sm font-medium text-[var(--brand)]">
                     <Check className="h-4 w-4" /> Salvo com sucesso!
                   </span>
                 )}
               </div>
               {loadingRobots ? (
-                <div className="flex items-center gap-2 py-6 text-sm text-emerald-700">
+                <div className="flex items-center gap-2 py-6 text-sm text-[var(--brand)]">
                   <Loader2 className="h-4 w-4 animate-spin" /> Carregando...
                 </div>
               ) : (
                 <>
                   <textarea
-                    className="min-h-[320px] w-full rounded-xl border border-emerald-200 bg-emerald-50/30 p-4 font-mono text-sm text-emerald-900 focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-400/30"
+                    className="min-h-[320px] w-full rounded-xl border border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-4 font-mono text-sm text-[var(--brand)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                     value={robotsTxt}
                     onChange={(e) => setRobotsTxt(e.target.value)}
                     spellCheck={false}
                   />
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-emerald-500">
+                    <p className="text-xs text-[var(--brand)]">
                       Inclua{" "}
-                      <code className="rounded bg-emerald-100 px-1 text-emerald-800">
+                      <code className="rounded bg-[var(--brand-tint-100)] px-1 text-[var(--brand)]">
                         Sitemap: https://byimperiodog.com.br/sitemap.xml
                       </code>
                     </p>
                     <button
                       disabled={savingRobots}
                       onClick={saveRobots}
-                      className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-60"
+                      className="flex items-center gap-2 rounded-lg bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--brand-hover)] disabled:opacity-60"
                     >
                       {savingRobots ? (
                         <Loader2 className="h-4 w-4 animate-spin" />

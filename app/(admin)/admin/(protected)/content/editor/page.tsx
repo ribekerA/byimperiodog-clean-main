@@ -5,6 +5,7 @@ import * as React from 'react';
 import { QualityBar } from '@/components/admin/QualityBar';
 import { RelatedPicker } from '@/components/admin/RelatedPicker';
 import { ScheduleDrawer } from '@/components/admin/ScheduleDrawer';
+import { Button } from '@/components/ui/button';
 
 const STEPS = ['Brief','Outline','Draft MDX','SEO','Imagens','Review/Publish'] as const;
 type Step = typeof STEPS[number];
@@ -36,8 +37,8 @@ export default function EditorialWizardPage(){
             <p className="text-sm text-[var(--text-muted)]">{STEPS.map((s,i)=> <span key={s} className={i===stepIdx? 'font-medium':'opacity-60'}>{i? ' · ':''}{s}</span>)}</p>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={()=> setOpenSched(true)} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm hover:bg-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--accent)]">Agendar</button>
-            <button className="rounded-lg bg-[var(--accent)] px-3 py-2 text-sm font-medium text-[var(--accent-contrast)] hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[var(--accent)]">Publicar</button>
+            <Button type="button" variant="outline" size="md" onClick={()=> setOpenSched(true)}>Agendar</Button>
+            <Button type="button" variant="solid" size="md">Publicar</Button>
           </div>
         </header>
         <div className="grid gap-4 md:grid-cols-3">
@@ -100,8 +101,8 @@ export default function EditorialWizardPage(){
               </section>
             )}
             <div className="flex items-center justify-between">
-              <button onClick={prev} disabled={stepIdx===0} className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm disabled:opacity-50 hover:bg-[var(--surface-2)] focus-visible:ring-2 focus-visible:ring-[var(--accent)]">Voltar</button>
-              <button onClick={next} disabled={stepIdx===STEPS.length-1} className="rounded-lg bg-[var(--accent)] px-3 py-2 text-sm font-medium text-[var(--accent-contrast)] disabled:opacity-50 hover:brightness-110 focus-visible:ring-2 focus-visible:ring-[var(--accent)]">Avançar</button>
+              <Button type="button" variant="outline" size="md" onClick={prev} disabled={stepIdx===0}>Voltar</Button>
+              <Button type="button" variant="solid" size="md" onClick={next} disabled={stepIdx===STEPS.length-1}>Avançar</Button>
             </div>
           </div>
           <aside className="space-y-4">

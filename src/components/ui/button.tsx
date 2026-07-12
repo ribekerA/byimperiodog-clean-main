@@ -2,6 +2,11 @@ import * as React from 'react';
 
 import { cn } from '../../lib/cn';
 
+// Botão padrão do site público e da maioria das telas do admin (rounded-lg, token --accent).
+// Para widgets internos do admin (wizard, upload, datatable), veja AdminButton em
+// src/components/admin/ui/button.tsx (rounded-full, token --brand) — os dois coexistem
+// de propósito e não devem ser fundidos sem migrar ~60 arquivos de uma vez.
+
 // Implementação leve de cva local para evitar dependência externa agora
 type CVADef = { variants: Record<string, Record<string,string>>; defaultVariants: Record<string,string> };
 function cva(base:string, def:CVADef){

@@ -65,7 +65,7 @@ export function PostCard({
   return (
     <li className="group relative flex flex-col overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface)] shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl focus-within:ring-2 focus-within:ring-brand/60 focus-within:ring-offset-2 focus-within:ring-offset-[var(--surface)]">
       <Link href={href} className="absolute inset-0" aria-label={title} tabIndex={-1}></Link>
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--surface-2)]">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--surface-2)] shrink-0">
         {coverUrl ? (
           <Image
             src={coverUrl}
@@ -83,18 +83,18 @@ export function PostCard({
             draggable={false}
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-[var(--surface-2)] text-xs font-medium uppercase tracking-wide text-[var(--text-muted)]">
-            Sem capa
+          <div className="flex h-full w-full items-center justify-center bg-[var(--surface-2)]">
+            <span className="text-xs font-medium uppercase tracking-wider text-[var(--text-muted)]">Sem capa</span>
           </div>
         )}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 via-black/0"></div>
         {pendingStatus ? (
-          <span className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wide ${statusClass}`}>
+          <span className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide ${statusClass}`}>
             {pendingStatus}
           </span>
         ) : null}
         {minutes ? (
-          <span className="absolute right-3 top-3 rounded-full bg-black/65 px-3 py-1 text-[10px] font-semibold tracking-wide text-white">
+          <span className="absolute right-3 top-3 rounded-full bg-black/65 px-3 py-1 text-[11px] font-semibold tracking-wide text-white">
             {minutes} min
           </span>
         ) : null}

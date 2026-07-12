@@ -48,21 +48,21 @@ export default function PricingBadge({ puppyId, currentPriceCents }: Props) {
   const alertColor =
     data?.alert === "acima_do_ideal" ? "text-rose-600" :
     data?.alert === "abaixo_do_ideal" ? "text-amber-600" :
-    "text-emerald-600";
+    "text-[var(--brand)]";
 
   return (
     <div className="relative inline-block">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[11px] font-semibold text-zinc-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 transition"
+        className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 text-[11px] font-semibold text-zinc-600 hover:border-[var(--brand)] hover:bg-[var(--brand-tint-50)] hover:text-[var(--brand-hover)] transition"
       >
         {loading ? (
           <Loader2 className="h-3 w-3 animate-spin" />
         ) : diff !== null ? (
           diff > 2000 ? <TrendingDown className="h-3 w-3 text-rose-500" /> :
           diff < -2000 ? <TrendingUp className="h-3 w-3 text-amber-500" /> :
-          <Minus className="h-3 w-3 text-emerald-500" />
+          <Minus className="h-3 w-3 text-[var(--brand)]" />
         ) : (
           <span>✦</span>
         )}
@@ -84,9 +84,9 @@ export default function PricingBadge({ puppyId, currentPriceCents }: Props) {
                   <p className="text-[10px] text-zinc-400">Mínimo</p>
                   <p className="text-sm font-bold text-zinc-600">{fmt(data.price_min_cents)}</p>
                 </div>
-                <div className="rounded-xl bg-emerald-50 p-2 ring-2 ring-emerald-200">
-                  <p className="text-[10px] text-emerald-600 font-semibold">Ideal</p>
-                  <p className="text-sm font-bold text-emerald-700">{fmt(data.price_ideal_cents)}</p>
+                <div className="rounded-xl bg-[var(--brand-tint-50)] p-2 ring-2 ring-[var(--brand-tint-200)]">
+                  <p className="text-[10px] text-[var(--brand)] font-semibold">Ideal</p>
+                  <p className="text-sm font-bold text-[var(--brand)]">{fmt(data.price_ideal_cents)}</p>
                 </div>
                 <div className="rounded-xl bg-zinc-50 p-2">
                   <p className="text-[10px] text-zinc-400">Máximo</p>
@@ -97,7 +97,7 @@ export default function PricingBadge({ puppyId, currentPriceCents }: Props) {
               {currentPriceCents && (
                 <div className={`rounded-lg border px-3 py-2 text-xs font-medium ${
                   Math.abs(diff ?? 0) <= 2000
-                    ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                    ? "border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] text-[var(--brand)]"
                     : "border-amber-200 bg-amber-50 text-amber-700"
                 }`}>
                   Preço atual: {fmt(currentPriceCents)}

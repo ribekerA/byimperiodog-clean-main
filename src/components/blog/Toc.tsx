@@ -25,12 +25,12 @@ export default function TOC({ toc, className, minDepth = 2, maxDepth = 4 }: TOCP
 
   if(!flat.length) return null;
   return (
-    <nav aria-label="Índice" className={clsx('sticky top-28 hidden xl:block w-60 text-sm max-h-[80vh] overflow-auto pr-2', className)}>
-      <div className="mb-2 font-semibold tracking-wide text-zinc-600 dark:text-zinc-300">No artigo</div>
-      <ul className="space-y-1 border-l pl-3">
+    <nav aria-label="Índice" className={clsx('sticky top-28 block w-60 text-sm max-h-[80vh] overflow-y-auto pr-2 scrollbar-thin', className)}>
+      <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-text-muted">No artigo</div>
+      <ul className="space-y-1 border-l border-border pl-3">
         {flat.map(i => (
-          <li key={i.id} className={clsx('transition-colors', active===i.id ? 'text-emerald-600 font-medium' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300')}>
-            <a href={`#${i.id}`} className={clsx('block line-clamp-2', i.depth === 3 && 'ml-3 text-[13px]')} onClick={(e)=>{
+          <li key={i.id} className={clsx('transition-colors', active===i.id ? 'text-brand font-medium' : 'text-text-soft hover:text-text')}>
+            <a href={`#${i.id}`} className={clsx('block py-0.5 line-clamp-2 leading-snug', i.depth === 3 && 'ml-3 text-[12px]')} onClick={(e)=>{
               e.preventDefault();
               const el = document.getElementById(i.id);
               if(el) {

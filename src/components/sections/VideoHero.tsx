@@ -14,9 +14,12 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { SpringButton } from "@/components/motion/SpringButton";
+import { staticPuppies } from "@/content/puppies-static";
+import { chooseVariant } from "@/lib/experiments";
+import { experimentView, experimentConversion } from "@/lib/track";
 
 const waHero = buildWhatsAppLink({
-  message: "Olá! Quero saber sobre os filhotes de Spitz Alemão Anão disponíveis na By Império Dog.",
+  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão disponíveis. Pode me contar mais sobre disponibilidade e valores?",
   utmSource: "site",
   utmMedium: "video_hero",
   utmCampaign: "hero_cta",
@@ -24,6 +27,11 @@ const waHero = buildWhatsAppLink({
 
 // Palavras do título — cada uma entra com stagger individual
 const HEADLINE_WORDS = ["Spitz", "Alemão", "Anão"];
+
+// Contagem ao vivo de filhotes disponíveis — atualiza quando puppies-static muda
+const AVAILABLE_COUNT = (staticPuppies as Array<{ status: string }>).filter(
+  (p) => p.status === "available"
+).length;
 
 // Curva de animação padrão do projeto — tupla para tipagem correta do Framer Motion
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
@@ -35,6 +43,14 @@ export default function VideoHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoState, setVideoState] = useState<"loading" | "playing" | "paused" | "error">("loading");
   const reduced = useReducedMotion();
+
+  // A/B test: hero CTA text
+  const [heroCTAVariant, setHeroCTAVariant] = useState<"A" | "B">("A");
+  useEffect(() => {
+    const v = chooseVariant("hero-cta-text", [{ key: "A", weight: 50 }, { key: "B", weight: 50 }]) as "A" | "B";
+    setHeroCTAVariant(v);
+    experimentView("hero-cta-text", v);
+  }, []);
 
   // ── Scroll parallax ─────────────────────────────────────────────────────────
   const { scrollYProgress } = useScroll({
@@ -201,14 +217,25 @@ export default function VideoHero() {
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-20 text-center sm:gap-7 sm:py-28 sm:px-8">
 
           {/* Eyebrow — entra primeiro */}
-          <motion.span
+          <motion.div
             initial={init ?? { opacity: 0, y: 18, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.65, delay: 0.2, ease: EASE }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-sm"
+            className="flex flex-wrap items-center justify-center gap-2"
           >
-            Criação especializada · Bragança Paulista, SP
-          </motion.span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-sm">
+              Criação especializada · Bragança Paulista, SP
+            </span>
+            {AVAILABLE_COUNT > 0 && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/90 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-emerald-900/40 backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-white opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                </span>
+                {AVAILABLE_COUNT} filhote{AVAILABLE_COUNT !== 1 ? "s" : ""} disponível{AVAILABLE_COUNT !== 1 ? "is" : ""} agora
+              </span>
+            )}
+          </motion.div>
 
           {/* Headline — palavra por palavra */}
           <h1
@@ -277,9 +304,10 @@ export default function VideoHero() {
               emojis="mixed"
               count={16}
               aria-label="Falar com a criadora via WhatsApp"
+              onClick={() => experimentConversion("hero-cta-text", heroCTAVariant)}
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-              Falar com a criadora
+              {heroCTAVariant === "B" ? "Ver filhotes disponíveis agora" : "Falar com a criadora"}
             </PawConfettiButton>
 
             <SpringButton
@@ -293,26 +321,34 @@ export default function VideoHero() {
           </motion.div>
 
           {/* Trust bar — números */}
-          <motion.dl
+          <motion.div
             initial={init ?? { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 1.28, ease: EASE }}
-            className="mt-2 flex items-center justify-center gap-4 sm:mt-3 sm:gap-x-8"
+            className="mt-2 flex flex-col items-center gap-2 sm:mt-3"
           >
-            {[
-              { value: "10+", label: "anos" },
-              { value: "180+", label: "famílias" },
-              { value: "FCI", label: "registro" },
-            ].map((item, i, arr) => (
-              <div key={item.label} className="flex items-center gap-1.5 sm:gap-2.5">
-                <dt className="text-xl font-bold text-white sm:text-2xl">{item.value}</dt>
-                <dd className="text-xs text-white/65 sm:text-sm">{item.label}</dd>
-                {i < arr.length - 1 && (
-                  <span className="ml-2 h-4 w-px bg-white/25 sm:ml-8" aria-hidden="true" />
-                )}
-              </div>
-            ))}
-          </motion.dl>
+            {/* Avaliação em estrelas — prova social acima da dobra */}
+            <div className="flex items-center gap-2" aria-label="Avaliação 5 estrelas com 180 famílias atendidas">
+              <span className="flex text-yellow-400 text-base tracking-tight" aria-hidden="true">★★★★★</span>
+              <span className="text-xs text-white/70">5.0 · 180+ famílias atendidas em todo o Brasil</span>
+            </div>
+            {/* Stats */}
+            <dl className="flex items-center justify-center gap-4 sm:gap-x-8">
+              {[
+                { value: "10+", label: "anos de criação" },
+                { value: "FCI/CBKC", label: "registro oficial" },
+                { value: "100%", label: "com laudos" },
+              ].map((item, i, arr) => (
+                <div key={item.label} className="flex items-center gap-1.5 sm:gap-2.5">
+                  <dt className="text-lg font-bold text-white sm:text-xl">{item.value}</dt>
+                  <dd className="text-xs text-white/60">{item.label}</dd>
+                  {i < arr.length - 1 && (
+                    <span className="ml-2 h-4 w-px bg-white/25 sm:ml-6" aria-hidden="true" />
+                  )}
+                </div>
+              ))}
+            </dl>
+          </motion.div>
         </div>
       </motion.div>
 

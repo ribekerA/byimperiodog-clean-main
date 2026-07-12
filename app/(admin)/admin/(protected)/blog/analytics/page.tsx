@@ -55,14 +55,14 @@ async function fetchPostsSeo(): Promise<PostSeoRow[]> {
 
 function scoreColor(score: number | null) {
   if (score === null) return "text-zinc-400";
-  if (score >= 80) return "text-emerald-600";
+  if (score >= 80) return "text-[var(--brand)]";
   if (score >= 50) return "text-amber-500";
   return "text-rose-500";
 }
 
 function scoreBg(score: number | null) {
   if (score === null) return "bg-zinc-100 text-zinc-400";
-  if (score >= 80) return "bg-emerald-50 text-emerald-700";
+  if (score >= 80) return "bg-[var(--brand-tint-50)] text-[var(--brand)]";
   if (score >= 50) return "bg-amber-50 text-amber-700";
   return "bg-rose-50 text-rose-700";
 }
@@ -70,7 +70,7 @@ function scoreBg(score: number | null) {
 function StatCard({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string | number; sub?: string }) {
   return (
     <div className="flex items-start gap-3 rounded-xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <div className="rounded-lg bg-emerald-50 p-2 text-emerald-600">{icon}</div>
+      <div className="rounded-lg bg-[var(--brand-tint-50)] p-2 text-[var(--brand)]">{icon}</div>
       <div>
         <p className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)]">{label}</p>
         <p className="text-2xl font-bold text-[var(--text)]">{value}</p>
@@ -128,7 +128,7 @@ export default async function BlogAnalyticsPage() {
           <ReindexEmbeddingsButton />
           <Link
             href="/admin/blog/autopilot"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--brand-hover)]"
           >
             <Bot className="h-4 w-4" /> Autopilot IA
           </Link>
@@ -156,7 +156,7 @@ export default async function BlogAnalyticsPage() {
           <h2 className="text-base font-semibold text-[var(--text)]">Posts por status</h2>
           <div className="mt-3 space-y-2">
             {[
-              { key: "published", label: "Publicados", color: "bg-emerald-500" },
+              { key: "published", label: "Publicados", color: "bg-[var(--brand)]" },
               { key: "scheduled", label: "Agendados", color: "bg-blue-400" },
               { key: "draft", label: "Rascunhos", color: "bg-zinc-300" },
               { key: "review", label: "Em revisão", color: "bg-amber-400" },
@@ -185,12 +185,12 @@ export default async function BlogAnalyticsPage() {
               <p className={`text-3xl font-bold ${scoreColor(avgSeoScore)}`}>{avgSeoScore ?? "—"}</p>
               <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-wide">Score médio</p>
             </div>
-            <div className={`rounded-xl p-3 ${noSeoTitle > 0 ? "bg-rose-50" : "bg-emerald-50"}`}>
-              <p className={`text-3xl font-bold ${noSeoTitle > 0 ? "text-rose-600" : "text-emerald-600"}`}>{noSeoTitle}</p>
+            <div className={`rounded-xl p-3 ${noSeoTitle > 0 ? "bg-rose-50" : "bg-[var(--brand-tint-50)]"}`}>
+              <p className={`text-3xl font-bold ${noSeoTitle > 0 ? "text-rose-600" : "text-[var(--brand)]"}`}>{noSeoTitle}</p>
               <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-wide">Sem title SEO</p>
             </div>
-            <div className={`rounded-xl p-3 ${noSeoDesc > 0 ? "bg-amber-50" : "bg-emerald-50"}`}>
-              <p className={`text-3xl font-bold ${noSeoDesc > 0 ? "text-amber-600" : "text-emerald-600"}`}>{noSeoDesc}</p>
+            <div className={`rounded-xl p-3 ${noSeoDesc > 0 ? "bg-amber-50" : "bg-[var(--brand-tint-50)]"}`}>
+              <p className={`text-3xl font-bold ${noSeoDesc > 0 ? "text-amber-600" : "text-[var(--brand)]"}`}>{noSeoDesc}</p>
               <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-wide">Sem description</p>
             </div>
           </div>
@@ -220,7 +220,7 @@ export default async function BlogAnalyticsPage() {
               return (
                 <div key={key} className="flex flex-1 flex-col items-center gap-1">
                   <span className="text-xs font-bold text-[var(--text)]">{count}</span>
-                  <div className="w-full rounded-t-md bg-emerald-500" style={{ height: `${Math.max(pct, 4)}%` }} />
+                  <div className="w-full rounded-t-md bg-[var(--brand)]" style={{ height: `${Math.max(pct, 4)}%` }} />
                   <span className="text-[10px] text-[var(--text-muted)] capitalize">{label}</span>
                 </div>
               );
@@ -256,7 +256,7 @@ export default async function BlogAnalyticsPage() {
                       {p.published_at ? new Date(p.published_at).toLocaleDateString("pt-BR") : "—"}
                     </td>
                     <td className="px-4 py-2 text-right">
-                      <Link href={`/admin/blog/editor?slug=${p.slug}`} className="text-[11px] font-semibold text-emerald-700 hover:underline">
+                      <Link href={`/admin/blog/editor?slug=${p.slug}`} className="text-[11px] font-semibold text-[var(--brand)] hover:underline">
                         Editar
                       </Link>
                     </td>
@@ -275,12 +275,12 @@ export default async function BlogAnalyticsPage() {
           <ol className="space-y-2">
             {api.top_posts_by_comments.map((p, i) => (
               <li key={p.slug} className="flex items-center gap-3 text-sm">
-                <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-emerald-100 text-[11px] font-bold text-emerald-700">
+                <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[var(--brand-tint-100)] text-[11px] font-bold text-[var(--brand)]">
                   {i + 1}
                 </span>
                 <span className="flex-1 font-medium text-[var(--text)] truncate">{p.title}</span>
                 <span className="text-xs font-bold text-[var(--text-muted)]">{p.comments} comentários</span>
-                <Link href={`/blog/${p.slug}`} target="_blank" className="text-[11px] font-semibold text-emerald-700 hover:underline">
+                <Link href={`/blog/${p.slug}`} target="_blank" className="text-[11px] font-semibold text-[var(--brand)] hover:underline">
                   Ver →
                 </Link>
               </li>
@@ -306,7 +306,7 @@ export default async function BlogAnalyticsPage() {
                   <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase text-amber-700">
                     {p.status}
                   </span>
-                  <Link href={`/admin/blog/editor?id=${p.id}`} className="text-[11px] font-semibold text-emerald-700 hover:underline">
+                  <Link href={`/admin/blog/editor?id=${p.id}`} className="text-[11px] font-semibold text-[var(--brand)] hover:underline">
                     Continuar →
                   </Link>
                 </div>

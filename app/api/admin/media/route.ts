@@ -11,8 +11,13 @@ export async function GET(req: Request) {
   if (auth) return auth;
   const { searchParams } = new URL(req.url);
   const limit = Number(searchParams.get("limit") || "50");
+  const offset = Number(searchParams.get("offset") || "0");
   const tag = searchParams.get("tag") || undefined;
-  const data = await mediaRepo.listAssets({ tag: tag || undefined, limit: isFinite(limit) ? limit : 50 });
+  const data = await mediaRepo.listAssets({
+    tag: tag || undefined,
+    limit: isFinite(limit) ? limit : 50,
+    offset: isFinite(offset) ? offset : 0,
+  });
   return NextResponse.json(data);
 }
 

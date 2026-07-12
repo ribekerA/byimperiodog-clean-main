@@ -1,23 +1,26 @@
-import "server-only";
-import type { Metadata } from "next";
+"use client";
 
-import { getTrackingConfig } from "@/lib/tracking/getTrackingConfig";
+import { useEffect, useState } from "react";
+
+import type { TrackingConfig } from "@/lib/tracking/getTrackingConfig";
+
 import { TrackingSettingsPage } from "./TrackingSettingsPage";
 
-export const metadata: Metadata = {
-  title: "Tracking & Pixels | Admin",
-  description: "Configuração centralizada de tags, pixels e verificações",
-  robots: { index: false, follow: false },
-};
+export default function TrackingConfigPage() {
+  const [config, setConfig] = useState<TrackingConfig | null>(null);
 
-const DEFAULT_ENVIRONMENT = "production";
+  useEffect(() => {
+    fetch("/api/admin/tracking-settings?environment=production", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((d) => setConfig(d.config ?? null))
+      .catch(() => setConfig(null));
+  }, []);
 
-export default async function TrackingConfigPage() {
-  const config = await getTrackingConfig(DEFAULT_ENVIRONMENT);
+  if (!config) return null;
 
   return (
-    <main className="space-y-6">
-      <TrackingSettingsPage initialEnvironment={DEFAULT_ENVIRONMENT} initialConfig={config} />
-    </main>
+    <div className="space-y-6">
+      <TrackingSettingsPage initialEnvironment="production" initialConfig={config} />
+    </div>
   );
 }

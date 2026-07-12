@@ -120,11 +120,12 @@ export default function PuppyDetailPanel({
       >
         {/* Status badge com ponto pulsante */}
         <span
+          aria-label={`Status: ${cfg.label}`}
           className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ring-1 ${cfg.bg} ${cfg.text} ${cfg.ring}`}
         >
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex h-2 w-2" aria-hidden="true">
             {!isSold && (
-              <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-60 ${cfg.dot}`} />
+              <span className={`absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full opacity-60 ${cfg.dot}`} />
             )}
             <span className={`relative inline-flex h-2 w-2 rounded-full ${cfg.dot}`} />
           </span>
@@ -169,7 +170,7 @@ export default function PuppyDetailPanel({
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.26 }}
         >
           <div>
-            <p className="text-3xl font-extrabold text-[var(--accent)]">{price}</p>
+            <p className="text-3xl font-extrabold text-[var(--accent)]" aria-label={`Preço: ${price}`}>{price}</p>
             <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, laudos e mentoria inclusos</p>
           </div>
 
@@ -242,10 +243,10 @@ export default function PuppyDetailPanel({
               {INCLUDED.map((item) => (
                 <StaggerItem key={item.title}>
                   <div className="group flex items-start gap-2.5 rounded-xl border border-zinc-100 bg-zinc-50/80 px-3 py-3 transition hover:border-emerald-100 hover:bg-emerald-50/60">
-                    <span className="mt-0.5 text-lg leading-none">{item.icon}</span>
+                    <span className="mt-0.5 text-lg leading-none" aria-hidden="true">{item.icon}</span>
                     <div>
                       <p className="text-xs font-semibold text-zinc-800">{item.title}</p>
-                      <p className="mt-0.5 text-[11px] leading-snug text-zinc-500">{item.desc}</p>
+                      <p className="mt-0.5 text-xs leading-snug text-zinc-500">{item.desc}</p>
                     </div>
                   </div>
                 </StaggerItem>

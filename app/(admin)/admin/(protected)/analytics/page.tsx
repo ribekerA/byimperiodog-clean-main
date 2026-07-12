@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { MetricCard } from "./components/MetricCard";
-import { BarChart } from "./components/BarChart";
-import { LineChart } from "./components/LineChart";
-import { PieChart } from "./components/PieChart";
+import { BarChartWrapper as BarChart } from "./components/BarChartWrapper";
+import { LineChartWrapper as LineChart } from "./components/LineChartWrapper";
+import { PieChartWrapper as PieChart } from "./components/PieChartWrapper";
 import { analyzeConversion } from "@/lib/ai/conversion-analyzer";
 import { generateDashboardNarrative } from "@/lib/ai/dashboard-narrative";
 import { generateDecisions } from "@/lib/ai/decision-engine";
@@ -395,7 +395,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: { 
             id="period"
             name="period"
             defaultValue={periodDays}
-            className="h-9 rounded-lg border border-[var(--border)] bg-white px-3 text-sm shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+            className="h-9 rounded-lg border border-[var(--border)] bg-white px-3 text-sm shadow-sm focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
           >
             <option value="7">7 dias</option>
             <option value="30">30 dias</option>
@@ -403,7 +403,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: { 
           </select>
           <button
             type="submit"
-            className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500"
+            className="rounded-lg bg-[var(--brand)] px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
           >
             Aplicar
           </button>
@@ -428,7 +428,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: { 
             <h2 className="text-lg font-semibold text-[var(--text)]">Previsao de vendas (IA)</h2>
             <p className="text-sm text-[var(--text-muted)]">Estimativa 30 dias com base em historico e estoque.</p>
           </div>
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">{forecast.confidenceLabel}</span>
+          <span className="rounded-full bg-[var(--brand-tint-50)] px-3 py-1 text-xs font-semibold text-[var(--brand)]">{forecast.confidenceLabel}</span>
         </div>
         <div className="mt-3 grid gap-3 md:grid-cols-3">
           <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3">
@@ -661,7 +661,7 @@ export default async function AnalyticsPage({ searchParams }: { searchParams: { 
             {topPuppies.map((p, idx) => (
               <li key={p.label} className="flex items-center justify-between rounded-lg bg-[var(--surface)] px-3 py-2">
                 <span className="flex items-center gap-2">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-800">
+                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-tint-100)] text-xs font-bold text-[var(--brand)]">
                     {idx + 1}
                   </span>
                   {p.label}

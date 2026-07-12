@@ -2,22 +2,23 @@ export const dynamic = "force-dynamic";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
 import { respondWithError } from "@/lib/errors";
 import { createLogger } from "@/lib/logger";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const logger = createLogger("api:integrations:list");
 
-function getAuthenticatedUserId(req: NextRequest): string | null {
-  const adminAuth = req.cookies.get("admin_auth")?.value;
-  if (!adminAuth) return null;
+async function getAuthenticatedUserId(req: NextRequest): Promise<string | null> {
+  const session = await verifyAdminSession(req.cookies.get(ADMIN_SESSION_COOKIE)?.value);
+  if (!session) return null;
   const envUserId = (process.env.ADMIN_USER_ID || process.env.DEFAULT_ADMIN_USER_ID || "").trim();
   return envUserId || "admin";
 }
 
 export async function GET(req: NextRequest) {
   try {
-    const userId = getAuthenticatedUserId(req);
+    const userId = await getAuthenticatedUserId(req);
     if (!userId) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }

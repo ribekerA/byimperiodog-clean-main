@@ -9,10 +9,10 @@ export default function Prose({ className, children, spacious = false, ...rest }
   return (
     <div
       className={clsx(
-        'prose prose-lg max-w-none dark:prose-invert',
+        'prose prose-lg mx-auto max-w-[72ch] dark:prose-invert',
         // Cores de texto melhoradas
         'prose-headings:text-[var(--text)] prose-headings:font-bold',
-        'prose-p:text-[var(--text)] prose-p:leading-relaxed',
+        'prose-p:text-[var(--text)] prose-p:leading-[1.8]',
         'prose-li:text-[var(--text)]',
         'prose-strong:text-[var(--text)] prose-strong:font-semibold',
         // Títulos
@@ -37,6 +37,7 @@ export default function Prose({ className, children, spacious = false, ...rest }
         'prose-code:before:content-none prose-code:after:content-none',
         // Listas
         'prose-ul:text-[var(--text)] prose-ol:text-[var(--text)]',
+        'prose-li:text-[var(--text)] prose-li:leading-[1.7]',
         'prose-li:marker:text-emerald-600 dark:prose-li:marker:text-emerald-400',
         // Tabelas
         'prose-table:text-[var(--text)]',

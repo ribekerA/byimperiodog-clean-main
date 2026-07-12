@@ -54,17 +54,17 @@ export default function FileUploader({ onUpload }: FileUploaderProps) {
     <section className="space-y-4">
       <div
         {...getRootProps()}
-        className="flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-emerald-200 bg-emerald-50/40 p-8 text-center transition hover:border-emerald-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+        className="flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-[var(--brand-tint-200)] bg-[var(--brand-tint-50)] p-8 text-center transition hover:border-[var(--brand)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
       >
         <input {...getInputProps()} aria-label="Selecionar arquivos" />
-        <p className="text-sm text-emerald-700">
+        <p className="text-sm text-[var(--brand)]">
           {isDragActive ? "Solte o arquivo aqui" : "Arraste e solte ou clique para escolher uma imagem (PNG, JPG, WebP, AVIF)"}
         </p>
-        <p className="mt-1 text-xs text-emerald-500">Tamanho máximo: {MAX_SIZE_MB} MB</p>
+        <p className="mt-1 text-xs text-[var(--brand)]">Tamanho máximo: {MAX_SIZE_MB} MB</p>
       </div>
 
       {file ? (
-        <div className="grid gap-4 rounded-3xl border border-emerald-100 bg-white p-4 shadow-sm lg:grid-cols-[320px,1fr]">
+        <div className="grid gap-4 rounded-3xl border border-[var(--brand-tint-100)] bg-white p-4 shadow-sm lg:grid-cols-[320px,1fr]">
           <div className="relative h-64 w-full">
             <Cropper
               image={URL.createObjectURL(file)}

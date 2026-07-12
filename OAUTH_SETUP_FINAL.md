@@ -62,7 +62,7 @@ npm run dev
 ### 5. Testar Conexão
 
 1. Acesse: http://localhost:3000/admin/tracking
-2. Login: `@@Chowchow02`
+2. Login: use a senha do admin configurada em `ADMIN_PASS`/`NEXT_PUBLIC_ADMIN_PASS` (`.env.local`) — nunca documente a senha em texto plano aqui
 3. Clique em **"Conectar via OAuth"** no card Google Analytics
 4. Autorize o acesso
 5. Deve redirecionar e mostrar "Conectado ✓"

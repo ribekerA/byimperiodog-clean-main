@@ -4,6 +4,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { rateLimit } from "@/lib/rateLimit";
 
 const STORAGE_BUCKET = "contracts";
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -47,6 +48,10 @@ async function uploadSignature(sb: ReturnType<typeof supabaseAdmin>, code: strin
 }
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const rl = rateLimit(`contract-submit:${ip}`, 10, 10 * 60_000);
+  if (!rl.allowed) return NextResponse.json({ error: "Muitas tentativas. Tente novamente em alguns minutos." }, { status: 429 });
+
   try {
     const form       = await req.formData();
     const code       = String(form.get("code") ?? "").trim();
@@ -85,13 +90,15 @@ export async function POST(req: NextRequest) {
       signatureDataUrl               ? uploadSignature(sb, code, signatureDataUrl)      : null,
     ]);
 
+    if (!signaturePath) return NextResponse.json({ error: "Assinatura obrigatória" }, { status: 422 });
+
     const { error: updateErr } = await sb
       .from("contracts")
       .update({
         payload:        buyerData,
         hemograma_path: hemogramaPath ?? undefined,
         laudo_path:     laudoPath     ?? undefined,
-        signature_path: signaturePath ?? undefined,
+        signature_path: signaturePath,
         status:         "assinado",
         signed_at:      new Date().toISOString(),
         updated_at:     new Date().toISOString(),
