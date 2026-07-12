@@ -1,11 +1,10 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import NextDynamic from "next/dynamic";
-import { headers } from "next/headers";
 import Script from "next/script";
 
-import "./globals.css";
-import "../design-system/tokens.css";
+import "../globals.css";
+import "../../design-system/tokens.css";
 
 // Components
 import Footer from "@/components/common/Footer";
@@ -13,10 +12,9 @@ import Header from "@/components/common/Header";
 import SkipLink from "@/components/common/SkipLink";
 import Pixels from "@/components/Pixels";
 import ToastContainer from "@/components/Toast";
-import { SeoHeadServer } from "@/components/SeoHeadServer";
 import { getSiteSettings } from "@/lib/getSettings";
-import { getPixelsSettings, resolveActiveEnvironment, type PixelsSettings } from "@/lib/pixels";
-import { resolveRobots, baseMetaOverrides } from "@/lib/seo";
+import { getPixelsSettings, resolveActiveEnvironment } from "@/lib/pixels";
+import { resolveRobots } from "@/lib/seo";
 import { baseSiteMetadata } from "@/lib/seo.core";
 import {
   resolveTracking,
@@ -26,10 +24,8 @@ import {
   buildLocalBusinessLD,
 } from "@/lib/tracking";
 import { buildDogBreederLD } from "@/lib/structured-data";
-import { getTrackingConfig } from "@/lib/tracking/getTrackingConfig";
 
-
-import { dmSans, inter } from "./fonts";
+import { dmSans, inter } from "../fonts";
 
 // Lazy load componentes nao-criticos para reduzir TBT
 const RecentSalesPopup = NextDynamic(() => import("@/components/RecentSalesPopup"), { ssr: false });
@@ -43,8 +39,6 @@ const WhatsAppFloat = NextDynamic(
 );
 
 export const metadata: Metadata = baseSiteMetadata({
-  // Garantir template consistente; se ja definido em baseSiteMetadata mantem.
-  // Robots default (podem ser sobrescritos dinamicamente em headers runtime se necessario)
   robots: resolveRobots(),
 });
 
@@ -55,130 +49,49 @@ export const viewport = {
   themeColor: "#052e2b",
 };
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export default async function PublicLayout({ children }: { children: React.ReactNode }) {
+  const isProd = process.env.NODE_ENV === "production";
 
-function resolvePathname() {
-  const reqHeaders = headers();
+  const [siteSettings, pixelSettings] = await Promise.all([
+    getSiteSettings(),
+    getPixelsSettings(),
+  ]);
+  const { config } = resolveActiveEnvironment(pixelSettings);
+  const ids = resolveTracking(siteSettings, config);
+  const GTM_ID = ids.gtm;
+  const GA4_ID = ids.ga4;
+  const META_VERIFY = ids.metaVerify;
+  const GOOGLE_VERIFY = ids.googleVerify;
+  const PINTEREST_VERIFY = ids.pinterestVerify;
+  const useGTM = Boolean(ids.gtm);
 
-  // Header injetado pelo middleware — o mais confiável em qualquer ambiente
-  const injected = reqHeaders.get("x-next-pathname");
-  if (injected && injected.startsWith("/")) return injected;
+  // Em produção, usar IDs dos pixels se disponíveis
+  const FACEBOOK_PIXEL_ID = isProd ? ids.fb || null : null;
+  const TIKTOK_PIXEL_ID = isProd ? ids.tiktok || null : null;
 
-  // Tenta depois os headers customizados da plataforma
-  const candidates = [
-    "x-invoke-path",
-    "x-matched-path",
-    "x-rewrite-url",
-    "x-original-url",
-    "x-original-uri",
-    "x-forwarded-url",
-    "x-forwarded-uri",
-    "x-next-url",
-    "next-url",
-  ];
-
-  for (const key of candidates) {
-    const raw = reqHeaders.get(key);
-    if (!raw) continue;
-    const value = raw.trim();
-    if (!value) continue;
-    try {
-      if (value.startsWith("http://") || value.startsWith("https://")) {
-        return new URL(value).pathname;
-      }
-      if (value.startsWith("/")) return value;
-      // Algumas plataformas enviam apenas path + query sem barra inicial.
-      if (/^[a-zA-Z0-9\-_.~%]+(\/.+)?$/.test(value)) {
-        return `/${value}`;
-      }
-    } catch {
-      // ignora erros de parsing e tenta o proximo header
-    }
-  }
-
-  // Fallback: tenta pegar do referer
-  const referer = reqHeaders.get("referer");
-  if (referer) {
-    try {
-      return new URL(referer).pathname;
-    } catch {
-      // ignore
-    }
-  }
-
-  return "";
-}
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const pathname = resolvePathname();
-  // Considera admin apenas se for exatamente /admin ou começar com /admin/
-  const isAdminRoute = pathname === "/admin" || pathname.startsWith("/admin/");
-  // Ajustes dinamicos de canonical/OG URL. Em SSR inicial temos path disponivel.
-  const metaRuntime = baseMetaOverrides(pathname);
-
-  let GTM_ID: string | undefined;
-  let GA4_ID: string | undefined;
-  let META_VERIFY: string | undefined;
-  let GOOGLE_VERIFY: string | undefined;
-  let PINTEREST_VERIFY: string | undefined;
   let organizationLd: Record<string, unknown> | null = null;
   let websiteLd: Record<string, unknown> | null = null;
   let siteNavigationLd: Record<string, unknown> | null = null;
   let localBusinessLd: Record<string, unknown> | null = null;
-  let useGTM = false;
-  let pixelSettings: PixelsSettings | null = null;
-  let FACEBOOK_PIXEL_ID: string | null = null;
-  let TIKTOK_PIXEL_ID: string | null = null;
-  const isProd = process.env.NODE_ENV === "production";
-
-  if (!isAdminRoute) {
-    const [siteSettings, fetchedPixelSettings] = await Promise.all([
-      getSiteSettings(),
-      getPixelsSettings(),
-    ]);
-    pixelSettings = fetchedPixelSettings;
-    const { config } = resolveActiveEnvironment(fetchedPixelSettings);
-    const ids = resolveTracking(siteSettings, config);
-    GTM_ID = ids.gtm;
-    GA4_ID = ids.ga4;
-    META_VERIFY = ids.metaVerify;
-    GOOGLE_VERIFY = ids.googleVerify;
-    PINTEREST_VERIFY = ids.pinterestVerify;
-    useGTM = Boolean(ids.gtm);
-    
-    // Em produção, usar IDs dos pixels se disponíveis
-    if (isProd) {
-      FACEBOOK_PIXEL_ID = ids.fb || null;
-      TIKTOK_PIXEL_ID = ids.tiktok || null;
-    }
-
-    if (ids.siteUrl) {
-      organizationLd = buildOrganizationLD(ids.siteUrl);
-      websiteLd = buildWebsiteLD(ids.siteUrl);
-      siteNavigationLd = buildSiteNavigationLD(ids.siteUrl);
-      localBusinessLd = buildLocalBusinessLD(ids.siteUrl);
-    }
+  if (ids.siteUrl) {
+    organizationLd = buildOrganizationLD(ids.siteUrl);
+    websiteLd = buildWebsiteLD(ids.siteUrl);
+    siteNavigationLd = buildSiteNavigationLD(ids.siteUrl);
+    localBusinessLd = buildLocalBusinessLD(ids.siteUrl);
   }
 
   return (
     <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable} ${inter.variable}`}>
       <head>
         <meta charSet="utf-8" />
-        
-        {/* ================================================================ */}
-        {/* SEO: Canonical tags e alternates (app router, metadata-based) */}
-        {/* ================================================================ */}
-        <SeoHeadServer pathname={pathname} skipCanonical={isAdminRoute} />
-        
+
         {/* ================================================================ */}
         {/* PERFORMANCE: Resource hints essenciais */}
         {/* ================================================================ */}
         <link rel="preconnect" href="https://npmnuihgydadihktglrd.supabase.co" crossOrigin="anonymous" />
-        {/* Tracking preconnects são adicionados condicionalmente abaixo baseado em useGTM/GA4_ID */}
 
         {/* Tracking settings from admin (only in prod) */}
-        {!isAdminRoute && isProd && useGTM && GTM_ID && (
+        {isProd && useGTM && GTM_ID && (
           <Script id="gtm-init" strategy="afterInteractive">
             {`
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -190,7 +103,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Script>
         )}
 
-        {!isAdminRoute && isProd && !useGTM && GA4_ID && (
+        {isProd && !useGTM && GA4_ID && (
           <>
             <Script
               id="ga4-lib"
@@ -208,7 +121,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </>
         )}
 
-        {!isAdminRoute && isProd && FACEBOOK_PIXEL_ID && (
+        {isProd && FACEBOOK_PIXEL_ID && (
           <Script id="fb-pixel" strategy="lazyOnload">
             {`
               !function(f,b,e,v,n,t,s)
@@ -225,7 +138,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Script>
         )}
 
-        {!isAdminRoute && isProd && TIKTOK_PIXEL_ID && (
+        {isProd && TIKTOK_PIXEL_ID && (
           <Script id="tiktok-pixel" strategy="lazyOnload">
             {`
               !function (w, d, t) {
@@ -266,37 +179,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Script>
         )}
 
-        {/* Preload da imagem de LCP para reduzir waterfall */}
-        {/* AVIF tem melhor compressão que WebP (30-50% menor) */}
-        {!isAdminRoute && (
-          <link
-            rel="preload"
-            as="image"
-            href="/spitz-hero-desktop.avif"
-            type="image/avif"
-            fetchPriority="high"
-          />
-        )}
-
-        {/* Canonical dinamico (reforco; alternates via metadata) */}
-        {metaRuntime.alternates?.canonical && (
-          <link rel="canonical" href={metaRuntime.alternates.canonical as string} />
-        )}
         {/* Verificacao de dominio Meta (se houver) */}
-        {!isAdminRoute && META_VERIFY && (
+        {META_VERIFY && (
           <meta name="facebook-domain-verification" content={META_VERIFY} />
         )}
         {/* Verificacao do Google Search Console (se houver) */}
-        {!isAdminRoute && GOOGLE_VERIFY && (
+        {GOOGLE_VERIFY && (
           <meta name="google-site-verification" content={GOOGLE_VERIFY} />
         )}
         {/* Verificacao do Pinterest Business Hub (se houver) */}
-        {!isAdminRoute && PINTEREST_VERIFY && (
+        {PINTEREST_VERIFY && (
           <meta name="p:domain_verify" content={PINTEREST_VERIFY} />
         )}
 
         {/* Preconnect condicional para analytics: evita custo em paginas sem tags */}
-        {!isAdminRoute && useGTM && (
+        {useGTM && (
           <>
             <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
             <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
@@ -304,65 +201,59 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <link rel="dns-prefetch" href="https://www.google-analytics.com" />
           </>
         )}
-        {!isAdminRoute && !useGTM && GA4_ID && (
+        {!useGTM && GA4_ID && (
           <>
             <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="anonymous" />
             <link rel="dns-prefetch" href="https://www.google-analytics.com" />
           </>
         )}
-        {!isAdminRoute && FACEBOOK_PIXEL_ID && (
+        {FACEBOOK_PIXEL_ID && (
           <link rel="dns-prefetch" href="https://connect.facebook.net" />
         )}
-        {!isAdminRoute && TIKTOK_PIXEL_ID && (
+        {TIKTOK_PIXEL_ID && (
           <link rel="dns-prefetch" href="https://analytics.tiktok.com" />
         )}
 
         {/* JSON-LD inline para renderizacao imediata (melhor SEO) */}
-        {!isAdminRoute && organizationLd && (
+        {organizationLd && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
           />
         )}
-        {!isAdminRoute && websiteLd && (
+        {websiteLd && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
           />
         )}
-        {!isAdminRoute && siteNavigationLd && (
+        {siteNavigationLd && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationLd) }}
           />
         )}
-        {!isAdminRoute && localBusinessLd && (
+        {localBusinessLd && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
           />
         )}
-        {!isAdminRoute && (
-          <script
-            type="application/ld+json"
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(buildDogBreederLD()) }}
-          />
-        )}
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildDogBreederLD()) }}
+        />
 
         {/** Pixels custom HTML removidos por seguranca. Apenas modelos oficiais via <Pixels />. */}
       </head>
 
-      <body
-        className={`min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased ${
-          isAdminRoute ? "admin-shell" : ""
-        }`}
-      >
-        {!isAdminRoute && isProd && useGTM && GTM_ID && (
+      <body className="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased">
+        {isProd && useGTM && GTM_ID && (
           <noscript>
             <iframe
               src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -372,25 +263,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             />
           </noscript>
         )}
-        {!isAdminRoute && <SkipLink />}
-        {!isAdminRoute && (
-          <Pixels isAdminRoute={isAdminRoute} settings={pixelSettings ?? undefined} />
-        )}
+        <SkipLink />
+        <Pixels isAdminRoute={false} settings={pixelSettings ?? undefined} />
 
         {/* Dispara page_view em navegacoes SPA (somente quando os pixels existem) */}
-        {!isAdminRoute && <TrackingScripts />}
+        <TrackingScripts />
         {/* Captura UTM params para atribuição first/last touch */}
-        {!isAdminRoute && <AttributionTracker />}
+        <AttributionTracker />
 
         <div className="flex min-h-screen flex-col">
-          {!isAdminRoute && <Header />}
+          <Header />
           <main className="flex-1" id="conteudo-principal" role="main">
             {children}
           </main>
-          {!isAdminRoute && <Footer />}
-          {!isAdminRoute && <WhatsAppFloat />}
-          {!isAdminRoute && <RecentSalesPopup />}
-          {!isAdminRoute && <ConsentBanner />}
+          <Footer />
+          <WhatsAppFloat />
+          <RecentSalesPopup />
+          <ConsentBanner />
         </div>
         <SpeedInsights />
         <ToastContainer />
@@ -398,4 +287,3 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     </html>
   );
 }
-

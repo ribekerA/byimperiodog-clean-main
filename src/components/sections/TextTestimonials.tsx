@@ -76,7 +76,7 @@ export default function TextTestimonials() {
             </blockquote>
             <div className="flex items-center gap-3 border-t border-zinc-100 pt-4">
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-zinc-100">
-                <Image src={t.photo} alt={t.name} fill className="object-cover" sizes="40px" unoptimized />
+                <Image src={t.photo} alt={t.name} fill className="object-cover" sizes="40px" />
               </div>
               <div>
                 <p className="text-sm font-semibold text-zinc-900">{t.name}</p>
@@ -101,7 +101,7 @@ export default function TextTestimonials() {
             </blockquote>
             <div className="flex items-center gap-3 border-t border-zinc-100 pt-4">
               <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-zinc-100">
-                <Image src={t.photo} alt={t.name} fill className="object-cover" sizes="40px" unoptimized />
+                <Image src={t.photo} alt={t.name} fill className="object-cover" sizes="40px" />
               </div>
               <div>
                 <p className="text-sm font-semibold text-zinc-900">{t.name}</p>

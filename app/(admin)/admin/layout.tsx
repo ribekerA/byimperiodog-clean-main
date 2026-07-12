@@ -1,4 +1,10 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+import "../../globals.css";
+import "../../../design-system/tokens.css";
+import ToastContainer from "@/components/Toast";
+import { dmSans, inter } from "../../fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -22,6 +28,17 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable} ${inter.variable}`}>
+      <head>
+        <meta charSet="utf-8" />
+      </head>
+      <body className="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased admin-shell">
+        {children}
+        <SpeedInsights />
+        <ToastContainer />
+      </body>
+    </html>
+  );
 }
 

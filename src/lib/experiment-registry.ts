@@ -32,6 +32,9 @@ export interface Experiment {
 
 export const EXPERIMENTS: Experiment[] = [
   {
+    // Encerrado: a variante B colidia com o texto do botão outline logo abaixo
+    // ("Ver filhotes disponíveis"), criando um CTA duplicado no hero. VideoHero.tsx
+    // agora renderiza sempre a variante A (controle), sem chamar chooseVariant.
     key: "hero-cta-text",
     name: "CTA Hero — Texto do botão primário",
     hypothesis:
@@ -39,7 +42,7 @@ export const EXPERIMENTS: Experiment[] = [
       " evidencia o catálogo (intenção de browse) em vez de compromisso de contato direto.",
     metric: "lead_whatsapp (hero) — cliques rastreados no GA4",
     minSamplePerVariant: 500,
-    active: true,
+    active: false,
     startedAt: "2026-05-31",
     variants: [
       { key: "A", label: "Falar com a criadora (controle)", weight: 50 },

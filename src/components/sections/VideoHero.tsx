@@ -2,21 +2,13 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  useSpring,
-} from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { SpringButton } from "@/components/motion/SpringButton";
 import { staticPuppies } from "@/content/puppies-static";
-import { chooseVariant } from "@/lib/experiments";
-import { experimentView, experimentConversion } from "@/lib/track";
 
 const waHero = buildWhatsAppLink({
   message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão disponíveis. Pode me contar mais sobre disponibilidade e valores?",
@@ -44,43 +36,13 @@ export default function VideoHero() {
   const [videoState, setVideoState] = useState<"loading" | "playing" | "paused" | "error">("loading");
   const reduced = useReducedMotion();
 
-  // A/B test: hero CTA text
-  const [heroCTAVariant, setHeroCTAVariant] = useState<"A" | "B">("A");
-  useEffect(() => {
-    const v = chooseVariant("hero-cta-text", [{ key: "A", weight: 50 }, { key: "B", weight: 50 }]) as "A" | "B";
-    setHeroCTAVariant(v);
-    experimentView("hero-cta-text", v);
-  }, []);
-
-  // ── Scroll parallax ─────────────────────────────────────────────────────────
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Background sobe mais rápido que o conteúdo → profundidade
-  const rawBgY = useTransform(
-    scrollYProgress, [0, 1],
-    reduced ? ["0%", "0%"] : ["0%", "28%"]
-  );
-  const bgY = useSpring(rawBgY, { stiffness: 80, damping: 20, restDelta: 0.001 });
-
-  // Conteúdo sobe mais suave
-  const rawContentY = useTransform(
-    scrollYProgress, [0, 1],
-    reduced ? ["0%", "0%"] : ["0%", "10%"]
-  );
-  const contentY = useSpring(rawContentY, { stiffness: 80, damping: 20, restDelta: 0.001 });
-
-  // Overlay escurece levemente ao rolar
-  const overlayExtra = useTransform(scrollYProgress, [0, 0.6], [0, 0.25]);
-
   // ── Lógica de video ─────────────────────────────────────────────────────────
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
     let staleTimer: ReturnType<typeof setTimeout>;
+    let idleHandle: number;
 
     const onCanPlay = () => {
       clearTimeout(staleTimer);
@@ -95,16 +57,32 @@ export default function VideoHero() {
     video.addEventListener("playing", onPlaying);
     video.addEventListener("pause", onPause);
 
-    staleTimer = setTimeout(() => {
-      setVideoState((s) => s === "loading" ? "paused" : s);
-    }, 6000);
+    // Adia o início do download do vídeo (o .play() força o carregamento
+    // completo mesmo com preload="metadata") até o navegador ficar ocioso,
+    // para não competir por banda/main-thread com o LCP do hero.
+    const startPlayback = () => {
+      staleTimer = setTimeout(() => {
+        setVideoState((s) => s === "loading" ? "paused" : s);
+      }, 6000);
 
-    video.play()
-      .then(() => { clearTimeout(staleTimer); setVideoState("playing"); })
-      .catch(() => { /* Bloqueado — aguarda evento canplay */ });
+      video.play()
+        .then(() => { clearTimeout(staleTimer); setVideoState("playing"); })
+        .catch(() => { /* Bloqueado — aguarda evento canplay */ });
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      idleHandle = window.requestIdleCallback(startPlayback, { timeout: 2000 });
+    } else {
+      idleHandle = window.setTimeout(startPlayback, 300);
+    }
 
     return () => {
       clearTimeout(staleTimer);
+      if (typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleHandle);
+      } else {
+        clearTimeout(idleHandle);
+      }
       video.removeEventListener("canplay", onCanPlay);
       video.removeEventListener("error", onError);
       video.removeEventListener("playing", onPlaying);
@@ -132,8 +110,8 @@ export default function VideoHero() {
       className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-zinc-950"
       aria-labelledby="hero-heading"
     >
-      {/* ── Fundo com parallax ───────────────────────────────────────────────── */}
-      <motion.div className="absolute inset-0 will-change-transform" style={{ y: bgY }}>
+      {/* ── Fundo ────────────────────────────────────────────────────────────── */}
+      <div className="absolute inset-0">
         {/* Video */}
         {showVideo && (
           <video
@@ -167,7 +145,7 @@ export default function VideoHero() {
             aria-hidden="true"
           />
         )}
-      </motion.div>
+      </div>
 
       {/* ── Overlays de gradiente ────────────────────────────────────────────── */}
       <div
@@ -183,12 +161,6 @@ export default function VideoHero() {
         style={{
           background: "radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.52) 100%)",
         }}
-        aria-hidden="true"
-      />
-      {/* Overlay extra scroll-driven */}
-      <motion.div
-        className="absolute inset-0 bg-black pointer-events-none"
-        style={{ opacity: overlayExtra }}
         aria-hidden="true"
       />
 
@@ -209,12 +181,9 @@ export default function VideoHero() {
         </motion.button>
       )}
 
-      {/* ── Conteúdo com parallax suave ─────────────────────────────────────── */}
-      <motion.div
-        style={{ y: contentY }}
-        className="relative z-10 w-full will-change-transform"
-      >
-        <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-20 text-center sm:gap-7 sm:py-28 sm:px-8">
+      {/* ── Conteúdo ─────────────────────────────────────────────────────────── */}
+      <div className="relative z-10 w-full">
+        <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-12 text-center sm:gap-7 sm:py-28 sm:px-8">
 
           {/* Eyebrow — entra primeiro */}
           <motion.div
@@ -304,10 +273,9 @@ export default function VideoHero() {
               emojis="mixed"
               count={16}
               aria-label="Falar com a criadora via WhatsApp"
-              onClick={() => experimentConversion("hero-cta-text", heroCTAVariant)}
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-              {heroCTAVariant === "B" ? "Ver filhotes disponíveis agora" : "Falar com a criadora"}
+              Falar com a criadora
             </PawConfettiButton>
 
             <SpringButton
@@ -332,25 +300,26 @@ export default function VideoHero() {
               <span className="flex text-yellow-400 text-base tracking-tight" aria-hidden="true">★★★★★</span>
               <span className="text-xs text-white/70">5.0 · 180+ famílias atendidas em todo o Brasil</span>
             </div>
-            {/* Stats */}
-            <dl className="flex items-center justify-center gap-4 sm:gap-x-8">
+            {/* Stats — empilhado no mobile para não quebrar no meio de um item e
+                colidir com o indicador "Rolar" (absolute, bottom-8 da section) */}
+            <dl className="flex flex-col items-center gap-1 sm:flex-row sm:justify-center sm:gap-x-8">
               {[
                 { value: "10+", label: "anos de criação" },
                 { value: "FCI/CBKC", label: "registro oficial" },
                 { value: "100%", label: "com laudos" },
               ].map((item, i, arr) => (
                 <div key={item.label} className="flex items-center gap-1.5 sm:gap-2.5">
-                  <dt className="text-lg font-bold text-white sm:text-xl">{item.value}</dt>
+                  <dt className="text-base font-bold text-white sm:text-xl">{item.value}</dt>
                   <dd className="text-xs text-white/60">{item.label}</dd>
                   {i < arr.length - 1 && (
-                    <span className="ml-2 h-4 w-px bg-white/25 sm:ml-6" aria-hidden="true" />
+                    <span className="hidden h-4 w-px bg-white/25 sm:ml-6 sm:block" aria-hidden="true" />
                   )}
                 </div>
               ))}
             </dl>
           </motion.div>
         </div>
-      </motion.div>
+      </div>
 
       {/* ── Scroll cue ────────────────────────────────────────────────────────── */}
       <motion.div
