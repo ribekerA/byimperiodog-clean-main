@@ -216,8 +216,8 @@ export default function VideoHero() {
               {HEADLINE_WORDS.map((word, i) => (
                 <motion.span
                   key={word}
-                  initial={init ?? { opacity: 0, y: 28, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  initial={init ?? { opacity: 0, y: 28 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{
                     duration: 0.6,
                     delay: 0.42 + i * 0.13,

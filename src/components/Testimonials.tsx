@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 import Script from 'next/script';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -97,13 +97,22 @@ export default function Testimonials({
     }))
   } : null;
   // Prefetch próxima imagem para transição suave (sempre declara hook antes de early return)
+  // Usa getImageProps para gerar o mesmo srcset otimizado que o <Image> real vai pedir,
+  // evitando baixar o arquivo cru (sem isso, cada foto era baixada 2x: crua + otimizada).
   useEffect(() => {
     if (!total || variant !== 'carousel') return;
     const nextIdx = (index + 1) % total;
     const nextSrc = list[nextIdx];
     if (!nextSrc) return;
+    const { props } = getImageProps({
+      src: nextSrc,
+      alt: '',
+      fill: true,
+      sizes: '(max-width: 768px) 90vw, (max-width: 1280px) 50vw, 640px',
+    });
     const img = new window.Image();
-    img.src = nextSrc;
+    img.sizes = props.sizes ?? '';
+    img.srcset = props.srcSet ?? '';
   }, [index, list, total, variant]);
 
   if (!total) return null;
@@ -247,9 +256,9 @@ export default function Testimonials({
                   aria-valuemax={total}
                   aria-label={`Foto ${index + 1} de ${total}`}
                 >
-                  <div 
-                    className="absolute top-0 left-0 h-full bg-emerald-500 transition-all duration-300 ease-out"
-                    style={{ width: `${((index + 1) / total) * 100}%` }}
+                  <div
+                    className="absolute top-0 left-0 h-full w-full origin-left bg-emerald-500 transition-transform duration-300 ease-out"
+                    style={{ transform: `scaleX(${(index + 1) / total})` }}
                   />
                 </div>
                 {/* Counter + Navigation Buttons */}

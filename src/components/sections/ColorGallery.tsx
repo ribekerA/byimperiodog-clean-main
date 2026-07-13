@@ -101,7 +101,7 @@ export default function ColorGallery() {
                     src={cor.image}
                     alt={`Spitz Alemão Anão ${cor.label}`}
                     fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 320px"
+                    sizes="(max-width: 640px) calc(50vw - 28px), (max-width: 1024px) calc(50vw - 40px), 292px"
                     className="object-cover transition duration-500 group-hover:scale-108"
                   />
                   {/* Gradiente */}

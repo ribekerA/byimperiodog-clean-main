@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 
@@ -245,12 +246,13 @@ export default function HomePage() {
                         <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
                           <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
                             {cover && (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
+                              <Image
                                 src={cover}
                                 alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-                                className="h-full w-full object-cover"
-                                loading={i < 2 ? "eager" : "lazy"}
+                                fill
+                                className="object-cover"
+                                sizes="72vw"
+                                priority={i < 2}
                               />
                             )}
                             <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${isReserved ? "bg-amber-500" : "bg-emerald-500"}`}>
@@ -333,12 +335,13 @@ export default function HomePage() {
                         <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
                           <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
                             {cover && (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img
+                              <Image
                                 src={cover}
                                 alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-                                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                loading={i < 2 ? "eager" : "lazy"}
+                                fill
+                                className="object-cover transition duration-500 group-hover:scale-105"
+                                sizes="(max-width: 1024px) 50vw, 25vw"
+                                priority={i < 2}
                               />
                             )}
                             <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${isReserved ? "bg-amber-500" : "bg-emerald-500"}`}>
