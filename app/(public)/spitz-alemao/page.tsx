@@ -35,7 +35,7 @@ const CHARACTERISTICS = [
   { label: "Peso adulto",      value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
-  { label: "Cores reconhecidas", value: "Creme, Laranja, Preto, Wolf Sable" },
+  { label: "Cores reconhecidas", value: "Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
   { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
@@ -60,7 +60,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "As cores reconhecidas pela FCI são: Laranja (a mais icônica), Creme (a mais valorizada), Preto (rara no Brasil) e Wolf Sable (padrão exótico com pelos tricolores). Cada cor tem particularidades no preço e na disponibilidade.",
+      "As cores reconhecidas pela FCI são: Laranja (a mais icônica), Creme (a mais valorizada), Preto (rara no Brasil) e Cinza-Lobo (Wolf Sable), um padrão exótico com pelos tricolores. Cada cor tem particularidades no preço e na disponibilidade.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
@@ -201,7 +201,7 @@ export default function SpitzAlemaoPage() {
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },
             { cor: "Creme",      slug: "creme",      desc: "A mais valorizada. Pelagem cor de marfim com contraste de olhos e focinho escuros." },
             { cor: "Preto",      slug: "preto",      desc: "Cor rara com poucos criadores especializados no Brasil. Pelagem preta brilhante uniforme." },
-            { cor: "Wolf Sable", slug: "wolf-sable", desc: "Padrão exótico com pelos tricolores (ponta escura, corpo acinzentado) — reconhecido pela FCI." },
+            { cor: "Cinza-Lobo (Wolf Sable)", slug: "wolf-sable", desc: "Padrão exótico com pelos tricolores (ponta escura, corpo acinzentado) — reconhecido pela FCI." },
           ].map((c) => (
             <Link
               key={c.cor}

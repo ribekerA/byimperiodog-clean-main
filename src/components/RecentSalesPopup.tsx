@@ -5,12 +5,12 @@ const EVENTS = [
   { city: "Campinas", state: "SP", color: "Creme", sex: "Fêmea", time: "há 12 min" },
   { city: "São Paulo", state: "SP", color: "Laranja", sex: "Macho", time: "há 28 min" },
   { city: "Belo Horizonte", state: "MG", color: "Preto", sex: "Fêmea", time: "há 45 min" },
-  { city: "Curitiba", state: "PR", color: "Wolf Sable", sex: "Macho", time: "há 1h" },
+  { city: "Curitiba", state: "PR", color: "Cinza-Lobo (Wolf Sable)", sex: "Macho", time: "há 1h" },
   { city: "Rio de Janeiro", state: "RJ", color: "Creme", sex: "Macho", time: "há 2h" },
   { city: "Atibaia", state: "SP", color: "Laranja", sex: "Fêmea", time: "há 3h" },
   { city: "Jundiaí", state: "SP", color: "Preto", sex: "Macho", time: "há 4h" },
   { city: "Santos", state: "SP", color: "Creme", sex: "Fêmea", time: "há 5h" },
-  { city: "Sorocaba", state: "SP", color: "Wolf Sable", sex: "Fêmea", time: "há 6h" },
+  { city: "Sorocaba", state: "SP", color: "Cinza-Lobo (Wolf Sable)", sex: "Fêmea", time: "há 6h" },
   { city: "Florianópolis", state: "SC", color: "Laranja", sex: "Macho", time: "hoje cedo" },
 ];
 

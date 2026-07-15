@@ -38,7 +38,7 @@ export interface AgentResponse {
 const FAQ: Array<{ q: string; a: string }> = [
   {
     q: "qual o preço / valor / quanto custa",
-    a: "Os filhotes variam de R$ 3.500 a R$ 5.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, vacinação, microchip, mentoria vitalícia e enxoval.",
+    a: "Os filhotes variam de R$ 6.500 a R$ 8.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, vacinação, microchip, mentoria vitalícia e enxoval.",
   },
   {
     q: "registro incluso",

@@ -109,7 +109,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/blog",
-    title: "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão",
+    title: "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
       "Pilares evergreen sobre saúde, rotina e comportamento do Spitz Alemão Anão (Lulu da Pomerânia).",
   },

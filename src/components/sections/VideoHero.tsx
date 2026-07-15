@@ -11,7 +11,7 @@ import { SpringButton } from "@/components/motion/SpringButton";
 import { staticPuppies } from "@/content/puppies-static";
 
 const waHero = buildWhatsAppLink({
-  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão disponíveis. Pode me contar mais sobre disponibilidade e valores?",
+  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Pode me contar mais sobre disponibilidade e valores?",
   utmSource: "site",
   utmMedium: "video_hero",
   utmCampaign: "hero_cta",
@@ -230,11 +230,21 @@ export default function VideoHero() {
               ))}
             </span>
 
+            {/* Linha 1b: "(Lulu da Pomerânia)" — nome popular da raça, clarificador estático */}
+            <motion.span
+              initial={init ?? { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.78, ease: EASE }}
+              className="block text-xl font-semibold text-white/70 sm:text-2xl lg:text-3xl"
+            >
+              (Lulu da Pomerânia)
+            </motion.span>
+
             {/* Linha 2: "com alma familiar" — emerge com brilho esmeralda */}
             <motion.span
               initial={init ?? { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.82, ease: EASE }}
+              transition={{ duration: 0.7, delay: 0.98, ease: EASE }}
               className="block bg-gradient-to-r from-emerald-300 to-emerald-400 bg-clip-text text-transparent"
               style={{
                 textShadow: "0 0 60px rgba(52,211,153,0.25), 0 0 120px rgba(52,211,153,0.12)",
@@ -248,7 +258,7 @@ export default function VideoHero() {
           <motion.p
             initial={init ?? { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.98, ease: EASE }}
+            transition={{ duration: 0.65, delay: 1.14, ease: EASE }}
             className="mx-auto max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl"
           >
             Saúde documentada, registro oficial e mentoria vitalícia.{" "}
@@ -262,7 +272,7 @@ export default function VideoHero() {
           <motion.div
             initial={init ?? { opacity: 0, y: 28, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.55, delay: 1.12, ...SPRING }}
+            transition={{ duration: 0.55, delay: 1.28, ...SPRING }}
             className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center"
           >
             <PawConfettiButton
@@ -326,7 +336,7 @@ export default function VideoHero() {
         initial={init ?? { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.9, delay: 1.55, ease: EASE }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40"
+        className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/40 sm:flex"
         aria-hidden="true"
       >
         <span className="text-[10px] font-semibold uppercase tracking-[0.3em]">Rolar</span>

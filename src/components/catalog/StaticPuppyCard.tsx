@@ -219,7 +219,7 @@ export default function StaticPuppyCard({
           </div>
 
           {/* Preço */}
-          <div className="mt-auto flex items-center justify-between gap-2">
+          <div className="mt-auto flex flex-col gap-0.5">
             <span className="text-xl font-extrabold text-[var(--accent)]">
               {formatPrice(price)}
             </span>

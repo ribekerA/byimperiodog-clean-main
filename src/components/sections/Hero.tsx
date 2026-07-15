@@ -74,12 +74,12 @@ export default function HeroSection() {
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.1fr,1fr] lg:items-center lg:gap-16 lg:py-20">
         <div className="space-y-7">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-700 shadow-sm">
-            Spitz Alemão Anão com mentoria premium
+            Spitz Alemão Anão (Lulu da Pomerânia) com mentoria premium
           </span>
 
           <header className="space-y-5">
             <h1 id="hero-heading" className="text-4xl font-semibold leading-tight text-zinc-900 sm:text-5xl">
-              Transparência e carinho para entregar o seu Spitz Alemão Anão com suporte vitalício
+              Transparência e carinho para entregar o seu Spitz Alemão Anão (Lulu da Pomerânia) com suporte vitalício
             </h1>
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">{greeting}</p>
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">

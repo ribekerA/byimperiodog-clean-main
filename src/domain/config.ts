@@ -68,9 +68,9 @@ export const PRODUCT_CONFIG = {
 
   // Faixas de preço (em centavos)
   pricing: {
-    minPriceCents: 200000, // R$ 2.000,00
-    maxPriceCents: 800000, // R$ 8.000,00
-    averagePriceCents: 350000, // R$ 3.500,00
+    minPriceCents: 650000, // R$ 6.500,00
+    maxPriceCents: 850000, // R$ 8.500,00
+    averagePriceCents: 775000, // R$ 7.750,00
   },
 } as const;
 

@@ -153,7 +153,7 @@ export function buildDogBreederLD() {
       "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) com registro CBKC. Especialista em Baby Face, cor preta, creme e laranja. Filhotes disponíveis em Bragança Paulista, SP, com entrega para todo o Brasil.",
     url: SITE_URL,
     telephone: "+55-11-96863-3239",
-    priceRange: "R$ 7.000 – R$ 15.000",
+    priceRange: "R$ 6.500 – R$ 8.500",
     image: `${SITE_URL}/og/home.jpg`,
     logo: {
       "@type": "ImageObject",
@@ -221,7 +221,7 @@ export function buildLocalBusinessLD() {
       "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, vacinação completa e mentoria vitalícia inclusos. Mais de 10 anos de criação especializada e 180+ famílias atendidas em todo o Brasil.",
     url: SITE_URL,
     telephone: "+55-11-96863-3239",
-    priceRange: "R$ 7.000 – R$ 15.000",
+    priceRange: "R$ 6.500 – R$ 8.500",
     currenciesAccepted: "BRL",
     paymentAccepted: "PIX, transferência bancária, cartão de crédito",
     foundingDate: "2012",

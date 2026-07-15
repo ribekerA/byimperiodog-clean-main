@@ -40,7 +40,7 @@ const FAQS = [
   {
     question: "Quanto custa um Lulu da Pomerânia?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 7.000 a R$ 15.000 dependendo da cor e do sexo. Machos a partir de R$ 7.000 (laranja) e fêmeas a partir de R$ 10.000. O valor inclui registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia — sem cobranças extras.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. O valor inclui registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia — sem cobranças extras.",
   },
   {
     question: "O Lulu da Pomerânia é bom com crianças?",
@@ -157,10 +157,9 @@ export default function LuluDaPomeraniaPage() {
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
-            { cor: "Laranja Macho",    valor: "R$ 7.000", tag: "a partir de" },
-            { cor: "Laranja Fêmea",    valor: "R$ 10.000", tag: "a partir de" },
-            { cor: "Wolf Sable Macho", valor: "R$ 7.500", tag: "a partir de" },
-            { cor: "Creme Fêmea",      valor: "R$ 15.000", tag: "mais valorizado" },
+            { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", valor: "R$ 6.500", tag: "a partir de" },
+            { cor: "Macho — Creme / Preto",                     valor: "R$ 7.500", tag: "a partir de" },
+            { cor: "Fêmea — todas as cores",                    valor: "R$ 8.500", tag: "valor único" },
           ].map((p) => (
             <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs text-zinc-400 uppercase tracking-wide">{p.tag}</p>

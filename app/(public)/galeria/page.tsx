@@ -103,8 +103,8 @@ const GALLERY_VIDEOS = [
   },
   {
     src: "/filhotes/videos/wolf-sable-jardim.mp4",
-    title: "Wolf Sable no Jardim",
-    description: "O wolf sable é raro e incrível — pelagem única que lembra um mini lobo.",
+    title: "Cinza-Lobo (Wolf Sable) no Jardim",
+    description: "O cinza-lobo (wolf sable) é raro e incrível — pelagem única que lembra um mini lobo.",
     category: "wolf",
   },
 ] as const;

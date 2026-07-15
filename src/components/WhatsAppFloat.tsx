@@ -71,12 +71,28 @@ export function WhatsAppFloat() {
   const [visible, setVisible] = useState(false);
   const [pulse, setPulse] = useState(false);
   const [showReview, setShowReview] = useState(false);
+  const [scrolling, setScrolling] = useState(false);
   const firstPulse = useRef(false);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Aparece após 3 s — não perturba CLS / LCP
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 3000);
     return () => clearTimeout(t);
+  }, []);
+
+  // Esconde durante o scroll ativo para não cobrir texto/botões — reaparece ~500ms após parar
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolling(true);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => setScrolling(false), 500);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
   }, []);
 
   // Pulsa suavemente uma vez após 8 s para chamar atenção
@@ -126,6 +142,10 @@ export function WhatsAppFloat() {
         "active:scale-95 active:brightness-95",
         // Pulse animation
         pulse ? "animate-wa-pulse" : "",
+        // Some durante o scroll ativo para não cobrir texto — respeita prefers-reduced-motion (some sem transição)
+        scrolling
+          ? "opacity-0 pointer-events-none translate-y-2 motion-reduce:transition-none"
+          : "opacity-100 pointer-events-auto translate-y-0",
       ].filter(Boolean).join(" ")}
     >
       {/* WhatsApp SVG (inline para zero‐dependency, optimised path) */}

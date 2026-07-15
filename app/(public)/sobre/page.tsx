@@ -285,9 +285,33 @@ export default function SobrePage() {
             </p>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-zinc-100 shadow-sm">
+          {/* Mobile (<sm): cards empilhados — colunas de 3 ficam ilegíveis em telas estreitas */}
+          <div className="space-y-3 sm:hidden">
+            {DIFERENCIAIS.map((row) => (
+              <article key={row.label} className="rounded-2xl border border-zinc-100 bg-white p-4 shadow-sm">
+                <h3 className="text-sm font-bold text-zinc-800">{row.label}</h3>
+                <div className="mt-3 flex items-start gap-2">
+                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-700">By Império Dog</p>
+                    <p className="text-sm text-zinc-700">{row.us}</p>
+                  </div>
+                </div>
+                <div className="mt-3 flex items-start gap-2">
+                  <span className="mt-0.5 h-4 w-4 shrink-0 text-center text-zinc-300 text-lg leading-none">×</span>
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Criadores comuns</p>
+                    <p className="text-sm text-zinc-400">{row.them}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {/* Desktop/tablet (sm+): tabela comparativa em 3 colunas */}
+          <div className="hidden overflow-hidden rounded-2xl border border-zinc-100 shadow-sm sm:block">
             {/* Header */}
-            <div className="grid grid-cols-[1fr,1fr,1fr] bg-zinc-50 text-xs font-bold uppercase tracking-wider text-zinc-500 sm:grid-cols-[1.5fr,1fr,1fr]">
+            <div className="grid grid-cols-[1.5fr,1fr,1fr] bg-zinc-50 text-xs font-bold uppercase tracking-wider text-zinc-500">
               <div className="px-5 py-3">Critério</div>
               <div className="px-5 py-3 text-emerald-700">By Império Dog</div>
               <div className="px-5 py-3 text-zinc-400">Criadores comuns</div>
@@ -296,7 +320,7 @@ export default function SobrePage() {
             {DIFERENCIAIS.map((row, i) => (
               <div
                 key={row.label}
-                className={`grid grid-cols-[1fr,1fr,1fr] sm:grid-cols-[1.5fr,1fr,1fr] border-t border-zinc-100 ${i % 2 === 0 ? "bg-white" : "bg-zinc-50/50"}`}
+                className={`grid grid-cols-[1.5fr,1fr,1fr] border-t border-zinc-100 ${i % 2 === 0 ? "bg-white" : "bg-zinc-50/50"}`}
               >
                 <div className="flex items-start px-5 py-4">
                   <span className="text-sm font-semibold text-zinc-800">{row.label}</span>

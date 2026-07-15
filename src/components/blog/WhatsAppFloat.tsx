@@ -1,12 +1,14 @@
 "use client";
 
 import { MessageCircle, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { buildWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 export default function WhatsAppFloat() {
   const [open, setOpen] = useState(false);
+  const [scrolling, setScrolling] = useState(false);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const whatsappUrl = buildWhatsAppLink({
     message: WHATSAPP_MESSAGES.default,
     utmSource: "blog",
@@ -15,12 +17,31 @@ export default function WhatsAppFloat() {
     utmContent: open ? "float_open" : "float_closed",
   });
 
+  // Esconde durante o scroll ativo para não cobrir texto do artigo — reaparece ~500ms após parar
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolling(true);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => setScrolling(false), 500);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    };
+  }, []);
+
   return (
     <>
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-contrast shadow-elevated transition hover:scale-110 focus-ring"
+        className={[
+          "fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-whatsapp-contrast shadow-elevated transition hover:scale-110 focus-ring",
+          scrolling && !open
+            ? "opacity-0 pointer-events-none translate-y-2 motion-reduce:transition-none"
+            : "opacity-100 pointer-events-auto translate-y-0",
+        ].join(" ")}
         aria-label={open ? "Fechar atalho WhatsApp" : "Abrir atalho WhatsApp"}
       >
         {open ? <X className="h-6 w-6" aria-hidden /> : <MessageCircle className="h-6 w-6" aria-hidden />}

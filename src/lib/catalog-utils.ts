@@ -69,7 +69,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço de um Spitz Alemão Anão Creme?",
         answer:
-          "Na By Império Dog, a Fêmea Creme começa em R$ 15.000 e o Macho em R$ 9.000. Todos os valores incluem registro oficial, vacinação completa, laudos de saúde e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Creme é R$ 8.500 e o Macho Creme é R$ 7.500. Todos os valores incluem registro oficial, vacinação completa, laudos de saúde e mentoria vitalícia.",
       },
       {
         question: "Por que o Spitz Creme é mais caro que outras cores?",
@@ -106,7 +106,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Laranja?",
         answer:
-          "Na By Império Dog, a Fêmea Laranja começa em R$ 10.000 e o Macho em R$ 7.000. Inclui registro oficial, vacinação, laudos e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Laranja é R$ 8.500 e o Macho Laranja é R$ 6.500. Inclui registro oficial, vacinação, laudos e mentoria vitalícia.",
       },
       {
         question: "Spitz Laranja é dócil com crianças?",
@@ -143,7 +143,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Preto?",
         answer:
-          "Na By Império Dog, a Fêmea Preta começa em R$ 13.000 e o Macho em R$ 8.000. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Preta é R$ 8.500 e o Macho Preto é R$ 7.500. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
       },
       {
         question: "Por que o Spitz Preto é raro?",
@@ -163,12 +163,12 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   "wolf-sable": {
-    seoTitle: "Spitz Alemão Anão Wolf Sable | Filhotes Disponíveis – By Império Dog",
+    seoTitle: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) | Filhotes Disponíveis – By Império Dog",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Wolf Sable (cinza/laranja) em Bragança Paulista, SP. Cor rara reconhecida pela FCI. Registro oficial e mentoria vitalícia.",
-    h1: "Spitz Alemão Anão Wolf Sable",
+      "Filhotes de Spitz Alemão Anão Cinza-Lobo (Wolf Sable, cinza/laranja) em Bragança Paulista, SP. Cor rara reconhecida pela FCI. Registro oficial e mentoria vitalícia.",
+    h1: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",
     intro:
-      "O Wolf Sable é a coloração bicolor mais exótica do Spitz Alemão Anão. Com máscara facial cinza sobre base laranja, imita o padrão selvagem do lobo. Reconhecida pela FCI como cor oficial, é raramente encontrada em criações especializadas no Brasil — o que torna cada filhote uma oportunidade única.",
+      "O Cinza-Lobo (Wolf Sable) é a coloração bicolor mais exótica do Spitz Alemão Anão. Com máscara facial cinza sobre base laranja, imita o padrão selvagem do lobo. Reconhecida pela FCI como cor oficial, é raramente encontrada em criações especializadas no Brasil — o que torna cada filhote uma oportunidade única.",
     characteristics: [
       "Coloração bicolor: base laranja com pontas cinza/pretas (sable)",
       "Máscara facial escura — padrão único inconfundível",
@@ -178,24 +178,24 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
     faqs: [
       {
-        question: "O que é Wolf Sable no Spitz Alemão Anão?",
+        question: "O que é Cinza-Lobo (Wolf Sable) no Spitz Alemão Anão?",
         answer:
-          "Wolf Sable descreve uma coloração bicolor onde cada pelo tem base laranja e ponta escura (cinza ou preta), criando o efeito 'lobo'. É uma cor reconhecida oficialmente pela FCI no padrão da raça.",
+          "Cinza-Lobo (ou Wolf Sable) descreve uma coloração bicolor onde cada pelo tem base laranja e ponta escura (cinza ou preta), criando o efeito 'lobo'. É uma cor reconhecida oficialmente pela FCI no padrão da raça.",
       },
       {
-        question: "Qual o preço do Spitz Wolf Sable?",
+        question: "Qual o preço do Spitz Cinza-Lobo?",
         answer:
-          "Na By Império Dog, a Fêmea Wolf Sable começa em R$ 11.000 e o Macho em R$ 7.500. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Cinza-Lobo é R$ 8.500 e o Macho Cinza-Lobo é R$ 6.500. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
       },
       {
-        question: "O Spitz Wolf Sable muda de cor com o tempo?",
+        question: "O Spitz Cinza-Lobo muda de cor com o tempo?",
         answer:
           "Filhotes Wolf Sable podem parecer mais escuros ao nascer. A coloração definitiva se estabelece entre 6 e 12 meses. A criadora documenta e acompanha a evolução da pelagem.",
       },
       {
-        question: "Wolf Sable é o mesmo que Sable?",
+        question: "Cinza-Lobo (Wolf Sable) é o mesmo que Sable?",
         answer:
-          "Wolf Sable (ou Orange Sable) e Sable puro são variações distintas dentro da família Sable. No Wolf Sable a base é laranja; no Sable puro a base pode ser mais clara. Ambos são reconhecidos pela FCI.",
+          "Cinza-Lobo (ou Orange Sable) e Sable puro são variações distintas dentro da família Sable. No Cinza-Lobo a base é laranja; no Sable puro a base pode ser mais clara. Ambos são reconhecidos pela FCI.",
       },
     ],
   },
@@ -236,7 +236,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Spitz Fêmea é mais cara que Macho?",
         answer:
-          "Sim. A fêmea tem demanda consideravelmente superior ao macho em todas as cores, o que eleva seu valor. A diferença varia de R$ 2.000 a R$ 6.000 dependendo da cor.",
+          "Sim. Todas as fêmeas têm o mesmo valor (R$ 8.500), enquanto o macho varia entre R$ 6.500 e R$ 7.500 conforme a cor — uma diferença de R$ 1.000 a R$ 2.000.",
       },
       {
         question: "Posso castrar a Spitz Fêmea?",
@@ -278,7 +278,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Qual a diferença de preço entre Macho e Fêmea?",
         answer:
-          "O Macho é entre R$ 2.000 e R$ 6.000 mais barato que a Fêmea dependendo da cor, sem qualquer diferença de qualidade, saúde ou documentação.",
+          "O Macho é entre R$ 1.000 e R$ 2.000 mais barato que a Fêmea (que tem valor único de R$ 8.500), dependendo da cor do macho, sem qualquer diferença de qualidade, saúde ou documentação.",
       },
       {
         question: "O Macho Spitz é bom para crianças?",

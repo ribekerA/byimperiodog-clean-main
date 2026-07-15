@@ -41,7 +41,7 @@ export default function Footer() {
   }, []);
 
   const whatsapp = buildWhatsAppLink({
-    message: "Olá! Quero falar com a By Império Dog sobre disponibilidade de Spitz Alemão Anão.",
+    message: "Olá! Quero falar com a By Império Dog sobre disponibilidade de Spitz Alemão Anão (Lulu da Pomerânia).",
     utmSource: "site",
     utmMedium: "footer",
     utmCampaign: "footer_whatsapp",
@@ -82,7 +82,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-zinc-400">
-              Spitz Alemão Anão até 22 cm — criado com responsabilidade, saúde validada e suporte para toda a vida do seu cão.
+              Spitz Alemão Anão (Lulu da Pomerânia) até 22 cm — criado com responsabilidade, saúde validada e suporte para toda a vida do seu cão.
             </p>
             <address className="not-italic space-y-1 text-sm">
               <p>
@@ -167,7 +167,7 @@ export default function Footer() {
         <div className="border-t border-zinc-800 py-4">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 text-xs text-zinc-600 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <p>&copy; 2013–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados.</p>
-            <p>Spitz Alemão Anão — saúde validada, suporte premium, famílias felizes.</p>
+            <p>Spitz Alemão Anão (Lulu da Pomerânia) — saúde validada, suporte premium, famílias felizes.</p>
           </div>
         </div>
       </div>

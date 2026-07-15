@@ -42,7 +42,7 @@ export const guides: Guide[] = [
       {
         heading: "As diferenças entre as cores",
         paragraphs: [
-          "Creme e Preto Fêmea são as cores mais valorizadas e raras. Wolf Sable (bicolor cinza/laranja) é a cor mais exótica. Laranja é a mais icônica e com maior disponibilidade ao longo do ano.",
+          "Creme e Preto Fêmea são as cores mais valorizadas e raras. Cinza-Lobo (Wolf Sable), bicolor cinza/laranja, é a cor mais exótica. Laranja é a mais icônica e com maior disponibilidade ao longo do ano.",
           "A cor não influencia o temperamento nem a saúde — influencia apenas a disponibilidade e, consequentemente, o preço. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
         ],
       },

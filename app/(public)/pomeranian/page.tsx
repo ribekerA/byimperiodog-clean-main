@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "Qual o preço de um Pomeranian no Brasil?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 7.000 a R$ 15.000 dependendo da cor e do sexo. Machos partem de R$ 7.000 (laranja) e fêmeas de R$ 10.000 — podendo chegar a R$ 15.000 no creme. Todos incluem registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo) e chegam a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos incluem registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia.",
   },
   {
     question: "Pomeranian tem outro nome no Brasil?",
@@ -119,12 +119,9 @@ export default function PomeranianPage() {
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
-            { cor: "Macho — Laranja",    preco: "R$ 7.000",  tag: "a partir de" },
-            { cor: "Macho — Wolf Sable", preco: "R$ 7.500",  tag: "a partir de" },
-            { cor: "Macho — Preto",      preco: "R$ 8.000",  tag: "a partir de" },
-            { cor: "Fêmea — Laranja",    preco: "R$ 10.000", tag: "a partir de" },
-            { cor: "Fêmea — Wolf Sable", preco: "R$ 11.000", tag: "a partir de" },
-            { cor: "Fêmea — Creme",      preco: "R$ 15.000", tag: "mais valorizada" },
+            { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", preco: "R$ 6.500", tag: "a partir de" },
+            { cor: "Macho — Creme / Preto",                     preco: "R$ 7.500", tag: "a partir de" },
+            { cor: "Fêmea — todas as cores",                    preco: "R$ 8.500", tag: "valor único" },
           ].map((p) => (
             <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs text-zinc-400 uppercase tracking-wide">{p.tag}</p>

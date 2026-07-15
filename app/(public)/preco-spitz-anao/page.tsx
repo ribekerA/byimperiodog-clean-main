@@ -14,7 +14,7 @@ const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 export const metadata: Metadata = {
   title: `Preço do Spitz Alemão Anão (Lulu da Pomerânia) em ${new Date().getFullYear()} | By Império Dog`,
   description:
-    "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Wolf Sable. Registro oficial, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
+    "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). Registro oficial, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
@@ -30,16 +30,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Tabela de Preços do Spitz Alemão Anão (${new Date().getFullYear()}) | By Império Dog`,
     description:
-      "Machos de R$ 7.000 a R$ 9.000 e fêmeas de R$ 10.000 a R$ 15.000 — inclui registro oficial, laudos veterinários e mentoria vitalícia.",
+      "Machos de R$ 6.500 a R$ 7.500 e fêmeas R$ 8.500 (valor único para todas as cores) — inclui registro oficial, laudos veterinários e mentoria vitalícia.",
     type: "article",
   },
 };
 
 const PRICE_TABLE = [
-  { color: "Laranja",    male: "R$ 7.000",  female: "R$ 10.000", note: "A cor mais icônica da raça" },
-  { color: "Wolf Sable", male: "R$ 7.500",  female: "R$ 11.000", note: "Padrão exótico reconhecido pela FCI" },
-  { color: "Preto",      male: "R$ 8.000",  female: "R$ 13.000", note: "Cor rara com poucos criadores no Brasil" },
-  { color: "Creme",      male: "R$ 9.000",  female: "R$ 15.000", note: "A mais valorizada — altíssima demanda" },
+  { color: "Laranja",                    male: "R$ 6.500", female: "R$ 8.500", note: "A cor mais icônica da raça" },
+  { color: "Cinza-Lobo (Wolf Sable)",    male: "R$ 6.500", female: "R$ 8.500", note: "Padrão exótico reconhecido pela FCI" },
+  { color: "Preto",                      male: "R$ 7.500", female: "R$ 8.500", note: "Cor rara com poucos criadores no Brasil" },
+  { color: "Creme",                      male: "R$ 7.500", female: "R$ 8.500", note: "A mais valorizada — altíssima demanda" },
 ] as const;
 
 const INCLUDED_ITEMS = [
@@ -58,7 +58,7 @@ const PAGE_FAQS = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 7.000 e R$ 15.000. Machos variam de R$ 7.000 (laranja) a R$ 9.000 (creme). Fêmeas, por maior demanda, variam de R$ 10.000 (laranja) a R$ 15.000 (creme). Todos os valores incluem registro oficial, laudo de saúde, vacinação completa, microchip e mentoria vitalícia.",
+      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 8.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os valores incluem registro oficial, laudo de saúde, vacinação completa, microchip e mentoria vitalícia.",
   },
   {
     question: "Por que o Spitz Alemão Anão é tão caro?",
@@ -68,12 +68,12 @@ const PAGE_FAQS = [
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
     answer:
-      "Sim. As fêmeas são mais valorizadas por conta da maior demanda. O preço de uma fêmea pode ser de 30% a 70% superior ao do macho da mesma cor e linhagem. Isso não é arbitrário — é reflexo direto da procura pelo mercado, especialmente nas cores creme e preto.",
+      "Sim. As fêmeas são mais valorizadas por conta da maior demanda e custam R$ 8.500, valor único para todas as cores. Em relação ao macho da mesma cor, a diferença fica entre R$ 1.000 e R$ 2.000. Isso não é arbitrário — é reflexo direto da procura pelo mercado.",
   },
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
     answer:
-      "A cor creme (champagne) é a mais valorizada e cara, chegando a R$ 15.000 para fêmeas. Logo depois vem o preto (R$ 13.000 fêmea, R$ 8.000 macho), que é raro e difícil de encontrar com registro oficial. O laranja e o wolf sable são as mais acessíveis, começando em R$ 7.000 para machos.",
+      "Nas fêmeas, o valor é o mesmo para todas as cores: R$ 8.500. Entre os machos, creme e preto são os mais caros, empatados em R$ 7.500 — o preto, além de valorizado, é raro e difícil de encontrar com registro oficial. O laranja e o cinza-lobo (wolf sable) são os mais acessíveis, a R$ 6.500 para machos.",
   },
   {
     question: "O que está incluso no preço da By Império Dog?",

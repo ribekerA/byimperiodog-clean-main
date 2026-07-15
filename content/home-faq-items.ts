@@ -19,7 +19,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 7.000 e R$ 15.000, dependendo da cor e do sexo. Machos variam de R$ 7.000 (laranja) a R$ 9.000 (creme). Fêmeas, por sua maior demanda, variam de R$ 10.000 (laranja) a R$ 15.000 (creme). Todos os filhotes saem com registro oficial, laudo de saúde, vacinação completa, microchip e mentoria vitalícia inclusos no valor — sem cobranças extras.",
+      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 8.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os filhotes saem com registro oficial, laudo de saúde, vacinação completa, microchip e mentoria vitalícia inclusos no valor — sem cobranças extras.",
   },
   {
     question: "O Spitz Alemão Anão é bom para apartamento?",
@@ -39,7 +39,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Spitz Alemão (Lulu da Pomerânia) preto é raro? É mais caro?",
     answer:
-      "O Spitz Alemão Anão (Lulu da Pomerânia) preto é considerado uma cor rara, com menos criadores especializados no Brasil. É mais difícil de encontrar com registro oficial e linhagem saudável. Na By Império Dog, mantemos matrizes na cor preta com laudos genéticos. O preço do preto fica em torno de R$ 8.000 para machos e R$ 13.000 para fêmeas — um pouco acima do laranja, mas abaixo do creme.",
+      "O Spitz Alemão Anão (Lulu da Pomerânia) preto é considerado uma cor rara, com menos criadores especializados no Brasil. É mais difícil de encontrar com registro oficial e linhagem saudável. Na By Império Dog, mantemos matrizes na cor preta com laudos genéticos. O preço do preto é de R$ 7.500 para machos e R$ 8.500 para fêmeas (mesmo valor de todas as cores) — no mesmo patamar do creme, acima do laranja e do cinza-lobo.",
   },
   {
     question: "Vocês entregam o filhote em todo o Brasil?",

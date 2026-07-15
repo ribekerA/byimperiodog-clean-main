@@ -1,7 +1,7 @@
 // content/puppies-static.ts
 // Catálogo estático — By Império Dog
 // Para atualizar disponibilidade: status → "available" | "reserved" | "sold"
-// Hierarquia de preços: Fêmea Creme > Fêmea Preta > Fêmea Laranja > Macho Creme > Macho Preto > Macho Laranja/Wolf
+// Hierarquia de preços: Fêmeas R$ 8.500 (todas as cores) | Machos R$ 7.500 (Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
 
 export const staticPuppies = [
   // ─── SPITZ CREME FÊMEA ──────────────────────────────────────────────────────
@@ -33,9 +33,9 @@ export const staticPuppies = [
       "/filhotes/videos/spitz-creme.mp4",
       "/filhotes/videos/ninhada-creme-01.mp4",
     ],
-    // Fêmea Creme — topo da hierarquia, maior demanda e menor oferta → R$ 15.000
-    price_cents: 1500000,
-    priceCents: 1500000,
+    // Fêmea Creme — preço único de fêmea → R$ 8.500
+    price_cents: 850000,
+    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Creme de pelagem sedosa e temperamento dócil. Topo da hierarquia em valor e demanda. Socializada desde o nascimento em ambiente familiar. Registro oficial, vacinação em dia e mentoria vitalícia inclusa.",
@@ -89,9 +89,9 @@ export const staticPuppies = [
       "/filhotes/preto/preto-filhote-2024-jardim-02.jpg",
       "/filhotes/videos/spitz-anao.mp4",
     ],
-    // Fêmea Preta — segunda mais cara, cor rara e extremamente disputada → R$ 13.000
-    price_cents: 1300000,
-    priceCents: 1300000,
+    // Fêmea Preta — preço único de fêmea → R$ 8.500
+    price_cents: 850000,
+    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Preta de pelagem brilhante e estrutura compacta. Segunda cor mais valorizada — disponibilidade raramente aberta. Criada com socialização guiada, laudos de saúde e registro oficial.",
@@ -148,9 +148,9 @@ export const staticPuppies = [
       "/filhotes/videos/laranja-femea-jardim.mp4",
       "/filhotes/videos/ninhada-jun22-01.mp4",
     ],
-    // Fêmea Laranja — terceira na hierarquia → R$ 10.000
-    price_cents: 1000000,
-    priceCents: 1000000,
+    // Fêmea Laranja — preço único de fêmea → R$ 8.500
+    price_cents: 850000,
+    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Laranja de coloração vibrante, exatamente dentro do padrão FCI. Temperamento alegre e extremamente carinhosa. Criada com socialização guiada e acompanhamento veterinário completo.",
@@ -206,9 +206,9 @@ export const staticPuppies = [
       "/filhotes/videos/spitz-branco.mp4",
       "/filhotes/videos/creme-dupla.mp4",
     ],
-    // Macho Creme — quarto na hierarquia → R$ 9.000
-    price_cents: 900000,
-    priceCents: 900000,
+    // Macho Creme — faixa alta de macho (Creme/Preto) → R$ 7.500
+    price_cents: 750000,
+    priceCents: 750000,
     currency: "BRL",
     description:
       "Macho Creme com estrutura compacta dentro do padrão FCI (até 22 cm). Criado com socialização guiada, alimentação premium e acompanhamento veterinário completo. Registro oficial.",
@@ -262,9 +262,9 @@ export const staticPuppies = [
       "/filhotes/preto/preto-filhote-jardim-02.jpg",
       "/filhotes/videos/spitz-anao.mp4",
     ],
-    // Macho Preto — quinto na hierarquia → R$ 8.000
-    price_cents: 800000,
-    priceCents: 800000,
+    // Macho Preto — faixa alta de macho (Creme/Preto) → R$ 7.500
+    price_cents: 750000,
+    priceCents: 750000,
     currency: "BRL",
     description:
       "Macho Preto de pelagem brilhante e estrutura compacta. Cor menos comum e extremamente disputada. Ninhada 2025 — consulte agenda de visitas.",
@@ -319,9 +319,9 @@ export const staticPuppies = [
       "/filhotes/videos/laranja-macho-jardim.mp4",
       "/filhotes/videos/ninhada-laranja-01.mp4",
     ],
-    // Macho Laranja — sexto na hierarquia → R$ 7.000
-    price_cents: 700000,
-    priceCents: 700000,
+    // Macho Laranja — faixa baixa de macho (Cinza-Lobo/Laranja) → R$ 6.500
+    price_cents: 650000,
+    priceCents: 650000,
     currency: "BRL",
     description:
       "Macho Laranja com expressão marcante e pelagem densa. Linhagem comprovada com laudos de saúde e exames genéticos. Registro oficial entregue antes da reserva.",
@@ -352,11 +352,11 @@ export const staticPuppies = [
   // ─── SPITZ WOLF SABLE FÊMEA ─────────────────────────────────────────────────
   {
     id: "spitz-wolf-sable-femea-01",
-    name: "Spitz Wolf Sable Fêmea",
+    name: "Spitz Cinza-Lobo (Wolf Sable) Fêmea",
     slug: "spitz-alemao-anao-wolf-sable-femea",
-    title: "Spitz Alemão Anão Wolf Sable Fêmea | By Império Dog",
+    title: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) Fêmea | By Império Dog",
     color: "wolf-sable",
-    cor: "Wolf Sable",
+    cor: "Cinza-Lobo",
     sex: "female",
     gender: "female",
     status: "available",
@@ -376,12 +376,12 @@ export const staticPuppies = [
       "/filhotes/wolf-sable/wolf-sable-filhote-brinquedos-01.jpg",
       "/filhotes/videos/wolf-sable-jardim.mp4",
     ],
-    // Wolf Sable Fêmea — cor rara, alta demanda → R$ 11.000
-    price_cents: 1100000,
-    priceCents: 1100000,
+    // Cinza-Lobo Fêmea — preço único de fêmea → R$ 8.500
+    price_cents: 850000,
+    priceCents: 850000,
     currency: "BRL",
     description:
-      "Fêmea Wolf Sable — coloração rara com máscara cinza sobre base laranja. Uma das cores mais buscadas no Spitz Alemão Anão. Disponibilidade limitada, consulte agenda.",
+      "Fêmea Cinza-Lobo (Wolf Sable) — coloração rara com máscara cinza sobre base laranja. Uma das cores mais buscadas no Spitz Alemão Anão. Disponibilidade limitada, consulte agenda.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,
@@ -409,11 +409,11 @@ export const staticPuppies = [
   // ─── SPITZ WOLF SABLE MACHO ─────────────────────────────────────────────────
   {
     id: "spitz-wolf-sable-macho-01",
-    name: "Spitz Wolf Sable Macho",
+    name: "Spitz Cinza-Lobo (Wolf Sable) Macho",
     slug: "spitz-alemao-anao-wolf-sable-macho",
-    title: "Spitz Alemão Anão Wolf Sable Macho | By Império Dog",
+    title: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) Macho | By Império Dog",
     color: "wolf-sable",
-    cor: "Wolf Sable",
+    cor: "Cinza-Lobo",
     sex: "male",
     gender: "male",
     status: "available",
@@ -433,12 +433,12 @@ export const staticPuppies = [
       "/filhotes/videos/wolf-sable-jardim.mp4",
       "/filhotes/videos/spitz-anao.mp4",
     ],
-    // Wolf Sable Macho — junto com Macho Laranja → R$ 7.500
-    price_cents: 750000,
-    priceCents: 750000,
+    // Cinza-Lobo Macho — faixa baixa de macho (Cinza-Lobo/Laranja) → R$ 6.500
+    price_cents: 650000,
+    priceCents: 650000,
     currency: "BRL",
     description:
-      "Macho Wolf Sable com porte elegante e pelagem exuberante. Coloração bicolor cinza e laranja — padrão reconhecido pela FCI e raro na criação nacional.",
+      "Macho Cinza-Lobo (Wolf Sable) com porte elegante e pelagem exuberante. Coloração bicolor cinza e laranja — padrão reconhecido pela FCI e raro na criação nacional.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,

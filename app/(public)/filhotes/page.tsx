@@ -17,12 +17,12 @@ const CATALOG_FAQS = [
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
     answer:
-      "Na By Império Dog trabalhamos com quatro cores: Creme (mais valorizada, a partir de R$ 9.000), Laranja (a mais icônica da raça, a partir de R$ 7.000), Preto (cor rara e elegante, a partir de R$ 8.000) e Wolf Sable (padrão exótico reconhecido pela FCI, a partir de R$ 7.500). A disponibilidade varia conforme as ninhadas.",
+      "Na By Império Dog trabalhamos com quatro cores: Creme (mais valorizada, a partir de R$ 7.500), Laranja (a mais icônica da raça, a partir de R$ 6.500), Preto (cor rara e elegante, a partir de R$ 7.500) e Cinza-Lobo (Wolf Sable), padrão exótico reconhecido pela FCI, a partir de R$ 6.500. A disponibilidade varia conforme as ninhadas.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
     answer:
-      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) costumam custar mais do que os machos por conta da maior demanda. Fêmeas variam de R$ 10.000 a R$ 15.000 (dependendo da cor). Machos variam de R$ 7.000 a R$ 9.000. Todos os valores incluem registro oficial, laudos veterinários e mentoria vitalícia.",
+      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) custam mais do que os machos por conta da maior demanda. Fêmeas custam R$ 8.500, valor único para todas as cores. Machos variam de R$ 6.500 a R$ 7.500, dependendo da cor. Todos os valores incluem registro oficial, laudos veterinários e mentoria vitalícia.",
   },
   {
     question: "Os filhotes são entregues com quais documentos?",
@@ -33,7 +33,7 @@ const CATALOG_FAQS = [
 
 export const metadata: Metadata = {
   title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Disponíveis | By Império Dog",
-  description: "Catálogo de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Cores: Creme, Laranja, Preto, Wolf Sable. Registro oficial, laudos e mentoria vitalícia. Bragança Paulista, SP — entrega em todo o Brasil.",
+  description: "Catálogo de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Cores: Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable). Registro oficial, laudos e mentoria vitalícia. Bragança Paulista, SP — entrega em todo o Brasil.",
   keywords: [
     "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
     "comprar Spitz Alemão creme", "filhote Pomeranian SP",

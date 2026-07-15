@@ -19,7 +19,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   ninhada: "Ninhadas",
   raça: "Raça",
   branco: "Branco",
-  wolf: "Wolf Sable",
+  wolf: "Cinza-Lobo",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -164,7 +164,7 @@ export default function GaleriaClient({ videos }: Props) {
           {videos.length} vídeos do nosso canil
         </h2>
         <p className="text-zinc-400 text-sm">
-          Passe o mouse para pré-visualizar. Clique para assistir em tela cheia.
+          Toque ou clique para assistir em tela cheia.
         </p>
       </div>
 

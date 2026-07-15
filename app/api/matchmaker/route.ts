@@ -41,7 +41,7 @@ PERSONALIDADE POR COR:
 - Creme: pelagem sedosa creme/marfim, temperamento dócil e carinhoso, a mais valorizada
 - Laranja: cor clássica do Spitz, alegre e extrovertido, ama interagir com crianças
 - Preto: elegante e leal, vínculo muito profundo com o tutor, protetor
-- Wolf Sable: pelagem bicolor rara (cinza/preto), muito inteligente e expressivo
+- Cinza-Lobo (Wolf Sable): pelagem bicolor rara (cinza/preto), muito inteligente e expressivo
 
 FRETE/ENTREGA: entregamos em todo o Brasil com cuidado especializado
 PARCELAMENTO: consultar condições com a equipe via WhatsApp

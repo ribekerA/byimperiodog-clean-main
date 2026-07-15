@@ -15,27 +15,22 @@ const INCLUDED = [
 const SEXES = [
   {
     label: "Macho",
-    range: "R$ 7.000 a R$ 9.500",
+    range: "R$ 6.500 a R$ 7.500",
     highlight: false,
     note: "Temperamento alegre, brincalhão e apegado. Excelente para famílias.",
     colors: [
-      { cor: "Laranja", valor: "R$ 7.000" },
-      { cor: "Wolf Sable", valor: "R$ 7.500" },
-      { cor: "Preto", valor: "R$ 8.000" },
-      { cor: "Creme", valor: "R$ 9.000" },
+      { cor: "Laranja", valor: "R$ 6.500" },
+      { cor: "Cinza-Lobo", valor: "R$ 6.500" },
+      { cor: "Preto", valor: "R$ 7.500" },
+      { cor: "Creme", valor: "R$ 7.500" },
     ],
   },
   {
     label: "Fêmea",
-    range: "R$ 10.000 a R$ 15.000",
+    range: "R$ 8.500",
     highlight: true,
     note: "Vínculo familiar mais profundo. Alta demanda — reservas se esgotam rápido.",
-    colors: [
-      { cor: "Laranja", valor: "R$ 10.000" },
-      { cor: "Wolf Sable", valor: "R$ 11.000" },
-      { cor: "Preta", valor: "R$ 13.000" },
-      { cor: "Creme", valor: "R$ 15.000" },
-    ],
+    colors: [{ cor: "Todas as cores", valor: "R$ 8.500" }],
   },
 ];
 
