@@ -97,7 +97,7 @@ export default function LuluBragancaPage() {
         <div className="grid gap-4 sm:grid-cols-2">
           {[
             { label: "Cidade", value: "Bragança Paulista, SP", itemprop: "addressLocality" },
-            { label: "Atendimento", value: "Seg–Sáb, 9h–18h" },
+            { label: "Atendimento", value: "Todos os dias, 8h–22h" },
             { label: "Distância de SP Capital", value: "≈ 100 km / 1h30" },
             { label: "Visitas", value: "Por agendamento (WhatsApp)" },
             { label: "Desde", value: "2012 — 13+ anos de criação" },

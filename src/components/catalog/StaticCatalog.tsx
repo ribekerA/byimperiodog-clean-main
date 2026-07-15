@@ -38,6 +38,10 @@ const STATUS_OPTIONS = [
   { value: "reserved", label: "Reservados" },
 ];
 
+const COLOR_LABELS: Record<string, string> = {
+  "wolf-sable": "Cinza-Lobo",
+};
+
 export default function StaticCatalog({ puppies }: Props) {
   const [filterColor, setFilterColor] = useState("");
   const [filterSex, setFilterSex] = useState("");
@@ -120,11 +124,13 @@ export default function StaticCatalog({ puppies }: Props) {
               key={c}
               type="button"
               onClick={() => setFilterColor(c === filterColor ? "" : c)}
-              className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold capitalize transition ${
+              className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
+                COLOR_LABELS[c] ? "" : "capitalize"
+              } ${
                 filterColor === c ? "bg-emerald-600 text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
               }`}
             >
-              {c}
+              {COLOR_LABELS[c] ?? c}
             </button>
           ))}
           {/* Separador visual */}

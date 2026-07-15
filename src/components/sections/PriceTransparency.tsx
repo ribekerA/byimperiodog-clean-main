@@ -111,7 +111,7 @@ export default function PriceTransparency() {
           <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
           Conhecer os filhotes disponíveis
         </a>
-        <p className="mt-3 text-xs text-zinc-400">Atendimento de segunda a sábado, 9h–18h.</p>
+        <p className="mt-3 text-xs text-zinc-400">Atendimento todos os dias, 8h–22h.</p>
       </div>
     </section>
   );

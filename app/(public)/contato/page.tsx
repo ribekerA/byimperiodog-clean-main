@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "Qual o prazo de resposta pelo WhatsApp?",
-    a: "Respondemos em até 30 minutos no horário comercial (seg–sáb, 9h–18h). Fora desse horário, responderemos na abertura do próximo dia.",
+    a: "Respondemos em até 30 minutos no horário comercial (todos os dias, 8h–22h). Fora desse horário, responderemos assim que possível.",
   },
   {
     q: "Posso visitar o canil presencialmente?",
@@ -75,13 +75,13 @@ const FAQ_ITEMS = [
 ] as const;
 
 const SCHEDULE_DAYS = [
-  { day: "Segunda", hours: "9h – 18h", open: true },
-  { day: "Terça", hours: "9h – 18h", open: true },
-  { day: "Quarta", hours: "9h – 18h", open: true },
-  { day: "Quinta", hours: "9h – 18h", open: true },
-  { day: "Sexta", hours: "9h – 18h", open: true },
-  { day: "Sábado", hours: "9h – 14h", open: true },
-  { day: "Domingo", hours: "Fechado", open: false },
+  { day: "Segunda", hours: "8h – 22h", open: true },
+  { day: "Terça", hours: "8h – 22h", open: true },
+  { day: "Quarta", hours: "8h – 22h", open: true },
+  { day: "Quinta", hours: "8h – 22h", open: true },
+  { day: "Sexta", hours: "8h – 22h", open: true },
+  { day: "Sábado", hours: "8h – 22h", open: true },
+  { day: "Domingo", hours: "8h – 22h", open: true },
 ] as const;
 
 export default function ContatoPage() {

@@ -165,7 +165,7 @@ export default function PuppyCinematicGallery({
   );
 
   return (
-    <div className="flex flex-col gap-3 lg:sticky lg:top-24">
+    <div className="min-w-0 flex flex-col gap-3 lg:sticky lg:top-24">
 
       {/* ── Imagem principal ─────────────────────────────────────────────── */}
       <div

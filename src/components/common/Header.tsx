@@ -91,7 +91,7 @@ export default function Header() {
           >
             <span className="flex flex-col leading-tight">
               <span className="rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold text-brand">By Império Dog</span>
-              <span className="mt-0.5 px-3 text-[11px] font-medium italic text-zinc-500">Sementinhas de Amor</span>
+              <span className="mt-0.5 px-3 text-xs font-semibold italic text-zinc-600">Sementinhas de Amor</span>
             </span>
             <span className="hidden text-xs font-medium text-zinc-500 sm:block">Spitz Alemão Anão (Lulu da Pomerânia)</span>
           </Link>
