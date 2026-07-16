@@ -157,7 +157,7 @@ export default function PuppyDetailPanel({
           {name}
         </h1>
         <p className="mt-1 text-sm text-zinc-500">
-          Spitz Alemão Anão · Bragança Paulista, SP
+          Spitz Alemão Anão (Lulu da Pomerânia) · Bragança Paulista, SP
         </p>
       </motion.div>
 

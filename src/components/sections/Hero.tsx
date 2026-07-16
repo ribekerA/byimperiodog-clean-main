@@ -26,7 +26,7 @@ const SELLING_POINTS = [
   {
     icon: CheckCircle2,
     title: "Spitz até 22 cm",
-    description: "Seleção cuidadosa para famílias que buscam Spitz Alemão Anão dentro do padrão FCI.",
+    description: "Seleção cuidadosa para famílias que buscam Spitz Alemão Anão (Lulu da Pomerânia) dentro do padrão FCI.",
   },
 ] as const;
 
@@ -38,7 +38,7 @@ const STATS = [
 
 const primaryWhatsApp = buildWhatsAppLink({
   message:
-    "Olá! Quero receber orientação personalizada sobre os Spitz Alemão Anão até 22 cm da By Império Dog.",
+    "Olá! Quero receber orientação personalizada sobre os Spitz Alemão Anão (Lulu da Pomerânia) até 22 cm da By Império Dog.",
   utmSource: "site",
   utmMedium: "hero",
   utmCampaign: "hero_primary_cta",

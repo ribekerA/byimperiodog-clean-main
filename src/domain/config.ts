@@ -142,16 +142,16 @@ export const BUSINESS_GOALS = {
 export const SEO_CONFIG = {
   // Templates de título
   titleTemplates: {
-    puppy: "{name} • {color} • {sex} | Spitz Alemão Anão | By Império Dog",
-    category: "Filhotes de Spitz Alemão {category} | By Império Dog",
-    city: "Spitz Alemão em {city} | Entrega Segura | By Império Dog",
-    color: "Spitz Alemão {color} | Filhotes Disponíveis | By Império Dog",
+    puppy: "{name} • {color} • {sex} | Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog",
+    category: "Filhotes de Spitz Alemão (Lulu da Pomerânia) {category} | By Império Dog",
+    city: "Spitz Alemão (Lulu da Pomerânia) em {city} | Entrega Segura | By Império Dog",
+    color: "Spitz Alemão (Lulu da Pomerânia) {color} | Filhotes Disponíveis | By Império Dog",
   },
 
   // Descrições padrão
   defaultDescriptions: {
     puppy:
-      "Conheça {name}, filhote de Spitz Alemão Anão {color} {sex}. Registro oficial, suporte vitalício e entrega segura. By Império Dog - criadora especializada.",
+      "Conheça {name}, filhote de Spitz Alemão Anão (Lulu da Pomerânia) {color} {sex}. Registro oficial, suporte vitalício e entrega segura. By Império Dog - criadora especializada.",
     catalog:
       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com registro oficial, garantia de saúde e suporte vitalício. Entrega em todo Brasil. By Império Dog.",
   },

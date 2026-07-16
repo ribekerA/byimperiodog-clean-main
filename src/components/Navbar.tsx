@@ -72,7 +72,7 @@ export default function Navbar() {
           <Image src="/byimperiologo.svg" alt="Logotipo By Imperio Dog" width={32} height={32} className="h-8 w-8" />
           <div className="flex flex-col leading-tight">
             <span className="truncate">By Imperio Dog</span>
-            <span className="hidden text-xs font-normal text-[var(--text-muted)] sm:block">Criação especializada em Spitz Alemão Anão Lulu da Pomerânia</span>
+            <span className="hidden text-xs font-normal text-[var(--text-muted)] sm:block">Criação especializada em Spitz Alemão Anão (Lulu da Pomerânia)</span>
           </div>
         </Link>
 

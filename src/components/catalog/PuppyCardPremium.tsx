@@ -87,10 +87,10 @@ function buildSeo(puppy: PuppyCardData, fallbacks: { name: string; color: string
   const shortTitle = aiSeo?.shortTitle || `${fallbacks.name} - ${fallbacks.color} ${fallbacks.gender}`;
   const shortDescription =
     aiSeo?.shortDescription ||
-    `Spitz Alemão Anão ${fallbacks.gender}, cor ${fallbacks.color}, ${fallbacks.location}. ${formatPrice(fallbacks.priceCents)}.`;
+    `Spitz Alemão Anão (Lulu da Pomerânia) ${fallbacks.gender}, cor ${fallbacks.color}, ${fallbacks.location}. ${formatPrice(fallbacks.priceCents)}.`;
   const altText =
     aiSeo?.altText ||
-    `Filhote Spitz Alemão Anão ${fallbacks.gender.toLowerCase()} na cor ${fallbacks.color}, localizado em ${fallbacks.location}.`;
+    `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${fallbacks.gender.toLowerCase()} na cor ${fallbacks.color}, localizado em ${fallbacks.location}.`;
   const seoKeywords = aiSeo?.seoKeywords || aiSeo?.focusedKeywords || [];
   const structured = aiSeo?.structuredDataSnippets;
 

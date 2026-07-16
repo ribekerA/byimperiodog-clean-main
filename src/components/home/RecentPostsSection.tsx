@@ -52,7 +52,7 @@ export async function RecentPostsSection() {
 				<div>
 					<h2 id="home-blog-heading" className="text-2xl font-bold tracking-tight sm:text-3xl">Últimos Artigos</h2>
 					<p className="mt-2 max-w-prose text-sm text-zinc-600 dark:text-zinc-400">
-						Conheça dicas, guias e novidades sobre o Spitz Alemão para uma jornada de tutoria responsável.
+						Conheça dicas, guias e novidades sobre o Spitz Alemão Anão (Lulu da Pomerânia) para uma jornada de tutoria responsável.
 					</p>
 				</div>
 				<Link

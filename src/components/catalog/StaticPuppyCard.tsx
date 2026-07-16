@@ -147,7 +147,7 @@ export default function StaticPuppyCard({
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={cover}
-                alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
+                alt={`${name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.07]"
                 loading={priority ? "eager" : "lazy"}
               />

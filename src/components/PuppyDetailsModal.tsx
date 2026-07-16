@@ -268,7 +268,7 @@ function normalize(p: any) {
     state: p.state,
     status: p.status,
     // Campos obrigatórios de Puppy preenchidos com valores padrão se ausentes
-    breed: p.breed || "Spitz Alemão Anão",
+    breed: p.breed || "Spitz Alemão Anão (Lulu da Pomerânia)",
     size: p.size || "mini",
     title: p.title || name,
     currency: p.currency || "BRL",

@@ -55,7 +55,7 @@ export default function Header() {
   const whatsappLink = useMemo(
     () =>
       buildWhatsAppLink({
-        message: "Olá! Quero conversar sobre a disponibilidade dos Spitz Alemão Anão da By Império Dog.",
+        message: "Olá! Quero conversar sobre a disponibilidade dos Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog.",
         utmSource: "site",
         utmMedium: "header",
         utmCampaign: "header_whatsapp",

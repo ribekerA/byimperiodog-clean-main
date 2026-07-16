@@ -52,7 +52,7 @@ export default function FeaturedPuppies({ puppies }: Props) {
             id="featured-heading"
             className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl"
           >
-            Conheça nossos Spitz Alemão Anão
+            Conheça nossos Spitz Alemão Anão (Lulu da Pomerânia)
           </h2>
           <p className="mt-4 text-base leading-relaxed text-zinc-600">
             Criados com socialização guiada, alimentação premium e acompanhamento veterinário.
@@ -84,7 +84,7 @@ export default function FeaturedPuppies({ puppies }: Props) {
                   {cover && !cover.endsWith(".mp4") && (
                     <Image
                       src={cover}
-                      alt={`${puppy.name} — Spitz Alemão Anão ${puppy.color} ${sexLabel}`}
+                      alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${puppy.color} ${sexLabel}`}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition duration-500 group-hover:scale-105"

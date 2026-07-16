@@ -167,7 +167,7 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
     if (!Array.isArray(rawSeoKeywords)) return [] as string[];
     return rawSeoKeywords.map((keyword) => keyword?.trim()).filter((keyword): keyword is string => Boolean(keyword));
   }, [rawSeoKeywords]);
-  const fallbackAlt = `Filhote Spitz Alemão Anão ${baseName} na cor ${color}, ${gender}, localizado em ${location}. Status ${status.label}.`;
+  const fallbackAlt = `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${baseName} na cor ${color}, ${gender}, localizado em ${location}. Status ${status.label}.`;
   const imageAlt = aiSeo?.altText || p.altText || fallbackAlt;
 
   const whatsappLink = useMemo(

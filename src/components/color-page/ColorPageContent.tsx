@@ -178,7 +178,7 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={img}
-              alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
+              alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
               loading="lazy"
             />

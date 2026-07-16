@@ -261,7 +261,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={coverImg}
-            alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
+            alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
             className="h-full w-full object-cover object-top transition duration-500 hover:scale-105"
             loading="lazy"
           />

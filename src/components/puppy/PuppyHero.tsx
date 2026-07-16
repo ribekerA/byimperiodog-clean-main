@@ -37,7 +37,7 @@ export function PuppyHero({ puppy, whatsappLink, onFavorite, isFavorited }: Prop
           {puppy.images?.[0] ? (
             <Image
               {...getNextImageProps(puppy.slug, "hero", { priority: true })}
-              alt={`Filhote ${puppy.name} - Spitz Alemão Anão ${puppy.color}, ${translateSex(puppy.sex)}, ${location}`}
+              alt={`Filhote ${puppy.name} - Spitz Alemão Anão (Lulu da Pomerânia) ${puppy.color}, ${translateSex(puppy.sex)}, ${location}`}
               className="object-cover w-full h-full"
             />
           ) : (
