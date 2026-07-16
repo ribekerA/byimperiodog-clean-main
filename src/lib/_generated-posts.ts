@@ -566,9 +566,9 @@ export const generatedPosts = [
   },
   {
     "slug": "spitz-alemao-anao-wolf-sable",
-    "title": "Spitz Alemão Anão Cinza-Lobo (Wolf Sable): A Cor Mais Rara e Intrigante da Raça",
-    "description": "Conheça o Spitz Alemão Anão Cinza-Lobo (Wolf Sable): o que é essa cor, por que é tão especial, preço no Brasil e cuidados específicos com a pelagem bicolor.",
-    "excerpt": "Conheça o Spitz Alemão Anão Cinza-Lobo (Wolf Sable): o que é essa cor, por que é tão especial, preço no Brasil e cuidados específicos com a pelagem bicolor.",
+    "title": "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable): A Cor Mais Rara e Intrigante da Raça",
+    "description": "Conheça o Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable): o que é essa cor, por que é tão especial, preço no Brasil e cuidados específicos com a pelagem bicolor.",
+    "excerpt": "Conheça o Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable): o que é essa cor, por que é tão especial, preço no Brasil e cuidados específicos com a pelagem bicolor.",
     "cover": "/images/blog/spitz-alemao-anao-wolf-sable.png",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
