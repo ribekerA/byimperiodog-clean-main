@@ -3,10 +3,11 @@
 /**
  * WhatsAppFloat — Botão fixo de WhatsApp.
  *
- * • Visível em TODAS as páginas públicas (exceto /admin)
+ * • Visível nas páginas públicas, exceto /admin e /filhotes* (que já têm CTA próprio)
  * • Aparece após 3 s para não prejudicar CLS
  * • Mensagem automática personalizada conforme a rota atual
  * • Evento GA4/GTM disparado no clique ("wa_float_click")
+ * • Some ao sobrepor elementos marcados com [data-wa-safe-zone]
  * • Respeita prefers-reduced-motion
  * • Touch target mínimo 48×48 px (WCAG 2.5.5)
  */
@@ -66,14 +67,23 @@ function fireEvent(eventName: string, params: Record<string, string>) {
   }
 }
 
+// Páginas de /filhotes já têm CTA de WhatsApp dedicado por card/detalhe
+// (StaticPuppyCard "Tenho interesse", PuppyStickyFloatingCTA no mobile) —
+// o botão flutuante global aqui colidiria visualmente com eles.
+function hasOwnWhatsAppCta(pathname: string): boolean {
+  return pathname.startsWith("/filhotes");
+}
+
 export function WhatsAppFloat() {
   const pathname = usePathname() ?? "/";
   const [visible, setVisible] = useState(false);
   const [pulse, setPulse] = useState(false);
   const [showReview, setShowReview] = useState(false);
   const [scrolling, setScrolling] = useState(false);
+  const [overlapping, setOverlapping] = useState(false);
   const firstPulse = useRef(false);
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafPending = useRef(false);
 
   // Aparece após 3 s — não perturba CLS / LCP
   useEffect(() => {
@@ -94,6 +104,53 @@ export function WhatsAppFloat() {
       if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     };
   }, []);
+
+  // Some se o botão for sobrepor um elemento marcado como zona segura
+  // (ex.: grid de benefícios da home) — evita cobrir texto/CTAs abaixo dele.
+  useEffect(() => {
+    const BUTTON_SIZE = 56;
+    const MARGIN = 20;
+    const BUFFER = 12;
+
+    const checkOverlap = () => {
+      rafPending.current = false;
+      const zones = document.querySelectorAll("[data-wa-safe-zone]");
+      if (zones.length === 0) {
+        setOverlapping(false);
+        return;
+      }
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const btn = {
+        left: vw - MARGIN - BUTTON_SIZE - BUFFER,
+        right: vw,
+        top: vh - MARGIN - BUTTON_SIZE - BUFFER,
+        bottom: vh,
+      };
+      let hit = false;
+      zones.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.right > btn.left && r.left < btn.right && r.bottom > btn.top && r.top < btn.bottom) {
+          hit = true;
+        }
+      });
+      setOverlapping(hit);
+    };
+
+    const onScrollOrResize = () => {
+      if (rafPending.current) return;
+      rafPending.current = true;
+      requestAnimationFrame(checkOverlap);
+    };
+
+    checkOverlap();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+    return () => {
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, [pathname]);
 
   // Pulsa suavemente uma vez após 8 s para chamar atenção
   useEffect(() => {
@@ -118,7 +175,9 @@ export function WhatsAppFloat() {
     setTimeout(() => setShowReview(true), 5000);
   }, [pathname]);
 
-  if (!visible) return null;
+  if (!visible || hasOwnWhatsAppCta(pathname)) return null;
+
+  const hidden = scrolling || overlapping;
 
   return (
     <>
@@ -142,8 +201,8 @@ export function WhatsAppFloat() {
         "active:scale-95 active:brightness-95",
         // Pulse animation
         pulse ? "animate-wa-pulse" : "",
-        // Some durante o scroll ativo para não cobrir texto — respeita prefers-reduced-motion (some sem transição)
-        scrolling
+        // Some durante o scroll ativo ou ao sobrepor uma zona segura — respeita prefers-reduced-motion (some sem transição)
+        hidden
           ? "opacity-0 pointer-events-none translate-y-2 motion-reduce:transition-none"
           : "opacity-100 pointer-events-auto translate-y-0",
       ].filter(Boolean).join(" ")}
