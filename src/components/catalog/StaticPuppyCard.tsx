@@ -132,7 +132,7 @@ export default function StaticPuppyCard({
   );
 
   return (
-    <TiltCard glowColor={glowColor} maxTilt={9}>
+    <TiltCard glowColor={glowColor} maxTilt={9} className="h-full">
       <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-zinc-900/6 h-full">
 
         {/* ── Foto (full-bleed, aspect 4/5) ──────────────────────────────────── */}

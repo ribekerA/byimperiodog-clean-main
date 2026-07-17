@@ -20,7 +20,7 @@ import {
   useTransform,
 } from "framer-motion";
 import type { ReactNode } from "react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface TiltCardProps {
   children: ReactNode;
@@ -39,6 +39,17 @@ export function TiltCard({
 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+
+  // Toque não dispara mouseleave de forma confiável — o card ficaria "preso"
+  // em scale(1.03)/rotação após um tap, quebrando o alinhamento com os vizinhos.
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: coarse)");
+    setIsCoarsePointer(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsCoarsePointer(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   // Valores brutos
   const rawRotateX = useMotionValue(0);
@@ -94,8 +105,8 @@ export function TiltCard({
     glareOpacity.set(0);
   };
 
-  // Sem animação no reduced-motion — só renderiza os filhos normalmente
-  if (reduced) {
+  // Sem animação no reduced-motion ou em dispositivos touch — só renderiza os filhos normalmente
+  if (reduced || isCoarsePointer) {
     return <div className={className}>{children}</div>;
   }
 
