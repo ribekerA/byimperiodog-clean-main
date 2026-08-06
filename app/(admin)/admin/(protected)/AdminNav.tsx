@@ -181,7 +181,7 @@ export function AdminNav({ environment }: Props) {
           {!collapsed && (
             <div className="min-w-0">
               <p className="truncate text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-                By Imperio Dog
+                By Império Dog
               </p>
               <p className="text-sm font-bold text-[var(--text)]">Admin</p>
               <p className="text-[10px] text-[var(--text-muted)]">{environment}</p>
@@ -244,7 +244,7 @@ export function AdminNav({ environment }: Props) {
       <Dialog open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
         <DialogContent title="Menu de Navegação" className="max-w-sm max-h-[85vh] overflow-y-auto">
           <div className="mb-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">By Imperio Dog</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">By Império Dog</p>
             <p className="text-sm font-bold text-[var(--text)]">Painel Admin · {environment}</p>
           </div>
           <nav aria-label="Seções do painel" className="space-y-3">

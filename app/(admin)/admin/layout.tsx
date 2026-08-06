@@ -8,10 +8,10 @@ import { dmSans, inter } from "../../fonts";
 
 export const metadata: Metadata = {
   title: {
-    default: "Admin | By Imperio Dog",
-    template: "%s | Admin • By Imperio Dog",
+    default: "Admin | By Império Dog",
+    template: "%s | Admin • By Império Dog",
   },
-  description: "Painel administrativo interno da By Imperio Dog.",
+  description: "Painel administrativo interno da By Império Dog.",
   robots: {
     index: false,
     follow: false,

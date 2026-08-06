@@ -30,7 +30,7 @@ const DEFAULT_IMAGE: Required<OgImage> = {
   url: "/spitz-hero-desktop.webp",
   width: 1200,
   height: 630,
-  alt: "Spitz Alemão (Lulu da Pomerânia) — By Imperio Dog",
+  alt: "Spitz Alemão (Lulu da Pomerânia) — By Império Dog",
 };
 
 export function resolveRobots(overrides?: Metadata["robots"]) {

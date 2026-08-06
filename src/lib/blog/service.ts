@@ -1,3 +1,4 @@
+import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 export type BlogPost = {
@@ -80,6 +81,28 @@ export async function listPostsWithMeta(params: ListParams = {}): Promise<ListRe
   const hasNext = page * pageSize < total;
   const hasPrev = page > 1;
   return { posts, page, pageSize, total, hasNext, hasPrev };
+}
+
+/**
+ * Posts do Supabase que de fato viram página em /blog/[slug].
+ *
+ * Traz o corpo junto porque a decisão depende dele: sem passar por
+ * isPublishableSupabasePost, a listagem de /blog exibia linhas de seed cujo
+ * link respondia 404. Usado pela listagem pública, que já tem os artigos de
+ * content/posts e só precisa dos slugs exclusivos do banco.
+ */
+export async function listPublishableSupabasePosts(): Promise<BlogPost[]> {
+  const sb = supabaseAnon();
+  const { data, error } = await sb
+    .from("blog_posts")
+    .select(
+      "id,slug,title,excerpt,content_mdx,cover_url,cover_alt,published_at,updated_at,status,category,tags,seo_title,seo_description"
+    )
+    .eq("status", "published")
+    .order("published_at", { ascending: false })
+    .limit(500);
+  if (error) throw error;
+  return ((data ?? []) as BlogPost[]).filter(isPublishableSupabasePost);
 }
 
 export async function getPostBySlug(slug: string, opts?: { includeDraft?: boolean }): Promise<BlogPost | null> {

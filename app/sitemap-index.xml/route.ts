@@ -10,15 +10,13 @@ function xmlEscape(s: string) {
 
 export async function GET() {
   const now = new Date().toISOString();
-  // Lista consolidada dos sitemaps existentes no app
+  // Apenas sitemaps cujas URLs resolvem em 200.
+  // /sitemaps/{tags,authors,categories,puppies}.xml apontavam para rotas
+  // inexistentes (/blog/tag, /autores, /categorias, /filhote/{id}) e foram
+  // removidos do índice para não alimentar o Google com 404.
   const sitemaps = [
     `${site}/sitemap.xml`,
-    `${site}/blog/sitemap.xml`,
     `${site}/sitemaps/posts.xml`,
-    `${site}/sitemaps/tags.xml`,
-    `${site}/sitemaps/authors.xml`,
-    `${site}/sitemaps/categories.xml`,
-    `${site}/sitemaps/puppies.xml`,
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps

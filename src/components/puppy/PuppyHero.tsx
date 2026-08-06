@@ -123,7 +123,7 @@ export function PuppyHero({ puppy, whatsappLink, onFavorite, isFavorited }: Prop
             </Button>
           </a>
           <p className="text-center text-xs text-zinc-500">
-            Resposta em até 1 hora • Atendimento humanizado 7 dias por semana
+            Resposta em até 2 horas • Atendimento humanizado 7 dias por semana
           </p>
         </div>
       </div>

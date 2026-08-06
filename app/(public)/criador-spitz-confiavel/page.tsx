@@ -7,14 +7,15 @@ import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema"
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
 
 export const metadata: Metadata = {
-  title: "Criador de Spitz Alemão Anão Confiável em SP | By Império Dog",
+  title: "Criador de Spitz Alemão Anão Confiável em SP",
   description:
-    "Saiba como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia). A By Império Dog tem 10+ anos, registro oficial, laudos veterinários e mentoria vitalícia. Criador responsável em Bragança Paulista, SP — atende todo o Brasil.",
+    "Saiba como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia). A By Império Dog tem 13 anos, registro oficial, laudos veterinários e mentoria vitalícia. Criador responsável em Bragança Paulista, SP — atende todo o Brasil.",
   keywords: [
     "criador Spitz Alemão Anão confiável SP",
     "melhor canil Lulu da Pomerânia interior SP",
@@ -30,16 +31,18 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
     description:
-      "10+ anos de criação responsável, 180+ famílias atendidas, registro oficial e mentoria vitalícia. Saiba como identificar um criador confiável.",
+      "13 anos de criação responsável, 180+ famílias atendidas, registro oficial e mentoria vitalícia. Saiba como identificar um criador confiável.",
     type: "article",
   },
 };
 
+// Sem "Avaliação 5.0 ★": não existe plataforma pública de avaliações
+// verificadas do canil, então qualquer média exibida aqui seria inventada.
 const CREDENTIALS = [
-  { label: "Desde",        value: "2012",    note: "13 anos de criação especializada" },
-  { label: "Famílias",     value: "180+",    note: "Tutores em todo o Brasil" },
-  { label: "Avaliação",    value: "5.0 ★",   note: "Média de 180+ avaliações verificadas" },
-  { label: "Documentação", value: "100%",    note: "Registro oficial em todos os filhotes" },
+  { label: "Desde",        value: String(FOUNDING_YEAR), note: `${yearsOfExperience()} anos de criação especializada` },
+  { label: "Famílias",     value: "180+",    note: "Mais de 180 famílias atendidas em todo o Brasil" },
+  { label: "Registro",     value: "Incluso", note: "Emissão e entrega conforme o prazo da entidade responsável" },
+  { label: "Mentoria",     value: "Vitalícia", note: "Suporte direto com a criadora após a entrega" },
 ] as const;
 
 const WHAT_MAKES_RESPONSIBLE = [
@@ -53,7 +56,7 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Transparência total em documentação",
-    body: "Todo filhote sai com registro oficial registrado, laudo de saúde, teste de patela, carteira de vacinação, microchip, nota fiscal e contrato detalhado. Não há 'documentação em andamento' nem documentação incompleta.",
+    body: "Todo filhote sai com registro oficial, laudo de saúde, teste de patela, carteira de vacinação, microchip, nota fiscal e contrato detalhado. Não há 'documentação em andamento' nem documentação incompleta.",
   },
   {
     title: "Suporte real e vitalício",
@@ -78,12 +81,12 @@ const PAGE_FAQS = [
   {
     question: "Como saber se um criador de Spitz Alemão Anão é confiável?",
     answer:
-      "Um criador confiável: tem presença online consistente com histórico real de filhotes, fornece registro oficial registrado (não apenas prometido), apresenta laudos de saúde dos pais, permite visita ou videochamada, tem contrato claro com garantia de saúde, e oferece suporte pós-venda. Desconfie de preços muito baixos, sem visita permitida ou sem documentação completa.",
+      "Um criador confiável: tem presença online consistente com histórico real de filhotes, fornece registro oficial (não apenas prometido), apresenta laudos de saúde dos pais, permite visita ou videochamada, tem contrato claro com garantia de saúde, e oferece suporte pós-venda. Desconfie de preços muito baixos, sem visita permitida ou sem documentação completa.",
   },
   {
     question: "A By Império Dog tem criação com registro oficial?",
     answer:
-      "Sim. A By Império Dog trabalha exclusivamente com linhagens reconhecidas pela FCI. Todo filhote vendido sai com registro oficial registrado e legível, garantindo a procedência racial e o registro oficial do animal.",
+      "Sim. A By Império Dog trabalha exclusivamente com linhagens reconhecidas pela FCI. Todo filhote vendido sai com registro oficial legível, garantindo a procedência racial e o registro oficial do animal.",
   },
   {
     question: "Quantos anos de experiência tem a By Império Dog?",
@@ -126,7 +129,7 @@ export default function CriadorConfiavelPage() {
 
       {/* ── HERO ── */}
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável desde 2012</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável desde 2013</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Criador de Spitz Alemão Anão (Lulu da Pomerânia) confiável em SP
         </h1>
@@ -178,11 +181,11 @@ export default function CriadorConfiavelPage() {
           By Império Dog — criação familiar em Bragança Paulista, SP
         </h2>
         <p className="text-sm text-zinc-700 sm:text-base" itemProp="description">
-          Fundada em 2012 pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Nossos filhotes nascem e crescem dentro de casa, ao lado da família, com socialização diária e cuidado individual. Mantemos poucos cães adultos para garantir atenção personalizada a cada ninhada.
+          Fundada em 2013 pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Nossos filhotes nascem e crescem dentro de casa, ao lado da família, com socialização diária e cuidado individual. Mantemos poucos cães adultos para garantir atenção personalizada a cada ninhada.
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {[
-            "Criação especializada desde 2012",
+            "Criação especializada desde 2013",
             "Laudos de saúde antes de cada cruzamento",
             "Maternidade climatizada com monitoramento por câmeras",
             "Socialização com crianças, sons e rotina doméstica",

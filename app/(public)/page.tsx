@@ -30,9 +30,9 @@ const AiMatchmakerChat = dynamic(() => import("@/components/sections/AiMatchmake
 });
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista | By Império Dog",
+  title: "Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista",
   description:
-    "Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudo de saúde, vacinação e mentoria vitalícia. 10+ anos, 180+ famílias. Entregamos em todo o Brasil.",
+    "Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudo de saúde, vacinação e mentoria vitalícia. 13 anos, 180+ famílias. Entregamos em todo o Brasil.",
   keywords: [
     "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
     "filhote Spitz Alemão", "canil Bragança Paulista",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     url: "/",
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
-      "Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos. 10+ anos, 180+ famílias atendidas.",
+      "Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos. 13 anos, 180+ famílias atendidas.",
     images: [{ url: "/og/home.jpg", width: 1200, height: 630, alt: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog, Bragança Paulista SP" }],
   },
   twitter: {
@@ -73,8 +73,8 @@ const RACE_LINKS = [
 
 // Diferenciais — definidos fora para evitar recriação a cada render
 const DIFFERENTIALS = [
-  { emoji: "🏅", title: "Registro oficial incluso", body: "Toda documentação oficial entregue antes da reserva. Sem surpresas, sem letras miúdas." },
-  { emoji: "🩺", title: "Saúde validada", body: "Laudo de saúde, exames genéticos e vacinação em dia. O filhote chega pronto." },
+  { emoji: "🏅", title: "Registro oficial incluso", body: "Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato." },
+  { emoji: "🩺", title: "Saúde validada", body: "Laudo de saúde, exames genéticos e protocolo vacinal em dia conforme a idade do filhote. O filhote chega pronto." },
   { emoji: "🏡", title: "Socialização guiada", body: "Criados em ambiente familiar com estímulos visuais, auditivos e de contato desde o nascimento." },
   { emoji: "💬", title: "Mentoria vitalícia", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
   { emoji: "🚗", title: "Logística assistida", body: "Orientação completa sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },
@@ -86,7 +86,7 @@ const TRUST_SIGNALS = [
   "Registro oficial",
   "Laudos de saúde",
   "Mentoria vitalícia inclusa",
-  "10+ anos de criação",
+  "13 anos de criação",
   "180+ famílias atendidas",
 ] as const;
 
@@ -220,98 +220,14 @@ export default function HomePage() {
               </p>
             </ScrollReveal>
 
-            {/* ── Mobile: carrossel horizontal snap ─────────────────────────── */}
-            <div className="sm:hidden">
-              <ul
-                className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                aria-label="Filhotes em destaque"
-              >
-                {featured.map((puppy, i) => {
-                  const corLabel = (puppy as any).cor ?? puppy.color ?? "";
-                  const sexRaw = puppy.sex ?? (puppy as any).gender ?? "";
-                  const sexLabel = sexRaw === "female" ? "Fêmea" : sexRaw === "male" ? "Macho" : "";
-                  const cover = puppy.images.find((img: string) => !img.endsWith(".mp4")) ?? puppy.images[0];
-                  const price = (puppy as any).priceCents ?? (puppy as any).price_cents;
-                  const isReserved = puppy.status === "reserved" || puppy.status === "reservado";
-                  const waLink = buildWhatsAppLink({
-                    message: `Olá! Vi o ${puppy.name} (${corLabel} ${sexLabel}) no site e quero saber mais informações.`,
-                    utmSource: "site",
-                    utmMedium: "featured_home",
-                    utmCampaign: "filhotes",
-                    utmContent: puppy.id,
-                  });
-                  return (
-                    <li key={puppy.id} className="w-[72vw] max-w-[260px] shrink-0 snap-start">
-                      <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-900/5 shadow-sm">
-                        <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
-                          <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
-                            {cover && (
-                              <Image
-                                src={cover}
-                                alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-                                fill
-                                className="object-cover"
-                                sizes="72vw"
-                                priority={i < 2}
-                              />
-                            )}
-                            <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${isReserved ? "bg-amber-500" : "bg-emerald-500"}`}>
-                              {isReserved ? "Reservado" : "Disponível"}
-                            </span>
-                            {sexLabel && (
-                              <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
-                                {sexLabel}
-                              </span>
-                            )}
-                          </div>
-                        </Link>
-                        <div className="flex flex-1 flex-col gap-2.5 p-3">
-                          <div>
-                            <Link href={`/filhotes/cor/${puppy.color}`} className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">
-                              {corLabel}
-                            </Link>
-                            <Link href={`/filhotes/${puppy.slug}`}>
-                              <h3 className="mt-0.5 text-sm font-bold text-zinc-900">{puppy.name}</h3>
-                            </Link>
-                          </div>
-                          <div className="mt-auto">
-                            {price > 0 && (
-                              <p className="text-lg font-extrabold text-[var(--accent)]">{formatPrice(price)}</p>
-                            )}
-                            <p className="text-[9px] text-zinc-400">Documentação inclusa</p>
-                          </div>
-                          <a
-                            href={waLink}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white active:scale-[0.97]"
-                          >
-                            <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                            Interesse
-                          </a>
-                        </div>
-                      </article>
-                    </li>
-                  );
-                })}
-                {/* Peek card — CTA ver todos */}
-                <li className="w-[56vw] max-w-[200px] shrink-0 snap-start">
-                  <Link
-                    href="/filhotes"
-                    className="flex h-full flex-col items-center justify-center gap-4 rounded-2xl bg-emerald-600 p-5 text-center shadow-md active:scale-[0.97] transition-transform"
-                  >
-                    <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-2xl">🐾</span>
-                    <span className="text-sm font-bold leading-snug text-white">Ver todos os filhotes</span>
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-emerald-700 text-sm font-bold shadow-sm">→</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* ── Desktop: grid 4-colunas ────────────────────────────────────── */}
-            <div className="hidden sm:block px-5 sm:px-8">
+            {/* ── Lista de filhotes — UMA única instância no DOM ──────────────
+                Antes havia um carrossel "mobile" e um grid "desktop" com os
+                mesmos cards, o que duplicava todos os filhotes no HTML público.
+                Agora é o mesmo bloco: carrossel com snap no mobile e grid de
+                4 colunas a partir de sm, alternado só por CSS. */}
+            <div className="px-5 sm:px-8">
               <StaggerContainer
-                className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+                className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:pb-0 lg:grid-cols-4"
                 stagger={0.12}
                 delay={0.15}
               >
@@ -330,7 +246,10 @@ export default function HomePage() {
                     utmContent: puppy.id,
                   });
                   return (
-                    <StaggerItem key={puppy.id}>
+                    <StaggerItem
+                      key={puppy.id}
+                      className="w-[72vw] max-w-[260px] shrink-0 snap-start sm:w-auto sm:max-w-none sm:shrink"
+                    >
                       <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-900/5 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                         <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
                           <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
@@ -340,7 +259,7 @@ export default function HomePage() {
                                 alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
                                 fill
                                 className="object-cover transition duration-500 group-hover:scale-105"
-                                sizes="(max-width: 1024px) 50vw, 25vw"
+                                sizes="(max-width: 640px) 72vw, (max-width: 1024px) 50vw, 25vw"
                                 priority={i < 2}
                               />
                             )}
@@ -393,24 +312,16 @@ export default function HomePage() {
                 })}
               </StaggerContainer>
 
-              <ScrollReveal delay={0.2} className="mt-12 text-center">
+              {/* CTA único — antes existia uma versão "desktop" e outra "mobile",
+                  além do card final do carrossel, repetindo o mesmo link 3×. */}
+              <ScrollReveal delay={0.2} className="mt-8 text-center sm:mt-12">
                 <Link
                   href="/filhotes"
-                  className="inline-flex min-h-[52px] items-center gap-2 rounded-full border-2 border-zinc-200 px-8 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 hover:scale-[1.02]"
+                  className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full border-2 border-zinc-200 px-8 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
                 >
                   Ver todos os filhotes disponíveis →
                 </Link>
               </ScrollReveal>
-            </div>
-
-            {/* ── Mobile: CTA após carrossel ─────────────────────────────────── */}
-            <div className="mt-6 px-5 sm:hidden">
-              <Link
-                href="/filhotes"
-                className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full border-2 border-zinc-200 text-sm font-semibold text-zinc-700 transition active:scale-[0.98]"
-              >
-                Ver todos os filhotes disponíveis →
-              </Link>
             </div>
           </div>
         </section>
@@ -428,7 +339,7 @@ export default function HomePage() {
                 Por que a By Império Dog?
               </h2>
               <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-                Mais de 10 anos cuidando de cada detalhe para que você receba um filhote saudável, socializado e com suporte para toda a vida.
+                Desde 2013 cuidando de cada detalhe para que você receba um filhote saudável, socializado e com suporte para toda a vida.
               </p>
             </ScrollReveal>
 
@@ -528,7 +439,7 @@ export default function HomePage() {
               Prepare-se para receber seu filhote
             </h2>
             <p className="mt-3 text-zinc-600">
-              Guias escritos por quem cria há mais de 10 anos: alimentação, cuidados, documentação e muito mais.
+              Guias escritos por quem cria desde 2013: alimentação, cuidados, documentação e muito mais.
             </p>
             <Link
               href="/guias"

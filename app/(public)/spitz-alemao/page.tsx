@@ -10,9 +10,9 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/spitz-alemao`;
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Anão — Raça, Características, Preço e Cuidados | By Império Dog",
+  title: "Spitz Alemão Anão — Raça, Características, Preço e Cuidados",
   description:
-    "Tudo sobre o Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto, cuidados com pelagem e preço. Criadora especializada em Bragança Paulista, SP, desde 2012.",
+    "Tudo sobre o Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto, cuidados com pelagem e preço. Criadora especializada em Bragança Paulista, SP, desde 2013.",
   keywords: [
     "Spitz Alemão Anão",
     "Spitz Alemão características",
@@ -35,7 +35,7 @@ const CHARACTERISTICS = [
   { label: "Peso adulto",      value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
-  { label: "Cores reconhecidas", value: "Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
+  { label: "Cores mais procuradas", value: "Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
   { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
@@ -60,7 +60,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "As cores reconhecidas pela FCI são: Laranja (a mais icônica), Creme (a mais valorizada), Preto (rara no Brasil) e Cinza-Lobo (Wolf Sable), um padrão exótico com pelos tricolores. Cada cor tem particularidades no preço e na disponibilidade.",
+      "O padrão da raça admite várias cores. Entre as mais procuradas estão Laranja (a mais icônica), Creme (a mais valorizada), Preto (rara no Brasil) e Cinza-Lobo (Wolf Sable), além de branco, marrom, preto e castanho e as variantes particoloridas. Cada cor tem particularidades no preço e na disponibilidade — mas a cor não altera temperamento nem saúde.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
@@ -183,7 +183,7 @@ export default function SpitzAlemaoPage() {
             { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Império Dog fornece plano alimentar personalizado." },
             { t: "Exercício", b: "2 passeios curtos por dia (15–20 min cada) são suficientes. Não suporta calor intenso — evite saídas no pico do calor." },
             { t: "Dentes", b: "Raças pequenas são propensas a tartaro. Escovação 2–3× por semana + petiscos dentais. Consulta veterinária anual para limpeza profissional." },
-            { t: "Veterinário", b: "Consulta anual de rotina, vacinação em dia (V8/V10 + antirrábica) e avaliação veterinária completa a partir dos 3 anos (raça com predisposição a sopro cardíaco)." },
+            { t: "Veterinário", b: "Consulta anual de rotina, calendário de reforços vacinais em dia conforme a prescrição do médico-veterinário e avaliação cardiológica a partir dos 3 anos (raça com predisposição a sopro cardíaco)." },
           ].map((item) => (
             <li key={item.t} className="flex items-start gap-3">
               <span className="mt-0.5 flex-none rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">{item.t}</span>
@@ -195,7 +195,7 @@ export default function SpitzAlemaoPage() {
 
       {/* Cores */}
       <section aria-labelledby="cores-heading" className="space-y-4">
-        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores reconhecidas pela FCI</h2>
+        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores mais procuradas do Spitz Alemão Anão</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },

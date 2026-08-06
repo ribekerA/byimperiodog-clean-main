@@ -8,7 +8,7 @@ import { rateLimit } from "@/lib/rateLimit";
 import { PrintButton } from "./PrintButton";
 
 export const metadata: Metadata = {
-  title: "Contrato de Compra e Venda | By Império Dog",
+  title: "Contrato de Compra e Venda",
   robots: { index: false, follow: false },
 };
 

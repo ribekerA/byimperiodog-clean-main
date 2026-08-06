@@ -31,7 +31,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
         Ver filhotes disponíveis →
       </Link>
       <p className="mt-3 text-center text-[10px] text-zinc-400">
-        ★ 180+ famílias · Contrato digital
+        Mais de 180 famílias · Contrato digital
       </p>
     </div>
   );

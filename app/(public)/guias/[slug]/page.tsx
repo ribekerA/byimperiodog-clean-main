@@ -17,9 +17,9 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   const guide = getGuideBySlug(params.slug);
-  if (!guide) return { title: "Guia não encontrado | By Império Dog" };
+  if (!guide) return { title: "Guia não encontrado" };
   return {
-    title: `${guide.title} | By Império Dog`,
+    title: guide.title,
     description: guide.metaDescription,
     alternates: { canonical: `/guias/${guide.slug}` },
     openGraph: { title: guide.title, description: guide.metaDescription, type: "article" },

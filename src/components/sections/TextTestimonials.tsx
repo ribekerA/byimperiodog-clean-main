@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { FOUNDING_YEAR } from "@/domain/config";
+
 const TESTIMONIALS = [
   {
     photo: "/clientes/ana.jpeg",
@@ -56,44 +58,23 @@ export default function TextTestimonials() {
           Famílias que já encontraram o Spitz ideal
         </h2>
         <p className="mt-3 text-zinc-600">
-          Mais de 180 famílias atendidas em 10 anos. Veja o que dizem sobre a experiência.
+          Mais de 180 famílias atendidas desde {FOUNDING_YEAR}. Veja o que dizem sobre a experiência.
         </p>
       </div>
 
-      {/* ── Mobile: carrossel horizontal snap ─────────────────────────────────── */}
+      {/* ── Depoimentos — UMA única instância no DOM ───────────────────────────
+          Antes existia uma <ul> "mobile" e outra "desktop" com exatamente os
+          mesmos quatro depoimentos, o que duplicava todo o texto no HTML
+          público. Agora é a mesma lista: carrossel com snap no mobile e grid
+          de 2/4 colunas a partir de sm, alternado somente por CSS. */}
       <ul
-        className="sm:hidden flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:pb-0 lg:grid-cols-4"
         aria-label="Depoimentos de clientes"
       >
         {TESTIMONIALS.map((t) => (
           <li
             key={t.name}
-            className="w-[82vw] max-w-[320px] shrink-0 snap-start flex flex-col gap-4 rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm"
-          >
-            <Stars count={t.stars} />
-            <blockquote className="flex-1 text-sm leading-relaxed text-zinc-600">
-              "{t.text}"
-            </blockquote>
-            <div className="flex items-center gap-3 border-t border-zinc-100 pt-4">
-              <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-zinc-100">
-                <Image src={t.photo} alt={t.name} fill className="object-cover" sizes="40px" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-zinc-900">{t.name}</p>
-                <p className="text-xs text-zinc-400">{t.city}</p>
-                <p className="text-xs font-medium text-emerald-600">{t.puppy}</p>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      {/* ── Desktop: grid ─────────────────────────────────────────────────────── */}
-      <ul className="hidden sm:grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {TESTIMONIALS.map((t) => (
-          <li
-            key={t.name}
-            className="flex flex-col gap-4 rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm transition hover:shadow-md"
+            className="w-[82vw] max-w-[320px] shrink-0 snap-start flex flex-col gap-4 rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm transition sm:w-auto sm:max-w-none sm:shrink sm:hover:shadow-md"
           >
             <Stars count={t.stars} />
             <blockquote className="flex-1 text-sm leading-relaxed text-zinc-600">

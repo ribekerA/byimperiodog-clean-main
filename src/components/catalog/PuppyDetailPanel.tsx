@@ -68,8 +68,8 @@ const STATUS_CONFIG = {
 const INCLUDED = [
   { icon: "📋", title: "Registro oficial",     desc: "Documento oficial da raça"        },
   { icon: "❤️", title: "Laudo de saúde",      desc: "Exame veterinário completo"      },
-  { icon: "💉", title: "Vacinação completa",  desc: "Protocolo vacinal em dia"        },
-  { icon: "🔖", title: "Microchip",           desc: "Identificação permanente"        },
+  { icon: "💉", title: "Protocolo vacinal",   desc: "Em dia conforme a idade, carteira assinada pelo médico-veterinário" },
+  { icon: "🔖", title: "Microchip (opcional)", desc: "Identificação permanente — sob contratação" },
   { icon: "🎓", title: "Mentoria vitalícia",  desc: "Suporte direto com a criadora"   },
   { icon: "🧸", title: "Enxoval do filhote",  desc: "Kit de acolhimento incluso"      },
 ];
@@ -260,7 +260,7 @@ export default function PuppyDetailPanel({
       <ScrollReveal variant="fadeIn" delay={0.1}>
         <div className="flex flex-wrap items-center gap-4 rounded-xl border border-zinc-100 bg-zinc-50/60 px-4 py-3">
           {[
-            { icon: "🏆", text: "10+ anos criando" },
+            { icon: "🏆", text: "13 anos criando" },
             { icon: "👨‍👩‍👧", text: "180+ famílias felizes" },
             { icon: "✈️", text: "Entregamos em todo o Brasil" },
           ].map((item) => (

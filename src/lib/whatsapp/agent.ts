@@ -62,7 +62,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "saúde vacinação laudo exame",
-    a: "Todos os filhotes têm vacinação completa em dia, laudo de saúde, microchip e acompanhamento veterinário desde o nascimento.",
+    a: "Todos os filhotes têm protocolo vacinal em dia conforme a idade, laudo de saúde, microchip e acompanhamento veterinário desde o nascimento.",
   },
   {
     q: "localização onde fica endereço",

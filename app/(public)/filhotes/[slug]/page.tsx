@@ -9,7 +9,6 @@ import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
 import LeadEventTracker from "@/components/LeadEventTracker";
 import dynamic from "next/dynamic";
 const NotifyMeButton = dynamic(() => import("@/components/NotifyMeButton"), { ssr: false });
-import PuppyViewerCount from "@/components/catalog/PuppyViewerCount";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
@@ -29,14 +28,15 @@ const PuppyStickyFloatingCTA = NextDynamic(
   () => import("@/components/catalog/PuppyStickyFloatingCTA"),
   { ssr: false }
 );
-const UrgencyCountdown = NextDynamic(
-  () => import("@/components/catalog/UrgencyCountdown"),
-  { ssr: false }
-);
-const VisitorActivityToast = NextDynamic(
-  () => import("@/components/catalog/VisitorActivityToast"),
-  { ssr: false }
-);
+// UrgencyCountdown, PuppyViewerCount e VisitorActivityToast foram removidos.
+// Os tres exibiam atividade que nunca aconteceu:
+//  • UrgencyCountdown derivava um "reservado em" por hash do slug e contava
+//    24h para uma expiracao de reserva que nao existe em lugar nenhum.
+//  • PuppyViewerCount caia numa "simulacao organica" de 3 a 12 pessoas vendo
+//    agora sempre que o Realtime do Supabase nao respondia.
+//  • VisitorActivityToast sorteava nome e cidade de listas fixas para anunciar
+//    "Fulana de Campinas favoritou este filhote".
+// Anuncio de escassez e de demanda so pode sair de dado real e verificavel.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -52,11 +52,11 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   const puppy = getPuppyBySlug(params.slug);
-  if (!puppy) return { title: "Filhote não encontrado | By Império Dog" };
+  if (!puppy) return { title: "Filhote não encontrado" };
 
   const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
   const corLabel = (puppy as any).cor ?? puppy.color ?? "";
-  const title = `${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} | By Império Dog`;
+  const title = `${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`;
   const description =
     (puppy as any).description ??
     `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia. By Império Dog.`;
@@ -199,12 +199,6 @@ export default function PuppyPage({ params }: Props) {
               slug={puppy.slug}
             />
 
-            {/* Social proof — viewer count */}
-            {!isSold && <PuppyViewerCount puppyId={puppy.slug} />}
-
-            {/* Countdown de reserva */}
-            <UrgencyCountdown puppyId={puppy.slug} status={puppy.status ?? "available"} />
-
             {/* Hooked loop: filhote vendido/reservado → usuário deixa WhatsApp para ser notificado */}
             {isSold && (
               <NotifyMeButton color={colorSlug} colorLabel={corLabel} />
@@ -300,9 +294,6 @@ export default function PuppyPage({ params }: Props) {
           </Link>
         </div>
       </main>
-
-      {/* ── Toasts de atividade de visitantes ─────────────────────────── */}
-      <VisitorActivityToast puppyId={puppy.slug} isSold={isSold} initialDelay={20000} />
 
       {/* ── CTA flutuante (desktop card + mobile barra) ────────────────── */}
       <PuppyStickyFloatingCTA

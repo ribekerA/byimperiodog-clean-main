@@ -15,7 +15,7 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   const seo = COLOR_SEO[params.cor];
-  if (!seo) return { title: "Filhotes por Cor | By Império Dog" };
+  if (!seo) return { title: "Filhotes por Cor" };
   const ogImage = `/og/cor/${params.cor}`;
 
   return {

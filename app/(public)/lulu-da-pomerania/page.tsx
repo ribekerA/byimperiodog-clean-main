@@ -11,7 +11,7 @@ const PAGE_URL = `${SITE_URL}/lulu-da-pomerania`;
 const CURRENT_YEAR = new Date().getFullYear();
 
 export const metadata: Metadata = {
-  title: "Lulu da Pomerânia — Raça, Preço, Cuidados e Filhotes | By Império Dog",
+  title: "Lulu da Pomerânia — Raça, Preço, Cuidados e Filhotes",
   description:
     `Guia completo sobre o Lulu da Pomerânia (Spitz Alemão Anão): características, personalidade, preços em ${CURRENT_YEAR}, cuidados, cores e onde comprar com segurança. Criadora responsável em Bragança Paulista, SP.`,
   keywords: [
@@ -40,7 +40,7 @@ const FAQS = [
   {
     question: "Quanto custa um Lulu da Pomerânia?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. O valor inclui registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia — sem cobranças extras.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia — sem cobranças extras.",
   },
   {
     question: "O Lulu da Pomerânia é bom com crianças?",

@@ -10,7 +10,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/spitz-alemao-baby-face`;
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Baby Face — O que é, Características e Preço | By Império Dog",
+  title: "Spitz Alemão Baby Face — O que é, Características e Preço",
   description:
     "O Spitz Alemão Baby Face tem focinho mais curto e aparência infantil. Saiba o que é, se é reconhecido pela FCI, preço, cuidados especiais e como encontrar filhotes legítimos.",
   keywords: [

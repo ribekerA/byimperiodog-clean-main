@@ -3,7 +3,7 @@ export function SeoOrg() {
   const json = {
     "@context": "https://schema.org",
     "@type": "Organization",
-  "name": "By Imperio Dog",
+  "name": "By Império Dog",
     "url": process.env.NEXT_PUBLIC_SITE_URL,
     "logo": `${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`,
     "sameAs": [

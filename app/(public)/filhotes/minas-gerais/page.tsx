@@ -14,7 +14,7 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais (MG) | By Imperio Dog",
+  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais (MG)",
   description:
     "Compre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais com entrega segura em BH, Uberlândia, Juiz de Fora e todo o estado. Registro oficial e suporte vitalício.",
   alternates: { canonical: canonical("/filhotes/minas-gerais") },
@@ -61,7 +61,7 @@ const faqMG = [
   {
     question: "O que está incluso na compra do filhote?",
     answer:
-      "Todos os filhotes vêm com registro oficial, primeira dose da vacina V10, vermifugação completa, atestado veterinário, contrato, manual do tutor e suporte vitalício via WhatsApp. Também fornecemos orientação sobre alimentação e cuidados.",
+      "Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, atestado veterinário, contrato, manual do tutor e suporte vitalício via WhatsApp. Também fornecemos orientação sobre alimentação e cuidados.",
   },
   {
     question: "Qual o tamanho e peso do Spitz Alemão (Lulu da Pomerânia) adulto?",
@@ -79,7 +79,7 @@ export default function FilhotesMinasGeraisPage() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/filhotes/minas-gerais#localbusiness`,
-    name: "By Imperio Dog - Filhotes em Minas Gerais",
+    name: "By Império Dog - Filhotes em Minas Gerais",
     url: `${SITE_URL}/filhotes/minas-gerais`,
     image: `${SITE_URL}/spitz-hero-desktop.webp`,
     telephone: "+55 11 96863-3239",

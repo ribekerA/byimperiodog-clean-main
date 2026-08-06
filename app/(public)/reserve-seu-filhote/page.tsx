@@ -13,7 +13,7 @@ import { routes } from "@/lib/route";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://www.byimperiodog.com.br";
 
 export const metadata: Metadata = {
-  title: "Reserve seu Filhote de Spitz Alemão Anão | By Império Dog",
+  title: "Reserve seu Filhote de Spitz Alemão Anão",
   description:
     "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão com registro oficial, socialização guiada e mentoria vitalícia. Processo transparente e suporte direto com a criadora.",
   alternates: { canonical: "/reserve-seu-filhote" },
@@ -30,7 +30,7 @@ const benefits = [
   {
     icon: Shield,
     title: "Garantia de Saúde",
-    description: "Exames genéticos, laudos veterinários, registro oficial e protocolo vacinal completo entregues antes da reserva final.",
+    description: "Laudos veterinários e protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
   },
   {
     icon: HeartHandshake,
@@ -97,7 +97,7 @@ const faqEntries = [
   },
   {
     question: "O que está incluso na reserva?",
-    answer: "Registro oficial, carteira de vacinação, vermifugação, exames laboratoriais, microchip opcional, kit de boas-vindas, contrato digital e mentoria vitalícia.",
+    answer: "Registro oficial (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade, vermifugação, exames laboratoriais, kit de boas-vindas, contrato digital e mentoria vitalícia. Microchip é opcional, sob contratação.",
   },
   {
     question: "E se eu desistir após a reserva?",
@@ -127,7 +127,7 @@ export default function ReserveSeuFilhotePage() {
     name: "Reserve seu Filhote de Spitz Alemão Anão",
     description:
       "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão com processo transparente, socialização acompanhada e suporte vitalício.",
-    isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Imperio Dog" },
+    isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Império Dog" },
   };
 
   const faqLd = {

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
+import { openConsentPreferences } from "@/lib/consent";
 import { routes } from "@/lib/route";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -146,6 +148,15 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={openConsentPreferences}
+                  className="inline-flex min-h-[48px] items-center py-1.5 text-left text-sm transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                >
+                  Preferências de cookies
+                </button>
+              </li>
             </ul>
           </nav>
 
@@ -153,7 +164,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Criação responsável</h3>
             <ul className="space-y-2 text-sm text-zinc-400">
-              {["Registro oficial incluso", "Laudos de saúde", "Mentoria vitalícia", "10+ anos de experiência", "Bragança Paulista, SP"].map((item) => (
+              {["Registro oficial incluso", "Laudos de saúde", "Mentoria vitalícia", `${yearsOfExperience()}+ anos de experiência`, "Bragança Paulista, SP"].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <span className="text-emerald-500" aria-hidden="true">✓</span>
                   {item}
@@ -166,7 +177,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-zinc-800 py-4">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 text-xs text-zinc-600 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-            <p>&copy; 2013–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados.</p>
+            <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados.</p>
             <p>Spitz Alemão Anão (Lulu da Pomerânia) — saúde validada, suporte premium, famílias felizes.</p>
           </div>
         </div>

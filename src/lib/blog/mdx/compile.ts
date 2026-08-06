@@ -37,6 +37,7 @@ export async function compileBlogMdx(source: string, opts: Options = {}): Promis
       [rehypeAutolinkHeadings, { behavior: 'wrap' }],
       // Tipagem relaxada devido diferenças entre versões de vfile / pretty-code
       [rehypePrettyCode as unknown as any, { theme: opts.syntaxTheme || 'github-dark' }],
+      demoteBodyH1Plugin,
       collectTocPlugin
     ],
     jsx: true,
@@ -56,6 +57,27 @@ export async function compileBlogMdx(source: string, opts: Options = {}): Promis
 
 function countWords(src:string){
   return src.split(/\s+/).filter(Boolean).length;
+}
+
+/**
+ * Rebaixa qualquer <h1> do corpo do artigo para <h2>.
+ *
+ * O template de /blog/[slug] já renderiza o título do post como o <h1> da
+ * página. Quando o corpo em Markdown também começava com "# Título", o HTML
+ * público saía com DOIS <h1> — o Google trata isso como estrutura ambígua e o
+ * leitor de tela perde a referência de qual é o título da página.
+ *
+ * Roda antes do collectTocPlugin, então o sumário enxerga o heading já como h2.
+ * Vale também para posts vindos do Supabase, que não passam por content/posts.
+ */
+export function demoteBodyH1Plugin() {
+  return (tree: Root & { children: unknown[] }) => {
+    const visit = (node: any) => {
+      if (node?.type === 'element' && node.tagName === 'h1') node.tagName = 'h2';
+      if (node?.children) node.children.forEach(visit);
+    };
+    visit(tree);
+  };
 }
 
 // Rehype plugin para coletar TOC e primeira imagem

@@ -8,7 +8,7 @@ import { AdminNav } from "./AdminNav";
 import { AdminTopbar } from "./AdminTopbar";
 
 export const metadata: Metadata = {
-  title: "Admin | By Imperio Dog",
+  title: "Admin | By Império Dog",
   robots: { index: false, follow: false },
 };
 
@@ -47,7 +47,7 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
             </main>
 
             <footer className="border-t border-[var(--border)] bg-white px-4 py-3 text-xs text-[var(--text-muted)] md:px-8">
-              <p>By Imperio Dog - Painel operacional - {environment}</p>
+              <p>By Império Dog - Painel operacional - {environment}</p>
             </footer>
           </div>
         </div>

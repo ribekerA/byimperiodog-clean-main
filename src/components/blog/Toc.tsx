@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 
 import type { TocItem } from '@/lib/blog/mdx/toc';
 
-interface TOCProps { toc: TocItem[]; className?: string; minDepth?: number; maxDepth?: number }
+interface TOCProps { toc: TocItem[]; className?: string; labelClassName?: string; minDepth?: number; maxDepth?: number }
 
 function flatten(items: TocItem[]): TocItem[] { return items.flatMap(i => [i, ...flatten(i.children)]); }
 
-export default function TOC({ toc, className, minDepth = 2, maxDepth = 4 }: TOCProps){
+export default function TOC({ toc, className, labelClassName, minDepth = 2, maxDepth = 4 }: TOCProps){
   const flat = flatten(toc).filter(i => i.depth >= minDepth && i.depth <= maxDepth);
   const [active, setActive] = useState<string|null>(null);
 
@@ -26,7 +26,7 @@ export default function TOC({ toc, className, minDepth = 2, maxDepth = 4 }: TOCP
   if(!flat.length) return null;
   return (
     <nav aria-label="Índice" className={clsx('sticky top-28 block w-60 text-sm max-h-[80vh] overflow-y-auto pr-2 scrollbar-thin', className)}>
-      <div className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-text-muted">No artigo</div>
+      <div className={clsx('mb-3 text-xs font-bold uppercase tracking-[0.2em] text-text-muted', labelClassName)}>No artigo</div>
       <ul className="space-y-1 border-l border-border pl-3">
         {flat.map(i => (
           <li key={i.id} className={clsx('transition-colors', active===i.id ? 'text-brand font-medium' : 'text-text-soft hover:text-text')}>

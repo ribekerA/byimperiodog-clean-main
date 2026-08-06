@@ -12,7 +12,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/comprar-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: "Como Comprar Spitz Alemão Anão com Segurança | By Império Dog",
+  title: "Como Comprar Spitz Alemão Anão com Segurança",
   description:
     "Guia completo para comprar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) com segurança. Saiba o que verificar, quais documentos exigir, como evitar golpes e onde encontrar criadores responsáveis em Bragança Paulista, SP.",
   keywords: [
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 const CHECKLIST_YES = [
-  "Registro oficial registrado (não apenas 'em andamento')",
+  "Registro oficial (não apenas 'em andamento')",
   "Laudo de saúde dos pais e do filhote",
   "Teste de patela bilateral",
   "Carteira de vacinação com carimbos veterinários reais",
@@ -66,12 +66,12 @@ const PAGE_FAQS = [
   {
     question: "Onde comprar Spitz Alemão Anão (Lulu da Pomerânia) com segurança?",
     answer:
-      "A By Império Dog é um canil familiar especializado em Spitz Alemão Anão localizado em Bragança Paulista, SP, com mais de 10 anos de criação responsável e mais de 180 famílias atendidas. Todos os filhotes têm registro oficial, laudos veterinários e mentoria vitalícia. Atendemos famílias de todo o Brasil.",
+      "A By Império Dog é um canil familiar especializado em Spitz Alemão Anão localizado em Bragança Paulista, SP, com mais de 13 anos de criação responsável e mais de 180 famílias atendidas. Todos os filhotes têm registro oficial, laudos veterinários e mentoria vitalícia. Atendemos famílias de todo o Brasil.",
   },
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão?",
     answer:
-      "Os documentos essenciais são: registro oficial registrado, laudo de saúde, carteira de vacinação com V8/V10 e antirrábica, teste de patela, histórico de vermifugação, microchip implantado, nota fiscal e contrato de compra com garantia de saúde. Sem esses documentos, a compra é de alto risco.",
+      "Os documentos essenciais são: registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, teste de patela, histórico de vermifugação, nota fiscal e contrato de compra com garantia de saúde. Microchip é opcional e depende de contratação — confirme com o criador se está incluso. Peça para conferir todos esses itens antes de fechar a compra.",
   },
   {
     question: "Como funciona a entrega do filhote em outro estado?",

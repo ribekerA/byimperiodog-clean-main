@@ -4,8 +4,9 @@ import Link from "next/link";
 
 import BlogCard from "@/components/blog/BlogCard";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import { yearsOfExperience } from "@/domain/config";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
-import { listPostsWithMeta } from "@/lib/blog/service";
+import { listPublishableSupabasePosts } from "@/lib/blog/service";
 import { getAllPosts } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 
@@ -89,7 +90,7 @@ const CATEGORY_DEFINITIONS: CategoryDefinition[] = [
     title: "Raça",
     description:
       "Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia): características, padrão e história da raça.",
-    highlight: "Guias completos escritos pela criadora com 13 anos de experiência.",
+    highlight: `Guias completos escritos pela criadora com ${yearsOfExperience()} anos de experiência.`,
     color: "bg-rose-50 border-rose-200 text-rose-700",
     match: (post) => includesCategory(post, ["raca", "spitz", "pomerani", "historico", "caracteristica"]),
     cta: { label: "Conhecer a raça", href: "/spitz-alemao" },
@@ -102,9 +103,9 @@ export const revalidate = process.env.NODE_ENV === "production" ? 60 : 0;
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
+  title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia)",
   description:
-    "Guias escritos pela criadora com 13 anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia): cuidados, rotina, comportamento, saúde preventiva e preços.",
+    `Guias escritos pela criadora com ${yearsOfExperience()} anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia): cuidados, rotina, comportamento, saúde preventiva e preços.`,
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",
@@ -129,9 +130,8 @@ export default async function BlogListPage({
 }) {
   const sort = searchParams?.sort === "antigos" ? "antigos" : "recentes";
   const searchTerm = (searchParams?.q || "").trim();
-  const pageNum = Number(searchParams?.page || 1);
   const activeCat = searchParams?.categoria || "todos";
-  const fetchState = await fetchPosts({ sort, page: pageNum });
+  const fetchState = await fetchPosts({ sort });
 
   const siteBase = (
     process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br"
@@ -207,7 +207,7 @@ function renderPage({
 }) {
   const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)";
   const metaDescStr =
-    "Guias escritos pela criadora com 13 anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia).";
+    `Guias escritos pela criadora com ${yearsOfExperience()} anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia).`;
 
   const blogSchema = buildBlogSchema({
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br",
@@ -376,7 +376,7 @@ function BlogHero({ searchTerm }: { searchTerm: string }) {
             <span className="text-zinc-300 text-2xl sm:text-3xl font-normal">(Lulu da Pomerânia)</span>
         </h1>
         <p className="mt-4 text-base text-zinc-300 sm:text-lg">
-          Guias escritos pela criadora com 13 anos de experiência.
+          Guias escritos pela criadora com {yearsOfExperience()} anos de experiência.
           Sem jargão, sem enrolação.
         </p>
         <form
@@ -514,7 +514,7 @@ function CategorySection({
 const MINI_FAQ = [
   {
     q: "Os artigos são escritos por quem?",
-    a: "Todo o conteúdo é produzido ou revisado pela criadora, com 13 anos de experiência exclusiva com Spitz Alemão Anão (Lulu da Pomerânia). Sem terceiros, sem conteúdo genérico.",
+    a: "Os conteúdos são produzidos com apoio de ferramentas de tecnologia e revisados pela equipe da By Império Dog antes da publicação, com base na experiência prática do canil com Spitz Alemão Anão (Lulu da Pomerânia). Detalhamos o processo na nossa Política Editorial.",
   },
   {
     q: "Posso compartilhar os artigos?",
@@ -569,49 +569,74 @@ function BlogFooterSection() {
 
 // ─── Data helpers ─────────────────────────────────────────────────────────────
 
-function includesCategory(post: PublicPost, tags: string[]) {
-  const category = (post.category || "").toLowerCase();
-  const hasTag = tags.some((tag) => category.includes(tag));
-  if (hasTag) return true;
-  const normalizedTags = (post.tags ?? []) as string[] | undefined;
-  return normalizedTags
-    ? normalizedTags.some((tag) => tags.includes(tag.toLowerCase()))
-    : false;
+// Sem acento e por trecho, dos dois lados.
+//
+// A comparação de `category` era por trecho mas com acento, e a de `tags` era
+// por igualdade exata: a tag "saúde" nunca batia com o termo "saude" da
+// definição, e "lulu da pomerânia" nunca batia com "pomerani". O guia
+// definitivo da raça ficava fora de todas as categorias e, por consequência,
+// sem um único link interno no site inteiro.
+const DIACRITICS = /[\u0300-\u036f]/g;
+function stripAccents(value: string) {
+  return value.normalize("NFD").replace(DIACRITICS, "").toLowerCase();
 }
 
-async function fetchPosts({
-  sort,
-  page,
-}: {
-  sort: SortOption;
-  page: number;
-}): Promise<FetchState> {
-  try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+function includesCategory(post: PublicPost, tags: string[]) {
+  const haystack = [post.category ?? "", ...((post.tags ?? []) as string[])].map(stripAccents);
+  return tags.some((tag) => {
+    const needle = stripAccents(tag);
+    return haystack.some((value) => value.includes(needle));
+  });
+}
 
-    if (!supabaseUrl || !anonKey) {
-      return { status: "env-missing" };
-    }
+// Mesma precedência de /blog/[slug]: os artigos de content/posts formam a
+// lista, e o Supabase só acrescenta os slugs que existem apenas no banco e têm
+// corpo de verdade (isPublishableSupabasePost).
+//
+// Era o contrário — a listagem vinha inteira do Supabase e só caía no MDX se a
+// consulta voltasse vazia. Como o banco tem 7 linhas publicadas e 6 delas são
+// seed (141 a 558 caracteres, com "\n" literal), /blog mostrava um "artigo em
+// destaque" cujo link respondia 404 e não listava nenhum dos 30 artigos reais.
+async function fetchPosts({ sort }: { sort: SortOption }): Promise<FetchState> {
+  const bySlug = new Map<string, PublicPost>();
 
-    const { posts, page: current, pageSize, total, hasNext, hasPrev } =
-      await listPostsWithMeta({ page, pageSize: 12, sort, status: "published" });
-    const mapped = (posts ?? []) as PublicPost[];
-    if (!mapped.length) {
-      const fb = await fetchFromContentlayer(100);
-      if (fb.status === "ok") return fb;
-      return { status: "empty" };
-    }
-    return { status: "ok", posts: mapped, page: current, pageSize, total, hasNext, hasPrev };
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Erro desconhecido";
-    if (process.env.NODE_ENV !== "production") {
-      console.error("[blog] falha ao carregar posts", message);
-    }
-    const fb = await fetchFromContentlayer(100);
-    if (fb.status === "ok") return fb;
-    return { status: "error", message };
+  const fromFiles = await fetchFromContentlayer(200);
+  if (fromFiles.status === "ok") {
+    for (const post of fromFiles.posts) bySlug.set(post.slug, post);
   }
+
+  try {
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      for (const post of await listPublishableSupabasePosts()) {
+        if (!bySlug.has(post.slug)) bySlug.set(post.slug, post as PublicPost);
+      }
+    }
+  } catch (error) {
+    // Banco fora do ar não pode derrubar a listagem: os MDX já são a base.
+    if (process.env.NODE_ENV !== "production") {
+      console.error("[blog] falha ao ler posts do Supabase", error instanceof Error ? error.message : error);
+    }
+  }
+
+  const posts = [...bySlug.values()].sort((a, b) => {
+    const dateA = Date.parse(a.published_at ?? "") || 0;
+    const dateB = Date.parse(b.published_at ?? "") || 0;
+    return sort === "antigos" ? dateA - dateB : dateB - dateA;
+  });
+
+  if (!posts.length) return { status: "empty" };
+
+  // Página única, como já era no fallback de arquivo: os 30 artigos ficam a um
+  // clique de /blog em vez de escondidos atrás de ?page=2.
+  return {
+    status: "ok",
+    posts,
+    page: 1,
+    pageSize: posts.length,
+    total: posts.length,
+    hasNext: false,
+    hasPrev: false,
+  };
 }
 
 async function fetchFromContentlayer(limit = 12): Promise<FetchState> {
@@ -640,11 +665,15 @@ async function fetchFromContentlayer(limit = 12): Promise<FetchState> {
 }
 
 function buildCollections(posts: PublicPost[]) {
-  return CATEGORY_DEFINITIONS.map((definition) => {
-    const filtered = posts.filter((post) => definition.match(post));
-    const bucket = filtered.length > 0 ? filtered : [];
-    return { definition, posts: bucket.slice(0, 4) };
-  });
+  // Sem corte em 4. A grade é `lg:grid-cols-4` e quebra sozinha em novas
+  // linhas, então o corte não mudava o layout — só escondia artigo. Com ele,
+  // 11 dos 30 posts não recebiam nenhum link interno em todo o site: estavam
+  // no sitemap e não estavam em lugar nenhum da navegação, /blog/guia-spitz-alemao
+  // inclusive. Página órfã é página que o Google encontra sem contexto.
+  return CATEGORY_DEFINITIONS.map((definition) => ({
+    definition,
+    posts: posts.filter((post) => definition.match(post)),
+  }));
 }
 
 function formatDate(value?: string | null) {
@@ -679,7 +708,7 @@ function buildBlogSchema({
     description,
     publisher: {
       "@type": "Organization",
-      name: "By Imperio Dog",
+      name: "By Império Dog",
       url: base,
     },
     blogPost: posts.map((post) => ({

@@ -1,6 +1,19 @@
+import { FOUNDING_YEAR } from "@/domain/config";
 import type { CatalogItem } from "@/lib/catalog-utils";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+
+/**
+ * @id único do negócio no grafo de dados estruturados.
+ *
+ * Antes existiam três nós para a mesma empresa — `#business` (tipado como
+ * AnimalShelter), `#dogbreeder` (tipado como PetStore) e `#localbusiness`
+ * (em src/lib/tracking.ts) — e várias páginas emitiam dois deles ao mesmo
+ * tempo. Para o Google isso é uma empresa duplicada, não uma empresa descrita
+ * duas vezes. Todos os emissores agora usam este mesmo @id, então as
+ * propriedades se fundem em um só nó.
+ */
+export const BUSINESS_ID = `${SITE_URL}/#business`;
 
 export function buildPuppyProductLD(
   puppy: CatalogItem,
@@ -145,10 +158,14 @@ export function buildArticleLD(opts: {
 export function buildDogBreederLD() {
   return {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "PetStore"],
-    "@id": `${SITE_URL}/#dogbreeder`,
+    // Era ["LocalBusiness", "PetStore"]. PetStore é loja de animais — termo que
+    // o próprio scripts/check-banned-words.mjs proíbe no conteúdo do site.
+    // Mesmo @id do buildLocalBusinessLD: as duas marcações descrevem o MESMO
+    // negócio, então precisam ser um único nó no grafo, não dois concorrentes.
+    "@type": "LocalBusiness",
+    "@id": BUSINESS_ID,
     name: "By Império Dog — Canil Spitz Alemão Anão",
-    alternateName: ["Canil By Império Dog", "By Imperio Dog", "Criador Spitz Alemão"],
+    alternateName: ["Canil By Império Dog", "By Império Dog", "Criador Spitz Alemão"],
     description:
       "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) com registro CBKC. Especialista em Baby Face, cor preta, creme e laranja. Filhotes disponíveis em Bragança Paulista, SP, com entrega para todo o Brasil.",
     url: SITE_URL,
@@ -195,7 +212,7 @@ export function buildDogBreederLD() {
         "@type": "Offer",
         name: "Filhote Spitz Alemão Anão — Lulu da Pomerânia",
         description:
-          "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) com registro CBKC, laudos veterinários, vacinação completa e mentoria vitalícia.",
+          "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) com registro CBKC, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia.",
         priceCurrency: "BRL",
         url: `${SITE_URL}/filhotes`,
       },
@@ -213,18 +230,21 @@ export function buildDogBreederLD() {
 export function buildLocalBusinessLD() {
   return {
     "@context": "https://schema.org",
-    "@type": ["LocalBusiness", "AnimalShelter"],
-    "@id": `${SITE_URL}/#business`,
+    // Era ["LocalBusiness", "AnimalShelter"]. AnimalShelter é abrigo que faz
+    // rehoming/adoção — o oposto do que o canil faz, e contradiz a própria
+    // regra do projeto que bane "adoção"/"adotar" do conteúdo.
+    "@type": "LocalBusiness",
+    "@id": BUSINESS_ID,
     name: "By Império Dog",
-    alternateName: ["By Imperio Dog", "Canil By Império Dog"],
+    alternateName: ["By Império Dog", "Canil By Império Dog"],
     description:
-      "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, vacinação completa e mentoria vitalícia inclusos. Mais de 10 anos de criação especializada e 180+ famílias atendidas em todo o Brasil.",
+      "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia inclusos. Mais de 13 anos de criação especializada e 180+ famílias atendidas em todo o Brasil.",
     url: SITE_URL,
     telephone: "+55-11-96863-3239",
     priceRange: "R$ 6.500 – R$ 8.500",
     currenciesAccepted: "BRL",
     paymentAccepted: "PIX, transferência bancária, cartão de crédito",
-    foundingDate: "2012",
+    foundingDate: String(FOUNDING_YEAR),
     image: [
       `${SITE_URL}/og/home.jpg`,
       `${SITE_URL}/filhotes/creme/creme-femea-01.jpg`,
@@ -269,13 +289,11 @@ export function buildLocalBusinessLD() {
       opens: "08:00",
       closes: "22:00",
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "5.0",
-      reviewCount: "180",
-      bestRating: "5",
-      worstRating: "1",
-    },
+    // Sem `aggregateRating`: a nota 5.0 com reviewCount 180 era fixa no código,
+    // não vinha de nenhuma plataforma de avaliações verificadas. Marcação de
+    // review sem avaliação real viola a política de dados estruturados do
+    // Google e sujeita o domínio a ação manual. Os 180 são famílias atendidas,
+    // não avaliações — e famílias atendidas não são AggregateRating.
     knowsAbout: [
       "Spitz Alemão Anão",
       "Lulu da Pomerânia",

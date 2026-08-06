@@ -12,7 +12,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: `Preço do Spitz Alemão Anão (Lulu da Pomerânia) em ${new Date().getFullYear()} | By Império Dog`,
+  title: `Preço do Spitz Alemão Anão (Lulu da Pomerânia) em ${new Date().getFullYear()}`,
   description:
     "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). Registro oficial, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
   keywords: [
@@ -43,12 +43,12 @@ const PRICE_TABLE = [
 ] as const;
 
 const INCLUDED_ITEMS = [
-  "Registro oficial registrado e legalizado",
+  "Registro oficial e legalizado",
   "Laudo de saúde veterinário",
   "Teste de patela bilateral",
-  "Carteira de vacinação completa (V8/V10 + antirrábica)",
+  "Carteira de vacinação assinada pelo médico-veterinário, com protocolo em dia conforme a idade",
   "Histórico de vermifugação",
-  "Microchip implantado",
+  "Microchip (opcional, sob contratação)",
   "Nota fiscal",
   "Contrato de responsabilidade compartilhada",
   "Mentoria vitalícia direta com a criadora",
@@ -58,7 +58,7 @@ const PAGE_FAQS = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 8.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os valores incluem registro oficial, laudo de saúde, vacinação completa, microchip e mentoria vitalícia.",
+      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 8.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os valores incluem registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia.",
   },
   {
     question: "Por que o Spitz Alemão Anão é tão caro?",

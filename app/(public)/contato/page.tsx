@@ -34,14 +34,14 @@ function formatDisplayPhone(p: string): string {
 }
 
 const DISPLAY_PHONE = process.env.NEXT_PUBLIC_WA_DISPLAY || formatDisplayPhone(RAW_LOCAL);
-const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "byimperiodog@gmail.com";
+const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contato@byimperiodog.com.br";
 const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://instagram.com/byimperiodog";
 const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://youtube.com/@byimperiodog";
 
 export const metadata: Metadata = {
-  title: "Contato | By Império Dog — Fale direto com a criadora",
+  title: "Contato — Fale direto com a criadora",
   description:
-    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Resposta rápida, sem enrolação. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
+    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
   alternates: { canonical: `${SITE_URL}/contato` },
   openGraph: {
     type: "website",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     q: "Qual o prazo de resposta pelo WhatsApp?",
-    a: "Respondemos em até 30 minutos no horário comercial (todos os dias, 8h–22h). Fora desse horário, responderemos assim que possível.",
+    a: "Respondemos em até 2 horas no horário de atendimento (todos os dias, 8h–22h). Fora desse horário, responderemos assim que possível.",
   },
   {
     q: "Posso visitar o canil presencialmente?",
@@ -62,7 +62,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Vocês entregam em outras cidades?",
-    a: "Realizamos transporte humanizado para todo o Brasil, com profissional acompanhando o filhote durante toda a viagem. Consulte valores.",
+    a: "O tutor pode retirar o filhote em Bragança Paulista ou consultar opções de transporte especializado, definidas conforme destino, idade e condições do filhote. Consulte disponibilidade e valores.",
   },
   {
     q: "Como funciona a reserva de um filhote?",
@@ -136,11 +136,11 @@ export default function ContatoPage() {
             Fala comigo diretamente 💬
           </h1>
           <p className="mt-5 text-lg text-zinc-300">
-            Não tem formulário complicado. Só uma conversa real no WhatsApp —
-            ou pelo canal que preferir.
+            Fale diretamente pelo WhatsApp ou, se preferir, envie seus dados
+            pelo formulário abaixo.
           </p>
           <p className="mt-2 text-zinc-400">
-            Respondo em até 30 min no horário comercial.
+            Respondemos em até 2 horas no horário de atendimento.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
@@ -182,7 +182,7 @@ export default function ContatoPage() {
               <div>
                 <p className="font-bold text-zinc-900">WhatsApp</p>
                 <p className="mt-1 text-sm text-zinc-500">
-                  Respondo em até 30 min no horário comercial
+                  Respondemos em até 2 horas no horário de atendimento
                 </p>
                 <p className="mt-2 text-sm font-semibold text-emerald-700">{DISPLAY_PHONE}</p>
               </div>
@@ -352,7 +352,7 @@ export default function ContatoPage() {
               </div>
               <p className="text-sm text-zinc-600">
                 Bragança Paulista, SP<br />
-                Região metropolitana de Campinas<br />
+                Região Bragantina · Interior de São Paulo<br />
                 <span className="text-zinc-400">Visitas: sábados com agendamento</span>
               </p>
               <a

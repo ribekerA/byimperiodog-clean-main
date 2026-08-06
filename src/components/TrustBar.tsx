@@ -3,8 +3,11 @@
 /**
  * TrustBar — Prova social compacta para inserir próximo a CTAs.
  *
- * Exibe: avaliação ★ 5.0 | famílias atendidas | tempo de resposta.
+ * Exibe: famílias atendidas | tempo de resposta | localização.
  * Usado na homepage hero, página de filhote e formulário de lead.
+ *
+ * Não exibimos nota (★ 5.0): não existe plataforma pública de avaliações
+ * verificadas do canil, então qualquer média seria inventada.
  */
 
 interface TrustBarProps {
@@ -14,21 +17,17 @@ interface TrustBarProps {
 
 export default function TrustBar({ className = "", variant = "light" }: TrustBarProps) {
   const textColor = variant === "dark" ? "text-white/80" : "text-zinc-500";
-  const starColor = variant === "dark" ? "text-yellow-300" : "text-yellow-500";
   const dividerColor = variant === "dark" ? "text-white/30" : "text-zinc-300";
 
   return (
     <div
       className={`flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs ${textColor} ${className}`}
-      aria-label="Avaliações e credenciais"
+      aria-label="Credenciais do canil"
     >
-      {/* Estrelas */}
+      {/* Famílias atendidas */}
       <span className="flex items-center gap-1">
-        <span className={`flex ${starColor}`} aria-hidden="true">
-          {"★★★★★"}
-        </span>
-        <span className="font-semibold">5.0</span>
-        <span className="font-normal opacity-75">(180+ famílias)</span>
+        <span aria-hidden="true">🐾</span>
+        <span className="font-semibold">Mais de 180 famílias atendidas</span>
       </span>
 
       <span className={dividerColor} aria-hidden="true">·</span>
@@ -36,7 +35,7 @@ export default function TrustBar({ className = "", variant = "light" }: TrustBar
       {/* Resposta rápida */}
       <span className="flex items-center gap-1">
         <span aria-hidden="true">⚡</span>
-        <span>Resposta em até 30 min</span>
+        <span>Resposta em até 2 horas</span>
       </span>
 
       <span className={dividerColor} aria-hidden="true">·</span>

@@ -96,7 +96,7 @@ export default function Image() {
             letterSpacing: "0.01em",
           }}
         >
-          Criação responsável desde 2012 · Bragança Paulista, SP
+          Criação responsável desde 2013 · Bragança Paulista, SP
         </div>
 
         {/* Trust pills */}

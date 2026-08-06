@@ -57,8 +57,8 @@ export const guides: Guide[] = [
       {
         heading: "Documentação obrigatória",
         paragraphs: [
-          "O mínimo exigível ao receber seu filhote: registro oficial, carteirinha de vacinação com pelo menos V10 e antirrábica, microchip implantado e laudo de saúde veterinário.",
-          "Na By Império Dog, toda a documentação é entregue antes ou no momento da reserva. Você não paga pelo filhote sem ter visto os documentos.",
+          "O mínimo exigível ao receber seu filhote: registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, orientação por escrito das doses seguintes e laudo de saúde veterinário. Microchip é opcional e depende de contratação — pergunte se está incluso antes de fechar.",
+          "Na By Império Dog, o registro oficial é incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. Os demais documentos são apresentados antes da reserva.",
         ],
       },
     ],

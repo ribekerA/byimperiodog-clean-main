@@ -10,7 +10,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/pomeranian`;
 
 export const metadata: Metadata = {
-  title: "Pomeranian no Brasil — Raça, Preço e Filhotes | By Império Dog",
+  title: "Pomeranian no Brasil — Raça, Preço e Filhotes",
   description:
     "Tudo sobre o Pomeranian no Brasil: o que é a raça, preço, filhotes com registro oficial, características e como encontrar um criador confiável. Pomeranian = Lulu da Pomerânia = Spitz Alemão Anão.",
   keywords: [
@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "Qual o preço de um Pomeranian no Brasil?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo) e chegam a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos incluem registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo) e chegam a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia.",
   },
   {
     question: "Pomeranian tem outro nome no Brasil?",
@@ -58,7 +58,7 @@ const FAQS = [
   {
     question: "Como encontrar um Pomeranian com registro oficial no Brasil?",
     answer:
-      "A By Império Dog é criadora responsável de Pomeranian (Lulu da Pomerânia / Spitz Alemão Anão) em Bragança Paulista, SP, com mais de 10 anos de experiência. Todos os filhotes têm registro oficial, laudos veterinários, microchip e saem acompanhados de contrato de venda com garantia.",
+      "A By Império Dog é criadora responsável de Pomeranian (Lulu da Pomerânia / Spitz Alemão Anão) em Bragança Paulista, SP, desde 2013. Todos os filhotes têm registro oficial (com emissão e entrega conforme o prazo da entidade responsável), laudos veterinários e contrato de venda. O microchip é opcional, sob contratação.",
   },
 ];
 
@@ -131,7 +131,7 @@ export default function PomeranianPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-400">
-          Inclui registro oficial, laudo veterinário, teste de patela, vacinação completa, microchip, nota fiscal e mentoria vitalícia.{" "}
+          Inclui registro oficial, laudo veterinário, teste de patela, protocolo vacinal em dia conforme a idade do filhote, microchip, nota fiscal e mentoria vitalícia.{" "}
           <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link>
         </p>
       </section>

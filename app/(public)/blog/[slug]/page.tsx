@@ -17,16 +17,17 @@ import ReadingProgress from "@/components/blog/ReadingProgress";
 import ScrollAnalytics from "@/components/blog/ScrollAnalytics";
 import ShareButtons from "@/components/blog/ShareButtons";
 import StickyArticleCTA from "@/components/blog/StickyArticleCTA";
-import TocNav from "@/components/blog/Toc";
+import TocPanel from "@/components/blog/TocPanel";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import LeadForm from "@/components/LeadForm";
 import { mdxComponents } from "@/components/MDXContent";
 import PageViewPing from "@/components/PageViewPing";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import { compileBlogMdx } from "@/lib/blog/mdx/compile";
+import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { getRelatedUnified } from "@/lib/blog/related";
 import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
+import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import { blogPostingSchema } from "@/lib/schema";
@@ -52,7 +53,6 @@ interface Post {
   category?: string | null;
   tags?: string[] | null;
   lang?: string | null;
-  faq?: { q: string; a: string }[] | null;
 }
 
 interface Author {
@@ -71,25 +71,50 @@ interface RelatedAny {
 
 type MDXComponentsMap = Record<string, React.ComponentType<Record<string, unknown>>>;
 
-async function fetchPost(slug: string, opts: { preview: boolean }): Promise<Post | null> {
-  // 1. Tenta Supabase primeiro
+// Colunas reais de blog_posts. A lista antiga terminava em ",faq" — coluna que
+// não existe na tabela. O PostgREST respondia 42703 ("column blog_posts.faq
+// does not exist") em TODA requisição, então o ramo do Supabase nunca devolvia
+// post nenhum: o blog inteiro era servido pelo fallback MDX, e os slugs que só
+// existem no banco davam 404 mesmo estando declarados no sitemap.
+const POST_COLUMNS =
+  "id,slug,title,subtitle,excerpt,content_mdx,cover_url,cover_alt,published_at,created_at,updated_at,status,author_id,seo_title,seo_description,category,tags,lang";
+
+async function fetchSupabasePost(slug: string, opts: { preview: boolean }): Promise<Post | null> {
   try {
     const sb = supabaseAnon();
-    const { data, error } = await sb
-      .from("blog_posts")
-      .select(
-        "id,slug,title,subtitle,excerpt,content_mdx,cover_url,cover_alt,published_at,created_at,updated_at,status,author_id,seo_title,seo_description,category,tags,lang,faq"
-      )
-      .eq("slug", slug)
-      .maybeSingle();
+    const { data, error } = await sb.from("blog_posts").select(POST_COLUMNS).eq("slug", slug).maybeSingle();
 
     if (!error && data) {
-      if (data.status === "published") return data as Post;
-      if (opts.preview && (data.status === "review" || data.status === "draft")) return data as Post;
+      const post = data as Post;
+      if (isPublishableSupabasePost(post)) return post;
+      if (opts.preview && (post.status === "review" || post.status === "draft")) return post;
     }
   } catch {}
+  return null;
+}
 
-  // 2. Fallback: lê do sistema de arquivos MDX
+async function fetchPost(slug: string, opts: { preview: boolean }): Promise<Post | null> {
+  // Precedência: MDX primeiro, Supabase depois — fora do preview.
+  //
+  // Não é a ordem que o código pedia, é a ordem que o site já pratica. Com o
+  // select quebrado (ver POST_COLUMNS) os 30 artigos publicados sempre saíram
+  // de content/posts. Consertar só o nome da coluna trocaria, sem aviso, o
+  // corpo de artigos já indexados pela versão mais curta que dormia no banco
+  // (cores-spitz-alemao-anao-qual-mais-cara: 6.709 caracteres em MDX contra
+  // 2.018 no Supabase). O arquivo continua mandando onde existe arquivo; o
+  // Supabase atende os slugs que só existem lá — posts criados pelo admin.
+  if (!opts.preview) {
+    const fromFile = await fetchMdxPost(slug);
+    if (fromFile) return fromFile;
+    return fetchSupabasePost(slug, opts);
+  }
+
+  const fromDb = await fetchSupabasePost(slug, opts);
+  if (fromDb) return fromDb;
+  return fetchMdxPost(slug);
+}
+
+async function fetchMdxPost(slug: string): Promise<Post | null> {
   try {
     const mdx = await getMdxPostBySlug(slug);
     if (!mdx) return null;
@@ -175,9 +200,9 @@ export default async function BlogPostPage({
   }
   const minutes = compiled?.readingTimeMinutes || estimateReadingTime(post.content_mdx || "");
   const related = (await getRelatedUnified(post.slug, 6)) as RelatedAny[];
-  const faqFromMdx = extractFaqFromMdx(post.content_mdx ?? "");
-  const faqFromDb = Array.isArray(post.faq) ? (post.faq as { q: string; a: string }[]) : [];
-  const faqItems = faqFromMdx.length > 0 ? faqFromMdx : faqFromDb;
+  // Só do corpo do artigo: `blog_posts` não tem coluna `faq`, então o fallback
+  // que lia post.faq era código morto — nunca chegou a valer nada.
+  const faqItems = extractFaqFromMdx(post.content_mdx ?? "");
   const { article, breadcrumb, faqBlock } = buildArticleJsonLd(
     post as Post & { content_mdx?: string | null },
     author,
@@ -194,7 +219,8 @@ export default async function BlogPostPage({
     publishedAt: post.published_at || post.created_at || new Date().toISOString(),
     modifiedAt: post.updated_at || undefined,
     image: post.cover_url ? { url: post.cover_url, alt: post.cover_alt } : undefined,
-    author: author ? { name: author.name, url: author.slug ? `${siteUrl.replace(/\/$/, "")}/autores/${author.slug}` : undefined } : undefined,
+    // Sem `url`: não existe página pública de autores (/autores/{slug} → 404).
+    author: author ? { name: author.name } : undefined,
     keywords: post.tags || undefined,
     articleSection: post.category || null,
   });
@@ -254,10 +280,15 @@ export default async function BlogPostPage({
         ]}
       />
 
-      <article lang={post.lang || "pt-BR"} className="flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-12">
+      {/* Grid de 2 colunas no desktop: o sumário é um bloco próprio, renderizado
+          UMA única vez no DOM (antes havia uma cópia "mobile" e outra "sidebar"). */}
+      <article
+        lang={post.lang || "pt-BR"}
+        className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start lg:gap-x-12 lg:gap-y-8"
+      >
 
-        {/* ── Reading column ── */}
-        <div className="w-full min-w-0 flex-1">
+        {/* ── Bloco 1: cabeçalho + capa + compartilhar ── */}
+        <div className="w-full min-w-0 lg:col-start-1 lg:row-start-1">
 
           {/* Header — constrained to reading measure */}
           <div className="mx-auto w-full max-w-[72ch]">
@@ -289,13 +320,7 @@ export default async function BlogPostPage({
                         className="h-5 w-5 rounded-full border object-cover"
                       />
                     ) : null}
-                    <span className="font-medium text-text-muted">
-                      {author.slug ? (
-                        <Link href={`/autores/${author.slug}`} className="underline-offset-2 hover:text-text hover:underline">
-                          {author.name}
-                        </Link>
-                      ) : author.name}
-                    </span>
+                    <span className="font-medium text-text-muted">{author.name}</span>
                   </span>
                 ) : null}
                 {author && (post.published_at || minutes) ? (
@@ -345,26 +370,24 @@ export default async function BlogPostPage({
             </figure>
           ) : null}
 
-          {/* All post-image content — constrained to reading measure */}
-          <div className="mx-auto mt-6 w-full max-w-[72ch] space-y-8 sm:mt-8 sm:space-y-10">
-
-            {/* Share bar */}
+          {/* Share bar */}
+          <div className="mx-auto mt-6 w-full max-w-[72ch] sm:mt-8">
             <div className="border-y border-border py-4">
               <ShareButtons title={post.title} url={`${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`} />
             </div>
+          </div>
+        </div>
 
-            {/* Mobile TOC */}
-            {compiled?.toc && (
-              <details className="lg:hidden rounded-2xl border border-border bg-surface-subtle px-5 py-4">
-                <summary className="flex cursor-pointer list-none select-none items-center justify-between gap-2 text-sm font-semibold text-text [&::-webkit-details-marker]:hidden">
-                  <span>Neste artigo</span>
-                  <span className="text-xs leading-none text-text-muted">▾</span>
-                </summary>
-                <div className="mt-4 border-t border-border pt-3">
-                  <TocNav toc={compiled.toc} />
-                </div>
-              </details>
-            )}
+        {/* ── Bloco 2: sumário (instância única) + CTA lateral ── */}
+        <div className="w-full min-w-0 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:max-w-[16rem]">
+          {compiled?.toc ? <TocPanel toc={compiled.toc} /> : null}
+          <div className="hidden lg:block">
+            <StickyArticleCTA whatsappUrl={sidebarWhatsappUrl} />
+          </div>
+        </div>
+
+        {/* ── Bloco 3: corpo do artigo ── */}
+        <div className="mx-auto w-full min-w-0 max-w-[72ch] space-y-8 sm:space-y-10 lg:col-start-1 lg:row-start-2">
 
             {/* Article body */}
             <Prose>
@@ -372,7 +395,10 @@ export default async function BlogPostPage({
                 <MDXRemote
                   source={post.content_mdx}
                   components={mdxComponents as MDXComponentsMap}
-                  options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings] } }}
+                  // demoteBodyH1Plugin: o <h1> da página é o título do post,
+                  // logo acima. Posts cujo corpo também começava com "# Título"
+                  // mandavam DOIS <h1> para o HTML público.
+                  options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, demoteBodyH1Plugin] } }}
                 />
               ) : (
                 <p className="italic text-text-muted">Conteúdo em atualização.</p>
@@ -441,13 +467,6 @@ export default async function BlogPostPage({
               </aside>
             ) : null}
 
-          </div>
-        </div>
-
-        {/* ── Sidebar TOC + CTA ── */}
-        <div className="hidden w-full max-w-[16rem] shrink-0 lg:block">
-          {compiled?.toc ? <TocNav toc={compiled.toc} /> : null}
-          <StickyArticleCTA whatsappUrl={sidebarWhatsappUrl} />
         </div>
 
       </article>

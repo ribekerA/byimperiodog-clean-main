@@ -49,7 +49,8 @@ export const revalidate = 3600;
 
 export function generateMetadata(): Metadata {
   return pageMetadata({
-    title: "FAQ do Tutor | By Imperio Dog",
+    // Sem a marca aqui: o layout raiz já aplica o template "%s | By Império Dog".
+    title: "FAQ do Tutor — Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
       "Perguntas frequentes sobre preparo, saúde, socialização e suporte vitalício para o Spitz Alemão (Lulu da Pomerânia).",
     path,
@@ -78,10 +79,10 @@ export default function FaqDoTutorPage() {
     "@type": "WebPage",
     "@id": `${siteBase}${path}#webpage`,
     url: `${siteBase}${path}`,
-    name: "FAQ do Tutor | By Imperio Dog",
+    name: "FAQ do Tutor | By Império Dog",
     description:
       "Perguntas frequentes sobre preparo, saúde, socialização e suporte vitalício para o Spitz Alemão (Lulu da Pomerânia).",
-    isPartOf: { "@type": "WebSite", url: siteBase, name: "By Imperio Dog" },
+    isPartOf: { "@type": "WebSite", url: siteBase, name: "By Império Dog" },
   };
 
   return (
@@ -185,7 +186,7 @@ export default function FaqDoTutorPage() {
         </div>
       </section>
 
-      <LastUpdated buildTime={process.env.NEXT_PUBLIC_BUILD_TIME} contentTime={lastUpdated} />
+      <LastUpdated contentTime={lastUpdated} />
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />

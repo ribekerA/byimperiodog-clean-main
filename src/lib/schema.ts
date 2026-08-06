@@ -9,7 +9,7 @@ export function organizationSchema(siteUrl: string = DEFAULT_SITE_URL): JsonLd {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${baseUrl}/#organization`,
-    name: "By Imperio Dog",
+    name: "By Império Dog",
     url: baseUrl,
     logo: `${baseUrl}/byimperiologo.svg`,
     sameAs: [
@@ -36,7 +36,7 @@ export function websiteSchema(siteUrl: string = DEFAULT_SITE_URL): JsonLd {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${baseUrl}/#website`,
-    name: "By Imperio Dog",
+    name: "By Império Dog",
     url: baseUrl,
     potentialAction: {
       "@type": "SearchAction",
@@ -71,7 +71,7 @@ export function productSchema(
       "Spitz Alemão (Lulu da Pomerânia) com até 22 cm de altura, acompanhamento vitalício e suporte personalizado.",
     brand: {
       "@type": "Brand",
-      name: "By Imperio Dog",
+      name: "By Império Dog",
     },
     offers: {
       "@type": "Offer",
@@ -151,11 +151,11 @@ export function blogPostingSchema(
         }
       : {
           "@type": "Organization",
-          name: "By Imperio Dog",
+          name: "By Império Dog",
         },
     publisher: {
       "@type": "Organization",
-      name: "By Imperio Dog",
+      name: "By Império Dog",
       url: baseUrl,
       logo: {
         "@type": "ImageObject",
@@ -211,11 +211,11 @@ export function buildProductLD(opts: {
     name: opts.name,
     description:
       opts.description ||
-      "Spitz Alemão Anão (Lulu da Pomerânia) com acompanhamento vitalício e suporte personalizado pela By Imperio Dog.",
+      "Spitz Alemão Anão (Lulu da Pomerânia) com acompanhamento vitalício e suporte personalizado pela By Império Dog.",
     image: opts.image ? [opts.image] : undefined,
     brand: {
       "@type": "Brand",
-      name: "By Imperio Dog",
+      name: "By Império Dog",
     },
     offers: {
       "@type": "Offer",
@@ -227,7 +227,7 @@ export function buildProductLD(opts: {
         : "https://schema.org/LimitedAvailability",
       seller: {
         "@type": "Organization",
-        name: "By Imperio Dog",
+        name: "By Império Dog",
       },
     },
     aggregateRating: opts.aggregateRating

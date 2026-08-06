@@ -4,6 +4,19 @@
  */
 
 /**
+ * Ano de início da criação — FONTE ÚNICA.
+ *
+ * Todo texto do site que fale em "desde X", "X anos de experiência" ou no
+ * copyright do rodapé deve derivar daqui. Não escrever o número na mão.
+ */
+export const FOUNDING_YEAR = 2013;
+
+/** Anos completos de criação, calculados a partir de {@link FOUNDING_YEAR}. */
+export function yearsOfExperience(now: Date = new Date()): number {
+  return Math.max(0, now.getFullYear() - FOUNDING_YEAR);
+}
+
+/**
  * Informações da marca By Império Dog
  */
 export const BRAND = {

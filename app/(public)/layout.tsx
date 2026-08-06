@@ -28,7 +28,9 @@ import { buildDogBreederLD } from "@/lib/structured-data";
 import { dmSans, inter } from "../fonts";
 
 // Lazy load componentes nao-criticos para reduzir TBT
-const RecentSalesPopup = NextDynamic(() => import("@/components/RecentSalesPopup"), { ssr: false });
+// RecentSalesPopup removido: exibia "Familia de X reservou ha 12 min" a partir
+// de uma lista fixa de eventos inventados, sorteados aleatoriamente. Nao havia
+// nenhuma venda real por tras do aviso.
 const ConsentBanner = NextDynamic(() => import("@/components/ConsentBanner"), { ssr: false });
 const ConsentGatedPixels = NextDynamic(() => import("@/components/ConsentGatedPixels"), { ssr: false });
 const TrackingScripts = NextDynamic(() => import("@/components/TrackingScripts"), { ssr: false });
@@ -221,7 +223,6 @@ export default async function PublicLayout({ children }: { children: React.React
           </main>
           <Footer />
           <WhatsAppFloat />
-          <RecentSalesPopup />
           <ConsentBanner />
         </div>
         {isProd && (FACEBOOK_PIXEL_ID || TIKTOK_PIXEL_ID) && (

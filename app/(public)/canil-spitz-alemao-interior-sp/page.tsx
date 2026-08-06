@@ -10,7 +10,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/canil-spitz-alemao-interior-sp`;
 
 export const metadata: Metadata = {
-  title: "Canil Spitz Alemão Anão no Interior de SP | By Império Dog — Bragança Paulista",
+  title: "Canil Spitz Alemão Anão no Interior de SP — Bragança Paulista",
   description:
     "O melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo fica em Bragança Paulista. 13 anos de criação, registro oficial, laudos e mentoria vitalícia. Atende Campinas, Sorocaba, São José dos Campos e todo SP.",
   keywords: [

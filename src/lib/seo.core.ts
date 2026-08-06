@@ -37,7 +37,7 @@ export function canonical(path: string) {
 
 /** Metadados base do site público (home / institucionais). */
 export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
-  const title = overrides.title || { default: 'Spitz Alemão Anão | By Imperio Dog', template: '%s | By Imperio Dog' };
+  const title = overrides.title || { default: 'Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog', template: '%s | By Império Dog' };
   const description = overrides.description || 'Filhotes legítimos, entrega responsável e pós-venda acolhedor.';
   return {
     metadataBase: new URL(SITE_ORIGIN),
@@ -47,8 +47,8 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
     openGraph: {
       type: 'website',
       url: SITE_ORIGIN + '/',
-  siteName: 'By Imperio Dog',
-  images: [{ url: '/spitz-hero-desktop.webp', width: 1200, height: 630, alt: 'Spitz Alemão Anão — By Imperio Dog' }],
+  siteName: 'By Império Dog',
+  images: [{ url: '/spitz-hero-desktop.webp', width: 1200, height: 630, alt: 'Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog' }],
       ...overrides.openGraph,
     },
     twitter: { card: 'summary_large_image', ...(overrides.twitter || {}) },
@@ -59,20 +59,20 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
 /** Metadados base da listagem do blog. */
 export function baseBlogMetadata(overrides: Partial<Metadata> = {}): Metadata {
   return {
-  title: 'Blog | By Imperio Dog',
+  title: 'Blog',
     description: 'Conteúdo especializado sobre Spitz Alemão, saúde, adestramento e bem-estar.',
     alternates: { canonical: canonical('/blog') },
     openGraph: {
       type: 'website',
       url: canonical('/blog'),
-  siteName: 'By Imperio Dog',
-  title: 'Blog | By Imperio Dog',
+  siteName: 'By Império Dog',
+  title: 'Blog | By Império Dog',
       description: 'Conteúdo especializado sobre Spitz Alemão, saúde, adestramento e bem-estar.',
       ...overrides.openGraph,
     },
     twitter: {
       card: 'summary_large_image',
-  title: 'Blog | By Imperio Dog',
+  title: 'Blog | By Império Dog',
       description: 'Conteúdo sobre Spitz Alemão e bem-estar.',
       ...(overrides.twitter || {}),
     },
@@ -155,7 +155,7 @@ export function blogJsonLdOrg() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-  name: 'By Imperio Dog - Blog',
+  name: 'By Império Dog - Blog',
     url: canonical('/blog'),
     description: 'Artigos sobre Spitz Alemão, cuidados, genética e qualidade de vida.'
   };
@@ -163,11 +163,11 @@ export function blogJsonLdOrg() {
 
 /** JSON-LD Person para autores */
 export function buildAuthorJsonLd(author: { name:string; slug:string; avatar_url?:string|null; bio?:string|null }){
+  // Não emitimos `url` porque não existe página pública /autores/{slug}.
   return {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: author.name,
-    url: canonical(`/autores/${author.slug}`),
     image: author.avatar_url || undefined,
     description: author.bio || undefined,
   };

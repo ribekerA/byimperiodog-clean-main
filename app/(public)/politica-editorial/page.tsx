@@ -9,7 +9,7 @@ const PATH = "/politica-editorial";
 
 export function generateMetadata(): Metadata {
   return pageMetadata({
-    title: "Política Editorial e Metodologia | By Império Dog",
+    title: "Política Editorial e Metodologia",
     description:
       "Nossa política editorial: quem escreve, como produzimos, revisão de fontes, correções e transparência sobre IA. Compromisso com conteúdo útil e confiável.",
     path: PATH,
@@ -35,7 +35,7 @@ export default function PoliticaEditorialPage() {
     url,
     description:
       "Nossa política editorial: quem escreve, como produzimos e revisamos, política de correções e transparência sobre uso de IA.",
-    isPartOf: { "@type": "WebSite", name: "By Imperio Dog", url: `${SITE}/` },
+    isPartOf: { "@type": "WebSite", name: "By Império Dog", url: `${SITE}/` },
   } as const;
 
   return (
@@ -54,9 +54,9 @@ export default function PoliticaEditorialPage() {
       <section className="prose prose-zinc max-w-none dark:prose-invert">
         <h2>Quem escreve</h2>
         <p>
-          Os conteúdos são escritos pela By Império Dog e colaboradores com experiência prática na criação responsável do
-          Spitz Alemão Anão. Quando aplicável, citamos profissionais especializados (veterinária, adestramento, genética)
-          e vinculamos à <Link href="/autores" className="underline">página de autores</Link>.
+          Os conteúdos são produzidos com apoio de ferramentas de tecnologia e revisados pela equipe da By Império Dog antes
+          da publicação, com base na experiência prática da criação responsável do Spitz Alemão Anão. Quando aplicável,
+          citamos profissionais especializados (veterinária, adestramento, genética).
         </p>
 
         <h2>Como produzimos</h2>
@@ -83,9 +83,10 @@ export default function PoliticaEditorialPage() {
 
         <h2>Uso de IA e automação</h2>
         <p>
-          Podemos usar ferramentas de IA como apoio em tarefas editoriais (por exemplo: brainstorm de tópicos, revisão de
-          clareza, checagem gramatical). O conteúdo final é revisado por humanos e deve refletir experiência prática e
-          responsabilidade. Não publicamos material gerado automaticamente com o objetivo de manipular rankings de busca.
+          Usamos ferramentas de IA como apoio na produção editorial (por exemplo: estruturação de pautas, redação de
+          rascunhos, revisão de clareza e checagem gramatical). Os textos passam por revisão da equipe da By Império Dog
+          antes da publicação e devem refletir a experiência prática do canil. Não publicamos material gerado
+          automaticamente com o objetivo de manipular rankings de busca.
         </p>
 
         <h2>Conflitos de interesse</h2>

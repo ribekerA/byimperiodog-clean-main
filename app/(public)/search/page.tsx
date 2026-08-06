@@ -4,8 +4,8 @@ import { Suspense } from "react";
 import { baseSiteMetadata, canonical } from "@/lib/seo.core";
 
 export const metadata: Metadata = baseSiteMetadata({
-  title: "Busca | By Imperio Dog",
-  description: "Pesquise conteudos e filhotes disponiveis pela By Imperio Dog.",
+  title: "Busca",
+  description: "Pesquise conteudos e filhotes disponiveis pela By Império Dog.",
   alternates: { canonical: canonical("/search") },
   robots: { index: false },
 });

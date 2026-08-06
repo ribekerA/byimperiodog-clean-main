@@ -17,7 +17,7 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   const seo = SEX_SEO[params.sexo];
-  if (!seo) return { title: "Filhotes por Sexo | By Império Dog" };
+  if (!seo) return { title: "Filhotes por Sexo" };
   return {
     title: seo.seoTitle,
     description: seo.metaDescription,

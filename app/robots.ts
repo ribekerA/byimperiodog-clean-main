@@ -14,8 +14,10 @@ export default function robots(): MetadataRoute.Robots {
           "/api/admin/",     // API admin — privada
           "/blog/preview/",  // Rascunhos de blog
           "/contract/",      // Contratos — privado
-          "/obrigado",       // Página pós-formulário (sem valor SEO)
-          "/search",         // Resultados de busca interna
+          // /obrigado e /search saíram do Disallow de propósito: as duas já
+          // enviam `robots: noindex` no HTML. URL bloqueada por robots.txt não
+          // chega a ser rastreada, então o Google nunca lê o noindex e pode
+          // indexar só a URL. Deixar rastrear é o que faz o noindex valer.
         ],
       },
       // ── Bots de IA — LIBERADOS (queremos que Gemini, ChatGPT e Claude
@@ -35,7 +37,8 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "DotBot",             disallow: "/" },
       { userAgent: "MJ12bot",            disallow: "/" },
     ],
-    sitemap: `${base}/sitemap.xml`,
+    // Índice de sitemaps (aponta para /sitemap.xml e /sitemaps/posts.xml).
+    sitemap: [`${base}/sitemap-index.xml`, `${base}/sitemap.xml`],
     host: base,
   };
 }

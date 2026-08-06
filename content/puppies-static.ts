@@ -38,7 +38,7 @@ export const staticPuppies = [
     priceCents: 850000,
     currency: "BRL",
     description:
-      "Fêmea Creme de pelagem sedosa e temperamento dócil. Topo da hierarquia em valor e demanda. Socializada desde o nascimento em ambiente familiar. Registro oficial, vacinação em dia e mentoria vitalícia inclusa.",
+      "Fêmea Creme de pelagem sedosa e temperamento dócil. Topo da hierarquia em valor e demanda. Socializada desde o nascimento em ambiente familiar. Registro oficial, protocolo vacinal em dia conforme a idade e mentoria vitalícia inclusa.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,
@@ -324,7 +324,7 @@ export const staticPuppies = [
     priceCents: 650000,
     currency: "BRL",
     description:
-      "Macho Laranja com expressão marcante e pelagem densa. Linhagem comprovada com laudos de saúde e exames genéticos. Registro oficial entregue antes da reserva.",
+      "Macho Laranja com expressão marcante e pelagem densa. Linhagem comprovada com laudos de saúde e exames genéticos. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,

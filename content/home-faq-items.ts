@@ -19,7 +19,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 8.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os filhotes saem com registro oficial, laudo de saúde, vacinação completa, microchip e mentoria vitalícia inclusos no valor — sem cobranças extras.",
+      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 8.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia inclusos no valor — sem cobranças extras.",
   },
   {
     question: "O Spitz Alemão Anão é bom para apartamento?",
@@ -29,7 +29,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Qual melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista e interior de SP?",
     answer:
-      "A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Com mais de 10 anos de criação responsável, mais de 180 famílias atendidas e filhotes com registro oficial, laudos veterinários e mentoria vitalícia, somos referência no interior de São Paulo. Atendemos famílias de todo o Brasil.",
+      "A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Com mais de 13 anos de criação responsável, mais de 180 famílias atendidas e filhotes com registro oficial, laudos veterinários e mentoria vitalícia, somos referência no interior de São Paulo. Atendemos famílias de todo o Brasil.",
   },
   {
     question: "Qual a diferença entre Spitz Alemão Anão e Lulu da Pomerânia?",
@@ -49,7 +49,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quais documentos acompanham o filhote?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, carteira de vacinação atualizada, teste de patela, histórico de vermifugação, microchip implantado, nota fiscal e contrato de responsabilidade compartilhada. Além disso, o tutor recebe acesso à mentoria vitalícia diretamente com a criadora via WhatsApp.",
+      "Todo filhote da By Império Dog sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, teste de patela, histórico de vermifugação, nota fiscal e contrato de responsabilidade compartilhada. Microchip é opcional, sob contratação. Além disso, o tutor recebe acesso à mentoria vitalícia diretamente com a criadora via WhatsApp.",
   },
   {
     question: "Por quanto tempo tenho suporte após receber o filhote?",

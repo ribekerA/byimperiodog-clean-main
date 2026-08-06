@@ -52,7 +52,7 @@ export type ColorSeo = {
 
 export const COLOR_SEO: Record<string, ColorSeo> = {
   creme: {
-    seoTitle: "Spitz Alemão Anão Creme | Filhotes Disponíveis – By Império Dog",
+    seoTitle: "Spitz Alemão Anão Creme — Filhotes Disponíveis",
     metaDescription:
       "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Creme",
@@ -69,7 +69,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço de um Spitz Alemão Anão Creme?",
         answer:
-          "Na By Império Dog, a Fêmea Creme é R$ 8.500 e o Macho Creme é R$ 7.500. Todos os valores incluem registro oficial, vacinação completa, laudos de saúde e mentoria vitalícia.",
+          "Na By Império Dog, a Fêmea Creme é R$ 8.500 e o Macho Creme é R$ 7.500. Todos os valores incluem registro oficial, protocolo vacinal em dia conforme a idade do filhote, laudos de saúde e mentoria vitalícia.",
       },
       {
         question: "Por que o Spitz Creme é mais caro que outras cores?",
@@ -89,7 +89,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   laranja: {
-    seoTitle: "Spitz Alemão Anão Laranja | Filhotes Disponíveis – By Império Dog",
+    seoTitle: "Spitz Alemão Anão Laranja — Filhotes Disponíveis",
     metaDescription:
       "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça, temperamento alegre. Registro oficial e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Laranja",
@@ -126,7 +126,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   preto: {
-    seoTitle: "Spitz Alemão Anão Preto | Filhotes Disponíveis – By Império Dog",
+    seoTitle: "Spitz Alemão Anão Preto — Filhotes Disponíveis",
     metaDescription:
       "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Cor rara e elegante. Registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Preto",
@@ -163,7 +163,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   "wolf-sable": {
-    seoTitle: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) | Filhotes Disponíveis – By Império Dog",
+    seoTitle: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) — Filhotes Disponíveis",
     metaDescription:
       "Filhotes de Spitz Alemão Anão Cinza-Lobo (Wolf Sable, cinza/laranja) em Bragança Paulista, SP. Cor rara reconhecida pela FCI. Registro oficial e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",
@@ -214,7 +214,7 @@ export type SexSeo = {
 
 export const SEX_SEO: Record<string, SexSeo> = {
   femea: {
-    seoTitle: "Spitz Alemão Anão Fêmea | Filhotes Disponíveis – By Império Dog",
+    seoTitle: "Spitz Alemão Anão Fêmea — Filhotes Disponíveis",
     metaDescription:
       "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento dócil e apegado. Registro oficial, laudos veterinários e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Fêmea",
@@ -251,7 +251,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
     ],
   },
   macho: {
-    seoTitle: "Spitz Alemão Anão Macho | Filhotes Disponíveis – By Império Dog",
+    seoTitle: "Spitz Alemão Anão Macho — Filhotes Disponíveis",
     metaDescription:
       "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento alegre e brincalhão. Registro oficial, laudos veterinários e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Macho",

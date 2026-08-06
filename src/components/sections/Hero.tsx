@@ -16,7 +16,7 @@ const SELLING_POINTS = [
   {
     icon: ShieldCheck,
     title: "Saúde validada",
-    description: "Exames genéticos, laudos de saúde e registro oficial entregues antes da reserva.",
+    description: "Exames genéticos e laudos de saúde. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
   },
   {
     icon: HeartHandshake,

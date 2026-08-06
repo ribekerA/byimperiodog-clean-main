@@ -8,7 +8,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { rateLimit } from "@/lib/rateLimit";
 
 export const metadata: Metadata = {
-  title: "Dados para Contrato | By Império Dog",
+  title: "Dados para Contrato",
   robots: { index: false, follow: false },
 };
 

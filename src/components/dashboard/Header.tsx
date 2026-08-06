@@ -41,7 +41,7 @@ export function Header(){
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-[var(--accent-contrast)]">BI</span>
         <span className="hidden sm:flex flex-col leading-tight">
           <span>Admin Hub</span>
-          <span className="text-[11px] font-normal text-[var(--text-muted)]">By Imperio Dog</span>
+          <span className="text-[11px] font-normal text-[var(--text-muted)]">By Império Dog</span>
         </span>
       </Link>
 

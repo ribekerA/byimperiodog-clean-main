@@ -10,9 +10,9 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania-braganca-paulista`;
 
 export const metadata: Metadata = {
-  title: "Lulu da Pomerânia em Bragança Paulista SP | By Império Dog — Canil Responsável",
+  title: "Lulu da Pomerânia em Bragança Paulista SP — Canil Responsável",
   description:
-    "Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde 2012, registro oficial, laudos veterinários e mentoria vitalícia. Atendemos Bragança Paulista, interior de SP e todo o Brasil.",
+    "Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde 2013, registro oficial, laudos veterinários e mentoria vitalícia. Atendemos Bragança Paulista, interior de SP e todo o Brasil.",
   keywords: [
     "Lulu da Pomerânia Bragança Paulista",
     "Spitz Alemão Anão Bragança Paulista",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/lulu-da-pomerania-braganca-paulista" },
   openGraph: {
     title: "Lulu da Pomerânia em Bragança Paulista SP — By Império Dog",
-    description: "Criação familiar de Spitz Alemão Anão desde 2012. Atende Bragança Paulista e todo o Brasil.",
+    description: "Criação familiar de Spitz Alemão Anão desde 2013. Atende Bragança Paulista e todo o Brasil.",
     type: "website",
   },
 };

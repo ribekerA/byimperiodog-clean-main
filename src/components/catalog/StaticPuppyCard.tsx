@@ -99,19 +99,22 @@ export default function StaticPuppyCard({
   const isUnavailable = isSold || isReserved;
   const glowColor  = COLOR_GLOW[corKey] ?? DEFAULT_GLOW;
 
-  // Escassez da cor
+  // Escassez da cor — conta apenas filhotes REALMENTE disponíveis.
+  // Antes o filtro só excluía "sold", então reservados entravam na conta e,
+  // como cada cor tem 2 filhotes no catálogo, o selo "Apenas 2 disponíveis"
+  // aparecia em praticamente todos os cards. O único selo de escassez que
+  // sobra é o "Último desta cor", que é verificável no próprio catálogo.
   const availableOfSameColor = (staticPuppies as any[]).filter((p) => {
     const pColor  = (p.color ?? p.cor ?? "").toLowerCase();
     const pStatus = p.status ?? "available";
-    return pColor === corKey && pStatus !== "sold" && pStatus !== "vendido";
+    return pColor === corKey && (pStatus === "available" || pStatus === "disponivel" || pStatus === "disponível");
   }).length;
   const isLastOfColor  = availableOfSameColor === 1 && !isUnavailable;
-  const isAlmostGone   = availableOfSameColor === 2 && !isUnavailable;
 
   // Badges de demanda — usa dados do servidor se disponíveis, senão heurística local
   const computedBadges: CatalogBadge[] = badgesProp ?? getBadgesForPuppy({
     score:            leadCount > 5 ? 85 : leadCount > 2 ? 72 : 50,
-    flag:             isLastOfColor ? "hot" : isAlmostGone ? "normal" : "normal",
+    flag:             isLastOfColor ? "hot" : "normal",
     leadCount,
     ageDays:          0,
     similarAvailable: availableOfSameColor,
@@ -186,11 +189,6 @@ export default function StaticPuppyCard({
             {!topBadge && isLastOfColor && (
               <span className="absolute bottom-3 left-3 rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--accent-foreground)] shadow">
                 ⚡ Último desta cor
-              </span>
-            )}
-            {!topBadge && !isLastOfColor && isAlmostGone && (
-              <span className="absolute bottom-3 left-3 rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--accent-foreground)] shadow">
-                Apenas 2 disponíveis
               </span>
             )}
           </div>

@@ -53,7 +53,7 @@ function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
       <hr style="border:none;border-top:1px solid #eee;margin:24px 0;"/>
 
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-        <span style="font-size:12px;color:#888;">⭐ 5/5 — 180+ famílias</span>
+        <span style="font-size:12px;color:#888;">Mais de 180 famílias atendidas</span>
         <span style="font-size:12px;color:#888;">📄 Contrato digital</span>
         <span style="font-size:12px;color:#888;">🩺 Garantia de saúde</span>
       </div>

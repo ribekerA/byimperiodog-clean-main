@@ -82,7 +82,7 @@ export function getWebPageJsonLd(opts: {
     isPartOf: {
       '@type': 'WebSite',
       url: base,
-      name: 'By Imperio Dog',
+      name: 'By Império Dog',
     },
   };
 }

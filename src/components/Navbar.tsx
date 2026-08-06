@@ -67,11 +67,11 @@ export default function Navbar() {
         <Link
           href={routes.home}
           className="flex min-w-0 max-w-[70%] items-center gap-2 text-base font-semibold tracking-tight text-inherit transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 rounded px-1 min-h-[48px] sm:max-w-none"
-          aria-label="By Imperio Dog - Pagina inicial"
+          aria-label="By Império Dog - Pagina inicial"
         >
-          <Image src="/byimperiologo.svg" alt="Logotipo By Imperio Dog" width={32} height={32} className="h-8 w-8" />
+          <Image src="/byimperiologo.svg" alt="Logotipo By Império Dog" width={32} height={32} className="h-8 w-8" />
           <div className="flex flex-col leading-tight">
-            <span className="truncate">By Imperio Dog</span>
+            <span className="truncate">By Império Dog</span>
             <span className="hidden text-xs font-normal text-[var(--text-muted)] sm:block">Criação especializada em Spitz Alemão Anão (Lulu da Pomerânia)</span>
           </div>
         </Link>

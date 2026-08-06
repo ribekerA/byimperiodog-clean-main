@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import Image, { getImageProps } from 'next/image';
-import Script from 'next/script';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { cn } from '@/lib/cn';
@@ -17,17 +16,11 @@ interface TestimonialsProps {
   autoplayDelay?: number;
   fit?: 'cover' | 'contain';
   bgPattern?: boolean;
-  cities?: string[];
-  jsonLd?: boolean;
   debug?: boolean;
   variant?: Variant;
   showCount?: number; // usado no grid
   navigationStyle?: 'dots' | 'counter' | 'progress'; // estilo de navegação
 }
-
-  const DEFAULT_CITY_POOL = [
-  'Bragança Paulista','Atibaia','Itatiba','Valinhos','Vinhedo','Campinas','Indaiatuba','Jundiaí','Louveira','Barueri - Alphaville','Santana de Parnaíba','São Paulo - Jardins','São Paulo - Vila Olímpia','São Paulo - Morumbi','Holambra','Jaguariúna','Joanópolis','Socorro','Morungaba','Extrema (MG)'
-];
 
 export default function Testimonials({
   title = 'Clientes',
@@ -35,8 +28,6 @@ export default function Testimonials({
   autoplayDelay = 3500,
   fit = 'contain',
   bgPattern = false,
-  cities,
-  jsonLd = false,
   debug = false,
   variant = 'carousel',
   showCount = 6,
@@ -54,7 +45,6 @@ export default function Testimonials({
   }, []);
 
   const list = photos?.length ? photos : CLIENT_PHOTOS.slice();
-  const CITY_POOL = cities?.length ? cities : DEFAULT_CITY_POOL;
   const total = list.length;
   const [index, setIndex] = useState(0);
   const [isPaused, setPaused] = useState(false);
@@ -63,14 +53,15 @@ export default function Testimonials({
   const touchDeltaX = useRef<number>(0);
 
   const current = useMemo(() => list[index % total], [index, list, total]);
-  const city = CITY_POOL[index % CITY_POOL.length];
 
-  const altFor = useCallback((p: string, i: number) => {
+  // A cidade da legenda saía de um rodízio fixo (`CITY_POOL[i % length]`), ou
+  // seja, era atribuída à foto pela posição no carrossel — não pela origem real
+  // da família. Legenda e alt agora descrevem só o que a foto mostra.
+  const altFor = useCallback((p: string) => {
     const base = p.split('/').pop() || '';
-    const c = CITY_POOL[i % CITY_POOL.length];
-    if (/^cliente/i.test(base)) return `Cliente By Império Dog em ${c}`;
-    return `Spitz Alemão - Cliente By Império Dog em ${c}`;
-  }, [CITY_POOL]);
+    if (/^cliente/i.test(base)) return 'Família cliente da By Império Dog com seu filhote';
+    return 'Spitz Alemão Anão (Lulu da Pomerânia) com a família cliente da By Império Dog';
+  }, []);
 
   // autoplay avançado com pausa em hover/focus
   useEffect(() => {
@@ -85,17 +76,11 @@ export default function Testimonials({
   const next = useCallback(() => goTo(index + 1), [goTo, index]);
   const prev = useCallback(() => goTo(index - 1), [goTo, index]);
 
-  // JSON-LD simples (mesmo placeholder anterior)
-  const reviewsLd = jsonLd ? {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'By Império Dog',
-    review: list.slice(0, 12).map(() => ({
-      '@type': 'Review',
-      reviewBody: 'Cliente verificado',
-      author: { '@type': 'Person', name: 'Cliente verificado' }
-    }))
-  } : null;
+  // O JSON-LD de Review que este componente emitia (prop `jsonLd`) foi removido
+  // junto com a prop: gerava 12 objetos Review com reviewBody "Cliente
+  // verificado" e autor "Cliente verificado" — avaliações que não existem.
+  // Marcação de review só pode sair de avaliação real e identificável.
+
   // Prefetch próxima imagem para transição suave (sempre declara hook antes de early return)
   // Usa getImageProps para gerar o mesmo srcset otimizado que o <Image> real vai pedir,
   // evitando baixar o arquivo cru (sem isso, cada foto era baixada 2x: crua + otimizada).
@@ -119,7 +104,6 @@ export default function Testimonials({
 
   return (
     <section aria-label={title} className="relative py-16">
-      {reviewsLd ? <Script id="ld-reviews" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsLd) }} /> : null}
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="mb-8 flex items-center justify-between gap-4 flex-wrap">
           <div>
@@ -136,11 +120,11 @@ export default function Testimonials({
 
         {variant === 'grid' && (
           <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            {list.slice(0, showCount).map((p, i) => (
+            {list.slice(0, showCount).map((p) => (
               <li key={p} className={cn('relative aspect-square overflow-hidden rounded-xl ring-1 ring-[var(--border)] bg-[var(--surface)]')}> 
                 <Image
                   src={p}
-                  alt={altFor(p, i)}
+                  alt={altFor(p)}
                   fill
                   className={cn('object-cover', fit === 'contain' && 'object-contain p-1')}
                   sizes="(max-width:640px) 50vw, (max-width:1024px) 25vw, 15vw"
@@ -196,16 +180,13 @@ export default function Testimonials({
                 >
                   <Image
                     src={current}
-                    alt={altFor(current, index)}
+                    alt={altFor(current)}
                     fill
                     className={cn('will-change-transform', fit === 'contain' ? 'object-contain p-2' : 'object-cover')}
                     sizes="(max-width: 768px) 90vw, (max-width: 1280px) 50vw, 640px"
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />
-                  <figcaption className="pointer-events-none absolute bottom-2 left-2 rounded-md bg-black/55 text-white text-[11px] px-2 py-1 backdrop-blur-sm shadow-sm">
-                    {city}
-                  </figcaption>
                 </figure>
               )}
               {total > 1 && (

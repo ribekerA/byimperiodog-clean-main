@@ -59,12 +59,12 @@ export function buildWhatsAppLink(options?: WhatsAppLinkOptions): string {
 export const WHATSAPP_MESSAGES = {
   default: "Ola! Tenho interesse em um Spitz Alemao Anao.",
   blog: (postTitle: string) =>
-    `Ola! Li o artigo "${postTitle}" no blog da By Imperio Dog e quero receber orientacoes personalizadas.`,
+    `Ola! Li o artigo "${postTitle}" no blog da By Império Dog e quero receber orientacoes personalizadas.`,
   filhotes: (puppyName?: string) =>
     puppyName
       ? `Ola! Quero saber mais sobre o Spitz ${puppyName}. Poderia me enviar disponibilidade e valores?`
       : "Ola! Quero conversar sobre os Spitz Alemao Anao sob consulta.",
-  contato: "Ola! Gostaria de tirar duvidas sobre o processo By Imperio Dog.",
+  contato: "Ola! Gostaria de tirar duvidas sobre o processo By Império Dog.",
   sobre: "Ola! Quero conhecer mais sobre a criadora e o acompanhamento vitalicio.",
 } as const;
 
@@ -96,7 +96,7 @@ export type WhatsAppMessagePayload = {
 const TONE_PRESETS: Record<string, { greeting: string; hook: string; promise: string; ctaLabel: string }> = {
   premium: {
     greeting: "Ola",
-    hook: "Aqui e o concierge By Imperio Dog cuidando pessoalmente da sua experiencia.",
+    hook: "Aqui e o concierge By Império Dog cuidando pessoalmente da sua experiencia.",
     promise: "Envio video privado e resumo completo em minutos.",
     ctaLabel: "Fale agora",
   },
@@ -108,7 +108,7 @@ const TONE_PRESETS: Record<string, { greeting: string; hook: string; promise: st
   },
   objetivo: {
     greeting: "Ola",
-    hook: "Mensagem direta do time By Imperio Dog.",
+    hook: "Mensagem direta do time By Império Dog.",
     promise: "Consigo confirmar video ou visita ainda hoje.",
     ctaLabel: "Responder agora",
   },

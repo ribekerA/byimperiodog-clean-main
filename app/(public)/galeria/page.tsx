@@ -7,7 +7,7 @@ import GaleriaClient from "./GaleriaClient";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br";
 
 export const metadata: Metadata = {
-  title: "Galeria de Vídeos | Spitz Alemão Anão By Império Dog",
+  title: "Galeria de Vídeos — Spitz Alemão Anão (Lulu da Pomerânia)",
   description:
     "Assista aos nossos Spitz Alemão Anão (Lulu da Pomerânia) em movimento. Vídeos reais dos filhotes, ninhadas e do canil By Império Dog em Bragança Paulista, SP.",
   keywords: [
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/galeria`,
-    title: "Galeria de Vídeos | Spitz Alemão Anão By Império Dog",
+    title: "Galeria de Vídeos — Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog",
     description:
       "Veja nossos Spitz Alemão Anão em movimento. Filhotes, ninhadas e muito mais.",
   },

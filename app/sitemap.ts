@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 
 import { staticPuppies } from "@/content/puppies-static";
 import { guides } from "@/content/guides";
+import { generatedPosts } from "@/lib/_generated-posts";
+import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { ALL_COLORS, ALL_SEXES } from "@/lib/catalog-utils";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
@@ -20,6 +22,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/galeria`,                lastModified: NOW, changeFrequency: "weekly",  priority: 0.75 },
     { url: `${SITE_URL}/guias`,                  lastModified: NOW, changeFrequency: "weekly",  priority: 0.85 },
     { url: `${SITE_URL}/reserve-seu-filhote`,    lastModified: NOW, changeFrequency: "monthly", priority: 0.70 },
+    { url: `${SITE_URL}/ninhadas`,               lastModified: NOW, changeFrequency: "weekly",  priority: 0.70 },
+    // /alimentacao, /cuidados e /temperamento ficam de fora de propósito: são
+    // o mesmo corpo de texto de /guias/{slug} e apontam o canonical para lá.
+    // Sitemap lista URL canônica, não a cópia.
 
     // ─── Raça / informacional ─────────────────────────────────────────────────
     { url: `${SITE_URL}/spitz-alemao`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },
@@ -44,6 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ─── Legais ───────────────────────────────────────────────────────────────
     { url: `${SITE_URL}/politica-de-privacidade`, lastModified: NOW, changeFrequency: "yearly",  priority: 0.30 },
     { url: `${SITE_URL}/termos-de-uso`,           lastModified: NOW, changeFrequency: "yearly",  priority: 0.30 },
+    { url: `${SITE_URL}/politica-editorial`,      lastModified: NOW, changeFrequency: "yearly",  priority: 0.30 },
   ];
 
   // ─── Individual puppy pages ──────────────────────────────────────────────────
@@ -78,28 +85,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.68,
   }));
 
-  // ─── Blog posts from Supabase (dynamic) ──────────────────────────────────────
-  let blogPages: MetadataRoute.Sitemap = [];
+  // ─── Blog posts ──────────────────────────────────────────────────────────────
+  // /blog/[slug] serve o MDX de content/posts e recorre ao Supabase para os
+  // slugs que só existem no banco. O sitemap só olhava para o Supabase, então
+  // os posts que só existem em MDX — a maioria — ficavam de fora e o Google só
+  // chegava neles pelos links internos. As duas fontes entram agora, na mesma
+  // precedência da rota: o arquivo manda onde existe arquivo, e o Supabase
+  // entra apenas quando o post passa em isPublishableSupabasePost. Sem esse
+  // filtro o sitemap declarava 6 URLs que respondiam 404.
+  const blogBySlug = new Map<string, MetadataRoute.Sitemap[number]>();
+
+  for (const post of generatedPosts) {
+    blogBySlug.set(post.slug, {
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: post.updated ?? post.date ?? NOW,
+      changeFrequency: "weekly" as const,
+      priority: 0.72,
+    });
+  }
+
   try {
     const db = supabaseAnon();
     const { data: posts } = await db
       .from("blog_posts")
-      .select("slug, updated_at, published_at")
+      .select("slug, updated_at, published_at, status, content_mdx")
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(500);
 
     if (posts && Array.isArray(posts)) {
-      blogPages = posts.map((post: any) => ({
-        url: `${SITE_URL}/blog/${post.slug}`,
-        lastModified: post.updated_at ?? post.published_at ?? NOW,
-        changeFrequency: "weekly" as const,
-        priority: 0.72,
-      }));
+      for (const post of posts as any[]) {
+        if (blogBySlug.has(post.slug)) continue; // já coberto pelo MDX, que é quem a rota serve
+        if (!isPublishableSupabasePost(post)) continue;
+        blogBySlug.set(post.slug, {
+          url: `${SITE_URL}/blog/${post.slug}`,
+          lastModified: post.updated_at ?? post.published_at ?? NOW,
+          changeFrequency: "weekly" as const,
+          priority: 0.72,
+        });
+      }
     }
   } catch {
-    // Supabase unavailable at build time — blog posts omitted from sitemap
-    // Sitemap is regenerated on each request so this is transient
+    // Supabase indisponível no build — os posts MDX já garantem cobertura.
   }
 
   return [
@@ -108,6 +135,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...colorPages,
     ...sexPages,
     ...guidePages,
-    ...blogPages,
+    ...blogBySlug.values(),
   ];
 }

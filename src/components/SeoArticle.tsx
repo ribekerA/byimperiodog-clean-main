@@ -12,7 +12,7 @@ export function SeoArticle({ title, description, url, published, modified, autho
     "author": { "@type":"Person", "name": author.name },
     "datePublished": published, "dateModified": modified,
     "mainEntityOfPage": url,
-    "publisher": { "@type": "Organization", "name": "By Imperio Dog" }
+    "publisher": { "@type": "Organization", "name": "By Império Dog" }
   };
 
   const faqSchema = faq?.length ? {

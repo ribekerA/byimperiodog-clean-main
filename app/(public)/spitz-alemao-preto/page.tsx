@@ -10,7 +10,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Preto — Raça Rara, Preço e Filhotes | By Império Dog",
+  title: "Spitz Alemão Preto — Raça Rara, Preço e Filhotes",
   description:
     "O Spitz Alemão Anão Preto é uma das cores mais raras da raça no Brasil. Saiba por que é raro, qual o preço, o que exigir de um criador e como encontrar filhotes com registro oficial. Criadora em Bragança Paulista, SP.",
   keywords: [
@@ -40,7 +40,7 @@ const FAQS = [
   {
     question: "Qual o preço do Spitz Alemão Anão preto?",
     answer:
-      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Por ser uma cor rara, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea custa o mesmo valor em todas as cores. Todos incluem registro oficial, laudos veterinários, vacinação completa, microchip e mentoria vitalícia.",
+      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Por ser uma cor rara, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea custa o mesmo valor em todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia.",
   },
   {
     question: "Como saber se o Spitz Alemão preto tem registro oficial legítimo?",
@@ -122,7 +122,7 @@ export default function SpitzAlemaoPretoPage() {
           </div>
         </div>
         <ul className="space-y-1.5 text-sm text-zinc-700">
-          {["Registro oficial", "Laudo de saúde", "Teste de patela", "Vacinação completa", "Microchip", "Nota fiscal", "Mentoria vitalícia"].map((i) => (
+          {["Registro oficial", "Laudo de saúde", "Teste de patela", "Protocolo vacinal em dia", "Microchip", "Nota fiscal", "Mentoria vitalícia"].map((i) => (
             <li key={i} className="flex items-center gap-2"><span className="text-emerald-600">✓</span>{i}</li>
           ))}
         </ul>

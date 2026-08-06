@@ -14,7 +14,7 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro (RJ) | By Imperio Dog",
+  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro (RJ)",
   description:
     "Compre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro com entrega segura na capital, Niterói, região metropolitana e interior. Registro oficial e suporte vitalício.",
   alternates: { canonical: canonical("/filhotes/rio-de-janeiro") },
@@ -60,7 +60,7 @@ const faqRJ = [
   {
     question: "O filhote vem com documentação e vacinas?",
     answer:
-      "Sim! Todos os filhotes vêm com registro oficial, primeira dose da vacina V10, vermifugação completa, atestado veterinário e contrato. Fornecemos orientação completa sobre o calendário de vacinas.",
+      "Sim. Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, atestado veterinário e contrato.",
   },
   {
     question: "Spitz Alemão (Lulu da Pomerânia) se adapta bem ao clima do Rio?",
@@ -79,7 +79,7 @@ export default function FilhotesRioDeJaneiroPage() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/filhotes/rio-de-janeiro#localbusiness`,
-    name: "By Imperio Dog - Filhotes no Rio de Janeiro",
+    name: "By Império Dog - Filhotes no Rio de Janeiro",
     url: `${SITE_URL}/filhotes/rio-de-janeiro`,
     image: `${SITE_URL}/spitz-hero-desktop.webp`,
     telephone: "+55 11 96863-3239",

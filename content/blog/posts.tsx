@@ -12,7 +12,7 @@ export const posts: BlogPost[] = [
   "Entenda os criterios que usamos para conectar Spitz Alemão Anão (Lulu da Pomerânia) ate 22 cm com familias que buscam responsabilidade e suporte continuo.",
     coverUrl: "/blog/guia-tutor-spitz.webp",
     publishedAt: "2024-09-01T08:00:00.000Z",
-    author: { name: "Equipe By Imperio Dog" },
+    author: { name: "Equipe By Império Dog" },
     tags: ["guia", "planejamento", "tutor"],
     seo: {
   title: "Guia do tutor: como escolher um Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade",
@@ -24,7 +24,7 @@ export const posts: BlogPost[] = [
       return (
         <article className="max-w-none space-y-6 text-zinc-800">
           <p>
-            Cada ninhada do By Imperio Dog nasce com planejamento genetico, socializacao guiada e mentoria vitalicia.
+            Cada ninhada do By Império Dog nasce com planejamento genetico, socializacao guiada e mentoria vitalicia.
             Antes de reservar, avaliamos rotina, disponibilidade de tempo, criancas em casa e expectativas esteticas para garantir aderencia real.
           </p>
           <h2 className="text-xl font-semibold text-zinc-900">Checklist de avaliacao inicial</h2>
@@ -58,7 +58,7 @@ export const posts: BlogPost[] = [
       "Organize banho, escovacao, nutricao e enriquecimento com uma agenda pratica pensada para familias urbanas.",
     coverUrl: "/blog/cuidados-rotina-spitz.webp",
     publishedAt: "2024-09-05T08:00:00.000Z",
-    author: { name: "Equipe By Imperio Dog" },
+    author: { name: "Equipe By Império Dog" },
     tags: ["cuidados", "rotina", "higiene"],
     seo: {
   title: "Cuidados essenciais com Spitz Alemão Anão (Lulu da Pomerânia): checklist completo",
@@ -105,7 +105,7 @@ export const posts: BlogPost[] = [
       "Sequencia de treinos curtos que desenvolvem independencia, evitam latidos excessivos e garantem convivio harmonioso.",
     coverUrl: "/blog/adestramento-spitz.webp",
     publishedAt: "2024-09-12T08:00:00.000Z",
-    author: { name: "Equipe By Imperio Dog" },
+    author: { name: "Equipe By Império Dog" },
     tags: ["adestramento", "comportamento", "socializacao"],
     seo: {
   title: "Adestramento gentil para Spitz Alemão Anão (Lulu da Pomerânia)",
@@ -139,7 +139,7 @@ export const posts: BlogPost[] = [
           <p>
             Veja como estruturamos a mentoria dentro do{" "}
             <Link href="/sobre#processo" className="text-brand hover:underline">
-              processo By Imperio Dog
+              processo By Império Dog
             </Link>{" "}
             e acompanhe os relatos de tutores nas redes sociais.
           </p>
@@ -156,7 +156,7 @@ export const posts: BlogPost[] = [
       "Linha do tempo completa de exames geneticos, de saude e laboratoriais que entregamos antes da reserva e durante o primeiro ano.",
     coverUrl: "/blog/saude-protocolos-spitz.webp",
     publishedAt: "2024-09-18T08:00:00.000Z",
-    author: { name: "Equipe By Imperio Dog" },
+    author: { name: "Equipe By Império Dog" },
     tags: ["saude", "exames", "preventivo"],
     seo: {
   title: "Saude do Spitz Alemão Anão (Lulu da Pomerânia): exames e vacinas recomendadas",
@@ -219,7 +219,7 @@ export const posts: BlogPost[] = [
   "Lista de perguntas que todo tutor deveria fazer ao selecionar um criador especializado em Spitz Alemão Anão (Lulu da Pomerânia) premium.",
     coverUrl: "/blog/perguntas-spitz.webp",
     publishedAt: "2024-09-25T08:00:00.000Z",
-    author: { name: "Equipe By Imperio Dog" },
+    author: { name: "Equipe By Império Dog" },
     tags: ["faq", "investimento", "logistica"],
     seo: {
   title: "Perguntas que garantem transparencia ao reservar um Spitz Alemão Anão (Lulu da Pomerânia)",
@@ -236,7 +236,7 @@ export const posts: BlogPost[] = [
           <h3 className="text-lg font-semibold text-zinc-900">Pergunte sobre suporte</h3>
           <p>
             Como e estruturado o atendimento apos a entrega? Existe grupo exclusivo, videochamada semanal, acesso a profissionais de nutricao e comportamento?
-            No By Imperio Dog, oferecemos mentoria vitalicia com materiais atualizados trimestralmente.
+            No By Império Dog, oferecemos mentoria vitalicia com materiais atualizados trimestralmente.
           </p>
           <h3 className="text-lg font-semibold text-zinc-900">Questione a logistica</h3>
           <p>

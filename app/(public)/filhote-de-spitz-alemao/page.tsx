@@ -10,7 +10,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.
 const PAGE_URL = `${SITE_URL}/filhote-de-spitz-alemao`;
 
 export const metadata: Metadata = {
-  title: "Filhote de Spitz Alemão Anão — Como Escolher, Cuidar e Onde Comprar | By Império Dog",
+  title: "Filhote de Spitz Alemão Anão — Como Escolher, Cuidar e Onde Comprar",
   description:
     "Guia completo para quem quer um filhote de Spitz Alemão Anão: como escolher, o que verificar, os primeiros cuidados, alimentação, vacinação e onde encontrar filhotes com procedência no Brasil.",
   keywords: [
@@ -111,7 +111,7 @@ export default function FilhoteDeSpitzPage() {
             { t: "Procedência documentada", b: "Registro oficial nos pais e garantia de registro no filhote. Sem isso, não há garantia racial ou rastreabilidade genética." },
             { t: "Laudos veterinários dos pais", b: "Laudo de saúde e teste de patela bilateral dos reprodutores antes de cada ninhada." },
             { t: "Socialização comprovada", b: "Filhotes criados dentro de casa, com contato humano diário, sons e rotinas domésticas têm temperamento muito mais equilibrado." },
-            { t: "Carteira de vacinação em dia", b: "A primeira dose da vacina múltipla (V8/V10) deve estar aplicada antes da entrega." },
+            { t: "Carteira de vacinação em dia", b: "Protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes." },
             { t: "Contrato com garantia", b: "Contrato claro com garantia de saúde, responsabilidades e suporte pós-venda." },
           ].map((item) => (
             <li key={item.t} className="flex items-start gap-3 rounded-xl border border-zinc-100 bg-white p-4 shadow-sm">

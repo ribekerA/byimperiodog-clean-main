@@ -369,7 +369,7 @@ export default function LeadForm({ context, className }: Props) {
         </span>
         <span className="hidden text-emerald-300 sm:inline" aria-hidden="true">·</span>
         <span className="flex items-center gap-1 text-xs text-emerald-800">
-          <span aria-hidden="true">★</span> 180+ famílias atendidas em todo o Brasil
+          <span aria-hidden="true">🐾</span> Mais de 180 famílias atendidas em todo o Brasil
         </span>
       </div>
 
@@ -413,7 +413,7 @@ export default function LeadForm({ context, className }: Props) {
         </div>
 
         <p className="text-xs text-[var(--text-muted)]">
-          Seus dados são protegidos conforme a LGPD. Respondemos apenas por WhatsApp, sem spam.
+          Seus dados são protegidos conforme a LGPD. Entraremos em contato preferencialmente pelo WhatsApp informado, sem spam.
         </p>
       </div>
     </form>

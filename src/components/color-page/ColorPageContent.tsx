@@ -37,12 +37,6 @@ const THEMES = {
     badgeCss:     "bg-amber-100 text-amber-800 ring-1 ring-amber-200",
     swatchCss:    "bg-[#f5e6c8] ring-amber-300",
     heroImg:      "/filhotes/creme/creme-femea-01.jpg",
-    traits: [
-      { label: "Docilidade",          pct: 95, icon: "🧸" },
-      { label: "Afeto c/ crianças",   pct: 92, icon: "👶" },
-      { label: "Raridade",            pct: 85, icon: "💎" },
-      { label: "Vida em apartamento", pct: 96, icon: "🏢" },
-    ],
   },
   laranja: {
     heroGradient: "bg-gradient-to-br from-orange-100 via-amber-50/60 to-zinc-50",
@@ -57,12 +51,6 @@ const THEMES = {
     badgeCss:     "bg-orange-100 text-orange-800 ring-1 ring-orange-200",
     swatchCss:    "bg-orange-400 ring-orange-500",
     heroImg:      "/filhotes/laranja/laranja-femea-flores-01.jpg",
-    traits: [
-      { label: "Alegria e energia",   pct: 92, icon: "⚡" },
-      { label: "Sociabilidade",       pct: 96, icon: "🤝" },
-      { label: "Afeto c/ crianças",   pct: 95, icon: "👶" },
-      { label: "Vida em apartamento", pct: 95, icon: "🏢" },
-    ],
   },
   preto: {
     heroGradient: "bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-800",
@@ -77,12 +65,6 @@ const THEMES = {
     badgeCss:     "bg-zinc-800 text-zinc-200 ring-1 ring-zinc-700",
     swatchCss:    "bg-zinc-900 ring-zinc-600",
     heroImg:      "/filhotes/preto/preto-filhote-flores-01.jpg",
-    traits: [
-      { label: "Lealdade",         pct: 98, icon: "❤️" },
-      { label: "Elegância",        pct: 99, icon: "✨" },
-      { label: "Raridade",         pct: 92, icon: "💎" },
-      { label: "Vínculo c/ tutor", pct: 97, icon: "🤝" },
-    ],
   },
   "wolf-sable": {
     heroGradient: "bg-gradient-to-br from-stone-300 via-stone-100/80 to-zinc-50",
@@ -97,50 +79,71 @@ const THEMES = {
     badgeCss:     "bg-stone-200 text-stone-800 ring-1 ring-stone-300",
     swatchCss:    "bg-stone-400 ring-stone-500",
     heroImg:      "/filhotes/wolf-sable/wolf-sable-femea-01.jpg",
-    traits: [
-      { label: "Inteligência",        pct: 97, icon: "🧠" },
-      { label: "Raridade",            pct: 98, icon: "💎" },
-      { label: "Expressividade",      pct: 99, icon: "🎭" },
-      { label: "Vida em apartamento", pct: 90, icon: "🏢" },
-    ],
   },
 } as const;
 
 type ColorKey = keyof typeof THEMES;
 
-// ─── TraitBar ─────────────────────────────────────────────────────────────────
+// ─── Temperamento da raça ─────────────────────────────────────────────────────
 
-function TraitBar({
-  label, pct, icon, progressBar,
+/**
+ * Temperamento é característica da RAÇA, não da cor da pelagem.
+ * Cada cor tinha antes uma lista própria de barras com porcentagens
+ * (95%, 97%, 98%, 99%…) que não vinham de nenhuma medição ou fonte.
+ * Foram removidas: agora há uma única descrição qualitativa, igual para
+ * todas as cores.
+ */
+const BREED_TRAITS = [
+  {
+    icon: "🧸",
+    label: "Companheiro e apegado",
+    desc: "Cria vínculo forte com a família e gosta de acompanhar a rotina da casa.",
+  },
+  {
+    icon: "⚡",
+    label: "Atento e vocal",
+    desc: "Avisa sobre movimentações no ambiente. O latido se trabalha com socialização e manejo desde filhote.",
+  },
+  {
+    icon: "🧠",
+    label: "Receptivo ao treino",
+    desc: "Responde bem a sessões curtas com reforço positivo, começando pelos comandos básicos.",
+  },
+  {
+    icon: "🏢",
+    label: "Adaptado ao apartamento",
+    desc: "Porte pequeno e necessidade moderada de exercício, com passeios diários e estímulo mental.",
+  },
+] as const;
+
+function TraitItem({
+  label, desc, icon, accentLight,
 }: {
-  label: string; pct: number; icon: string; progressBar: string;
+  label: string; desc: string; icon: string; accentLight: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const reduced = useReducedMotion();
 
   return (
-    <div ref={ref} className="space-y-1.5">
-      <div className="flex items-center justify-between">
-        <span className="flex items-center gap-2 text-sm font-medium text-zinc-700">
-          <span aria-hidden="true">{icon}</span>
-          {label}
-        </span>
-        <span className="text-sm font-bold tabular-nums text-zinc-500">{pct}%</span>
+    <motion.div
+      ref={ref}
+      className="flex items-start gap-3"
+      initial={{ opacity: 0, y: 8 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+      transition={reduced ? { duration: 0 } : { duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <span
+        aria-hidden="true"
+        className={`flex h-9 w-9 flex-none items-center justify-center rounded-full text-base ${accentLight}`}
+      >
+        {icon}
+      </span>
+      <div className="space-y-0.5">
+        <p className="text-sm font-semibold text-zinc-800">{label}</p>
+        <p className="text-sm leading-relaxed text-zinc-600">{desc}</p>
       </div>
-      <div className="h-2.5 w-full overflow-hidden rounded-full bg-zinc-100">
-        <motion.div
-          className={`h-full rounded-full ${progressBar}`}
-          initial={{ width: 0 }}
-          animate={inView ? { width: `${pct}%` } : { width: 0 }}
-          transition={
-            reduced
-              ? { duration: 0 }
-              : { duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.1 }
-          }
-        />
-      </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -534,7 +537,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 </p>
               </motion.div>
 
-              {/* Floating "10+ anos" badge */}
+              {/* Floating "13 anos" badge */}
               <motion.div
                 className={`absolute right-3 top-3 sm:-right-8 sm:top-8 rounded-2xl px-3 py-2.5 shadow-xl backdrop-blur-md ring-1 ${
                   heroDark ? "bg-zinc-900/90 ring-white/10" : "bg-white/95 ring-zinc-900/5"
@@ -546,7 +549,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   By Império Dog
                 </p>
                 <p className={`mt-0.5 font-bold text-emerald-600`}>
-                  10+ anos
+                  13 anos
                 </p>
                 <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
                   de criação
@@ -580,16 +583,22 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 {seo.intro}
               </p>
               <div className="mt-8 space-y-6">
-                {theme.traits.map((trait) => (
-                  <TraitBar
+                {BREED_TRAITS.map((trait) => (
+                  <TraitItem
                     key={trait.label}
                     label={trait.label}
-                    pct={trait.pct}
+                    desc={trait.desc}
                     icon={trait.icon}
-                    progressBar={theme.progressBar}
+                    accentLight={theme.accentLight}
                   />
                 ))}
               </div>
+              <p className="mt-6 text-sm leading-relaxed text-zinc-500">
+                O temperamento descrito acima é característico da raça. A cor da
+                pelagem é uma característica estética e não determina
+                comportamento, inteligência ou saúde — cada filhote tem a sua
+                individualidade.
+              </p>
             </div>
 
             {/* Characteristics list */}

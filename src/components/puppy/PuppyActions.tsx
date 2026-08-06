@@ -49,7 +49,7 @@ export function PuppyActions({ whatsappLink, puppyName, onRequestPhotos, onSched
           </Button>
         </a>
         <p className="mt-2 text-center text-xs text-zinc-500">
-          Resposta em até 1 hora • Atendimento 7 dias por semana
+          Resposta em até 2 horas • Atendimento 7 dias por semana
         </p>
       </div>
 

@@ -151,7 +151,7 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
         </button>
       </div>
       <p className="mt-2 text-center text-[10px] text-zinc-400">
-        Seus dados são protegidos. Respondemos em até 30 min no horário comercial.
+        Seus dados são protegidos. Respondemos em até 2 horas no horário comercial.
       </p>
     </motion.form>
   );

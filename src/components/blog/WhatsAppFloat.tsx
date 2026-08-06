@@ -55,8 +55,8 @@ export default function WhatsAppFloat() {
                 <MessageCircle className="h-6 w-6" aria-hidden />
               </div>
               <div className="space-y-1">
-                <h3 className="text-sm font-semibold text-text">By Imperio Dog</h3>
-                <p className="text-xs text-text-soft">Resposta humana em ate 30 minutos.</p>
+                <h3 className="text-sm font-semibold text-text">By Império Dog</h3>
+                <p className="text-xs text-text-soft">Resposta humana em até 2 horas, no horário de atendimento (8h–22h).</p>
               </div>
             </div>
 

@@ -119,7 +119,7 @@ function buildMessages(input: LeadAdvisorInput, compatibility: AdvisorCompatibil
   const contextColor = input.preferredColor ? ` na cor ${input.preferredColor}` : "";
   const puppyName = compatibility.puppyName ? ` o ${compatibility.puppyName}` : " um Spitz da nossa ninhada";
   const cityLine = input.city ? ` Entregamos em ${input.city} sem burocracia.` : " Temos entrega segura para todo Brasil.";
-  const base = `Somos da By Imperio Dog e separamos${puppyName}${contextColor}.`;
+  const base = `Somos da By Império Dog e separamos${puppyName}${contextColor}.`;
 
   return [
     {
@@ -130,7 +130,7 @@ function buildMessages(input: LeadAdvisorInput, compatibility: AdvisorCompatibil
     {
       id: "polite",
       label: "Educado",
-      text: `Ola ${firstName}, tudo bem? Aqui e a By Imperio Dog. Vi seu interesse em um Spitz${contextColor} e reservei${puppyName} para voce.${cityLine} Posso te enviar detalhes agora?`,
+      text: `Ola ${firstName}, tudo bem? Aqui e a By Império Dog. Vi seu interesse em um Spitz${contextColor} e reservei${puppyName} para voce.${cityLine} Posso te enviar detalhes agora?`,
     },
     {
       id: "persuasive",

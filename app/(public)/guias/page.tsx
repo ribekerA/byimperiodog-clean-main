@@ -4,9 +4,9 @@ import Link from "next/link";
 import { guides } from "@/content/guides";
 
 export const metadata: Metadata = {
-  title: "Guias sobre Spitz Alemão Anão | By Império Dog",
+  title: "Guias sobre Spitz Alemão Anão",
   description:
-    "Guias completos sobre Spitz Alemão Anão (Lulu da Pomerânia): como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria há mais de 10 anos.",
+    "Guias completos sobre Spitz Alemão Anão (Lulu da Pomerânia): como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde 2013.",
   alternates: { canonical: "/guias" },
 };
 
@@ -56,7 +56,7 @@ export default function GuiasIndexPage() {
           Guias sobre Spitz Alemão Anão
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70">
-          Tudo que você precisa saber antes de levar um filhote para casa — escrito por quem cria há mais de 10 anos.
+          Tudo que você precisa saber antes de levar um filhote para casa — escrito por quem cria desde 2013.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-white/60">
           <span className="flex items-center gap-1.5">
@@ -142,7 +142,7 @@ export default function GuiasIndexPage() {
               Converse com a criadora
             </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-white/70">
-              Tire todas as suas dúvidas direto com quem cria há mais de 10 anos e descubra o filhote ideal para você.
+              Tire todas as suas dúvidas direto com quem cria desde 2013 e descubra o filhote ideal para você.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-4">
               <a

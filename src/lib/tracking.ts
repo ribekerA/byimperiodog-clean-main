@@ -136,7 +136,7 @@ export function buildOrganizationLD(siteUrl: string) {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": `${base}#organization`,
-    name: "By Imperio Dog",
+    name: "By Império Dog",
     alternateName: "Imperio Dog",
     description: "Criatorio especializado em Spitz Alemao Anao com suporte dedicado para tutores.",
     url: `${base}/`,
@@ -176,9 +176,9 @@ export function buildWebsiteLD(siteUrl: string) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${clean}#website`,
-    name: "By Imperio Dog",
+    name: "By Império Dog",
     alternateName: "Imperio Dog",
-    description: "Site da By Imperio Dog com conteudos e filhotes de Spitz Alemao Anao.",
+    description: "Site da By Império Dog com conteudos e filhotes de Spitz Alemao Anao.",
     url: `${clean}/`,
     potentialAction: {
       "@type": "SearchAction",
@@ -229,8 +229,9 @@ export function buildLocalBusinessLD(siteUrl: string) {
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": `${base}#localbusiness`,
-    name: "By Imperio Dog",
+    // Mesmo @id de src/lib/structured-data.ts — um único nó por empresa.
+    "@id": `${base}#business`,
+    name: "By Império Dog",
     url: `${base}/`,
     image: `${base}/spitz-hero-desktop.webp`,
     logo: `${base}/byimperiologo.png`,

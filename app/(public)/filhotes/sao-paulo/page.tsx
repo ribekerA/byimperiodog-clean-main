@@ -14,7 +14,7 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em São Paulo (SP) | By Imperio Dog",
+  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em São Paulo (SP)",
   description:
     "Compre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em São Paulo com entrega segura na capital, Grande SP e interior. Registro oficial, suporte vitalício e criadora de referência.",
   alternates: { canonical: canonical("/filhotes/sao-paulo") },
@@ -60,7 +60,7 @@ const faqSP = [
   {
     question: "Os filhotes já vêm vacinados e vermifugados?",
     answer:
-      "Sim! Todos os filhotes são entregues com a primeira dose da vacina múltipla (V10), vermifugação em dia e atestado de saúde veterinário. Orientamos sobre o calendário completo de vacinas.",
+      "Sim. Todos os filhotes são entregues com protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes, além de vermifugação em dia e atestado de saúde veterinário.",
   },
   {
     question: "Qual o tamanho de um Spitz Alemão (Lulu da Pomerânia) adulto?",
@@ -78,7 +78,7 @@ export default function FilhotesSaoPauloPage() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/filhotes/sao-paulo#localbusiness`,
-    name: "By Imperio Dog - Filhotes em São Paulo",
+    name: "By Império Dog - Filhotes em São Paulo",
     url: `${SITE_URL}/filhotes/sao-paulo`,
     image: `${SITE_URL}/spitz-hero-desktop.webp`,
     telephone: "+55 11 96863-3239",

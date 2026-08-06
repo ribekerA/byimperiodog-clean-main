@@ -19,9 +19,9 @@ const tocItems = [
 
 export function generateMetadata(): Metadata {
   return pageMetadata({
-    title: "Política de Privacidade | By Imperio Dog",
+    title: "Política de Privacidade",
     description:
-      "Como a By Imperio Dog trata dados pessoais de tutores interessados no Spitz Alemão (Lulu da Pomerânia): coleta, finalidade, retenção, segurança e atendimento à LGPD.",
+      "Como a By Império Dog trata dados pessoais de tutores interessados no Spitz Alemão (Lulu da Pomerânia): coleta, finalidade, retenção, segurança e atendimento à LGPD.",
     path,
     images: [
       {
@@ -91,8 +91,8 @@ export default function PoliticaDePrivacidadePage() {
           </li>
         </ol>
         <p className="text-zinc-600">
-          Sempre que necessário, solicitamos consentimento específico, permitindo revogação simples por e-mail ou pelo painel de
-          preferências.
+          Sempre que necessário, solicitamos consentimento específico, permitindo revogação simples por e-mail ou pelo link
+          &ldquo;Preferências de cookies&rdquo; disponível no rodapé do site.
         </p>
       </section>
 
@@ -104,7 +104,10 @@ export default function PoliticaDePrivacidadePage() {
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
           <li>Clínicas veterinárias parceiras para exames, laudos e vacinas.</li>
           <li>Serviços de transporte especializado para entrega do Spitz Alemão (Lulu da Pomerânia).</li>
-          <li>Plataformas de comunicação e CRM com contratos de confidencialidade.</li>
+          <li>
+            Provedores de hospedagem, banco de dados e comunicação utilizados para operar o site e registrar
+            atendimentos, sujeitos aos termos e às políticas de privacidade de cada fornecedor.
+          </li>
         </ul>
         <p className="text-zinc-600">
           Não vendemos dados pessoais. Eventuais transferências internacionais ocorrem apenas quando ferramentas essenciais
@@ -124,8 +127,8 @@ export default function PoliticaDePrivacidadePage() {
           <li>Marketing: somente quando o tutor aceita compartilhar preferências com nossos canais de relacionamento.</li>
         </ul>
         <p className="text-zinc-600">
-          Você pode revisar ou revogar o consentimento a qualquer momento pelo banner de privacidade ou entrando em contato com a
-          nossa equipe.
+          Você pode revisar ou revogar o consentimento a qualquer momento pelo link &ldquo;Preferências de cookies&rdquo; no
+          rodapé do site ou entrando em contato conosco. Cookies de analytics e de marketing só são ativados após aceite.
         </p>
       </section>
 
@@ -136,11 +139,15 @@ export default function PoliticaDePrivacidadePage() {
           Após esse período, aplicamos anonimização ou exclusão segura. Medidas técnicas implementadas:
         </p>
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
-          <li>Criptografia de dados sensíveis em repouso e em trânsito.</li>
-          <li>Controle de acesso com autenticação multifator para colaboradores.</li>
-          <li>Monitoramento de logs e revisão periódica de permissões.</li>
-          <li>Planos de contingência e backups redundantes em datacenters certificados.</li>
+          <li>Tráfego do site protegido por HTTPS/TLS.</li>
+          <li>Acesso ao painel administrativo restrito por autenticação e permissões.</li>
+          <li>Armazenamento em provedores de infraestrutura que mantêm rotinas próprias de backup.</li>
+          <li>Revisão periódica de quem tem acesso aos dados.</li>
         </ul>
+        <p className="text-zinc-600">
+          Nenhum sistema é totalmente imune a incidentes. Em caso de incidente de segurança relevante,
+          comunicaremos os titulares afetados e a ANPD conforme exige a LGPD.
+        </p>
       </section>
 
       <section id="direitos" className="space-y-3">
@@ -155,18 +162,21 @@ export default function PoliticaDePrivacidadePage() {
       <section id="contato" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Contato do controlador</h2>
         <p className="text-zinc-600">
-          Controladora: By Imperio Dog LTDA • CNPJ 34.010.264/0001-12
+          Controladora: By Império Dog LTDA • CNPJ 34.010.264/0001-12
         </p>
         <p className="text-zinc-600">
           E-mail para assuntos de privacidade: <strong>privacidade@byimperiodog.com.br</strong>
         </p>
         <p className="text-zinc-600">
-          Endereço: Rua Atibaia, 200 — Atibaia/SP — CEP 12940-000. Informe nome completo, documento utilizado no cadastro e canal
-          de contato preferido.
+          E-mail comercial: <strong>contato@byimperiodog.com.br</strong>
+        </p>
+        <p className="text-zinc-600">
+          Criação, atendimento e visitas: Bragança Paulista/SP. Ao enviar uma solicitação, informe nome completo, documento
+          utilizado no cadastro e canal de contato preferido.
         </p>
       </section>
 
-      <LastUpdated buildTime={process.env.NEXT_PUBLIC_BUILD_TIME} contentTime={lastUpdated} />
+      <LastUpdated contentTime={lastUpdated} />
     </main>
   );
 }

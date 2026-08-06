@@ -263,7 +263,7 @@ export default function VideoHero() {
           >
             Saúde documentada, registro oficial e mentoria vitalícia.{" "}
             <strong className="font-semibold text-white">
-              10 anos de criação responsável
+              13 anos de criação responsável
             </strong>{" "}
             para a sua família.
           </motion.p>
@@ -305,10 +305,11 @@ export default function VideoHero() {
             transition={{ duration: 0.65, delay: 1.28, ease: EASE }}
             className="mt-2 flex flex-col items-center gap-2 sm:mt-3"
           >
-            {/* Avaliação em estrelas — prova social acima da dobra */}
-            <div className="flex items-center gap-2" aria-label="Avaliação 5 estrelas com 180 famílias atendidas">
-              <span className="flex text-yellow-400 text-base tracking-tight" aria-hidden="true">★★★★★</span>
-              <span className="text-xs text-white/70">5.0 · 180+ famílias atendidas em todo o Brasil</span>
+            {/* Prova social acima da dobra — sem nota em estrelas, que não vem
+                de nenhuma plataforma pública de avaliações verificadas. */}
+            <div className="flex items-center gap-2" aria-label="Mais de 180 famílias atendidas em todo o Brasil">
+              <span className="text-base leading-none" aria-hidden="true">🐾</span>
+              <span className="text-xs text-white/70">Mais de 180 famílias atendidas em todo o Brasil</span>
             </div>
             {/* Stats — empilhado no mobile para não quebrar no meio de um item e
                 colidir com o indicador "Rolar" (absolute, bottom-8 da section) */}

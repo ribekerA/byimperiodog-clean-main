@@ -21,6 +21,19 @@ const CONSENT_STORAGE_KEY = 'byimperiodog_consent_v1';
 const CURRENT_POLICY_VERSION = '1.0';
 
 /**
+ * Evento que reabre o painel de preferências de cookies.
+ * Disparado pelo link "Preferências de cookies" no rodapé e ouvido pelo
+ * ConsentBanner — é o que garante a revogação prometida na política.
+ */
+export const OPEN_CONSENT_EVENT = 'byimperiodog:open-consent';
+
+/** Reabre o painel de preferências de cookies. */
+export function openConsentPreferences(): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new Event(OPEN_CONSENT_EVENT));
+}
+
+/**
  * Preferências padrão antes do consentimento explícito
  */
 export const DEFAULT_CONSENT: ConsentPreferences = {

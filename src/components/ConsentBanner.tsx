@@ -7,6 +7,7 @@ import {
   acceptAllConsent,
   getCurrentConsent,
   hasConsent,
+  OPEN_CONSENT_EVENT,
   rejectAllConsent,
   saveConsent,
   type ConsentPreferences,
@@ -31,6 +32,18 @@ export default function ConsentBanner() {
     // Carrega preferências atuais
     const current = getCurrentConsent();
     setPreferences(current);
+  }, []);
+
+  // Permite reabrir o painel a qualquer momento (link "Preferências de cookies"
+  // no rodapé). É o que sustenta a promessa de revogação na política de privacidade.
+  useEffect(() => {
+    const reopen = () => {
+      setPreferences(getCurrentConsent());
+      setShow(true);
+      setShowSettings(true);
+    };
+    window.addEventListener(OPEN_CONSENT_EVENT, reopen);
+    return () => window.removeEventListener(OPEN_CONSENT_EVENT, reopen);
   }, []);
 
   const handleAcceptAll = () => {

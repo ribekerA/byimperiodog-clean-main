@@ -100,7 +100,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
               Pronto para uma conversa sob consulta?
             </h3>
             <p className="text-sm text-text-muted">
-              Atendimento humano, análise de perfil em até 30 minutos e material exclusivo para planejar a chegada do Spitz.
+              Atendimento humano, análise de perfil em até 2 horas e material exclusivo para planejar a chegada do Spitz.
             </p>
           </div>
           <a
