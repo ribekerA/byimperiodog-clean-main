@@ -235,6 +235,10 @@ export default function HomePage() {
                             href={waLink}
                             target="_blank"
                             rel="noreferrer"
+                            /* Os quatro cards repetem "Tenho interesse" e cada um abre uma
+                               conversa diferente. Sem rotulo proprio, o leitor de tela le
+                               quatro links iguais apontando para destinos distintos. */
+                            aria-label={`Tenho interesse no ${puppy.name} — falar pelo WhatsApp`}
                             className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98]"
                           >
                             <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
@@ -242,6 +246,7 @@ export default function HomePage() {
                           </a>
                           <Link
                             href={`/filhotes/${puppy.slug}`}
+                            aria-label={`Ver galeria de ${puppy.name}`}
                             className="text-center text-xs font-medium text-zinc-400 hover:text-emerald-600 hover:underline"
                           >
                             Ver galeria →
