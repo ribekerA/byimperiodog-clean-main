@@ -31,8 +31,11 @@ export const metadata: Metadata = {
 };
 
 const CHARACTERISTICS = [
-  { label: "Altura adulta",    value: "até 22 cm" },
-  { label: "Peso adulto",      value: "1,5 – 3,5 kg" },
+  // O padrão FCI nº 97 define a altura como medida central com tolerância, e
+  // não fixa faixa de peso — só exige que seja proporcional ao tamanho. Por
+  // isso o peso fica rotulado como referência prática, não como norma.
+  { label: "Altura na cernelha", value: "21 cm ± 3 cm (FCI nº 97)" },
+  { label: "Peso adulto (referência prática)", value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
   { label: "Cores mais procuradas", value: "Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
@@ -45,7 +48,7 @@ const FAQS = [
   {
     question: "O Spitz Alemão Anão é bom para apartamento?",
     answer:
-      "Sim, é uma das raças mais adaptadas à vida em apartamento. Com até 22 cm de altura, o Spitz Alemão Anão ocupa pouco espaço, não precisa de grandes áreas para se exercitar e adapta-se bem à rotina de apartamento desde que tenha passeios diários e estimulação mental.",
+      "Sim, é uma das raças mais adaptadas à vida em apartamento. Com altura na cernelha de 21 cm ± 3 cm conforme o padrão FCI nº 97, o Spitz Alemão Anão ocupa pouco espaço, não precisa de grandes áreas para se exercitar e adapta-se bem à rotina de apartamento desde que tenha passeios diários e estimulação mental.",
   },
   {
     question: "Quanto tempo de vida tem o Spitz Alemão Anão?",

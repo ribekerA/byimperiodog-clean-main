@@ -365,7 +365,7 @@ export default function LeadForm({ context, className }: Props) {
       {/* Prova social + garantia de resposta (CRO: reduz ansiedade antes do clique) */}
       <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-xl bg-emerald-50 px-3 py-2">
         <span className="flex items-center gap-1 text-xs text-emerald-800">
-          <span aria-hidden="true">⚡</span> Resposta em até 30 min (todos os dias, 8h–22h)
+          <span aria-hidden="true">⚡</span> Resposta em até 2 horas no horário de atendimento (todos os dias, 8h–22h)
         </span>
         <span className="hidden text-emerald-300 sm:inline" aria-hidden="true">·</span>
         <span className="flex items-center gap-1 text-xs text-emerald-800">

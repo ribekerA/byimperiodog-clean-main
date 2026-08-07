@@ -190,7 +190,7 @@ function ensureRequiredSections(mdx: string): string {
   for (const r of required) {
     if (!new RegExp('^'+r.replace(/[-/\\^$*+?.()|[\]{}]/g,'\\$&'),'m').test(mdx)) {
       // Preenche com bloco mínimo útil em vez de placeholder genérico
-      const hint = r.includes('Recursos') ? `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/como-comprar)\n- [Fale conosco](/contato)\n\nCTA: Agende uma conversa para saber disponibilidade de ninhadas.` : 'Resumo prático desta seção será expandido em revisão.';
+      const hint = r.includes('Recursos') ? `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/comprar-spitz-anao)\n- [Fale conosco](/contato)\n\nCTA: Agende uma conversa para saber disponibilidade de ninhadas.` : 'Resumo prático desta seção será expandido em revisão.';
       mdx += `\n\n${r}\n${hint}`;
     }
   }
@@ -215,14 +215,14 @@ function refineMDX(mdx: string, topic: string){
   });
   // CTA Section enhancement
   out = out.replace(/##\s+Recursos e CTA[\r\n]+(?!Links internos)([\s\S]*?)(?=^##\s|$)/m,(m,body)=>{
-    const links = `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/como-comprar)\n- [Socialização](/blog)\n\nCTA: Entre em contato para conhecer a próxima ninhada e receber dicas personalizadas.`;
+    const links = `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/comprar-spitz-anao)\n- [Socialização](/blog)\n\nCTA: Entre em contato para conhecer a próxima ninhada e receber dicas personalizadas.`;
     return `## Recursos e CTA\n${links}`;
   });
   return out;
 }
 
 function injectInternalLinks(mdx: string): string {
-  const needed = [ { anchor: 'Filhotes disponíveis', href: '/filhotes', re: /\]\(\/filhotes\)/ }, { anchor: 'Como comprar', href: '/como-comprar', re: /\]\(\/como-comprar\)/ }, { anchor: 'Fale conosco', href: '/contato', re: /\]\(\/contato\)/ } ];
+  const needed = [ { anchor: 'Filhotes disponíveis', href: '/filhotes', re: /\]\(\/filhotes\)/ }, { anchor: 'Como comprar', href: '/comprar-spitz-anao', re: /\]\(\/comprar-spitz-anao\)/ }, { anchor: 'Fale conosco', href: '/contato', re: /\]\(\/contato\)/ } ];
   let out = mdx;
   for (const n of needed) if (!n.re.test(out)) out += `\n\n[${n.anchor}](${n.href})`;
   return out;

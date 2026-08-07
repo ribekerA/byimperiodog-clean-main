@@ -13,7 +13,7 @@ export async function POST(req:Request){
     og_text: `${title} – Aprenda cuidados essenciais, grooming e socialização.`,
     internal_links: [
       { href:'/filhotes', anchor:'Ver filhotes disponíveis' },
-      { href:'/como-comprar', anchor:'Processo de compra responsável' },
+      { href:'/comprar-spitz-anao', anchor:'Processo de compra responsável' },
       { href:'/contato', anchor:'Fale com a equipe' }
     ]
   }});

@@ -38,11 +38,11 @@ export interface AgentResponse {
 const FAQ: Array<{ q: string; a: string }> = [
   {
     q: "qual o preço / valor / quanto custa",
-    a: "Os filhotes variam de R$ 6.500 a R$ 8.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, vacinação, microchip, mentoria vitalícia e enxoval.",
+    a: "Os filhotes variam de R$ 6.500 a R$ 8.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote, mentoria vitalícia e enxoval. O microchip é opcional, sob contratação.",
   },
   {
     q: "registro incluso",
-    a: "Sim! Todos os nossos filhotes têm registro oficial incluso no valor. Você recebe a documentação antes de confirmar a reserva.",
+    a: "Sim! Todos os nossos filhotes têm registro oficial incluso no valor, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O pedigree é emitido pela CBKC ou por clube filiado, dentro do sistema FCI.",
   },
   {
     q: "entrega transporte frete envio",
@@ -50,7 +50,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "cor raça spitz pomerania lulu",
-    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Temos filhotes nas cores creme, laranja, preto e chocolate. Cada cor tem características únicas!",
+    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Trabalhamos principalmente com creme, preto, laranja e cinza-lobo, entre as colorações previstas no padrão da raça. Consulte a disponibilidade atual!",
   },
   {
     q: "reserva como reservar entrada",
@@ -62,7 +62,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "saúde vacinação laudo exame",
-    a: "Todos os filhotes têm protocolo vacinal em dia conforme a idade, laudo de saúde, microchip e acompanhamento veterinário desde o nascimento.",
+    a: "Todos os filhotes têm protocolo vacinal em dia conforme a idade, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes, laudo de saúde e acompanhamento veterinário desde o nascimento. O microchip é opcional, sob contratação.",
   },
   {
     q: "localização onde fica endereço",

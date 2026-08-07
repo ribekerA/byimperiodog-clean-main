@@ -1,14 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { SpringButton } from "@/components/motion/SpringButton";
 import { staticPuppies } from "@/content/puppies-static";
+import { FOUNDING_YEAR } from "@/domain/config";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const waHero = buildWhatsAppLink({
   message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Pode me contar mais sobre disponibilidade e valores?",
@@ -201,7 +201,10 @@ export default function VideoHero() {
                   <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-white opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
                 </span>
-                {AVAILABLE_COUNT} filhote{AVAILABLE_COUNT !== 1 ? "s" : ""} disponível{AVAILABLE_COUNT !== 1 ? "is" : ""} agora
+                {/* O plural de "disponível" troca o -l por -is; concatenar o
+                    sufixo ao singular gerava uma flexão inexistente. Palavra inteira
+                    em cada ramo evita reinventar a flexão. */}
+                {AVAILABLE_COUNT} {AVAILABLE_COUNT === 1 ? "filhote disponível" : "filhotes disponíveis"} agora
               </span>
             )}
           </motion.div>
@@ -263,7 +266,7 @@ export default function VideoHero() {
           >
             Saúde documentada, registro oficial e mentoria vitalícia.{" "}
             <strong className="font-semibold text-white">
-              13 anos de criação responsável
+              Criação responsável desde {FOUNDING_YEAR}
             </strong>{" "}
             para a sua família.
           </motion.p>

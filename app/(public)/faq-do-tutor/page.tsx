@@ -7,18 +7,18 @@ import { faqPageSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
 
 const path = "/faq-do-tutor";
-const lastUpdated = "2025-10-18T09:00:00.000Z";
+const lastUpdated = "2026-08-06T09:00:00.000Z";
 
 const faqItems = [
   {
     question: "Como preparamos cada Spitz Alemão (Lulu da Pomerânia) antes da nova família?",
     answer:
-      "Realizamos socialização diária com crianças e adultos, dessensibilização a sons domésticos, enriquecimento ambiental supervisionado e avaliação veterinária completa. O objetivo é que o Spitz Alemão (Lulu da Pomerânia) chegue com autoconfiança e rotina estável.",
+      "Os filhotes crescem em convívio familiar, com contato cotidiano com pessoas e com os sons normais de uma casa, enriquecimento ambiental supervisionado e acompanhamento veterinário. O objetivo é que o Spitz Alemão (Lulu da Pomerânia) chegue com autoconfiança e rotina estável.",
   },
   {
     question: "Qual o porte adulto esperado do Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "As nossas linhagens são acompanhadas por geneticista e mantêm estrutura saudável com até 22 cm de altura, pelagem densa e equilíbrio entre energia e docilidade. Compartilhamos laudos com curva de peso e reforçamos os ajustes de alimentação para cada fase.",
+      "O padrão FCI nº 97 define a altura na cernelha em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão. Nossas linhagens são selecionadas para estrutura saudável, pelagem densa e equilíbrio entre energia e docilidade. Compartilhamos os laudos veterinários com curva de peso e orientamos os ajustes de alimentação para cada fase.",
   },
   {
     question: "Quais cuidados manter nas primeiras 48 horas em casa?",
@@ -28,12 +28,12 @@ const faqItems = [
   {
     question: "Como funciona o suporte contínuo após a entrega?",
     answer:
-      "O tutor recebe acesso à biblioteca digital, cronograma de socialização e acompanhamento por WhatsApp. Disponibilizamos videochamadas para ajustes de rotina, reforço positivo e orientação em emergências comportamentais ou nutricionais.",
+      "O tutor tem contato direto com a criadora por WhatsApp, com orientação sobre rotina, manejo e reforço positivo, além de videochamadas quando for útil. Disponibilizamos orientações gerais de pós-entrega. Essas informações não substituem atendimento veterinário, nutricional ou comportamental realizado por profissional habilitado.",
   },
   {
     question: "Quais exames acompanham o Spitz Alemão (Lulu da Pomerânia)?",
     answer:
-      "Entregamos carteira de vacinação, exames parasitológicos, histórico de vermifugação, relatório de avaliação odontológica e teste de patela. Também emitimos nota fiscal, contrato de responsabilidade compartilhada e garantia de suporte vitalício.",
+      "Entregamos a carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, o histórico de vermifugação, o laudo de saúde e o teste de patela. Também emitimos nota fiscal e contrato de responsabilidade compartilhada, com mentoria vitalícia junto à criadora.",
   },
 ];
 
@@ -79,7 +79,7 @@ export default function FaqDoTutorPage() {
     "@type": "WebPage",
     "@id": `${siteBase}${path}#webpage`,
     url: `${siteBase}${path}`,
-    name: "FAQ do Tutor | By Império Dog",
+    name: "FAQ do Tutor",
     description:
       "Perguntas frequentes sobre preparo, saúde, socialização e suporte vitalício para o Spitz Alemão (Lulu da Pomerânia).",
     isPartOf: { "@type": "WebSite", url: siteBase, name: "By Império Dog" },
@@ -122,8 +122,8 @@ export default function FaqDoTutorPage() {
             exploração.
           </li>
           <li>
-            Mantenha a alimentação dividida em pequenas porções, com suplementação indicada pela nossa equipe de acordo com o peso
-            e com até 22 cm de altura previstos para a fase adulta.
+            Mantenha a alimentação dividida em pequenas porções, ajustadas ao peso do filhote e ao porte previsto para a fase
+            adulta. Mudanças de dieta e suplementação devem ser definidas pelo médico-veterinário que acompanha o cão.
           </li>
           <li>
             Registre vídeos curtos para avaliarmos comportamento, postura e interação com a família. Isso acelera eventuais
@@ -144,24 +144,31 @@ export default function FaqDoTutorPage() {
         </p>
         <div className="grid gap-4 rounded-3xl border border-emerald-100 bg-emerald-50/60 p-6 md:grid-cols-2">
           <article>
-            <h3 className="text-lg font-semibold text-emerald-900">Biblioteca digital</h3>
+            <h3 className="text-lg font-semibold text-emerald-900">Orientações de rotina</h3>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-emerald-800">
-              <li>Protocolos de socialização por faixa etária.</li>
-              <li>Planilhas de reforço positivo e treino de caixa de transporte.</li>
+              <li>Socialização por faixa etária.</li>
+              <li>Reforço positivo e treino de caixa de transporte.</li>
               <li>Checklist de viagem com o Spitz Alemão (Lulu da Pomerânia).</li>
             </ul>
           </article>
           <article>
             <h3 className="text-lg font-semibold text-emerald-900">Suporte direto</h3>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-emerald-800">
+              <li>Contato direto com a criadora por WhatsApp.</li>
               <li>Videochamadas para ajustes de rotina e ambientação.</li>
-              <li>Canal prioritário para emergências comportamentais.</li>
-              <li>
-                Consultoria com nutricionista canino quando houver necessidade de adaptação de dieta ou suplementação.
-              </li>
+              <li>Encaminhamento ao médico-veterinário quando o caso exigir avaliação profissional.</li>
             </ul>
           </article>
         </div>
+        {/* A lista anterior prometia biblioteca digital, canal de emergência
+            comportamental e consultoria com nutricionista canino. Nada disso
+            estava documentado em outro lugar do site nem confirmado pela
+            criadora, e o texto virava garantia de serviço. A ressalva abaixo é
+            obrigatória: orientação de criador não substitui profissional. */}
+        <p className="text-sm text-zinc-500">
+          Disponibilizamos orientações gerais de pós-entrega. Essas informações não substituem atendimento veterinário,
+          nutricional ou comportamental realizado por profissional habilitado.
+        </p>
       </section>
 
       <section id="contato" className="space-y-4">

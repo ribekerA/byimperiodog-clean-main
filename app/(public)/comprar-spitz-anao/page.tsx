@@ -1,12 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import type { Metadata } from "next";
 
+import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
-import { RelatedPages } from "@/components/common/RelatedPages";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/comprar-spitz-anao`;
@@ -59,14 +60,14 @@ const STEPS = [
   { num: "02", title: "Solicite documentação dos pais", body: "Exija o registro oficial dos pais, laudos de saúde e histórico veterinário antes de qualquer pagamento. Um criador responsável apresenta tudo sem hesitar." },
   { num: "03", title: "Faça uma visita ou videochamada", body: "Ver o ambiente onde o filhote cresceu é essencial. Na By Império Dog fazemos videochamadas e recebemos visitas agendadas." },
   { num: "04", title: "Confirme reserva com contrato", body: "A reserva é formalizada com contrato detalhado e sinal. O contrato cobre garantia de saúde, suporte pós-venda e responsabilidades de ambas as partes." },
-  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, carteira de vacinação, microchip, nota fiscal e acesso à mentoria vitalícia." },
+  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, nota fiscal e acesso à mentoria vitalícia. Microchip é opcional, sob contratação." },
 ] as const;
 
 const PAGE_FAQS = [
   {
     question: "Onde comprar Spitz Alemão Anão (Lulu da Pomerânia) com segurança?",
     answer:
-      "A By Império Dog é um canil familiar especializado em Spitz Alemão Anão localizado em Bragança Paulista, SP, com mais de 13 anos de criação responsável e mais de 180 famílias atendidas. Todos os filhotes têm registro oficial, laudos veterinários e mentoria vitalícia. Atendemos famílias de todo o Brasil.",
+      `A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com criação responsável desde ${FOUNDING_YEAR} e mais de 180 famílias atendidas. Todos os filhotes têm registro oficial, laudos veterinários e mentoria vitalícia. Atendemos famílias de todo o Brasil.`,
   },
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão?",

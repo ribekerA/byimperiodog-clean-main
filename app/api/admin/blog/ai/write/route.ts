@@ -68,7 +68,7 @@ export async function POST(req: Request) {
       }
   lines.push("## Recursos" );
   lines.push("- Veja os filhotes disponíveis: [/filhotes](/filhotes)");
-  lines.push("- Processo de compra: [/como-comprar](/como-comprar)");
+  lines.push("- Processo de compra: [/comprar-spitz-anao](/comprar-spitz-anao)");
   lines.push("- Contato direto: [/contato](/contato)\n");
   lines.push("> CTA: Solicite agora um vídeo de um filhote disponível no WhatsApp e tire dúvidas em tempo real.");
       const excerpt = `Tudo que você precisa saber sobre ${topic}.`;
@@ -152,7 +152,7 @@ export async function POST(req: Request) {
       { heading: '## Treinamento Básico', template: '## Treinamento Básico\nNome, recall, higiene, comandos simples e reforço positivo.' },
       { heading: '## Problemas Comportamentais Comuns', template: '## Problemas Comportamentais Comuns\nLatidos excessivos, ansiedade de separação, possessividade de brinquedos.' },
       { heading: '## FAQ', template: '## FAQ\n### Spitz Alemão late muito?\nTendem a vocalizar; redirecione e reforce silêncio.\n### Pode viver em apartamento?\nSim, com rotina de estímulo mental.\n### Qual a frequência de banho?\nGeralmente a cada 3–4 semanas, mantendo escovação frequente.\n### Quando trocar para ração de adulto?\nApós avaliação veterinária ~12 meses.\n### Solta muito pelo?\nTem troca sazonal; escovação reduz acúmulo.' },
-      { heading: '## Recursos e CTA', template: '## Recursos e CTA\n- Veja filhotes: [/filhotes](/filhotes)\n- Processo de compra: [/como-comprar](/como-comprar)\n- Fale direto: [/contato](/contato)\n\n> Solicite um vídeo agora de um filhote disponível pelo WhatsApp.' },
+      { heading: '## Recursos e CTA', template: '## Recursos e CTA\n- Veja filhotes: [/filhotes](/filhotes)\n- Processo de compra: [/comprar-spitz-anao](/comprar-spitz-anao)\n- Fale direto: [/contato](/contato)\n\n> Solicite um vídeo agora de um filhote disponível pelo WhatsApp.' },
     ];
 
     let finalMDX = String(content.content_mdx || '');
@@ -166,7 +166,7 @@ export async function POST(req: Request) {
     // Injeção de links internos obrigatórios se ausentes
     const neededLinks: { anchor: string; href: string; pattern: RegExp }[] = [
       { anchor: 'Filhotes disponíveis', href: '/filhotes', pattern: /\]\(\/filhotes\)/ },
-      { anchor: 'Como comprar', href: '/como-comprar', pattern: /\]\(\/como-comprar\)/ },
+      { anchor: 'Como comprar', href: '/comprar-spitz-anao', pattern: /\]\(\/comprar-spitz-anao\)/ },
       { anchor: 'Fale conosco', href: '/contato', pattern: /\]\(\/contato\)/ },
     ];
     let mdxWithLinks = content.content_mdx as string;

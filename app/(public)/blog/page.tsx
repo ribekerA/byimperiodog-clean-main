@@ -59,7 +59,7 @@ const CATEGORY_DEFINITIONS: CategoryDefinition[] = [
     id: "saude",
     title: "Saúde",
     description:
-      "Preventivo completo: exames genéticos, cardiológicos e protocolos veterinários para Spitz.",
+      "Cuidado preventivo: sinais de alerta, rotina veterinária e saúde do Spitz no dia a dia.",
     highlight: "Transparência total com laudos digitais e acompanhamento pós-entrega.",
     color: "bg-emerald-50 border-emerald-200 text-emerald-700",
     match: (post) => includesCategory(post, ["saude", "clínico", "veterin", "check-up", "exame"]),

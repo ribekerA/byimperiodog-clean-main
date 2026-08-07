@@ -1,10 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import type { Metadata } from "next";
 
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
-import { buildArticleLD } from "@/lib/schema";
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { FOUNDING_YEAR } from "@/domain/config";
+import { buildArticleLD } from "@/lib/schema";
+import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania-braganca-paulista`;
@@ -54,7 +55,7 @@ const FAQS = [
   {
     question: "Bragança Paulista tem outros canis de Spitz Alemão?",
     answer:
-      "Existem outros criadores na região, mas a By Império Dog é reconhecida como referência pelo histórico de 13 anos, registro oficial em 100% dos filhotes, laudos veterinários completos e mentoria vitalícia pós-venda — diferenciais que poucos criadores da região oferecem juntos.",
+      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, laudo de saúde, teste de patela, carteira de vacinação assinada pelo médico-veterinário e mentoria vitalícia pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
   },
 ];
 
@@ -85,7 +86,7 @@ export default function LuluBragancaPage() {
           Lulu da Pomerânia em Bragança Paulista, SP
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Com mais de 13 anos de criação responsável, atendemos famílias de toda a região e de todo o Brasil.
+          A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Criamos a raça desde {FOUNDING_YEAR} e atendemos famílias de toda a região e de todo o Brasil.
         </p>
       </header>
 
@@ -100,7 +101,7 @@ export default function LuluBragancaPage() {
             { label: "Atendimento", value: "Todos os dias, 8h–22h" },
             { label: "Distância de SP Capital", value: "≈ 100 km / 1h30" },
             { label: "Visitas", value: "Por agendamento (WhatsApp)" },
-            { label: "Desde", value: "2012 — 13+ anos de criação" },
+            { label: "Desde", value: String(FOUNDING_YEAR) },
             { label: "Famílias atendidas", value: "180+ em todo o Brasil" },
           ].map((info) => (
             <div key={info.label} className="rounded-xl bg-white border border-zinc-200 p-4">

@@ -19,7 +19,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.
 export const metadata: Metadata = {
   title: "Sobre o canil — Spitz Alemão Anão (Lulu da Pomerânia) desde 2013",
   description:
-    "Conheça a história da By Império Dog: 13 anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade em Bragança Paulista, SP. Metodologia familiar, registro oficial e mentoria vitalícia.",
+    "Conheça a história da By Império Dog: desde 2013 criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade em Bragança Paulista, SP. Metodologia familiar, registro oficial e mentoria vitalícia.",
   keywords: [
     "criador Spitz Alemão Anão confiável",
     "canil Lulu da Pomerânia Bragança Paulista",
@@ -31,15 +31,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/sobre`,
-    title: "Sobre a By Império Dog — 13 anos criando Spitz Alemão Anão (Lulu da Pomerânia)",
+    title: "Sobre a By Império Dog — criando Spitz Alemão Anão (Lulu da Pomerânia) desde 2013",
     description:
-      "13 anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia.",
+      "Desde 2013 criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia.",
   },
 };
 
 const TIMELINE = [
   {
-    year: "2012",
+    year: "2013",
     title: "O primeiro Spitz chegou",
     description:
       "Por puro amor à raça, a família Império recebeu a primeira fêmea de Spitz Alemão Anão (Lulu da Pomerânia) e começou um longo estudo sobre genética, saúde e padrões da raça.",
@@ -106,31 +106,38 @@ const VALUES = [
   },
 ] as const;
 
+// A coluna da direita descrevia o que "criadores comuns" fazem de errado —
+// recibo informal, canil segregado, nenhum laudo. É acusação genérica sobre
+// terceiros que não temos como verificar, e o comparativo continua útil sem
+// ela. Virou checklist do que o comprador deve confirmar em qualquer criador,
+// inclusive aqui. A coluna da esquerda também perdeu o que não é verificável
+// publicamente ("SBK", "exames genéticos", "protocolo ENS") e ficou só com o
+// que os documentos entregues comprovam.
 const DIFERENCIAIS = [
   {
     label: "Registro oficial",
-    us: "CBKC / SBK em todas as ninhadas",
-    them: "Sem documentação ou registro informal",
+    us: "Pedigree emitido pela CBKC ou por clube filiado, dentro do sistema FCI",
+    check: "Peça o número do registro e confirme qual entidade emitiu",
   },
   {
-    label: "Saúde comprovada",
-    us: "Exames genéticos, laudos e carteira de vacinas",
-    them: "Apenas vacinação básica sem laudos",
+    label: "Saúde documentada",
+    us: "Laudo de saúde, teste de patela e carteira de vacinação assinada pelo médico-veterinário",
+    check: "Confira quais exames foram feitos e quem assinou cada documento",
   },
   {
     label: "Suporte após a entrega",
-    us: "Mentoria vitalícia com grupo e plantão WhatsApp",
-    them: "Sem acompanhamento pós-venda",
+    us: "Mentoria vitalícia com grupo e atendimento por WhatsApp",
+    check: "Pergunte por quanto tempo o suporte continua depois da entrega",
   },
   {
     label: "Contrato claro",
     us: "Contrato digital com garantias e cláusulas de devolução",
-    them: "Recibo informal ou sem garantia",
+    check: "Leia o contrato inteiro antes de pagar o sinal",
   },
   {
     label: "Socialização",
-    us: "Protocolo ENS desde o nascimento em ambiente familiar",
-    them: "Socialização mínima em canil segregado",
+    us: "Filhotes criados em convívio familiar desde o nascimento",
+    check: "Pergunte onde os filhotes passam o dia e com quem convivem",
   },
 ] as const;
 
@@ -156,7 +163,7 @@ export default function SobrePage() {
     url: `${SITE_URL}/sobre`,
     name: "Sobre a By Império Dog",
     description:
-      "13 anos criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia em Bragança Paulista.",
+      "Desde 2013 criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia em Bragança Paulista.",
     isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Império Dog" },
   };
 
@@ -183,11 +190,11 @@ export default function SobrePage() {
             Nossa história
           </span>
           <h1 className="mt-5 max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Comecei em 2012 por amor à raça.
+            Comecei em 2013 por amor à raça.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-zinc-300 sm:text-xl">
             Hoje, cada filhote que sai daqui carrega{" "}
-            <strong className="text-emerald-400">13 anos de aprendizado</strong>,
+            <strong className="text-emerald-400">mais de uma década de aprendizado</strong>,
             afeto e responsabilidade genética.
           </p>
           <p className="mt-4 max-w-xl text-zinc-400 leading-relaxed">
@@ -221,7 +228,7 @@ export default function SobrePage() {
           <div className="mb-10 text-center">
             <span className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Nossa trajetória</span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-              13 anos construindo confiança
+              Desde 2013 construindo confiança
             </h2>
           </div>
           <ol className="relative space-y-0" aria-label="Linha do tempo da By Império Dog">
@@ -278,62 +285,61 @@ export default function SobrePage() {
           <div className="mb-10 text-center">
             <span className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Comparativo</span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-              O que nos diferencia
+              O que verificar antes de escolher
             </h2>
             <p className="mt-3 text-zinc-500">
-              Antes de decidir, compare. Transparência é um dos nossos valores.
+              Use esta lista para comparar qualquer criador — inclusive nós.
             </p>
           </div>
 
-          {/* Mobile (<sm): cards empilhados — colunas de 3 ficam ilegíveis em telas estreitas */}
-          <div className="space-y-3 sm:hidden">
-            {DIFERENCIAIS.map((row) => (
-              <article key={row.label} className="rounded-2xl border border-zinc-100 bg-white p-4 shadow-sm">
-                <h3 className="text-sm font-bold text-zinc-800">{row.label}</h3>
-                <div className="mt-3 flex items-start gap-2">
+          {/* Antes havia dois blocos com o mesmo conteúdo: cards em `sm:hidden`
+              e tabela em `hidden sm:block`. Os dois iam para o HTML, então o
+              comparativo inteiro aparecia duplicado no código-fonte da página.
+              Agora o texto é escrito uma vez só e apenas o layout muda por CSS:
+              cards empilhados abaixo de sm, grade de 3 colunas a partir de sm. */}
+          <div className="space-y-3 sm:space-y-0 sm:overflow-hidden sm:rounded-2xl sm:border sm:border-zinc-100 sm:shadow-sm">
+            {/* Cabeçalho: só existe no layout de colunas. Abaixo de sm, cada
+                card repete os rótulos inline. */}
+            <div className="hidden grid-cols-[1.5fr,1fr,1fr] bg-zinc-50 text-xs font-bold uppercase tracking-wider text-zinc-500 sm:grid">
+              <div className="px-5 py-3">Critério</div>
+              <div className="px-5 py-3 text-emerald-700">By Império Dog</div>
+              <div className="px-5 py-3 text-zinc-400">O que confirmar em qualquer criador</div>
+            </div>
+
+            {DIFERENCIAIS.map((row, i) => (
+              <article
+                key={row.label}
+                className={`rounded-2xl border border-zinc-100 bg-white p-4 shadow-sm sm:grid sm:grid-cols-[1.5fr,1fr,1fr] sm:rounded-none sm:border-0 sm:border-t sm:p-0 sm:shadow-none ${
+                  i % 2 === 0 ? "sm:bg-white" : "sm:bg-zinc-50/50"
+                }`}
+              >
+                <h3 className="text-sm font-bold text-zinc-800 sm:flex sm:items-start sm:px-5 sm:py-4 sm:font-semibold">
+                  {row.label}
+                </h3>
+                <div className="mt-3 flex items-start gap-2 sm:mt-0 sm:px-5 sm:py-4">
                   <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-700">By Império Dog</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-700 sm:hidden">
+                      By Império Dog
+                    </p>
                     <p className="text-sm text-zinc-700">{row.us}</p>
                   </div>
                 </div>
-                <div className="mt-3 flex items-start gap-2">
-                  <span className="mt-0.5 h-4 w-4 shrink-0 text-center text-zinc-300 text-lg leading-none">×</span>
+                <div className="mt-3 flex items-start gap-2 sm:mt-0 sm:px-5 sm:py-4">
+                  {/* Era um "×", que fazia sentido quando a coluna listava o que
+                      outros criadores deixam de fazer. Agora são perguntas a
+                      fazer, então a seta indica ação em vez de reprovação. */}
+                  <span className="mt-0.5 h-4 w-4 shrink-0 text-center text-lg leading-none text-zinc-300" aria-hidden>
+                    →
+                  </span>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">Criadores comuns</p>
-                    <p className="text-sm text-zinc-400">{row.them}</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400 sm:hidden">
+                      O que confirmar
+                    </p>
+                    <p className="text-sm text-zinc-400">{row.check}</p>
                   </div>
                 </div>
               </article>
-            ))}
-          </div>
-
-          {/* Desktop/tablet (sm+): tabela comparativa em 3 colunas */}
-          <div className="hidden overflow-hidden rounded-2xl border border-zinc-100 shadow-sm sm:block">
-            {/* Header */}
-            <div className="grid grid-cols-[1.5fr,1fr,1fr] bg-zinc-50 text-xs font-bold uppercase tracking-wider text-zinc-500">
-              <div className="px-5 py-3">Critério</div>
-              <div className="px-5 py-3 text-emerald-700">By Império Dog</div>
-              <div className="px-5 py-3 text-zinc-400">Criadores comuns</div>
-            </div>
-            {/* Rows */}
-            {DIFERENCIAIS.map((row, i) => (
-              <div
-                key={row.label}
-                className={`grid grid-cols-[1.5fr,1fr,1fr] border-t border-zinc-100 ${i % 2 === 0 ? "bg-white" : "bg-zinc-50/50"}`}
-              >
-                <div className="flex items-start px-5 py-4">
-                  <span className="text-sm font-semibold text-zinc-800">{row.label}</span>
-                </div>
-                <div className="flex items-start gap-2 px-5 py-4">
-                  <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
-                  <span className="text-sm text-zinc-700">{row.us}</span>
-                </div>
-                <div className="flex items-start gap-2 px-5 py-4">
-                  <span className="mt-0.5 h-4 w-4 shrink-0 text-center text-zinc-300 text-lg leading-none">×</span>
-                  <span className="text-sm text-zinc-400">{row.them}</span>
-                </div>
-              </div>
             ))}
           </div>
         </div>

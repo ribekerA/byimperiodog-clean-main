@@ -89,7 +89,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-zinc-400">
-              Spitz Alemão Anão (Lulu da Pomerânia) até 22 cm — criado com responsabilidade, saúde validada e suporte para toda a vida do seu cão.
+              Spitz Alemão Anão (Lulu da Pomerânia) — criado com responsabilidade, saúde validada e suporte para toda a vida do seu cão.
             </p>
             <address className="not-italic space-y-1 text-sm">
               <p>

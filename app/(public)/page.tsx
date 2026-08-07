@@ -14,6 +14,7 @@ import VideoHero from "@/components/sections/VideoHero";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { staticPuppies } from "@/content/puppies-static";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { buildLocalBusinessLD, buildFAQLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
@@ -74,11 +75,11 @@ const RACE_LINKS = [
 // Diferenciais — definidos fora para evitar recriação a cada render
 const DIFFERENTIALS = [
   { emoji: "🏅", title: "Registro oficial incluso", body: "Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato." },
-  { emoji: "🩺", title: "Saúde validada", body: "Laudo de saúde, exames genéticos e protocolo vacinal em dia conforme a idade do filhote. O filhote chega pronto." },
+  { emoji: "🩺", title: "Saúde documentada", body: "Laudo de saúde, teste de patela e protocolo vacinal em dia conforme a idade do filhote, com carteira assinada pelo médico-veterinário." },
   { emoji: "🏡", title: "Socialização guiada", body: "Criados em ambiente familiar com estímulos visuais, auditivos e de contato desde o nascimento." },
   { emoji: "💬", title: "Mentoria vitalícia", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
   { emoji: "🚗", title: "Logística assistida", body: "Orientação completa sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },
-  { emoji: "📋", title: "Enxoval completo", body: "Lista personalizada de itens, alimentação e rotina entregue antes da chegada do filhote." },
+  { emoji: "📋", title: "Lista de enxoval", body: "Lista personalizada de itens, alimentação e rotina entregue antes da chegada do filhote." },
 ] as const;
 
 // Prova social — barra de trust signals
@@ -86,7 +87,7 @@ const TRUST_SIGNALS = [
   "Registro oficial",
   "Laudos de saúde",
   "Mentoria vitalícia inclusa",
-  "13 anos de criação",
+  `Criação desde ${FOUNDING_YEAR}`,
   "180+ famílias atendidas",
 ] as const;
 
@@ -125,7 +126,7 @@ const ORGANIZATION_LD = {
     width: 120,
     height: 120,
   },
-  foundingDate: "2012",
+  foundingDate: String(FOUNDING_YEAR),
   description: "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
   knowsAbout: [
     "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
@@ -413,7 +414,7 @@ export default function HomePage() {
                   Guias e recursos para novos tutores
                 </h2>
                 <p className="mt-2 text-sm text-zinc-500">
-                  Conteúdo escrito por quem cria há mais de 13 anos — para você tomar a melhor decisão.
+                  Conteúdo escrito por quem cria a raça desde {FOUNDING_YEAR} — para você tomar a melhor decisão.
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

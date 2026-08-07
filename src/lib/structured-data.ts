@@ -238,7 +238,7 @@ export function buildLocalBusinessLD() {
     name: "By Império Dog",
     alternateName: ["By Império Dog", "Canil By Império Dog"],
     description:
-      "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia inclusos. Mais de 13 anos de criação especializada e 180+ famílias atendidas em todo o Brasil.",
+      `Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia inclusos. Criação especializada desde ${FOUNDING_YEAR} e mais de 180 famílias atendidas em todo o Brasil.`,
     url: SITE_URL,
     telephone: "+55-11-96863-3239",
     priceRange: "R$ 6.500 – R$ 8.500",

@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "Qual o preço de um Pomeranian no Brasil?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo) e chegam a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo) e chegam a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "Pomeranian tem outro nome no Brasil?",
@@ -53,7 +53,7 @@ const FAQS = [
   {
     question: "Pomeranian é bom para apartamento?",
     answer:
-      "Sim, é uma das raças mais indicadas para apartamento. Com até 22 cm de altura e 1,5–3,5 kg, o Pomeranian adapta-se muito bem a espaços menores. Precisa de dois passeios curtos diários e estimulação mental, mas não exige área grande para se exercitar.",
+      "Sim, é uma das raças mais indicadas para apartamento. Com altura na cernelha de 21 cm ± 3 cm conforme o padrão FCI nº 97, e peso que na prática costuma ficar entre 1,5 e 3,5 kg, o Pomeranian adapta-se muito bem a espaços menores. Precisa de dois passeios curtos diários e estimulação mental, mas não exige área grande para se exercitar.",
   },
   {
     question: "Como encontrar um Pomeranian com registro oficial no Brasil?",
@@ -131,7 +131,7 @@ export default function PomeranianPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-400">
-          Inclui registro oficial, laudo veterinário, teste de patela, protocolo vacinal em dia conforme a idade do filhote, microchip, nota fiscal e mentoria vitalícia.{" "}
+          Inclui registro oficial, laudo veterinário, teste de patela, protocolo vacinal em dia conforme a idade do filhote, nota fiscal e mentoria vitalícia. Microchip opcional, sob contratação.{" "}
           <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link>
         </p>
       </section>
@@ -143,8 +143,8 @@ export default function PomeranianPage() {
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { label: "Peso adulto",          value: "1,5 – 3,5 kg" },
-            { label: "Altura adulta",        value: "até 22 cm" },
+            { label: "Peso adulto (referência prática)", value: "1,5 – 3,5 kg" },
+            { label: "Altura na cernelha",   value: "21 cm ± 3 cm (FCI nº 97)" },
             { label: "Expectativa de vida",  value: "12 – 16 anos" },
             { label: "Adaptação a apartamento", value: "Excelente" },
           ].map((c) => (

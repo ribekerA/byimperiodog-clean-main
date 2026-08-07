@@ -15,7 +15,7 @@ export type Guide = {
 export const guides: Guide[] = [
   {
     slug: "como-escolher-spitz-alemao-anao",
-    title: "Como Escolher um Spitz Alemão Anão (Lulu da Pomerânia): Guia Definitivo 2025",
+    title: "Como Escolher um Spitz Alemão Anão (Lulu da Pomerânia): Guia Definitivo",
     metaDescription:
       "Aprenda tudo sobre como escolher o Spitz Alemão Anão (Lulu da Pomerânia) ideal: macho x fêmea, diferenças entre cores, documentação obrigatória e como reconhecer um criador confiável.",
     publishedAt: "2025-01-10",
@@ -27,8 +27,8 @@ export const guides: Guide[] = [
       {
         heading: "Entenda o padrão racial antes de comprar",
         paragraphs: [
-          "O Spitz Alemão Anão (Lulu da Pomerânia) deve ter, no máximo, 22 cm de altura e pelagem dupla e densa. Criadores sérios seguem o padrão FCI e apresentam laudo de medição junto ao registro oficial.",
-          "Desconfie de vendedores que oferecem 'Spitz micro' ou 'nano' abaixo de 20 cm — esses termos não existem no padrão oficial e frequentemente indicam seleção de exemplares com problemas de saúde.",
+          "O Spitz Alemão Anão (Lulu da Pomerânia) tem cernelha (altura) de 21 cm ± 3 cm, conforme o padrão FCI nº 97, e pelagem dupla e densa. Criadores sérios seguem o padrão e apresentam laudo de medição junto ao registro oficial.",
+          "Desconfie de vendedores que oferecem 'Spitz micro' ou 'nano' — esses termos não existem no padrão oficial e frequentemente indicam seleção de exemplares com problemas de saúde.",
         ],
       },
       {
@@ -108,7 +108,7 @@ export const guides: Guide[] = [
       {
         heading: "Quantidade certa para evitar sobrepeso",
         paragraphs: [
-          "O Spitz Alemão Anão (Lulu da Pomerânia) adulto pesa entre 1,5 e 3,5 kg. A quantidade diária de ração varia entre 40 e 90g dependendo do peso, nível de atividade e formulação da ração.",
+          "O Spitz Alemão Anão (Lulu da Pomerânia) adulto costuma pesar entre 1,5 e 3,5 kg — referência prática, já que o padrão FCI determina apenas que o peso seja proporcional ao tamanho do cão. A quantidade diária de ração varia entre 40 e 90 g dependendo do peso, nível de atividade e formulação da ração.",
           "Sempre siga a tabela de alimentação do fabricante como ponto de partida. Ajuste conforme a condição corporal do animal — costelas palpáveis mas não visíveis é o padrão ideal.",
           "O Spitz tem predisposição ao sobrepeso quando excessivamente mimado com petiscos. Mantenha os petiscos como recompensa, nunca como refeição.",
         ],
@@ -166,7 +166,7 @@ export const guides: Guide[] = [
       {
         heading: "São o mesmo cão",
         paragraphs: [
-          "Sim, o Spitz Alemão Anão e o Lulu da Pomerânia são a mesma raça. A FCI (Federação Cinológica Internacional) reconhece oficialmente a raça como 'Spitz Alemão' dividido em cinco tamanhos, sendo o 'Anão' (Kleinspitz / Zwergspitz) o menor deles.",
+          "Sim, o Spitz Alemão Anão e o Lulu da Pomerânia são a mesma raça. A FCI (Federação Cinológica Internacional) reconhece oficialmente a raça como 'Spitz Alemão' dividida em cinco variedades de tamanho, sendo o 'Anão' (Zwergspitz / Pomeranian) a menor delas. O Kleinspitz é a variedade Spitz Alemão Pequeno, de porte diferente — não é sinônimo de Anão.",
           "No Brasil, o apelido 'Lulu da Pomerânia' se popularizou nas décadas de 1980 e 1990 por influência americana, onde a raça é chamada de 'Pomeranian'. O nome homenageia a região histórica da Pomerânia (hoje norte da Polônia e Alemanha).",
         ],
       },
@@ -181,7 +181,7 @@ export const guides: Guide[] = [
         heading: "O que o padrão FCI define",
         paragraphs: [
           "O padrão FCI N° 97 descreve o Spitz Alemão — Lulu da Pomerânia — (Deutsche Spitz) em cinco variedades de tamanho: Wolfsspitz (Keeshond), Großspitz (Grande), Mittelspitz (Médio), Kleinspitz (Pequeno) e Zwergspitz (Anão / Pomeranian).",
-          "O Zwergspitz/Pomeranian — nosso 'Anão' — tem peso entre 1,5 e 3 kg e altura máxima de 22 cm. Qualquer animal vendido como 'micro' ou 'nano' abaixo dessas medidas não corresponde ao padrão oficial.",
+          "O Zwergspitz/Pomeranian — nosso 'Anão' — tem cernelha (altura) de 21 cm ± 3 cm. O padrão não fixa uma faixa de peso: determina que o peso seja proporcional ao tamanho do cão. Qualquer animal vendido como 'micro' ou 'nano', abaixo do mínimo previsto, não corresponde ao padrão oficial.",
         ],
       },
       {
@@ -201,7 +201,7 @@ export const guides: Guide[] = [
       {
         question: "Spitz Médio e Spitz Anão são a mesma raça?",
         answer:
-          "São da mesma família Spitz Alemão (Lulu da Pomerânia), mas tamanhos oficialmente distintos. O Médio tem entre 29 e 36 cm e o Anão tem no máximo 22 cm. Características físicas semelhantes, mas porte e preço bem diferentes.",
+          "São da mesma raça, o Spitz Alemão (Lulu da Pomerânia), mas variedades de tamanho oficialmente distintas. Pelo padrão FCI nº 97, o Médio (Mittelspitz) tem cernelha (altura) de 34 cm ± 4 cm e o Anão (Zwergspitz), de 21 cm ± 3 cm. Características físicas semelhantes, mas porte e preço bem diferentes.",
       },
       {
         question: "Lulu da Pomerânia 'branco' é o mesmo que Spitz Creme?",
@@ -351,7 +351,7 @@ export const guides: Guide[] = [
   },
   {
     slug: "quanto-custa-ter-spitz-alemao-anao",
-    title: "Quanto Custa Ter um Spitz Alemão Anão (Lulu da Pomerânia) por Mês? (2025)",
+    title: "Quanto Custa Ter um Spitz Alemão Anão (Lulu da Pomerânia) por Mês?",
     metaDescription:
       "Descubra o custo real mensal de ter um Spitz Alemão Anão (Lulu da Pomerânia): ração premium, veterinário, banho, vacinas, petiscos e acessórios. Planilha completa para se preparar antes de comprar.",
     publishedAt: "2025-06-01",

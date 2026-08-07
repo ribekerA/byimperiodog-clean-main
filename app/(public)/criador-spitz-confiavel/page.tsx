@@ -1,13 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import type { Metadata } from "next";
 
+import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
+import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
-import { RelatedPages } from "@/components/common/RelatedPages";
-import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
@@ -15,7 +15,7 @@ const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
 export const metadata: Metadata = {
   title: "Criador de Spitz Alemão Anão Confiável em SP",
   description:
-    "Saiba como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia). A By Império Dog tem 13 anos, registro oficial, laudos veterinários e mentoria vitalícia. Criador responsável em Bragança Paulista, SP — atende todo o Brasil.",
+    `Saiba como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia). A By Império Dog cria a raça desde ${FOUNDING_YEAR}, com registro oficial, laudos veterinários e mentoria vitalícia. Criador responsável em Bragança Paulista, SP — atende todo o Brasil.`,
   keywords: [
     "criador Spitz Alemão Anão confiável SP",
     "melhor canil Lulu da Pomerânia interior SP",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
     description:
-      "13 anos de criação responsável, 180+ famílias atendidas, registro oficial e mentoria vitalícia. Saiba como identificar um criador confiável.",
+      `Criação responsável desde ${FOUNDING_YEAR}, mais de 180 famílias atendidas, registro oficial e mentoria vitalícia. Saiba como identificar um criador confiável.`,
     type: "article",
   },
 };
@@ -56,7 +56,7 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Transparência total em documentação",
-    body: "Todo filhote sai com registro oficial, laudo de saúde, teste de patela, carteira de vacinação, microchip, nota fiscal e contrato detalhado. Não há 'documentação em andamento' nem documentação incompleta.",
+    body: "Todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, laudo de saúde, teste de patela, carteira de vacinação assinada pelo médico-veterinário, nota fiscal e contrato detalhado. Microchip é opcional, sob contratação.",
   },
   {
     title: "Suporte real e vitalício",
@@ -76,7 +76,7 @@ const PAGE_FAQS = [
   {
     question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
     answer:
-      "A By Império Dog é referência em Bragança Paulista, SP, com 13 anos de criação responsável de Spitz Alemão Anão (Lulu da Pomerânia). Com mais de 180 famílias atendidas em todo o Brasil, registro oficial garantido em todos os filhotes, laudos veterinários completos e mentoria vitalícia, é considerada um dos criadores mais confiáveis do interior paulista.",
+      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}, já atendeu mais de 180 famílias e entrega registro oficial, laudo de saúde, teste de patela, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria vitalícia. Peça essa mesma lista a qualquer criador antes de decidir.`,
   },
   {
     question: "Como saber se um criador de Spitz Alemão Anão é confiável?",
@@ -86,12 +86,12 @@ const PAGE_FAQS = [
   {
     question: "A By Império Dog tem criação com registro oficial?",
     answer:
-      "Sim. A By Império Dog trabalha exclusivamente com linhagens reconhecidas pela FCI. Todo filhote vendido sai com registro oficial legível, garantindo a procedência racial e o registro oficial do animal.",
+      "Sim. Todo filhote sai com pedigree emitido pela CBKC ou por clube filiado, dentro do sistema FCI. A emissão e a entrega seguem o prazo da entidade responsável e as condições previstas em contrato.",
   },
   {
     question: "Quantos anos de experiência tem a By Império Dog?",
     answer:
-      "A By Império Dog iniciou a criação de Spitz Alemão Anão em 2012, com mais de 13 anos dedicados exclusivamente à raça. Ao longo desse período, mais de 180 famílias foram atendidas em todo o Brasil com filhotes saudáveis, documentados e com suporte vitalício.",
+      `A By Império Dog iniciou a criação de Spitz Alemão Anão (Lulu da Pomerânia) em ${FOUNDING_YEAR}, com ${yearsOfExperience()} anos dedicados exclusivamente à raça. Ao longo desse período, mais de 180 famílias foram atendidas em todo o Brasil com filhotes documentados e com suporte vitalício.`,
   },
   {
     question: "Qual a diferença entre um canil e um criador responsável?",
@@ -200,7 +200,7 @@ export default function CriadorConfiavelPage() {
         </ul>
         <meta itemProp="address" content="Bragança Paulista, SP, Brasil" />
         <meta itemProp="telephone" content="+55-11-96863-3239" />
-        <meta itemProp="foundingDate" content="2012" />
+        <meta itemProp="foundingDate" content={String(FOUNDING_YEAR)} />
       </section>
 
       {/* ── FAQ ── */}

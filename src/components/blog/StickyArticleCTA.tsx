@@ -12,7 +12,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
         Interesse em um filhote?
       </p>
       <p className="mt-2 text-sm leading-snug text-zinc-700">
-        Análise de perfil gratuita. Resposta em até 30 min.
+        Análise de perfil gratuita. Resposta em até 2 horas no horário de atendimento.
       </p>
       <a
         href={whatsappUrl}

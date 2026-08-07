@@ -12,13 +12,13 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: `Preço do Spitz Alemão Anão (Lulu da Pomerânia) em ${new Date().getFullYear()}`,
+  title: "Preço do Spitz Alemão Anão (Lulu da Pomerânia) — Tabela Atualizada",
   description:
     "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). Registro oficial, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
-    "preço filhote Spitz Alemão 2025",
+    "preço filhote Spitz Alemão",
     "Spitz Alemão Anão creme valor",
     "Lulu da Pomerânia preço fêmea macho",
     "custo Spitz Alemão com registro oficial",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/preco-spitz-anao" },
   openGraph: {
-    title: `Tabela de Preços do Spitz Alemão Anão (${new Date().getFullYear()}) | By Império Dog`,
+    title: "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
     description:
       "Machos de R$ 6.500 a R$ 7.500 e fêmeas R$ 8.500 (valor único para todas as cores) — inclui registro oficial, laudos veterinários e mentoria vitalícia.",
     type: "article",
@@ -58,7 +58,7 @@ const PAGE_FAQS = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 8.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os valores incluem registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia.",
+      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 8.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores, por conta da maior demanda. Todos os valores incluem registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "Por que o Spitz Alemão Anão é tão caro?",
@@ -78,7 +78,7 @@ const PAGE_FAQS = [
   {
     question: "O que está incluso no preço da By Império Dog?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, teste de patela, carteira de vacinação atualizada, histórico de vermifugação, microchip, nota fiscal, contrato e mentoria vitalícia. Não há cobranças extras — o valor anunciado é o valor final.",
+      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, teste de patela, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, histórico de vermifugação, nota fiscal, contrato e mentoria vitalícia. Microchip é opcional, sob contratação. Fora esse item, o valor anunciado é o valor final.",
   },
   {
     question: "Existe parcelamento ou condições especiais?",

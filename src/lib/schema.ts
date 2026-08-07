@@ -68,7 +68,7 @@ export function productSchema(
     "@id": `${baseUrl}/filhotes/${puppy.id}#product`,
     name: puppy.name,
     description:
-      "Spitz Alemão (Lulu da Pomerânia) com até 22 cm de altura, acompanhamento vitalício e suporte personalizado.",
+      "Spitz Alemão Anão (Lulu da Pomerânia) dentro do padrão FCI nº 97 — altura na cernelha de 21 cm ± 3 cm —, com acompanhamento vitalício e suporte personalizado.",
     brand: {
       "@type": "Brand",
       name: "By Império Dog",

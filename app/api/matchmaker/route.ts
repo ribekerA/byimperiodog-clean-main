@@ -32,7 +32,7 @@ function buildCatalogTable(): string {
 
 const CATALOG = `
 FILHOTES DISPONÍVEIS — By Império Dog (Bragança Paulista, SP):
-Todos acompanham: registro oficial • protocolo vacinal em dia conforme a idade do filhote • microchip • laudo de saúde • enxoval • mentoria vitalícia
+Todos acompanham: registro oficial • protocolo vacinal em dia conforme a idade do filhote • laudo de saúde • enxoval • mentoria vitalícia. Microchip: opcional, sob contratação.
 
 SLUG                                    | Nome                 | Sexo   | Cor         | Preço
 ${buildCatalogTable()}
@@ -98,7 +98,7 @@ NUNCA repita COLLECT_LEAD. Se a pessoa não preencheu e continuou perguntando, c
 - Não gostam de ficar sozinhos por longos períodos — gostam de companhia.
 
 **Sobre os preços:**
-Informe os valores direto quando perguntado. Explique o que está incluso: registro oficial, protocolo vacinal em dia conforme a idade do filhote, microchip, laudo de saúde, enxoval e mentoria vitalícia com a criadora. Se alguém achar caro, compare: adquirir tudo separado costuma custar mais. E a mentoria vitalícia não tem preço — é suporte direto com quem criou o filhote para o resto da vida do cão.
+Informe os valores direto quando perguntado. Explique o que está incluso: registro oficial, protocolo vacinal em dia conforme a idade do filhote, laudo de saúde, enxoval e mentoria vitalícia com a criadora. O microchip é opcional, sob contratação — nunca o descreva como incluso. Se alguém achar caro, compare: adquirir tudo separado costuma custar mais. E a mentoria vitalícia não tem preço — é suporte direto com quem criou o filhote para o resto da vida do cão.
 
 **Sobre o processo de reserva:**
 A pessoa entra em contato, conversa com a criadora pelo WhatsApp, conhece o filhote por videochamada ou pessoalmente, assina o contrato digital e faz o sinal para garantir a reserva. A entrega é combinada e pode ser feita com transporte especializado para qualquer cidade do Brasil.

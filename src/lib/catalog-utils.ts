@@ -62,7 +62,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Pelagem densa cor creme/marfim uniforme sem manchas",
       "Olhos escuros expressivos e focinho amendoado",
       "Temperamento dócil, ideal para famílias com crianças",
-      "Tamanho dentro do padrão FCI (até 22 cm)",
+      "Tamanho dentro do padrão FCI nº 97 (21 cm ± 3 cm na cernelha)",
       "Alta demanda — ninhadas abertas com antecedência",
     ],
     faqs: [

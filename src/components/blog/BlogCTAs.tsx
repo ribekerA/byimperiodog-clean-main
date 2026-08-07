@@ -19,14 +19,14 @@ const CTA_LINKS = [
   },
   {
     title: "Processo completo",
-    description: "Conheca cada etapa: entrevista, socializacao guiada, entrega humanizada e mentoria vitalicia.",
+    description: "Conheça cada etapa: entrevista, socialização guiada, entrega humanizada e mentoria vitalícia.",
     href: "/sobre#processo",
     utmContent: "cta_processo",
   },
   {
     title: "FAQ do tutor",
-    description: "Transparencia sobre investimento, logistica, nutricao e convivencia com outras especies.",
-    href: "/faq",
+    description: "Transparência sobre investimento, logística, nutrição e convivência com outras espécies.",
+    href: "/faq-do-tutor",
     utmContent: "cta_faq",
   },
 ];

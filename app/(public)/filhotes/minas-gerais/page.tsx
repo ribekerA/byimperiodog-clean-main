@@ -66,7 +66,7 @@ const faqMG = [
   {
     question: "Qual o tamanho e peso do Spitz Alemão (Lulu da Pomerânia) adulto?",
     answer:
-      "O Spitz Alemão Anão (Lulu da Pomerânia) atinge de 18cm a 22cm de altura quando adulto, pesando entre 1,5kg e 3,5kg. São cães de porte mini, perfeitos para apartamentos e casas em MG.",
+      "O padrão FCI nº 97 define a altura na cernelha em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão — na prática, adultos costumam ficar entre 1,5 kg e 3,5 kg. São cães de porte pequeno, perfeitos para apartamentos e casas em MG.",
   },
 ];
 

@@ -7,6 +7,7 @@ import { useMemo } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { cn } from "@/lib/cn";
 import { HERO_IMAGE_SIZES } from "@/lib/image-sizes";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -25,20 +26,22 @@ const SELLING_POINTS = [
   },
   {
     icon: CheckCircle2,
-    title: "Spitz até 22 cm",
-    description: "Seleção cuidadosa para famílias que buscam Spitz Alemão Anão (Lulu da Pomerânia) dentro do padrão FCI.",
+    title: "Dentro do padrão FCI",
+    description: "Seleção cuidadosa para famílias que buscam Spitz Alemão Anão (Lulu da Pomerânia) dentro do padrão FCI nº 97: altura na cernelha de 21 cm ± 3 cm.",
   },
 ] as const;
 
+// "10+ anos" envelhece sozinho e conflitava com "13 anos" em outras páginas.
+// O ano de fundação é fato fixo e não precisa de manutenção.
 const STATS = [
-  { value: "10+", label: "anos com Spitz Alemão Anão" },
+  { value: `Desde ${FOUNDING_YEAR}`, label: "criando Spitz Alemão Anão" },
   { value: "180+", label: "famílias acompanhadas" },
   { value: "24h", label: "suporte humano dedicado" },
 ] as const;
 
 const primaryWhatsApp = buildWhatsAppLink({
   message:
-    "Olá! Quero receber orientação personalizada sobre os Spitz Alemão Anão (Lulu da Pomerânia) até 22 cm da By Império Dog.",
+    "Olá! Quero receber orientação personalizada sobre os Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog.",
   utmSource: "site",
   utmMedium: "hero",
   utmCampaign: "hero_primary_cta",
@@ -84,7 +87,7 @@ export default function HeroSection() {
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">{greeting}</p>
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">
               Entrevista de alinhamento, socialização guiada, logística assistida e mentoria contínua.
-              Tudo para que o Spitz até 22 cm viva em equilíbrio com a sua família.
+              Tudo para que o seu Spitz viva em equilíbrio com a sua família.
             </p>
           </header>
 
@@ -169,9 +172,10 @@ export default function HeroSection() {
           <div className="rounded-2xl border border-emerald-200 bg-white p-6 shadow-lg">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="space-y-1">
-                <p className="text-sm font-semibold text-zinc-900">Atendimento humano em tempo real</p>
+                <p className="text-sm font-semibold text-zinc-900">Atendimento humano pelo WhatsApp</p>
                 <p className="text-xs leading-relaxed text-zinc-600">
-                  Envie um vídeo da sua casa e receba checklist de rotina, enxoval e investimento em minutos.
+                  Envie um vídeo da sua casa e receba checklist de rotina, enxoval e investimento.
+                  Resposta em até 2 horas no horário de atendimento.
                 </p>
               </div>
               <a

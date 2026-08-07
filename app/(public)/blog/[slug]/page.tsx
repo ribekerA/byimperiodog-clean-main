@@ -247,7 +247,7 @@ export default async function BlogPostPage({
     {
       title: "FAQ do tutor",
       description: "Respostas claras sobre investimento, suporte, logística e rotina diária.",
-      href: "/faq",
+      href: "/faq-do-tutor",
     },
   ];
 

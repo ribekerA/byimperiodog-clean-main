@@ -27,7 +27,7 @@ export const GENERAL_DEFAULTS: GeneralSettings = {
   template_first_contact:
     "Olá, vi sua mensagem sobre Spitz. Posso te mostrar fotos/vídeo e opções de cores e entregas.",
   template_followup: "Tudo bem? Ainda tem interesse no Spitz? Posso esclarecer dúvidas ou ajustar o valor/entrega.",
-  followup_rules: "Responder em até 30 min; 2 follow-ups em 24h; oferta expira em 48h.",
+  followup_rules: "Responder em até 2 horas no horário de atendimento; 2 follow-ups em 24h; oferta expira em 48h.",
   avg_response_minutes: 30,
   seo_title_default: "By Império Dog • Spitz Alemão Anão (Lulu da Pomerânia)",
   seo_description_default:

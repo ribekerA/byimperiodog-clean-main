@@ -12,12 +12,13 @@
  *  6. CTA final
  */
 
-import Link from "next/link";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { useRef, useState } from "react";
 
-import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { PawConfettiButton } from "@/components/motion/PawConfetti";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { ALL_COLORS, COLOR_SEO, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -549,10 +550,10 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   By Império Dog
                 </p>
                 <p className={`mt-0.5 font-bold text-emerald-600`}>
-                  13 anos
+                  Desde {FOUNDING_YEAR}
                 </p>
                 <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  de criação
+                  criando a raça
                 </p>
               </motion.div>
             </div>
@@ -579,8 +580,12 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
               >
                 Personalidade e Temperamento
               </h2>
+              {/* Antes repetia {seo.intro}, que já aparece no hero: o mesmo
+                  parágrafo saía duas vezes no HTML da página. Aqui o texto
+                  precisa falar de temperamento, que é o assunto da seção. */}
               <p className="mt-4 text-base leading-relaxed text-zinc-600">
-                {seo.intro}
+                O temperamento varia conforme genética, socialização, ambiente e
+                características individuais do cão.
               </p>
               <div className="mt-8 space-y-6">
                 {BREED_TRAITS.map((trait) => (

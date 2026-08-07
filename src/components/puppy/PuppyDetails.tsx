@@ -110,9 +110,12 @@ function translateSex(sex: string): string {
 
 function translateSize(size: string): string {
   const lower = size.toLowerCase();
-  if (lower === "mini" || lower === "miniatura") return "Miniatura (até 22 cm)";
-  if (lower === "small" || lower === "pequeno") return "Pequeno (22-28 cm)";
-  if (lower === "medium" || lower === "médio") return "Médio (28-35 cm)";
+  // Alturas conforme o padrão FCI nº 97, que define cada variedade como uma
+  // medida central com tolerância — não como um teto. As faixas anteriores
+  // ("até 22 cm", "22-28", "28-35") não correspondiam a nenhuma delas.
+  if (lower === "mini" || lower === "miniatura") return "Anão / Zwergspitz (21 cm ± 3 cm)";
+  if (lower === "small" || lower === "pequeno") return "Pequeno / Kleinspitz (26 cm ± 3 cm)";
+  if (lower === "medium" || lower === "médio") return "Médio / Mittelspitz (34 cm ± 4 cm)";
   return size;
 }
 

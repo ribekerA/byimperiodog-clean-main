@@ -40,7 +40,7 @@ const FAQS = [
   {
     question: "Qual o preço do Spitz Alemão Anão preto?",
     answer:
-      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Por ser uma cor rara, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea custa o mesmo valor em todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia.",
+      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Por ser uma cor rara, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea custa o mesmo valor em todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "Como saber se o Spitz Alemão preto tem registro oficial legítimo?",
@@ -122,7 +122,7 @@ export default function SpitzAlemaoPretoPage() {
           </div>
         </div>
         <ul className="space-y-1.5 text-sm text-zinc-700">
-          {["Registro oficial", "Laudo de saúde", "Teste de patela", "Protocolo vacinal em dia", "Microchip", "Nota fiscal", "Mentoria vitalícia"].map((i) => (
+          {["Registro oficial", "Laudo de saúde", "Teste de patela", "Protocolo vacinal em dia", "Microchip (opcional, sob contratação)", "Nota fiscal", "Mentoria vitalícia"].map((i) => (
             <li key={i} className="flex items-center gap-2"><span className="text-emerald-600">✓</span>{i}</li>
           ))}
         </ul>

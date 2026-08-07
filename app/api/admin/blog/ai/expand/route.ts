@@ -22,7 +22,7 @@ export async function POST(req: Request) {
       content_blocks_json: blocks,
       recommended_internal_links: [
         { title: "Filhotes de Spitz disponíveis", href: "/filhotes" },
-        { title: "Como comprar com segurança", href: "/como-comprar" },
+        { title: "Como comprar com segurança", href: "/comprar-spitz-anao" },
       ],
       suggested_ctas: [
         "Veja os filhotes disponíveis",

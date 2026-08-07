@@ -40,7 +40,7 @@ const FAQS = [
   {
     question: "Quanto custa um Lulu da Pomerânia?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote, microchip e mentoria vitalícia — sem cobranças extras.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "O Lulu da Pomerânia é bom com crianças?",
@@ -124,7 +124,7 @@ export default function LuluDaPomeraniaPage() {
           O Lulu da Pomerânia é o nome popular no Brasil para o <strong>Spitz Alemão Anão</strong> — uma raça de pequeno porte originária da região da Pomerânia (atual norte da Alemanha e Polônia). No mundo, é conhecido como <strong>Pomeranian</strong>. Todos esses nomes se referem ao mesmo cão compacto, com pelagem dupla densa, orelhas eretas pontudas e rabo enrolado sobre o dorso.
         </p>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          Pesa entre 1,5 e 3,5 kg na fase adulta e atinge no máximo 22 cm de altura na cernelha. Apesar do tamanho diminuto, tem <em>personalidade gigante</em>: é curioso, expressivo, adora atenção e aprende comandos com facilidade.
+          O padrão FCI nº 97 define a altura na cernelha em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão — na prática, adultos costumam ficar entre 1,5 e 3,5 kg. Apesar do tamanho diminuto, tem <em>personalidade gigante</em>: é curioso, expressivo, adora atenção e aprende comandos com facilidade.
         </p>
       </section>
 
@@ -168,7 +168,7 @@ export default function LuluDaPomeraniaPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, vacinação, microchip e mentoria vitalícia. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
+        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. Microchip opcional, sob contratação. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
       </section>
 
       {/* FAQ */}
@@ -211,7 +211,7 @@ export default function LuluDaPomeraniaPage() {
 
       <RelatedPages links={[
         { label: "Spitz Alemão Anão",       href: "/spitz-alemao",         desc: "Ficha técnica, origem e temperamento" },
-        { label: "Tabela de Preços 2025",   href: "/preco-spitz-anao",     desc: "Valores por cor e sexo em detalhe" },
+        { label: "Tabela de Preços Atualizada", href: "/preco-spitz-anao", desc: "Valores por cor e sexo em detalhe" },
         { label: "Como Comprar com Segurança", href: "/comprar-spitz-anao", desc: "Guia passo a passo para não cair em golpes" },
       ]} />
 
