@@ -61,7 +61,13 @@ function estimateReadingTime(text) {
 
 function buildPost(filename) {
   const slug = filename.replace(/\.mdx$/, '');
-  const raw  = fs.readFileSync(path.join(postsDir, filename), 'utf-8');
+  // Normaliza CRLF -> LF na leitura. O `bodyRaw` gerado aqui é serializado com
+  // JSON.stringify, então cada \r do Windows (core.autocrlf=true) virava um
+  // escape "\\r" literal dentro do artefato: rodar o gerador no Windows produzia
+  // ~2.3 mil escapes a mais que na Netlify, cujo checkout é LF. O arquivo
+  // divergia conforme a máquina que rodasse o prebuild, poluindo o diff sem
+  // nenhuma mudança de conteúdo. Com LF nas duas pontas a saída é idêntica.
+  const raw  = fs.readFileSync(path.join(postsDir, filename), 'utf-8').replace(/\r\n/g, '\n');
   const { data, content } = parseFrontmatter(raw);
 
   return {

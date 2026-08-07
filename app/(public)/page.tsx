@@ -31,9 +31,21 @@ const AiMatchmakerChat = dynamic(() => import("@/components/sections/AiMatchmake
 });
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista",
+  // O `template: '%s | By Império Dog'` fica em baseSiteMetadata, no layout do
+  // segmento (public). No Next.js o template só alcança segmentos FILHOS, então
+  // /filhotes recebia a marca e a home — que é a página do próprio segmento —
+  // saía sem. Resultado: as buscas por "Império Dog" apareciam na posição 7 e
+  // não geravam clique, porque o nome não estava no título do resultado.
+  // Escrever a marca aqui não duplica nada, justamente porque o template não
+  // se aplica a esta página.
+  title: "Canil Spitz Alemão Anão em Bragança Paulista | By Império Dog",
+  // A description tinha 218 caracteres. O Google corta perto de 155 (menos
+  // ainda no celular, de onde vêm 90% dos cliques), então "13 anos, 180+
+  // famílias. Entregamos em todo o Brasil." nunca chegava a ser lido. Encurtada
+  // para caber inteira, mantendo "Lulu da Pomerânia" — que sai do título por
+  // falta de espaço, mas é o nome pelo qual a raça é de fato pesquisada.
   description:
-    "Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudo de saúde, vacinação e mentoria vitalícia. 13 anos, 180+ famílias. Entregamos em todo o Brasil.",
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, laudo de saúde e mentoria vitalícia. Enviamos para todo o Brasil.",
   keywords: [
     "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
     "filhote Spitz Alemão", "canil Bragança Paulista",
