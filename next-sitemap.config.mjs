@@ -1,5 +1,5 @@
 /** @type {import('next-sitemap').IConfig} */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.byimperiodog.com.br';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br';
 
 const config = {
   siteUrl: SITE_URL,

@@ -30,7 +30,7 @@ export default function GuidePage({ params }: Props) {
   const guide = getGuideBySlug(params.slug);
   if (!guide) notFound();
 
-  const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+  const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
   const articleLd = buildArticleLD({
     title: guide.title,

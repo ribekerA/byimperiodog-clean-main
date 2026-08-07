@@ -4,7 +4,7 @@ import { guides } from "@/content/guides";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildArticleLD } from "@/lib/schema";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/alimentacao`;
 
 const guide = guides.find((g) => g.slug.includes("alimentacao")) ?? guides[0];

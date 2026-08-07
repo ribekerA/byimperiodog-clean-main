@@ -41,7 +41,7 @@ export default function ColorLandingPage({ params }: Props) {
   if (!seo) notFound();
 
   const puppies  = getPuppiesByColor(params.cor);
-  const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+  const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",   url: `${SITE_URL}/` },

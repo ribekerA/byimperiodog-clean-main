@@ -51,7 +51,7 @@ export async function fetchGscData(days = 28): Promise<GscData> {
   const siteUrl =
     process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL ||
     process.env.NEXT_PUBLIC_SITE_URL ||
-    "https://www.byimperiodog.com.br";
+    "https://byimperiodog.com.br";
 
   const auth = getAuth();
   const sc = google.searchconsole({ version: "v1", auth });

@@ -14,7 +14,7 @@ import TextTestimonials from "@/components/sections/TextTestimonials";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
 export const metadata: Metadata = {
   title: "Sobre o canil — Spitz Alemão Anão (Lulu da Pomerânia) desde 2013",

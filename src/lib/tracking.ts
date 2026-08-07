@@ -125,7 +125,7 @@ export function resolveTracking(
     metaVerify: norm(config?.metaDomainVerification ?? settings?.meta_domain_verify ?? env.NEXT_PUBLIC_META_DOMAIN_VERIFY),
     googleVerify: norm((settings as any)?.google_site_verify ?? env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION),
     pinterestVerify: norm((settings as any)?.pinterest_domain_verify ?? env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY),
-    siteUrl: norm(env.NEXT_PUBLIC_SITE_URL) || "https://www.byimperiodog.com.br",
+    siteUrl: norm(env.NEXT_PUBLIC_SITE_URL) || "https://byimperiodog.com.br",
     custom,
   };
 }

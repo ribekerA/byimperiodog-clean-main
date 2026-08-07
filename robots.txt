@@ -16,5 +16,5 @@ Allow: /images/
 Allow: /*.css$
 Allow: /*.js$
 
-Sitemap: https://www.byimperiodog.com.br/sitemap.xml
+Sitemap: https://byimperiodog.com.br/sitemap.xml
 

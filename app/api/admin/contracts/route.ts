@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
 
     if (error) throw error;
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br";
     const link    = `${baseUrl}/contract/${data.code}`;
 
     return NextResponse.json({ ok: true, code: data.code, link });

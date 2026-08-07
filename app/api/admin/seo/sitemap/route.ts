@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const ORIGIN =
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.SITE_ORIGIN ||
-  "https://www.byimperiodog.com.br";
+  "https://byimperiodog.com.br";
 
 const STATIC_URLS = [
   { loc: `${ORIGIN}/`, changefreq: "daily", priority: "1.0" },

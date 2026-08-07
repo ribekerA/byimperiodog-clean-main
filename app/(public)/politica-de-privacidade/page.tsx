@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
     path,
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br"}/og/politica-privacidade.jpg`,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br"}/og/politica-privacidade.jpg`,
         alt: "Tutora protegendo os dados do Spitz Alemão (Lulu da Pomerânia) com segurança digital",
       },
     ],

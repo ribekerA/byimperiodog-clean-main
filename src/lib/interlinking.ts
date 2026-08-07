@@ -10,15 +10,15 @@ import type { Puppy } from "@/domain/puppy";
 export type Crumb = { name: string; url: string };
 
 export const Breadcrumbs = {
-  home(): Crumb { return { name: "Início", url: "https://www.byimperiodog.com.br/" }; },
-  filhotes(): Crumb { return { name: "Filhotes", url: "https://www.byimperiodog.com.br/filhotes" }; },
-  spitzPorCor(): Crumb { return { name: "Spitz por Cor", url: "https://www.byimperiodog.com.br/spitz-anao/cor" }; },
-  spitzPorCidade(): Crumb { return { name: "Spitz por Cidade", url: "https://www.byimperiodog.com.br/spitz-anao" }; },
-  blog(): Crumb { return { name: "Blog", url: "https://www.byimperiodog.com.br/blog" }; },
-  color(colorSlug: string): Crumb { return { name: colorSlug, url: `https://www.byimperiodog.com.br/spitz-anao/cor/${colorSlug}` }; },
-  city(citySlug: string, label?: string): Crumb { return { name: label || citySlug, url: `https://www.byimperiodog.com.br/spitz-anao/${citySlug}` }; },
-  puppy(puppy: Pick<Puppy, "slug" | "title">): Crumb { return { name: puppy.title, url: `https://www.byimperiodog.com.br/filhotes/${puppy.slug}` }; },
-  post(slug: string, title: string): Crumb { return { name: title, url: `https://www.byimperiodog.com.br/blog/${slug}` }; },
+  home(): Crumb { return { name: "Início", url: "https://byimperiodog.com.br/" }; },
+  filhotes(): Crumb { return { name: "Filhotes", url: "https://byimperiodog.com.br/filhotes" }; },
+  spitzPorCor(): Crumb { return { name: "Spitz por Cor", url: "https://byimperiodog.com.br/spitz-anao/cor" }; },
+  spitzPorCidade(): Crumb { return { name: "Spitz por Cidade", url: "https://byimperiodog.com.br/spitz-anao" }; },
+  blog(): Crumb { return { name: "Blog", url: "https://byimperiodog.com.br/blog" }; },
+  color(colorSlug: string): Crumb { return { name: colorSlug, url: `https://byimperiodog.com.br/spitz-anao/cor/${colorSlug}` }; },
+  city(citySlug: string, label?: string): Crumb { return { name: label || citySlug, url: `https://byimperiodog.com.br/spitz-anao/${citySlug}` }; },
+  puppy(puppy: Pick<Puppy, "slug" | "title">): Crumb { return { name: puppy.title, url: `https://byimperiodog.com.br/filhotes/${puppy.slug}` }; },
+  post(slug: string, title: string): Crumb { return { name: title, url: `https://byimperiodog.com.br/blog/${slug}` }; },
 };
 
 // Helper para compor listas comuns

@@ -134,7 +134,7 @@ export default async function BlogListPage({
   const fetchState = await fetchPosts({ sort });
 
   const siteBase = (
-    process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br"
+    process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br"
   ).replace(/\/$/, "");
 
   // Em caso de ambiente Supabase ausente, tentamos fallback ao Contentlayer
@@ -210,7 +210,7 @@ function renderPage({
     `Guias escritos pela criadora com ${yearsOfExperience()} anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia).`;
 
   const blogSchema = buildBlogSchema({
-    url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br",
+    url: process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br",
     headline: metaTitleStr,
     description: metaDescStr,
     posts: posts.slice(0, 12),

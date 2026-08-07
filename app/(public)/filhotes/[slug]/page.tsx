@@ -129,7 +129,7 @@ export default function PuppyPage({ params }: Props) {
     utmContent: puppy.slug,
   });
 
-  const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+  const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
   const productLd    = buildPuppyProductLD(puppy as any);
   const breadcrumbLd = buildBreadcrumbLD([

@@ -82,7 +82,7 @@ export default function ContractsPage() {
   const [showCreate,    setShowCreate]    = useState(false);
   const [pendingZapSign, setPendingZapSign] = useState<string | null>(null);
 
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://www.byimperiodog.com.br";
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://byimperiodog.com.br";
 
   async function load() {
     setLoading(true);

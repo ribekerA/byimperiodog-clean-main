@@ -4,7 +4,7 @@
 
 import { buildPuppyOfferCatalogLD, buildPuppyProductLD, type Puppy } from "./puppy";
 
-const SITE_URL_DEFAULT = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://www.byimperiodog.com.br";
+const SITE_URL_DEFAULT = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
 const BRAND_NAME = "By Império Dog";
 const BRAND_URL = SITE_URL_DEFAULT;
 const BRAND_LOGO = `${SITE_URL_DEFAULT}/logo.png`;

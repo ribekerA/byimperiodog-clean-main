@@ -18,7 +18,7 @@ import TrustBar from "@/components/TrustBar";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { routes } from "@/lib/route";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
 // Phone normalization — priority to env vars
 const RAW_FULL = (process.env.NEXT_PUBLIC_WA_PHONE || "5511968633239").replace(/\D/g, "");

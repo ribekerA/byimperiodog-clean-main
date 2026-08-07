@@ -7,7 +7,7 @@ import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { ALL_COLORS, ALL_SEXES } from "@/lib/catalog-utils";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const NOW = new Date().toISOString();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -19,13 +19,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/contato`,                lastModified: NOW, changeFrequency: "monthly", priority: 0.75 },
     { url: `${SITE_URL}/faq-do-tutor`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.80 },
     { url: `${SITE_URL}/blog`,                   lastModified: NOW, changeFrequency: "daily",   priority: 0.90 },
-    { url: `${SITE_URL}/galeria`,                lastModified: NOW, changeFrequency: "weekly",  priority: 0.75 },
     { url: `${SITE_URL}/guias`,                  lastModified: NOW, changeFrequency: "weekly",  priority: 0.85 },
     { url: `${SITE_URL}/reserve-seu-filhote`,    lastModified: NOW, changeFrequency: "monthly", priority: 0.70 },
     { url: `${SITE_URL}/ninhadas`,               lastModified: NOW, changeFrequency: "weekly",  priority: 0.70 },
     // /alimentacao, /cuidados e /temperamento ficam de fora de propósito: são
     // o mesmo corpo de texto de /guias/{slug} e apontam o canonical para lá.
     // Sitemap lista URL canônica, não a cópia.
+    //
+    // /galeria também fica de fora: responde 301 para /filhotes. Sitemap é uma
+    // lista de destinos finais — URL que redireciona gasta orçamento de
+    // rastreamento e o Google acaba indexando o destino de qualquer forma.
 
     // ─── Raça / informacional ─────────────────────────────────────────────────
     { url: `${SITE_URL}/spitz-alemao`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },

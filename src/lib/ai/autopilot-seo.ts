@@ -142,7 +142,7 @@ export async function runAutopilotSeo(): Promise<AutopilotSeoResult> {
       payload: buildArticleLD({
         title: p.seo_title || p.title || label,
         description: desc || `Tudo sobre ${label}`,
-        url: `https://www.byimperiodog.com.br/blog/${slug}`,
+        url: `https://byimperiodog.com.br/blog/${slug}`,
         datePublished: new Date().toISOString(),
         authorName: "By Império Dog",
       }),

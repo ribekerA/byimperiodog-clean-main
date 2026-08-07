@@ -56,7 +56,7 @@ export function generateMetadata(): Metadata {
     path,
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br"}/og/faq-tutor.jpg`,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br"}/og/faq-tutor.jpg`,
         alt: "Tutora segurando um Spitz Alemão (Lulu da Pomerânia) saudável no colo",
       },
     ],
@@ -64,7 +64,7 @@ export function generateMetadata(): Metadata {
 }
 
 export default function FaqDoTutorPage() {
-  const siteBase = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br").replace(/\/$/, "");
+  const siteBase = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
   const jsonLd = faqPageSchema(faqItems, `${siteBase}${path}`);
   const breadcrumbLd = {
     "@context": "https://schema.org",

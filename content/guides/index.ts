@@ -321,7 +321,7 @@ export const guides: Guide[] = [
         heading: "Primeiro veterinário e socialização",
         paragraphs: [
           "Marque consulta veterinária na primeira semana para checar o estado geral, confirmar o esquema vacinal e estabelecer vínculo com o profissional que acompanhará o animal.",
-          "Socialização começa dentro de casa: expor a sons variados (aspirador, TV, campainha), diferentes superfícies e diferentes pessoas da família. Socialização com outros cães deve aguardar a vacinação completa.",
+          "Socialização começa dentro de casa: expor a sons variados (aspirador, TV, campainha), diferentes superfícies e diferentes pessoas da família. Socialização com outros cães deve aguardar a liberação do médico-veterinário, conforme o estágio do protocolo vacinal do filhote.",
         ],
       },
     ],

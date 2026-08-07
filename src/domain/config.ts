@@ -47,7 +47,7 @@ export const BRAND = {
 
   // URLs
   urls: {
-    site: "https://www.byimperiodog.com.br",
+    site: "https://byimperiodog.com.br",
     whatsappLink: "https://wa.me/5511968633239",
   },
 } as const;

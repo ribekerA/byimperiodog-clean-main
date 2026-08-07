@@ -85,7 +85,7 @@ export function extractFaqFromMdx(mdx: string): { q: string; a: string }[] {
 interface BuildMetadataOptions { baseUrl?: string }
 
 export function buildBlogMetadata(post: BasePost & { content_mdx?: string | null }, opts: BuildMetadataOptions = {}) {
-  const site = (opts.baseUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://www.byimperiodog.com.br').replace(/\/$/, '');
+  const site = (opts.baseUrl || process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br').replace(/\/$/, '');
   const canonical = `${site}/blog/${encodeURIComponent(post.slug)}`;
   const description = post.seo_description || deriveExcerpt(post) || undefined;
   const title = post.seo_title || post.title;
@@ -113,7 +113,7 @@ export function buildBlogMetadata(post: BasePost & { content_mdx?: string | null
 interface JsonLdExtras { toc?: TocItem[]; faq?: { q: string; a: string }[] }
 
 export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | null }, author: AuthorLike | null, extras: JsonLdExtras = {}) {
-  const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.byimperiodog.com.br').replace(/\/$/, '');
+  const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br').replace(/\/$/, '');
   const url = `${site}/blog/${post.slug}`;
   const description = post.seo_description || deriveExcerpt(post) || undefined;
   // Extrai os primeiros ~500 chars do conteúdo como articleBody para rich snippets

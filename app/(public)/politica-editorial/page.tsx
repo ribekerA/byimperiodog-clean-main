@@ -4,7 +4,7 @@ import Link from "next/link";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { pageMetadata } from "@/lib/seo";
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PATH = "/politica-editorial";
 
 export function generateMetadata(): Metadata {

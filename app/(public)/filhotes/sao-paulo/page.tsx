@@ -9,7 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://www.byimperiodog.com.br";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
 const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "5511968633239";
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 

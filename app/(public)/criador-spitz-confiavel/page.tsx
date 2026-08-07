@@ -9,7 +9,7 @@ import { whatsappLeadUrl } from "@/lib/utm";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
 
 export const metadata: Metadata = {

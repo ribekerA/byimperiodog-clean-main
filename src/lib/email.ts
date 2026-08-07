@@ -38,7 +38,7 @@ function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:16px;margin:20px 0;">
         <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#166534;">Enquanto isso, você pode:</p>
         <ul style="margin:8px 0 0;padding-left:18px;font-size:13px;color:#166534;line-height:1.8;">
-          <li>Ver o catálogo completo em <a href="https://www.byimperiodog.com.br/filhotes" style="color:#166534;">byimperiodog.com.br/filhotes</a></li>
+          <li>Ver o catálogo completo em <a href="https://byimperiodog.com.br/filhotes" style="color:#166534;">byimperiodog.com.br/filhotes</a></li>
           <li>Ler nosso guia de cuidados com Spitz Alemão</li>
           <li>Falar diretamente no WhatsApp abaixo</li>
         </ul>
@@ -62,7 +62,7 @@ function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
     <div style="background:#f8f9fa;padding:16px 24px;text-align:center;">
       <p style="margin:0;font-size:11px;color:#aaa;">
         Você recebeu este e-mail por preencher o formulário em byimperiodog.com.br.<br/>
-        <a href="https://www.byimperiodog.com.br" style="color:#aaa;">byimperiodog.com.br</a>
+        <a href="https://byimperiodog.com.br" style="color:#aaa;">byimperiodog.com.br</a>
       </p>
     </div>
   </div>

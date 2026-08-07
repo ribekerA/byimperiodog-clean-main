@@ -8,7 +8,7 @@ import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 import { RelatedPages } from "@/components/common/RelatedPages";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {

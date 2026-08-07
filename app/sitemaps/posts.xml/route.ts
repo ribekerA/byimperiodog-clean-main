@@ -6,7 +6,7 @@ import { supabasePublic } from '@/lib/supabasePublic';
 
 export const revalidate = 300;
 
-const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.byimperiodog.com.br').replace(/\/$/, '');
+const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br').replace(/\/$/, '');
 
 type Entry = { loc: string; lastmod: string; changefreq: string; priority: string; img?: string };
 

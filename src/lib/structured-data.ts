@@ -1,7 +1,7 @@
 import { FOUNDING_YEAR } from "@/domain/config";
 import type { CatalogItem } from "@/lib/catalog-utils";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
 /**
  * @id único do negócio no grafo de dados estruturados.

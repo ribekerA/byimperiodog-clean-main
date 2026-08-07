@@ -209,7 +209,7 @@ export default async function BlogPostPage({
     { toc: compiled?.toc, faq: faqItems.length > 0 ? faqItems : undefined }
   );
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br";
   const description =
     (article?.description as string | undefined) || post.seo_description || post.excerpt || post.subtitle || "";
   const blogSchema = blogPostingSchema(siteUrl, {

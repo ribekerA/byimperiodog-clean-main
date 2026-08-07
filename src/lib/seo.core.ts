@@ -8,7 +8,7 @@ import { supabasePublic } from './supabasePublic';
  * Prioridade de resolução:
  * 1. NEXT_PUBLIC_SITE_URL (variável de ambiente)
  * 2. NEXT_PUBLIC_CANONICAL_ORIGIN (domínio custom para canonical)
- * 3. Fallback: https://www.byimperiodog.com.br
+ * 3. Fallback: https://byimperiodog.com.br
  * 
  * Para usar domínio canilspitzalemao.com.br:
  * Defina NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.canilspitzalemao.com.br
@@ -16,7 +16,7 @@ import { supabasePublic } from './supabasePublic';
 export const SITE_ORIGIN = (
   process.env.NEXT_PUBLIC_CANONICAL_ORIGIN ||
   process.env.NEXT_PUBLIC_SITE_URL ||
-  'https://www.byimperiodog.com.br'
+  'https://byimperiodog.com.br'
 ).replace(/\/$/, '');
 
 /**
@@ -24,7 +24,7 @@ export const SITE_ORIGIN = (
  * Usado em redirect rules e validações de domínio
  */
 export const ALTERNATE_ORIGINS = [
-  'https://www.byimperiodog.com.br',
+  'https://byimperiodog.com.br',
   'https://byimperiodog.com.br',
   'https://www.canilspitzalemao.com.br',
   'https://canilspitzalemao.com.br',

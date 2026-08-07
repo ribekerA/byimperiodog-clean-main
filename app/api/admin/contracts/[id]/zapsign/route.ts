@@ -7,7 +7,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { generateContractPdf } from "@/lib/contractPdf";
 import { createZapSignDocument, isConfigured } from "@/lib/zapsign";
 
-const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const guard = requireAdminApi(req);

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import GaleriaClient from "./GaleriaClient";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br";
 
 export const metadata: Metadata = {
   title: "Galeria de Vídeos — Spitz Alemão Anão (Lulu da Pomerânia)",

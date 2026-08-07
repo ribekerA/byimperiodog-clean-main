@@ -90,7 +90,7 @@ const TRUST_SIGNALS = [
   "180+ famílias atendidas",
 ] as const;
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
 // WebSite schema com SearchAction — sinaliza site canônico para IAs
 const WEBSITE_LD = {

@@ -6,7 +6,7 @@ import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { staticPuppies } from "@/content/puppies-static";
 import { buildLocalBusinessLD, buildItemListLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
 const CATALOG_FAQS = [
   {

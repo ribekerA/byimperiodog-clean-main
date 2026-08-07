@@ -10,7 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { routes } from "@/lib/route";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://www.byimperiodog.com.br";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
 
 export const metadata: Metadata = {
   title: "Reserve seu Filhote de Spitz Alemão Anão",

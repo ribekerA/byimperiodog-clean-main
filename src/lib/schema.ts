@@ -1,7 +1,7 @@
 type JsonLd = Record<string, unknown>;
 
 const DEFAULT_SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br";
 
 export function organizationSchema(siteUrl: string = DEFAULT_SITE_URL): JsonLd {
   const baseUrl = normalizeSiteUrl(siteUrl);

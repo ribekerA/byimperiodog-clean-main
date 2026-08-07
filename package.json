@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "predev": "node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs",
-    "prebuild": "node scripts/content-guard.mjs && node scripts/run-gen-client-photos.mjs && node scripts/contentlayer-build-wrapper.mjs",
+    "prebuild": "node scripts/content-guard.mjs && node scripts/run-gen-client-photos.mjs && node scripts/contentlayer-build-wrapper.mjs && node scripts/gen-contentlayer.mjs",
     "dev": "cross-env NEXT_DISABLE_VERSION_CHECK=1 NEXT_TELEMETRY_DISABLED=1 next dev -p 3000",
     "dev:https": "node scripts/run-gen-client-photos.mjs && cross-env NEXT_DISABLE_VERSION_CHECK=1 NEXT_TELEMETRY_DISABLED=1 node server-https.mjs",
     "build": "next build --no-lint",

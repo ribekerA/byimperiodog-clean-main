@@ -24,7 +24,7 @@ export function generateMetadata(): Metadata {
     path,
     images: [
       {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.byimperiodog.com.br"}/og/termos-uso.jpg`,
+        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br"}/og/termos-uso.jpg`,
         alt: "Contrato de responsabilidade para tutores do Spitz Alemão (Lulu da Pomerânia)",
       },
     ],
