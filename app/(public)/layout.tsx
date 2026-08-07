@@ -20,9 +20,7 @@ import {
   buildOrganizationLD,
   buildWebsiteLD,
   buildSiteNavigationLD,
-  buildLocalBusinessLD,
 } from "@/lib/tracking";
-import { buildDogBreederLD } from "@/lib/structured-data";
 
 import { dmSans, inter } from "../fonts";
 
@@ -74,18 +72,39 @@ export default async function PublicLayout({ children }: { children: React.React
   let organizationLd: Record<string, unknown> | null = null;
   let websiteLd: Record<string, unknown> | null = null;
   let siteNavigationLd: Record<string, unknown> | null = null;
-  let localBusinessLd: Record<string, unknown> | null = null;
+  // Sem LocalBusiness aqui: cada página já emite o nó canônico de
+  // src/lib/structured-data.ts. Emitir os dois duplicava a empresa no grafo.
   if (ids.siteUrl) {
     organizationLd = buildOrganizationLD(ids.siteUrl);
     websiteLd = buildWebsiteLD(ids.siteUrl);
     siteNavigationLd = buildSiteNavigationLD(ids.siteUrl);
-    localBusinessLd = buildLocalBusinessLD(ids.siteUrl);
   }
 
   return (
     <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable} ${inter.variable}`}>
       <head>
         <meta charSet="utf-8" />
+
+        {/*
+          O site reabria no meio da página. A causa é o
+          `history.scrollRestoration = "auto"` do navegador: ao recarregar, ele
+          devolve a posição de rolagem da visita anterior. Numa home longa isso
+          faz a página abrir na altura em que o visitante parou, não no topo.
+
+          Só desligamos a restauração quando a navegação NÃO é back/forward —
+          nesse caso voltar para a listagem e cair de novo no mesmo card é o
+          comportamento esperado. Âncoras (#secao) também continuam funcionando,
+          porque a checagem roda antes de qualquer scroll e não mexe no hash.
+
+          Precisa rodar no <head>, antes da primeira pintura: em useEffect o
+          navegador já teria restaurado a posição e o usuário veria o salto.
+        */}
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `try{if('scrollRestoration' in history){var n=performance.getEntriesByType('navigation')[0];if(!n||n.type!=='back_forward'){history.scrollRestoration='manual';if(!location.hash){window.scrollTo(0,0);}}}}catch(e){}`,
+          }}
+        />
 
         {/* ================================================================ */}
         {/* PERFORMANCE: Resource hints essenciais */}
@@ -180,18 +199,14 @@ export default async function PublicLayout({ children }: { children: React.React
             dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationLd) }}
           />
         )}
-        {localBusinessLd && (
-          <script
-            type="application/ld+json"
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
-          />
-        )}
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildDogBreederLD()) }}
-        />
+        {/**
+          * O LocalBusiness do layout e o DogBreeder foram removidos daqui.
+          * Ambos usavam o mesmo @id do LocalBusiness que cada página já emite,
+          * com name/url/description/priceRange diferentes — era essa colisão que
+          * o Search Console reportava como "campo duplicado". As propriedades
+          * exclusivas do DogBreeder (makesOffer, knowsAbout de raça) foram
+          * incorporadas ao nó canônico em src/lib/structured-data.ts.
+          */}
 
         {/** Pixels custom HTML removidos por seguranca. Apenas modelos oficiais via <Pixels />. */}
       </head>

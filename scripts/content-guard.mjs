@@ -34,7 +34,6 @@ const PUBLIC_APP_ALLOWLIST =
 
 const BANNED_TERMS = ["adocao", "doacao", "boutique"];
 const BREED_PATTERN = /spitz\s+alem[ãa]o(?:\s+an[ãa]o)?/gi;
-const LULU_PATTERN = /lulu\s+da\s+pomer[ãa]nia/gi;
 const CERNELHA_PATTERN = /cernelha/gi;
 
 const violations = [];
@@ -50,7 +49,12 @@ for (const file of files) {
   // Skip if file doesn't exist (e.g., archived folders)
   if (!existsSync(absolutePath)) continue;
   
-  const raw = readFileSync(absolutePath, "utf8");
+  // Normaliza CRLF -> LF antes de qualquer checagem. As regras de proximidade
+  // abaixo contam CARACTERES, e no Windows (core.autocrlf=true) cada quebra de
+  // linha ocupa 2 chars em vez de 1. Isso encolhia a janela de contexto e
+  // acusava violacao em arquivos que passam no checkout da Netlify (LF) — o
+  // guard reprovava por causa do sistema operacional, nao do texto.
+  const raw = readFileSync(absolutePath, "utf8").replace(/\r\n/g, "\n");
   const normalized = normalize(raw);
 
   for (const term of BANNED_TERMS) {

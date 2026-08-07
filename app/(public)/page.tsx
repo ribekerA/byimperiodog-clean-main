@@ -91,63 +91,13 @@ const TRUST_SIGNALS = [
   "180+ famílias atendidas",
 ] as const;
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
-
-// WebSite schema com SearchAction — sinaliza site canônico para IAs
-const WEBSITE_LD = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${SITE_URL}/#website`,
-  name: "By Império Dog",
-  alternateName: "Canil By Império Dog — Spitz Alemão Anão Lulu da Pomerânia",
-  url: SITE_URL,
-  potentialAction: {
-    "@type": "SearchAction",
-    target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/search?q={search_term_string}` },
-    "query-input": "required name=search_term_string",
-  },
-  // Speakable: marca o conteúdo principal para voice search
-  speakable: {
-    "@type": "SpeakableSpecification",
-    cssSelector: ["#hero-heading", "#featured-heading", "#diff-heading", "#faq-heading"],
-  },
-};
-
-// Organization com autoridade semântica
-const ORGANIZATION_LD = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": `${SITE_URL}/#organization`,
-  name: "By Império Dog",
-  url: SITE_URL,
-  logo: {
-    "@type": "ImageObject",
-    url: `${SITE_URL}/byimperiologo.svg`,
-    width: 120,
-    height: 120,
-  },
-  foundingDate: String(FOUNDING_YEAR),
-  description: "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
-  knowsAbout: [
-    "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
-    "criação responsável de cães", "registro oficial", "genética canina",
-    "socialização de filhotes", "mentoria para tutores de pets",
-  ],
-  sameAs: [
-    "https://www.instagram.com/byimperiodog",
-    "https://www.facebook.com/byimperiodog",
-    "https://www.youtube.com/@byimperiodog",
-    "https://www.tiktok.com/@byimperiodogs",
-  ],
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: "+55-11-96863-3239",
-    contactType: "customer service",
-    availableLanguage: "Portuguese",
-    areaServed: "BR",
-    contactOption: "TollFree",
-  },
-};
+// WebSite e Organization saíram daqui: o layout público já emite os dois em
+// todas as páginas, com o mesmo @id. Emitir de novo na home criava um segundo
+// nó por entidade e era isso que o Search Console reportava como campo
+// duplicado. O SearchAction e o speakable que existiam aqui foram levados para
+// buildWebsiteLD, e o knowsAbout para buildOrganizationLD (src/lib/tracking.ts).
+// O contactPoint tinha `contactOption: "TollFree"` — o WhatsApp de atendimento
+// não é gratuito, então a propriedade foi removida em vez de migrada.
 
 export default function HomePage() {
   const businessLd = buildLocalBusinessLD();
@@ -164,16 +114,6 @@ export default function HomePage() {
         id="ld-business"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }}
-      />
-      <Script
-        id="ld-website"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_LD) }}
-      />
-      <Script
-        id="ld-organization"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_LD) }}
       />
       <Script
         id="ld-faq"

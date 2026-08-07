@@ -1,3 +1,6 @@
+import { FOUNDING_YEAR } from "@/domain/config";
+import type { PixelEnvironmentConfig } from "@/lib/pixels";
+
 type TrackingEvent = "page_view" | "view_form" | "submit_start" | "submit_success" | "submit_error";
 
 /**
@@ -56,8 +59,6 @@ export function trackSubmitSuccess(context: Record<string, any>) {
 export function trackSubmitError(context: Record<string, any>) {
   track("submit_error", context);
 }
-
-import type { PixelEnvironmentConfig } from "@/lib/pixels";
 
 export interface CustomPixelConfig {
   id: string;
@@ -130,20 +131,44 @@ export function resolveTracking(
   };
 }
 
+/**
+ * Organization — nó único do site.
+ *
+ * O @id usa a barra antes do fragmento (`/#organization`) para bater com o
+ * emissor de src/lib/structured-data.ts. Sem isso o Google enxergava
+ * `...com.br#organization` e `...com.br/#organization` como DUAS empresas e
+ * reportava campos duplicados.
+ *
+ * O endereço anterior era "Sao Paulo / 01000-000" — um CEP genérico que não
+ * corresponde ao endereço real. Agora usa a mesma localidade declarada em todo
+ * o site: Bragança Paulista, SP.
+ */
 export function buildOrganizationLD(siteUrl: string) {
   const base = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "@id": `${base}#organization`,
+    "@id": `${base}/#organization`,
     name: "By Império Dog",
-    alternateName: "Imperio Dog",
-    description: "Criatorio especializado em Spitz Alemao Anao com suporte dedicado para tutores.",
+    alternateName: ["Canil By Império Dog", "Império Dog"],
+    description:
+      "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com suporte dedicado ao tutor e entrega para todo o Brasil.",
     url: `${base}/`,
     logo: `${base}/byimperiologo.png`,
     image: `${base}/spitz-hero-desktop.webp`,
     telephone: "+55 11 96863-3239",
+    email: "contato@byimperiodog.com.br",
     publishingPrinciples: `${base}/politica-editorial`,
+    knowsAbout: [
+      "Spitz Alemão Anão",
+      "Lulu da Pomerânia",
+      "Pomeranian",
+      "criação responsável de cães",
+      "registro oficial",
+      "genética canina",
+      "socialização de filhotes",
+      "mentoria para tutores de pets",
+    ],
     contactPoint: [
       {
         "@type": "ContactPoint",
@@ -159,13 +184,14 @@ export function buildOrganizationLD(siteUrl: string) {
       "https://www.tiktok.com/@byimperiodog",
       "https://www.facebook.com/byimperiodog"
     ],
-    foundingDate: "2023-01-01",
+    foundingDate: String(FOUNDING_YEAR),
     address: {
       "@type": "PostalAddress",
-      addressCountry: "BR",
+      streetAddress: "Bragança Paulista",
+      addressLocality: "Bragança Paulista",
       addressRegion: "SP",
-      addressLocality: "Sao Paulo",
-      postalCode: "01000-000",
+      postalCode: "12900-000",
+      addressCountry: "BR",
     }
   };
 }
@@ -175,15 +201,27 @@ export function buildWebsiteLD(siteUrl: string) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "@id": `${clean}#website`,
+    "@id": `${clean}/#website`,
     name: "By Império Dog",
-    alternateName: "Imperio Dog",
-    description: "Site da By Império Dog com conteudos e filhotes de Spitz Alemao Anao.",
+    alternateName: "Canil By Império Dog — Spitz Alemão Anão (Lulu da Pomerânia)",
+    description:
+      "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão (Lulu da Pomerânia).",
     url: `${clean}/`,
+    inLanguage: "pt-BR",
+    publisher: { "@id": `${clean}/#organization` },
+    // /search existe (app/(public)/search/page.tsx). O alvo anterior era
+    // /blog?q=, que não é o buscador do site.
     potentialAction: {
       "@type": "SearchAction",
-      target: `${clean}/blog?q={search_term_string}`,
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${clean}/search?q={search_term_string}`,
+      },
       "query-input": "required name=search_term_string",
+    },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["#hero-heading", "#featured-heading", "#diff-heading", "#faq-heading"],
     },
   };
 }
@@ -223,71 +261,15 @@ export function buildSiteNavigationLD(siteUrl: string) {
   };
 }
 
-/** LocalBusiness: reforca presenca local e area de atuacao. */
-export function buildLocalBusinessLD(siteUrl: string) {
-  const base = siteUrl.replace(/\/$/, "");
-  return {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    // Mesmo @id de src/lib/structured-data.ts — um único nó por empresa.
-    "@id": `${base}#business`,
-    name: "By Império Dog",
-    url: `${base}/`,
-    image: `${base}/spitz-hero-desktop.webp`,
-    logo: `${base}/byimperiologo.png`,
-    telephone: "+55 11 96863-3239",
-    email: "contato@byimperiodog.com.br",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Braganca Paulista",
-      addressLocality: "Braganca Paulista",
-      addressRegion: "SP",
-      postalCode: "12900-000",
-      addressCountry: "BR",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: "-22.952258",
-      longitude: "-46.541658",
-    },
-    areaServed: [
-      // Estados principais
-      { "@type": "State", "name": "São Paulo", "alternateName": "SP" },
-      { "@type": "State", "name": "Rio de Janeiro", "alternateName": "RJ" },
-      { "@type": "State", "name": "Minas Gerais", "alternateName": "MG" },
-      { "@type": "State", "name": "Paraná", "alternateName": "PR" },
-      // Capitais e grandes cidades SP
-      { "@type": "City", "name": "São Paulo", "containedIn": { "@type": "State", "name": "São Paulo" } },
-      { "@type": "City", "name": "Campinas", "containedIn": { "@type": "State", "name": "São Paulo" } },
-      { "@type": "City", "name": "São José dos Campos", "containedIn": { "@type": "State", "name": "São Paulo" } },
-      { "@type": "City", "name": "Sorocaba", "containedIn": { "@type": "State", "name": "São Paulo" } },
-      { "@type": "City", "name": "Ribeirão Preto", "containedIn": { "@type": "State", "name": "São Paulo" } },
-      { "@type": "City", "name": "Santos", "containedIn": { "@type": "State", "name": "São Paulo" } },
-      // RJ
-      { "@type": "City", "name": "Rio de Janeiro", "containedIn": { "@type": "State", "name": "Rio de Janeiro" } },
-      { "@type": "City", "name": "Niterói", "containedIn": { "@type": "State", "name": "Rio de Janeiro" } },
-      { "@type": "City", "name": "Petrópolis", "containedIn": { "@type": "State", "name": "Rio de Janeiro" } },
-      // MG
-      { "@type": "City", "name": "Belo Horizonte", "containedIn": { "@type": "State", "name": "Minas Gerais" } },
-      { "@type": "City", "name": "Uberlândia", "containedIn": { "@type": "State", "name": "Minas Gerais" } },
-      { "@type": "City", "name": "Juiz de Fora", "containedIn": { "@type": "State", "name": "Minas Gerais" } },
-      // Nacional
-      { "@type": "Country", "name": "Brasil" },
-    ],
-    priceRange: "$$$",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        opens: "09:00",
-        closes: "19:00",
-      },
-    ],
-    sameAs: [
-      "https://instagram.com/byimperiodog",
-      "https://www.youtube.com/@byimperiodog",
-      "https://www.tiktok.com/@byimperiodog",
-      "https://www.facebook.com/byimperiodog",
-    ],
-  };
-}
+/**
+ * O LocalBusiness que existia aqui foi removido.
+ *
+ * Ele era emitido pelo layout em TODAS as paginas com @id
+ * `...com.br#business`, enquanto cada pagina ja emitia o no canonico de
+ * src/lib/structured-data.ts com @id `...com.br/#business`. Para o Google
+ * eram duas empresas concorrentes com horarios e priceRange conflitantes,
+ * e era essa a origem dos avisos de campo duplicado no Search Console.
+ *
+ * A lista de estados e cidades atendidas que vivia aqui foi preservada e
+ * ampliada em SERVED_AREAS, no proprio structured-data.ts.
+ */
