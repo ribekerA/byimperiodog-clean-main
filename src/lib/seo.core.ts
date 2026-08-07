@@ -43,6 +43,20 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
     metadataBase: new URL(SITE_ORIGIN),
     title,
     description,
+    // Sem esta chave o HTML não saía com nenhum <link rel="icon">, o navegador
+    // caía no /favicon.ico implícito e tomava 404 (erro no console). O Google
+    // também mostra o favicon ao lado do resultado na busca mobile: sem ícone
+    // declarado e rastreável, aparece o globo genérico no lugar da marca.
+    // Fica só aqui, no layout raiz do site público — os segmentos filhos que
+    // não declaram `icons` herdam este valor.
+    icons: {
+      icon: [
+        { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+        { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+        { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+      ],
+      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+    },
     alternates: { canonical: SITE_ORIGIN + '/' },
     openGraph: {
       type: 'website',

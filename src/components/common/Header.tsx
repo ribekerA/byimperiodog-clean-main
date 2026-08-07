@@ -83,11 +83,14 @@ export default function Header() {
       <header className="sticky top-0 z-50 border-b border-emerald-100 bg-white text-zinc-900 shadow-sm" role="banner">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:px-10">
 
-          {/* Logo */}
+          {/* Logo — sem aria-label de propósito. O rótulo anterior ("By Império
+              Dog — página inicial") substituía o texto visível do link, que
+              inclui "Sementinhas de Amor"; por WCAG 2.5.3 o nome acessível
+              precisa conter o texto visível, e não continha. Sem o atributo, o
+              nome passa a ser o próprio conteúdo do link. */}
           <Link
             href={routes.home}
             className="flex min-h-[48px] items-center gap-2 rounded-full px-2 text-base font-semibold tracking-tight text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
-            aria-label="By Império Dog — página inicial"
           >
             <span className="flex flex-col leading-tight">
               <span className="rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold text-brand">By Império Dog</span>

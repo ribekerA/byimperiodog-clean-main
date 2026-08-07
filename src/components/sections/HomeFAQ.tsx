@@ -49,7 +49,7 @@ export default function HomeFAQ() {
         </div>
 
         {/* FAQ accordion — usa <details>/<summary> nativo para SSR e indexabilidade */}
-        <dl className="divide-y divide-zinc-100">
+        <div className="divide-y divide-zinc-100">
           {HOME_FAQ_ITEMS.map((item, i) => (
             <div
               key={i}
@@ -92,7 +92,7 @@ export default function HomeFAQ() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
 
         {/* CTA de conversação */}
         <div className="mt-10 rounded-2xl border border-emerald-100 bg-emerald-50/60 px-6 py-5 text-center">

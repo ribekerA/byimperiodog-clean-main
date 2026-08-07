@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "../../globals.css";
 import "../../../design-system/tokens.css";
@@ -35,7 +34,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </head>
       <body className="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased admin-shell">
         {children}
-        <SpeedInsights />
         <ToastContainer />
       </body>
     </html>

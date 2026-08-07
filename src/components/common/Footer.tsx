@@ -61,12 +61,17 @@ export default function Footer() {
         <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-white/70">
           Conversa sem pressão. Apresento os disponíveis, respondo suas dúvidas e ajudo você a escolher com calma.
         </p>
+        {/* O aria-label precisa começar pelo texto visível: por WCAG 2.5.3,
+            quem navega por voz fala o que lê na tela. O antigo ("Conversar no
+            WhatsApp") não continha "Conversar agora — sem compromisso" e
+            quebrava o comando de voz. O "no WhatsApp" fica no fim porque o
+            ícone é aria-hidden e nada mais diz para onde o link leva. */}
         <a
           href={whatsapp}
           target="_blank"
           rel="noreferrer"
           className="mt-6 inline-flex min-h-[52px] items-center gap-2.5 rounded-full bg-emerald-600 px-8 text-base font-semibold text-white shadow-lg transition hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          aria-label="Conversar no WhatsApp"
+          aria-label="Conversar agora — sem compromisso, no WhatsApp"
         >
           <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
           Conversar agora — sem compromisso

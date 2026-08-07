@@ -1,4 +1,3 @@
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import NextDynamic from "next/dynamic";
 import Script from "next/script";
@@ -228,7 +227,6 @@ export default async function PublicLayout({ children }: { children: React.React
         {isProd && (FACEBOOK_PIXEL_ID || TIKTOK_PIXEL_ID) && (
           <ConsentGatedPixels facebookPixelId={FACEBOOK_PIXEL_ID} tiktokPixelId={TIKTOK_PIXEL_ID} />
         )}
-        <SpeedInsights />
         <ToastContainer />
       </body>
     </html>

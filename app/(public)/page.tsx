@@ -357,10 +357,13 @@ export default function HomePage() {
                     >
                       {emoji}
                     </div>
-                    <div>
+                    {/* <dl> e não <div>: dt/dd só são válidos dentro de uma lista
+                        de descrição. O preflight do Tailwind zera a margem de <dl>
+                        igual à de <div>, então o render é idêntico. */}
+                    <dl>
                       <dt className="text-sm font-bold text-zinc-900 sm:text-base">{title}</dt>
                       <dd className="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-600">{body}</dd>
-                    </div>
+                    </dl>
                   </div>
                 </StaggerItem>
               ))}

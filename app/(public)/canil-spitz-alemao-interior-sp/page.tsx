@@ -140,7 +140,7 @@ export default function CanilInteriorSPPage() {
       {/* FAQ */}
       <section aria-labelledby="faq-isp-heading" itemScope itemType="https://schema.org/FAQPage">
         <h2 id="faq-isp-heading" className="mb-6 text-2xl font-bold text-zinc-900">Perguntas frequentes</h2>
-        <dl className="divide-y divide-zinc-100">
+        <div className="divide-y divide-zinc-100">
           {FAQS.map((item, i) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4" open={i === 0}>
@@ -156,7 +156,7 @@ export default function CanilInteriorSPPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       {/* CTA */}
