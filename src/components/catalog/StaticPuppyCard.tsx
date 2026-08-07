@@ -248,6 +248,7 @@ export default function StaticPuppyCard({
 
           <Link
             href={`/filhotes/${slug}`}
+            aria-label={`Ver galeria e detalhes de ${name}`}
             className="text-center text-xs font-medium text-zinc-400 transition hover:text-emerald-600 hover:underline"
           >
             Ver galeria e detalhes →

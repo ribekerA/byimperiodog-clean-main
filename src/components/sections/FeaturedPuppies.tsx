@@ -124,6 +124,10 @@ export default function FeaturedPuppies({ puppies }: Props) {
                       href={whatsappLink}
                       target="_blank"
                       rel="noreferrer"
+                      // Os quatro cards repetem o texto "Tenho interesse" e cada um leva a
+                      // uma conversa diferente. Sem rotulo proprio, um leitor de tela le
+                      // quatro links iguais que vao para destinos distintos.
+                      aria-label={`Tenho interesse no ${puppy.name} — falar pelo WhatsApp`}
                       className="mt-1 inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
                     >
                       <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
@@ -133,6 +137,7 @@ export default function FeaturedPuppies({ puppies }: Props) {
                   {puppy.slug && (
                     <Link
                       href={`/filhotes/${puppy.slug}`}
+                      aria-label={`Ver página do filhote ${puppy.name}`}
                       className="mt-1 inline-flex w-full items-center justify-center gap-1 text-xs font-medium text-zinc-500 transition hover:text-emerald-700 hover:underline"
                     >
                       Ver página do filhote →
