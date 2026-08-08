@@ -4,6 +4,13 @@ const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toISOStr
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Por padrão continua sendo `.next` — a Netlify e o `npm run dev` não mudam.
+  // O override existe para o caso de rodar `next build` com um `next dev` ativo
+  // na mesma pasta: os dois disputam `.next/trace`, o build morre com
+  // "EPERM: operation not permitted" ou simplesmente trava depois de
+  // "Creating an optimized production build". Com NEXT_DIST_DIR=.next-build dá
+  // para validar o build sem derrubar o servidor de desenvolvimento.
+  distDir: process.env.NEXT_DIST_DIR || ".next",
   // ESLint é executado separadamente (npm run lint) — não bloqueia o build de produção
   eslint: {
     ignoreDuringBuilds: true,

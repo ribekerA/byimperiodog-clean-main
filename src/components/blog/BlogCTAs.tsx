@@ -13,7 +13,7 @@ interface BlogCTAsProps {
 const CTA_LINKS = [
   {
     title: "Filhotes sob consulta",
-    description: "Visualize disponibilidade, cronograma de entrevistas e acompanhe a socializacao em tempo real.",
+    description: "Visualize disponibilidade, cronograma de entrevistas e acompanhe a socialização em tempo real.",
     href: "/filhotes",
     utmContent: "cta_filhotes",
   },

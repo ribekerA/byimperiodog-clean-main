@@ -92,16 +92,16 @@ const VALUES = [
   },
   {
     icon: CheckCircle,
-    title: "Saúde validada",
+    title: "Saúde acompanhada",
     description:
-      "Exames genéticos, cardiológicos e protocolo veterinário completo antes da entrega. Saúde não é opcional.",
+      "Hemograma e acompanhamento veterinário antes da entrega. Saúde não é opcional.",
     color: "bg-blue-50 text-blue-700 border-blue-100",
   },
   {
     icon: Users,
     title: "Suporte vitalício",
     description:
-      "Você não fica sozinho depois da entrega. Grupo de WhatsApp, biblioteca de conteúdos e parceiros especializados disponíveis sempre.",
+      "Você não fica sozinho depois da entrega. Atendimento direto por WhatsApp com a criadora para tirar dúvidas quando precisar.",
     color: "bg-violet-50 text-violet-700 border-violet-100",
   },
 ] as const;
@@ -113,6 +113,14 @@ const VALUES = [
 // inclusive aqui. A coluna da esquerda também perdeu o que não é verificável
 // publicamente ("SBK", "exames genéticos", "protocolo ENS") e ficou só com o
 // que os documentos entregues comprovam.
+//
+// Segunda passagem, com a responsável confirmando o que existe de fato:
+// - "exames genéticos e cardiológicos" viraram "hemograma e acompanhamento
+//   veterinário", que é o que realmente se faz antes da entrega;
+// - "grupo de WhatsApp", "biblioteca de conteúdos" e "parceiros especializados"
+//   saíram — não existem. O que existe é atendimento direto com a criadora;
+// - "cláusulas de devolução" saiu porque o contrato não tem essa cláusula.
+//   Sobrou o que o contrato de fato é: assinado antes da entrega, por escrito.
 const DIFERENCIAIS = [
   {
     label: "Registro oficial",
@@ -126,12 +134,12 @@ const DIFERENCIAIS = [
   },
   {
     label: "Suporte após a entrega",
-    us: "Mentoria vitalícia com grupo e atendimento por WhatsApp",
+    us: "Mentoria vitalícia com atendimento direto por WhatsApp",
     check: "Pergunte por quanto tempo o suporte continua depois da entrega",
   },
   {
     label: "Contrato claro",
-    us: "Contrato digital com garantias e cláusulas de devolução",
+    us: "Contrato digital assinado antes da entrega, com as condições por escrito",
     check: "Leia o contrato inteiro antes de pagar o sinal",
   },
   {

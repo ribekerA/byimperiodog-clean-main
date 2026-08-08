@@ -116,7 +116,7 @@ export default function PrecoSpitzPage() {
 
       {/* ── HERO ── */}
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Tabela de preços atualizada — {new Date().getFullYear()}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Tabela de preços atualizada</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Preço do Spitz Alemão Anão (Lulu da Pomerânia)
         </h1>

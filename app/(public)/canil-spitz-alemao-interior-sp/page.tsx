@@ -66,7 +66,7 @@ const FAQS = [
   {
     question: "Existe algum canil de Spitz Alemão Anão em Campinas?",
     answer:
-      "Há criadores na região de Campinas, mas a recomendação é sempre verificar procedência, registro oficial, laudos veterinários e suporte pós-venda antes de qualquer decisão. A By Império Dog em Bragança Paulista é a referência mais próxima com todo esse conjunto de garantias documentado.",
+      "Há criadores na região de Campinas, mas a recomendação é sempre verificar procedência, registro oficial, laudos veterinários e suporte pós-venda antes de qualquer decisão. A By Império Dog, em Bragança Paulista, entrega esse conjunto documentado.",
   },
   {
     question: "Como agendar uma visita ao canil?",
