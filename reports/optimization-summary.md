@@ -246,7 +246,7 @@ export const metadata: Metadata = {
    - Navegação hierárquica
 
 4. **FAQPage** (Filhotes)
-   - Perguntas frequentes sobre aquisi��o respons�vel
+   - Perguntas frequentes sobre aquisição responsável
 
 5. **Article** (Blog posts)
    - headline, author, datePublished, image

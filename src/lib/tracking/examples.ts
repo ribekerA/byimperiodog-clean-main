@@ -321,12 +321,12 @@ export function ExampleAdminForm() {
 
 /**
  * Dispara um evento de teste no Facebook Pixel
- * Usado no bot�o "Testar Pixel" do painel admin
+ * Usado no botão "Testar Pixel" do painel admin
  */
 export function testFacebookPixel(_pixelId: string) {
   if (typeof window === 'undefined') return;
 
-  // Verifica se o fbq est� dispon�vel
+  // Verifica se o fbq está disponível
   const win = window as unknown as { fbq?: (...args: unknown[]) => void };
   if (typeof win.fbq === 'function') {
     win.fbq('track', 'Lead', {
@@ -346,7 +346,7 @@ export function testFacebookPixel(_pixelId: string) {
 export function testGoogleAnalytics(_measurementId: string) {
   if (typeof window === 'undefined') return;
 
-  // Verifica se o gtag est� dispon�vel
+  // Verifica se o gtag está disponível
   const win = window as unknown as { gtag?: (...args: unknown[]) => void };
   if (typeof win.gtag === 'function') {
     win.gtag('event', 'test_event', {
@@ -380,7 +380,7 @@ export async function updatePublicTrackingIds(payload: {
     if (!response.ok) {
       return {
         success: false,
-        error: (data as TrackingAPIError)?.error || 'Erro ao salvar configura��es de tracking',
+        error: (data as TrackingAPIError)?.error || 'Erro ao salvar configurações de tracking',
       };
     }
 

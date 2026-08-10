@@ -1,6 +1,6 @@
 // PATH: src/lib/blog/types.ts
-// Tipos base unificados do módulo de Blog
-// Evitam duplicidade entre Supabase / Contentlayer e padronizam integração com Admin.
+// Tipos base unificados do mÃ³dulo de Blog
+// Evitam duplicidade entre Supabase / Contentlayer e padronizam integraÃ§Ã£o com Admin.
 
 export type BlogPostStatus = 'draft' | 'published' | 'scheduled';
 
