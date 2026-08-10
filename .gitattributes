@@ -1,0 +1,37 @@
+# Fim de linha
+#
+# O repositorio ja guarda tudo em LF, mas a working tree do Windows estava com
+# CRLF em 163 arquivos -- entre eles os 30 .mdx do blog, que sao exatamente a
+# entrada do Contentlayer. Na Netlify o checkout vem em LF. Resultado: o build
+# local e o build da Netlify partiam de bytes diferentes para o mesmo commit,
+# o que muda hash de conteudo e dificulta reproduzir um problema de producao.
+#
+# `eol=lf` forca LF tambem na working tree, entao Windows e Netlify passam a
+# ver o arquivo identico. Nada disso altera o que esta versionado: o indice ja
+# era LF, portanto `git add --renormalize .` nao gera diff de conteudo.
+* text=auto eol=lf
+
+# Arquivos binarios: o git nunca deve tentar converter nada aqui.
+*.jpg    binary
+*.jpeg   binary
+*.png    binary
+*.webp   binary
+*.avif   binary
+*.gif    binary
+*.ico    binary
+*.mp4    binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.otf    binary
+*.eot    binary
+*.pdf    binary
+*.zip    binary
+
+# Scripts de shell do Windows quebram se receberem LF: o cmd.exe le a linha
+# junto com o \r e falha. Estes ficam em CRLF de proposito.
+*.bat    text eol=crlf
+*.cmd    text eol=crlf
+
+# Lockfile: sempre LF, e marcado como gerado para nao poluir o diff das PRs.
+package-lock.json  text eol=lf linguist-generated=true
