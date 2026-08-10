@@ -68,7 +68,7 @@ export function PuppyTrust() {
             </div>
             <h3 className="mt-4 text-base font-semibold text-zinc-900">Suporte vitalício</h3>
             <p className="mt-2 text-sm text-zinc-600">
-              Grupo exclusivo de tutores com check-ins mensais e orientação contínua
+              Atendimento direto com a criadora pelo WhatsApp, sempre que precisar
             </p>
           </CardContent>
         </Card>
@@ -77,7 +77,7 @@ export function PuppyTrust() {
       <Card variant="outline" className="border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-white">
         <CardContent className="p-6">
           <h3 className="text-lg font-semibold text-emerald-900">
-            ✓ Processo completo de adoção responsável
+            ✓ Processo completo de aquisição responsável
           </h3>
           <ol className="mt-4 space-y-2 text-sm text-zinc-700">
           <li className="flex items-start gap-2">
@@ -113,7 +113,7 @@ export function PuppyTrust() {
           <li className="flex items-start gap-2">
             <span className="font-semibold text-emerald-700">6.</span>
             <span>
-              <strong>Suporte pós-adoção:</strong> WhatsApp direto, grupo de tutores e check-ins mensais
+              <strong>Suporte pós-entrega:</strong> atendimento ativo no WhatsApp direto com a criadora
             </span>
           </li>
           </ol>

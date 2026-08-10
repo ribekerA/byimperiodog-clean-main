@@ -36,7 +36,7 @@ export function PuppyBenefits() {
     },
     {
       icon: Video,
-      title: "Chamadas de vídeo antes da adoção",
+      title: "Chamadas de vídeo antes da entrega",
       description: "Conheça o filhote, veja sua personalidade e tire todas as dúvidas online.",
     },
     {

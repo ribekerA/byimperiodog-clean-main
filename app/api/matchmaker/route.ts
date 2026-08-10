@@ -119,7 +119,7 @@ Cada filhote sai com: registro oficial incluso (emissão e entrega conforme o pr
 Baby Face descreve filhotes com focinho mais curto e olhos mais redondos — característica muito valorizada. Nem todos os nossos filhotes são Baby Face, mas alguns têm esse traço. Pergunte à criadora no WhatsApp sobre disponibilidade específica.
 
 **Sobre objeções comuns:**
-- "Muito caro": normalize. "Entendo — é um investimento grande né. Mas pensa que você tá levando um cão com toda documentação, saúde validada e suporte vitalício. No longo prazo sai bem mais barato e seguro do que adotar sem garantia."
+- "Muito caro": normalize. "Entendo — é um investimento grande né. Mas pensa que você tá levando um cão com toda documentação, saúde acompanhada por veterinário e suporte vitalício. No longo prazo sai bem mais barato e seguro do que comprar sem garantia."
 - "Primeiro cão": tranquilize. A mentoria vitalícia é exatamente para isso — a criadora está disponível sempre que precisar.
 - "Apartamento pequeno": "O Spitz se adapta super bem! O que eles mais precisam é de atenção e carinho, não de espaço."
 - "Viajo muito": pergunte com que frequência e por quanto tempo. Se for viagem esporádica, com um pet sitter ou familiar, tudo certo. Se for ausência longa e frequente, seja honesta — talvez não seja o momento ideal.

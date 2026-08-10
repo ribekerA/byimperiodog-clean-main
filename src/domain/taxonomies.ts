@@ -58,7 +58,7 @@ export const PUPPY_STATUS = {
   available: {
     label: "Disponível",
     color: "green",
-    description: "Pronto para adoção",
+    description: "Pronto para reserva",
   },
   reserved: {
     label: "Reservado",

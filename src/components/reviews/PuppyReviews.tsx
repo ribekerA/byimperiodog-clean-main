@@ -221,7 +221,7 @@ function ReviewForm({
     >
       <div>
         <p className="text-sm font-semibold text-zinc-500">
-          Conte como foi adotar o <span className="text-zinc-900">{puppyName}</span>
+          Conte como foi receber o <span className="text-zinc-900">{puppyName}</span>
         </p>
       </div>
 

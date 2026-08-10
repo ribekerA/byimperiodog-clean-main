@@ -9,7 +9,7 @@ const INCLUDED = [
   { icon: "🌿", title: "Vermifugação", desc: "Tratamento preventivo incluso" },
   { icon: "🎓", title: "Mentoria vitalícia", desc: "Você nunca vai ficar sozinho com dúvidas" },
   { icon: "🧸", title: "Enxoval do filhote", desc: "Kit de acolhimento pronto para o primeiro dia" },
-  { icon: "🤝", title: "Suporte pós-adoção", desc: "Acompanhamento direto com a criadora" },
+  { icon: "🤝", title: "Suporte pós-entrega", desc: "Acompanhamento direto com a criadora" },
 ];
 
 const SEXES = [

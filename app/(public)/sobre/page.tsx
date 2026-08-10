@@ -49,7 +49,7 @@ const TIMELINE = [
     year: "2015",
     title: "Primeira ninhada registrada",
     description:
-      "A primeira ninhada com registro oficial saiu da By Império Dog. Um marco que estabeleceu o compromisso com a rastreabilidade e a saúde validada.",
+      "A primeira ninhada com registro oficial saiu da By Império Dog. Um marco que estabeleceu o compromisso com a rastreabilidade e o acompanhamento veterinário.",
     emoji: "📋",
   },
   {
@@ -67,7 +67,11 @@ const TIMELINE = [
     emoji: "🏗️",
   },
   {
-    year: "2026",
+    // Ultimo item da linha do tempo nao e um marco datado: e o estado atual --
+    // a propria descricao comeca com "Hoje". Estava escrito "2026", entao na
+    // virada do ano a linha do tempo passaria a anunciar que o ultimo
+    // acontecimento do canil foi no ano passado. "Hoje" nao envelhece.
+    year: "Hoje",
     title: "Mais de 180 famílias felizes",
     description:
       "Hoje, mais de 180 famílias espalhadas pelo Brasil confiam na By Império Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria vitalícia.",

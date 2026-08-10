@@ -81,7 +81,7 @@ export const guides: Guide[] = [
       {
         question: "Spitz Alemão Anão (Lulu da Pomerânia) é bom para quem trabalha fora?",
         answer:
-          "Sim, desde que tenha companhia durante boa parte do dia. O Spitz não suporta isolamento prolongado. Considere adotar dois filhotes se passar muitas horas fora.",
+          "Sim, desde que tenha companhia durante boa parte do dia. O Spitz não suporta isolamento prolongado. Considere ter dois filhotes se passar muitas horas fora.",
       },
     ],
     relatedColors: ["creme", "laranja", "preto", "wolf-sable"],
@@ -266,7 +266,7 @@ export const guides: Guide[] = [
           "Nunca. Raspar a pelagem dupla do Spitz destrói o subpelo e pode causar síndrome pós-tosa, onde o pelo não cresce adequadamente novamente. A pelagem dupla isola tanto do calor quanto do frio.",
       },
       {
-        question: "Com que frequência devo levar o Spitz ao petshop?",
+        question: "Com que frequência devo levar o Spitz ao banho e tosa?",
         answer:
           "Banho e escovação profissional a cada 30-45 dias. Corte de unhas a cada 3-4 semanas (pode ser feito em casa com prática). Tosa higiênica conforme necessidade.",
       },
@@ -371,7 +371,7 @@ export const guides: Guide[] = [
       {
         heading: "Banho e tosa — cuidados com a pelagem dupla",
         paragraphs: [
-          "O Spitz Alemão Anão (Lulu da Pomerânia) tem pelagem dupla que precisa de banho a cada 15–21 dias para evitar odor e dermatites. O banho em pet shop varia de R$ 60 a R$ 130 para a raça, dependendo da cidade e do tamanho.",
+          "O Spitz Alemão Anão (Lulu da Pomerânia) tem pelagem dupla que precisa de banho a cada 15–21 dias para evitar odor e dermatites. O banho em serviço profissional de banho e tosa varia de R$ 60 a R$ 130 para a raça, dependendo da cidade e do tamanho.",
           "Tosa de acabamento (não corte — a pelagem do Spitz não deve ser raspada) custa R$ 30 a R$ 60 adicionais. Uma escova profissional durante o período de muda pode chegar a R$ 100.",
           "Custo mensal estimado com grooming: R$ 120 a R$ 280. Tutores que aprendem a escovar em casa (3–4x por semana) reduzem o custo em até 40%.",
         ],
