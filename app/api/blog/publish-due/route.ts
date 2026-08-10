@@ -1,7 +1,9 @@
 export const dynamic = "force-dynamic";
-import { NextResponse } from "next/server";
-import { supabaseAdmin, hasServiceRoleKey } from "@/lib/supabaseAdmin";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
+
+import { revalidarListagemBlog } from "@/lib/blog/revalidate";
+import { supabaseAdmin, hasServiceRoleKey } from "@/lib/supabaseAdmin";
 
 export async function POST() {
   if (!hasServiceRoleKey()) {
@@ -32,6 +34,7 @@ export async function POST() {
 
   // Revalidate listing and each post
   try {
+    revalidarListagemBlog();
     revalidatePath("/blog");
     for (const d of due) revalidatePath(`/blog/${d.slug}`);
   } catch {}

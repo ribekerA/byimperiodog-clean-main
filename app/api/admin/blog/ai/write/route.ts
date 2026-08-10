@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type WriteRequest = {
@@ -252,6 +253,7 @@ export async function POST(req: Request) {
 
     try {
       // Revalida a listagem e, se publicado, a página do post
+      revalidarListagemBlog();
       revalidatePath("/blog");
       if ((body.status || "draft") === "published") {
         revalidatePath(`/blog/${inserted.slug}`);

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { revalidatePath } from "next/cache";
 import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
+import { revalidarListagemBlog } from '@/lib/blog/revalidate';
 import { rateLimit } from '@/lib/rateLimit';
 
 /*
@@ -279,7 +280,7 @@ async function persistPost(opts: { title: string; excerpt: string; mdx: string; 
     } catch {}
     if (cover_url) await sb.from('blog_posts').update({ cover_url, og_image_url: cover_url }).eq('id', inserted.id);
   }
-  try { revalidatePath('/blog'); revalidatePath(`/blog/${inserted.slug}`); } catch {}
+  try { revalidarListagemBlog(); revalidatePath('/blog'); revalidatePath(`/blog/${inserted.slug}`); } catch {}
   return { slug: inserted.slug, insertedId: inserted.id, cover_url };
 }
 

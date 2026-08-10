@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { z } from 'zod';
 
+import { revalidarListagemBlog } from '@/lib/blog/revalidate';
 import { rateLimit } from '@/lib/limiter';
 import { safeAction } from '@/lib/safeAction';
 
@@ -22,6 +23,7 @@ const execute = safeAction({
   handler: async (input) => {
     const { slug, path } = input;
     if (slug) {
+      revalidarListagemBlog();
       revalidatePath('/blog');
       revalidatePath(`/blog/${slug}`);
       return NextResponse.json({ ok: true, revalidated: ['/blog', `/blog/${slug}`] });

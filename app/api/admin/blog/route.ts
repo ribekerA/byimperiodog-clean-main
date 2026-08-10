@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { requireAdmin } from "@/lib/adminAuth";
+import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import {
   blogRepo,
   commentRepo,
@@ -75,6 +76,7 @@ export async function POST(req: Request) {
     if (payload.duplicateFrom) {
       const duplicated = await blogRepo.duplicatePost(payload.duplicateFrom);
       if (!duplicated) return serverError("Não foi possível duplicar o post.");
+      revalidarListagemBlog();
       await revalidatePath("/blog");
       return NextResponse.json(duplicated);
     }
@@ -143,6 +145,7 @@ export async function POST(req: Request) {
       return serverError("Falha ao salvar o post.");
     }
 
+    revalidarListagemBlog();
     await revalidatePath("/blog");
     if (saved.slug) {
       await revalidatePath(`/blog/${saved.slug}`);
@@ -164,6 +167,7 @@ export async function PATCH(req: Request) {
   try {
     const payload = (await req.json()) as BulkActionInput;
     const result = await blogRepo.bulkAction(payload);
+    revalidarListagemBlog();
     await revalidatePath("/blog");
     return NextResponse.json(result);
   } catch (error) {
@@ -180,6 +184,7 @@ export async function DELETE(req: Request) {
     const id = url.searchParams.get("id");
     if (!id) return badRequest("missing_id");
     const success = await blogRepo.bulkAction({ action: "delete", postIds: [id] });
+    revalidarListagemBlog();
     await revalidatePath("/blog");
     return NextResponse.json(success);
   } catch (error) {

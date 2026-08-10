@@ -1,7 +1,9 @@
-import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
 import { revalidatePath } from 'next/cache';
+import { NextResponse } from 'next/server';
+
+import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
+import { revalidarListagemBlog } from '@/lib/blog/revalidate';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // Executa eventos vencidos (publish) até um limite (default 20)
 export async function POST(req: Request){
@@ -27,7 +29,7 @@ export async function POST(req: Request){
           await sb.from('blog_post_schedule_events').update({ executed_at: new Date().toISOString(), payload: { error: upErr.message } }).eq('id', ev.id);
         } else {
           results.push({ id: ev.id, ok:true, action:'publish', post_id: ev.post_id });
-          try { revalidatePath('/blog'); if(upData?.slug) revalidatePath(`/blog/${upData.slug}`); } catch {}
+          try { revalidarListagemBlog(); revalidatePath('/blog'); if(upData?.slug) revalidatePath(`/blog/${upData.slug}`); } catch {}
           await sb.from('blog_post_schedule_events').update({ executed_at: new Date().toISOString() }).eq('id', ev.id);
         }
       } else {

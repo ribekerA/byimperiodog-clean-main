@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { unstable_cache } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,6 +7,7 @@ import BlogCard from "@/components/blog/BlogCard";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { yearsOfExperience } from "@/domain/config";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
+import { TAG_LISTAGEM_BLOG } from "@/lib/blog/revalidate";
 import { listPublishableSupabasePosts } from "@/lib/blog/service";
 import { getAllPosts } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
@@ -97,10 +99,16 @@ const CATEGORY_DEFINITIONS: CategoryDefinition[] = [
   },
 ];
 
-// Revalidate cache every 60 seconds in production, but disable cache in development
-export const revalidate = process.env.NODE_ENV === "production" ? 60 : 0;
-// Force dynamic rendering to always show latest posts
-export const dynamic = "force-dynamic";
+// Esta pagina e renderizada por requisicao porque le `searchParams` (busca,
+// categoria e ordenacao) -- isso por si so ja e uma API dinamica no App Router.
+//
+// O `dynamic = "force-dynamic"` que estava aqui era redundante para esse fim e
+// tinha um efeito colateral caro: desliga o cache de dados, entao a consulta ao
+// Supabase era refeita a cada visita. E o `revalidate` ao lado dele nunca valeu
+// nada, porque `force-dynamic` tem precedencia sobre `revalidate`.
+//
+// O cache agora esta onde o custo esta, na consulta (ver `lerPostsDoSupabase`).
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia)",
@@ -597,6 +605,24 @@ function includesCategory(post: PublicPost, tags: string[]) {
 // consulta voltasse vazia. Como o banco tem 7 linhas publicadas e 6 delas são
 // seed (141 a 558 caracteres, com "\n" literal), /blog mostrava um "artigo em
 // destaque" cujo link respondia 404 e não listava nenhum dos 30 artigos reais.
+// O Supabase e consultado no maximo uma vez a cada 5 minutos, nao a cada visita.
+//
+// A consulta traz ate 500 linhas COM `content_mdx` -- o corpo inteiro de todos
+// os artigos publicados -- e da tudo isso a listagem usa so titulo, resumo e
+// capa. O corpo nao da para tirar do select: e ele que
+// `isPublishableSupabasePost` mede para decidir se a linha vira pagina de
+// verdade ou e seed. Entao o caminho e cachear, e nao emagrecer a consulta.
+//
+// Custo de um post novo demorar ate 5 minutos para aparecer na listagem: a
+// pagina do artigo (/blog/[slug]) nao depende disto.
+// A janela de 5 minutos e o teto, nao a espera normal: publicar pelo admin
+// dispara `revalidarListagemBlog()` e o post aparece na hora.
+const lerPostsDoSupabase = unstable_cache(
+  listPublishableSupabasePosts,
+  ["blog-listagem-supabase"],
+  { revalidate: 300, tags: [TAG_LISTAGEM_BLOG] }
+);
+
 async function fetchPosts({ sort }: { sort: SortOption }): Promise<FetchState> {
   const bySlug = new Map<string, PublicPost>();
 
@@ -607,7 +633,7 @@ async function fetchPosts({ sort }: { sort: SortOption }): Promise<FetchState> {
 
   try {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      for (const post of await listPublishableSupabasePosts()) {
+      for (const post of await lerPostsDoSupabase()) {
         if (!bySlug.has(post.slug)) bySlug.set(post.slug, post as PublicPost);
       }
     }

@@ -24,10 +24,11 @@ import { mdxComponents } from "@/components/MDXContent";
 import PageViewPing from "@/components/PageViewPing";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
+import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { getRelatedUnified } from "@/lib/blog/related";
+import { TAG_LISTAGEM_BLOG } from "@/lib/blog/revalidate";
 import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
-import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import { blogPostingSchema } from "@/lib/schema";
@@ -503,6 +504,7 @@ function PublishButton({ slug }: { slug: string }) {
 
         try {
           const mod = await import("next/cache");
+          mod.revalidateTag(TAG_LISTAGEM_BLOG);
           mod.revalidatePath(`/blog/${slug}`);
           mod.revalidatePath("/blog");
         } catch {

@@ -7,9 +7,11 @@ export const dynamic = "force-dynamic";
  * Autenticado via CRON_SECRET (Vercel injeta Authorization: Bearer <secret>).
  */
 
-import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
+
+import { revalidarListagemBlog } from "@/lib/blog/revalidate";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function GET(req: Request) {
   const cronSecret = process.env.CRON_SECRET;
@@ -67,6 +69,7 @@ export async function GET(req: Request) {
         .eq("id", ev.id);
 
       try {
+        revalidarListagemBlog();
         revalidatePath("/blog");
         if (post?.slug) revalidatePath(`/blog/${post.slug}`);
       } catch {}

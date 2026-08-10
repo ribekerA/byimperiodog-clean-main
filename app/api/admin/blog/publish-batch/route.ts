@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Publica em lote posts em rascunho/review (opcional: limitar quantidade)
@@ -17,6 +18,7 @@ export async function POST(req: Request) {
         .select('slug');
       if (error) throw error;
       try {
+        revalidarListagemBlog();
         revalidatePath('/blog');
         for (const p of data || []) revalidatePath(`/blog/${p.slug}`);
       } catch {}
