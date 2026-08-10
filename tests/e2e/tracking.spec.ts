@@ -17,7 +17,6 @@ import { test, expect } from '@playwright/test';
 // Ajuste: sistema atual utiliza somente senha (campo "Senha") sem email.
 // Usa ordem de fallback para reutilizar senha real configurada em .env.local.
 const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD
-  || process.env.NEXT_PUBLIC_ADMIN_PASS
   || process.env.ADMIN_PASS
   || 'test123';
 const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';

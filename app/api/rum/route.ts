@@ -48,7 +48,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const expectedPass = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
+  // Apenas ADMIN_PASS: NEXT_PUBLIC_* vai para o bundle do browser.
+  const expectedPass = process.env.ADMIN_PASS;
   const authedByHeader = !!expectedPass && req.headers.get("x-admin-pass") === expectedPass;
   const session = await verifyAdminSession(req.cookies.get(ADMIN_SESSION_COOKIE)?.value);
   if (!authedByHeader && !session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });

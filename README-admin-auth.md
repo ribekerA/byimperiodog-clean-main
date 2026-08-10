@@ -26,14 +26,15 @@ Próximos passos sugeridos:
 4. Adicionar testes e2e simples cobrindo fluxo de login e bloqueio de acesso direto a `/admin/dashboard` sem cookie.
 # Gate de Admin por Senha (temporário)
 
-Defina no `.env.local` (qualquer uma das variáveis abaixo é aceita):
+Defina no `.env.local`:
 ```
-# recomendada para também permitir chamadas de API com header x-admin-pass
-NEXT_PUBLIC_ADMIN_PASS=coloque-uma-senha-forte
-
-# alternativa equivalente suportada pelo backend
 ADMIN_PASS=coloque-uma-senha-forte
 ```
+
+> **Nunca use `NEXT_PUBLIC_ADMIN_PASS`.** O Next substitui toda variável com o
+> prefixo `NEXT_PUBLIC_` pelo valor literal dentro do bundle JavaScript enviado
+> ao navegador — a senha do admin ficaria legível para qualquer visitante que
+> abrisse o código-fonte da página. O backend aceita apenas `ADMIN_PASS`.
 
 Rotas:
 - **/admin/login** — formulário de login.

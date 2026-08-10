@@ -609,8 +609,9 @@ Não há diferenciação de roles (admin vs moderador vs editor).
 # NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 # SUPABASE_SERVICE_ROLE_KEY=... # Admin only
 #
-# # Admin Auth (obrigatório)
-# NEXT_PUBLIC_ADMIN_PASS=senha-forte
+# # Admin Auth (obrigatório) — nunca com prefixo NEXT_PUBLIC_,
+# # que o Next inlina no bundle do browser
+# ADMIN_PASS=senha-forte
 #
 # # Tracking (opcional)
 # NEXT_PUBLIC_GTM_ID=GTM-...

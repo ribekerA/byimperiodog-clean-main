@@ -119,7 +119,7 @@ export function middleware(req: NextRequest) {
 
   // 4) Proteção de /api/admin/*
   if (pathname.startsWith("/api/admin") && pathname !== "/api/admin/login") {
-    const expectedPass = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
+    const expectedPass = process.env.ADMIN_PASS; // nunca NEXT_PUBLIC_*: vai para o bundle
     const headerPass = req.headers.get("x-admin-pass");
     const authedByHeader = !!expectedPass && headerPass === expectedPass;
 

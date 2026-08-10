@@ -2,7 +2,7 @@
 // Execute: node scripts/test-blog-api.mjs
 
 const API_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-const ADMIN_PASS = process.env.NEXT_PUBLIC_ADMIN_PASS || '';
+const ADMIN_PASS = process.env.ADMIN_PASS || '';
 
 async function testBlogAPI() {
   console.log('🔍 Testando API de Blog...\n');

@@ -96,7 +96,8 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
     // ignore cookie access failures on generic Request
   }
 
-  const expected = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
+  // Apenas ADMIN_PASS: NEXT_PUBLIC_* vai para o bundle do browser.
+  const expected = process.env.ADMIN_PASS;
   const pass = req.headers.get("x-admin-pass");
   if (expected && pass === expected) {
     return checkPermission();

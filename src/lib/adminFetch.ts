@@ -1,11 +1,13 @@
 // Wrapper central para chamadas a endpoints admin garantindo header x-admin-pass.
 
+// Este arquivo roda no browser. Nao existe aqui nenhuma leitura de senha vinda
+// de env: `process.env.NEXT_PUBLIC_ADMIN_PASS` era substituido em build pelo
+// valor literal, ou seja, a senha do admin ficaria legivel no JS que qualquer
+// visitante baixa. A senha so entra por acao do proprio admin (prompt abaixo) e
+// vive no localStorage do navegador dele.
 export async function adminFetch(input: RequestInfo | URL, init: RequestInit = {}) {
-  const compiledPass = process.env.NEXT_PUBLIC_ADMIN_PASS; // substituído em build
   const headers = new Headers(init.headers || {});
-  // 1) Usa variável de build
-  if (compiledPass && !headers.has('x-admin-pass')) headers.set('x-admin-pass', compiledPass);
-  // 2) Fallback localStorage (runtime)
+  // 1) Senha guardada pelo admin neste navegador
   if (typeof window !== 'undefined' && !headers.has('x-admin-pass')) {
     const stored = localStorage.getItem('adminPass');
     if (stored) headers.set('x-admin-pass', stored);
@@ -20,7 +22,7 @@ export async function adminFetch(input: RequestInfo | URL, init: RequestInit = {
   }
 
   let res = await fetch(url || input, { ...init, headers });
-  // 3) Se 401 no browser: perguntar uma vez e refazer
+  // 2) Se 401 no browser: perguntar uma vez e refazer
   if (typeof window !== 'undefined' && res.status === 401) {
     try {
       const trying = (window as any).__adminPassRetrying;

@@ -70,7 +70,11 @@ export async function middleware(req: NextRequest) {
   // 4) REGRA: Proteção de /api/admin/* (cookie OU header "x-admin-pass")
   // ============================================================================
   if (isAdminApiPath && pathname !== "/api/admin/login") {
-    const expectedPass = process.env.NEXT_PUBLIC_ADMIN_PASS || process.env.ADMIN_PASS;
+    // Só ADMIN_PASS. NEXT_PUBLIC_* é inlinado no bundle do browser pelo Next,
+    // então aceitar NEXT_PUBLIC_ADMIN_PASS aqui tornava possível autenticar com
+    // uma senha que fica legível no JS público. Se precisar de acesso por
+    // script, use o header x-admin-pass com o valor de ADMIN_PASS.
+    const expectedPass = process.env.ADMIN_PASS;
     const headerPass = req.headers.get("x-admin-pass");
     const authedByHeader = !!expectedPass && headerPass === expectedPass;
 
