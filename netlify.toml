@@ -173,11 +173,21 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Headers para imagens - Cache moderado (ISR)
+# Headers para as fotos em public/images.
+#
+# Quem serve public/ na Netlify e o CDN, nao o runtime do Next -- entao e este
+# bloco que vale, e nao a regra equivalente do next.config.mjs. Os dois estavam
+# se contradizendo: la mandava cachear por um ano, aqui por um dia com
+# `must-revalidate`. Valia o dia, e cada visitante recorrente rebaixava todas as
+# fotos a cada 24h. Como 90% do trafego e mobile, isso e banda paga a toa.
+#
+# 30 dias com `stale-while-revalidate`: a foto trocada NO MESMO caminho pode
+# demorar ate 30 dias para chegar em quem ja visitou. Foto nova em arquivo novo
+# aparece na hora -- so a substituicao no mesmo nome e afetada.
 [[headers]]
   for = "/images/*"
   [headers.values]
-    Cache-Control = "public, max-age=86400, must-revalidate"
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 
 # Environment variables (add your Supabase keys and others here)
 #[[headers]]

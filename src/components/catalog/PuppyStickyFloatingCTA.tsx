@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { optimizePuppyCardImage } from "@/lib/optimize-image";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -94,10 +95,13 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
               <div className="relative aspect-video w-full overflow-hidden bg-zinc-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={coverImage}
+                  // O card tem 288px de largura (w-72); a original nao cabia
+                  // em nada disso e ainda era baixada inteira.
+                  src={optimizePuppyCardImage(coverImage) || coverImage}
                   alt={name}
                   className="h-full w-full object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div
                   className="absolute inset-0"

@@ -15,6 +15,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { optimizePuppyGalleryImage, optimizePuppyThumb } from "@/lib/optimize-image";
+
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
 interface Props {
@@ -181,8 +183,10 @@ export default function PuppyCinematicGallery({
         <AnimatePresence custom={direction} mode="popLayout" initial={false}>
           {!showVideo && photos[selectedIdx] && (
             <motion.img
+              // A `key` continua sendo a URL original: e ela que da identidade
+              // ao frame para o AnimatePresence. So o `src` e redimensionado.
               key={photos[selectedIdx]}
-              src={photos[selectedIdx]}
+              src={optimizePuppyGalleryImage(photos[selectedIdx]) || photos[selectedIdx]}
               alt={alt}
               className="h-full w-full object-cover"
               custom={direction}
@@ -313,8 +317,17 @@ export default function PuppyCinematicGallery({
               whileHover={{ opacity: 1, scale: 1.04 }}
               whileTap={{ scale: 0.94 }}
             >
+              {/* Miniatura aparece com 62px; sem o resize cada uma das nove
+                  baixava a foto original inteira. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={img} alt="" className="h-full w-full object-cover" aria-hidden="true" />
+              <img
+                src={optimizePuppyThumb(img) || img}
+                alt=""
+                className="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              />
             </motion.button>
           ))}
 

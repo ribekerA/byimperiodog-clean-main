@@ -31,12 +31,23 @@ const nextConfig = {
   },
   
   // ============================================================================
-  // PERFORMANCE: Images optimization (AVIF/WebP autom�tico)
+  // PERFORMANCE: Images optimization (AVIF/WebP automático)
   // ============================================================================
   images: {
     formats: ["image/avif", "image/webp"],
-    deviceSizes: [360, 414, 640, 768, 1024, 1280, 1536],
-    imageSizes: [16, 24, 32, 48, 64, 96, 128, 160, 256, 320],
+    // Cada largura desta lista vira uma transformacao cobrada, e ainda
+    // multiplicada pelos dois formatos acima. Eram 7 + 10 = 17 larguras, ou ate
+    // 34 variantes por foto. A escada abaixo tem 5 + 4 = 9.
+    //
+    // Tirar uma largura nao quebra nada: o Next passa a servir a proxima maior.
+    // 414 saiu porque fica a 15% de 360; 1536 saiu porque nenhum container do
+    // site passa de 1280. 360 fica, que e o celular pequeno -- e de onde vem
+    // 90% do trafego.
+    deviceSizes: [360, 640, 768, 1024, 1280],
+    // Usadas so quando o `sizes` do componente pede menos de 640px (avatares,
+    // miniaturas). Dez degraus para esse intervalo era granularidade que
+    // ninguem enxerga e transformacao que todo mundo paga.
+    imageSizes: [32, 64, 128, 256],
     minimumCacheTTL: 31536000, // 1 ano
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
@@ -83,12 +94,25 @@ const nextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
+      // Fontes e icones sao imutaveis de fato: quando mudam, mudam de arquivo.
       {
-        source: "/:all*(svg|jpg|jpeg|png|webp|avif|gif|ico|woff|woff2)",
+        source: "/:all*(svg|ico|woff|woff2)",
         headers: [
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // Fotos ficam de fora do `immutable` porque podem ser substituidas no
+      // mesmo caminho. Mesmo valor do netlify.toml, que e quem manda de verdade
+      // em public/images -- antes os dois diziam coisas diferentes.
+      {
+        source: "/:all*(jpg|jpeg|png|webp|avif|gif)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=2592000, stale-while-revalidate=604800",
           },
         ],
       },
