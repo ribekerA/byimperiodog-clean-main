@@ -9,11 +9,29 @@ import { createClient } from '@supabase/supabase-js';
 
 import type { WebhookEvent, WebhookPayload, Webhook } from '@/types/webhooks';
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
-);
+// Cliente criado na primeira chamada, nao no import: `createClient` lanca
+// excecao se a URL ou a service role key faltarem, e um throw no escopo do
+// modulo quebra o `next build` inteiro assim que alguem importar este arquivo
+// (foi exatamente o que aconteceu com o agente do WhatsApp). Hoje nada importa
+// este dispatcher, entao o problema esta latente -- a correcao evita que ele
+// apareca no dia em que for ligado.
+function criarSupabaseAdmin() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { persistSession: false } }
+  );
+}
+
+// O tipo vem de `criarSupabaseAdmin`, nao de `ReturnType<typeof createClient>`:
+// `createClient` e generico e, sem argumento de tipo, o ReturnType resolve para
+// os defaults do generico -- um cliente mais estreito, em que `.select('*')`
+// devolve Record<string, unknown> e o cast para Webhook passa a ser erro.
+let _supabaseAdmin: ReturnType<typeof criarSupabaseAdmin> | null = null;
+function supabaseAdminClient() {
+  if (!_supabaseAdmin) _supabaseAdmin = criarSupabaseAdmin();
+  return _supabaseAdmin;
+}
 
 interface DispatchOptions {
   retries?: number;
@@ -33,7 +51,7 @@ export async function dispatchWebhookEvent(
 
   try {
     // Buscar webhooks ativos que escutam este evento
-    const { data: webhooks, error } = await supabaseAdmin
+    const { data: webhooks, error } = await supabaseAdminClient()
       .from('webhooks')
       .select('*')
       .eq('status', 'active')
@@ -102,7 +120,7 @@ async function deliverWebhook(
       const responseBody = await response.text();
 
       // Registrar entrega
-      await supabaseAdmin.from('webhook_deliveries').insert({
+      await supabaseAdminClient().from('webhook_deliveries').insert({
         webhook_id: webhook.id,
         event: payload.event,
         payload,
@@ -115,7 +133,7 @@ async function deliverWebhook(
 
       if (response.ok) {
         // Sucesso - atualizar contadores
-        await supabaseAdmin
+        await supabaseAdminClient()
           .from('webhooks')
           .update({
             success_count: webhook.success_count + 1,
@@ -140,7 +158,7 @@ async function deliverWebhook(
   }
 
   // Todas as tentativas falharam
-  await supabaseAdmin.from('webhook_deliveries').insert({
+  await supabaseAdminClient().from('webhook_deliveries').insert({
     webhook_id: webhook.id,
     event: payload.event,
     payload,
@@ -149,7 +167,7 @@ async function deliverWebhook(
     attempts,
   });
 
-  await supabaseAdmin
+  await supabaseAdminClient()
     .from('webhooks')
     .update({
       error_count: webhook.error_count + 1,
@@ -158,7 +176,7 @@ async function deliverWebhook(
 
   // Se muitos erros consecutivos, desabilitar webhook
   if (webhook.error_count + 1 >= 10) {
-    await supabaseAdmin
+    await supabaseAdminClient()
       .from('webhooks')
       .update({ status: 'error' })
       .eq('id', webhook.id);

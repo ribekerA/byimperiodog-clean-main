@@ -10,7 +10,20 @@ import OpenAI from "openai";
 import { staticPuppies } from "@/content/puppies-static";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// O cliente e criado na primeira chamada, nao no import.
+//
+// Instanciado no escopo do modulo, o construtor do SDK roda assim que o arquivo
+// e carregado -- e ele lanca excecao quando OPENAI_API_KEY esta ausente. O
+// `next build` importa as rotas para coletar dados de pagina, entao o build
+// inteiro passava a exigir a chave: quebrava com "Failed to collect page data
+// for /api/whatsapp/webhook" em qualquer ambiente sem o segredo (era o motivo
+// de os workflows do GitHub falharem em todo commit). Adiando a construcao, o
+// build so precisa da chave quem realmente vai chamar a API: o runtime.
+let openaiClient: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!openaiClient) openaiClient = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return openaiClient;
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -190,7 +203,7 @@ async function classifyIntent(text: string): Promise<AgentIntent> {
 
   // Fallback: classificação com OpenAI para mensagens ambíguas
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       max_tokens: 20,
       temperature: 0,
