@@ -1,0 +1,92 @@
+# CI unico do projeto.
+#
+# Substitui quatro workflows que nao entregavam sinal:
+#   - ci-debug.yml e deploy-debug.yml: quase identicos, rodavam o build so para
+#     salvar o log como artefato, e um deles ainda tinha um job "hello" que so
+#     dava echo. Falhavam em todo push (o build quebrava em "collect page data"
+#     por causa de um cliente de SDK criado no escopo do modulo).
+#   - deploy-vercel.yml: apontava para a Vercel; o site e publicado na Netlify.
+#   - encoding-check.yml: o job de qualidade dependia do de encoding, e a
+#     checagem de encoding reprovava portugues escrito corretamente. Como ela
+#     nunca passava, o job de qualidade nunca chegou a rodar.
+#
+# O que este arquivo garante em cada push: o codigo tipa, passa nos testes, nao
+# tem mojibake nem palavra banida, e o build de producao fecha -- com o mesmo
+# Node e o mesmo limite de heap da Netlify, para o resultado aqui valer alguma
+# coisa la.
+#
+# Cada checagem e um passo separado de proposito. O `check:all` do package.json
+# encadeia tudo com `&&`: o primeiro que falha esconde os outros, e o log so
+# mostra um erro quando podia mostrar quatro.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Push em sequencia cancela a execucao anterior: o que importa e o estado atual
+# do branch, nao a fila de commits intermediarios.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Qualidade e build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          # Fixado em 20 por causa de "engines": ">=20 <21" no package.json.
+          # CI que roda em outra versao nao prova nada sobre o deploy.
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Tipos
+        run: npm run typecheck
+
+      - name: Testes
+        run: npm run test
+
+      - name: Encoding
+        run: npm run check:encoding
+
+      - name: Palavras banidas
+        run: npm run check:banned-words
+
+      # NAO bloqueante, e isso e deliberado.
+      #
+      # O repositorio tem hoje ~590 erros de lint em ~300 arquivos, quase todos
+      # mecanicos (import/order, no-empty, no-unused-vars, no-useless-escape) e
+      # todos anteriores a este workflow. Se o lint reprovasse o job, o CI
+      # nasceria vermelho e voltaria a ser ignorado -- exatamente o defeito dos
+      # quatro workflows que este arquivo substituiu.
+      #
+      # O passo continua rodando porque o log e util: da para ver se um commit
+      # aumentou a divida. Quando a fila estiver zerada, tire o
+      # `continue-on-error` e o lint vira portao de verdade.
+      - name: Lint (informativo)
+        run: npm run lint
+        continue-on-error: true
+
+      # Sem etapa separada de contentlayer: o "prebuild" do package.json ja roda
+      # content-guard, as fotos de cliente, o wrapper do contentlayer e o
+      # gen-contentlayer antes do next build.
+      - name: Build de producao
+        run: npm run build
+        env:
+          # Mesmo valor do netlify.toml. Sem isso o "Checking validity of types"
+          # estoura o heap padrao do Node e o build morre com
+          # "Ineffective mark-compacts near heap limit" -- reproduzido local.
+          NODE_OPTIONS: --max-old-space-size=4096
