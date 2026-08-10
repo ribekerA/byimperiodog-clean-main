@@ -112,8 +112,17 @@ export default async function PublicLayout({ children }: { children: React.React
         <link rel="preconnect" href="https://npmnuihgydadihktglrd.supabase.co" crossOrigin="anonymous" />
 
         {/* Tracking settings from admin (only in prod) */}
+        {/* GTM sai de `afterInteractive` para `lazyOnload`.
+            No Lighthouse mobile o GTM aparece com 313 KiB, e em
+            `afterInteractive` ele comeca a executar logo apos a hidratacao --
+            ou seja, disputando a thread principal dentro da janela do LCP, num
+            site em que 90% do trafego e celular e o Speed Index esta em 6,8 s.
+            Com `lazyOnload` ele espera o evento `load` da pagina.
+            Custo: eventos de quem sai do site em menos de ~2 s podem nao ser
+            registrados. Cliques e conversoes nao mudam. Para reverter, basta
+            trocar de volta para "afterInteractive". */}
         {isProd && useGTM && GTM_ID && (
-          <Script id="gtm-init" strategy="afterInteractive">
+          <Script id="gtm-init" strategy="lazyOnload">
             {`
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
