@@ -47,17 +47,20 @@ describe("/api/settings/tracking route", () => {
     expect(body.settings.ga4_id ?? null).toBeNull();
   });
 
+  // O ID de GA4 do fixture era "G-ABC123", que o validador recusa: ele exige de
+  // 8 a 15 caracteres depois do "G-", e IDs reais têm 10. O teste pedia 200 e
+  // recebia 400 corretamente — o dado de teste é que não era realista.
   it("POST com dados válidos salva e retorna", async () => {
-    supabaseMock.from.mockReturnValue(makeUpsertChain({ meta_pixel_id: "1234567890", ga4_id: "G-ABC123" }));
+    supabaseMock.from.mockReturnValue(makeUpsertChain({ meta_pixel_id: "1234567890", ga4_id: "G-ABCD123456" }));
     const req = makeNextRequestStub("http://localhost/api/settings/tracking", {
       method: "POST",
-      body: { facebookPixelId: "1234567890", googleAnalyticsId: "G-ABC123" },
+      body: { facebookPixelId: "1234567890", googleAnalyticsId: "G-ABCD123456" },
     });
     const response = await POST(req);
     const body = await response.json();
     expect(response.status).toBe(200);
     expect(body.settings.meta_pixel_id).toBe("1234567890");
-    expect(body.settings.ga4_id).toBe("G-ABC123");
+    expect(body.settings.ga4_id).toBe("G-ABCD123456");
   });
 
   it("POST com Pixel ID inválido retorna 400", async () => {

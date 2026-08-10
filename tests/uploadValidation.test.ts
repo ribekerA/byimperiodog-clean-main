@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { ALLOWED_IMAGE_MIME, MAX_IMAGE_BYTES, isAllowedImage, sanitizeFilename, inferExtFromMime } from '../src/lib/uploadValidation';
+import { ALLOWED_IMAGE_MIME, MAX_GIF_BYTES, MAX_IMAGE_BYTES, isAllowedImage, sanitizeFilename, inferExtFromMime } from '../src/lib/uploadValidation';
 
 describe('uploadValidation', () => {
   it('permite mimes válidos e tamanho dentro do limite', () => {
@@ -11,9 +11,16 @@ describe('uploadValidation', () => {
   });
 
   it('rejeita mimes inválidos e tamanhos fora do limite', () => {
-    expect(isAllowedImage('image/gif', 1024)).toBe(false);
+    // GIF saiu daqui: passou a ser permitido de propósito ("GIF animado
+    // permitido", em src/lib/uploadValidation.ts), com limite próprio de
+    // MAX_GIF_BYTES. O teste é que estava velho, não o código.
+    expect(isAllowedImage('image/bmp', 1024)).toBe(false);
+    expect(isAllowedImage('image/svg+xml', 1024)).toBe(false);
     expect(isAllowedImage('image/png', 0)).toBe(false);
     expect(isAllowedImage('image/png', MAX_IMAGE_BYTES + 1)).toBe(false);
+    // O limite maior do GIF não é ilimitado.
+    expect(isAllowedImage('image/gif', MAX_GIF_BYTES)).toBe(true);
+    expect(isAllowedImage('image/gif', MAX_GIF_BYTES + 1)).toBe(false);
   });
 
   it('sanitiza nomes de arquivo perigosos e longos', () => {

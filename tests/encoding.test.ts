@@ -1,43 +1,32 @@
-import { readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 
 import { describe, it, expect } from 'vitest';
 
+/**
+ * A deteccao de mojibake mora em scripts/check-encoding.mjs; aqui so a
+ * executamos.
+ *
+ * Antes havia uma segunda lista de padroes dentro deste arquivo, e ela apodreceu
+ * do mesmo jeito que a do script: os "padroes proibidos" eram 'Alemão', 'Anão' e
+ * 'pós-' -- portugues escrito corretamente. Num site sobre Spitz Alemão isso
+ * acusava 311 arquivos. O teste reprovava em toda execucao e, por reprovar
+ * sempre, nao informava nada.
+ *
+ * Uma lista so, em um lugar so, e o que impede as duas de divergirem de novo.
+ */
 describe('encoding integrity', () => {
-  const exts = new Set(['.ts','.tsx','.md','.mdx','.sql','.js','.mjs','.cjs']);
-  // Padrões multi-caractere mais específicos para evitar falsos positivos em mapeamentos de scripts
-  const BAD = ['Alemão','Anão','excelên','responsÃ','pós-','disponÃ'];
-  // Ignorar arquivos que documentam ou contêm propositalmente as sequências quebradas
-  const IGNORE_SUBSTR = [
-    'docs/CLEANUP_LOG.md',
-    'scripts/check-encoding.mjs',
-    'scripts/fix-encoding.mjs',
-    'tests/encoding.test.ts',
-    // Temporário: arquivos com conteúdo legado a ser revisado
-    'src/components/PuppyStories.tsx',
-    'app/blog/page.tsx'
-  ];
+  it(
+    'nao contem mojibake (scripts/check-encoding.mjs)',
+    () => {
+      const resultado = spawnSync(process.execPath, ['scripts/check-encoding.mjs'], {
+        cwd: process.cwd(),
+        encoding: 'utf8',
+      });
 
-  function walk(dir:string):string[]{
-    return readdirSync(dir,{withFileTypes:true}).flatMap(d=>{
-      if(d.name.startsWith('.')||['node_modules','coverage','playwright-report','.next'].includes(d.name)) return [];
-      const full = join(dir,d.name);
-      if(d.isDirectory()) return walk(full);
-      const ext = d.name.slice(d.name.lastIndexOf('.'));
-      if(!exts.has(ext)) return [];
-      return [full];
-    });
-  }
-
-  it('não contém padrões de mojibake conhecidos', () => {
-    const offenders:string[] = [];
-    for(const f of walk(process.cwd())){
-      if(IGNORE_SUBSTR.some(s=>f.replace(/\\/g,'/').endsWith(s) || f.includes(s))) continue;
-      const txt = readFileSync(f,'utf8');
-      for(const b of BAD){
-        if(txt.includes(b)) offenders.push(`${f} => '${b}'`);
-      }
-    }
-    expect(offenders).toHaveLength(0);
-  });
+      // A saida do script vai junto da assercao: sem isso a falha apareceria
+      // como "esperado 0, recebido 1" e o arquivo culpado ficaria escondido.
+      expect(resultado.status, resultado.stderr || resultado.stdout).toBe(0);
+    },
+    60_000
+  );
 });
