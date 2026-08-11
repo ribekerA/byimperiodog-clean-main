@@ -123,13 +123,15 @@ export default function SexLandingPage({ params }: Props) {
                       href={`/filhotes/${puppy.slug}`}
                       className="group block overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm transition hover:shadow-md"
                     >
-                      <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100">
+                      {/* 4/5 acompanha o formato vertical da foto; no 4/3
+                          deitado o recorte cortava cabeca e patas do filhote. */}
+                      <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
                         {img && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
                             src={img}
                             alt={`Filhote ${puppy.name}`}
-                            className="h-full w-full object-cover transition group-hover:scale-105"
+                            className="h-full w-full object-cover [object-position:50%_28%] transition group-hover:scale-105"
                             loading="lazy"
                           />
                         )}

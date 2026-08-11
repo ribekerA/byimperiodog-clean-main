@@ -178,7 +178,7 @@ export default function StaticCatalog({ puppies }: Props) {
 
       {/* Grid */}
       {filtered.length > 0 ? (
-        <ul className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((puppy, i) => (
             <li key={puppy.id}>
               <StaticPuppyCard

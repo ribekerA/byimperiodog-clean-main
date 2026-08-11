@@ -177,13 +177,15 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
-        <div className="relative aspect-[4/3] overflow-hidden bg-zinc-100">
+        {/* 4/5 em vez de 4/3: num quadro deitado o corte descartava 26% do
+            topo e 26% da base da foto vertical — sobrava so o peito do filhote. */}
+        <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
           {img && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={img}
               alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              className="h-full w-full object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-105"
               loading="lazy"
             />
           )}

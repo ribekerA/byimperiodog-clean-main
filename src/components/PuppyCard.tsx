@@ -264,7 +264,9 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
           data-id={p.id}
           aria-label={`Abrir detalhes do filhote ${cardTitle}`}
         >
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100">
+          {/* 4/5 em vez de 4/3: as fotos sao verticais e o quadro deitado
+              descartava cerca de um quarto do topo e da base da imagem. */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-zinc-100">
             {!imgLoaded && optimizedCover ? <div className="absolute inset-0 animate-pulse bg-zinc-200" aria-hidden="true" /> : null}
             {optimizedCover ? (
               <Image
@@ -276,7 +278,7 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
                 loading={priority ? "eager" : "lazy"}
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
-                className={`object-cover transition duration-500 ${
+                className={`object-cover [object-position:50%_28%] transition duration-500 ${
                   imgLoaded ? "opacity-100 group-hover:scale-105" : "opacity-0"
                 }`}
                 onLoad={() => setImgLoaded(true)}

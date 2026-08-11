@@ -216,7 +216,10 @@ export default function HomePage() {
                                 src={cover}
                                 alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
                                 fill
-                                className="object-cover transition duration-500 group-hover:scale-105"
+                                // Mesmo ajuste do card do catalogo: a foto e
+                                // vertical e o filhote fica na parte de cima do
+                                // quadro, entao o corte centralizado comia a cabeca.
+                                className="object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-105"
                                 sizes="(max-width: 640px) 72vw, (max-width: 1024px) 50vw, 25vw"
                                 priority={i < 2}
                               />

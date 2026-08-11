@@ -1,8 +1,9 @@
 export default function PuppyCardSkeleton() {
   return (
     <div className="animate-pulse rounded-3xl border border-zinc-100 bg-white shadow-sm overflow-hidden">
-      {/* Imagem simulada */}
-      <div className="relative aspect-[4/3] w-full bg-zinc-200 rounded-t-3xl">
+      {/* Imagem simulada — mesma proporcao do PuppyCard, senao a troca do
+          esqueleto pelo card real empurra a pagina para baixo. */}
+      <div className="relative aspect-[4/5] w-full bg-zinc-200 rounded-t-3xl">
         {/* Selo simulado */}
         <div className="absolute bottom-2 left-2 h-5 w-28 rounded-full bg-zinc-300" />
       </div>

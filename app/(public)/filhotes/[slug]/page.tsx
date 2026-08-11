@@ -239,13 +239,15 @@ export default function PuppyPage({ params }: Props) {
                             href={`/filhotes/${rel.slug}`}
                             className="group block overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm transition hover:shadow-md"
                           >
-                            <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100">
+                            <div className="relative aspect-square w-full overflow-hidden bg-zinc-100">
                               {relImg && (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
                                   src={relImg}
                                   alt={`Filhote ${rel.name}`}
-                                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
+                                  // Mesmo motivo do card do catalogo: foto vertical
+                                  // num quadro deitado cortava a cabeca do filhote.
+                                  className="h-full w-full object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-[1.06]"
                                   loading="lazy"
                                 />
                               )}
@@ -254,7 +256,10 @@ export default function PuppyPage({ params }: Props) {
                                 style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.45) 100%)" }}
                                 aria-hidden="true"
                               />
-                              <span className="absolute bottom-2 left-3 text-sm font-bold text-white drop-shadow">
+                              {/* right-3 + line-clamp: nomes longos como "Spitz
+                                  Cinza-Lobo (Wolf Sable) Femea" saiam do card e
+                                  eram cortados no meio da palavra pelo overflow. */}
+                              <span className="absolute bottom-2 left-3 right-3 line-clamp-2 text-sm font-bold text-white drop-shadow">
                                 {rel.name}
                               </span>
                             </div>

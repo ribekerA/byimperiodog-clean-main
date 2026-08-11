@@ -57,11 +57,13 @@ export default function PriceTransparency() {
       {/* Incluído */}
       <div className="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8">
         <h3 className="mb-6 text-center text-base font-semibold text-zinc-500 uppercase tracking-widest">Incluído em todos os filhotes</h3>
-        <ul data-wa-safe-zone className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <ul data-wa-safe-zone className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {INCLUDED.map((item) => (
             <li key={item.title} className="flex items-start gap-2.5 rounded-xl bg-zinc-50 p-3 sm:p-4">
               <span className="mt-0.5 text-xl leading-none" aria-hidden="true">{item.icon}</span>
-              <div>
+              {/* min-w-0: sem isso o item de flex nao encolhe abaixo da palavra
+                  mais longa e "internacionalmente" vazava por cima do card ao lado. */}
+              <div className="min-w-0">
                 <p className="text-sm font-semibold text-zinc-900">{item.title}</p>
                 <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">{item.desc}</p>
               </div>

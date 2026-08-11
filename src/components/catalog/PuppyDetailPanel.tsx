@@ -239,12 +239,12 @@ export default function PuppyDetailPanel({
           </p>
 
           <StaggerContainer stagger={0.07} delay={0.1} margin="-20px">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {INCLUDED.map((item) => (
                 <StaggerItem key={item.title}>
                   <div className="group flex items-start gap-2.5 rounded-xl border border-zinc-100 bg-zinc-50/80 px-3 py-3 transition hover:border-emerald-100 hover:bg-emerald-50/60">
                     <span className="mt-0.5 text-lg leading-none" aria-hidden="true">{item.icon}</span>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-xs font-semibold text-zinc-800">{item.title}</p>
                       <p className="mt-0.5 text-xs leading-snug text-zinc-500">{item.desc}</p>
                     </div>

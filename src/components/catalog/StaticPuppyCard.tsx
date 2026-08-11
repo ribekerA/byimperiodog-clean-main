@@ -151,7 +151,10 @@ export default function StaticPuppyCard({
               <img
                 src={cover}
                 alt={`${name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.07]"
+                // As fotos sao verticais e o filhote fica na parte de cima do
+                // quadro. Cortar pelo centro decapitava o cachorro; ancorar em
+                // 28% mantem a cabeca dentro do recorte.
+                className="h-full w-full object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-[1.07]"
                 loading={priority ? "eager" : "lazy"}
               />
             )}
@@ -240,7 +243,7 @@ export default function StaticPuppyCard({
                 <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
                 Tenho interesse
               </PawConfettiButton>
-              <HeartBurstButton puppyId={id} size={18} className="h-11 w-11" aria-label={`Curtir ${name}`} />
+              <HeartBurstButton puppyId={id} size={18} className="h-11 w-11 shrink-0" aria-label={`Curtir ${name}`} />
             </div>
           ) : (
             <NotifyMeButton color={corKey} colorLabel={corLabel} />
