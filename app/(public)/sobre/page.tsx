@@ -11,8 +11,8 @@ import Script from "next/script";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import TextTestimonials from "@/components/sections/TextTestimonials";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
@@ -59,13 +59,12 @@ const TIMELINE = [
       "Atingimos a marca de 100 famílias em todo o Brasil. Cada entrega foi acompanhada de perto, com contrato claro e suporte pós-entrega.",
     emoji: "🏡",
   },
-  {
-    year: "2022",
-    title: "Estrutura de maternidade dedicada",
-    description:
-      "Inauguramos a maternidade monitorada com câmeras, ambiente climatizado e espaço de socialização sensorial para os filhotes.",
-    emoji: "🏗️",
-  },
+  // O marco de 2022 anunciava "maternidade monitorada com cameras, ambiente
+  // climatizado e espaco de socializacao sensorial". Nao existe estrutura
+  // nenhuma desse tipo — a responsavel confirmou. Nao da para reescrever o
+  // item, porque nao ha outro acontecimento verificavel para ocupar 2022, e
+  // inventar um seria trocar uma mentira por outra. A linha do tempo segue
+  // com os marcos que se sustentam.
   {
     // Ultimo item da linha do tempo nao e um marco datado: e o estado atual --
     // a propria descricao comeca com "Hoje". Estava escrito "2026", entao na

@@ -1,12 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import type { Metadata } from "next";
 
+import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
-import { RelatedPages } from "@/components/common/RelatedPages";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
@@ -63,7 +63,9 @@ const PAGE_FAQS = [
   {
     question: "Por que o Spitz Alemão Anão é tão caro?",
     answer:
-      "O custo elevado reflete investimentos reais: matrizes e padreadores testados geneticamente, exames de saúde completos, teste de patela, registro oficial, veterinários especializados, maternidade monitorada, socialização intensiva e mentoria pós-venda vitalícia. Criadores sérios não vendem 'baratos' — o preço cobre cuidado real, não apenas o filhote.",
+      // "maternidade monitorada" saiu da lista: nao existe estrutura desse tipo
+      // aqui. O resto da resposta continua valendo.
+      "O custo elevado reflete investimentos reais: matrizes e padreadores testados geneticamente, exames de saúde completos, teste de patela, registro oficial, veterinários especializados, socialização em ambiente familiar e mentoria pós-venda vitalícia. Criadores sérios não vendem 'baratos' — o preço cobre cuidado real, não apenas o filhote.",
   },
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",

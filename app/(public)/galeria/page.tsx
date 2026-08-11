@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import Link from "next/link";
+import Script from "next/script";
 
 import GaleriaClient from "./GaleriaClient";
 
@@ -32,7 +32,9 @@ const GALLERY_VIDEOS = [
   {
     src: "/filhotes/videos/apresentacao-canil.mp4",
     title: "Apresentação do Canil",
-    description: "Conheça a estrutura da By Império Dog: maternidade, área de socialização e muito afeto.",
+    // A legenda anterior anunciava "maternidade, area de socializacao" — nao
+    // existe estrutura nenhuma desse tipo. Fica so o que o video e de fato.
+    description: "Vídeo de apresentação da By Império Dog.",
     category: "canil",
   },
   {
@@ -165,8 +167,10 @@ export default function GaleriaPage() {
               Conheça os nossos Spitz em movimento{" "}
               <span aria-hidden>🐾</span>
             </h1>
+            {/* "estrutura" prometia instalações que não existem — mesmo caso da
+                legenda do primeiro vídeo. Fica só o que os vídeos mostram. */}
             <p className="mt-4 text-lg text-zinc-300">
-              Vídeos reais dos filhotes, ninhadas e estrutura da By Império Dog.
+              Vídeos reais dos filhotes e das ninhadas da By Império Dog.
               Sem filtro — exatamente como eles são.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -191,10 +195,13 @@ export default function GaleriaPage() {
           <GaleriaClient videos={GALLERY_VIDEOS as unknown as GalleryVideo[]} />
         </section>
 
-        {/* Sticky bottom CTA */}
+        {/* Sticky bottom CTA — `data-wa-safe-zone` faz o botão flutuante de
+            WhatsApp sumir enquanto ele estiver por cima: na tela do celular os
+            dois se sobrepunham no canto direito. */}
         <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pb-4 px-4 pointer-events-none">
           <Link
             href="/filhotes"
+            data-wa-safe-zone
             className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 transition shadow-2xl px-8 py-3 text-sm font-bold text-white"
           >
             Ver filhotes disponíveis →

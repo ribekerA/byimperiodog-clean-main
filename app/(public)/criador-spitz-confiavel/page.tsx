@@ -66,9 +66,13 @@ const WHAT_MAKES_RESPONSIBLE = [
     title: "Seleção criteriosa de famílias",
     body: "Entrevistamos e orientamos cada família antes da venda. O objetivo é garantir que o filhote vá para um lar compatível com suas necessidades — não apenas vender.",
   },
+  // Este item dizia "maternidade climatizada, cameras de monitoramento, espaco
+  // de socializacao e rede multidisciplinar (veterinarios, comportamentalista,
+  // groomer parceiros)". Nada disso existe: nao ha estrutura nem parceiros.
+  // Ficou o que de fato acontece antes de cada entrega.
   {
-    title: "Estrutura dedicada ao bem-estar",
-    body: "Canil integrado à residência, com maternidade climatizada, câmeras de monitoramento, espaço de socialização e rede multidisciplinar (veterinários, comportamentalista, groomer parceiros).",
+    title: "Saúde verificada antes da entrega",
+    body: "Nenhum filhote deveria sair sem passar por avaliação veterinária. Na By Império Dog, o filhote é entregue com hemograma, acompanhamento veterinário e carteira de vacinação assinada pelo médico-veterinário.",
   },
 ] as const;
 
@@ -185,11 +189,15 @@ export default function CriadorConfiavelPage() {
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {[
+            // Sairam "Maternidade climatizada com monitoramento por cameras"
+            // (nao existe estrutura) e "Rede de veterinarios, comportamentalista
+            // e groomer parceiros" (nao existem parceiros). No lugar entrou o
+            // que a entrega comprova: exame, contrato e atendimento direto.
             "Criação especializada desde 2013",
             "Laudos de saúde antes de cada cruzamento",
-            "Maternidade climatizada com monitoramento por câmeras",
+            "Hemograma e acompanhamento veterinário antes da entrega",
             "Socialização com crianças, sons e rotina doméstica",
-            "Rede de veterinários, comportamentalista e groomer parceiros",
+            "Contrato assinado antes da entrega, com as condições por escrito",
             "Mentoria vitalícia e pós-venda para todos os tutores",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-zinc-800">
