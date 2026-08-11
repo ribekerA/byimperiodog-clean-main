@@ -61,7 +61,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     characteristics: [
       "Pelagem densa cor creme/marfim uniforme sem manchas",
       "Olhos escuros expressivos e focinho amendoado",
-      "Temperamento dócil, ideal para famílias com crianças",
+      "Temperamento típico da raça — a cor não altera o comportamento",
       "Tamanho dentro do padrão FCI nº 97 (21 cm ± 3 cm na cernelha)",
       "Alta demanda — ninhadas abertas com antecedência",
     ],
@@ -91,13 +91,13 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   laranja: {
     seoTitle: "Spitz Alemão Anão Laranja — Filhotes Disponíveis",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça, temperamento alegre. Registro oficial e mentoria vitalícia.",
+      "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, laudos veterinários e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Laranja",
     intro:
-      "O Spitz Laranja é a cor mais icônica e reconhecida da raça no mundo. Sua pelagem vibrante dentro do padrão FCI combina com um temperamento alegre e extremamente afetivo. Ideal para famílias que amam um cão com personalidade marcante e presença visual.",
+      "O Spitz Laranja é a cor mais icônica e reconhecida da raça no mundo. Sua pelagem vibrante está dentro do padrão FCI. Ideal para famílias que amam um cão com personalidade marcante e presença visual.",
     characteristics: [
       "Pelagem laranja uniforme e densa dentro do padrão FCI",
-      "Temperamento alegre, brincalhão e extremamente carinhoso",
+      "Temperamento típico da raça — a cor não altera o comportamento",
       "Adapta-se muito bem a apartamentos e casas com quintal",
       "Cor mais disponível — ninhadas regulares ao longo do ano",
       "Excelente para famílias com crianças e outros animais",
@@ -111,7 +111,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Spitz Laranja é dócil com crianças?",
         answer:
-          "Sim. O Spitz Laranja tem temperamento equilibrado e afetivo. Com socialização guiada desde o nascimento — como a praticada na By Império Dog — convive muito bem com crianças de qualquer idade.",
+          "Sim. O Spitz Alemão Anão tem temperamento equilibrado e afetivo, e a cor não muda isso. Com socialização guiada desde o nascimento — como a praticada na By Império Dog — convive bem com crianças de qualquer idade.",
       },
       {
         question: "Spitz Laranja é diferente de Lulu da Pomerânia?",
@@ -137,7 +137,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Expressão marcante com contraste visual único",
       "Disponibilidade muito rara — ninhadas abertas esporadicamente",
       "Segunda cor fêmea mais valorizada da raça",
-      "Temperamento equilibrado, fiel e atento",
+      "Temperamento típico da raça — a cor não altera o comportamento",
     ],
     faqs: [
       {
@@ -174,7 +174,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Máscara facial escura — padrão único inconfundível",
       "Cor reconhecida oficialmente pela FCI",
       "Uma das cores mais buscadas e menos disponíveis no Brasil",
-      "Temperamento alerta, curioso e levemente mais ativo",
+      "Temperamento típico da raça — a cor não altera o comportamento",
     ],
     faqs: [
       {
