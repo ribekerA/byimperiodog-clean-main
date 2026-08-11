@@ -54,7 +54,7 @@ const FAQS = [
   {
     question: "O que perguntar ao criador antes de comprar o filhote?",
     answer:
-      "Pergunte: (1) Os pais têm laudo de saúde? (2) O filhote tem registro oficial? (3) Quais exames foram feitos? (4) Qual o protocolo de vacinação? (5) Posso fazer visita ou videochamada? (6) Tem contrato de venda? (7) Qual o suporte pós-venda? Se o criador hesitar em qualquer dessas, é um sinal de alerta.",
+      "Pergunte: (1) Os pais têm laudo de saúde? (2) O filhote tem registro oficial? (3) Quais exames foram feitos? (4) Qual o protocolo de vacinação? (5) Posso fazer visita ou videochamada? (6) Tem contrato de venda? (7) Qual o suporte pós-venda? Um criador responsável responde todas essas perguntas sem dificuldade.",
   },
   {
     question: "O filhote de Spitz Alemão Anão é difícil de adestrar?",
@@ -108,9 +108,9 @@ export default function FilhoteDeSpitzPage() {
         </p>
         <ul className="space-y-3">
           {[
-            { t: "Procedência documentada", b: "Registro oficial nos pais e garantia de registro no filhote. Sem isso, não há garantia racial ou rastreabilidade genética." },
+            { t: "Procedência documentada", b: "Registro oficial nos pais e garantia de registro no filhote — é o que permite conferir a linhagem por escrito." },
             { t: "Laudos veterinários dos pais", b: "Laudo de saúde e teste de patela bilateral dos reprodutores antes de cada ninhada." },
-            { t: "Socialização comprovada", b: "Filhotes criados dentro de casa, com contato humano diário, sons e rotinas domésticas têm temperamento muito mais equilibrado." },
+            { t: "Socialização comprovada", b: "Filhotes criados dentro de casa, com contato humano diário, sons e rotinas domésticas tendem a se adaptar melhor à rotina da nova família." },
             { t: "Carteira de vacinação em dia", b: "Protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes." },
             { t: "Contrato com garantia", b: "Contrato claro com garantia de saúde, responsabilidades e suporte pós-venda." },
           ].map((item) => (

@@ -165,7 +165,7 @@ export default function SpitzAlemaoPage() {
           {[
             { title: "Alegre e extrovertido", body: "O Spitz Alemão Anão tem personalidade forte e expressiva. É comunicativo, gosta de interação com pessoas e não é um cão indiferente — demonstra afeto ativamente." },
             { title: "Inteligente e treinável", body: "Aprende comandos rapidamente. Responde muito bem ao treino positivo e consegue aprender truques complexos, o que o torna estimulante de se treinar." },
-            { title: "Alerta e curioso", body: "Tem instinto de alerta herdado dos ancestrais. Presta atenção em tudo ao redor — sons, movimentos, novidades. Com socialização, não se torna ansioso." },
+            { title: "Alerta e curioso", body: "Tem instinto de alerta herdado dos ancestrais. Presta atenção em tudo ao redor — sons, movimentos, novidades. A socialização desde filhote ajuda a lidar melhor com barulhos e situações novas." },
             { title: "Vínculo forte com a família", body: "Cria laços profundos com seu núcleo familiar. Tende a preferir um ou dois membros da família, mas é afetuoso com todos." },
           ].map((item) => (
             <article key={item.title} className="rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm">
@@ -203,7 +203,7 @@ export default function SpitzAlemaoPage() {
           {[
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },
             { cor: "Creme",      slug: "creme",      desc: "A mais valorizada. Pelagem cor de marfim com contraste de olhos e focinho escuros." },
-            { cor: "Preto",      slug: "preto",      desc: "Cor rara com poucos criadores especializados no Brasil. Pelagem preta brilhante uniforme." },
+            { cor: "Preto",      slug: "preto",      desc: "Pelagem preta brilhante uniforme. Disponibilidade limitada — ninhadas esporádicas." },
             { cor: "Cinza-Lobo (Wolf Sable)", slug: "wolf-sable", desc: "Padrão exótico com pelos tricolores (ponta escura, corpo acinzentado) — reconhecido pela FCI." },
           ].map((c) => (
             <Link
