@@ -6,8 +6,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
-const CURRENT_YEAR = new Date().getFullYear();
-
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { routes, type AppRoutes } from "@/lib/route";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -26,12 +24,12 @@ const NAV_LINKS: { label: string; href: AppRoutes | string }[] = [
 // Dropdown "Raça" — páginas informacionais e de intenção
 const RACA_LINKS = [
   { label: "Spitz Alemão Anão",        href: "/spitz-alemao",              desc: "Raça completa: origem, temperamento, cores" },
-  { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: `Guia completo + preços ${CURRENT_YEAR}` },
+  { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: "Guia completo + preços" },
   { label: "Pomeranian",               href: "/pomeranian",                desc: "= Lulu da Pomerânia = Spitz Alemão Anão" },
   { label: "Filhote de Spitz Alemão",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
   { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Cor rara — disponibilidade" },
   { label: "Spitz Alemão Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
-  { label: "Tabela de Preços",         href: "/preco-spitz-anao",          desc: `Valores por cor e sexo — ${CURRENT_YEAR}` },
+  { label: "Tabela de Preços",         href: "/preco-spitz-anao",          desc: "Valores por cor e sexo" },
   { label: "Como Comprar",             href: "/comprar-spitz-anao",        desc: "Guia passo a passo seguro" },
   { label: "Criador Confiável",        href: "/criador-spitz-confiavel",   desc: "Como identificar procedência" },
 ] as const;
