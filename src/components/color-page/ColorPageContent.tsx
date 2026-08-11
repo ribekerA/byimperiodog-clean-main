@@ -540,7 +540,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 </p>
               </motion.div>
 
-              {/* Floating "13 anos" badge */}
+              {/* Floating "Desde {FOUNDING_YEAR}" badge */}
               <motion.div
                 className={`absolute right-3 top-3 sm:-right-8 sm:top-8 rounded-2xl px-3 py-2.5 shadow-xl backdrop-blur-md ring-1 ${
                   heroDark ? "bg-zinc-900/90 ring-white/10" : "bg-white/95 ring-zinc-900/5"

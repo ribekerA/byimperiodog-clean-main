@@ -21,6 +21,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { FOUNDING_YEAR } from "@/domain/config";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -260,7 +261,7 @@ export default function PuppyDetailPanel({
       <ScrollReveal variant="fadeIn" delay={0.1}>
         <div className="flex flex-wrap items-center gap-4 rounded-xl border border-zinc-100 bg-zinc-50/60 px-4 py-3">
           {[
-            { icon: "🏆", text: "13 anos criando" },
+            { icon: "🏆", text: `Criando desde ${FOUNDING_YEAR}` },
             { icon: "👨‍👩‍👧", text: "180+ famílias felizes" },
             { icon: "✈️", text: "Entregamos em todo o Brasil" },
           ].map((item) => (

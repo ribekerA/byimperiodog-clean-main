@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     url: "/",
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
-      "Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos. 13 anos, 180+ famílias atendidas.",
+      `Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos. Criação desde ${FOUNDING_YEAR}, mais de 180 famílias atendidas.`,
     images: [{ url: "/og/home.jpg", width: 1200, height: 630, alt: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog, Bragança Paulista SP" }],
   },
   twitter: {

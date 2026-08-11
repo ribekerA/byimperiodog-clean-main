@@ -102,7 +102,7 @@ export default function CanilInteriorSPPage() {
           Canil Spitz Alemão Anão no Interior de SP — By Império Dog
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Se você mora no interior de São Paulo e procura um criador responsável de Spitz Alemão Anão (Lulu da Pomerânia), a By Império Dog em Bragança Paulista é referência na região há 13 anos.
+          Se você mora no interior de São Paulo e procura um criador responsável de Spitz Alemão Anão (Lulu da Pomerânia), a By Império Dog fica em Bragança Paulista e cria a raça desde {FOUNDING_YEAR}.
         </p>
       </header>
 
