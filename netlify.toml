@@ -116,11 +116,10 @@
   status = 301
   force = true
 
-[[redirects]]
-  from = "/galeria"
-  to = "/filhotes"
-  status = 301
-  force = true
+# /galeria NAO entra aqui. Este bloco e para rota que nao existe; /galeria
+# existe (app/(public)/galeria/page.tsx) e o `force = true` fazia o redirect
+# ganhar da pagina real, entao o menu e o rodape caiam em /filhotes e os
+# videos ficavam inalcancaveis.
 
 [[redirects]]
   from = "/preco"

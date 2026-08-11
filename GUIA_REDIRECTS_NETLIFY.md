@@ -89,7 +89,6 @@
 |--------------|------|--------|
 | `/spitz` | `/filhotes` | 301 |
 | `/puppies` | `/filhotes` | 301 |
-| `/galeria` | `/filhotes` | 301 |
 | `/preco` | `/preco-spitz-anao` | 301 |
 | `/reservar` | `/reserve-seu-filhote` | 301 |
 | `/sobre-nos` | `/sobre` | 301 |
