@@ -51,7 +51,7 @@ const FAQS = [
   {
     question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis. O que dá para verificar é o que cada criador entrega: registro oficial, laudo de saúde, teste de patela, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso ao local de criação. A By Império Dog fica em Bragança Paulista, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}, já atendeu mais de 180 famílias e entrega todos esses itens. Peça a mesma lista a qualquer criador antes de decidir.`,
+      `Não existe um ranking oficial de canis. O que dá para verificar é o que cada criador entrega: registro oficial, laudo de saúde, exames laboratoriais, carteira de vacinação assinada pelo médico-veterinário e contrato. A By Império Dog fica em Bragança Paulista, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}, já atendeu mais de 180 famílias e entrega todos esses itens. Peça a mesma lista a qualquer criador antes de decidir.`,
   },
   {
     question: "Vocês entregam em Campinas, Sorocaba e outras cidades do interior?",
@@ -97,7 +97,7 @@ export default function CanilInteriorSPPage() {
       <Script id="ld-isp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Referência no interior de São Paulo</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação especializada no interior de São Paulo</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Canil Spitz Alemão Anão no Interior de SP — By Império Dog
         </h1>
