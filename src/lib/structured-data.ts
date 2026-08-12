@@ -303,30 +303,31 @@ export function buildLocalBusinessLD() {
     paymentAccepted: "PIX, transferência bancária, cartão de crédito",
     foundingDate: String(FOUNDING_YEAR),
     image: [
-      `${SITE_URL}/og/home.jpg`,
+      // Era /og/home.jpg, que respondia 404 — o Google descarta a imagem do
+      // rich result quando a URL não resolve. As outras duas existem.
+      `${SITE_URL}/og-default.jpg`,
       `${SITE_URL}/filhotes/creme/creme-femea-01.jpg`,
       `${SITE_URL}/filhotes/laranja/laranja-femea-01.jpg`,
     ],
     logo: {
       "@type": "ImageObject",
-      url: `${SITE_URL}/byimperiologo.svg`,
-      width: 120,
-      height: 120,
+      // PNG em vez do SVG: é o mesmo formato já usado no publisher.logo do
+      // blog, e evita depender do suporte a SVG na leitura do logo.
+      url: `${SITE_URL}/byimperiologo.png`,
+      width: 150,
+      height: 150,
     },
+    // streetAddress repetia o nome da cidade, o postalCode era o CEP genérico
+    // de Bragança Paulista e o geo eram as coordenadas do centro da cidade —
+    // nenhum dos três é o endereço do negócio, que não tem ponto físico. Um
+    // pin errado no mapa é pior que nenhum pin. Fica cidade/estado/país, que é
+    // o que se pode comprovar.
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Bragança Paulista",
       addressLocality: "Bragança Paulista",
       addressRegion: "SP",
-      postalCode: "12900-000",
       addressCountry: "BR",
     },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: -22.9538,
-      longitude: -46.5429,
-    },
-    hasMap: "https://maps.google.com/?q=Bragan%C3%A7a+Paulista+SP",
     areaServed: SERVED_AREAS,
     serviceArea: {
       "@type": "GeoCircle",
