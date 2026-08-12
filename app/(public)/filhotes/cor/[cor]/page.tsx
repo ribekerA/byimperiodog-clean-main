@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 
 import ColorPageContent from "@/components/color-page/ColorPageContent";
 import { ALL_COLORS, COLOR_SEO, getPuppiesByColor } from "@/lib/catalog-utils";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -16,7 +16,17 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const seo = COLOR_SEO[params.cor];
   if (!seo) return { title: "Filhotes por Cor" };
-  const ogImage = `/og/cor/${params.cor}`;
+  // A rota /og/cor/[cor] nunca chegou a devolver imagem: quebrava no Satori
+  // ("Expected <div> to have explicit display: flex"), buscava a foto em outro
+  // domínio (canilspitzalemao.com.br) e baixava fonte de emoji em tempo de
+  // requisição. Estas 4 páginas ficavam sem og:image no WhatsApp. A foto de um
+  // filhote da própria cor é arquivo estático e sempre responde.
+  const colorPhoto = getPuppiesByColor(params.cor)
+    .flatMap((p) => p.images ?? [])
+    .find((img) => !img.endsWith(".mp4"));
+  // Sem width/height: a foto do filhote não é 1200×630, e declarar essa medida
+  // fazia o WhatsApp recortar errado.
+  const ogImages = colorPhoto ? [{ url: colorPhoto, alt: seo.h1 }] : [OG_DEFAULT_IMAGE];
 
   return {
     title:       seo.seoTitle,
@@ -26,12 +36,12 @@ export function generateMetadata({ params }: Props): Metadata {
       title:       seo.seoTitle,
       description: seo.metaDescription,
       type:        "website",
-      images:      [{ url: ogImage, width: 1200, height: 630, alt: seo.h1 }],
+      images:      ogImages,
     },
     twitter: {
       card:   "summary_large_image",
       title:  seo.seoTitle,
-      images: [ogImage],
+      images: ogImages,
     },
   };
 }
@@ -61,9 +71,9 @@ export default function ColorLandingPage({ params }: Props) {
 
   return (
     <>
-      <Script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       <main>
         <ColorPageContent

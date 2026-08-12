@@ -5,12 +5,13 @@ import Link from "next/link";
 
 import BlogCard from "@/components/blog/BlogCard";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import { yearsOfExperience } from "@/domain/config";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { TAG_LISTAGEM_BLOG } from "@/lib/blog/revalidate";
 import { listPublishableSupabasePosts } from "@/lib/blog/service";
 import { getAllPosts } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 type SortOption = "recentes" | "antigos";
 
@@ -65,7 +66,8 @@ const CATEGORY_DEFINITIONS: CategoryDefinition[] = [
     highlight: "Transparência total com laudos digitais e acompanhamento pós-entrega.",
     color: "bg-emerald-50 border-emerald-200 text-emerald-700",
     match: (post) => includesCategory(post, ["saude", "clínico", "veterin", "check-up", "exame"]),
-    cta: { label: "Entender exames", href: "/faq#saude" },
+    // /faq nunca existiu como rota: a pagina e /faq-do-tutor. O link respondia 404.
+    cta: { label: "Entender exames", href: "/faq-do-tutor#faq-principais" },
   },
   {
     id: "preco",
@@ -85,14 +87,14 @@ const CATEGORY_DEFINITIONS: CategoryDefinition[] = [
     highlight: "Orientações da neonatologia ao primeiro ano com suporte contínuo.",
     color: "bg-blue-50 border-blue-200 text-blue-700",
     match: (post) => includesCategory(post, ["cuidado", "rotina", "nutri", "higiene", "enxoval"]),
-    cta: { label: "Ver dicas de cuidados", href: "/faq#cuidados" },
+    cta: { label: "Ver dicas de cuidados", href: "/faq-do-tutor#primeiros-cuidados" },
   },
   {
     id: "raca",
     title: "Raça",
     description:
       "Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia): características, padrão e história da raça.",
-    highlight: `Guias completos escritos pela criadora com ${yearsOfExperience()} anos de experiência.`,
+    highlight: `Guias completos escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}.`,
     color: "bg-rose-50 border-rose-200 text-rose-700",
     match: (post) => includesCategory(post, ["raca", "spitz", "pomerani", "historico", "caracteristica"]),
     cta: { label: "Conhecer a raça", href: "/spitz-alemao" },
@@ -113,7 +115,7 @@ export const revalidate = 300;
 export const metadata: Metadata = {
   title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia)",
   description:
-    `Guias escritos pela criadora com ${yearsOfExperience()} anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia): cuidados, rotina, comportamento, saúde preventiva e preços.`,
+    `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão (Lulu da Pomerânia): cuidados, rotina, comportamento, saúde preventiva e preços.`,
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",
@@ -121,6 +123,10 @@ export const metadata: Metadata = {
     title: "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
       "Pilares evergreen sobre saúde, rotina e comportamento do Spitz Alemão Anão (Lulu da Pomerânia).",
+    // Sem `images` aqui o Next 14 não herda o opengraph-image do segmento: a
+    // página saía com og:title e nenhum og:image. Era a única URL do sitemap
+    // ainda sem imagem de compartilhamento.
+    images: [OG_DEFAULT_IMAGE],
   },
 };
 
@@ -215,7 +221,7 @@ function renderPage({
 }) {
   const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)";
   const metaDescStr =
-    `Guias escritos pela criadora com ${yearsOfExperience()} anos de experiência sobre Spitz Alemão Anão (Lulu da Pomerânia).`;
+    `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão (Lulu da Pomerânia).`;
 
   const blogSchema = buildBlogSchema({
     url: process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br",
@@ -384,7 +390,7 @@ function BlogHero({ searchTerm }: { searchTerm: string }) {
             <span className="text-zinc-300 text-2xl sm:text-3xl font-normal">(Lulu da Pomerânia)</span>
         </h1>
         <p className="mt-4 text-base text-zinc-300 sm:text-lg">
-          Guias escritos pela criadora com {yearsOfExperience()} anos de experiência.
+          Guias escritos pela criadora, que cria a raça desde {FOUNDING_YEAR}.
           Sem jargão, sem enrolação.
         </p>
         <form

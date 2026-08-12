@@ -1,7 +1,6 @@
 import { CheckCircle, Clock, HeartHandshake, Shield } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import LeadForm from "@/components/LeadForm";
@@ -9,15 +8,19 @@ import TrustBar from "@/components/TrustBar";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { routes } from "@/lib/route";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
 
 export const metadata: Metadata = {
   title: "Reserve seu Filhote de Spitz Alemão Anão",
   description:
-    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão com registro oficial, socialização guiada e mentoria vitalícia. Processo transparente e suporte direto com a criadora.",
+    // 188 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
+    // Reescrita em 142, agora com "Lulu da Pomerânia".
+    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão (Lulu da Pomerânia), com registro oficial e suporte direto com a criadora.",
   alternates: { canonical: "/reserve-seu-filhote" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: "/reserve-seu-filhote",
     title: "Reserve seu Filhote de Spitz Alemão Anão | By Império Dog",
@@ -29,7 +32,7 @@ export const metadata: Metadata = {
 const benefits = [
   {
     icon: Shield,
-    title: "Garantia de Saúde",
+    title: "Saúde Documentada",
     description: "Laudos veterinários e protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
   },
   {
@@ -73,12 +76,12 @@ const processSteps = [
   {
     step: "05",
     title: "Socialização e Preparo",
-    description: "Durante 60 dias, o filhote recebe socialização guiada, enriquecimento ambiental e protocolo veterinário completo.",
+    description: "Durante 60 dias, o filhote recebe socialização guiada, enriquecimento ambiental e protocolo vacinal em dia conforme a idade do filhote.",
   },
   {
     step: "06",
     title: "Entrega Humanizada",
-    description: "Retirada presencial ou transporte assistido para todo o Brasil, com kit de boas-vindas, documentação completa e suporte pós-entrega.",
+    description: "Retirada presencial ou transporte assistido para todo o Brasil, com kit de boas-vindas, registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato — e suporte pós-entrega.",
   },
 ] as const;
 
@@ -89,7 +92,7 @@ const faqEntries = [
   },
   {
     question: "Posso visitar os filhotes antes de reservar?",
-    answer: "Sim! Agendamos visitas presenciais aos sábados ou videochamadas durante a semana. Você pode conhecer os pais, a estrutura e tirar todas as dúvidas.",
+    answer: "Sim. Agendamos visitas presenciais ou videochamadas para você conhecer os filhotes, ver os pais e tirar todas as dúvidas diretamente com a criadora. Combine o horário pelo WhatsApp.",
   },
   {
     question: "Quanto tempo devo esperar após a reserva?",
@@ -145,9 +148,9 @@ export default function ReserveSeuFilhotePage() {
 
   return (
     <main className="bg-[var(--bg)] text-[var(--text)]">
-      <Script id="ld-breadcrumb-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-webpage-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
-      <Script id="ld-faq-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-breadcrumb-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-webpage-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
+      <script id="ld-faq-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       {/* Hero */}
       <section className="mx-auto max-w-6xl space-y-6 px-5 py-16 text-center sm:text-left">

@@ -2,6 +2,12 @@ export type GuideSection = { heading: string; paragraphs: string[] };
 export type Guide = {
   slug: string;
   title: string;
+  /**
+   * Título curto só para o <title>/og:title da página. Existe porque alguns
+   * títulos passam de 100 caracteres com o sufixo da marca e o Google corta o
+   * fim na busca. O H1 continua sendo o `title`. Opcional.
+   */
+  seoTitle?: string;
   metaDescription: string;
   publishedAt: string;
   updatedAt: string;
@@ -17,7 +23,7 @@ export const guides: Guide[] = [
     slug: "como-escolher-spitz-alemao-anao",
     title: "Como Escolher um Spitz Alemão Anão (Lulu da Pomerânia): Guia Definitivo",
     metaDescription:
-      "Aprenda tudo sobre como escolher o Spitz Alemão Anão (Lulu da Pomerânia) ideal: macho x fêmea, diferenças entre cores, documentação obrigatória e como reconhecer um criador confiável.",
+      "Como escolher o Spitz Alemão Anão (Lulu da Pomerânia) ideal: macho x fêmea, diferenças entre cores, documentação e como reconhecer um criador confiável.",
     publishedAt: "2025-01-10",
     updatedAt: "2025-05-01",
     excerpt:
@@ -34,15 +40,15 @@ export const guides: Guide[] = [
       {
         heading: "Macho ou Fêmea: qual escolher?",
         paragraphs: [
-          "Fêmeas tendem a ser mais apegadas e criar vínculos seletivos e profundos com a família. São ideais para quem busca um companheiro leal e dócil. O preço é superior ao macho em todas as cores.",
-          "Machos são geralmente mais brincalhões, extrovertidos e menos territoriais quando castrados. Têm custo menor e são excelentes para famílias com crianças pequenas que preferem um cão com mais energia.",
+          "O que muda de fato entre macho e fêmea é o preço e o ciclo reprodutivo. Na tabela atual da By Império Dog a fêmea tem valor único em todas as cores, acima do macho. A fêmea não castrada entra no cio cerca de duas vezes por ano, o que exige cuidados extras nesse período.",
+          "Temperamento não vem do sexo. O comportamento é o típico da raça e depende de genética, socialização e da rotina que a família oferece — há macho tranquilo e fêmea agitada, e o contrário também.",
           "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem os mesmos laudos, registro oficial e acompanhamento na By Império Dog.",
         ],
       },
       {
         heading: "As diferenças entre as cores",
         paragraphs: [
-          "Creme e Preto Fêmea são as cores mais valorizadas e raras. Cinza-Lobo (Wolf Sable), bicolor cinza/laranja, é a cor mais exótica. Laranja é a mais icônica e com maior disponibilidade ao longo do ano.",
+          "Na tabela atual da By Império Dog, creme e preto ficam na faixa superior entre os machos; as fêmeas têm valor único em todas as cores. Cinza-Lobo (Wolf Sable) é a bicolor cinza/laranja. O laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano.",
           "A cor não influencia o temperamento nem a saúde — influencia apenas a disponibilidade e, consequentemente, o preço. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
         ],
       },
@@ -206,7 +212,7 @@ export const guides: Guide[] = [
       {
         question: "Lulu da Pomerânia 'branco' é o mesmo que Spitz Creme?",
         answer:
-          "Não exatamente. O Branco puro é uma coloração específica rara. O Creme tem tonalidade marfim levemente quente. Na prática do mercado brasileiro, os dois termos são frequentemente usados como sinônimos, mas são cores ligeiramente diferentes no padrão FCI.",
+          "Não exatamente. O Branco puro é uma coloração específica do padrão. O Creme tem tonalidade marfim levemente quente. Na prática do mercado brasileiro, os dois termos são frequentemente usados como sinônimos, mas são cores ligeiramente diferentes no padrão FCI.",
       },
       {
         question: "Como saber se o filhote é puro-sangue?",
@@ -219,6 +225,7 @@ export const guides: Guide[] = [
   {
     slug: "cuidados-basicos-spitz-alemao-anao",
     title: "Cuidados Básicos com o Spitz Alemão Anão (Lulu da Pomerânia): Do Banho ao Veterinário",
+    seoTitle: "Cuidados Básicos com o Spitz Alemão Anão",
     metaDescription:
       "Guia completo de cuidados básicos com o Spitz Alemão Anão (Lulu da Pomerânia): escovação, banho, unhas, saúde preventiva e atividade física ideal para a raça.",
     publishedAt: "2025-02-20",
@@ -240,7 +247,7 @@ export const guides: Guide[] = [
         paragraphs: [
           "Corte as unhas a cada 3 a 4 semanas ou quando começar a ouvir o barulho no chão ao caminhar. Use alicate de guilhotina específico para cães pequenos e evite o quick (parte rosada da unha).",
           "Limpe os ouvidos semanalmente com solução específica e algodão. O Spitz tem orelhas eretas que circulam bem o ar, mas acúmulo de cera pode acontecer.",
-          "Escovação dentária 2 a 3 vezes por semana reduz tártaro e previne doença periodontal — muito comum em raças pequenas. Introduce o hábito ainda filhote.",
+          "Escovação dentária 2 a 3 vezes por semana ajuda a reduzir o tártaro e a prevenir doença periodontal, muito comum em raças pequenas. Introduza o hábito ainda filhote e leve a avaliação da boca para a consulta de rotina.",
         ],
       },
       {
@@ -286,12 +293,13 @@ export const guides: Guide[] = [
   {
     slug: "preparando-chegada-filhote-spitz",
     title: "Como Preparar a Chegada do Filhote de Spitz Alemão Anão (Lulu da Pomerânia)",
+    seoTitle: "Como Preparar a Chegada do Filhote de Spitz",
     metaDescription:
       "Checklist completo para preparar a chegada do filhote de Spitz Alemão Anão (Lulu da Pomerânia): enxoval, adaptação do ambiente, primeiros dias, veterinário e socialização inicial.",
     publishedAt: "2025-03-01",
     updatedAt: "2025-05-01",
     excerpt:
-      "Os primeiros dias em casa são decisivos para o desenvolvimento do filhote. Este guia garante que você esteja 100% preparado antes da chegada.",
+      "Os primeiros dias em casa são decisivos para o desenvolvimento do filhote. Este guia reúne o que preparar antes da chegada, item por item.",
     readingMinutes: 6,
     sections: [
       {
@@ -353,7 +361,7 @@ export const guides: Guide[] = [
     slug: "quanto-custa-ter-spitz-alemao-anao",
     title: "Quanto Custa Ter um Spitz Alemão Anão (Lulu da Pomerânia) por Mês?",
     metaDescription:
-      "Descubra o custo real mensal de ter um Spitz Alemão Anão (Lulu da Pomerânia): ração premium, veterinário, banho, vacinas, petiscos e acessórios. Planilha completa para se preparar antes de comprar.",
+      "Custo mensal real de um Spitz Alemão Anão (Lulu da Pomerânia): ração, veterinário, banho, vacinas e acessórios. Planilha para se preparar antes de comprar.",
     publishedAt: "2025-06-01",
     updatedAt: "2025-06-01",
     excerpt:

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Script from "next/script";
 import type { Metadata } from "next";
 
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
-import { buildArticleLD } from "@/lib/schema";
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { buildArticleLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/spitz-alemao`;
@@ -12,7 +12,9 @@ const PAGE_URL = `${SITE_URL}/spitz-alemao`;
 export const metadata: Metadata = {
   title: "Spitz Alemão Anão — Raça, Características, Preço e Cuidados",
   description:
-    "Tudo sobre o Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto, cuidados com pelagem e preço. Criadora especializada em Bragança Paulista, SP, desde 2013.",
+    // 184 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
+    // Reescrita em 150, agora com "Lulu da Pomerânia".
+    "Spitz Alemão Anão (Lulu da Pomerânia): origem, características, temperamento, cores, tamanho adulto, cuidados e preço. Criadora em Bragança Paulista, SP.",
   keywords: [
     "Spitz Alemão Anão",
     "Spitz Alemão características",
@@ -24,6 +26,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/spitz-alemao" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Spitz Alemão Anão — Tudo Sobre a Raça | By Império Dog",
     description: "Origem, características, temperamento, cores, cuidados e preços do Spitz Alemão Anão.",
     type: "article",
@@ -38,7 +41,7 @@ const CHARACTERISTICS = [
   { label: "Peso adulto (referência prática)", value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
-  { label: "Cores mais procuradas", value: "Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
+  { label: "Cores na By Império Dog", value: "Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
   { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
@@ -63,7 +66,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "O padrão da raça admite várias cores. Entre as mais procuradas estão Laranja (a mais icônica), Creme (a mais valorizada), Preto (rara no Brasil) e Cinza-Lobo (Wolf Sable), além de branco, marrom, preto e castanho e as variantes particoloridas. Cada cor tem particularidades no preço e na disponibilidade — mas a cor não altera temperamento nem saúde.",
+      "O padrão da raça admite várias cores. As quatro trabalhadas pela By Império Dog são Laranja (a mais conhecida), Creme, Preto e Cinza-Lobo (Wolf Sable), e o padrão também admite branco, marrom, preto e castanho e as variantes particoloridas. Cada cor tem particularidades no preço e na disponibilidade — mas a cor não altera temperamento nem saúde.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
@@ -93,11 +96,11 @@ export default function SpitzAlemaoPage() {
 
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
-      <Script id="ld-spitz-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-spitz-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-spitz-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-spitz-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <Script id="ld-breed-synonyms"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+      <script id="ld-spitz-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-spitz-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-spitz-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-spitz-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-breed-synonyms"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Article",
         "about": {
@@ -198,13 +201,13 @@ export default function SpitzAlemaoPage() {
 
       {/* Cores */}
       <section aria-labelledby="cores-heading" className="space-y-4">
-        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores mais procuradas do Spitz Alemão Anão</h2>
+        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores do Spitz Alemão Anão na By Império Dog</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },
-            { cor: "Creme",      slug: "creme",      desc: "A mais valorizada. Pelagem cor de marfim com contraste de olhos e focinho escuros." },
+            { cor: "Creme",      slug: "creme",      desc: "Pelagem cor de marfim com contraste de olhos e focinho escuros." },
             { cor: "Preto",      slug: "preto",      desc: "Pelagem preta brilhante uniforme. Disponibilidade limitada — ninhadas esporádicas." },
-            { cor: "Cinza-Lobo (Wolf Sable)", slug: "wolf-sable", desc: "Padrão exótico com pelos tricolores (ponta escura, corpo acinzentado) — reconhecido pela FCI." },
+            { cor: "Cinza-Lobo (Wolf Sable)", slug: "wolf-sable", desc: "Pelos com ponta escura sobre corpo acinzentado — padrão reconhecido pela FCI." },
           ].map((c) => (
             <Link
               key={c.cor}

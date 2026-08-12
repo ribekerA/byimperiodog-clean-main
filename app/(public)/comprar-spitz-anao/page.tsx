@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 
@@ -15,7 +15,9 @@ const PAGE_URL = `${SITE_URL}/comprar-spitz-anao`;
 export const metadata: Metadata = {
   title: "Como Comprar Spitz Alemão Anão com Segurança",
   description:
-    "Guia completo para comprar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) com segurança. Saiba o que verificar, quais documentos exigir, como evitar golpes e onde encontrar criadores responsáveis em Bragança Paulista, SP.",
+    // 226 caracteres: o Google cortava a partir de "como evitar golpes".
+    // Reescrita em 141.
+    "Como comprar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
   keywords: [
     "comprar Spitz Alemão Anão",
     "onde comprar Lulu da Pomerânia confiável",
@@ -27,6 +29,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/comprar-spitz-anao" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Como Comprar Spitz Alemão Anão com Segurança — By Império Dog",
     description:
       "Guia completo: o que exigir, documentos obrigatórios, sinais de alerta e como funciona a compra na By Império Dog. Bragança Paulista, SP.",
@@ -41,7 +44,7 @@ const CHECKLIST_YES = [
   "Carteira de vacinação com carimbos veterinários reais",
   "Contrato claro com garantia de saúde e suporte pós-venda",
   "Fotos e vídeos reais — sem filtros exagerados",
-  "Visita ou videochamada para conhecer a estrutura",
+  "Visita ou videochamada para conhecer os filhotes e a criadora",
   "Referências de compradores anteriores",
 ] as const;
 
@@ -82,12 +85,12 @@ const PAGE_FAQS = [
   {
     question: "Posso visitar o canil antes de comprar?",
     answer:
-      "Sim. Fazemos videochamadas para mostrar a estrutura, os filhotes e os pais a qualquer momento. Visitas presenciais são permitidas por agendamento em Bragança Paulista, SP.",
+      "Sim. Fazemos videochamadas para mostrar os filhotes e os pais. Visitas presenciais são permitidas por agendamento em Bragança Paulista, SP.",
   },
   {
-    question: "Existe garantia de saúde?",
+    question: "O contrato prevê alguma garantia de saúde?",
     answer:
-      "Sim. Nosso contrato inclui garantia de saúde de 90 dias para condições genéticas documentadas. Além disso, o tutor tem suporte vitalício direto com a criadora para orientações ao longo de toda a vida do Spitz.",
+      "Sim, nos termos previstos em contrato. O tutor deve levar o filhote a uma clínica veterinária de sua confiança em até 72 horas após a entrega. Se nesse prazo for constatado, por laudo assinado por médico-veterinário (CRMV), problema grave de origem pré-existente, a criadora reembolsa integralmente o valor pago ou substitui o animal, a critério do comprador. Leia as cláusulas completas no contrato antes de assinar.",
   },
   {
     question: "Como evitar golpes ao comprar Spitz Alemão Anão pela internet?",
@@ -118,10 +121,10 @@ export default function ComprarSpitzPage() {
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="comprar-spitz-anao" />
-      <Script id="ld-comprar-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <Script id="ld-comprar-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-comprar-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-comprar-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-comprar-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-comprar-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-comprar-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-comprar-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── HERO ── */}
       <header className="space-y-4">

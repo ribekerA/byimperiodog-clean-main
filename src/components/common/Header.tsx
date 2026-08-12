@@ -27,7 +27,7 @@ const RACA_LINKS = [
   { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: "Guia completo + preços" },
   { label: "Pomeranian",               href: "/pomeranian",                desc: "= Lulu da Pomerânia = Spitz Alemão Anão" },
   { label: "Filhote de Spitz Alemão",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
-  { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Cor rara — disponibilidade" },
+  { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Preço e disponibilidade" },
   { label: "Spitz Alemão Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
   { label: "Tabela de Preços",         href: "/preco-spitz-anao",          desc: "Valores por cor e sexo" },
   { label: "Como Comprar",             href: "/comprar-spitz-anao",        desc: "Guia passo a passo seguro" },

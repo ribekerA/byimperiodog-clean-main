@@ -20,7 +20,7 @@ const CORES = [
   { value: "creme", label: "Creme (marfim)", emoji: "🤍" },
   { value: "laranja", label: "Laranja (icônico)", emoji: "🧡" },
   { value: "preto", label: "Preto (elegante)", emoji: "🖤" },
-  { value: "wolf-sable", label: "Cinza-Lobo (Wolf Sable, raro)", emoji: "🩶" },
+  { value: "wolf-sable", label: "Cinza-Lobo (Wolf Sable)", emoji: "🩶" },
 ];
 
 const SEXOS = [

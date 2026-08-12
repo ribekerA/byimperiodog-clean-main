@@ -39,9 +39,9 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
       "São nomes para a mesma raça. 'Lulu da Pomerânia' é o nome popular usado no Brasil, enquanto 'Spitz Alemão Anão' é a denominação oficial reconhecida pela FCI (Fédération Cynologique Internationale). Quando você busca um desses nomes, está procurando o mesmo cachorro — o pequeno e fofo de pelagem densa e orelhas pontudas.",
   },
   {
-    question: "Spitz Alemão (Lulu da Pomerânia) preto é raro? É mais caro?",
+    question: "Spitz Alemão (Lulu da Pomerânia) preto é difícil de encontrar? É mais caro?",
     answer:
-      "O Spitz Alemão Anão (Lulu da Pomerânia) preto é considerado uma cor rara, com menos criadores especializados no Brasil. É mais difícil de encontrar com registro oficial e linhagem saudável. Na By Império Dog, mantemos matrizes na cor preta com registro oficial e acompanhamento veterinário. O preço do preto é de R$ 7.500 para machos e R$ 8.500 para fêmeas (mesmo valor de todas as cores) — no mesmo patamar do creme, acima do laranja e do cinza-lobo.",
+      "O preto aparece com menos frequência nas ninhadas do que o laranja, porque a pelagem preta uniforme depende das linhagens usadas no acasalamento. Na By Império Dog, mantemos matrizes na cor preta com registro oficial e acompanhamento veterinário. O preço do preto é de R$ 7.500 para machos e R$ 8.500 para fêmeas (mesmo valor de todas as cores) — no mesmo patamar do creme, acima do laranja e do cinza-lobo.",
   },
   {
     question: "Vocês entregam o filhote em todo o Brasil?",

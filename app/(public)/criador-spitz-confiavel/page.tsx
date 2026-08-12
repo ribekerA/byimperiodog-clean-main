@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
-import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 
@@ -15,7 +15,10 @@ const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
 export const metadata: Metadata = {
   title: "Criador de Spitz Alemão Anão Confiável em SP",
   description:
-    `Saiba como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia). A By Império Dog cria a raça desde ${FOUNDING_YEAR}, com registro oficial, laudos veterinários e mentoria vitalícia. Criador responsável em Bragança Paulista, SP — atende todo o Brasil.`,
+    // 256 caracteres: o Google mostra ~160 e cortava a frase no meio. Reescrita
+    // em 153 sem perder nenhum termo de busca — só a repetição do que já está
+    // no title e no H1.
+    `Como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia): o que exigir, como evitar golpes e o que a By Império Dog entrega desde ${FOUNDING_YEAR}.`,
   keywords: [
     "criador Spitz Alemão Anão confiável SP",
     "melhor canil Lulu da Pomerânia interior SP",
@@ -29,6 +32,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/criador-spitz-confiavel" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
     description:
       `Criação responsável desde ${FOUNDING_YEAR}, mais de 180 famílias atendidas, registro oficial e mentoria vitalícia. Saiba como identificar um criador confiável.`,
@@ -39,7 +43,7 @@ export const metadata: Metadata = {
 // Sem "Avaliação 5.0 ★": não existe plataforma pública de avaliações
 // verificadas do canil, então qualquer média exibida aqui seria inventada.
 const CREDENTIALS = [
-  { label: "Desde",        value: String(FOUNDING_YEAR), note: `${yearsOfExperience()} anos de criação especializada` },
+  { label: "Desde",        value: String(FOUNDING_YEAR), note: "Criação especializada em Spitz Alemão Anão" },
   { label: "Famílias",     value: "180+",    note: "Mais de 180 famílias atendidas em todo o Brasil" },
   { label: "Registro",     value: "Incluso", note: "Emissão e entrega conforme o prazo da entidade responsável" },
   { label: "Mentoria",     value: "Vitalícia", note: "Suporte direto com a criadora após a entrega" },
@@ -95,7 +99,7 @@ const PAGE_FAQS = [
   {
     question: "Quantos anos de experiência tem a By Império Dog?",
     answer:
-      `A By Império Dog iniciou a criação de Spitz Alemão Anão (Lulu da Pomerânia) em ${FOUNDING_YEAR}, com ${yearsOfExperience()} anos dedicados exclusivamente à raça. Ao longo desse período, mais de 180 famílias foram atendidas em todo o Brasil com filhotes documentados e com suporte vitalício.`,
+      `A By Império Dog iniciou a criação de Spitz Alemão Anão (Lulu da Pomerânia) em ${FOUNDING_YEAR} e se dedica exclusivamente à raça desde então. Ao longo desse período, mais de 180 famílias foram atendidas em todo o Brasil com filhotes documentados e com suporte vitalício.`,
   },
   {
     question: "Qual a diferença entre um canil e um criador responsável?",
@@ -126,10 +130,10 @@ export default function CriadorConfiavelPage() {
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="criador-spitz-confiavel" />
-      <Script id="ld-criador-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <Script id="ld-criador-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-criador-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-criador-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-criador-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-criador-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-criador-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-criador-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── HERO ── */}
       <header className="space-y-4">
@@ -250,7 +254,7 @@ export default function CriadorConfiavelPage() {
           Conheça os filhotes da By Império Dog
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
-          Acesse nosso catálogo atualizado ou entre em contato diretamente com a criadora para conhecer a estrutura, tirar dúvidas e iniciar o processo.
+          Acesse nosso catálogo atualizado ou entre em contato diretamente com a criadora para conhecer os filhotes, tirar dúvidas e iniciar o processo.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link

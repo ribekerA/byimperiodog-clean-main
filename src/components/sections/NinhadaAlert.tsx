@@ -42,7 +42,7 @@ export default function NinhadaAlert() {
           Seja o primeiro a saber da próxima ninhada
         </h2>
         <p className="mt-4 text-zinc-400">
-          Filhotes disponíveis são reservados em horas. Entre na lista e receba um aviso direto no WhatsApp antes de qualquer anúncio.
+          A disponibilidade pode mudar rapidamente conforme as reservas. Entre na lista e receba um aviso direto no WhatsApp antes de qualquer anúncio.
         </p>
 
         <form

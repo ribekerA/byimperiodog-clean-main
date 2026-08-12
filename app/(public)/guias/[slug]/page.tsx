@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
-import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import BlogPuppyBanner from "@/components/blog/BlogPuppyBanner";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { guides, getGuideBySlug } from "@/content/guides";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -19,10 +19,13 @@ export function generateMetadata({ params }: Props): Metadata {
   const guide = getGuideBySlug(params.slug);
   if (!guide) return { title: "Guia não encontrado" };
   return {
-    title: guide.title,
+    // `seoTitle` quando existe: o `title` de alguns guias passa de 100
+    // caracteres com o sufixo da marca e o Google corta o fim. O H1 da página
+    // continua usando o `title` completo.
+    title: guide.seoTitle ?? guide.title,
     description: guide.metaDescription,
     alternates: { canonical: `/guias/${guide.slug}` },
-    openGraph: { title: guide.title, description: guide.metaDescription, type: "article" },
+    openGraph: { images: [OG_DEFAULT_IMAGE], title: guide.title, description: guide.metaDescription, type: "article" },
   };
 }
 
@@ -59,10 +62,10 @@ export default function GuidePage({ params }: Props) {
 
   return (
     <>
-      <Script id="ld-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <Script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Breadcrumb */}

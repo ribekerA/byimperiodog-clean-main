@@ -17,7 +17,7 @@ const SEXES = [
     label: "Macho",
     range: "R$ 6.500 a R$ 7.500",
     highlight: false,
-    note: "Temperamento alegre, brincalhão e apegado. Excelente para famílias.",
+    note: "Preço varia conforme a cor. O temperamento é o típico da raça e não depende do sexo.",
     colors: [
       { cor: "Laranja", valor: "R$ 6.500" },
       { cor: "Cinza-Lobo", valor: "R$ 6.500" },
@@ -29,7 +29,7 @@ const SEXES = [
     label: "Fêmea",
     range: "R$ 8.500",
     highlight: true,
-    note: "Vínculo familiar mais profundo. Alta demanda — reservas se esgotam rápido.",
+    note: "Valor único em todas as cores. A disponibilidade pode mudar rapidamente conforme as reservas.",
     colors: [{ cor: "Todas as cores", valor: "R$ 8.500" }],
   },
 ];
@@ -85,7 +85,7 @@ export default function PriceTransparency() {
           >
             {s.highlight && (
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--accent)] px-4 py-1 text-xs font-bold text-[var(--accent-foreground)]">
-                Mais procurada
+                Valor único por cor
               </span>
             )}
             <h3 className="text-lg font-bold text-zinc-900">{s.label}</h3>

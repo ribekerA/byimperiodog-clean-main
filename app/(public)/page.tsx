@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import ColorGallery from "@/components/sections/ColorGallery";
 import HomeFAQ from "@/components/sections/HomeFAQ";
-import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
 import NinhadaAlert from "@/components/sections/NinhadaAlert";
 import PriceTransparency from "@/components/sections/PriceTransparency";
 import TextTestimonials from "@/components/sections/TextTestimonials";
 import VideoHero from "@/components/sections/VideoHero";
-import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
+import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
 import { staticPuppies } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD, buildFAQLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
-import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const Testimonials = dynamic(() => import("@/components/Testimonials"), {
   ssr: false,
@@ -60,13 +60,16 @@ export const metadata: Metadata = {
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
       `Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos. Criação desde ${FOUNDING_YEAR}, mais de 180 famílias atendidas.`,
-    images: [{ url: "/og/home.jpg", width: 1200, height: 630, alt: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog, Bragança Paulista SP" }],
+    // `/og/home.jpg` nunca existiu: a pasta public/og/ não existe no repositório
+    // e o arquivo respondia 404. Toda pré-visualização de link da home saía sem
+    // imagem. Agora aponta para o arquivo real de 1200x630.
+    images: [{ url: OG_DEFAULT_IMAGE.url, width: OG_DEFAULT_IMAGE.width, height: OG_DEFAULT_IMAGE.height, alt: "Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog, Bragança Paulista SP" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
     description: "Criação responsável em Bragança Paulista, SP. Registro oficial, laudos e mentoria vitalícia inclusos.",
-    images: ["/og/home.jpg"],
+    images: [OG_DEFAULT_IMAGE.url],
   },
 };
 
@@ -127,12 +130,12 @@ export default function HomePage() {
 
   return (
     <>
-      <Script
+      <script
         id="ld-business"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }}
       />
-      <Script
+      <script
         id="ld-faq"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}

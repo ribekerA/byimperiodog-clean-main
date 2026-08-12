@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 
@@ -14,7 +14,9 @@ const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 export const metadata: Metadata = {
   title: "Preço do Spitz Alemão Anão (Lulu da Pomerânia) — Tabela Atualizada",
   description:
-    "Tabela de preços atualizada do Spitz Alemão Anão (Lulu da Pomerânia): machos e fêmeas nas cores Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). Registro oficial, laudos e mentoria vitalícia inclusos. Saiba por que o valor varia e o que está incluso.",
+    // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
+    // varia", que é justamente a intenção de busca da página. Reescrita em 156.
+    "Tabela de preços do Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo: Creme, Laranja, Preto e Cinza-Lobo. Veja o que está incluso e por que o valor varia.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
@@ -28,6 +30,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/preco-spitz-anao" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
     description:
       "Machos de R$ 6.500 a R$ 7.500 e fêmeas R$ 8.500 (valor único para todas as cores) — inclui registro oficial, laudos veterinários e mentoria vitalícia.",
@@ -37,9 +40,9 @@ export const metadata: Metadata = {
 
 const PRICE_TABLE = [
   { color: "Laranja",                    male: "R$ 6.500", female: "R$ 8.500", note: "A cor mais icônica da raça" },
-  { color: "Cinza-Lobo (Wolf Sable)",    male: "R$ 6.500", female: "R$ 8.500", note: "Padrão exótico reconhecido pela FCI" },
-  { color: "Preto",                      male: "R$ 7.500", female: "R$ 8.500", note: "Cor rara com poucos criadores no Brasil" },
-  { color: "Creme",                      male: "R$ 7.500", female: "R$ 8.500", note: "A mais valorizada — altíssima demanda" },
+  { color: "Cinza-Lobo (Wolf Sable)",    male: "R$ 6.500", female: "R$ 8.500", note: "Bicolor reconhecida pela FCI" },
+  { color: "Preto",                      male: "R$ 7.500", female: "R$ 8.500", note: "Faixa superior entre os machos" },
+  { color: "Creme",                      male: "R$ 7.500", female: "R$ 8.500", note: "Faixa superior entre os machos" },
 ] as const;
 
 const INCLUDED_ITEMS = [
@@ -69,12 +72,12 @@ const PAGE_FAQS = [
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
     answer:
-      "Sim. As fêmeas são mais valorizadas por conta da maior demanda e custam R$ 8.500, valor único para todas as cores. Em relação ao macho da mesma cor, a diferença fica entre R$ 1.000 e R$ 2.000. Isso não é arbitrário — é reflexo direto da procura pelo mercado.",
+      "Sim. Na tabela atual da By Império Dog, a fêmea custa R$ 8.500, valor único para todas as cores. Em relação ao macho da mesma cor, a diferença fica entre R$ 1.000 e R$ 2.000. É a política comercial praticada hoje pela criadora, e não uma regra da raça.",
   },
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
     answer:
-      "Nas fêmeas, o valor é o mesmo para todas as cores: R$ 8.500. Entre os machos, creme e preto são os mais caros, empatados em R$ 7.500 — o preto, além de valorizado, é raro e difícil de encontrar com registro oficial. O laranja e o cinza-lobo (wolf sable) são os mais acessíveis, a R$ 6.500 para machos.",
+      "Nas fêmeas, o valor é o mesmo para todas as cores: R$ 8.500. Entre os machos, creme e preto ficam na faixa superior da tabela atual, empatados em R$ 7.500 — são também as cores de menor disponibilidade nas ninhadas. O laranja e o cinza-lobo (wolf sable) são os mais acessíveis, a R$ 6.500 para machos.",
   },
   {
     question: "O que está incluso no preço da By Império Dog?",
@@ -110,10 +113,10 @@ export default function PrecoSpitzPage() {
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="preco-spitz-anao" />
-      <Script id="ld-preco-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <Script id="ld-preco-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-preco-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-preco-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-preco-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-preco-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-preco-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-preco-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── HERO ── */}
       <header className="space-y-4">
@@ -189,7 +192,7 @@ export default function PrecoSpitzPage() {
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Cor e raridade", body: "O creme é extremamente difícil de produzir com consistência genética. O preto é raro no Brasil com registro oficial. Cores mais difíceis demandam mais cruzamentos e são mais caras." },
+            { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência nas ninhadas da By Império Dog do que o laranja. Por isso ficam na faixa superior da tabela atual entre os machos." },
             { title: "Sexo", body: "Fêmeas têm demanda 2–3× maior que machos, o que eleva naturalmente o preço de mercado." },
             { title: "Linhagem e genética", body: "Matrizes e reprodutores com títulos de exposição, laudos de saúde e histórico de filhotes saudáveis valem mais — e produzem filhotes mais seguros." },
             { title: "Documentação completa", body: "Registro oficial, laudo de saúde e exames laboratoriais têm custo. Criadores que os incluem precisam cobrar mais — e devem." },

@@ -57,13 +57,13 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Creme",
     intro:
-      "O Spitz Creme é a cor mais valorizada e disputada da raça. Sua pelagem sedosa cor de marfim, combinada com olhos escuros expressivos, faz dele o Spitz mais procurado por famílias que buscam sofisticação. Disponibilidade limitada — consulte agenda de ninhadas.",
+      "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. Na tabela atual da By Império Dog, o creme está na faixa superior entre os machos, junto com o preto. Disponibilidade limitada — consulte a agenda de ninhadas.",
     characteristics: [
       "Pelagem densa cor creme/marfim uniforme sem manchas",
       "Olhos escuros expressivos e focinho amendoado",
       "Temperamento típico da raça — a cor não altera o comportamento",
       "Tamanho dentro do padrão FCI nº 97 (21 cm ± 3 cm na cernelha)",
-      "Alta demanda — ninhadas abertas com antecedência",
+      "Ninhadas abertas com antecedência — consulte a agenda",
     ],
     faqs: [
       {
@@ -74,7 +74,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Por que o Spitz Creme é mais caro que outras cores?",
         answer:
-          "O Spitz Creme tem disponibilidade menor porque cada ninhada produz poucos filhotes com pelagem uniforme dentro do padrão FCI. A combinação de raridade e alta demanda eleva naturalmente o valor.",
+          "Nem toda ninhada traz filhotes creme com pelagem uniforme dentro do padrão FCI, então a disponibilidade é menor ao longo do ano. Na tabela atual da By Império Dog, o macho creme está na faixa superior, junto com o preto.",
       },
       {
         question: "O Spitz Creme perde muito pelo?",
@@ -128,15 +128,15 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   preto: {
     seoTitle: "Spitz Alemão Anão Preto — Filhotes Disponíveis",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Cor rara e elegante. Registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
+      "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Disponibilidade limitada. Registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Preto",
     intro:
-      "O Spitz Preto é uma das colorações mais elegantes e menos comuns da raça. Sua pelagem brilhante preta, aliada à estrutura compacta e expressão marcante, faz dele uma escolha sofisticada para quem busca exclusividade. A disponibilidade é limitada — ninhadas abertas esporadicamente.",
+      "O Spitz Preto tem pelagem preta brilhante, estrutura compacta e expressão marcante. Nas ninhadas da By Império Dog é a cor que aparece com menos frequência — a agenda abre esporadicamente.",
     characteristics: [
       "Pelagem preta brilhante uniforme sem manchas ou degradê",
       "Expressão marcante com contraste visual único",
-      "Disponibilidade muito rara — ninhadas abertas esporadicamente",
-      "Segunda cor fêmea mais valorizada da raça",
+      "Disponibilidade limitada — ninhadas abertas esporadicamente",
+      "Mesma faixa de preço do creme na tabela atual",
       "Temperamento típico da raça — a cor não altera o comportamento",
     ],
     faqs: [
@@ -146,14 +146,14 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
           "Na By Império Dog, a Fêmea Preta é R$ 8.500 e o Macho Preto é R$ 7.500. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
       },
       {
-        question: "Por que o Spitz Preto é raro?",
+        question: "Por que o Spitz Preto tem menos disponibilidade?",
         answer:
-          "A genética do Spitz Preto puro exige linhagens específicas. É mais difícil obter filhotes pretos uniformes dentro do padrão FCI, tornando cada ninhada preta um evento disputado no Brasil.",
+          "A pelagem preta uniforme depende das linhagens usadas no acasalamento, e nem toda ninhada traz filhotes pretos dentro do padrão FCI. Por isso as ninhadas pretas da By Império Dog são menos frequentes do que as de laranja.",
       },
       {
         question: "Existe lista de espera para Spitz Preto?",
         answer:
-          "Sim. Devido à raridade das ninhadas, mantemos lista de interesse prioritária. Entre em contato via WhatsApp para reservar sua posição na próxima ninhada.",
+          "Sim. Como as ninhadas pretas são menos frequentes, mantemos lista de interesse prioritária. Entre em contato via WhatsApp para reservar sua posição na próxima ninhada.",
       },
       {
         question: "Spitz Preto fica com a pelagem opaca?",
@@ -165,15 +165,15 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   "wolf-sable": {
     seoTitle: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) — Filhotes Disponíveis",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Cinza-Lobo (Wolf Sable, cinza/laranja) em Bragança Paulista, SP. Cor rara reconhecida pela FCI. Registro oficial e mentoria vitalícia.",
+      "Filhotes de Spitz Alemão Anão Cinza-Lobo (Wolf Sable, cinza/laranja) em Bragança Paulista, SP. Cor reconhecida pela FCI. Registro oficial e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",
     intro:
-      "O Cinza-Lobo (Wolf Sable) é a coloração bicolor mais exótica do Spitz Alemão Anão. Com máscara facial cinza sobre base laranja, imita o padrão selvagem do lobo. Reconhecida pela FCI como cor oficial, é raramente encontrada em criações especializadas no Brasil — o que torna cada filhote uma oportunidade única.",
+      "O Cinza-Lobo (Wolf Sable) é a coloração bicolor do Spitz Alemão Anão, com máscara facial cinza sobre base laranja que lembra o padrão do lobo. É reconhecida pela FCI como cor oficial e aparece com menos frequência nas ninhadas do que o laranja.",
     characteristics: [
       "Coloração bicolor: base laranja com pontas cinza/pretas (sable)",
       "Máscara facial escura — padrão único inconfundível",
       "Cor reconhecida oficialmente pela FCI",
-      "Uma das cores mais buscadas e menos disponíveis no Brasil",
+      "Aparece com menos frequência nas ninhadas do que o laranja",
       "Temperamento típico da raça — a cor não altera o comportamento",
     ],
     faqs: [

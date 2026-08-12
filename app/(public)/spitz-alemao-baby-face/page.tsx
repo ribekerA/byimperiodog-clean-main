@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Script from "next/script";
 import type { Metadata } from "next";
 
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
-import { buildArticleLD } from "@/lib/schema";
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { buildArticleLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/spitz-alemao-baby-face`;
@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/spitz-alemao-baby-face" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Spitz Alemão Baby Face — O que é e Como Identificar | By Império Dog",
     description: "O que é o Baby Face, por que não é reconhecido pela FCI, cuidados especiais e preço.",
     type: "article",
@@ -73,10 +74,10 @@ export default function SpitzAlemaobabyFacePage() {
 
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
-      <Script id="ld-bf-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-bf-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-bf-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-bf-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-bf-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-bf-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-bf-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-bf-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Entenda antes de comprar</p>

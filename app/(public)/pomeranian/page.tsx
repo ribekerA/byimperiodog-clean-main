@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Script from "next/script";
 import type { Metadata } from "next";
 
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
-import { buildArticleLD } from "@/lib/schema";
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { buildArticleLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/pomeranian`;
@@ -12,7 +12,9 @@ const PAGE_URL = `${SITE_URL}/pomeranian`;
 export const metadata: Metadata = {
   title: "Pomeranian no Brasil — Raça, Preço e Filhotes",
   description:
-    "Tudo sobre o Pomeranian no Brasil: o que é a raça, preço, filhotes com registro oficial, características e como encontrar um criador confiável. Pomeranian = Lulu da Pomerânia = Spitz Alemão Anão.",
+    // 195 caracteres: a equivalência de nomes, que é o ponto da página, ficava
+    // fora do trecho exibido. Reescrita em 152.
+    "Tudo sobre o Pomeranian no Brasil: o que é a raça, preço, características e onde encontrar filhotes com registro oficial. Pomeranian = Lulu da Pomerânia.",
   keywords: [
     "Pomeranian",
     "Pomeranian Brasil",
@@ -27,6 +29,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/pomeranian" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Pomeranian no Brasil — Raça, Preço e Filhotes | By Império Dog",
     description:
       "O Pomeranian é o mesmo que Lulu da Pomerânia e Spitz Alemão Anão. Saiba preço, características e onde comprar com registro oficial no Brasil.",
@@ -83,10 +86,10 @@ export default function PomeranianPage() {
 
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
-      <Script id="ld-pom-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-pom-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-pom-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-pom-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-pom-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-pom-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-pom-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-pom-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       {/* HERO */}
       <header className="space-y-4">

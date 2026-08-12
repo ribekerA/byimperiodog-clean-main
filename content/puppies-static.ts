@@ -94,7 +94,7 @@ export const staticPuppies = [
     priceCents: 850000,
     currency: "BRL",
     description:
-      "Fêmea Preta de pelagem brilhante e estrutura compacta. Segunda cor mais valorizada — disponibilidade raramente aberta. Criada com socialização guiada, laudos de saúde e registro oficial.",
+      "Fêmea Preta de pelagem brilhante e estrutura compacta. Disponibilidade limitada — ninhadas esporádicas. Criada com socialização guiada, laudos de saúde e registro oficial.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,
@@ -381,7 +381,7 @@ export const staticPuppies = [
     priceCents: 850000,
     currency: "BRL",
     description:
-      "Fêmea Cinza-Lobo (Wolf Sable) — coloração rara com máscara cinza sobre base laranja. Uma das cores mais buscadas no Spitz Alemão Anão. Disponibilidade limitada, consulte agenda.",
+      "Fêmea Cinza-Lobo (Wolf Sable) — coloração bicolor com máscara cinza sobre base laranja, reconhecida pela FCI. Disponibilidade limitada, consulte agenda.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,
@@ -438,7 +438,7 @@ export const staticPuppies = [
     priceCents: 650000,
     currency: "BRL",
     description:
-      "Macho Cinza-Lobo (Wolf Sable) com porte elegante e pelagem exuberante. Coloração bicolor cinza e laranja — padrão reconhecido pela FCI e raro na criação nacional.",
+      "Macho Cinza-Lobo (Wolf Sable) com porte elegante e pelagem exuberante. Coloração bicolor cinza e laranja — padrão reconhecido pela FCI.",
     birth_date: "2024-08-01",
     nascimento: "2024-08-01",
     availableForShipping: true,

@@ -1,18 +1,19 @@
 import Link from "next/link";
-import Script from "next/script";
 import type { Metadata } from "next";
 
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
-import { buildArticleLD } from "@/lib/schema";
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { buildArticleLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Preto — Raça Rara, Preço e Filhotes",
+  title: "Spitz Alemão Preto — Preço, Disponibilidade e Filhotes",
   description:
-    "O Spitz Alemão Anão Preto é uma das cores mais raras da raça no Brasil. Saiba por que é raro, qual o preço, o que exigir de um criador e como encontrar filhotes com registro oficial. Criadora em Bragança Paulista, SP.",
+    // 215 caracteres. Reescrita em 157.
+    "O Spitz Alemão Anão Preto é a cor de menor disponibilidade nas ninhadas da By Império Dog. Veja preço, o que exigir do criador e filhotes com registro oficial.",
   keywords: [
     "Spitz Alemão preto",
     "Lulu da Pomerânia preto",
@@ -25,22 +26,23 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/spitz-alemao-preto" },
   openGraph: {
-    title: "Spitz Alemão Anão Preto — Cor Rara | By Império Dog",
-    description: "Por que o Spitz Alemão preto é raro? Preço, disponibilidade e como garantir um filhote com registro oficial.",
+    images: [OG_DEFAULT_IMAGE],
+    title: "Spitz Alemão Anão Preto — Preço e Disponibilidade | By Império Dog",
+    description: "Por que o Spitz Alemão preto é difícil de encontrar? Preço, disponibilidade e como garantir um filhote com registro oficial.",
     type: "article",
   },
 };
 
 const FAQS = [
   {
-    question: "Por que o Spitz Alemão Anão preto é considerado raro?",
+    question: "Por que o Spitz Alemão Anão preto é difícil de encontrar?",
     answer:
-      "O preto é considerado raro porque produzir uma pelagem preta uniforme e brilhante com padrão racial correto exige matrizes e padreadores específicos — e poucos criadores brasileiros têm linhagem preta consolidada. Além disso, a genética da cor preta é recessiva em algumas combinações, o que reduz a probabilidade por ninhada.",
+      "Produzir uma pelagem preta uniforme e brilhante dentro do padrão racial exige matrizes e padreadores específicos, e nem toda ninhada traz filhotes pretos com essa uniformidade. Por isso a disponibilidade do preto na By Império Dog é menor ao longo do ano do que a do laranja.",
   },
   {
     question: "Qual o preço do Spitz Alemão Anão preto?",
     answer:
-      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Por ser uma cor rara, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea custa o mesmo valor em todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Pela menor disponibilidade, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea custa o mesmo valor em todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "Como saber se o Spitz Alemão preto tem registro oficial legítimo?",
@@ -76,28 +78,28 @@ export default function SpitzAlemaoPretoPage() {
 
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
-      <Script id="ld-preto-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-preto-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-preto-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-preto-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-preto-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-preto-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-preto-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-preto-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Cor rara — disponibilidade limitada</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Disponibilidade limitada</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Spitz Alemão Anão Preto — a cor mais rara da raça
+          Spitz Alemão Anão Preto — por que é difícil de encontrar
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          O Spitz Alemão Anão na cor preta é o mais difícil de encontrar com registro oficial no Brasil. Poucos criadores especializados trabalham com esta linhagem — e a By Império Dog é um deles.
+          O Spitz Alemão Anão na cor preta aparece com menos frequência nas ninhadas da By Império Dog do que o laranja. Quando há filhote preto disponível, ele sai com registro oficial e a mesma documentação das demais cores.
         </p>
       </header>
 
       {/* Por que é raro */}
       <section aria-labelledby="raridade-heading" className="space-y-4">
-        <h2 id="raridade-heading" className="text-2xl font-bold text-zinc-900">Por que o Spitz Alemão preto é tão raro?</h2>
+        <h2 id="raridade-heading" className="text-2xl font-bold text-zinc-900">Por que o Spitz Alemão preto aparece com menos frequência?</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { t: "Genética complexa", b: "A cor preta uniforme exige linhagem específica. É geneticamente recessiva em muitas combinações, reduzindo a frequência por ninhada." },
-            { t: "Poucos criadores", b: "No Brasil, a maioria dos criadores foca em laranja e creme, que têm maior demanda. Criadores especializados em preto são escassos." },
+            { t: "Linhagem específica", b: "A cor preta uniforme depende das matrizes e dos padreadores usados no acasalamento — não é um resultado que se obtenha em qualquer combinação." },
+            { t: "Disponibilidade menor", b: "Na By Império Dog, as ninhadas com filhotes pretos dentro do padrão são menos frequentes do que as de laranja — por isso a agenda do preto costuma abrir com menos regularidade." },
             { t: "Padrão rigoroso", b: "Um preto verdadeiro deve ser uniforme, brilhante e sem manchas. Qualquer desvio desclassifica o cão para exposição." },
           ].map((c) => (
             <article key={c.t} className="rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm">

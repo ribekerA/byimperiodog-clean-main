@@ -9,14 +9,14 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
-import LeadForm from "@/components/LeadForm";
 import LeadEventTracker from "@/components/LeadEventTracker";
+import LeadForm from "@/components/LeadForm";
 import TrustBar from "@/components/TrustBar";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 import { routes } from "@/lib/route";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
@@ -44,6 +44,7 @@ export const metadata: Metadata = {
     "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
   alternates: { canonical: `${SITE_URL}/contato` },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/contato`,
     title: "Contato | By Império Dog",
@@ -117,8 +118,8 @@ export default function ContatoPage() {
 
   return (
     <main>
-      <Script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
-      <Script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
+      <script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <LeadEventTracker eventName="lead_contato" />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
@@ -407,8 +408,8 @@ export default function ContatoPage() {
             Pronto para dar o primeiro passo?
           </h2>
           <p className="mt-4 text-emerald-100">
-            Uma conversa de 5 minutos é suficiente para saber se um Spitz Alemão Anão (Lulu da Pomerânia)
-            da By Império Dog combina com a sua família.
+            Uma conversa rápida já ajuda a entender se um Spitz Alemão Anão (Lulu da Pomerânia)
+            da By Império Dog combina com a rotina da sua família.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a

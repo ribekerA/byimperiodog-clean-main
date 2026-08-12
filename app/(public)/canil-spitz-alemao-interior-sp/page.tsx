@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
-import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -13,7 +13,9 @@ const PAGE_URL = `${SITE_URL}/canil-spitz-alemao-interior-sp`;
 export const metadata: Metadata = {
   title: "Canil Spitz Alemão Anão no Interior de SP — Bragança Paulista",
   description:
-    `Canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo, em Bragança Paulista. Criação desde ${FOUNDING_YEAR}, registro oficial, laudos e mentoria vitalícia. Atende Campinas, Sorocaba, São José dos Campos e todo SP.`,
+    // 219 caracteres: o Google cortava justamente a lista de cidades, que é o
+    // que essa página tem de próprio. Reescrita em 157.
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo, em Bragança Paulista. Atende Campinas, Sorocaba, São José dos Campos e todo o estado.",
   keywords: [
     "canil Spitz Alemão interior SP",
     "canil Lulu da Pomerânia interior São Paulo",
@@ -26,6 +28,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/canil-spitz-alemao-interior-sp" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Canil Spitz Alemão Anão — Interior de SP | By Império Dog",
     description: `Criação responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, no interior de SP, desde ${FOUNDING_YEAR}.`,
     type: "website",
@@ -91,10 +94,10 @@ export default function CanilInteriorSPPage() {
 
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
-      <Script id="ld-isp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-isp-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-isp-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-isp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-isp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-isp-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-isp-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-isp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação especializada no interior de São Paulo</p>
@@ -112,9 +115,9 @@ export default function CanilInteriorSPPage() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
             { v: String(FOUNDING_YEAR), l: "Fundação" },
-            { v: `${yearsOfExperience()}`, l: "Anos de criação" },
+            { v: "Spitz Alemão Anão", l: "Raça exclusiva" },
             { v: "180+", l: "Famílias atendidas" },
-            { v: "100%", l: "Com registro oficial" },
+            { v: "Incluso", l: "Registro oficial" },
           ].map((c) => (
             <div key={c.l} className="rounded-2xl border border-zinc-200 bg-white p-4 text-center shadow-sm">
               <p className="text-2xl font-bold text-emerald-600">{c.v}</p>

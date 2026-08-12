@@ -1,11 +1,11 @@
-import Script from "next/script";
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import { staticPuppies } from "@/content/puppies-static";
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
-import { buildArticleLD } from "@/lib/schema";
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { staticPuppies } from "@/content/puppies-static";
+import { buildArticleLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/ninhadas`;
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "Agenda de ninhadas planejadas, próximas ninhadas e filhotes reserváveis. Veja quais cores e datas previstas e entre na lista de interesse.",
   keywords: ["ninhadas", "próximas ninhadas", "filhotes spitz alemão", "lulu da pomerania ninhadas"],
   alternates: { canonical: "/ninhadas" },
-  openGraph: { title: "Ninhadas — By Império Dog", description: "Agenda e disponibilidade de ninhadas de Spitz Alemão Anão (Lulu da Pomerânia)." },
+  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Agenda e disponibilidade de ninhadas de Spitz Alemão Anão (Lulu da Pomerânia)." },
 };
 
 const FAQS = [
@@ -37,10 +37,10 @@ export default function NinhadasPage() {
 
   return (
     <main className="mx-auto max-w-4xl px-5 py-14">
-      <Script id="ld-ninhadas-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-ninhadas-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-ninhadas-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-ninhadas-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-ninhadas-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-ninhadas-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-ninhadas-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-ninhadas-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
         <h1 className="text-3xl font-bold">Ninhadas e Agenda de Filhotes</h1>

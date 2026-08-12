@@ -7,7 +7,7 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { SpringButton } from "@/components/motion/SpringButton";
 import { staticPuppies } from "@/content/puppies-static";
-import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const waHero = buildWhatsAppLink({
@@ -318,13 +318,13 @@ export default function VideoHero() {
                 colidir com o indicador "Rolar" (absolute, bottom-8 da section) */}
             <dl className="flex flex-col items-center gap-1 sm:flex-row sm:justify-center sm:gap-x-8">
               {[
-                // "10+" era um numero fixo escrito na mao: envelhecia sozinho e
-                // ficava abaixo do "desde 2013" que aparece logo abaixo, na mesma
-                // dobra. O Hero.tsx ja tinha sido corrigido; este componente, que e
-                // o que a home realmente renderiza, tinha ficado para tras.
-                { value: String(yearsOfExperience()), label: "anos de criação" },
+                // O ano de fundacao nao envelhece; "13 anos" precisa ser reescrito
+                // todo ano e conflita com o "desde 2013" da mesma dobra.
+                // "100% com laudos" era percentual absoluto sem evidencia no
+                // projeto: virou a descricao factual do que acompanha o filhote.
+                { value: `Desde ${FOUNDING_YEAR}`, label: "criando a raça" },
                 { value: "FCI/CBKC", label: "registro oficial" },
-                { value: "100%", label: "com laudos" },
+                { value: "Saúde", label: "documentada" },
               ].map((item, i, arr) => (
                 <div key={item.label} className="flex items-center gap-1.5 sm:gap-2.5">
                   <dt className="text-base font-bold text-white sm:text-xl">{item.value}</dt>

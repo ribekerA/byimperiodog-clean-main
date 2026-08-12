@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
+
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 import GaleriaClient from "./GaleriaClient";
 
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: `${SITE_URL}/galeria` },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/galeria`,
     title: "Galeria de Vídeos — Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog",
@@ -106,7 +108,7 @@ const GALLERY_VIDEOS = [
   {
     src: "/filhotes/videos/wolf-sable-jardim.mp4",
     title: "Cinza-Lobo (Wolf Sable) no Jardim",
-    description: "O cinza-lobo (wolf sable) é raro e incrível — pelagem única que lembra um mini lobo.",
+    description: "O cinza-lobo (wolf sable) tem pelagem bicolor que lembra o padrão do lobo.",
     category: "wolf",
   },
 ] as const;
@@ -140,12 +142,12 @@ const breadcrumbLd = {
 export default function GaleriaPage() {
   return (
     <>
-      <Script
+      <script
         id="ld-galeria-breadcrumb"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <Script
+      <script
         id="ld-galeria-videos"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": videoObjectLd }) }}

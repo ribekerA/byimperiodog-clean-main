@@ -18,12 +18,18 @@ const faqItems = [
   {
     question: "Qual o porte adulto esperado do Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O padrão FCI nº 97 define a altura na cernelha em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão. Nossas linhagens são selecionadas para estrutura saudável, pelagem densa e equilíbrio entre energia e docilidade. Compartilhamos os laudos veterinários com curva de peso e orientamos os ajustes de alimentação para cada fase.",
+      // "laudos veterinários com curva de peso" prometia um documento que não
+      // existe: a entrega tem carteira de vacinação, histórico de vermifugação,
+      // laudo de saúde e hemograma, como já diz a resposta sobre exames.
+      "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão. Buscamos estrutura saudável, pelagem densa e equilíbrio entre energia e docilidade na escolha dos reprodutores. Na entrega compartilhamos o laudo de saúde e o hemograma do filhote e orientamos os ajustes de alimentação para cada fase.",
   },
   {
     question: "Quais cuidados manter nas primeiras 48 horas em casa?",
     answer:
-      "Providencie ambiente calmo, tigelas individuais, água fresca, ração indicada e intervalo de descanso sem visitantes. Agende consulta veterinária preventiva e monitore alimentação, hidratação e eliminações. Qualquer alteração deve ser reportada imediatamente ao nosso time.",
+      // "reportada ao nosso time" sugeria uma equipe de plantão. O atendimento
+      // é da própria criadora, por WhatsApp — e alteração de saúde é assunto de
+      // médico-veterinário, não de canil.
+      "Providencie ambiente calmo, tigelas individuais, água fresca, ração indicada e intervalo de descanso sem visitantes. Agende consulta veterinária preventiva e monitore alimentação, hidratação e eliminações. Diante de qualquer alteração, procure um médico-veterinário e avise a criadora pelo WhatsApp.",
   },
   {
     question: "Como funciona o suporte contínuo após a entrega?",
@@ -54,12 +60,9 @@ export function generateMetadata(): Metadata {
     description:
       "Perguntas frequentes sobre preparo, saúde, socialização e suporte vitalício para o Spitz Alemão (Lulu da Pomerânia).",
     path,
-    images: [
-      {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br"}/og/faq-tutor.jpg`,
-        alt: "Tutora segurando um Spitz Alemão (Lulu da Pomerânia) saudável no colo",
-      },
-    ],
+    // A imagem apontava para /og/faq-tutor.jpg, que não existe no repositório
+    // (a pasta public/og/ nunca foi criada) e respondia 404. Sem `images`, o
+    // pageMetadata aplica a imagem padrão do site, que é um arquivo real.
   });
 }
 

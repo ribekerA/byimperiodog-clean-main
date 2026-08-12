@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { LastUpdated } from "@/components/common/LastUpdated";
 import { TOC } from "@/components/common/TOC";
 import { pageMetadata } from "@/lib/seo";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 const path = "/termos-de-uso";
 const lastUpdated = "2025-10-18T09:00:00.000Z";
@@ -22,17 +23,21 @@ export function generateMetadata(): Metadata {
     description:
       "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão (Lulu da Pomerânia).",
     path,
-    images: [
-      {
-        url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br"}/og/termos-uso.jpg`,
-        alt: "Contrato de responsabilidade para tutores do Spitz Alemão (Lulu da Pomerânia)",
-      },
-    ],
+    // /og/termos-uso.jpg não existe (a pasta public/og/ nunca foi criada) e
+    // respondia 404. Sem `images`, entra a imagem padrão do site.
   });
 }
 
+const breadcrumbLd = buildBreadcrumbLD([
+  { name: "Início", url: "/" },
+  { name: "Termos de Uso", url: path },
+]);
+
 export default function TermosDeUsoPage() {
   return (
+    <>
+      <script id="ld-termos-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+
     <main className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
       <header className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600">Condições legais</p>
@@ -109,5 +114,6 @@ export default function TermosDeUsoPage() {
 
       <LastUpdated contentTime={lastUpdated} />
     </main>
+    </>
   );
 }

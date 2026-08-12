@@ -7,10 +7,11 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import TextTestimonials from "@/components/sections/TextTestimonials";
+import { FOUNDING_YEAR } from "@/domain/config";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -19,7 +20,9 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.
 export const metadata: Metadata = {
   title: "Sobre o canil — Spitz Alemão Anão (Lulu da Pomerânia) desde 2013",
   description:
-    "Conheça a história da By Império Dog: desde 2013 criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade em Bragança Paulista, SP. Metodologia familiar, registro oficial e mentoria vitalícia.",
+    // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
+    // vir do FOUNDING_YEAR como no resto do site.
+    `A história da By Império Dog: desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com criação familiar e registro oficial.`,
   keywords: [
     "criador Spitz Alemão Anão confiável",
     "canil Lulu da Pomerânia Bragança Paulista",
@@ -29,6 +32,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: `${SITE_URL}/sobre` },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/sobre`,
     title: "Sobre a By Império Dog — criando Spitz Alemão Anão (Lulu da Pomerânia) desde 2013",
@@ -182,9 +186,9 @@ export default function SobrePage() {
 
   return (
     <main>
-      <Script id="ld-breadcrumb-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-webpage-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
-      <Script id="ld-business-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-breadcrumb-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-webpage-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
+      <script id="ld-business-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── Hero pessoal ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">

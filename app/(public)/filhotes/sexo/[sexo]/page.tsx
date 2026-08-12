@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { staticPuppies } from "@/content/puppies-static";
 import { ALL_SEXES, formatPrice, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -22,7 +22,7 @@ export function generateMetadata({ params }: Props): Metadata {
     title: seo.seoTitle,
     description: seo.metaDescription,
     alternates: { canonical: `/filhotes/sexo/${params.sexo}` },
-    openGraph: { title: seo.seoTitle, description: seo.metaDescription, type: "website" },
+    openGraph: { images: [OG_DEFAULT_IMAGE], title: seo.seoTitle, description: seo.metaDescription, type: "website" },
   };
 }
 
@@ -59,9 +59,9 @@ export default function SexLandingPage({ params }: Props) {
 
   return (
     <>
-      <Script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
         {/* Breadcrumb */}

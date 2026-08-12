@@ -2,13 +2,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { guides } from "@/content/guides";
+import { FOUNDING_YEAR } from "@/domain/config";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
   title: "Guias sobre Spitz Alemão Anão",
   description:
-    "Guias completos sobre Spitz Alemão Anão (Lulu da Pomerânia): como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde 2013.",
+    // O ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
+    `Guias completos sobre Spitz Alemão Anão (Lulu da Pomerânia): como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde ${FOUNDING_YEAR}.`,
   alternates: { canonical: "/guias" },
 };
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
+
+// Era a única página de hub do sitemap sem BreadcrumbList.
+const breadcrumbLd = buildBreadcrumbLD([
+  { name: "Início", url: `${SITE_URL}/` },
+  { name: "Guias", url: `${SITE_URL}/guias` },
+]);
 
 // Ícone e cor por slug
 const GUIDE_META: Record<string, { icon: string; badge: string; badgeColor: string }> = {
@@ -46,6 +57,9 @@ const GUIDE_META: Record<string, { icon: string; badge: string; badgeColor: stri
 
 export default function GuiasIndexPage() {
   return (
+    <>
+      <script id="ld-guias-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+
     <main>
       {/* Hero */}
       <div className="bg-[var(--brand)] px-5 py-14 text-center sm:px-8">
@@ -167,5 +181,6 @@ export default function GuiasIndexPage() {
         </div>
       </div>
     </main>
+    </>
   );
 }

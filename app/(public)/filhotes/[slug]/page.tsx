@@ -2,18 +2,18 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import NextDynamic from "next/dynamic";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 
 import PuppyCinematicGallery from "@/components/catalog/PuppyCinematicGallery";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
 import LeadEventTracker from "@/components/LeadEventTracker";
 import dynamic from "next/dynamic";
 const NotifyMeButton = dynamic(() => import("@/components/NotifyMeButton"), { ssr: false });
-import { TiltCard } from "@/components/motion/TiltCard";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { staticPuppies } from "@/content/puppies-static";
 import { formatPrice, getPuppyBySlug } from "@/lib/catalog-utils";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildLocalBusinessLD, buildPuppyProductLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -56,13 +56,25 @@ export function generateMetadata({ params }: Props): Metadata {
 
   const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
   const corLabel = (puppy as any).cor ?? puppy.color ?? "";
-  const title = `${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`;
+  // O título repetia cor e sexo duas vezes ("Spitz Cinza-Lobo (Wolf Sable)
+  // Fêmea — Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo Fêmea"): 109
+  // caracteres com o sufixo da marca, cortado na busca e com a palavra "Spitz"
+  // três vezes. O nome do filhote já traz cor e sexo; só falta o sinônimo pelo
+  // qual a raça é mais pesquisada.
+  const title = `${puppy.name} — Lulu da Pomerânia`;
   const description =
     (puppy as any).description ??
     `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia. By Império Dog.`;
   const firstImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
-  const ogImage = `/og/filhote/${puppy.slug}`;
+  // A rota /og/filhote/[slug] nunca chegou a devolver imagem: quebrava no
+  // Satori ("Expected <div> to have explicit display: flex"), buscava a foto em
+  // outro domínio (canilspitzalemao.com.br) e baixava fonte de emoji em tempo
+  // de requisição. Estas 8 páginas ficavam sem og:image no WhatsApp. A foto do
+  // próprio filhote é arquivo estático, sempre responde e compartilha melhor.
+  // Sem width/height: a foto do filhote não é 1200×630, e declarar essa medida
+  // fazia o WhatsApp recortar errado.
+  const ogImages = firstImage ? [{ url: firstImage, alt: puppy.name }] : [OG_DEFAULT_IMAGE];
 
   return {
     title,
@@ -73,13 +85,13 @@ export function generateMetadata({ params }: Props): Metadata {
       description,
       type:   "website",
       url:    `/filhotes/${puppy.slug}`,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: puppy.name }],
+      images: ogImages,
     },
     twitter: {
       card:        "summary_large_image",
       title,
       description,
-      images:      [ogImage],
+      images:      ogImages,
     },
   };
 }
@@ -152,9 +164,9 @@ export default function PuppyPage({ params }: Props) {
   return (
     <>
       {/* JSON-LD */}
-      <Script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
-      <Script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       {/* GA4: lead_filhote — disparado quando visitante visualiza a página do filhote */}
       <LeadEventTracker eventName="lead_filhote" params={{ puppy_slug: puppy.slug, puppy_color: colorSlug, puppy_sex: sexSlug }} />
 

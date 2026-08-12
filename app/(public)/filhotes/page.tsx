@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { staticPuppies } from "@/content/puppies-static";
@@ -17,7 +16,7 @@ const CATALOG_FAQS = [
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
     answer:
-      "Na By Império Dog trabalhamos com quatro cores: Creme (mais valorizada, a partir de R$ 7.500), Laranja (a mais icônica da raça, a partir de R$ 6.500), Preto (cor rara e elegante, a partir de R$ 7.500) e Cinza-Lobo (Wolf Sable), a partir de R$ 6.500. O padrão da raça admite outras cores além dessas quatro — trabalhamos com esse recorte. A disponibilidade varia conforme as ninhadas.",
+      "Na By Império Dog trabalhamos com quatro cores: Creme (a partir de R$ 7.500), Laranja (a mais conhecida da raça, a partir de R$ 6.500), Preto (a partir de R$ 7.500) e Cinza-Lobo (Wolf Sable), a partir de R$ 6.500. O padrão da raça admite outras cores além dessas quatro — trabalhamos com esse recorte. A disponibilidade varia conforme as ninhadas.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
@@ -33,7 +32,9 @@ const CATALOG_FAQS = [
 
 export const metadata: Metadata = {
   title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Disponíveis",
-  description: "Catálogo de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Cores: Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable). Registro oficial, laudos e mentoria vitalícia. Bragança Paulista, SP — entrega em todo o Brasil.",
+  // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
+  // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
+  description: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis nas cores Creme, Laranja, Preto e Cinza-Lobo. Bragança Paulista, SP — entrega em todo o Brasil.",
   keywords: [
     "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
     "comprar Spitz Alemão creme", "filhote Pomeranian SP",
@@ -60,10 +61,10 @@ export default function FilhotesPage() {
 
   return (
     <>
-      <Script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
-      <Script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <StaticCatalog puppies={staticPuppies as any[]} />
 

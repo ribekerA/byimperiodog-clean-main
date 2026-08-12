@@ -31,7 +31,6 @@ import { TAG_LISTAGEM_BLOG } from "@/lib/blog/revalidate";
 import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
 import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
-import { blogPostingSchema } from "@/lib/schema";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 import { whatsappLeadUrl } from "@/lib/utm";
 
@@ -133,7 +132,7 @@ async function fetchMdxPost(slug: string): Promise<Post | null> {
       updated_at:      mdx.updated ?? mdx.date ?? null,
       status:          "published",
       author_id:       null,
-      seo_title:       null,
+      seo_title:       mdx.seoTitle ?? null,
       seo_description: mdx.excerpt ?? null,
       category:        mdx.category ?? null,
       tags:            mdx.tags ?? null,
@@ -211,22 +210,14 @@ export default async function BlogPostPage({
   );
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br";
-  const description =
-    (article?.description as string | undefined) || post.seo_description || post.excerpt || post.subtitle || "";
-  const blogSchema = blogPostingSchema(siteUrl, {
-    slug: post.slug,
-    title: post.title,
-    description,
-    publishedAt: post.published_at || post.created_at || new Date().toISOString(),
-    modifiedAt: post.updated_at || undefined,
-    image: post.cover_url ? { url: post.cover_url, alt: post.cover_alt } : undefined,
-    // Sem `url`: não existe página pública de autores (/autores/{slug} → 404).
-    author: author ? { name: author.name } : undefined,
-    keywords: post.tags || undefined,
-    articleSection: post.category || null,
-  });
 
-  const structuredData = [article, breadcrumb, faqBlock, blogSchema].filter(Boolean);
+  // Um artigo por URL. A página emitia `Article` (buildArticleJsonLd) e
+  // `BlogPosting` (blogPostingSchema) ao mesmo tempo, descrevendo o mesmo post
+  // com headline e datas iguais mas `@id` e logo do publisher diferentes — duas
+  // entidades concorrentes para a mesma página. Ficou o `Article`, que é o mais
+  // completo (articleBody/about/wordCount/inLanguage) e usa o logo PNG, formato
+  // que o Google aceita para `publisher.logo` (SVG não entra).
+  const structuredData = [article, breadcrumb, faqBlock].filter(Boolean);
 
   const waPhone = (process.env.NEXT_PUBLIC_WA_PHONE || "").replace(/\D/g, "");
   const postUrl = `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`;

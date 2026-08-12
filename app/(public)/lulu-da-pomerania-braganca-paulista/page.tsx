@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD } from "@/lib/schema";
+import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -13,7 +13,9 @@ const PAGE_URL = `${SITE_URL}/lulu-da-pomerania-braganca-paulista`;
 export const metadata: Metadata = {
   title: "Lulu da Pomerânia em Bragança Paulista SP — Canil Responsável",
   description:
-    "Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde 2013, registro oficial, laudos veterinários e mentoria vitalícia. Atendemos Bragança Paulista, interior de SP e todo o Brasil.",
+    // 222 caracteres, com "Bragança Paulista" duas vezes. Reescrita em 144, e o
+    // ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
+    `Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde ${FOUNDING_YEAR}, com registro oficial e laudos veterinários.`,
   keywords: [
     "Lulu da Pomerânia Bragança Paulista",
     "Spitz Alemão Anão Bragança Paulista",
@@ -25,6 +27,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/lulu-da-pomerania-braganca-paulista" },
   openGraph: {
+    images: [OG_DEFAULT_IMAGE],
     title: "Lulu da Pomerânia em Bragança Paulista SP — By Império Dog",
     description: "Criação familiar de Spitz Alemão Anão desde 2013. Atende Bragança Paulista e todo o Brasil.",
     type: "website",
@@ -75,10 +78,10 @@ export default function LuluBragancaPage() {
 
   return (
     <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
-      <Script id="ld-bp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <Script id="ld-bp-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <Script id="ld-bp-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <Script id="ld-bp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
+      <script id="ld-bp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-bp-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-bp-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-bp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Bragança Paulista · Interior de SP</p>
