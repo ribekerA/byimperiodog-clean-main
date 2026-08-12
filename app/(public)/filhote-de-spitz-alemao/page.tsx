@@ -35,7 +35,7 @@ const FIRST_DAYS = [
   { title: "Ambiente seguro", body: "Prepare um espaço calmo com cama, tapete higiênico e brinquedos. Evite visitantes nas primeiras 48–72 horas para não sobrecarregar o filhote." },
   { title: "Alimentação", body: "Mantenha a ração indicada pela criadora por pelo menos 15 dias antes de qualquer troca. Mudanças bruscas de dieta causam diarreia em filhotes pequenos." },
   { title: "Hidratação", body: "Água fresca disponível 24h. Filhotes de porte muito pequeno podem sofrer hipoglicemia — alimentação a cada 4–6 horas é essencial nos primeiros dias." },
-  { title: "Veterinário", body: "Agende consulta veterinária nas primeiras 72 horas. Leve a carteira de vacinação, histórico de vermifugação e o laudo de saúde entregues pela criadora." },
+  { title: "Veterinário", body: "Agende consulta veterinária nas primeiras 72 horas — é o prazo previsto em contrato para a avaliação clínica. Leve a carteira de vacinação, histórico de vermifugação e o laudo de saúde entregues pela criadora." },
   { title: "Temperatura", body: "Filhotes têm dificuldade de regular temperatura. Mantenha entre 22–24°C. Evite correntes de ar, piso frio e ar-condicionado direto." },
   { title: "Socialização gradual", body: "Permita exploração no espaço seguro antes de apresentar outros animais ou crianças. Respeite o ritmo do filhote para evitar trauma." },
 ];
