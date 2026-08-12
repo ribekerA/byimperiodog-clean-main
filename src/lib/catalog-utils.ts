@@ -216,14 +216,14 @@ export const SEX_SEO: Record<string, SexSeo> = {
   femea: {
     seoTitle: "Spitz Alemão Anão Fêmea — Filhotes Disponíveis",
     metaDescription:
-      "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento dócil e apegado. Registro oficial, laudos veterinários e mentoria vitalícia.",
+      "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos.",
     h1: "Spitz Alemão Anão Fêmea",
     intro:
-      "A Spitz Fêmea é reconhecida pelo temperamento especialmente dócil e pelo vínculo profundo que cria com a família. Com pelagem exuberante e porte delicado, é a escolha favorita de quem busca um companheiro equilibrado, afetivo e de presença marcante.",
+      "A Spitz Fêmea tem pelagem densa e porte compacto dentro do padrão FCI. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",
     characteristics: [
-      "Temperamento mais dócil e apegado em relação ao macho",
-      "Pelagem ainda mais exuberante na fêmea adulta",
-      "Vínculo familiar muito forte — ideal para famílias com crianças",
+      "Temperamento típico da raça — o sexo não define o comportamento",
+      "Pelagem densa e volumosa na fase adulta",
+      "Convive bem em família quando a socialização é feita com calma",
       "Preço superior ao macho em todas as cores",
       "Cio a cada 6-8 meses (castração orientada pela criadora)",
     ],
@@ -231,7 +231,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Qual a diferença entre Spitz Fêmea e Macho de temperamento?",
         answer:
-          "Fêmeas tendem a ser mais apegadas e seletivas no afeto — criando vínculos muito fortes com a família. Machos costumam ser mais brincalhões e extrovertidos. Ambos são excelentes para família quando bem socializados.",
+          "Não existe uma regra por sexo. O temperamento depende muito mais da genética, da socialização e da rotina da família do que de ser macho ou fêmea. Fêmeas e machos bem socializados convivem igualmente bem em família.",
       },
       {
         question: "Spitz Fêmea é mais cara que Macho?",
@@ -253,27 +253,27 @@ export const SEX_SEO: Record<string, SexSeo> = {
   macho: {
     seoTitle: "Spitz Alemão Anão Macho — Filhotes Disponíveis",
     metaDescription:
-      "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Temperamento alegre e brincalhão. Registro oficial, laudos veterinários e mentoria vitalícia.",
+      "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos.",
     h1: "Spitz Alemão Anão Macho",
     intro:
-      "O Spitz Macho combina personalidade marcante com um temperamento alegre e brincalhão que conquista toda a família. Com porte compacto dentro do padrão FCI e pelagem densa, é a opção com o melhor custo-benefício dentro da raça para quem busca um Spitz de qualidade premium.",
+      "O Spitz Macho tem porte compacto dentro do padrão FCI e pelagem densa, e é a opção com o melhor custo-benefício dentro da raça. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",
     characteristics: [
-      "Temperamento alegre, brincalhão e extrovertido",
+      "Temperamento típico da raça — o sexo não define o comportamento",
       "Pelagem densa e volumosa — presença marcante",
-      "Porte levemente maior que a fêmea em todas as cores",
+      "Porte dentro do padrão FCI: 21 cm ± 3 cm na cernelha",
       "Melhor custo-benefício dentro da raça",
-      "Excelente para famílias ativas e jovens",
+      "Convive bem em família quando a socialização é feita com calma",
     ],
     faqs: [
       {
         question: "Macho Spitz marca território?",
         answer:
-          "Machos não castrados marcam território. A castração entre 6 e 12 meses praticamente elimina esse comportamento. Nossos filhotes saem com orientação detalhada sobre o momento ideal.",
+          "A marcação de território é um comportamento comum em machos não castrados. A castração costuma reduzir esse comportamento, e o momento adequado deve ser definido pelo médico-veterinário que acompanha o cão. A criadora orienta o tutor sobre o tema no pós-venda.",
       },
       {
         question: "Macho Spitz briga com outros cães?",
         answer:
-          "Não é característico da raça. Com socialização guiada desde o nascimento — como praticamos na By Império Dog — o Spitz Macho convive muito bem com outros animais e cães.",
+          "Não é característico da raça. Com socialização desde filhote e apresentações feitas com calma, o Spitz Macho tende a conviver bem com outros animais.",
       },
       {
         question: "Qual a diferença de preço entre Macho e Fêmea?",
@@ -283,7 +283,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "O Macho Spitz é bom para crianças?",
         answer:
-          "Sim. O Spitz Macho tem temperamento equilibrado com crianças, especialmente quando socializado desde filhote. Sua energia brincalhona combina muito bem com o ritmo infantil.",
+          "Sim, desde que a convivência seja supervisionada e as apresentações sejam feitas com calma. Como todo cão de porte pequeno, o Spitz precisa ser manuseado com cuidado por crianças pequenas.",
       },
     ],
   },
