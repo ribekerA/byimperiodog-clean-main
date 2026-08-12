@@ -73,6 +73,10 @@ function buildPost(filename) {
   return {
     slug,
     title:       data.title       ?? slug,
+    // `seo_title` existe para encurtar o <title> sem mexer no H1 do artigo:
+    // vários títulos passavam de 100 caracteres com o sufixo da marca e o
+    // Google cortava o fim na busca. Opcional — sem ele vale o `title`.
+    seoTitle:    data.seo_title   ?? null,
     description: data.description ?? null,
     excerpt:     data.description ?? null,
     cover:       data.cover       ?? null,

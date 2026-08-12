@@ -124,6 +124,9 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
   const article: Record<string, unknown> = {
     '@context': 'https://schema.org',
     '@type': 'Article',
+    // `@id` estável: a página emitia duas entidades de artigo para a mesma URL
+    // (este Article e um BlogPosting montado em lib/schema.ts). Ficou só esta.
+    '@id': `${url}#article`,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     headline: post.title,
     description,
@@ -147,9 +150,12 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
   const breadcrumb = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
+    // A trilha visível na página começa em "Início". O BreadcrumbList tem que
+    // repetir a trilha visível, senão o Google descarta o rich result.
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Blog', item: `${site}/blog` },
-      { '@type': 'ListItem', position: 2, name: post.title, item: url }
+      { '@type': 'ListItem', position: 1, name: 'Início', item: `${site}/` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${site}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: url }
     ]
   };
 

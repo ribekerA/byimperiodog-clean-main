@@ -4,6 +4,8 @@
 export type BlogPost = {
   slug: string;
   title: string;
+  /** Título curto só para o <title>/og:title. Não afeta o H1 do artigo. */
+  seoTitle?: string | null;
   excerpt?: string | null;
   cover?: string | null;
   date?: string | null; // ISO
@@ -34,6 +36,7 @@ function normalizePost(p: any): BlogPost {
   return {
     slug: p.slug || p._raw?.sourceFileName?.replace?.(/\.mdx$/, '') || '',
     title: p.title || p.name || 'Post',
+    seoTitle: p.seoTitle || p.seo_title || null,
     excerpt: p.description || p.excerpt || null,
     cover: p.cover || p.cover_url || null,
     date: p.date || p.published_at || null,
