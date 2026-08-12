@@ -132,7 +132,7 @@ const DIFERENCIAIS = [
   },
   {
     label: "Saúde documentada",
-    us: "Laudo de saúde, teste de patela e carteira de vacinação assinada pelo médico-veterinário",
+    us: "Laudo de saúde, hemograma e carteira de vacinação assinada pelo médico-veterinário",
     check: "Confira quais exames foram feitos e quem assinou cada documento",
   },
   {

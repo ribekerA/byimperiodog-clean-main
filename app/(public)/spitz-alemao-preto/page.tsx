@@ -122,7 +122,7 @@ export default function SpitzAlemaoPretoPage() {
           </div>
         </div>
         <ul className="space-y-1.5 text-sm text-zinc-700">
-          {["Registro oficial", "Laudo de saúde", "Teste de patela", "Protocolo vacinal em dia", "Microchip (opcional, sob contratação)", "Nota fiscal", "Mentoria vitalícia"].map((i) => (
+          {["Registro oficial", "Laudo de saúde", "Hemograma", "Protocolo vacinal em dia", "Microchip (opcional, sob contratação)", "Contrato", "Mentoria vitalícia"].map((i) => (
             <li key={i} className="flex items-center gap-2"><span className="text-emerald-600">✓</span>{i}</li>
           ))}
         </ul>

@@ -33,7 +33,7 @@ const faqItems = [
   {
     question: "Quais exames acompanham o Spitz Alemão (Lulu da Pomerânia)?",
     answer:
-      "Entregamos a carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, o histórico de vermifugação, o laudo de saúde e o teste de patela. Também emitimos nota fiscal e contrato de responsabilidade compartilhada, com mentoria vitalícia junto à criadora.",
+      "Entregamos a carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, o histórico de vermifugação, o laudo de saúde e o hemograma. Também emitimos contrato de responsabilidade compartilhada, com mentoria vitalícia junto à criadora.",
   },
 ];
 

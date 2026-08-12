@@ -45,11 +45,10 @@ const PRICE_TABLE = [
 const INCLUDED_ITEMS = [
   "Registro oficial e legalizado",
   "Laudo de saúde veterinário",
-  "Teste de patela bilateral",
+  "Hemograma",
   "Carteira de vacinação assinada pelo médico-veterinário, com protocolo em dia conforme a idade",
   "Histórico de vermifugação",
   "Microchip (opcional, sob contratação)",
-  "Nota fiscal",
   "Contrato de responsabilidade compartilhada",
   "Mentoria vitalícia direta com a criadora",
 ] as const;
@@ -65,7 +64,7 @@ const PAGE_FAQS = [
     answer:
       // "maternidade monitorada" saiu da lista: nao existe estrutura desse tipo
       // aqui. O resto da resposta continua valendo.
-      "O custo elevado reflete investimentos reais: matrizes e padreadores testados geneticamente, exames de saúde completos, teste de patela, registro oficial, veterinários especializados, socialização em ambiente familiar e mentoria pós-venda vitalícia. Criadores sérios não vendem 'baratos' — o preço cobre cuidado real, não apenas o filhote.",
+      "O custo elevado reflete investimentos reais: acompanhamento veterinário das matrizes e dos padreadores, exames de saúde, registro oficial, socialização em ambiente familiar e mentoria pós-venda vitalícia. Criadores sérios não vendem 'baratos' — o preço cobre cuidado real, não apenas o filhote.",
   },
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
@@ -80,7 +79,7 @@ const PAGE_FAQS = [
   {
     question: "O que está incluso no preço da By Império Dog?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, teste de patela, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, histórico de vermifugação, nota fiscal, contrato e mentoria vitalícia. Microchip é opcional, sob contratação. Fora esse item, o valor anunciado é o valor final.",
+      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, histórico de vermifugação, contrato e mentoria vitalícia. Microchip é opcional, sob contratação. Fora esse item, o valor anunciado é o valor final.",
   },
   {
     question: "Existe parcelamento ou condições especiais?",
@@ -193,7 +192,7 @@ export default function PrecoSpitzPage() {
             { title: "Cor e raridade", body: "O creme é extremamente difícil de produzir com consistência genética. O preto é raro no Brasil com registro oficial. Cores mais difíceis demandam mais cruzamentos e são mais caras." },
             { title: "Sexo", body: "Fêmeas têm demanda 2–3× maior que machos, o que eleva naturalmente o preço de mercado." },
             { title: "Linhagem e genética", body: "Matrizes e reprodutores com títulos de exposição, laudos de saúde e histórico de filhotes saudáveis valem mais — e produzem filhotes mais seguros." },
-            { title: "Documentação completa", body: "Registro oficial, laudo de saúde e teste de patela são exames caros. Criadores que os incluem precisam cobrar mais — e devem." },
+            { title: "Documentação completa", body: "Registro oficial, laudo de saúde e exames laboratoriais têm custo. Criadores que os incluem precisam cobrar mais — e devem." },
           ].map((card) => (
             <article key={card.title} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
               <h3 className="text-sm font-semibold text-zinc-900">{card.title}</h3>

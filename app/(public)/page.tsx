@@ -92,7 +92,7 @@ const RACE_LINKS = [
 // Diferenciais — definidos fora para evitar recriação a cada render
 const DIFFERENTIALS = [
   { emoji: "🏅", title: "Registro oficial incluso", body: "Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato." },
-  { emoji: "🩺", title: "Saúde documentada", body: "Laudo de saúde, teste de patela e protocolo vacinal em dia conforme a idade do filhote, com carteira assinada pelo médico-veterinário." },
+  { emoji: "🩺", title: "Saúde documentada", body: "Laudo de saúde, hemograma e protocolo vacinal em dia conforme a idade do filhote, com carteira assinada pelo médico-veterinário." },
   { emoji: "🏡", title: "Socialização guiada", body: "Criados em ambiente familiar com estímulos visuais, auditivos e de contato desde o nascimento." },
   { emoji: "💬", title: "Mentoria vitalícia", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
   { emoji: "🚗", title: "Logística assistida", body: "Orientação completa sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },

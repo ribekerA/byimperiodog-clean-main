@@ -55,7 +55,7 @@ const FAQS = [
   {
     question: "Bragança Paulista tem outros canis de Spitz Alemão?",
     answer:
-      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, laudo de saúde, teste de patela, carteira de vacinação assinada pelo médico-veterinário e mentoria vitalícia pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
+      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e mentoria vitalícia pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
   },
 ];
 

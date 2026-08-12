@@ -27,7 +27,7 @@ const CATALOG_FAQS = [
   {
     question: "Os filhotes são entregues com quais documentos?",
     answer:
-      "Todos os filhotes saem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, teste de patela, histórico de vermifugação, nota fiscal e contrato. Microchip é opcional, sob contratação. Além disso, o tutor recebe acesso à mentoria vitalícia direto com a criadora.",
+      "Todos os filhotes saem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, hemograma, histórico de vermifugação e contrato. Microchip é opcional, sob contratação. Além disso, o tutor recebe acesso à mentoria vitalícia direto com a criadora.",
   },
 ];
 

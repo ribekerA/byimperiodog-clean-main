@@ -60,7 +60,7 @@ const STEPS = [
   { num: "02", title: "Solicite documentação dos pais", body: "Exija o registro oficial dos pais, laudos de saúde e histórico veterinário antes de qualquer pagamento. Um criador responsável apresenta tudo sem hesitar." },
   { num: "03", title: "Faça uma visita ou videochamada", body: "Ver o ambiente onde o filhote cresceu é essencial. Na By Império Dog fazemos videochamadas e recebemos visitas agendadas." },
   { num: "04", title: "Confirme reserva com contrato", body: "A reserva é formalizada com contrato detalhado e sinal. O contrato cobre garantia de saúde, suporte pós-venda e responsabilidades de ambas as partes." },
-  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, nota fiscal e acesso à mentoria vitalícia. Microchip é opcional, sob contratação." },
+  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso à mentoria vitalícia. Microchip é opcional, sob contratação." },
 ] as const;
 
 const PAGE_FAQS = [

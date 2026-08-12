@@ -131,7 +131,7 @@ export default function PomeranianPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-400">
-          Inclui registro oficial, laudo veterinário, teste de patela, protocolo vacinal em dia conforme a idade do filhote, nota fiscal e mentoria vitalícia. Microchip opcional, sob contratação.{" "}
+          Inclui registro oficial, laudo veterinário, hemograma, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria vitalícia. Microchip opcional, sob contratação.{" "}
           <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link>
         </p>
       </section>

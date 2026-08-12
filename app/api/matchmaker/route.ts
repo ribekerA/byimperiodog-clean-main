@@ -113,7 +113,7 @@ Entregamos em todo o Brasil com transporte humanizado e acompanhamento. O filhot
 Consulte as condições com a criadora pelo WhatsApp — há opções de parcelamento no cartão.
 
 **Sobre documentação:**
-Cada filhote sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições do contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, laudo de saúde, teste de patela, histórico de vermifugação, nota fiscal e contrato. Microchip é opcional, sob contratação.
+Cada filhote sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições do contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, laudo de saúde, hemograma, histórico de vermifugação e contrato. Microchip é opcional, sob contratação.
 
 **Sobre Baby Face:**
 Baby Face descreve filhotes com focinho mais curto e olhos mais redondos — característica muito valorizada. Nem todos os nossos filhotes são Baby Face, mas alguns têm esse traço. Pergunte à criadora no WhatsApp sobre disponibilidade específica.
