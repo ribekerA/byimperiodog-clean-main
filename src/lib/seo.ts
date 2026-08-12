@@ -26,12 +26,28 @@ export interface PageMetadataInput {
 
 const PREVIEW_ENVS = new Set(["preview", "development", "test"]);
 
-const DEFAULT_IMAGE: Required<OgImage> = {
-  url: "/spitz-hero-desktop.webp",
+/**
+ * Imagem padrão de compartilhamento (og:image / twitter:image).
+ *
+ * Era `/spitz-hero-desktop.webp`, que existe mas tem 1400x933 — as medidas
+ * declaradas abaixo mentiam sobre o arquivo, e WhatsApp e Facebook ainda
+ * tratam WebP de forma irregular na pré-visualização de link. Agora aponta
+ * para um JPEG recortado em 1200x630 exatos, gerado a partir da própria foto
+ * de capa do site.
+ *
+ * Exportada porque as páginas que declaram `openGraph` à mão precisam repetir
+ * `images`: quando a página declara o objeto `openGraph` sem `images`, o
+ * Next 14 não completa com o `opengraph-image.tsx` do segmento e a página sai
+ * sem og:image nenhum.
+ */
+export const OG_DEFAULT_IMAGE: Required<OgImage> = {
+  url: "/og-default.jpg",
   width: 1200,
   height: 630,
-  alt: "Spitz Alemão (Lulu da Pomerânia) — By Império Dog",
+  alt: "Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
 };
+
+const DEFAULT_IMAGE = OG_DEFAULT_IMAGE;
 
 export function resolveRobots(overrides?: Metadata["robots"]) {
   if (overrides) return overrides;
