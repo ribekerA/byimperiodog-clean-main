@@ -1,11 +1,11 @@
 import { CheckCircle, MapPin, Phone, Shield, Star, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
+import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import PuppiesGrid from "@/components/PuppiesGrid";
 import { buttonVariants } from "@/components/ui/button";
+import { staticPuppies } from "@/content/puppies-static";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
 
@@ -14,9 +14,13 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro (RJ)",
+  // Com "(Lulu da Pomerânia)" o title batia em 89 caracteres somando o sufixo
+  // da marca e o Google cortava o estado. O sinônimo continua na description.
+  title: "Filhotes de Spitz Alemão Anão no Rio de Janeiro (RJ)",
   description:
-    "Compre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro com entrega segura na capital, Niterói, região metropolitana e interior. Registro oficial e suporte vitalício.",
+    // 185 caracteres: o Google cortava a lista de regiões atendidas, que é o
+    // que essa página tem de próprio. Reescrita em 159.
+    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com entrega segura no Rio de Janeiro: capital, Niterói, região metropolitana e interior. Com registro oficial.",
   alternates: { canonical: canonical("/filhotes/rio-de-janeiro") },
   openGraph: {
     type: "website",
@@ -50,7 +54,7 @@ const faqRJ = [
   {
     question: "Posso buscar o filhote pessoalmente?",
     answer:
-      "Sim! Nosso criatório fica em Bragança Paulista (SP), mas recebemos tutores do Rio de Janeiro que preferem buscar pessoalmente. Você pode conhecer toda nossa estrutura e os pais dos filhotes mediante agendamento.",
+      "Sim! Nosso criatório fica em Bragança Paulista (SP), mas recebemos tutores do Rio de Janeiro que preferem buscar pessoalmente. Você pode conhecer os filhotes e os pais mediante agendamento.",
   },
   {
     question: "Qual o valor da entrega para o Rio de Janeiro?",
@@ -79,14 +83,18 @@ export default function FilhotesRioDeJaneiroPage() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/filhotes/rio-de-janeiro#localbusiness`,
-    name: "By Império Dog - Filhotes no Rio de Janeiro",
+    name: "By Império Dog",
     url: `${SITE_URL}/filhotes/rio-de-janeiro`,
     image: `${SITE_URL}/spitz-hero-desktop.webp`,
     telephone: "+55 11 96863-3239",
+    // O endereço declarava Rio de Janeiro/RJ como localidade do negócio. Não
+    // existe unidade no RJ: o canil fica em Bragança Paulista/SP e entrega no
+    // estado. Endereço é onde a empresa está; onde ela atende é o areaServed
+    // logo abaixo. Declarar o Rio aqui é endereço inventado para o Google.
     address: {
       "@type": "PostalAddress",
-      addressRegion: "RJ",
-      addressLocality: "Rio de Janeiro",
+      addressLocality: "Bragança Paulista",
+      addressRegion: "SP",
       addressCountry: "BR",
     },
     areaServed: {
@@ -127,17 +135,17 @@ export default function FilhotesRioDeJaneiroPage() {
 
   return (
     <>
-      <Script
+      <script
         id="localbusiness-rj-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
       />
-      <Script
+      <script
         id="faq-rj-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
-      <Script
+      <script
         id="breadcrumb-rj-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
@@ -231,7 +239,12 @@ export default function FilhotesRioDeJaneiroPage() {
         {/* Filhotes Disponíveis */}
         <section id="filhotes-disponiveis" className="mx-auto mt-20 max-w-7xl px-5">
           <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">Filhotes Disponíveis</h2>
-          <PuppiesGrid />
+          {/* PuppiesGrid busca o catálogo no Supabase pelo navegador, então o
+              HTML servido nestas três páginas saía sem filhote nenhum: o Google
+              indexava uma seção vazia e o visitante via a página em branco até o
+              fetch responder. StaticCatalog é o mesmo componente de /filhotes e
+              já chega renderizado do servidor. */}
+          <StaticCatalog puppies={staticPuppies as any[]} />
         </section>
 
         {/* FAQ */}

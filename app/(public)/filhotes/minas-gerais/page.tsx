@@ -1,11 +1,11 @@
 import { CheckCircle, MapPin, Phone, Shield, Star, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 
+import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import PuppiesGrid from "@/components/PuppiesGrid";
 import { buttonVariants } from "@/components/ui/button";
+import { staticPuppies } from "@/content/puppies-static";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
 
@@ -14,7 +14,9 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais (MG)",
+  // Com "(Lulu da Pomerânia)" o title batia em 87 caracteres somando o sufixo
+  // da marca e o Google cortava o estado. O sinônimo continua na description.
+  title: "Filhotes de Spitz Alemão Anão em Minas Gerais (MG)",
   description:
     "Compre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais com entrega segura em BH, Uberlândia, Juiz de Fora e todo o estado. Registro oficial e suporte vitalício.",
   alternates: { canonical: canonical("/filhotes/minas-gerais") },
@@ -51,7 +53,7 @@ const faqMG = [
   {
     question: "Posso visitar o criatório antes de comprar?",
     answer:
-      "Sim! Nosso criatório fica em Bragança Paulista (SP), a cerca de 200km de BH pela Fernão Dias. Recebemos visitas agendadas para que você conheça nossa estrutura, os filhotes e os pais. Muitos tutores de MG fazem a visita e aproveitam para buscar o filhote pessoalmente.",
+      "Sim! Nosso criatório fica em Bragança Paulista (SP), a cerca de 200km de BH pela Fernão Dias. Recebemos visitas agendadas para que você conheça os filhotes e os pais. Muitos tutores de MG fazem a visita e aproveitam para buscar o filhote pessoalmente.",
   },
   {
     question: "Qual o prazo de entrega para Minas Gerais?",
@@ -66,7 +68,7 @@ const faqMG = [
   {
     question: "Qual o tamanho e peso do Spitz Alemão (Lulu da Pomerânia) adulto?",
     answer:
-      "O padrão FCI nº 97 define a altura na cernelha em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão — na prática, adultos costumam ficar entre 1,5 kg e 3,5 kg. São cães de porte pequeno, perfeitos para apartamentos e casas em MG.",
+      "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão — na prática, adultos costumam ficar entre 1,5 kg e 3,5 kg. São cães de porte pequeno, perfeitos para apartamentos e casas em MG.",
   },
 ];
 
@@ -79,14 +81,19 @@ export default function FilhotesMinasGeraisPage() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/filhotes/minas-gerais#localbusiness`,
-    name: "By Império Dog - Filhotes em Minas Gerais",
+    name: "By Império Dog",
     url: `${SITE_URL}/filhotes/minas-gerais`,
     image: `${SITE_URL}/spitz-hero-desktop.webp`,
     telephone: "+55 11 96863-3239",
+    // O endereço declarava Belo Horizonte/MG como localidade do negócio. Não
+    // existe unidade em MG: o canil fica em Bragança Paulista/SP e entrega no
+    // estado. Endereço é onde a empresa está; onde ela atende é o areaServed
+    // logo abaixo. Declarar BH aqui é endereço inventado para o Google — e o
+    // nome com sufixo regional reforçava a ideia de filial.
     address: {
       "@type": "PostalAddress",
-      addressRegion: "MG",
-      addressLocality: "Belo Horizonte",
+      addressLocality: "Bragança Paulista",
+      addressRegion: "SP",
       addressCountry: "BR",
     },
     areaServed: {
@@ -127,17 +134,17 @@ export default function FilhotesMinasGeraisPage() {
 
   return (
     <>
-      <Script
+      <script
         id="localbusiness-mg-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
       />
-      <Script
+      <script
         id="faq-mg-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
-      <Script
+      <script
         id="breadcrumb-mg-ld"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
@@ -231,7 +238,12 @@ export default function FilhotesMinasGeraisPage() {
         {/* Filhotes Disponíveis */}
         <section id="filhotes-disponiveis" className="mx-auto mt-20 max-w-7xl px-5">
           <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">Filhotes Disponíveis</h2>
-          <PuppiesGrid />
+          {/* PuppiesGrid busca o catálogo no Supabase pelo navegador, então o
+              HTML servido nestas três páginas saía sem filhote nenhum: o Google
+              indexava uma seção vazia e o visitante via a página em branco até o
+              fetch responder. StaticCatalog é o mesmo componente de /filhotes e
+              já chega renderizado do servidor. */}
+          <StaticCatalog puppies={staticPuppies as any[]} />
         </section>
 
         {/* FAQ */}
