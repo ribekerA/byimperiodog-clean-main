@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { FOUNDING_YEAR, yearsOfExperience } from "@/domain/config";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { openConsentPreferences } from "@/lib/consent";
 import { routes } from "@/lib/route";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -19,11 +19,18 @@ const NAV_ITEMS = [
   { label: "Contato", href: routes.contato },
 ];
 
+// /ninhadas, /spitz-alemao-preto e /spitz-alemao-baby-face estavam no sitemap
+// mas nenhuma página do site linkava para elas — zero links internos apontando.
+// Para o Google isso é uma página sem nenhum sinal de importância dentro do
+// próprio domínio. Entram aqui porque é a lista de páginas da raça.
 const RACA_ITEMS = [
   { label: "Spitz Alemão Anão", href: "/spitz-alemao" },
   { label: "Lulu da Pomerânia", href: "/lulu-da-pomerania" },
   { label: "Pomeranian", href: "/pomeranian" },
   { label: "Filhote de Spitz", href: "/filhote-de-spitz-alemao" },
+  { label: "Spitz Alemão Preto", href: "/spitz-alemao-preto" },
+  { label: "Spitz Alemão Baby Face", href: "/spitz-alemao-baby-face" },
+  { label: "Ninhadas", href: "/ninhadas" },
   { label: "Tabela de Preços", href: "/preco-spitz-anao" },
   { label: "Como Comprar", href: "/comprar-spitz-anao" },
 ];
@@ -169,7 +176,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Criação responsável</h3>
             <ul className="space-y-2 text-sm text-zinc-400">
-              {["Registro oficial incluso", "Laudos de saúde", "Mentoria vitalícia", `${yearsOfExperience()}+ anos de experiência`, "Bragança Paulista, SP"].map((item) => (
+              {["Registro oficial incluso", "Laudos de saúde", "Mentoria vitalícia", `Criando desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <span className="text-emerald-500" aria-hidden="true">✓</span>
                   {item}
