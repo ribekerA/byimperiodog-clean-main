@@ -32,6 +32,21 @@ const SKIP_PATTERNS = [
 const PUBLIC_APP_ALLOWLIST =
   /^app\/(blog|page\.tsx|sobre|contato|filhotes|faq-do-tutor|politica-de-privacidade|termos-de-uso)/;
 
+// Route groups como "(public)" existem na pasta mas não na URL. Desde que as
+// páginas foram movidas para app/(public)/, o allowlist acima passou a casar
+// ZERO arquivos e o guard varria só content/ — as 44 páginas públicas ficaram
+// sem verificação nenhuma. Tirar o grupo do caminho antes de comparar devolve
+// a cobertura sem precisar reescrever a lista.
+const stripRouteGroups = (file) => file.replace(/\([^)/]+\)\//g, "");
+
+// A checagem de proximidade conta CARACTERES do arquivo. Em .tsx, comentários
+// de código ficam entre o título e a description e empurravam o sinônimo para
+// fora da janela de 140 — o guard acusava violação em páginas cujo HTML final
+// traz "Lulu da Pomerânia" na linha seguinte. Comentário não vai para o HTML,
+// então não deve ocupar espaço na janela.
+const stripComments = (source) =>
+  source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
+
 const BANNED_TERMS = ["adocao", "doacao", "boutique"];
 const BREED_PATTERN = /spitz\s+alem[ãa]o(?:\s+an[ãa]o)?/gi;
 const CERNELHA_PATTERN = /cernelha/gi;
@@ -41,7 +56,7 @@ const violations = [];
 for (const file of files) {
   if (!EXTENSIONS.test(file)) continue;
   if (SKIP_PATTERNS.some((pattern) => pattern.test(file))) continue;
-  if (file.startsWith("app/") && !PUBLIC_APP_ALLOWLIST.test(file)) continue;
+  if (file.startsWith("app/") && !PUBLIC_APP_ALLOWLIST.test(stripRouteGroups(file))) continue;
   if (!file.startsWith("app/") && !file.startsWith("content/")) continue;
 
   const absolutePath = resolve(process.cwd(), file);
@@ -54,7 +69,9 @@ for (const file of files) {
   // linha ocupa 2 chars em vez de 1. Isso encolhia a janela de contexto e
   // acusava violacao em arquivos que passam no checkout da Netlify (LF) — o
   // guard reprovava por causa do sistema operacional, nao do texto.
-  const raw = readFileSync(absolutePath, "utf8").replace(/\r\n/g, "\n");
+  const raw = stripComments(
+    readFileSync(absolutePath, "utf8").replace(/\r\n/g, "\n")
+  );
   const normalized = normalize(raw);
 
   for (const term of BANNED_TERMS) {
