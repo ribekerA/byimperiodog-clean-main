@@ -63,3 +63,9 @@ TEMP_*
 
 # Claude Code local settings
 .claude/
+
+# Arquivo de midia original (fotos e videos de camera, 2022)
+# Ficavam soltos em public/filhotes/ e iam para o deploy inteiros — 297,7 MB que
+# nenhuma pagina referencia. Saem do repositorio mas CONTINUAM NO DISCO, aqui.
+# Para recuperar a versao antiga: git checkout 47cef43 -- public/filhotes
+midia-original/
