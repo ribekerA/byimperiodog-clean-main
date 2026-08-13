@@ -38,7 +38,7 @@ const benefits = [
   {
     icon: HeartHandshake,
     title: "Socialização Acompanhada",
-    description: "Vídeos semanais do desenvolvimento do filhote, desde o nascimento até a entrega, com orientação sobre temperamento.",
+    description: "Vídeos e fotos do desenvolvimento do filhote, do nascimento até a entrega, com orientação sobre temperamento.",
   },
   {
     icon: Clock,

@@ -165,7 +165,7 @@ export default function HeroSection() {
               />
             </div>
             <figcaption className="absolute bottom-3 left-3 rounded-full bg-white px-4 py-1 text-xs font-semibold text-emerald-700 shadow">
-              Socialização guiada com vídeos semanais
+              Socialização guiada, acompanhada em vídeo
             </figcaption>
           </figure>
 
