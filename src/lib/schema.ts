@@ -1,3 +1,5 @@
+import { lastmodFor } from "@/lib/_generated-lastmod";
+
 type JsonLd = Record<string, unknown>;
 
 const DEFAULT_SITE_URL =
@@ -296,6 +298,34 @@ export function buildOfferCatalogLD(opts: {
 }
 
 /**
+ * Resolve a data de modificacao REAL de uma pagina.
+ *
+ * O `dateModified` declarado a mao envelhece: nove paginas anunciavam
+ * `datePublished: "2025-01-01"` sem `dateModified`, entao o schema afirmava
+ * que nada mudou desde entao — enquanto o git mostra revisao em 2026. O
+ * resultado e o oposto do pretendido: a pagina revisada parece velha.
+ *
+ * A fonte da verdade e o historico do git, compilado por
+ * scripts/gen-lastmod.mjs em src/lib/_generated-lastmod.ts. Aqui pegamos a
+ * MAIOR entre (dateModified declarado, lastmod do git, datePublished), para
+ * que uma data declarada a mao nunca seja rebaixada e nunca fique atras da
+ * alteracao real.
+ */
+function dataDeModificacaoReal(
+  url: string,
+  datePublished: string,
+  dateModified?: string
+): string {
+  const rota = url.startsWith("http") ? new URL(url).pathname : url;
+  const candidatas = [dateModified, lastmodFor(rota), datePublished].filter(
+    Boolean
+  ) as string[];
+  return candidatas.reduce((maior, d) =>
+    Date.parse(d) > Date.parse(maior) ? d : maior
+  );
+}
+
+/**
  * Build Article JSON-LD schema
  */
 export function buildArticleLD(opts: {
@@ -305,6 +335,13 @@ export function buildArticleLD(opts: {
   datePublished: string;
   dateModified?: string;
   image?: string;
+  /**
+   * Entidade sobre a qual a pagina fala. Existe para que o no de sinonimos
+   * (Spitz Alemao Anao = Lulu da Pomerania = Pomeranian) pendure no proprio
+   * Article, em vez de virar um segundo Article solto e sem data na mesma
+   * pagina — que era o caso em /spitz-alemao e /lulu-da-pomerania.
+   */
+  about?: JsonLd;
 }) {
   return {
     "@context": "https://schema.org",
@@ -313,8 +350,13 @@ export function buildArticleLD(opts: {
     description: opts.description,
     url: opts.url,
     datePublished: opts.datePublished,
-    dateModified: opts.dateModified || opts.datePublished,
+    dateModified: dataDeModificacaoReal(
+      opts.url,
+      opts.datePublished,
+      opts.dateModified
+    ),
     image: opts.image,
+    about: opts.about,
     author: {
       "@type": "Organization",
       name: "By Império Dog",

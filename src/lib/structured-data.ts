@@ -1,4 +1,5 @@
 import { FOUNDING_YEAR } from "@/domain/config";
+import { lastmodFor } from "@/lib/_generated-lastmod";
 import type { CatalogItem } from "@/lib/catalog-utils";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -248,6 +249,26 @@ export function buildFAQLD(faqs: { question: string; answer: string }[]) {
   };
 }
 
+/**
+ * `dateModified` valia `updatedAt ?? publishedAt`. Como quase nenhuma página
+ * institucional passa `updatedAt`, o schema declarava que a página não era
+ * tocada desde a data de publicação — várias com "2025-01-01" fixo — enquanto o
+ * texto tinha sido revisado de fato em 2026. O sinal existia e apontava para o
+ * lado errado: revisão real invisível para o Google e para os sistemas de IA,
+ * que usam dateModified para decidir qual fonte citar quando duas discordam.
+ *
+ * `lastmodFor` resolve a rota no mapa gerado do histórico do git
+ * (scripts/gen-lastmod.mjs). Pega-se a MAIOR das datas conhecidas: se o commit
+ * é mais novo que o `updatedAt` declarado à mão, o arquivo mudou depois — isso
+ * é fato verificável, não estimativa. O caminho inverso nunca acontece por
+ * acidente, porque o mapa só sobe quando existe commit.
+ */
+function dataDeModificacaoReal(url: string, publishedAt: string, updatedAt?: string) {
+  const rota = url.startsWith("http") ? new URL(url).pathname : url;
+  const candidatas = [updatedAt, lastmodFor(rota), publishedAt].filter(Boolean) as string[];
+  return candidatas.reduce((maior, d) => (Date.parse(d) > Date.parse(maior) ? d : maior));
+}
+
 export function buildArticleLD(opts: {
   title: string;
   description: string;
@@ -262,7 +283,7 @@ export function buildArticleLD(opts: {
     description: opts.description,
     url: opts.url.startsWith("http") ? opts.url : `${SITE_URL}${opts.url}`,
     datePublished: opts.publishedAt,
-    dateModified: opts.updatedAt ?? opts.publishedAt,
+    dateModified: dataDeModificacaoReal(opts.url, opts.publishedAt, opts.updatedAt),
     author: { "@type": "Organization", name: "By Império Dog" },
     publisher: {
       "@type": "Organization",

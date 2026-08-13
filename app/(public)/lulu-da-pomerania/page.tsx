@@ -79,25 +79,28 @@ export default function LuluDaPomeraniaPage() {
   ]);
   const faqLd      = buildFAQLD(FAQS);
   const businessLd = buildLocalBusinessLD();
-  const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: "2025-01-01" });
+  // Mesmo caso de /spitz-alemao: o no de sinonimos era um segundo Article sem
+  // headline nem data. Passa a ser o `about` do Article de verdade.
+  const articleLd  = buildArticleLD({
+    url: PAGE_URL,
+    title: metadata.title as string,
+    description: metadata.description as string,
+    datePublished: "2025-01-01",
+    about: {
+      "@type": "Thing",
+      name: "Spitz Alemão Anão",
+      alternateName: ["Lulu da Pomerânia", "Pomeranian", "Pomerânio", "Spitz Alemão", "Spitz Anão", "Mini Spitz"],
+      description: "Raça de cão de pequeno porte originária da Pomerânia, conhecido como Lulu da Pomerânia no Brasil e Pomeranian em inglês.",
+      sameAs: "https://www.fci.be/en/nomenclature/SPITZ-ALLEMAND-NAIN-97.html",
+    },
+  });
 
   return (
-    <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
+    <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <script id="ld-lulu-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-lulu-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-lulu-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <script id="ld-lulu-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <script id="ld-breed-synonyms"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "about": {
-          "@type": "Thing",
-          "name": "Spitz Alemão Anão",
-          "alternateName": ["Lulu da Pomerânia", "Pomeranian", "Pomerânio", "Spitz Alemão", "Spitz Anão", "Mini Spitz"],
-          "description": "Raça de cão de pequeno porte originária da Pomerânia, conhecido como Lulu da Pomerânia no Brasil e Pomeranian em inglês.",
-          "sameAs": "https://www.fci.be/en/nomenclature/SPITZ-ALLEMAND-NAIN-97.html"
-        }
-      }) }} />
 
       {/* HERO */}
       <header className="space-y-4">
@@ -225,6 +228,6 @@ export default function LuluDaPomeraniaPage() {
           <li className="font-medium text-zinc-600" aria-current="page">Lulu da Pomerânia</li>
         </ol>
       </nav>
-    </main>
+    </div>
   );
 }

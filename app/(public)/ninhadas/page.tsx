@@ -33,10 +33,15 @@ export default function NinhadasPage() {
   ]);
   const faqLd = buildFAQLD(FAQS);
   const businessLd = buildLocalBusinessLD();
-  const articleLd = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: new Date().toISOString() });
+  // Era `datePublished: new Date().toISOString()`: a cada build o schema dizia
+  // que a página tinha acabado de ser publicada. Data de publicação não muda —
+  // é a única data do schema que precisa ser fixa. 2026-08-06 é quando a página
+  // passou a existir (primeiro commit do arquivo). O dateModified continua sendo
+  // resolvido dentro de buildArticleLD, a partir do histórico real.
+  const articleLd = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: "2026-08-06" });
 
   return (
-    <main className="mx-auto max-w-4xl px-5 py-14">
+    <div className="mx-auto max-w-4xl px-5 py-14">
       <script id="ld-ninhadas-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-ninhadas-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-ninhadas-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
@@ -70,6 +75,6 @@ export default function NinhadasPage() {
         { label: 'Filhotes disponíveis', href: '/filhotes', desc: 'Lista completa de filhotes e status' },
         { label: 'Como escolher um filhote', href: '/guias/como-escolher-spitz-alemao-anao', desc: 'Guia completo para escolher seu filhote' },
       ]} />
-    </main>
+    </div>
   );
 }
