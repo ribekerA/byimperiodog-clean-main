@@ -111,7 +111,7 @@ export default function PrecoSpitzPage() {
   const businessLd  = buildLocalBusinessLD();
 
   return (
-    <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
+    <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="preco-spitz-anao" />
       <script id="ld-preco-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script id="ld-preco-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -280,6 +280,6 @@ export default function PrecoSpitzPage() {
           <li className="font-medium text-zinc-600" aria-current="page">Preço Spitz Anão</li>
         </ol>
       </nav>
-    </main>
+    </div>
   );
 }

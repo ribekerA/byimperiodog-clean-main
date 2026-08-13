@@ -61,7 +61,7 @@ export default function SearchPage({ searchParams }: { searchParams: { q?: strin
   const q = (searchParams?.q || "").trim();
 
   return (
-    <main className="mx-auto max-w-3xl px-5 py-16 md:py-20">
+    <div className="mx-auto max-w-3xl px-5 py-16 md:py-20">
       <h1 className="text-2xl font-bold tracking-tight">Busca</h1>
       <form
         className="mt-6 flex gap-3"
@@ -91,6 +91,6 @@ export default function SearchPage({ searchParams }: { searchParams: { q?: strin
       <Suspense fallback={<p className="mt-6 text-sm text-zinc-500">Carregando...</p>}>
         <SearchResults q={q} />
       </Suspense>
-    </main>
+    </div>
   );
 }

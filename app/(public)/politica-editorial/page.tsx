@@ -39,7 +39,7 @@ export default function PoliticaEditorialPage() {
   } as const;
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 py-12 text-[var(--text)]">
+    <div className="mx-auto w-full max-w-3xl px-4 py-12 text-[var(--text)]">
       <SeoJsonLd data={[breadcrumb, webPage]} />
 
       <header className="mb-8">
@@ -100,6 +100,6 @@ export default function PoliticaEditorialPage() {
           Dúvidas, sugestões e pedidos de correção podem ser enviados pela página de <Link href="/contato" className="underline">Contato</Link>.
         </p>
       </section>
-    </main>
+    </div>
   );
 }

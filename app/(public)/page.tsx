@@ -141,7 +141,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
 
-      <main id="conteudo-principal" role="main" className="relative flex flex-col">
+      <div className="relative flex flex-col">
 
         {/* ── 1. HERO ─────────────────────────────────────────────────────────── */}
         <VideoHero />
@@ -421,7 +421,7 @@ export default function HomePage() {
             </Link>
           </div>
         </ScrollReveal>
-      </main>
+      </div>
     </>
   );
 }

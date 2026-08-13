@@ -117,7 +117,7 @@ export default function ContatoPage() {
   };
 
   return (
-    <main>
+    <div>
       <script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       <script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <LeadEventTracker eventName="lead_contato" />
@@ -430,6 +430,6 @@ export default function ContatoPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

@@ -147,7 +147,7 @@ export default function ReserveSeuFilhotePage() {
   };
 
   return (
-    <main className="bg-[var(--bg)] text-[var(--text)]">
+    <div className="bg-[var(--bg)] text-[var(--text)]">
       <script id="ld-breadcrumb-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-webpage-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
       <script id="ld-faq-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -279,6 +279,6 @@ export default function ReserveSeuFilhotePage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

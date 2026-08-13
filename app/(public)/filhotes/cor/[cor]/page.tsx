@@ -75,14 +75,14 @@ export default function ColorLandingPage({ params }: Props) {
       <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
-      <main>
+      <div>
         <ColorPageContent
           color={params.cor}
           seo={seo}
           puppies={puppies}
           waLink={waLink}
         />
-      </main>
+      </div>
     </>
   );
 }

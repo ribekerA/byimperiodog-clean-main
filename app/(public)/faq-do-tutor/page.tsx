@@ -89,7 +89,7 @@ export default function FaqDoTutorPage() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
+    <div className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
       <header className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600">FAQ do tutor</p>
         <h1 className="text-4xl font-bold text-zinc-900">Guia prático para receber o Spitz Alemão (Lulu da Pomerânia)</h1>
@@ -201,6 +201,6 @@ export default function FaqDoTutorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
-    </main>
+    </div>
   );
 }

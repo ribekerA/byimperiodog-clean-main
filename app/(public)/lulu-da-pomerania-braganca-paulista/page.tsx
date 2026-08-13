@@ -77,7 +77,7 @@ export default function LuluBragancaPage() {
   const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: "2025-01-01" });
 
   return (
-    <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
+    <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <script id="ld-bp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-bp-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-bp-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
@@ -166,6 +166,6 @@ export default function LuluBragancaPage() {
           <li className="font-medium text-zinc-600" aria-current="page">Lulu da Pomerânia — Bragança Paulista</li>
         </ol>
       </nav>
-    </main>
+    </div>
   );
 }

@@ -85,7 +85,7 @@ export default function PomeranianPage() {
   });
 
   return (
-    <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
+    <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <script id="ld-pom-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-pom-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-pom-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
@@ -225,6 +225,6 @@ export default function PomeranianPage() {
           <li className="font-medium text-zinc-600" aria-current="page">Pomeranian</li>
         </ol>
       </nav>
-    </main>
+    </div>
   );
 }

@@ -241,6 +241,11 @@ export default async function PublicLayout({ children }: { children: React.React
 
         <div className="flex min-h-screen flex-col">
           <Header />
+          {/* Este é o ÚNICO <main> do site público, e o alvo do skip link.
+              As páginas abriam cada uma o seu, o que deixava dois landmarks
+              "main" no mesmo documento (a home ainda repetia o id, HTML
+              inválido); todas passaram a usar <div>. Página nova não deve
+              reabrir <main> nem redeclarar id="conteudo-principal". */}
           <main className="flex-1" id="conteudo-principal" role="main">
             {children}
           </main>

@@ -128,7 +128,7 @@ export default function CriadorConfiavelPage() {
   const businessLd   = buildLocalBusinessLD();
 
   return (
-    <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
+    <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="criador-spitz-confiavel" />
       <script id="ld-criador-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script id="ld-criador-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -290,6 +290,6 @@ export default function CriadorConfiavelPage() {
           <li className="font-medium text-zinc-600" aria-current="page">Criador Confiável</li>
         </ol>
       </nav>
-    </main>
+    </div>
   );
 }

@@ -34,7 +34,7 @@ export default function CuidadosPage() {
   const articleLd = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: guide.publishedAt });
 
   return (
-    <main className="mx-auto max-w-4xl px-5 py-14">
+    <div className="mx-auto max-w-4xl px-5 py-14">
       <script id="ld-cuidados-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-cuidados-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-cuidados-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
@@ -55,6 +55,6 @@ export default function CuidadosPage() {
           </section>
         ))}
       </article>
-    </main>
+    </div>
   );
 }

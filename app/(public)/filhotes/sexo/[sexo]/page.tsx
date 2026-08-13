@@ -63,7 +63,7 @@ export default function SexLandingPage({ params }: Props) {
       <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
         {/* Breadcrumb */}
         <nav aria-label="Navegação estrutural" className="mb-6">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500">
@@ -207,7 +207,7 @@ export default function SexLandingPage({ params }: Props) {
             ← Ver todos os filhotes
           </Link>
         </div>
-      </main>
+      </div>
     </>
   );
 }

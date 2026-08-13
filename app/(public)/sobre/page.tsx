@@ -189,7 +189,7 @@ export default function SobrePage() {
   const businessLd = buildLocalBusinessLD();
 
   return (
-    <main>
+    <div>
       <script id="ld-breadcrumb-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-webpage-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
       <script id="ld-business-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
@@ -403,6 +403,6 @@ export default function SobrePage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

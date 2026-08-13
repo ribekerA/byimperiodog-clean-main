@@ -60,7 +60,7 @@ export default function GuiasIndexPage() {
     <>
       <script id="ld-guias-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
-    <main>
+    <div>
       {/* Hero */}
       <div className="bg-[var(--brand)] px-5 py-14 text-center sm:px-8">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">
@@ -180,7 +180,7 @@ export default function GuiasIndexPage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
     </>
   );
 }

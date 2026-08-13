@@ -119,7 +119,7 @@ export default function ComprarSpitzPage() {
   const businessLd   = buildLocalBusinessLD();
 
   return (
-    <main className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
+    <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="comprar-spitz-anao" />
       <script id="ld-comprar-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script id="ld-comprar-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -263,6 +263,6 @@ export default function ComprarSpitzPage() {
           <li className="font-medium text-zinc-600" aria-current="page">Comprar Spitz Anão</li>
         </ol>
       </nav>
-    </main>
+    </div>
   );
 }

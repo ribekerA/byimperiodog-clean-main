@@ -153,7 +153,7 @@ export default function GaleriaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": videoObjectLd }) }}
       />
 
-      <main className="min-h-screen bg-zinc-950 pb-24">
+      <div className="min-h-screen bg-zinc-950 pb-24">
         {/* Hero */}
         <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-zinc-900 to-zinc-950 px-5 py-20 text-center sm:py-28">
           <div className="pointer-events-none absolute inset-0 opacity-20"
@@ -209,7 +209,7 @@ export default function GaleriaPage() {
             Ver filhotes disponíveis →
           </Link>
         </div>
-      </main>
+      </div>
     </>
   );
 }

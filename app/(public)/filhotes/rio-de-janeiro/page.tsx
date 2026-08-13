@@ -151,7 +151,7 @@ export default function FilhotesRioDeJaneiroPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
-      <main className="bg-[var(--bg)] pb-24 pt-16">
+      <div className="bg-[var(--bg)] pb-24 pt-16">
         {/* Hero Section */}
         <section className="mx-auto max-w-6xl px-5 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-1.5 text-sm font-semibold">
@@ -286,7 +286,7 @@ export default function FilhotesRioDeJaneiroPage() {
             </a>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

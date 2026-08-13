@@ -38,7 +38,7 @@ export default function TermosDeUsoPage() {
     <>
       <script id="ld-termos-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
-    <main className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
+    <div className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
       <header className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600">Condições legais</p>
         <h1 className="text-4xl font-bold text-zinc-900">Termos de Uso</h1>
@@ -113,7 +113,7 @@ export default function TermosDeUsoPage() {
       </section>
 
       <LastUpdated contentTime={lastUpdated} />
-    </main>
+    </div>
     </>
   );
 }
