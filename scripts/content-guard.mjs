@@ -48,6 +48,20 @@ const stripComments = (source) =>
   source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
 
 const BANNED_TERMS = ["adocao", "doacao", "boutique"];
+// O frontmatter de um .mdx nao e prosa: `title`, `seo_title` e `description`
+// sao campos independentes, exibidos juntos no resultado do Google e nunca
+// concatenados em texto corrido. Medir distancia em CARACTERES atraves deles
+// mede algo que nao existe em nenhuma saida renderizada. Foi o que aconteceu
+// ao acrescentar `seo_title`: a linha nova afastou o titulo da description e o
+// guard acusou 12 artigos que trazem o sinonimo na linha de baixo. Dentro do
+// bloco vale o bloco inteiro como trecho; no corpo do artigo, que e prosa de
+// verdade, a janela de 140 continua valendo.
+const frontmatterEnd = (source) => {
+  if (!source.startsWith("---\n")) return 0;
+  const end = source.indexOf("\n---", 4);
+  return end === -1 ? 0 : end + 4;
+};
+
 const BREED_PATTERN = /spitz\s+alem[ãa]o(?:\s+an[ãa]o)?/gi;
 const CERNELHA_PATTERN = /cernelha/gi;
 
@@ -80,8 +94,13 @@ for (const file of files) {
     }
   }
 
+  const fmEnd = frontmatterEnd(raw);
+  const fmHasSynonym =
+    fmEnd > 0 && /lulu\s+da\s+pomerania/i.test(normalize(raw.slice(0, fmEnd)));
+
   for (const match of raw.matchAll(BREED_PATTERN)) {
     const index = match.index ?? 0;
+    if (index < fmEnd && fmHasSynonym) continue;
     const context = raw.slice(
       Math.max(0, index - 140),
       index + match[0].length + 140
