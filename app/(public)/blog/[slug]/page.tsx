@@ -24,6 +24,7 @@ import LeadForm from "@/components/LeadForm";
 import { mdxComponents } from "@/components/MDXContent";
 import PageViewPing from "@/components/PageViewPing";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import { getImageSize } from "@/lib/_generated-image-sizes";
 import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
@@ -226,6 +227,11 @@ export default async function BlogPostPage({
 
   const waPhone = (process.env.NEXT_PUBLIC_WA_PHONE || "").replace(/\D/g, "");
   const postUrl = `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`;
+  // Medida real do arquivo. Estava fixo em 1280x720 (16:9) enquanto as capas sao
+  // 3:2 — com h-auto o navegador reservava a altura errada e o artigo inteiro
+  // pulava quando a imagem carregava, bem no elemento de LCP. Capa vinda do
+  // Supabase nao esta no mapa; ai fica o 16:9 de antes como ultimo recurso.
+  const [coverW, coverH] = (post.cover_url ? getImageSize(post.cover_url) : undefined) ?? [1280, 720];
   const sidebarWhatsappUrl = waPhone
     ? whatsappLeadUrl(waPhone, { pageType: "blog", url: postUrl })
     : `https://wa.me/5511968633239?text=${encodeURIComponent(`Olá! Li o artigo "${post.title}" e gostaria de saber mais sobre os filhotes.`)}`;
@@ -348,8 +354,8 @@ export default async function BlogPostPage({
               <Image
                 src={post.cover_url}
                 alt={post.cover_alt || post.title}
-                width={1280}
-                height={720}
+                width={coverW}
+                height={coverH}
                 priority
                 fetchPriority="high"
                 className="w-full h-auto"

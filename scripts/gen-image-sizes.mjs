@@ -20,9 +20,14 @@ import sharp from 'sharp';
 // So as pastas de onde uma foto de corpo de artigo pode sair. Varrer `public`
 // inteiro traria favicon, logo e selo — 200 entradas que nenhum artigo usa.
 const PASTAS = ['filhotes', 'images'];
+// Fora das pastas, a raiz de public/ entra sem descer em subpasta: 13 dos 30
+// artigos usam /spitz-hero-desktop.webp como capa, que fica solto ali. Sem
+// medida a capa caia num 16:9 fixo sendo 3:2, e o artigo pulava ao carregar.
+// Sao 14 arquivos — o custo que o comentario acima temia nao existe na raiz.
+const RAIZ_TAMBEM = true;
 const EXT = /\.(jpe?g|png|webp|avif)$/i;
 
-async function varrer(dirAbs, prefixoUrl, saida) {
+async function varrer(dirAbs, prefixoUrl, saida, { recursivo = true } = {}) {
   let entradas;
   try {
     entradas = await fs.readdir(dirAbs, { withFileTypes: true });
@@ -34,7 +39,7 @@ async function varrer(dirAbs, prefixoUrl, saida) {
     const abs = path.join(dirAbs, e.name);
     const url = `${prefixoUrl}/${e.name}`;
     if (e.isDirectory()) {
-      await varrer(abs, url, saida);
+      if (recursivo) await varrer(abs, url, saida);
       continue;
     }
     if (!EXT.test(e.name)) continue;
@@ -52,6 +57,9 @@ async function main() {
   const tamanhos = {};
   for (const pasta of PASTAS) {
     await varrer(path.resolve('public', pasta), `/${pasta}`, tamanhos);
+  }
+  if (RAIZ_TAMBEM) {
+    await varrer(path.resolve('public'), '', tamanhos, { recursivo: false });
   }
 
   const chaves = Object.keys(tamanhos).sort();
