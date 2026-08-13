@@ -1,4 +1,4 @@
-"use client";
+// Server component de proposito. Faixa de selos estatica.
 
 /**
  * TrustBar — Prova social compacta para inserir próximo a CTAs.

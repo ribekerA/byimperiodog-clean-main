@@ -1,4 +1,4 @@
-"use client";
+// Server component de proposito. So renderiza um <Link>. Nao tem estado, efeito nem handler — o realce do foco e CSS puro (focus-visible). Como o layout que o importa e server component, tirar a diretiva tira o arquivo do bundle do cliente.
 
 import Link from "next/link";
 

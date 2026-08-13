@@ -1,4 +1,4 @@
-"use client";
+// Server component de proposito. O accordion ja era <details>/<summary> nativo, como diz o comentario do proprio arquivo — funciona sem JS. A diretiva mandava para o cliente um componente que nunca precisou dele.
 
 /**
  * HomeFAQ — Seção de perguntas frequentes para a home page.

@@ -1,4 +1,4 @@
-"use client";
+// Server component de proposito. Blocos de CTA e um form com action HTML. Nenhum handler React — o envio e submit nativo. Sai do bundle junto com os icones que importa.
 
 import { ArrowRight, MessageCircle, Phone } from "lucide-react";
 import Link from "next/link";

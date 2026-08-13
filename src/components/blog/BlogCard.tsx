@@ -1,4 +1,4 @@
-"use client";
+// Server component de proposito. Card de artigo: imagem, texto e links. Nao ha interacao em JS, so hover em CSS.
 
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";

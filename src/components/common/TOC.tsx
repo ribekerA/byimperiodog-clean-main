@@ -1,4 +1,4 @@
-"use client";
+// Server component de proposito. Lista de ancoras. A navegacao e do proprio navegador, nao ha JS envolvido. Importado direto por tres paginas server.
 
 import Link from "next/link";
 
