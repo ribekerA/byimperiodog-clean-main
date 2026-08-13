@@ -20,9 +20,17 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
+      // Espelha os paths do tsconfig. Sem '@/content' e '@/domain' o vitest
+      // resolvia para src/content e src/domain — pastas que nao existem — e
+      // qualquer teste de componente que importasse dai quebrava na coleta.
       '@/lib': resolve(__dirname, './src/lib'),
       '@/components': resolve(__dirname, './src/components'),
+      '@/hooks': resolve(__dirname, './src/hooks'),
+      '@/types': resolve(__dirname, './src/types'),
+      '@/domain': resolve(__dirname, './src/domain'),
+      '@/content': resolve(__dirname, './content'),
+      '@/public': resolve(__dirname, './public'),
+      '@': resolve(__dirname, './src'),
     }
   }
 });
