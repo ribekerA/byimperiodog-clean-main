@@ -7,6 +7,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
+import ArticleSources from "@/components/blog/ArticleSources";
 import BlogCTAs from "@/components/blog/BlogCTAs";
 import BlogPuppyBanner from "@/components/blog/BlogPuppyBanner";
 import Comments from "@/components/blog/Comments";
@@ -29,6 +30,7 @@ import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { getRelatedUnified } from "@/lib/blog/related";
 import { TAG_LISTAGEM_BLOG } from "@/lib/blog/revalidate";
 import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
+import { parseSources } from "@/lib/blog/sources";
 import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import { supabaseAnon } from "@/lib/supabaseAnon";
@@ -53,6 +55,8 @@ interface Post {
   category?: string | null;
   tags?: string[] | null;
   lang?: string | null;
+  // Só o caminho MDX preenche: `blog_posts` não tem essa coluna.
+  sources?: string[] | null;
 }
 
 interface Author {
@@ -137,6 +141,7 @@ async function fetchMdxPost(slug: string): Promise<Post | null> {
       category:        mdx.category ?? null,
       tags:            mdx.tags ?? null,
       lang:            "pt-BR",
+      sources:         mdx.sources ?? null,
     } as Post;
   } catch {
     return null;
@@ -396,6 +401,8 @@ export default async function BlogPostPage({
                 <p className="italic text-text-muted">Conteúdo em atualização.</p>
               )}
             </Prose>
+
+            <ArticleSources sources={parseSources(post.sources)} />
 
             <BlogPuppyBanner postTitle={post.title} />
 

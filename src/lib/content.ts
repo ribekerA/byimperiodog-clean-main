@@ -16,6 +16,8 @@ export type BlogPost = {
   readingTime?: number | null;
   url?: string;
   bodyRaw?: string | null;
+  /** Fontes externas declaradas no frontmatter, uma por linha "Publisher | Título | URL". */
+  sources?: string[] | null;
 };
 
 const CMS = (process.env.CMS_DRIVER || 'contentlayer').toLowerCase();
@@ -47,6 +49,7 @@ function normalizePost(p: any): BlogPost {
     readingTime: p.readingTime || p.reading_time || null,
     url: p.url || (p.slug ? `/blog/${p.slug}` : undefined),
     bodyRaw: p.body?.raw || p.content_mdx || p.bodyRaw || null,
+    sources: p.sources || null,
   };
 }
 

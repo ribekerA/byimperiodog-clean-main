@@ -1,4 +1,5 @@
 import type { TocItem } from './mdx/toc';
+import { parseSources, sourcesToCitation } from './sources';
 
 interface BasePost {
   id: string;
@@ -112,7 +113,7 @@ export function buildBlogMetadata(post: BasePost & { content_mdx?: string | null
 
 interface JsonLdExtras { toc?: TocItem[]; faq?: { q: string; a: string }[] }
 
-export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | null }, author: AuthorLike | null, extras: JsonLdExtras = {}) {
+export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | null; sources?: string[] | null }, author: AuthorLike | null, extras: JsonLdExtras = {}) {
   const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br').replace(/\/$/, '');
   const url = `${site}/blog/${post.slug}`;
   const description = post.seo_description || deriveExcerpt(post) || undefined;
@@ -140,6 +141,10 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
     keywords: post.tags && post.tags.length ? post.tags.join(', ') : undefined,
     inLanguage: post.lang || 'pt-BR',
     wordCount: post.content_mdx ? post.content_mdx.split(/\s+/).filter(Boolean).length : undefined,
+    // Mesmas fontes que o leitor vê no bloco "Fontes" no fim do artigo. Sai
+    // `undefined` quando o artigo não declara nenhuma — nunca uma lista vazia,
+    // que afirmaria "consultei nada" em vez de não afirmar nada.
+    citation: sourcesToCitation(parseSources(post.sources)),
   };
 
   if (extras.toc && extras.toc.length > 2) {
