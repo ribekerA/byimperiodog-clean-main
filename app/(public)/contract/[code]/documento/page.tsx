@@ -184,10 +184,11 @@ export default async function ContractDocumento({ params }: { params: { code: st
             <p>No ato da entrega serão fornecidos:</p>
             <ul>
               <li>Carteira de vacinação atualizada e assinada pelo veterinário (CRMV);</li>
+              <li>Registro oficial do filhote, com emissão e entrega conforme o prazo da entidade responsável;</li>
               <li>Recibo do valor pago;</li>
               <li>Cópia deste contrato assinado pelas partes;</li>
               <li>Vídeo e fotos do momento da entrega;</li>
-              <li>Acesso ao grupo de suporte pós-entrega da By Império Dog.</li>
+              <li>Suporte pós-venda por WhatsApp, diretamente com a criadora.</li>
             </ul>
           </div>
 
@@ -222,7 +223,8 @@ export default async function ContractDocumento({ params }: { params: { code: st
 
           <div className="clause">
             <h3>7. Da Mentoria e Suporte Pós-Entrega</h3>
-            <p>A By Império Dog se compromete a prestar orientações e suporte ao comprador durante o período de adaptação do filhote (mínimo 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva.</p>
+            <p>7.1. A By Império Dog se compromete a prestar acompanhamento durante o período de adaptação do filhote (primeiros 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva.</p>
+            <p>7.2. Encerrado esse período, o suporte por WhatsApp diretamente com a criadora permanece disponível ao comprador <strong>pela vida do animal, sem custo adicional</strong>.</p>
           </div>
 
           <div className="clause">

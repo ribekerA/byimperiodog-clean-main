@@ -162,9 +162,9 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
 
   const clausulas = [
     ["1. Do Estado de Saúde e Vacinação",
-      "1.1. O filhote é entregue em boas condições de saúde, com vermifugação atualizada e vacinação obrigatória (V8 importada) conforme registrado na carteira assinada por médico veterinário (CRMV).\n1.2. O comprador declara estar ciente e de acordo com o estado do animal no momento da entrega."],
+      "1.1. O filhote é entregue em boas condições de saúde, com vermifugação atualizada e vacinação obrigatória (V8 importada) de acordo com a idade, conforme registrado na carteira assinada por médico veterinário (CRMV).\n1.2. O comprador declara estar ciente e de acordo com o estado do animal no momento da entrega."],
     ["2. Da Documentação Entregue",
-      "No ato da entrega serão fornecidos: carteira de vacinação atualizada; recibo do valor pago; cópia deste contrato assinado pelas partes; vídeo e fotos do momento da entrega; acesso ao grupo de suporte pós-entrega."],
+      "No ato da entrega serão fornecidos: carteira de vacinação atualizada e assinada pelo veterinário (CRMV); registro oficial do filhote, com emissão e entrega conforme o prazo da entidade responsável; recibo do valor pago; cópia deste contrato assinado pelas partes; vídeo e fotos do momento da entrega; suporte pós-venda por WhatsApp, diretamente com a criadora."],
     ["3. Do Prazo para Avaliação Clínica",
       "3.1. O comprador deverá levar o filhote a uma clínica veterinária no prazo máximo de 72 horas da data de entrega.\n3.2. Caso seja constatado problema pré-existente grave, o vendedor reembolsará integralmente ou substituirá o animal.\n3.3. Após esse prazo, não serão aceitas reclamações relacionadas à saúde do animal."],
     ["4. Dos Cuidados Obrigatórios",
@@ -173,8 +173,8 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
       "O filhote foi alimentado com ração Super Premium (ex.: Farmina N&D Puppy). O comprador se compromete a manter alimentação de padrão semelhante e cuidados veterinários periódicos."],
     ["6. Da Finalidade de Venda",
       "O filhote é vendido exclusivamente para fins de companhia. Fica expressamente proibida a reprodução comercial sem autorização prévia e escrita do vendedor."],
-    ["7. Da Mentoria Pós-Entrega",
-      "A By Império Dog prestará orientações e suporte durante o período de adaptação (mínimo 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva."],
+    ["7. Da Mentoria e Suporte Pós-Entrega",
+      "7.1. A By Império Dog prestará acompanhamento durante o período de adaptação do filhote (primeiros 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva.\n7.2. Encerrado esse período, o suporte por WhatsApp diretamente com a criadora permanece disponível ao comprador pela vida do animal, sem custo adicional."],
     ["8. Da Isenção de Responsabilidade",
       "O descumprimento das obrigações das cláusulas 4 e 5 exime o vendedor de qualquer responsabilidade posterior, inclusive no tocante à saúde ou desenvolvimento do animal."],
     ["9. Das Disposições Finais",
