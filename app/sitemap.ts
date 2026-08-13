@@ -2,27 +2,56 @@ import type { MetadataRoute } from "next";
 
 import { guides } from "@/content/guides";
 import { staticPuppies } from "@/content/puppies-static";
+import { lastmodFor } from "@/lib/_generated-lastmod";
 import { generatedPosts } from "@/lib/_generated-posts";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { ALL_COLORS, ALL_SEXES } from "@/lib/catalog-utils";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
-const NOW = new Date().toISOString();
+
+// `lastModified: new Date()` era o valor de TODAS as páginas estáticas daqui.
+// Medido em /sitemap.xml: 60+ URLs com o mesmo <lastmod>, igual ao timestamp do
+// build — ou seja, cada deploy declarava que o site inteiro havia sido
+// reescrito, inclusive quando só mudou CSS. O Google usa lastmod para priorizar
+// recrawl e desconsidera o campo do site inteiro quando ele não bate com o que
+// vê na página; o sinal deixava de existir justamente para a página que mudou
+// de verdade.
+//
+// Agora a data vem de src/lib/_generated-lastmod.ts, gerado do histórico do git
+// (`npm run gen:lastmod`): último commit que tocou o arquivo da rota ou os
+// arquivos de conteúdo que ela importa.
+//
+// `entrada()` omite lastModified quando não há registro. <lastmod> é opcional no
+// protocolo — omitir é melhor do que declarar data inventada.
+function entrada(
+  rota: string,
+  changeFrequency: "daily" | "weekly" | "monthly" | "yearly",
+  priority: number,
+  chaveDeData: string = rota
+): MetadataRoute.Sitemap[number] {
+  const lastModified = lastmodFor(chaveDeData);
+  return {
+    url: `${SITE_URL}${rota}`,
+    ...(lastModified ? { lastModified } : {}),
+    changeFrequency,
+    priority,
+  };
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ─── Core pages ──────────────────────────────────────────────────────────────
   const staticPages: MetadataRoute.Sitemap = [
-    { url: `${SITE_URL}/`,                       lastModified: NOW, changeFrequency: "daily",   priority: 1.00 },
-    { url: `${SITE_URL}/filhotes`,               lastModified: NOW, changeFrequency: "daily",   priority: 0.95 },
-    { url: `${SITE_URL}/sobre`,                  lastModified: NOW, changeFrequency: "monthly", priority: 0.80 },
-    { url: `${SITE_URL}/contato`,                lastModified: NOW, changeFrequency: "monthly", priority: 0.75 },
-    { url: `${SITE_URL}/faq-do-tutor`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.80 },
-    { url: `${SITE_URL}/blog`,                   lastModified: NOW, changeFrequency: "daily",   priority: 0.90 },
-    { url: `${SITE_URL}/guias`,                  lastModified: NOW, changeFrequency: "weekly",  priority: 0.85 },
-    { url: `${SITE_URL}/reserve-seu-filhote`,    lastModified: NOW, changeFrequency: "monthly", priority: 0.70 },
-    { url: `${SITE_URL}/ninhadas`,               lastModified: NOW, changeFrequency: "weekly",  priority: 0.70 },
-    { url: `${SITE_URL}/galeria`,                lastModified: NOW, changeFrequency: "monthly", priority: 0.70 },
+    entrada("/",                    "daily",   1.00),
+    entrada("/filhotes",            "daily",   0.95),
+    entrada("/sobre",               "monthly", 0.80),
+    entrada("/contato",             "monthly", 0.75),
+    entrada("/faq-do-tutor",        "monthly", 0.80),
+    entrada("/blog",                "daily",   0.90),
+    entrada("/guias",               "weekly",  0.85),
+    entrada("/reserve-seu-filhote", "monthly", 0.70),
+    entrada("/ninhadas",            "weekly",  0.70),
+    entrada("/galeria",             "monthly", 0.70),
     // /alimentacao, /cuidados e /temperamento ficam de fora de propósito: são
     // o mesmo corpo de texto de /guias/{slug} e apontam o canonical para lá.
     // Sitemap lista URL canônica, não a cópia.
@@ -32,54 +61,49 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // canonical próprio e é para onde o menu aponta. Voltou para a lista.
 
     // ─── Raça / informacional ─────────────────────────────────────────────────
-    { url: `${SITE_URL}/spitz-alemao`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },
-    { url: `${SITE_URL}/lulu-da-pomerania`,      lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },
-    { url: `${SITE_URL}/pomeranian`,             lastModified: NOW, changeFrequency: "monthly", priority: 0.90 },
-    { url: `${SITE_URL}/spitz-alemao-preto`,     lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },
-    { url: `${SITE_URL}/spitz-alemao-baby-face`, lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },
-    { url: `${SITE_URL}/filhote-de-spitz-alemao`,lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },
+    entrada("/spitz-alemao",           "monthly", 0.92),
+    entrada("/lulu-da-pomerania",      "monthly", 0.92),
+    entrada("/pomeranian",             "monthly", 0.90),
+    entrada("/spitz-alemao-preto",     "monthly", 0.88),
+    entrada("/spitz-alemao-baby-face", "monthly", 0.88),
+    entrada("/filhote-de-spitz-alemao","monthly", 0.88),
 
     // ─── Intenção comercial ───────────────────────────────────────────────────
-    { url: `${SITE_URL}/preco-spitz-anao`,                  lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },
-    { url: `${SITE_URL}/comprar-spitz-anao`,                lastModified: NOW, changeFrequency: "monthly", priority: 0.92 },
-    { url: `${SITE_URL}/criador-spitz-confiavel`,           lastModified: NOW, changeFrequency: "monthly", priority: 0.90 },
+    entrada("/preco-spitz-anao",       "monthly", 0.92),
+    entrada("/comprar-spitz-anao",     "monthly", 0.92),
+    entrada("/criador-spitz-confiavel","monthly", 0.90),
 
     // ─── SEO local ────────────────────────────────────────────────────────────
-    { url: `${SITE_URL}/lulu-da-pomerania-braganca-paulista`,  lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },
-    { url: `${SITE_URL}/canil-spitz-alemao-interior-sp`,       lastModified: NOW, changeFrequency: "monthly", priority: 0.88 },
-    { url: `${SITE_URL}/filhotes/sao-paulo`,                   lastModified: NOW, changeFrequency: "weekly",  priority: 0.85 },
-    { url: `${SITE_URL}/filhotes/minas-gerais`,                lastModified: NOW, changeFrequency: "weekly",  priority: 0.82 },
-    { url: `${SITE_URL}/filhotes/rio-de-janeiro`,              lastModified: NOW, changeFrequency: "weekly",  priority: 0.82 },
+    entrada("/lulu-da-pomerania-braganca-paulista", "monthly", 0.88),
+    entrada("/canil-spitz-alemao-interior-sp",      "monthly", 0.88),
+    entrada("/filhotes/sao-paulo",                  "weekly",  0.85),
+    entrada("/filhotes/minas-gerais",               "weekly",  0.82),
+    entrada("/filhotes/rio-de-janeiro",             "weekly",  0.82),
 
     // ─── Legais ───────────────────────────────────────────────────────────────
-    { url: `${SITE_URL}/politica-de-privacidade`, lastModified: NOW, changeFrequency: "yearly",  priority: 0.30 },
-    { url: `${SITE_URL}/termos-de-uso`,           lastModified: NOW, changeFrequency: "yearly",  priority: 0.30 },
-    { url: `${SITE_URL}/politica-editorial`,      lastModified: NOW, changeFrequency: "yearly",  priority: 0.30 },
+    entrada("/politica-de-privacidade", "yearly", 0.30),
+    entrada("/termos-de-uso",           "yearly", 0.30),
+    entrada("/politica-editorial",      "yearly", 0.30),
   ];
 
   // ─── Individual puppy pages ──────────────────────────────────────────────────
-  const puppyPages: MetadataRoute.Sitemap = staticPuppies.map((p) => ({
-    url: `${SITE_URL}/filhotes/${p.slug}`,
-    lastModified: NOW,
-    changeFrequency: "weekly" as const,
-    priority: p.status === "available" ? 0.85 : 0.45,
-  }));
+  // Filhote não tem data própria: o que muda nessas páginas (disponibilidade,
+  // preço, fotos) mora em content/puppies-static.ts, então a data do catálogo é
+  // a data real delas. Mesma coisa para cor e sexo, que são recortes do mesmo
+  // catálogo.
+  const puppyPages: MetadataRoute.Sitemap = staticPuppies.map((p) =>
+    entrada(`/filhotes/${p.slug}`, "weekly", p.status === "available" ? 0.85 : 0.45, "@puppy")
+  );
 
   // ─── Color landing pages ─────────────────────────────────────────────────────
-  const colorPages: MetadataRoute.Sitemap = ALL_COLORS.map((cor) => ({
-    url: `${SITE_URL}/filhotes/cor/${cor}`,
-    lastModified: NOW,
-    changeFrequency: "weekly" as const,
-    priority: 0.80,
-  }));
+  const colorPages: MetadataRoute.Sitemap = ALL_COLORS.map((cor) =>
+    entrada(`/filhotes/cor/${cor}`, "weekly", 0.80, "@color")
+  );
 
   // ─── Sex landing pages ───────────────────────────────────────────────────────
-  const sexPages: MetadataRoute.Sitemap = ALL_SEXES.map((sexo) => ({
-    url: `${SITE_URL}/filhotes/sexo/${sexo}`,
-    lastModified: NOW,
-    changeFrequency: "weekly" as const,
-    priority: 0.78,
-  }));
+  const sexPages: MetadataRoute.Sitemap = ALL_SEXES.map((sexo) =>
+    entrada(`/filhotes/sexo/${sexo}`, "weekly", 0.78, "@sex")
+  );
 
   // ─── Guide pages (static) ────────────────────────────────────────────────────
   const guidePages: MetadataRoute.Sitemap = guides.map((g) => ({
@@ -100,9 +124,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogBySlug = new Map<string, MetadataRoute.Sitemap[number]>();
 
   for (const post of generatedPosts) {
+    // Sem `?? NOW`: a data do artigo é a do frontmatter. Quando o artigo não
+    // declara data, sai sem <lastmod> em vez de herdar o horário do build.
+    const lastModified = post.updated ?? post.date ?? undefined;
     blogBySlug.set(post.slug, {
       url: `${SITE_URL}/blog/${post.slug}`,
-      lastModified: post.updated ?? post.date ?? NOW,
+      ...(lastModified ? { lastModified } : {}),
       changeFrequency: "weekly" as const,
       priority: 0.72,
     });
@@ -121,9 +148,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       for (const post of posts as any[]) {
         if (blogBySlug.has(post.slug)) continue; // já coberto pelo MDX, que é quem a rota serve
         if (!isPublishableSupabasePost(post)) continue;
+        const lastModified = post.updated_at ?? post.published_at ?? undefined;
         blogBySlug.set(post.slug, {
           url: `${SITE_URL}/blog/${post.slug}`,
-          lastModified: post.updated_at ?? post.published_at ?? NOW,
+          ...(lastModified ? { lastModified } : {}),
           changeFrequency: "weekly" as const,
           priority: 0.72,
         });

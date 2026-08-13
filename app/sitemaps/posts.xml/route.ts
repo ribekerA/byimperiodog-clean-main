@@ -8,16 +8,22 @@ export const revalidate = 300;
 
 const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br').replace(/\/$/, '');
 
-type Entry = { loc: string; lastmod: string; changefreq: string; priority: string; img?: string };
+type Entry = { loc: string; lastmod?: string; changefreq: string; priority: string; img?: string };
 
 function entryFor(slug: string, published: string, updated?: string | null, img?: string | null): Entry {
-  const lastmod = updated || published || new Date().toISOString();
-  const ageDays = (Date.now() - Date.parse(published || lastmod)) / 86400000;
+  // O fallback era `new Date().toISOString()`: artigo sem data no frontmatter
+  // recebia o horário do build e mudava de <lastmod> a cada deploy sem ter
+  // mudado uma vírgula. <lastmod> é opcional no protocolo de sitemap — omitir
+  // diz "não sei", e é o que de fato acontece. Declarar data falsa faz o Google
+  // desconsiderar o campo no site inteiro.
+  const lastmod = updated || published || undefined;
+  const ageDays = (Date.now() - Date.parse(published || lastmod || '')) / 86400000;
+  const recente = Number.isFinite(ageDays) && ageDays < 7;
   return {
     loc: `${site}/blog/${slug}`,
     lastmod,
-    changefreq: ageDays < 7 ? 'daily' : 'weekly',
-    priority: ageDays < 7 ? '0.8' : '0.7',
+    changefreq: recente ? 'daily' : 'weekly',
+    priority: recente ? '0.8' : '0.7',
     img: img || undefined,
   };
 }
@@ -55,7 +61,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${[...bySlug.values()]
     .map(
       (u) =>
-        `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority>${
+        `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}<changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority>${
           u.img ? `<image:image><image:loc>${u.img.startsWith('http') ? u.img : site + u.img}</image:loc></image:image>` : ''
         }</url>`
     )
