@@ -1,0 +1,14 @@
+﻿-- Placeholder de historico.
+--
+-- Esta migration foi aplicada diretamente no projeto de producao
+-- (npmnuihgydadihktglrd) antes deste repositorio passar a versionar schema. O
+-- conteudo original nao esta disponivel: o que existe e o registro da versao na
+-- tabela supabase_migrations.schema_migrations do banco remoto.
+--
+-- O arquivo existe para o historico local corresponder ao remoto. Sem ele,
+-- `supabase db push` e `supabase db pull` recusam rodar com "Remote migration
+-- versions not found in local migrations directory".
+--
+-- NAO roda em producao: o Supabase ja registra esta versao como aplicada. Roda
+-- num `supabase db reset` local, onde nao faz nada -- e por isso que o banco
+-- local ainda nao reproduz producao. Ver tarefa #50.
