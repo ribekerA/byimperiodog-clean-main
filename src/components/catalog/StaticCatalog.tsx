@@ -24,6 +24,12 @@ type AnyPuppy = {
 
 type Props = {
   puppies: AnyPuppy[];
+  // Em /filhotes este bloco é o topo da página e o título dele é o H1. Nas
+  // páginas regionais (SP, RJ, MG) a página já tem o próprio H1 com o estado
+  // no texto, e o mesmo componente entrava com um segundo H1 — dois H1 na
+  // mesma URL. Aqui o nível desce para 2 sem tocar em nenhuma classe, então
+  // o visual é idêntico.
+  headingLevel?: 1 | 2;
 };
 
 const SEX_OPTIONS = [
@@ -42,7 +48,8 @@ const COLOR_LABELS: Record<string, string> = {
   "wolf-sable": "Cinza-Lobo",
 };
 
-export default function StaticCatalog({ puppies }: Props) {
+export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
+  const HeroHeading = headingLevel === 2 ? "h2" : "h1";
   const [filterColor, setFilterColor] = useState("");
   const [filterSex, setFilterSex] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
@@ -88,9 +95,9 @@ export default function StaticCatalog({ puppies }: Props) {
       {/* Page hero */}
       <div className="bg-[var(--brand)] px-5 py-10 text-center sm:px-8 sm:py-12">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">Criação responsável · Bragança Paulista, SP</p>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-4xl">
+        <HeroHeading className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-4xl">
           Filhotes disponíveis
-        </h1>
+        </HeroHeading>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
           Cada filhote sai com registro oficial, laudos veterinários e mentoria vitalícia. Saúde documentada, sem surpresas.
         </p>
@@ -177,6 +184,11 @@ export default function StaticCatalog({ puppies }: Props) {
       </div>
 
       {/* Grid */}
+      {/* Cada card traz o nome do filhote em <h3>. Sem este rótulo o
+          documento pulava de h1 direto para h3 e o leitor de tela perdia o
+          nível intermediário. É sr-only porque a barra de filtros logo acima
+          já identifica a lista visualmente — o desenho não muda. */}
+      <h2 className="sr-only">Catálogo de filhotes</h2>
       {filtered.length > 0 ? (
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((puppy, i) => (

@@ -243,7 +243,7 @@ export default function FilhotesMinasGeraisPage() {
               indexava uma seção vazia e o visitante via a página em branco até o
               fetch responder. StaticCatalog é o mesmo componente de /filhotes e
               já chega renderizado do servidor. */}
-          <StaticCatalog puppies={staticPuppies as any[]} />
+          <StaticCatalog puppies={staticPuppies as any[]} headingLevel={2} />
         </section>
 
         {/* FAQ */}
