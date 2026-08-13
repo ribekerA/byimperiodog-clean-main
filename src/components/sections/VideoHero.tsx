@@ -44,18 +44,50 @@ export default function VideoHero() {
     let staleTimer: ReturnType<typeof setTimeout>;
     let idleHandle: number;
 
+    // Quem não deve baixar 26 MB de vídeo decorativo sem pedir:
+    //  · Save-Data ligado, ou conexão 2g/3g — o arquivo é maior que a página
+    //    inteira e o plano de dados é de quem visita, não nosso;
+    //  · prefers-reduced-motion — o `reduced` daqui só desligava o Framer
+    //    Motion; o vídeo de fundo em loop continuava rodando, que é justamente
+    //    o tipo de movimento que a preferência pede para parar.
+    // Nos dois casos a pessoa cai no estado "paused", que já existe e já é
+    // desenhado: poster + o botão "Reproduzir vídeo". Nada some da tela, e o
+    // botão continua sendo o caminho para quem quiser assistir mesmo assim.
+    const conexao = (navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }).connection;
+    const banda = Boolean(conexao?.saveData) || /^(slow-)?2g$|^3g$/.test(conexao?.effectiveType || "");
+    const movimento = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const bloqueado = banda || movimento;
+
     const onCanPlay = () => {
       clearTimeout(staleTimer);
+      // Sem este `if` o guard vazava: quando o arquivo já está em cache o
+      // `canplay` dispara sozinho, mesmo com preload="metadata", e daria play
+      // exatamente em quem pediu para não baixar. Medido — era 1 chamada.
+      if (bloqueado) return;
       video.play().then(() => setVideoState("playing")).catch(() => setVideoState("paused"));
     };
     const onError = () => { clearTimeout(staleTimer); setVideoState("error"); };
     const onPlaying = () => setVideoState("playing");
     const onPause = () => setVideoState((s) => s !== "error" ? "paused" : s);
 
+    // Os quatro continuam registrados mesmo bloqueado: é como o estado
+    // acompanha o vídeo depois que a pessoa clica em "Reproduzir vídeo".
     video.addEventListener("canplay", onCanPlay);
     video.addEventListener("error", onError);
     video.addEventListener("playing", onPlaying);
     video.addEventListener("pause", onPause);
+
+    if (bloqueado) {
+      setVideoState("paused");
+      return () => {
+        video.removeEventListener("canplay", onCanPlay);
+        video.removeEventListener("error", onError);
+        video.removeEventListener("playing", onPlaying);
+        video.removeEventListener("pause", onPause);
+      };
+    }
 
     // Adia o início do download do vídeo (o .play() força o carregamento
     // completo mesmo com preload="metadata") até o navegador ficar ocioso,
