@@ -11,7 +11,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania-braganca-paulista`;
 
 export const metadata: Metadata = {
-  title: "Lulu da Pomerânia em Bragança Paulista SP — Canil Responsável",
+  title: "Lulu da Pomerânia em Bragança Paulista SP",
   description:
     // 222 caracteres, com "Bragança Paulista" duas vezes. Reescrita em 144, e o
     // ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.

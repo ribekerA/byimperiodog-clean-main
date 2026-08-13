@@ -22,6 +22,7 @@ export const guides: Guide[] = [
   {
     slug: "como-escolher-spitz-alemao-anao",
     title: "Como Escolher um Spitz Alemão Anão (Lulu da Pomerânia): Guia Definitivo",
+    seoTitle: "Como Escolher um Spitz Alemão Anão",
     metaDescription:
       "Como escolher o Spitz Alemão Anão (Lulu da Pomerânia) ideal: macho x fêmea, diferenças entre cores, documentação e como reconhecer um criador confiável.",
     publishedAt: "2025-01-10",
@@ -95,6 +96,7 @@ export const guides: Guide[] = [
   {
     slug: "spitz-alemao-anao-alimentacao",
     title: "Alimentação do Spitz Alemão Anão (Lulu da Pomerânia): Guia Completo",
+    seoTitle: "Alimentação do Spitz Alemão Anão",
     metaDescription:
       "Tudo sobre a alimentação do Spitz Alemão Anão (Lulu da Pomerânia): ração ideal, quantidade por peso e idade, alimentos proibidos, suplementação e dicas da criadora.",
     publishedAt: "2025-01-20",
@@ -295,7 +297,7 @@ export const guides: Guide[] = [
     title: "Como Preparar a Chegada do Filhote de Spitz Alemão Anão (Lulu da Pomerânia)",
     seoTitle: "Como Preparar a Chegada do Filhote de Spitz",
     metaDescription:
-      "Checklist completo para preparar a chegada do filhote de Spitz Alemão Anão (Lulu da Pomerânia): enxoval, adaptação do ambiente, primeiros dias, veterinário e socialização inicial.",
+      "Checklist para preparar a chegada do filhote de Spitz Alemão Anão (Lulu da Pomerânia): enxoval, ambiente, primeiros dias e socialização.",
     publishedAt: "2025-03-01",
     updatedAt: "2025-05-01",
     excerpt:
@@ -360,6 +362,7 @@ export const guides: Guide[] = [
   {
     slug: "quanto-custa-ter-spitz-alemao-anao",
     title: "Quanto Custa Ter um Spitz Alemão Anão (Lulu da Pomerânia) por Mês?",
+    seoTitle: "Quanto Custa Ter um Spitz Alemão Anão por Mês",
     metaDescription:
       "Custo mensal real de um Spitz Alemão Anão (Lulu da Pomerânia): ração, veterinário, banho, vacinas e acessórios. Planilha para se preparar antes de comprar.",
     publishedAt: "2025-06-01",

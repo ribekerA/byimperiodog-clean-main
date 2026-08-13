@@ -10,7 +10,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/filhote-de-spitz-alemao`;
 
 export const metadata: Metadata = {
-  title: "Filhote de Spitz Alemão Anão — Como Escolher, Cuidar e Onde Comprar",
+  title: "Filhote de Spitz Alemão Anão — Onde Comprar",
   description:
     // 192 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 155, agora com "Lulu da Pomerânia".

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   // da marca e o Google cortava o estado. O sinônimo continua na description.
   title: "Filhotes de Spitz Alemão Anão em Minas Gerais (MG)",
   description:
-    "Compre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais com entrega segura em BH, Uberlândia, Juiz de Fora e todo o estado. Registro oficial e suporte vitalício.",
+    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais, com entrega em BH, Uberlândia, Juiz de Fora e todo o estado.",
   alternates: { canonical: canonical("/filhotes/minas-gerais") },
   openGraph: {
     type: "website",

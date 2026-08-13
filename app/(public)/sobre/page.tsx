@@ -18,7 +18,11 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
 export const metadata: Metadata = {
-  title: "Sobre o canil — Spitz Alemão Anão (Lulu da Pomerânia) desde 2013",
+  // 81 caracteres com o sufixo da marca: o Google cortava o fim. Aqui o nome
+  // usado e o sinonimo, nao o termo principal, porque /sobre disputa consulta
+  // de marca e nao a de raca — essa e a /spitz-alemao. Assim o titulo cabe
+  // inteiro sem separar "Spitz Alemão Anão" de "Lulu da Pomerânia".
+  title: "Sobre o canil — Lulu da Pomerânia desde 2013",
   description:
     // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
     // vir do FOUNDING_YEAR como no resto do site.

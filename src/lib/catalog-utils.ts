@@ -163,7 +163,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   "wolf-sable": {
-    seoTitle: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) — Filhotes Disponíveis",
+    seoTitle: "Filhotes de Spitz Cinza-Lobo (Wolf Sable)",
     metaDescription:
       "Filhotes de Spitz Alemão Anão Cinza-Lobo (Wolf Sable, cinza/laranja) em Bragança Paulista, SP. Cor reconhecida pela FCI. Registro oficial e mentoria vitalícia.",
     h1: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",

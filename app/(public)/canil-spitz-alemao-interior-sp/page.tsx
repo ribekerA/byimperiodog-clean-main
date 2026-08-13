@@ -11,7 +11,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/canil-spitz-alemao-interior-sp`;
 
 export const metadata: Metadata = {
-  title: "Canil Spitz Alemão Anão no Interior de SP — Bragança Paulista",
+  title: "Canil de Spitz Alemão Anão no Interior de SP",
   description:
     // 219 caracteres: o Google cortava justamente a lista de cidades, que é o
     // que essa página tem de próprio. Reescrita em 157.

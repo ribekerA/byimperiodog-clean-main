@@ -31,7 +31,7 @@ const CATALOG_FAQS = [
 ];
 
 export const metadata: Metadata = {
-  title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Disponíveis",
+  title:       "Filhotes de Spitz Alemão Anão Disponíveis",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
   description: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis nas cores Creme, Laranja, Preto e Cinza-Lobo. Bragança Paulista, SP — entrega em todo o Brasil.",

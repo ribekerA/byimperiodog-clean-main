@@ -12,7 +12,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: "Preço do Spitz Alemão Anão (Lulu da Pomerânia) — Tabela Atualizada",
+  title: "Preço do Spitz Alemão Anão — Tabela Atualizada",
   description:
     // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
     // varia", que é justamente a intenção de busca da página. Reescrita em 156.

@@ -10,7 +10,10 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/spitz-alemao`;
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Anão — Raça, Características, Preço e Cuidados",
+  // 76 caracteres com o sufixo da marca. "Características" é a palavra mais
+  // cara do título e a que menos gente digita — sai ela, ficam raça, preço e
+  // cuidados, que são as três consultas reais. O H1 da página não muda.
+  title: "Spitz Alemão Anão — Raça, Preço e Cuidados",
   description:
     // 184 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 150, agora com "Lulu da Pomerânia".
