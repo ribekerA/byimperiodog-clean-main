@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { getImageSize } from "@/lib/_generated-image-sizes";
+
 export const mdxComponents = {
   // Links use Next.js Link for internal routes; external fall back to <a>
   a: function A({ href = "", children, ...props }: any) {
@@ -21,7 +23,7 @@ export const mdxComponents = {
     );
   },
   img: function Img(props: any) {
-    const { src = "", alt = "", width = 800, height = 450, ...rest } = props;
+    const { src = "", alt = "", width, height, ...rest } = props;
     const isLocal = typeof src === "string" && src.startsWith("/");
     // next/image can't handle data: or blob: URLs; fallback to <img> for those.
     if (typeof src === "string" && (src.startsWith("blob:") || src.startsWith("data:"))) {
@@ -30,9 +32,34 @@ export const mdxComponents = {
     }
     if (!isLocal) {
       // external images: use next/image with unoptimized to avoid remote loader issues
-      return <Image src={src} alt={alt} width={Number(width)} height={Number(height)} unoptimized className="h-auto w-full rounded-lg" {...rest} />;
+      return <Image src={src} alt={alt} width={Number(width) || 800} height={Number(height) || 450} unoptimized className="h-auto w-full rounded-lg" {...rest} />;
     }
-    return <Image src={src} alt={alt} width={Number(width)} height={Number(height)} className="h-auto w-full rounded-lg" {...rest} />;
+
+    // A sintaxe `![alt](/caminho)` do markdown nao tem onde declarar dimensao, e
+    // o padrao anterior (800x450) mentia sobre quase toda foto do canil — as do
+    // catalogo sao retrato. O navegador reservava uma faixa 16:9 e, ao carregar,
+    // empurrava o texto para baixo: CLS causado justamente pela foto que deveria
+    // melhorar a pagina. O manifesto tem a medida real de cada arquivo.
+    const medida = getImageSize(src);
+    const w = Number(width) || medida?.[0] || 800;
+    const h = Number(height) || medida?.[1] || 450;
+    const retrato = h > w;
+
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={w}
+        height={h}
+        // Foto em pe ocupando os ~700px da coluna viraria uma imagem de 1.200px
+        // de altura, empurrando o resto do artigo para fora da tela. No celular
+        // segue 100% da largura.
+        className="mx-auto h-auto w-full rounded-lg"
+        style={{ maxWidth: retrato ? 460 : Math.min(w, 760) }}
+        sizes={retrato ? "(max-width: 640px) 100vw, 460px" : "(max-width: 768px) 100vw, 760px"}
+        {...rest}
+      />
+    );
   },
   h2: (props: any) => <h2 {...props} className={`mt-8 text-2xl font-semibold text-zinc-900 ${props.className || ""}`} />,
   h3: (props: any) => <h3 {...props} className={`mt-6 text-xl font-semibold text-zinc-900 ${props.className || ""}`} />,

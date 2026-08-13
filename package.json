@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs",
-    "prebuild": "node scripts/content-guard.mjs && node scripts/quality-gate.mjs --strict && node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs && node scripts/gen-lastmod.mjs",
+    "predev": "node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs && node scripts/gen-image-sizes.mjs",
+    "prebuild": "node scripts/content-guard.mjs && node scripts/quality-gate.mjs --strict && node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs && node scripts/gen-image-sizes.mjs && node scripts/gen-lastmod.mjs",
     "gen:lastmod": "node scripts/gen-lastmod.mjs",
     "gate": "node scripts/quality-gate.mjs",
     "gate:strict": "node scripts/quality-gate.mjs --strict-novos",
