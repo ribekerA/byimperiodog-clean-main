@@ -80,6 +80,10 @@ function buildPost(filename) {
     description: data.description ?? null,
     excerpt:     data.description ?? null,
     cover:       data.cover       ?? null,
+    // O fallback `new Date()` aqui é a última linha de defesa, não o normal:
+    // um artigo sem `date` receberia o horário do build e sairia no sitemap e
+    // no datePublished do schema como publicado "agora", mudando a cada deploy.
+    // scripts/quality-gate.mjs reprova artigo sem `date` antes de chegar aqui.
     date:        data.date        ? new Date(String(data.date)).toISOString() : new Date().toISOString(),
     updated:     data.updated     ? new Date(String(data.updated)).toISOString() : null,
     tags:        Array.isArray(data.tags) ? data.tags : null,
@@ -88,6 +92,40 @@ function buildPost(filename) {
     readingTime: estimateReadingTime(content),
     url:         `/blog/${slug}`,
     bodyRaw:     content,
+
+    // ─── Camada de conteúdo escalável ─────────────────────────────────────
+    // Campos OPCIONAIS. Nenhum artigo de hoje os declara e nenhum passa a ser
+    // obrigatório: eles existem para que a página nova nasça com a decisão
+    // editorial registrada no próprio arquivo, em vez de na cabeça de quem
+    // escreveu. É o que scripts/quality-gate.mjs lê para reprovar página sem
+    // demanda comprovada, sem objetivo de conversão e canibalizando outra.
+    //
+    // Sem eles o artigo continua publicando igual — a engine é opt-in. O que
+    // muda é que, a partir daqui, dá para exigir os campos em conteúdo NOVO
+    // sem reescrever os 30 artigos existentes.
+    searchIntent:        data.search_intent        ?? null, // informational | commercial | transactional | navigational
+    commercialIntent:    data.commercial_intent    ?? null, // low | medium | high
+    primaryTopic:        data.primary_topic        ?? null,
+    secondaryTopics:     Array.isArray(data.secondary_topics)   ? data.secondary_topics   : null,
+    targetQuery:         data.target_query         ?? null,
+    supportingQueries:   Array.isArray(data.supporting_queries) ? data.supporting_queries : null,
+    // Demanda: de ONDE veio a evidência e QUANDO foi medida. Sem volume
+    // inventado — a fonte pode ser Search Console, sugestão do Google ou
+    // pergunta recorrente no WhatsApp, desde que fique escrito qual foi.
+    searchDemandSource:  data.search_demand_source ?? null,
+    searchDemandDate:    data.search_demand_date   ?? null,
+    // Autoria e checagem. `reviewer` só se existir revisor de verdade.
+    reviewer:            data.reviewer             ?? null,
+    sources:             Array.isArray(data.sources) ? data.sources : null,
+    // Publicação e indexação
+    status:              data.status               ?? 'published',
+    canonical:           data.canonical            ?? null,
+    robots:              data.robots               ?? null,
+    schemaType:          data.schema_type          ?? null,
+    // Conversão e grafo interno
+    conversionGoal:      data.conversion_goal      ?? null,
+    relatedCommercialPage: data.related_commercial_page ?? null,
+    cannibalizationRisk: data.cannibalization_risk ?? null,
   };
 }
 

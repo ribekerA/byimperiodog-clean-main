@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "predev": "node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs",
-    "prebuild": "node scripts/content-guard.mjs && node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs",
+    "prebuild": "node scripts/content-guard.mjs && node scripts/quality-gate.mjs --strict && node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs && node scripts/gen-lastmod.mjs",
+    "gen:lastmod": "node scripts/gen-lastmod.mjs",
+    "gate": "node scripts/quality-gate.mjs",
+    "gate:strict": "node scripts/quality-gate.mjs --strict-novos",
     "dev": "cross-env NEXT_DISABLE_VERSION_CHECK=1 NEXT_TELEMETRY_DISABLED=1 next dev -p 3000",
     "dev:https": "node scripts/run-gen-client-photos.mjs && cross-env NEXT_DISABLE_VERSION_CHECK=1 NEXT_TELEMETRY_DISABLED=1 node server-https.mjs",
     "build": "next build --no-lint",
