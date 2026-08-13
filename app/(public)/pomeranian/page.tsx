@@ -81,7 +81,6 @@ export default function PomeranianPage() {
     url: PAGE_URL,
     title: metadata.title as string,
     description: metadata.description as string,
-    datePublished: "2025-01-01",
   });
 
   return (

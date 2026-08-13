@@ -34,11 +34,11 @@ export default function NinhadasPage() {
   const faqLd = buildFAQLD(FAQS);
   const businessLd = buildLocalBusinessLD();
   // Era `datePublished: new Date().toISOString()`: a cada build o schema dizia
-  // que a página tinha acabado de ser publicada. Data de publicação não muda —
-  // é a única data do schema que precisa ser fixa. 2026-08-06 é quando a página
-  // passou a existir (primeiro commit do arquivo). O dateModified continua sendo
-  // resolvido dentro de buildArticleLD, a partir do histórico real.
-  const articleLd = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: "2026-08-06" });
+  // que a página tinha acabado de ser publicada. Data de publicação não muda.
+  // Depois virou "2026-08-06" fixo, escrito à mão a partir do primeiro commit —
+  // certo na intenção, mas condenado a envelhecer errado. Hoje as duas datas
+  // saem do histórico do git dentro de buildArticleLD, sem nada fixo aqui.
+  const articleLd = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-14">

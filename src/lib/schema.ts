@@ -1,4 +1,4 @@
-import { lastmodFor } from "@/lib/_generated-lastmod";
+import { firstPubFor, lastmodFor } from "@/lib/_generated-lastmod";
 
 type JsonLd = Record<string, unknown>;
 
@@ -313,16 +313,42 @@ export function buildOfferCatalogLD(opts: {
  */
 function dataDeModificacaoReal(
   url: string,
-  datePublished: string,
+  datePublished?: string,
   dateModified?: string
-): string {
+): string | undefined {
   const rota = url.startsWith("http") ? new URL(url).pathname : url;
   const candidatas = [dateModified, lastmodFor(rota), datePublished].filter(
     Boolean
   ) as string[];
+  if (!candidatas.length) return undefined;
   return candidatas.reduce((maior, d) =>
     Date.parse(d) > Date.parse(maior) ? d : maior
   );
+}
+
+/**
+ * Resolve a data de publicacao REAL de uma pagina.
+ *
+ * Onze paginas declaravam `datePublished: "2025-01-01"` a mao. Nenhuma
+ * evidencia sustentava essa data: o git so conhece esses arquivos desde a
+ * criacao deste repositorio, e o Internet Archive nao tem um unico snapshot
+ * delas. Era uma data inventada — e inventada para tras, fingindo conteudo mais
+ * antigo e assentado do que se pode provar, exatamente o tipo de sinal que
+ * buscador e sistema de IA punem quando descobrem que nao bate.
+ *
+ * A substituta vem de `FIRSTPUB`, o commit que criou o arquivo da rota. Ela
+ * afirma menos: "esta pagina existe aqui desde entao". Se o site rodou antes em
+ * outro repositorio, a data verdadeira e mais antiga e esta subestima — errar
+ * para o lado de reivindicar menos idade e o lado seguro.
+ *
+ * Quando nem isso existe, a funcao devolve undefined e o campo simplesmente nao
+ * e emitido. `datePublished` e recomendado no Article, nao obrigatorio, e uma
+ * data ausente custa menos do que uma data falsa.
+ */
+function dataDePublicacaoReal(url: string, declarada?: string): string | undefined {
+  if (declarada) return declarada;
+  const rota = url.startsWith("http") ? new URL(url).pathname : url;
+  return firstPubFor(rota);
 }
 
 /**
@@ -332,7 +358,12 @@ export function buildArticleLD(opts: {
   url: string;
   title: string;
   description: string;
-  datePublished: string;
+  /**
+   * So passe quando houver uma data verificavel — frontmatter, banco, campo
+   * preenchido por gente. Sem isso, deixe em branco: a data sai de FIRSTPUB,
+   * que le o historico do git.
+   */
+  datePublished?: string;
   dateModified?: string;
   image?: string;
   /**
@@ -343,16 +374,18 @@ export function buildArticleLD(opts: {
    */
   about?: JsonLd;
 }) {
+  const datePublished = dataDePublicacaoReal(opts.url, opts.datePublished);
+
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: opts.title,
     description: opts.description,
     url: opts.url,
-    datePublished: opts.datePublished,
+    datePublished,
     dateModified: dataDeModificacaoReal(
       opts.url,
-      opts.datePublished,
+      datePublished,
       opts.dateModified
     ),
     image: opts.image,

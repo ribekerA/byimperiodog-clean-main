@@ -84,7 +84,7 @@ export default function FilhoteDeSpitzPage() {
   ]);
   const faqLd      = buildFAQLD(FAQS);
   const businessLd = buildLocalBusinessLD();
-  const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: "2025-01-01" });
+  const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
 
   return (
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">

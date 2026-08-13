@@ -107,6 +107,36 @@ function ultimoCommitISO(arquivos) {
   }
 }
 
+/**
+ * Data do commit que CRIOU o arquivo da rota — a primeira vez que a pagina
+ * passou a existir neste repositorio.
+ *
+ * Nao e a mesma pergunta que `ultimoCommitISO`, e por isso olha so o arquivo da
+ * pagina: uma revisao no texto muda a data de modificacao, nao a de publicacao.
+ *
+ * `--follow` existe para que renomear a pasta de uma rota nao "republique" a
+ * pagina. Sem ele, mover app/(public)/x para app/(public)/y faria a pagina
+ * nascer de novo hoje.
+ */
+function primeiroCommitISO(arquivo) {
+  if (!fs.existsSync(arquivo)) return null;
+  const rel = path.relative(ROOT, arquivo).split(path.sep).join("/");
+  try {
+    const out = execFileSync(
+      "git",
+      ["log", "--diff-filter=A", "--follow", "--format=%cI", "--", rel],
+      { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }
+    ).trim();
+    if (!out) return null;
+    // A saida vem do commit mais novo para o mais antigo; o que criou e o ultimo.
+    const linhas = out.split("\n").filter(Boolean);
+    const d = new Date(linhas[linhas.length - 1]);
+    return Number.isNaN(d.getTime()) ? null : d.toISOString();
+  } catch {
+    return null; // git ausente ou clone raso — mantem o que ja estava
+  }
+}
+
 /** Percorre app/(public) e devolve { rota: arquivoDaPagina } das rotas estaticas. */
 function rotasEstaticas() {
   const mapa = {};
@@ -147,19 +177,21 @@ const SINTETICAS = {
   "@sex": ["content/puppies-static.ts", "app/(public)/filhotes/sexo/[sexo]/page.tsx"],
 };
 
-const anterior = (() => {
+/** Le um mapa ja gerado, para que clone raso nunca apague resposta conhecida. */
+function mapaAnterior(nome) {
   if (!fs.existsSync(OUT)) return {};
   const txt = fs.readFileSync(OUT, "utf8");
-  const m = txt.match(/LASTMOD[^=]*=\s*(\{[\s\S]*?\}) as const;/);
+  const m = txt.match(new RegExp(`${nome}[^=]*=\\s*(\\{[\\s\\S]*?\\}) as const;`));
   if (!m) return {};
   try {
     return JSON.parse(m[1].replace(/,(\s*\})/g, "$1"));
   } catch {
     return {};
   }
-})();
+}
 
-const mapa = { ...anterior };
+const mapa = { ...mapaAnterior("LASTMOD") };
+const publicacao = { ...mapaAnterior("FIRSTPUB") };
 let atualizadas = 0;
 let mantidas = 0;
 
@@ -172,6 +204,14 @@ for (const [rota, arquivo] of Object.entries(rotasEstaticas())) {
     mapa[rota] = iso;
   } else if (mapa[rota]) {
     mantidas++;
+  }
+
+  // A data de publicacao so pode ANDAR PARA TRAS. Se o historico ficar mais
+  // fundo (clone raso hoje, completo amanha), a data mais antiga e a mais
+  // verdadeira; a mais nova seria o artefato do corte do clone.
+  const nascimento = primeiroCommitISO(arquivo);
+  if (nascimento && (!publicacao[rota] || nascimento < publicacao[rota])) {
+    publicacao[rota] = nascimento;
   }
 }
 
@@ -187,6 +227,11 @@ for (const [chave, arquivos] of Object.entries(SINTETICAS)) {
 
 const chaves = Object.keys(mapa).sort();
 const corpo = chaves.map((k) => `  ${JSON.stringify(k)}: ${JSON.stringify(mapa[k])},`).join("\n");
+
+const chavesPub = Object.keys(publicacao).sort();
+const corpoPub = chavesPub
+  .map((k) => `  ${JSON.stringify(k)}: ${JSON.stringify(publicacao[k])},`)
+  .join("\n");
 
 const arquivo = `// AUTO-GERADO por scripts/gen-lastmod.mjs — NAO EDITAR A MAO.
 // Rode \`npm run gen:lastmod\` depois de alterar conteudo de pagina.
@@ -217,9 +262,32 @@ export function maxLastmod(datas: Array<string | undefined>): string | undefined
   }
   return maior;
 }
+
+// Data do commit que CRIOU o arquivo de cada rota. Substitui os
+// \`datePublished: "2025-01-01"\` escritos a mao em onze paginas, que nao tinham
+// nenhuma evidencia por tras — nem no git, nem no Internet Archive — e ainda
+// ANTECIPAVAM a data, fingindo conteudo mais antigo e estabelecido do que se
+// pode provar.
+//
+// O que esta data afirma, e so isso: a pagina existe neste repositorio desde
+// entao. Se o site rodou antes em outro repositorio, a data verdadeira e mais
+// antiga e esta aqui subestima — que e o lado seguro de errar.
+export const FIRSTPUB: Record<string, string> = {
+${corpoPub}
+} as const;
+
+/**
+ * Data de publicacao da rota, ou undefined quando o git nao sabe responder.
+ * Undefined e proposital, pela mesma razao de \`lastmodFor\`: no JSON-LD, omitir
+ * \`datePublished\` e melhor do que declarar uma data inventada.
+ */
+export function firstPubFor(rota: string): string | undefined {
+  return FIRSTPUB[rota];
+}
 `;
 
 fs.writeFileSync(OUT, arquivo, "utf8");
 console.log(
-  `_generated-lastmod.ts: ${chaves.length} rotas (${atualizadas} atualizadas, ${mantidas} mantidas por falta de git)`
+  `_generated-lastmod.ts: ${chaves.length} rotas (${atualizadas} atualizadas, ${mantidas} mantidas por falta de git)` +
+    `, ${chavesPub.length} datas de publicacao`
 );

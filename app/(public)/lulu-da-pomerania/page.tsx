@@ -85,7 +85,6 @@ export default function LuluDaPomeraniaPage() {
     url: PAGE_URL,
     title: metadata.title as string,
     description: metadata.description as string,
-    datePublished: "2025-01-01",
     about: {
       "@type": "Thing",
       name: "Spitz Alemão Anão",

@@ -102,7 +102,7 @@ export default function PrecoSpitzPage() {
     ? whatsappLeadUrl(phone, { pageType: "intent", url: PAGE_URL, intent: "preco-spitz-anao" })
     : "#";
 
-  const articleLd   = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: "2025-01-01", dateModified: "2025-05-01" });
+  const articleLd   = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
   const faqLd       = buildFAQPageLD([...PAGE_FAQS]);
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",           url: `${SITE_URL}/` },
