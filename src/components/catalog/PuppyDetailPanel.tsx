@@ -208,14 +208,26 @@ export default function PuppyDetailPanel({
             href={waLink}
             rel="noreferrer"
             target="_blank"
-            wrapperClassName="flex-1"
+            // O <span> do rótulo é `truncate` (white-space: nowrap). Como item
+            // de flex, o mínimo automático dele é o texto inteiro, então este
+            // wrapper se recusava a encolher abaixo de 246px: com o botão de
+            // coração (56px) e o gap, a linha do CTA pedia 314px dentro de uma
+            // coluna de 288px e empurrava a página inteira para 330px de
+            // largura em tela de 320px. `min-w-0` devolve ao truncate o direito
+            // de cortar o texto. Em telas normais nada muda — sobra espaço.
+            wrapperClassName="min-w-0 flex-1"
             className="inline-flex min-h-[56px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-semibold text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 sm:gap-2.5 sm:px-6 sm:text-base"
             emojis="mixed"
             count={16}
             aria-label={`Entrar em contato sobre ${name} via WhatsApp`}
           >
             <WhatsAppIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
-            <span className="truncate">Tenho interesse — falar agora</span>
+            {/* Sem `truncate`: em tela de 320px o rótulo virava "Tenho
+                interesse — falar…" e o CTA perdia justamente o verbo. Deixando
+                quebrar, ele usa duas linhas dentro dos mesmos 56px de altura e
+                a frase chega inteira. De 360px para cima continua em uma linha
+                só, igual a antes. */}
+            <span className="text-center">Tenho interesse — falar agora</span>
           </PawConfettiButton>
 
           <HeartBurstButton

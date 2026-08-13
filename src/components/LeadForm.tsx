@@ -381,7 +381,14 @@ export default function LeadForm({ context, className }: Props) {
           aria-busy={isSubmitting}
           className={cn(
             buttonVariants({ variant: "solid", size: "lg" }),
-            "w-full justify-center gap-2 rounded-full bg-[var(--accent)] text-[var(--accent-foreground)] shadow-md transition hover:brightness-110 active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-70"
+            // `!whitespace-normal`: o buttonVariants traz `whitespace-nowrap`,
+            // pensado para rótulos curtos. Aqui o rótulo tem 38 caracteres e,
+            // sem quebra, o mínimo intrínseco do botão era 288px — mais do que
+            // cabe dentro do padding do formulário em tela de 320px, e a página
+            // inteira ia para 350px de largura. O `!` é necessário porque o
+            // `cn` deste projeto só concatena (não é tailwind-merge), então sem
+            // ele o `nowrap` venceria pela ordem do CSS gerado.
+            "w-full !whitespace-normal justify-center gap-2 rounded-full bg-[var(--accent)] text-[var(--accent-foreground)] shadow-md transition hover:brightness-110 active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-70"
           )}
         >
           {isSubmitting && (

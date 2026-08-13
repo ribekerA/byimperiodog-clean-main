@@ -170,7 +170,7 @@ export default function PuppyPage({ params }: Props) {
       {/* GA4: lead_filhote — disparado quando visitante visualiza a página do filhote */}
       <LeadEventTracker eventName="lead_filhote" params={{ puppy_slug: puppy.slug, puppy_color: colorSlug, puppy_sex: sexSlug }} />
 
-      <main className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 sm:py-8 lg:px-10 lg:pb-16">
+      <div className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 sm:py-8 lg:px-10 lg:pb-16">
 
         {/* ── Breadcrumb ─────────────────────────────────────────────────── */}
         <nav aria-label="Navegação estrutural" className="mb-6">
@@ -196,7 +196,11 @@ export default function PuppyPage({ params }: Props) {
           />
 
           {/* Painel de detalhes */}
-          <div className="flex flex-col gap-4">
+          {/* `min-w-0`: a coluna da galeria já tinha, esta não. Sem ela a
+              trilha do grid cresce até o min-content do conteúdo mais rígido
+              do painel, e qualquer texto que não quebre volta a estourar a
+              largura da tela no celular. */}
+          <div className="flex min-w-0 flex-col gap-4">
             <PuppyDetailPanel
               name={puppy.name}
               corLabel={corLabel}
@@ -310,7 +314,7 @@ export default function PuppyPage({ params }: Props) {
             ← Ver todos os filhotes disponíveis
           </Link>
         </div>
-      </main>
+      </div>
 
       {/* ── CTA flutuante (desktop card + mobile barra) ────────────────── */}
       <PuppyStickyFloatingCTA

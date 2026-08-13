@@ -42,6 +42,30 @@ export const mdxComponents = {
   blockquote: (props: any) => (
     <blockquote {...props} className={`my-6 border-l-4 border-zinc-300 pl-4 italic text-zinc-700 ${props.className || ""}`} />
   ),
+  // Uma tabela nao pode encolher abaixo do min-content das colunas. Em tela de
+  // 320px a coluna do artigo tem 288px, e as tabelas de comparacao de racas e de
+  // custos pediam 315 a 434px: o excedente empurrava o documento inteiro e o
+  // site inteiro ganhava rolagem lateral (medido em 4 artigos, ate 450px de
+  // largura). O <table> continua `display: table`, entao no desktop nada muda —
+  // ele segue ocupando 100% da coluna, porque la o min-content cabe. Quem rola
+  // e o wrapper. `tabIndex` porque area rolavel precisa ser alcancavel pelo
+  // teclado (WCAG 2.1.1).
+  /* eslint-disable jsx-a11y/no-noninteractive-tabindex --
+     A regra so aceita `tabpanel` na lista de roles que podem receber foco, mas
+     area rolavel com `role="region"` + rotulo e o padrao que a WAI recomenda
+     para satisfazer o criterio 2.1.1: sem `tabIndex` quem navega por teclado
+     nao consegue rolar a tabela. Falso positivo — o markup fica. */
+  table: (props: any) => (
+    <div
+      className="my-8 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0"
+      tabIndex={0}
+      role="region"
+      aria-label="Tabela — role para os lados para ver todas as colunas"
+    >
+      <table {...props} className={`my-0 ${props.className || ""}`} />
+    </div>
+  ),
+  /* eslint-enable jsx-a11y/no-noninteractive-tabindex */
   code: (props: any) => <code {...props} className={`rounded bg-zinc-100 px-1 py-0.5 text-[0.95em] ${props.className || ""}`} />,
   pre: (props: any) => <pre {...props} className={`mt-4 overflow-auto rounded-lg bg-zinc-950 p-4 text-zinc-100 ${props.className || ""}`} />,
 };
