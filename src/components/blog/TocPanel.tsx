@@ -25,7 +25,11 @@ export default function TocPanel({ toc }: { toc: TocItem[] }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-controls="toc-panel"
-        className="flex w-full items-center justify-between gap-2 text-sm font-semibold text-text lg:hidden"
+        // A linha do rótulo tem 21px de altura — abaixo dos 24px mínimos de
+        // alvo de toque (WCAG 2.2 AA). O `py-1.5` sobe para 33px e o `-my-1.5`
+        // devolve o espaço em margem negativa, então a caixa do cartão fica
+        // com o mesmo desenho de antes: cresce a área do dedo, não o layout.
+        className="-my-1.5 flex w-full items-center justify-between gap-2 py-1.5 text-sm font-semibold text-text lg:hidden"
       >
         <span>Neste artigo</span>
         <span aria-hidden className="text-xs leading-none text-text-muted">
