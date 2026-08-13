@@ -1,29 +1,36 @@
 -- ============================================================================
--- Conserta a captura de lead e destrava o agendador do blog.
+-- PRODUCAO — 13/08/2026 — conserta a captura de lead e a fila de follow-up
 --
--- CONTEXTO
--- app/api/leads/route.ts monta um insert com 29 colunas. A tabela `leads` so
--- tem 7 delas. O PostgREST rejeita o insert INTEIRO quando uma coluna nao
--- existe, entao toda submissao do formulario volta HTTP 400 — e o LeadForm
--- ainda mostra a mensagem crua do Postgres para o visitante.
+-- POR QUE ESTE ARQUIVO EXISTE, E NAO SO A MIGRATION
+-- O historico de migrations do projeto de producao (npmnuihgydadihktglrd) tem 9
+-- versoes que nunca existiram neste repositorio, entao `supabase db push` se
+-- recusa a rodar ate o historico ser reconciliado. Reconciliar exige renumerar
+-- migrations e resetar o banco local — trabalho que nao deve ficar no caminho de
+-- um bug que esta perdendo lead agora. Este arquivo aplica a mesma coisa que as
+-- migrations 20260813091500 e 20260813154000, pelo SQL Editor, que e como as
+-- outras 48 alteracoes de schema deste projeto foram aplicadas.
 --
--- POR QUE ISSO PASSOU DESPERCEBIDO
--- sql/leads.sql abre com `create table if not exists public.leads`. A tabela ja
--- existia com um schema mais antigo (id uuid, com `email`, `origem`, `notas`),
--- entao o comando nao fez nada — silenciosamente. As colunas novas nunca
--- chegaram. Por isso aqui e tudo ALTER ... ADD COLUMN IF NOT EXISTS: adiciona o
--- que falta sem tocar no que existe.
+-- O QUE ESTA QUEBRADO
+-- app/api/leads/route.ts monta um insert com 29 colunas. A tabela `leads` de
+-- producao tem 23, e faltam 12 das que o endpoint envia. O PostgREST rejeita o
+-- insert INTEIRO quando uma coluna nao existe: toda submissao do formulario
+-- volta HTTP 400. Nenhum lead vindo do site esta sendo gravado.
 --
--- O `id` continua uuid DE PROPOSITO. sql/leads.sql declara bigint identity, mas
--- autosales_sequences.lead_id e autosales_logs.lead_id ja apontam para o uuid;
--- trocar o tipo quebraria as duas foreign keys. O arquivo sql/leads.sql e que
--- esta desatualizado.
---
--- Idempotente: pode rodar de novo sem efeito colateral.
+-- SEGURANCA
+-- Tudo aqui e idempotente: `add column if not exists`, `create table if not
+-- exists`, `create index if not exists`. Rodar duas vezes nao causa efeito.
+-- Nenhum comando apaga, renomeia ou altera tipo de coluna existente. Nenhuma
+-- linha de dado e tocada.
 -- ============================================================================
 
+begin;
+
 -- ─────────────────────────────────────────────────────────────────────────────
--- 1. leads — as 22 colunas que o endpoint envia e o banco nao tem
+-- 1. leads — as colunas que o endpoint envia
+--
+-- Das 22 listadas, 10 ja existem em producao (mensagem, consent_lgpd, page,
+-- referer, gclid, fbclid, utm_source, utm_medium, utm_campaign, source) e viram
+-- no-op. As 12 restantes sao as que faltam de verdade.
 -- ─────────────────────────────────────────────────────────────────────────────
 
 -- dados do formulario
@@ -60,9 +67,6 @@ alter table public.leads add column if not exists utm_content  text;
 alter table public.leads add column if not exists utm_term     text;
 
 -- `source` e o campo que o endpoint preenche (utm_source ou 'site_org').
--- Nao confundir com `origem`, que ja existia e guarda o rotulo escrito a mao
--- no admin ("Instagram", "WhatsApp"). Os dois convivem: `source` e maquina,
--- `origem` e humano.
 alter table public.leads add column if not exists source text default 'site_org';
 
 -- Restringe prazo_aquisicao aos valores que o zod aceita em route.ts.
@@ -86,14 +90,13 @@ create index if not exists idx_leads_created_at       on public.leads (created_a
 create index if not exists idx_leads_page_slug        on public.leads (page_slug) where page_slug is not null;
 create index if not exists idx_leads_utm_source       on public.leads (utm_source) where utm_source is not null;
 
-comment on column public.leads.source      is 'Origem automatica (utm_source ou site_org). Preenchida pelo endpoint.';
-comment on column public.leads.page_slug   is 'Slug da pagina que originou o lead — e por aqui que se mede conversao por artigo.';
+comment on column public.leads.source    is 'Origem automatica (utm_source ou site_org). Preenchida pelo endpoint.';
+comment on column public.leads.page_slug is 'Slug da pagina que originou o lead — e por aqui que se mede conversao por artigo.';
 
--- `origem` existe no banco local, onde guarda o rotulo escrito a mao no admin,
--- mas NAO existe em producao: la o mesmo conceito so aparece como apelido de
--- utm_source dentro de uma view sobre autosales_logs. COMMENT ON COLUMN aborta a
--- transacao inteira se a coluna nao existir, entao o comentario fica condicionado
--- a presenca dela. Sem esta guarda, a migration reprova em producao na linha 90.
+-- `origem` existe no banco de desenvolvimento, onde guarda o rotulo escrito a
+-- mao no admin, mas NAO existe em producao: la o mesmo conceito so aparece como
+-- apelido de utm_source dentro de uma view sobre autosales_logs. COMMENT ON
+-- COLUMN aborta a transacao inteira se a coluna nao existir.
 do $$
 begin
   if exists (
@@ -106,10 +109,12 @@ begin
 end $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- 2. blog_post_schedule_events — a fila do agendador do blog
+-- 2. blog_post_schedule_events e ai_generation_sessions
 --
--- app/api/admin/blog/schedule/{route,events,process,run-due} leem e escrevem
--- nesta tabela. Ela nunca foi criada: as quatro rotas falham com PGRST205.
+-- As duas JA EXISTEM em producao — conferido no dump do schema. Os comandos
+-- abaixo sao no-op la, e existem para o banco de desenvolvimento, onde faltam.
+-- A versao de producao de blog_post_schedule_events tem uma coluna a mais
+-- (post_slug); `if not exists` preserva ela intacta.
 -- ─────────────────────────────────────────────────────────────────────────────
 create table if not exists public.blog_post_schedule_events (
   id          uuid primary key default gen_random_uuid(),
@@ -121,24 +126,11 @@ create table if not exists public.blog_post_schedule_events (
   created_at  timestamptz not null default now()
 );
 
--- run-due varre por (executed_at is null and run_at <= now) ordenado por run_at.
--- O indice parcial cobre exatamente essa varredura e ignora o que ja rodou.
 create index if not exists idx_bpse_pendentes
   on public.blog_post_schedule_events (run_at)
   where executed_at is null;
 create index if not exists idx_bpse_post on public.blog_post_schedule_events (post_id);
 
-comment on table public.blog_post_schedule_events is
-  'Fila de publicacao agendada do blog. Consumida por /api/admin/blog/schedule/run-due.';
-
--- ─────────────────────────────────────────────────────────────────────────────
--- 3. ai_generation_sessions — progresso da geracao de artigo
---
--- generate-post e generate-missing gravam o avanco das fases
--- (outline -> expand -> enrich -> finalize) aqui. Os inserts estao dentro de
--- try/catch vazio, entao a ausencia da tabela nunca apareceu: a geracao roda,
--- so que cega, sem nenhum registro de progresso ou de erro.
--- ─────────────────────────────────────────────────────────────────────────────
 create table if not exists public.ai_generation_sessions (
   id            uuid primary key default gen_random_uuid(),
   topic         text,
@@ -151,20 +143,70 @@ create table if not exists public.ai_generation_sessions (
   updated_at    timestamptz not null default now()
 );
 
--- A rota /ai/session?active=1 filtra por status diferente de completed/error
--- e ordena por created_at desc.
 create index if not exists idx_ags_created on public.ai_generation_sessions (created_at desc);
 create index if not exists idx_ags_status  on public.ai_generation_sessions (status);
 
-comment on table public.ai_generation_sessions is
-  'Progresso das fases de geracao de artigo por IA. Escrita por /api/admin/blog/ai/generate-post.';
-
 -- ─────────────────────────────────────────────────────────────────────────────
--- 4. RLS
+-- 3. RLS
 --
--- As duas tabelas so sao tocadas por rotas de admin usando a service role, que
--- ignora RLS. Ligar RLS sem policy nenhuma e o que fecha as duas para o anon
--- key que roda no navegador. `leads` ja tinha RLS ligado.
+-- Producao tem RLS ligado so em `leads`. As duas tabelas abaixo sao tocadas
+-- exclusivamente por rotas de admin via supabaseAdmin (service role), que ignora
+-- RLS — conferido nas 15 chamadas de app/api/admin/blog/schedule/. Ligar RLS sem
+-- policy nenhuma fecha as duas para o anon key que roda no navegador.
 -- ─────────────────────────────────────────────────────────────────────────────
 alter table public.blog_post_schedule_events enable row level security;
 alter table public.ai_generation_sessions    enable row level security;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 4. autosales_sequences — uma sequencia de follow-up por lead
+--
+-- src/lib/ai/autoSalesEngine.ts faz .upsert(payload, { onConflict: "lead_id" }) e
+-- o Postgres responde 42P10 "there is no unique or exclusion constraint matching
+-- the ON CONFLICT specification": o unico indice sobre lead_id e um btree comum.
+-- Resultado: nenhuma sequencia de follow-up chega a ser criada.
+--
+-- Se producao tiver lead_id duplicado, o bloco aborta com o numero na mensagem em
+-- vez do erro cru do Postgres — e a transacao inteira volta atras, sem dano.
+-- ─────────────────────────────────────────────────────────────────────────────
+do $$
+declare
+  duplicados integer;
+begin
+  select count(*) into duplicados
+  from (
+    select lead_id
+    from public.autosales_sequences
+    group by lead_id
+    having count(*) > 1
+  ) t;
+
+  if duplicados > 0 then
+    raise exception
+      'autosales_sequences tem % lead_id duplicados. Resolva os duplicados antes de criar o indice UNIQUE — cada duplicata e uma regua de mensagem paralela disparando para a mesma pessoa.',
+      duplicados;
+  end if;
+end $$;
+
+drop index if exists public.idx_autosales_sequences_lead;
+
+create unique index if not exists idx_autosales_sequences_lead_unico
+  on public.autosales_sequences (lead_id);
+
+commit;
+
+-- ============================================================================
+-- VERIFICACAO — rode depois do COMMIT e confira o resultado
+--
+-- Esperado: as 12 colunas abaixo aparecem na lista. Se alguma faltar, o insert
+-- do formulario continua voltando 400.
+-- ============================================================================
+select column_name
+from information_schema.columns
+where table_schema = 'public'
+  and table_name   = 'leads'
+  and column_name in (
+    'prazo_aquisicao','consent_version','consent_timestamp',
+    'page_type','page_slug','page_color','page_city','page_intent',
+    'ip_address','user_agent','utm_content','utm_term'
+  )
+order by column_name;

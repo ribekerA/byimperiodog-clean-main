@@ -20,6 +20,28 @@
 -- aplicar). Se algum dia tiver, a criacao do indice falha em vez de apagar dado.
 -- ============================================================================
 
+-- A tabela local estava vazia, mas producao tem dado real. Criar UNIQUE sobre uma
+-- coluna com duplicata falha com "could not create unique index ... is duplicated",
+-- que nao diz quantos nem quais. Este bloco para antes, com numero na mensagem.
+do $$
+declare
+  duplicados integer;
+begin
+  select count(*) into duplicados
+  from (
+    select lead_id
+    from public.autosales_sequences
+    group by lead_id
+    having count(*) > 1
+  ) t;
+
+  if duplicados > 0 then
+    raise exception
+      'autosales_sequences tem % lead_id duplicados. Resolva os duplicados antes de criar o indice UNIQUE — cada duplicata e uma regua de mensagem paralela disparando para a mesma pessoa.',
+      duplicados;
+  end if;
+end $$;
+
 -- O indice nao-unico vira redundante: o UNIQUE abaixo atende as mesmas consultas.
 drop index if exists public.idx_autosales_sequences_lead;
 
