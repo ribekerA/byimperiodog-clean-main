@@ -30,13 +30,11 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // ============================================================================
-  // 2) REGRA: Redirect /authors → /autores (unificar idioma)
-  // ============================================================================
-  if (pathname.startsWith("/authors")) {
-    url.pathname = pathname.replace(/^\/authors/, "/autores");
-    return NextResponse.redirect(url, 308);
-  }
+  // O redirect /authors → /autores foi removido. /autores nunca existiu como
+  // rota (ver o comentário em src/lib/seo.core.ts, buildAuthorJsonLd), então a
+  // regra fazia 308 permanente para uma URL que responde 404 — cadeia de
+  // redirecionamento terminando em erro, que é pior para o crawler do que um
+  // 404 direto, e rodava em toda requisição do site.
 
   // ============================================================================
   // 3) REGRA: Proteção de rotas /admin/* (exigir cookie assinado "admin_session" valido)
