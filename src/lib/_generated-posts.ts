@@ -7,7 +7,7 @@ export const generatedPosts = [
     "seoTitle": null,
     "description": "Creme, preto, laranja ou cinza-lobo: qual cor do Spitz Alemão Anão (Lulu da Pomerânia) é mais cara e por quê. A criadora explica o critério de cada preço.",
     "excerpt": "Creme, preto, laranja ou cinza-lobo: qual cor do Spitz Alemão Anão (Lulu da Pomerânia) é mais cara e por quê. A criadora explica o critério de cada preço.",
-    "cover": "/images/blog/cores-spitz-alemao-anao-qual-mais-cara.png",
+    "cover": "/images/blog/cores-spitz-alemao-anao-qual-mais-cara.jpg",
     "date": "2026-05-25T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -93,7 +93,7 @@ export const generatedPosts = [
     "seoTitle": "Guia Definitivo do Spitz Alemão Anão",
     "description": "Tudo sobre filhotes, cuidados, saúde, alimentação, grooming, adestramento e compra responsável do Spitz Alemão Anão (Lulu da Pomerânia).",
     "excerpt": "Tudo sobre filhotes, cuidados, saúde, alimentação, grooming, adestramento e compra responsável do Spitz Alemão Anão (Lulu da Pomerânia).",
-    "cover": "/images/blog/guia-spitz-alemao.png",
+    "cover": "/images/blog/guia-spitz-alemao.jpg",
     "date": "2025-09-07T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -138,7 +138,7 @@ export const generatedPosts = [
     "seoTitle": "Adestramento do Spitz Alemão Anão",
     "description": "Como adestrar o Spitz Alemão Anão (Lulu da Pomerânia) com reforço positivo: comandos básicos, controle do latido e os erros mais comuns.",
     "excerpt": "Como adestrar o Spitz Alemão Anão (Lulu da Pomerânia) com reforço positivo: comandos básicos, controle do latido e os erros mais comuns.",
-    "cover": "/images/blog/adestramento-spitz-alemao-anao.png",
+    "cover": "/images/blog/adestramento-spitz-alemao-anao.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -179,7 +179,7 @@ export const generatedPosts = [
     "seoTitle": "Alimentação do Spitz Alemão Anão por Fase",
     "description": "Saiba exatamente o que, quanto e quando alimentar seu Spitz Alemão Anão (Lulu da Pomerânia). Guia completo por fase de vida, marcas recomendadas e erros a evitar.",
     "excerpt": "Saiba exatamente o que, quanto e quando alimentar seu Spitz Alemão Anão (Lulu da Pomerânia). Guia completo por fase de vida, marcas recomendadas e erros a evitar.",
-    "cover": "/images/blog/alimentacao-spitz-alemao-anao.png",
+    "cover": "/images/blog/alimentacao-spitz-alemao-anao.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -263,7 +263,7 @@ export const generatedPosts = [
     "seoTitle": "Cuidados com o Pelo do Spitz Alemão Anão",
     "description": "Guia completo de grooming para o Spitz Alemão Anão (Lulu da Pomerânia): frequência de banho, como escovar, tosa higiênica e como manter o pelo volumoso e saudável.",
     "excerpt": "Guia completo de grooming para o Spitz Alemão Anão (Lulu da Pomerânia): frequência de banho, como escovar, tosa higiênica e como manter o pelo volumoso e saudável.",
-    "cover": "/images/blog/cuidados-pelo-spitz-alemao-anao.png",
+    "cover": "/images/blog/cuidados-pelo-spitz-alemao-anao.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -387,7 +387,7 @@ export const generatedPosts = [
     "seoTitle": null,
     "description": "Descubra quanto custa um Spitz Alemão Anão (Lulu da Pomerânia). Preços por cor, sexo, documentação e o que está incluso no valor de um canil sério.",
     "excerpt": "Descubra quanto custa um Spitz Alemão Anão (Lulu da Pomerânia). Preços por cor, sexo, documentação e o que está incluso no valor de um canil sério.",
-    "cover": "/images/blog/preco-spitz-alemao-anao.png",
+    "cover": "/images/blog/preco-spitz-alemao-anao.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": "2025-06-01T00:00:00.000Z",
     "tags": [
@@ -429,7 +429,7 @@ export const generatedPosts = [
     "seoTitle": "Quanto Custa Manter um Spitz Alemão Anão por Mês",
     "description": "Calcule o custo mensal real de ter um Spitz Alemão Anão (Lulu da Pomerânia): alimentação, veterinário, banho, tosa, vacinas e custos inesperados.",
     "excerpt": "Calcule o custo mensal real de ter um Spitz Alemão Anão (Lulu da Pomerânia): alimentação, veterinário, banho, tosa, vacinas e custos inesperados.",
-    "cover": "/images/blog/quanto-custa-manter-spitz-alemao.png",
+    "cover": "/images/blog/quanto-custa-manter-spitz-alemao.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -472,7 +472,7 @@ export const generatedPosts = [
     "seoTitle": "Saúde do Spitz Alemão Anão: Doenças e Prevenção",
     "description": "Conheça as principais doenças que afetam o Spitz Alemão Anão (Lulu da Pomerânia), como prevenir, sinais de alerta e a expectativa de vida da raça.",
     "excerpt": "Conheça as principais doenças que afetam o Spitz Alemão Anão (Lulu da Pomerânia), como prevenir, sinais de alerta e a expectativa de vida da raça.",
-    "cover": "/images/blog/saude-spitz-alemao-anao.png",
+    "cover": "/images/blog/saude-spitz-alemao-anao.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -514,7 +514,7 @@ export const generatedPosts = [
     "seoTitle": "Ansiedade de Separação no Spitz Alemão Anão",
     "description": "O Spitz Alemão Anão (Lulu da Pomerânia) tem ansiedade de separação? Os sinais, as causas e como conduzir a dessensibilização com apoio profissional.",
     "excerpt": "O Spitz Alemão Anão (Lulu da Pomerânia) tem ansiedade de separação? Os sinais, as causas e como conduzir a dessensibilização com apoio profissional.",
-    "cover": "/images/blog/spitz-alemao-anao-ansiedade-separacao.png",
+    "cover": "/images/blog/spitz-alemao-anao-ansiedade-separacao.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -638,7 +638,7 @@ export const generatedPosts = [
     "seoTitle": "Spitz Alemão Anão Creme: Cor, Preço e Cuidados",
     "description": "Spitz Alemão Anão Creme (Lulu da Pomerânia): como a cor aparece, o preço na tabela da By Império Dog e os cuidados com a pelagem clara.",
     "excerpt": "Spitz Alemão Anão Creme (Lulu da Pomerânia): como a cor aparece, o preço na tabela da By Império Dog e os cuidados com a pelagem clara.",
-    "cover": "/images/blog/spitz-alemao-anao-creme.png",
+    "cover": "/images/blog/spitz-alemao-anao-creme.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -679,7 +679,7 @@ export const generatedPosts = [
     "seoTitle": "Dentes do Lulu da Pomerânia (Spitz Alemão Anão)",
     "description": "Os dentes do Spitz Alemão Anão (Lulu da Pomerânia) pedem atenção especial: como escovar, prevenir tártaro e quando fazer a limpeza veterinária.",
     "excerpt": "Os dentes do Spitz Alemão Anão (Lulu da Pomerânia) pedem atenção especial: como escovar, prevenir tártaro e quando fazer a limpeza veterinária.",
-    "cover": "/images/blog/spitz-alemao-anao-dentes.png",
+    "cover": "/images/blog/spitz-alemao-anao-dentes.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -760,7 +760,7 @@ export const generatedPosts = [
     "seoTitle": "Exercícios e Passeios do Spitz Alemão Anão",
     "description": "Quanto exercício o Spitz Alemão Anão (Lulu da Pomerânia) precisa por idade, os melhores tipos de atividade e como estimular a mente do cão.",
     "excerpt": "Quanto exercício o Spitz Alemão Anão (Lulu da Pomerânia) precisa por idade, os melhores tipos de atividade e como estimular a mente do cão.",
-    "cover": "/images/blog/spitz-alemao-anao-exercicios-passeios.png",
+    "cover": "/images/blog/spitz-alemao-anao-exercicios-passeios.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -884,7 +884,7 @@ export const generatedPosts = [
     "seoTitle": "Spitz Alemão Anão Late Muito?",
     "description": "O Spitz Alemão Anão (Lulu da Pomerânia) late muito? Por que a raça late, as causas do latido excessivo e as técnicas de manejo que ajudam.",
     "excerpt": "O Spitz Alemão Anão (Lulu da Pomerânia) late muito? Por que a raça late, as causas do latido excessivo e as técnicas de manejo que ajudam.",
-    "cover": "/images/blog/spitz-alemao-anao-latido.png",
+    "cover": "/images/blog/spitz-alemao-anao-latido.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -1006,7 +1006,7 @@ export const generatedPosts = [
     "seoTitle": "Peso do Spitz Alemão Anão por Idade",
     "description": "Acompanhe o desenvolvimento do Spitz Alemão Anão (Lulu da Pomerânia) com a tabela de peso por idade, marcos de crescimento e quando se preocupar com o peso.",
     "excerpt": "Acompanhe o desenvolvimento do Spitz Alemão Anão (Lulu da Pomerânia) com a tabela de peso por idade, marcos de crescimento e quando se preocupar com o peso.",
-    "cover": "/images/blog/spitz-alemao-anao-peso-desenvolvimento.png",
+    "cover": "/images/blog/spitz-alemao-anao-peso-desenvolvimento.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -1048,7 +1048,7 @@ export const generatedPosts = [
     "seoTitle": null,
     "description": "Spitz Alemão Anão Preto (Lulu da Pomerânia): preço por sexo, características da pelagem, temperamento e os cuidados para manter o pelo preto brilhante.",
     "excerpt": "Spitz Alemão Anão Preto (Lulu da Pomerânia): preço por sexo, características da pelagem, temperamento e os cuidados para manter o pelo preto brilhante.",
-    "cover": "/images/blog/spitz-alemao-anao-preto.png",
+    "cover": "/images/blog/spitz-alemao-anao-preto.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -1172,7 +1172,7 @@ export const generatedPosts = [
     "seoTitle": "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",
     "description": "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable): a cor reconhecida pela FCI, o preço na tabela atual e os cuidados com a pelagem.",
     "excerpt": "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable): a cor reconhecida pela FCI, o preço na tabela atual e os cuidados com a pelagem.",
-    "cover": "/images/blog/spitz-alemao-anao-wolf-sable.png",
+    "cover": "/images/blog/spitz-alemao-anao-wolf-sable.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [
@@ -1213,7 +1213,7 @@ export const generatedPosts = [
     "seoTitle": "Calendário de Vacinas do Spitz Alemão Anão",
     "description": "Quais vacinas o Spitz Alemão Anão (Lulu da Pomerânia) precisa, em que idade, com que frequência e como funciona a imunidade do filhote nos primeiros meses.",
     "excerpt": "Quais vacinas o Spitz Alemão Anão (Lulu da Pomerânia) precisa, em que idade, com que frequência e como funciona a imunidade do filhote nos primeiros meses.",
-    "cover": "/images/blog/vacinas-spitz-alemao-anao-filhote.png",
+    "cover": "/images/blog/vacinas-spitz-alemao-anao-filhote.jpg",
     "date": "2025-06-01T00:00:00.000Z",
     "updated": null,
     "tags": [

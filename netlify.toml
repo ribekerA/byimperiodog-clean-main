@@ -139,6 +139,97 @@
   status = 301
   force = true
 
+# Capas do blog: eram PNG de 1536x1024 e ~2,2 MB cada, agora sao JPEG de
+# 1280x853 e ~120 KB. As URLs .png estao no ar desde 15/07/2026 e entraram no
+# deploy que o dominio serve hoje, entao podem estar no indice do Google
+# Imagens — sem estes 301 virariam 404 e a indexacao da imagem se perderia.
+# Sem `force`: so respondem quando nao existe arquivo com aquele nome.
+
+[[redirects]]
+  from = "/images/blog/adestramento-spitz-alemao-anao.png"
+  to = "/images/blog/adestramento-spitz-alemao-anao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/alimentacao-spitz-alemao-anao.png"
+  to = "/images/blog/alimentacao-spitz-alemao-anao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/cores-spitz-alemao-anao-qual-mais-cara.png"
+  to = "/images/blog/cores-spitz-alemao-anao-qual-mais-cara.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/cuidados-pelo-spitz-alemao-anao.png"
+  to = "/images/blog/cuidados-pelo-spitz-alemao-anao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/guia-spitz-alemao.png"
+  to = "/images/blog/guia-spitz-alemao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/preco-spitz-alemao-anao.png"
+  to = "/images/blog/preco-spitz-alemao-anao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/quanto-custa-manter-spitz-alemao.png"
+  to = "/images/blog/quanto-custa-manter-spitz-alemao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/saude-spitz-alemao-anao.png"
+  to = "/images/blog/saude-spitz-alemao-anao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-ansiedade-separacao.png"
+  to = "/images/blog/spitz-alemao-anao-ansiedade-separacao.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-creme.png"
+  to = "/images/blog/spitz-alemao-anao-creme.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-dentes.png"
+  to = "/images/blog/spitz-alemao-anao-dentes.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-exercicios-passeios.png"
+  to = "/images/blog/spitz-alemao-anao-exercicios-passeios.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-latido.png"
+  to = "/images/blog/spitz-alemao-anao-latido.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-peso-desenvolvimento.png"
+  to = "/images/blog/spitz-alemao-anao-peso-desenvolvimento.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-preto.png"
+  to = "/images/blog/spitz-alemao-anao-preto.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/spitz-alemao-anao-wolf-sable.png"
+  to = "/images/blog/spitz-alemao-anao-wolf-sable.jpg"
+  status = 301
+
+[[redirects]]
+  from = "/images/blog/vacinas-spitz-alemao-anao-filhote.png"
+  to = "/images/blog/vacinas-spitz-alemao-anao-filhote.jpg"
+  status = 301
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 5️⃣ ROTEAMENTO NEXT.JS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
