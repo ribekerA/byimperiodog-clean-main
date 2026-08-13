@@ -26,9 +26,21 @@ describe("pageMetadata helper", () => {
 
     expect(meta.openGraph?.images).toBeDefined();
     expect(Array.isArray(meta.openGraph?.images)).toBe(true);
-    const images = meta.openGraph?.images as Array<{ url: string; alt?: string }>;
-    expect(images[0]?.url).toContain("spitz-hero-desktop.webp");
+    const images = meta.openGraph?.images as Array<{
+      url: string;
+      alt?: string;
+      width?: number;
+      height?: number;
+    }>;
+    // Era `spitz-hero-desktop.webp`. Trocado de proposito em src/lib/seo.ts: o
+    // arquivo tem 1400x933, entao as medidas declaradas mentiam, e WhatsApp e
+    // Facebook tratam WebP de forma irregular na previa de link. O teste ficou
+    // para tras e reprovava desde entao.
+    expect(images[0]?.url).toContain("og-default.jpg");
     expect(images[0]?.alt).toContain("Lulu da Pomerânia");
+    // As medidas fazem parte do contrato: e o que quebrou da ultima vez.
+    expect(images[0]?.width).toBe(1200);
+    expect(images[0]?.height).toBe(630);
   });
 
   it("accepts custom image objects", () => {
