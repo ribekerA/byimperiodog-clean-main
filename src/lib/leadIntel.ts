@@ -311,7 +311,10 @@ export async function analyzeLead(
     color: ai?.desired_color ?? heuristics.desired_color ?? lead.cor_preferida ?? null,
     sex: ai?.desired_sex ?? heuristics.desired_sex ?? lead.sexo_preferido ?? null,
     city: ai?.desired_city ?? heuristics.desired_city ?? lead.cidade ?? null,
-    budget: parseBudget(ai?.budget_inferred ?? heuristics.budget_inferred ?? lead.preferencia ?? null),
+    // `lead.preferencia` saiu daqui: a coluna nunca existiu na tabela, entao o
+    // fallback era sempre undefined. Quem carrega essa informacao e `mensagem`,
+    // que as heuristicas ja leem.
+    budget: parseBudget(ai?.budget_inferred ?? heuristics.budget_inferred ?? null),
   };
 
   const puppies = options.puppies ?? [];
@@ -326,7 +329,7 @@ export async function analyzeLead(
     desired_sex: ai?.desired_sex ?? heuristics.desired_sex ?? lead.sexo_preferido ?? null,
     desired_city: ai?.desired_city ?? heuristics.desired_city ?? lead.cidade ?? null,
     desired_timeframe: ai?.desired_timeframe ?? heuristics.desired_timeframe ?? null,
-    budget_inferred: ai?.budget_inferred ?? heuristics.budget_inferred ?? lead.preferencia ?? null,
+    budget_inferred: ai?.budget_inferred ?? heuristics.budget_inferred ?? null,
     emotional_tone: ai?.emotional_tone ?? heuristics.emotional_tone ?? null,
     suggested_puppies: recommendation.suggestions,
     matched_puppy_id: recommendation.matched,

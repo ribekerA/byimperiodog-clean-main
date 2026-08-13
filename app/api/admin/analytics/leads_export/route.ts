@@ -14,15 +14,35 @@ export async function GET(req: NextRequest) {
   const days = parseInt(searchParams.get("days") || "14", 10);
 
   const fromTs = new Date(Date.now() - (days - 1) * 24 * 60 * 60 * 1000).toISOString();
+  // As colunas pedidas antes (first_name, last_name, phone, first_responded_at)
+  // nao existem na tabela: o PostgREST recusava a query e o CSV so devolvia 500.
+  // Alem dos campos reais, o export agora leva page_type e page_slug — e o que
+  // responde "qual pagina gerou este lead" sem precisar cruzar com o GA4.
+  const columns = [
+    "id",
+    "created_at",
+    "nome",
+    "telefone",
+    "cidade",
+    "estado",
+    "source",
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "page_type",
+    "page_slug",
+    "status",
+  ];
+
   const { data: leads, error } = await supa()
     .from("leads")
-    .select("id,created_at,first_name,last_name,phone,source,utm_source,utm_campaign,first_responded_at")
+    .select(columns.join(","))
     .gte("created_at", fromTs)
     .order("created_at", { ascending: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  const header = ["id","created_at","first_name","last_name","phone","source","utm_source","utm_campaign","first_responded_at"];
+  const header = columns;
   const csv = [header.join(",")]
     .concat((leads||[]).map(r => header.map(h => JSON.stringify((r as any)[h] ?? "")).join(","))).join("\n");
 

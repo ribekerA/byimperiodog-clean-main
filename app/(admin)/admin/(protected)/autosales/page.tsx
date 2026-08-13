@@ -17,7 +17,9 @@ export default async function AdminAutoSalesPage() {
 
   const { data, error } = await sb
     .from("autosales_sequences")
-    .select("id,lead_id,status,urgency,next_step,next_run_at,step_index,total_steps,fallback_required,fallback_reason,bypass_human,last_message_type,last_message_sent_at,created_at,leads(nome,first_name,telefone,phone)")
+    // leads(nome,telefone): first_name e phone nao existem na tabela e faziam o
+    // PostgREST recusar a query inteira, deixando esta pagina em erro.
+    .select("id,lead_id,status,urgency,next_step,next_run_at,step_index,total_steps,fallback_required,fallback_reason,bypass_human,last_message_type,last_message_sent_at,created_at,leads(nome,telefone)")
     .order("status", { ascending: true })
     .order("next_run_at", { ascending: true, nullsFirst: false })
     .limit(2000);
@@ -49,7 +51,7 @@ export default async function AdminAutoSalesPage() {
     last_message_type: string | null;
     last_message_sent_at: string | null;
     created_at: string;
-    leads: { nome: string | null; first_name: string | null; telefone: string | null; phone: string | null } | { nome: string | null; first_name: string | null; telefone: string | null; phone: string | null }[] | null;
+    leads: { nome: string | null; telefone: string | null } | { nome: string | null; telefone: string | null }[] | null;
   };
 
   const rows: AutoSalesSequenceRow[] = ((data ?? []) as unknown as QueryRow[]).map((row) => {
@@ -57,8 +59,8 @@ export default async function AdminAutoSalesPage() {
     return {
       id: row.id,
       leadId: row.lead_id,
-      leadName: lead?.nome ?? lead?.first_name ?? null,
-      leadPhone: lead?.telefone ?? lead?.phone ?? null,
+      leadName: lead?.nome ?? null,
+      leadPhone: lead?.telefone ?? null,
       status: row.status,
       urgency: row.urgency,
       nextStep: row.next_step,

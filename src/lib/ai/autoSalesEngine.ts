@@ -64,18 +64,21 @@ const OBJECTION_RESPONSES: Record<string, string> = {
   health: "Compartilho exames, vacinas e cronograma veterinário para eliminar qualquer dúvida de saúde.",
 };
 
+// So colunas que existem de fato em `leads`. A lista antiga pedia tambem
+// first_name, phone e preferencia — nenhuma das tres existe, e o PostgREST
+// rejeita o SELECT inteiro quando uma coluna e desconhecida (42703), entao
+// createAutoSalesSequence falhava em todo lead novo. As tres eram duplicatas em
+// ingles de nome/telefone/cor_preferida: criar as colunas daria duas fontes de
+// verdade para o mesmo dado, por isso a correcao e aqui e nao no banco.
 const LEAD_COLUMNS = [
   "id",
   "nome",
-  "first_name",
   "cidade",
   "estado",
   "telefone",
-  "phone",
   "mensagem",
   "cor_preferida",
   "sexo_preferido",
-  "preferencia",
   "page",
   "page_slug",
   "created_at",
@@ -298,7 +301,8 @@ function buildStepMessage({
   strategy: AutoSalesStrategy;
 }) {
   const waPayload = generateWhatsAppMessage(
-    { nome: lead.nome, first_name: lead.first_name, cidade: lead.cidade, estado: lead.estado },
+    // leadFirstName() ja cai para `nome` e corta no primeiro espaco.
+    { nome: lead.nome, cidade: lead.cidade, estado: lead.estado },
     {
       name: puppy?.name ?? "Spitz exclusivo",
       color: puppy?.color ?? strategy.triggers.find((t) => t.startsWith("cor:"))?.split(":")[1] ?? lead.cor_preferida ?? null,
