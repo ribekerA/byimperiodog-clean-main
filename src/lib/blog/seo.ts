@@ -90,7 +90,13 @@ export function buildBlogMetadata(post: BasePost & { content_mdx?: string | null
   const canonical = `${site}/blog/${encodeURIComponent(post.slug)}`;
   const description = post.seo_description || deriveExcerpt(post) || undefined;
   const title = post.seo_title || post.title;
-  const ogImage = post.cover_url || `${site}/byimperiologo.png`;
+  // A capa vale como og:image, menos quando e WebP: WhatsApp e Facebook tratam
+  // WebP de forma irregular na previa de link e o cartao sai sem imagem. Foi por
+  // isso que og-default ja tinha saido de webp para jpg. 13 dos 30 artigos usam
+  // /spitz-hero-desktop.webp como capa e caiam nesse buraco. Aqui so a previa de
+  // compartilhamento troca — a imagem que aparece no topo do artigo continua a mesma.
+  const capa = post.cover_url;
+  const ogImage = capa && !/\.webp(\?|$)/i.test(capa) ? capa : `${site}/og-default.jpg`;
   return {
     title,
     description,
