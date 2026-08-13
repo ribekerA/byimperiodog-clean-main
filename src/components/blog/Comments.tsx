@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/toast';
+import { isCommentablePostId } from '@/lib/blog/commentable';
 
 interface Comment {
   id: string;
@@ -33,8 +34,15 @@ export default function Comments({ postId }: CommentsProps) {
   });
 
   const fetchComments = useCallback(async () => {
+    // Trava de segurança, além da checagem em /blog/[slug]: a rota exige uuid
+    // (z.string().uuid) porque blog_comments.post_id tem FK para blog_posts.
+    // Com um slug aqui a resposta é 400 em toda visita e o envio nunca grava.
+    if (!isCommentablePostId(postId)) {
+      setLoading(false);
+      return;
+    }
     try {
-      const response = await fetch(`/api/blog/comments?post_id=${postId}`);
+      const response = await fetch(`/api/blog/comments?post_id=${encodeURIComponent(postId)}`);
       if (!response.ok) throw new Error('Erro ao carregar comentários');
       const data = await response.json();
       setComments(data.items || []);
@@ -92,6 +100,10 @@ export default function Comments({ postId }: CommentsProps) {
   };
 
   const totalComments = comments.length;
+
+  // Sem uuid não há onde gravar: melhor não desenhar um formulário que só
+  // devolveria erro para quem escrevesse.
+  if (!isCommentablePostId(postId)) return null;
 
   if (loading) {
     return (

@@ -25,6 +25,7 @@ import { mdxComponents } from "@/components/MDXContent";
 import PageViewPing from "@/components/PageViewPing";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { getImageSize } from "@/lib/_generated-image-sizes";
+import { isCommentablePostId } from "@/lib/blog/commentable";
 import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
@@ -447,9 +448,11 @@ export default async function BlogPostPage({
 
             <BlogCTAs postTitle={post.title} category={post.category} />
 
-            <div className="border-t border-border pt-10">
-              <Comments postId={post.id} />
-            </div>
+            {isCommentablePostId(post.id) ? (
+              <div className="border-t border-border pt-10">
+                <Comments postId={post.id} />
+              </div>
+            ) : null}
 
             {related?.length ? (
               <aside aria-labelledby="related-posts-title" className="border-t border-border pt-10">
