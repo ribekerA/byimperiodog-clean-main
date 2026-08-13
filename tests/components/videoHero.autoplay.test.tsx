@@ -1,5 +1,5 @@
-import React from "react";
 import { cleanup, render, screen, waitFor, fireEvent } from "@testing-library/react";
+import React from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Componentes compilados com o runtime clássico procuram React no escopo global.
