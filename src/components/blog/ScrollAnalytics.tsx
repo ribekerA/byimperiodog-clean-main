@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useRef } from 'react';
 
+import { logEvent } from '@/lib/analytics';
+
 interface ScrollAnalyticsProps {
   articleSelector?: string;
   postId: string;
@@ -16,8 +18,11 @@ export default function ScrollAnalytics({ articleSelector='article', postId, rea
   useEffect(()=>{
     const el = document.querySelector(articleSelector);
     if(!el) return;
+    // O corpo tem que sair no formato que /api/analytics aceita: `name` no topo e
+    // o resto dentro de `meta`. Mandar `event` em vez de `name` volta 400 e o
+    // evento se perde. Por isso quem monta o corpo e o logEvent, um lugar so.
     function emit(name:string, extra:Record<string,unknown>={}){
-      fetch('/api/analytics', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ event:name, post_id: postId, ...extra })}).catch(()=>{});
+      logEvent(name, { post_id: postId, ...extra });
     }
     function onScroll(){
   if(!el) return;
