@@ -6,7 +6,7 @@
 // do timestamp do build, que dizia ao Google que o site inteiro mudava a cada
 // deploy. Chaves iniciadas por @ sao grupos dinamicos do catalogo.
 export const LASTMOD: Record<string, string> = {
-  "/": "2026-08-13T23:19:01.000Z",
+  "/": "2026-08-19T21:23:41.000Z",
   "/alimentacao": "2026-08-13T08:30:17.000Z",
   "/blog": "2026-08-12T23:03:34.000Z",
   "/canil-spitz-alemao-interior-sp": "2026-08-13T16:56:48.000Z",
@@ -16,15 +16,15 @@ export const LASTMOD: Record<string, string> = {
   "/cuidados": "2026-08-13T08:30:17.000Z",
   "/faq-do-tutor": "2026-08-13T08:30:17.000Z",
   "/filhote-de-spitz-alemao": "2026-08-13T16:56:48.000Z",
-  "/filhotes": "2026-08-13T23:19:01.000Z",
-  "/filhotes/minas-gerais": "2026-08-13T23:19:01.000Z",
-  "/filhotes/rio-de-janeiro": "2026-08-13T23:19:01.000Z",
-  "/filhotes/sao-paulo": "2026-08-13T23:19:01.000Z",
-  "/galeria": "2026-08-13T23:19:01.000Z",
+  "/filhotes": "2026-08-19T21:23:41.000Z",
+  "/filhotes/minas-gerais": "2026-08-19T21:23:41.000Z",
+  "/filhotes/rio-de-janeiro": "2026-08-19T21:23:41.000Z",
+  "/filhotes/sao-paulo": "2026-08-19T21:23:41.000Z",
+  "/galeria": "2026-08-19T21:23:41.000Z",
   "/guias": "2026-08-13T08:30:17.000Z",
   "/lulu-da-pomerania": "2026-08-13T16:56:48.000Z",
   "/lulu-da-pomerania-braganca-paulista": "2026-08-13T16:56:48.000Z",
-  "/ninhadas": "2026-08-13T23:19:01.000Z",
+  "/ninhadas": "2026-08-19T21:23:41.000Z",
   "/obrigado": "2026-08-13T08:30:17.000Z",
   "/politica-de-privacidade": "2026-08-13T08:30:17.000Z",
   "/politica-editorial": "2026-08-13T08:30:17.000Z",
@@ -38,9 +38,9 @@ export const LASTMOD: Record<string, string> = {
   "/spitz-alemao-preto": "2026-08-13T16:56:48.000Z",
   "/temperamento": "2026-08-13T08:30:17.000Z",
   "/termos-de-uso": "2026-08-13T08:30:17.000Z",
-  "@color": "2026-08-13T23:19:01.000Z",
-  "@puppy": "2026-08-13T23:19:01.000Z",
-  "@sex": "2026-08-13T23:19:01.000Z",
+  "@color": "2026-08-19T21:23:41.000Z",
+  "@puppy": "2026-08-19T21:23:41.000Z",
+  "@sex": "2026-08-19T21:23:41.000Z",
 } as const;
 
 /**
