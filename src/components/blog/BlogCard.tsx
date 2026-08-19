@@ -1,4 +1,8 @@
-// Server component de proposito. Card de artigo: imagem, texto e links. Nao ha interacao em JS, so hover em CSS.
+// Card de artigo: imagem, texto e links. Nao ha interacao em JS, so hover em CSS.
+//
+// Renderiza no servidor em /blog (secoes por categoria) e no cliente dentro do
+// BlogFilterShell, quando ha busca ou filtro ativo. Por isso nao pode ganhar
+// nenhuma dependencia server-only.
 
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
@@ -21,6 +25,8 @@ type BlogCardPost = {
   content_mdx?: string | null;
   category?: string | null;
   tags?: string[] | null;
+  /** Ja calculado pelo servidor. Evita mandar o corpo do artigo para o cliente. */
+  reading_minutes?: number | null;
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -83,7 +89,7 @@ function CoverPlaceholder({ category }: { category: string | null }) {
 
 export function FeaturedBlogCard({ post }: { post: BlogCardPost }) {
   const href      = `/blog/${post.slug}`;
-  const minutes   = estimateMinutes(post.content_mdx ?? post.excerpt ?? "");
+  const minutes   = post.reading_minutes || estimateMinutes(post.content_mdx ?? post.excerpt ?? "");
   const published = formatDate(post.published_at);
   const category  = deriveCategory(post);
   const cat       = category ? (CATEGORY_COLORS[category] ?? CATEGORY_COLORS.saude) : null;
@@ -164,7 +170,7 @@ export function FeaturedBlogCard({ post }: { post: BlogCardPost }) {
 
 export default function BlogCard({ post }: { post: BlogCardPost }) {
   const href      = `/blog/${post.slug}`;
-  const minutes   = estimateMinutes(post.content_mdx ?? post.excerpt ?? "");
+  const minutes   = post.reading_minutes || estimateMinutes(post.content_mdx ?? post.excerpt ?? "");
   const published = formatDate(post.published_at);
   const category  = deriveCategory(post);
   const cat       = category ? (CATEGORY_COLORS[category] ?? CATEGORY_COLORS.saude) : null;

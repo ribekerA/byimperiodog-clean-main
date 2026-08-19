@@ -25,12 +25,12 @@ import { mdxComponents } from "@/components/MDXContent";
 import PageViewPing from "@/components/PageViewPing";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { getImageSize } from "@/lib/_generated-image-sizes";
+import { generatedPosts } from "@/lib/_generated-posts";
 import { isCommentablePostId } from "@/lib/blog/commentable";
 import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { getRelatedUnified } from "@/lib/blog/related";
-import { TAG_LISTAGEM_BLOG } from "@/lib/blog/revalidate";
 import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
 import { parseSources } from "@/lib/blog/sources";
 import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
@@ -85,7 +85,7 @@ type MDXComponentsMap = Record<string, React.ComponentType<Record<string, unknow
 const POST_COLUMNS =
   "id,slug,title,subtitle,excerpt,content_mdx,cover_url,cover_alt,published_at,created_at,updated_at,status,author_id,seo_title,seo_description,category,tags,lang";
 
-async function fetchSupabasePost(slug: string, opts: { preview: boolean }): Promise<Post | null> {
+async function fetchSupabasePost(slug: string): Promise<Post | null> {
   try {
     const sb = supabaseAnon();
     const { data, error } = await sb.from("blog_posts").select(POST_COLUMNS).eq("slug", slug).maybeSingle();
@@ -93,13 +93,15 @@ async function fetchSupabasePost(slug: string, opts: { preview: boolean }): Prom
     if (!error && data) {
       const post = data as Post;
       if (isPublishableSupabasePost(post)) return post;
-      if (opts.preview && (post.status === "review" || post.status === "draft")) return post;
     }
-  } catch {}
+  } catch {
+    // Supabase fora do ar nao pode derrubar o artigo: o MDX ja respondeu antes
+    // daqui, e quando nao respondeu o retorno nulo cai no notFound() da pagina.
+  }
   return null;
 }
 
-async function fetchPost(slug: string, opts: { preview: boolean }): Promise<Post | null> {
+async function fetchPost(slug: string): Promise<Post | null> {
   // Precedência: MDX primeiro, Supabase depois — fora do preview.
   //
   // Não é a ordem que o código pedia, é a ordem que o site já pratica. Com o
@@ -109,15 +111,14 @@ async function fetchPost(slug: string, opts: { preview: boolean }): Promise<Post
   // (cores-spitz-alemao-anao-qual-mais-cara: 6.709 caracteres em MDX contra
   // 2.018 no Supabase). O arquivo continua mandando onde existe arquivo; o
   // Supabase atende os slugs que só existem lá — posts criados pelo admin.
-  if (!opts.preview) {
-    const fromFile = await fetchMdxPost(slug);
-    if (fromFile) return fromFile;
-    return fetchSupabasePost(slug, opts);
-  }
-
-  const fromDb = await fetchSupabasePost(slug, opts);
-  if (fromDb) return fromDb;
-  return fetchMdxPost(slug);
+  //
+  // O `?preview=1` saiu daqui. Ele so funcionava com NODE_ENV != production
+  // (ou seja, nunca no site publicado), nenhuma pagina linkava para ele, e ler
+  // `searchParams` e uma API dinamica: a presenca do parametro sozinha tirava
+  // os 30 artigos do prerender e obrigava uma renderizacao por requisicao.
+  const fromFile = await fetchMdxPost(slug);
+  if (fromFile) return fromFile;
+  return fetchSupabasePost(slug);
 }
 
 async function fetchMdxPost(slug: string): Promise<Post | null> {
@@ -161,36 +162,32 @@ async function fetchAuthor(authorId: string | null | undefined): Promise<Author 
   }
 }
 
+// Os 30 artigos de content/posts sao gerados no build.
+//
+// Isto devolvia `[]`, entao nenhum artigo era prerenderizado: cada visita
+// recompilava o MDX dentro de uma funcao serverless da Netlify. Confirmado no
+// .next/prerender-manifest.json — `/blog/[slug]` aparecia so como rota
+// dinamica, sem nenhum caminho estatico.
+//
+// `dynamicParams` fica no padrao (true): slug que so existe no Supabase — post
+// criado pelo admin depois do build — continua sendo renderizado sob demanda e
+// cacheado. So deixa de ser o caminho de todo mundo.
 export async function generateStaticParams() {
-  return [];
+  return generatedPosts.map((post: { slug: string }) => ({ slug: post.slug }));
 }
 
 export const revalidate = 300;
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams?: { preview?: string };
-}): Promise<Metadata> {
-  const preview = process.env.NODE_ENV !== "production" && searchParams?.preview === "1";
-  const post = await fetchPost(params.slug, { preview });
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const post = await fetchPost(params.slug);
   if (!post) return {};
   return buildBlogMetadata(post as Post & { content_mdx?: string | null });
 }
 
-export default async function BlogPostPage({
-  params,
-  searchParams,
-}: {
-  params: { slug: string };
-  searchParams?: { preview?: string };
-}) {
-  const preview = process.env.NODE_ENV !== "production" && searchParams?.preview === "1";
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   let post: Post | null = null;
   try {
-    post = await fetchPost(params.slug, { preview });
+    post = await fetchPost(params.slug);
   } catch (e) {
     console.error('[blog/slug] fetchPost threw:', e);
     return notFound();
@@ -261,19 +258,6 @@ export default async function BlogPostPage({
       <SeoJsonLd data={structuredData} />
       <ReadingProgress />
       <FloatingReadCTA whatsappUrl={sidebarWhatsappUrl} />
-
-      {preview && post.status !== "published" ? (
-        <div className="mb-6 flex flex-wrap items-center gap-3 rounded-md border border-amber-400 bg-amber-50 p-3 text-sm text-amber-800">
-          <span className="font-medium">Pré-visualização</span>
-          <span>
-            Status atual: <strong>{post.status}</strong>
-          </span>
-          <PublishButton slug={post.slug} />
-          <a href={`/blog/${post.slug}`} className="underline decoration-dotted">
-            Sair do modo preview
-          </a>
-        </div>
-      ) : null}
 
       <Breadcrumbs
         className="mb-8"
@@ -493,38 +477,4 @@ function formatDate(value?: string | null) {
     month: "short",
     year: "numeric",
   }).format(date);
-}
-
-function PublishButton({ slug }: { slug: string }) {
-  return (
-    <form
-      action={async () => {
-        "use server";
-        await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/admin/blog/publish`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-admin-token": process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN || "",
-          },
-          body: JSON.stringify({ slug }),
-        });
-
-        try {
-          const mod = await import("next/cache");
-          mod.revalidateTag(TAG_LISTAGEM_BLOG);
-          mod.revalidatePath(`/blog/${slug}`);
-          mod.revalidatePath("/blog");
-        } catch {
-          // ignore cache errors
-        }
-      }}
-    >
-      <button
-        type="submit"
-        className="inline-flex items-center gap-1 rounded bg-amber-600 px-3 py-1 text-xs font-medium text-white shadow hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1"
-      >
-        Publicar agora
-      </button>
-    </form>
-  );
 }
