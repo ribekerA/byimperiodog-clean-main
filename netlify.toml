@@ -9,10 +9,30 @@
 # morre). Aumenta o limite disponível para essa etapa.
 [build.environment]
   NODE_OPTIONS = "--max-old-space-size=4096"
+  # package.json declara engines node ">=20 <21". Sem fixar aqui, a Netlify
+  # escolhe o padrao dela — e o padrao muda de major sozinho, o que quebra
+  # build sem ninguem ter mexido em nada.
+  NODE_VERSION = "20"
 
 # @netlify/plugin-nextjs handles SSR, API routes, ISR and asset routing for Next.js 13+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# ============================================================================
+# FUNCAO AGENDADA (CRON)
+# ============================================================================
+# A cada 15 minutos, netlify/functions/cron-due.mjs chama tres endpoints do
+# proprio site: os dois agendadores de post do blog e a fila de follow-up dos
+# leads. Nenhum deles roda sozinho hoje — o vercel.json agendava o do blog, mas
+# o site esta na Netlify, entao aquele agendamento nunca disparou; e a fila de
+# follow-up so andava por um script de terminal que ninguem roda em producao.
+#
+# 15 minutos e o intervalo que o proprio codigo pede: o primeiro passo da
+# sequencia de follow-up tem delayMinutes = 0, ou seja, fica vencido assim que
+# o lead chega. Quando nao ha nada vencido, cada endpoint responde "0" sem
+# escrever no banco.
+[functions."cron-due"]
+  schedule = "*/15 * * * *"
 
 [dev]
   command = "npm run dev"
