@@ -363,16 +363,17 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
+    // Só o que a própria nomenclatura das fotos atribui a esta fêmea. As quatro
+    // mídias tiradas daqui (filhote-flores-01, filhote-flores-03,
+    // filhote-brinquedos-01 e wolf-sable-jardim.mp4) são todas da mesma sessão
+    // no pé de flor vermelha, e uma irmã dessa sessão — filhote-flores-02 —
+    // ilustra o anúncio do MACHO. Nada atribuía essas quatro a ela.
     images: [
       "/filhotes/wolf-sable/wolf-sable-femea-01.jpg",
       "/filhotes/wolf-sable/wolf-sable-femea-abeto-01.jpg",
-      "/filhotes/wolf-sable/wolf-sable-filhote-flores-01.jpg",
-      "/filhotes/wolf-sable/wolf-sable-filhote-flores-03.jpg",
       "/filhotes/wolf-sable/wolf-sable-femea-abeto-02.jpg",
       "/filhotes/wolf-sable/wolf-sable-femea-abeto-03.jpg",
       "/filhotes/wolf-sable/wolf-sable-femea-jardim-01.jpg",
-      "/filhotes/wolf-sable/wolf-sable-filhote-brinquedos-01.jpg",
-      "/filhotes/videos/wolf-sable-jardim.mp4",
     ],
     // Cinza-Lobo Fêmea — preço único de fêmea → R$ 8.500
     price_cents: 850000,
