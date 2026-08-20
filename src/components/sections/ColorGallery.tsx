@@ -11,7 +11,7 @@ const COLORS = [
     slug: "branco",
     label: "Branco",
     tagline: "Pelagem branca e uniforme",
-    price: "fêmea R$ 8.500*",
+    price: "fêmea R$ 9.500",
     image: "/filhotes/branco/branco-femea-jardim-01.jpg",
     badge: "Disponível",
     badgeClass: "bg-zinc-100 text-zinc-800",
@@ -20,7 +20,7 @@ const COLORS = [
   {
     slug: "creme",
     label: "Creme",
-    tagline: "Faixa superior da tabela atual",
+    tagline: "Pelagem cor de marfim",
     price: "a partir de R$ 7.500",
     image: "/filhotes/creme/creme-femea-01.jpg",
     badge: "Disponibilidade limitada",

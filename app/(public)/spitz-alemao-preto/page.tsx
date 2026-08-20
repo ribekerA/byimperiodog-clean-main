@@ -42,7 +42,7 @@ const FAQS = [
   {
     question: "Qual o preço do Spitz Alemão Anão preto?",
     answer:
-      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Pela menor disponibilidade, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea custa o mesmo valor em todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Pela menor disponibilidade, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea preta custa o mesmo que a creme, a laranja e a cinza-lobo; só a branca é mais cara. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "Como saber se o Spitz Alemão preto tem registro oficial legítimo?",

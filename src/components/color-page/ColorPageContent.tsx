@@ -49,7 +49,7 @@ const THEMES = {
     accentLight:  "bg-amber-100",
     accentBorder: "border-amber-200",
     progressBar:  "bg-amber-500",
-    badge:        "✨ Faixa superior da tabela",
+    badge:        "✨ Pelagem cor de marfim",
     badgeCss:     "bg-amber-100 text-amber-800 ring-1 ring-amber-200",
     swatchCss:    "bg-[#f5e6c8] ring-amber-300",
     heroImg:      "/filhotes/creme/creme-femea-01.jpg",

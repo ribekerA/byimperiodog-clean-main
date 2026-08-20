@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "Quanto custa um Lulu da Pomerânia?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme, preto e branco). Fêmeas custam R$ 8.500, valor único para todas as cores. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 9.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo), R$ 7.500 (creme e preto) e R$ 8.500 (branco). Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "O Lulu da Pomerânia é bom com crianças?",
@@ -162,9 +162,11 @@ export default function LuluDaPomeraniaPage() {
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
-            { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", valor: "R$ 6.500", tag: "a partir de" },
-            { cor: "Macho — Branco / Creme / Preto",            valor: "R$ 7.500", tag: "a partir de" },
-            { cor: "Fêmea — todas as cores",                    valor: "R$ 8.500", tag: "valor único" },
+            { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", valor: "R$ 6.500", tag: "valor da tabela" },
+            { cor: "Macho — Creme / Preto",                     valor: "R$ 7.500", tag: "valor da tabela" },
+            { cor: "Macho — Branco",                            valor: "R$ 8.500", tag: "valor da tabela" },
+            { cor: "Fêmea — Creme / Preto / Laranja / Cinza-Lobo", valor: "R$ 8.500", tag: "valor da tabela" },
+            { cor: "Fêmea — Branco",                            valor: "R$ 9.500", tag: "valor da tabela" },
           ].map((p) => (
             <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs text-zinc-400 uppercase tracking-wide">{p.tag}</p>

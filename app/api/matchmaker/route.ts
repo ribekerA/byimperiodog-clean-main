@@ -39,7 +39,7 @@ ${buildCatalogTable()}
 
 PERSONALIDADE POR COR:
 - Branco: pelagem de aparência branca e uniforme; a cor não define o temperamento
-- Creme: pelagem sedosa creme/marfim, na faixa superior da tabela atual entre os machos
+- Creme: pelagem sedosa creme/marfim, acima do laranja e do cinza-lobo na tabela atual entre os machos
 - Laranja: cor clássica do Spitz, alegre e extrovertido, ama interagir com crianças
 - Preto: elegante e leal, vínculo muito profundo com o tutor, protetor
 - Cinza-Lobo (Wolf Sable): pelagem bicolor (cinza sobre base laranja), reconhecida pela FCI

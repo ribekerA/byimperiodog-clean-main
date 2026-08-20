@@ -82,8 +82,8 @@ export const PRODUCT_CONFIG = {
   // Faixas de preço (em centavos)
   pricing: {
     minPriceCents: 650000, // R$ 6.500,00
-    maxPriceCents: 850000, // R$ 8.500,00
-    averagePriceCents: 775000, // R$ 7.750,00
+    maxPriceCents: 950000, // R$ 9.500,00 — fêmea branca, o teto da tabela
+    averagePriceCents: 800000, // R$ 8.000,00 — média das dez combinações cor/sexo
   },
 } as const;
 

@@ -11,6 +11,8 @@ const IMAGE_SIZES: Record<string, readonly [number, number]> = {
   "/filhotes/adultos/adulto-laranja-abeto-02.jpg": [905, 1267],
   "/filhotes/adultos/adulto-laranja-flores-2.jpg": [2610, 4028],
   "/filhotes/adultos/adulto-laranja-jardim.jpg": [2358, 3014],
+  "/filhotes/branco/branco-femea-colo-01.jpg": [900, 1600],
+  "/filhotes/branco/branco-femea-dupla-jardim-01.jpg": [900, 1600],
   "/filhotes/branco/branco-femea-jardim-01.jpg": [900, 1600],
   "/filhotes/branco/branco-femea-jardim-02.jpg": [900, 1600],
   "/filhotes/branco/branco-femea-jardim-03.jpg": [900, 1600],
