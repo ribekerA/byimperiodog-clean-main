@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { routes, type AppRoutes } from "@/lib/route";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -27,6 +28,7 @@ const RACA_LINKS = [
   { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: "Guia completo + preços" },
   { label: "Pomeranian",               href: "/pomeranian",                desc: "= Lulu da Pomerânia = Spitz Alemão Anão" },
   { label: "Filhote de Spitz Alemão",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
+  { label: "Spitz Alemão Branco",      href: "/spitz-alemao-branco",       desc: "Diferenças do creme claro" },
   { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Preço e disponibilidade" },
   { label: "Spitz Alemão Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
   { label: "Tabela de Preços",         href: "/preco-spitz-anao",          desc: "Valores por cor e sexo" },
@@ -50,7 +52,7 @@ export default function Header() {
     closeTimeout.current = setTimeout(() => setRacaOpen(false), 180);
   };
 
-  const whatsappLink = useMemo(
+  const baseWhatsAppLink = useMemo(
     () =>
       buildWhatsAppLink({
         message: "Olá! Quero conversar sobre a disponibilidade dos Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog.",
@@ -61,6 +63,7 @@ export default function Header() {
       }),
     []
   );
+  const whatsappLink = useWhatsAppLink(baseWhatsAppLink);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";

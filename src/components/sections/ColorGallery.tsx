@@ -1,12 +1,22 @@
 "use client";
 
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 
 const COLORS = [
+  {
+    slug: "branco",
+    label: "Branco",
+    tagline: "Pelagem branca e uniforme",
+    price: "fêmea R$ 8.500*",
+    image: "/filhotes/branco/branco-femea-jardim-01.jpg",
+    badge: "Disponível",
+    badgeClass: "bg-zinc-100 text-zinc-800",
+    glowColor: "rgba(255,255,255,0.20)",
+  },
   {
     slug: "creme",
     label: "Creme",
@@ -73,7 +83,7 @@ export default function ColorGallery() {
         </ScrollReveal>
 
         {/* Grid de cores — cada card com delay individual */}
-        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {COLORS.map((cor, i) => (
             <motion.li
               key={cor.slug}
@@ -101,7 +111,7 @@ export default function ColorGallery() {
                     src={cor.image}
                     alt={`Spitz Alemão Anão (Lulu da Pomerânia) ${cor.label}`}
                     fill
-                    sizes="(max-width: 640px) calc(50vw - 28px), (max-width: 1024px) calc(50vw - 40px), 292px"
+                    sizes="(max-width: 640px) calc(50vw - 28px), (max-width: 1024px) calc(33vw - 32px), 232px"
                     className="object-cover transition duration-500 group-hover:scale-108"
                   />
                   {/* Gradiente */}
@@ -138,6 +148,9 @@ export default function ColorGallery() {
             </motion.li>
           ))}
         </ul>
+        <p className="mt-5 text-center text-xs text-zinc-500">
+          * O valor da cor branca é provisório e deve ser confirmado com a equipe.
+        </p>
       </div>
     </section>
   );

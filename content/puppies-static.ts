@@ -1,9 +1,60 @@
 // content/puppies-static.ts
 // Catálogo estático — By Império Dog
 // Para atualizar disponibilidade: status → "available" | "reserved" | "sold"
-// Hierarquia de preços: Fêmeas R$ 8.500 (todas as cores) | Machos R$ 7.500 (Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
+// Hierarquia de preços: Fêmeas R$ 8.500 (todas as cores) | Machos R$ 7.500 (Branco provisório, Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
 
 export const staticPuppies = [
+  // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
+  {
+    id: "spitz-branco-femea-01",
+    name: "Spitz Branco Fêmea",
+    slug: "spitz-alemao-anao-branco-femea",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco Fêmea | By Império Dog",
+    color: "branco",
+    cor: "Branco",
+    sex: "female",
+    gender: "female",
+    status: "available",
+    breed: "Spitz Alemão Anão (Lulu da Pomerânia)",
+    size: "mini",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/branco/branco-femea-jardim-01.jpg",
+      "/filhotes/branco/branco-femea-jardim-02.jpg",
+      "/filhotes/branco/branco-femea-jardim-03.jpg",
+      "/filhotes/branco/branco-femea-jardim-04.jpg",
+      "/filhotes/branco/branco-femea-jardim-05.jpg",
+      "/filhotes/branco/branco-femea-jardim-06.jpg",
+    ],
+    // Fêmea Branca — valor provisório da tabela atual, a confirmar antes do deploy.
+    price_cents: 850000,
+    priceCents: 850000,
+    currency: "BRL",
+    description:
+      "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    availableForShipping: true,
+    hasPedigree: true,
+    vaccinationStatus: "up-to-date",
+    hasMicrochip: false,
+    isHighlighted: true,
+    isFeatured: true,
+    isBestSeller: false,
+    isNewArrival: true,
+    reviewCount: 0,
+    averageRating: 5,
+    viewCount: 0,
+    favoriteCount: 0,
+    shareCount: 0,
+    inquiryCount: 0,
+    seoKeywords: [
+      "spitz alemão branco fêmea",
+      "lulu da pomerânia branco fêmea",
+      "filhote spitz branco braganca paulista",
+      "spitz anão branco fêmea disponível",
+    ],
+  },
+
   // ─── SPITZ CREME FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-creme-femea-01",

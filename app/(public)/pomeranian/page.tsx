@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { buildArticleLD } from "@/lib/schema";
@@ -46,7 +46,7 @@ const FAQS = [
   {
     question: "Qual o preço de um Pomeranian no Brasil?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo) e chegam a R$ 7.500 (creme e preto). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo) e chegam a R$ 7.500 (creme, preto e, provisoriamente, branco). Fêmeas custam R$ 8.500, valor único para todas as cores. Confirme o valor do branco antes da reserva. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "Pomeranian tem outro nome no Brasil?",
@@ -122,7 +122,7 @@ export default function PomeranianPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", preco: "R$ 6.500", tag: "a partir de" },
-            { cor: "Macho — Creme / Preto",                     preco: "R$ 7.500", tag: "a partir de" },
+            { cor: "Macho — Branco* / Creme / Preto",            preco: "R$ 7.500", tag: "a partir de" },
             { cor: "Fêmea — todas as cores",                    preco: "R$ 8.500", tag: "valor único" },
           ].map((p) => (
             <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
@@ -133,7 +133,7 @@ export default function PomeranianPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-400">
-          Inclui registro oficial, laudo veterinário, hemograma, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria vitalícia. Microchip opcional, sob contratação.{" "}
+          * Valor do branco provisório; confirme com a equipe antes da reserva. Inclui registro oficial, laudo veterinário, hemograma, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria vitalícia. Microchip opcional, sob contratação.{" "}
           <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link>
         </p>
       </section>

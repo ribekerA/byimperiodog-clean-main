@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { openConsentPreferences } from "@/lib/consent";
 import { routes } from "@/lib/route";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -28,6 +29,7 @@ const RACA_ITEMS = [
   { label: "Lulu da Pomerânia", href: "/lulu-da-pomerania" },
   { label: "Pomeranian", href: "/pomeranian" },
   { label: "Filhote de Spitz", href: "/filhote-de-spitz-alemao" },
+  { label: "Spitz Alemão Branco", href: "/spitz-alemao-branco" },
   { label: "Spitz Alemão Preto", href: "/spitz-alemao-preto" },
   { label: "Spitz Alemão Baby Face", href: "/spitz-alemao-baby-face" },
   { label: "Ninhadas", href: "/ninhadas" },
@@ -49,13 +51,14 @@ export default function Footer() {
     setYear(new Date().getFullYear());
   }, []);
 
-  const whatsapp = buildWhatsAppLink({
+  const baseWhatsapp = buildWhatsAppLink({
     message: "Olá! Quero falar com a By Império Dog sobre disponibilidade de Spitz Alemão Anão (Lulu da Pomerânia).",
     utmSource: "site",
     utmMedium: "footer",
     utmCampaign: "footer_whatsapp",
     utmContent: "footer_cta",
   });
+  const whatsapp = useWhatsAppLink(baseWhatsapp);
 
   return (
     <footer role="contentinfo">

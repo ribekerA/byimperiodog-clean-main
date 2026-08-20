@@ -36,6 +36,8 @@ const PUBLIC_ROUTES_TO_TEST = [
   '/comprar-spitz-anao',
   '/reserve-seu-filhote',
   '/preco-spitz-anao',
+  '/filhotes/cor/branco',
+  '/spitz-alemao-branco',
   '/politica-de-privacidade',
   '/politica-editorial',
   '/termos-de-uso',

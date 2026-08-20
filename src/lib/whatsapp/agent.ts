@@ -63,7 +63,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "cor raça spitz pomerania lulu",
-    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Trabalhamos principalmente com creme, preto, laranja e cinza-lobo, entre as colorações previstas no padrão da raça. Consulte a disponibilidade atual!",
+    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Trabalhamos com branco, creme, preto, laranja e cinza-lobo, entre as colorações previstas no padrão da raça. Consulte a disponibilidade atual!",
   },
   {
     q: "reserva como reservar entrada",
