@@ -20,6 +20,10 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import PuppyMatcherQuiz from "@/components/sections/PuppyMatcherQuiz";
 import { staticPuppies } from "@/content/puppies-static";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
+import { trackLeadFormSubmit } from "@/lib/events";
+import { getClickId } from "@/lib/gclid";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -231,13 +235,14 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
   const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
   const priceCents = (puppy as { priceCents?: number }).priceCents ?? (puppy as { price_cents?: number }).price_cents ?? 0;
 
-  const waLink = buildWhatsAppLink({
+  const baseWaLink = buildWhatsAppLink({
     message:      `Olá! Fiz o quiz do site e o match indicado foi o ${puppy.name}. Quero saber mais sobre disponibilidade!`,
     utmSource:    "site",
     utmMedium:    "ai_matchmaker",
     utmCampaign:  "match_recommendation",
     utmContent:   puppy.slug,
   });
+  const waLink = useWhatsAppLink(baseWaLink);
 
   return (
     <motion.article
@@ -744,9 +749,23 @@ export default function AiMatchmakerChat() {
                         page_type: "ai_matchmaker",
                         page_slug: matchedPuppies[0]?.slug,
                         cor_preferida: (matchedPuppies[0] as { cor?: string })?.cor ?? matchedPuppies[0]?.color,
+                        gclid: getClickId(),
                       }),
                     });
                     if (!res.ok) return false;
+
+                    // Nome e telefone entregues aqui valem o mesmo que o
+                    // formulário da página: é lead, e a conversão do Ads
+                    // precisa contar. O id da API vira transaction_id.
+                    const leadId = await res
+                      .json()
+                      .then((corpo: { id?: string | null }) => corpo?.id ?? null)
+                      .catch(() => null);
+
+                    trackLeadFormSubmit("ai-matchmaker");
+                    trackLeadAdsConversion({ transactionId: leadId ?? undefined });
+                    rememberLeadConversion(leadId);
+
                     setLeadSubmitted(true);
                     return true;
                   } catch {

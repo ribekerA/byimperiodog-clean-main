@@ -5,6 +5,7 @@
 
 "use client";
 
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 import { PuppyActions } from "./PuppyActions";
@@ -16,32 +17,40 @@ type Props = {
 };
 
 export function PuppyActionsClient({ whatsappLink, puppyName, puppySlug }: Props) {
+  const trackedWhatsappLink = useWhatsAppLink(whatsappLink);
+  const photosLink = useWhatsAppLink(
+    buildWhatsAppLink({
+      message: `Olá! Gostaria de receber mais fotos e vídeos do ${puppyName}.`,
+      utmSource: "site",
+      utmMedium: "product_page",
+      utmCampaign: "request_photos",
+      utmContent: puppySlug,
+    }),
+  );
+  const visitLink = useWhatsAppLink(
+    buildWhatsAppLink({
+      message: `Olá! Quero agendar uma visita (online ou presencial) para conhecer o ${puppyName}.`,
+      utmSource: "site",
+      utmMedium: "product_page",
+      utmCampaign: "schedule_visit",
+      utmContent: puppySlug,
+    }),
+  );
+
   return (
     <PuppyActions
-      whatsappLink={whatsappLink}
+      whatsappLink={trackedWhatsappLink}
       puppyName={puppyName}
       onRequestPhotos={() => {
         window.open(
-          buildWhatsAppLink({
-            message: `Olá! Gostaria de receber mais fotos e vídeos do ${puppyName}.`,
-            utmSource: "site",
-            utmMedium: "product_page",
-            utmCampaign: "request_photos",
-            utmContent: puppySlug,
-          }),
+          photosLink,
           "_blank",
           "noopener,noreferrer"
         );
       }}
       onScheduleVisit={() => {
         window.open(
-          buildWhatsAppLink({
-            message: `Olá! Quero agendar uma visita (online ou presencial) para conhecer o ${puppyName}.`,
-            utmSource: "site",
-            utmMedium: "product_page",
-            utmCampaign: "schedule_visit",
-            utmContent: puppySlug,
-          }),
+          visitLink,
           "_blank",
           "noopener,noreferrer"
         );

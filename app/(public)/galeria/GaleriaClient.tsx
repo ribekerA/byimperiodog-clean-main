@@ -19,6 +19,7 @@ import { useEffect, useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { VideoLightbox } from "@/components/media/VideoLightbox";
 import { VideoReelsPlayer, type ReelItem } from "@/components/media/VideoReelsPlayer";
+import { useWhatsAppLink, useWhatsAppLinks } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 import type { GalleryVideo } from "./page";
@@ -65,6 +66,7 @@ function VideoCard({ video, index, onPlay }: { video: GalleryVideo; index: numbe
   const [near, setNear] = useState(index < 4);
   const categoryColor = CATEGORY_COLORS[video.category] ?? "bg-zinc-800/60 text-zinc-300 border-zinc-700";
   const categoryLabel = CATEGORY_LABELS[video.category] ?? video.category;
+  const waLink = useWhatsAppLink(waFor(video));
 
   useEffect(() => {
     if (near) return;
@@ -175,7 +177,7 @@ function VideoCard({ video, index, onPlay }: { video: GalleryVideo; index: numbe
             Assistir
           </button>
           <a
-            href={waFor(video)}
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 rounded-full bg-emerald-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-emerald-500"
@@ -218,12 +220,13 @@ export default function GaleriaClient({ videos }: Props) {
 
   const videoItems = videos.map((v) => ({ src: v.src, title: v.title, description: v.description }));
 
-  const reelItems: ReelItem[] = videos.map((v) => ({
+  const reelWaLinks = useWhatsAppLinks(videos.map(waFor));
+  const reelItems: ReelItem[] = videos.map((v, index) => ({
     src: v.src,
     title: v.title,
     description: v.description,
     badge: CATEGORY_LABELS[v.category] ?? v.category,
-    waLink: waFor(v),
+    waLink: reelWaLinks[index],
   }));
 
   return (

@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import PuppyDetailsModal from "@/components/PuppyDetailsModal";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type ReelPuppy = {
@@ -90,13 +91,14 @@ function ReelSlide({
     if (v) v.muted = isMuted;
   }, [isMuted]);
 
-  const waLink = buildWhatsAppLink({
+  const baseWaLink = buildWhatsAppLink({
     message: `Olá! Vi o vídeo do ${puppy.name} (${cor}) no site da By Império Dog e quero saber sobre disponibilidade.`,
     utmSource: "site",
     utmMedium: "reels",
     utmCampaign: "puppy_reel",
     utmContent: puppy.id,
   });
+  const waLink = useWhatsAppLink(baseWaLink);
 
   return (
     <div className="relative h-[100dvh] w-full snap-start overflow-hidden bg-black">

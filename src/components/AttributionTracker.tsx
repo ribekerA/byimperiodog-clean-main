@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { captureAttribution } from "@/lib/attribution";
+import { captureClickId } from "@/lib/gclid";
 
 /**
  * Captura UTM params da URL no carregamento de cada página e persiste
@@ -12,6 +14,7 @@ import { captureAttribution } from "@/lib/attribution";
 export default function AttributionTracker() {
   useEffect(() => {
     captureAttribution();
+    captureClickId();
   }, []);
 
   return null;

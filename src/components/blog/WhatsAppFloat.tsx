@@ -3,19 +3,21 @@
 import { MessageCircle, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
 export default function WhatsAppFloat() {
   const [open, setOpen] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const whatsappUrl = buildWhatsAppLink({
+  const baseWhatsappUrl = buildWhatsAppLink({
     message: WHATSAPP_MESSAGES.default,
     utmSource: "blog",
     utmMedium: "widget",
     utmCampaign: "blog_post",
     utmContent: open ? "float_open" : "float_closed",
   });
+  const whatsappUrl = useWhatsAppLink(baseWhatsappUrl);
 
   // Esconde durante o scroll ativo para não cobrir texto do artigo — reaparece ~500ms após parar
   useEffect(() => {

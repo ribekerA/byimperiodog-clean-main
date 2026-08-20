@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 export type VideoItem = {
@@ -81,11 +82,12 @@ export function VideoLightbox({ videos, initialIndex, onClose }: VideoLightboxPr
     touchStartY.current = null;
   }
 
-  const waLink = buildWhatsAppLink({
+  const baseWaLink = buildWhatsAppLink({
     message: `Olá! Vi o vídeo "${video.title}" no site da By Império Dog e tenho interesse nesta cor.`,
     utmSource: "galeria",
     utmCampaign: "video-interest",
   });
+  const waLink = useWhatsAppLink(baseWaLink);
 
   return (
     <AnimatePresence>

@@ -1,9 +1,15 @@
 'use client';
 
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+
 export default function WhatsAppFloatingButton() {
+  const whatsappLink = useWhatsAppLink(
+    "https://wa.me/5511968633239?text=Olá!%20Tenho%20interesse%20em%20um%20Spitz%20Alemão%20Anão.",
+  );
+
   return (
     <a
-  href="https://wa.me/5511968633239?text=Olá!%20Tenho%20interesse%20em%20um%20Spitz%20Alemão%20Anão."
+      href={whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
       data-evt="share_click"

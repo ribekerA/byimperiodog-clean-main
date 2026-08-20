@@ -16,6 +16,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { VideoReelsPlayer, type ReelItem } from "@/components/media/VideoReelsPlayer";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyGalleryImage, optimizePuppyThumb } from "@/lib/optimize-image";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -148,13 +149,14 @@ export default function PuppyCinematicGallery({
     [isDesktop]
   );
 
-  const waLink = buildWhatsAppLink({
+  const baseWaLink = buildWhatsAppLink({
     message: `Olá! Vi o vídeo do ${puppyName} (Spitz Alemão Anão ${puppyColor} ${puppySex}) no site e quero saber sobre disponibilidade.`,
     utmSource: "site",
     utmMedium: "galeria-video",
     utmCampaign: "puppy_video",
     utmContent: puppyId,
   });
+  const waLink = useWhatsAppLink(baseWaLink);
 
   // A capa é a primeira foto do filhote: sem ela o slide abre preto enquanto
   // o arquivo não começa a chegar.
@@ -272,7 +274,7 @@ export default function PuppyCinematicGallery({
             }
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 h-full w-full scale-125 object-cover blur-2xl brightness-[0.55] saturate-150"
+            className="pointer-events-none absolute inset-0 z-0 h-full w-full scale-125 object-cover blur-2xl brightness-[0.55] saturate-150"
           />
         )}
 
@@ -284,7 +286,7 @@ export default function PuppyCinematicGallery({
               key={photos[selectedIdx]}
               src={optimizePuppyGalleryImage(photos[selectedIdx]) || photos[selectedIdx]}
               alt={alt}
-              className="h-full w-full object-contain"
+              className="relative z-[1] h-full w-full object-contain"
               custom={direction}
               variants={VARS}
               initial="enter"
@@ -307,7 +309,7 @@ export default function PuppyCinematicGallery({
             // parado; os controles continuam ali para ligar o som.
             muted
             playsInline
-            className="relative h-full w-full object-contain"
+            className="relative z-[1] h-full w-full object-contain"
             aria-label={`Vídeo de ${puppyName}`}
             onClick={(e) => e.stopPropagation()}
           />

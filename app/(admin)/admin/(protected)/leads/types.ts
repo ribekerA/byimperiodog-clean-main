@@ -19,6 +19,7 @@ export type AdminLead = {
   utm_campaign?: string | null;
   referer?: string | null;
   source?: string | null;
+  gclid?: string | null;
   notes?: string | null;
   mensagem?: string | null;
 };

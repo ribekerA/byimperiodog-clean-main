@@ -1,13 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { buttonVariants } from "@/components/ui/button";
+import { appendClickIdToWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { cn } from "@/lib/cn";
+import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
+import { getClickId } from "@/lib/gclid";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type LeadFormContext = {
@@ -47,6 +50,7 @@ const schema = z.object({
     })
     .optional(),
   mensagem: z.string().optional(),
+  gclid: z.string().optional(),
   consent_lgpd: z.literal(true, {
     errorMap: () => ({ message: "É necessário aceitar a Política de Privacidade" }),
   }),
@@ -83,6 +87,12 @@ export default function LeadForm({ context, className }: Props) {
     [context?.city, context?.color, context?.slug]
   );
 
+  useEffect(() => {
+    // O valor completo vai ao banco; apenas a referência curta segue na
+    // mensagem do WhatsApp para não expor um identificador longo ao cliente.
+    setValue("gclid", getClickId() ?? "");
+  }, [setValue]);
+
   const onSubmit = async (data: FormValues) => {
     setStatus("idle");
     setErrorMessage(null);
@@ -115,6 +125,18 @@ export default function LeadForm({ context, className }: Props) {
 
       trackLeadFormSubmit("lead-form-main");
 
+      // Este é o momento em que o lead existe de verdade — e por isso o único
+      // lugar onde a conversão do Ads pode disparar. O id devolvido pela API
+      // vai como transaction_id para o Ads reconhecer o mesmo lead caso ele
+      // seja contado de novo por outro caminho.
+      const leadId = await response
+        .json()
+        .then((corpo: { id?: string | null }) => corpo?.id ?? null)
+        .catch(() => null);
+
+      trackLeadAdsConversion({ transactionId: leadId ?? undefined });
+      rememberLeadConversion(leadId);
+
       setStatus("success");
       reset();
 
@@ -127,7 +149,10 @@ export default function LeadForm({ context, className }: Props) {
           message: mensagemWhatsApp,
           ...whatsappUTMs,
         });
-        window.open(whatsappURL, "_blank");
+        window.open(
+          appendClickIdToWhatsAppLink(whatsappURL, getClickId()),
+          "_blank",
+        );
       }, 1200);
     } catch (error) {
       setStatus("error");
@@ -147,6 +172,8 @@ export default function LeadForm({ context, className }: Props) {
       noValidate
       aria-live="polite"
     >
+      <input type="hidden" {...register("gclid")} />
+
       {/* Nome e WhatsApp */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">

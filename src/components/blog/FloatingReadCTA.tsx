@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
+import { useEffect, useState } from "react";
+
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 interface Props {
   whatsappUrl: string;
@@ -12,6 +14,7 @@ const SESSION_KEY = "floating-cta-dismissed";
 export default function FloatingReadCTA({ whatsappUrl }: Props) {
   const [visible, setVisible] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const trackedWhatsappUrl = useWhatsAppLink(whatsappUrl);
 
   useEffect(() => {
     if (typeof sessionStorage !== "undefined" && sessionStorage.getItem(SESSION_KEY)) {
@@ -36,7 +39,11 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
 
   function dismiss() {
     setDismissed(true);
-    try { sessionStorage.setItem(SESSION_KEY, "1"); } catch {}
+    try {
+      sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      // O CTA ainda pode ser fechado quando o navegador bloqueia o storage.
+    }
   }
 
   if (dismissed || !visible) return null;
@@ -63,7 +70,7 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
       </p>
 
       <a
-        href={whatsappUrl}
+        href={trackedWhatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         onClick={dismiss}

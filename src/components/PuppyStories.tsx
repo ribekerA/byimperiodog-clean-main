@@ -5,6 +5,7 @@ import Image from 'next/image';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
+import { useWhatsAppLink } from '@/hooks/useWhatsAppLink';
 import { optimizePuppyGalleryImage } from '@/lib/optimize-image';
 import passthroughImageLoader from '@/lib/passthrough-image-loader';
 import track from '@/lib/track';
@@ -89,6 +90,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
   },[index, items]);
 
   const current = items[index];
+  const currentWaLink = useWhatsAppLink(current ? buildWaLink(current) : "#");
 
   // Reset index quando itens mudam ou reabre
   useEffect(() => { if (open) setIndex(initialIndex); }, [open, initialIndex]);
@@ -313,7 +315,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
                   <Share2 className="h-4 w-4 sm:h-5 sm:w-5" /> Compartilhar
                 </button>
                 <a
-                  href={buildWaLink(current)}
+                  href={currentWaLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => track.event?.('whatsapp_click', { placement: 'stories', action: 'info', puppy_id: current.id })}
@@ -402,7 +404,6 @@ Como integrar:
 
 2. Ajustar fonte da imagem para garantir proporção 9:16 quando disponível.
 */
-
 
 
 

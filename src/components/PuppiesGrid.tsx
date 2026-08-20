@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 
 import type { Puppy } from "@/domain/puppy";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { listPuppiesCatalog } from "@/lib/data/supabase";
 import track from "@/lib/track";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -29,6 +30,15 @@ export default function PuppiesGrid({ initialItems = [] }: Props) {
   const [retryMark, setRetryMark] = useState(0);
   const [isPendingFilter, startTransition] = useTransition();
   const mountedRef = useRef(true);
+  const emptyStateWhatsApp = useWhatsAppLink(
+    buildWhatsAppLink({
+      message: "Olá! Não encontrei filhotes com esses filtros. Pode me ajudar a encontrar o Spitz ideal?",
+      utmSource: "site",
+      utmMedium: "catalog_empty",
+      utmCampaign: "filhotes",
+      utmContent: "cta_whatsapp",
+    }),
+  );
 
   // filtros
   const [q, setQ] = useState("");
@@ -210,13 +220,7 @@ export default function PuppiesGrid({ initialItems = [] }: Props) {
               Limpar filtros
             </button>
             <a
-              href={buildWhatsAppLink({
-                message: "Olá! Não encontrei filhotes com esses filtros. Pode me ajudar a encontrar o Spitz ideal?",
-                utmSource: "site",
-                utmMedium: "catalog_empty",
-                utmCampaign: "filhotes",
-                utmContent: "cta_whatsapp",
-              })}
+              href={emptyStateWhatsApp}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-[var(--brand-foreground)] shadow-sm transition hover:bg-[var(--brand)]/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2"
@@ -231,7 +235,6 @@ export default function PuppiesGrid({ initialItems = [] }: Props) {
     </section>
   );
 }
-
 
 
 

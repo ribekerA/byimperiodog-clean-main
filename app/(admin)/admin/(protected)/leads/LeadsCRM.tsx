@@ -100,7 +100,7 @@ const buildWhatsAppLink = (lead: LeadListItem) => {
 };
 
 function exportCSV(items: LeadListItem[]) {
-  const headers = ["Nome", "Telefone", "Cidade", "Estado", "Cor desejada", "Sexo desejado", "Status", "Mensagem", "Fonte", "Criado em"];
+  const headers = ["Nome", "Telefone", "Cidade", "Estado", "Cor desejada", "Sexo desejado", "Status", "Mensagem", "Fonte", "GCLID / Braid", "Criado em"];
   const rows = items.map((l) => [
     l.name,
     l.phone ?? "",
@@ -111,6 +111,7 @@ function exportCSV(items: LeadListItem[]) {
     STATUS_LABELS[l.status] ?? l.status,
     l.mensagem ?? "",
     l.source ?? "",
+    l.gclid ?? "",
     l.createdAt ? new Date(l.createdAt).toLocaleString("pt-BR") : "",
   ]);
   const csv = [headers, ...rows]
@@ -468,6 +469,14 @@ function LeadsTable({
                     </div>
                     {lead.source && (
                       <span className="text-[10px] text-[var(--text-muted)]">📍 {lead.source}</span>
+                    )}
+                    {lead.gclid && (
+                      <span
+                        className="max-w-[220px] truncate font-mono text-[10px] text-[var(--text-muted)]"
+                        title={lead.gclid}
+                      >
+                        GCLID: {lead.gclid}
+                      </span>
                     )}
                     {lead.mensagem && (
                       <span className="line-clamp-2 text-xs text-[var(--text-muted)] italic">

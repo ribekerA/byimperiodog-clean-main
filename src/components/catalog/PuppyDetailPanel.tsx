@@ -13,15 +13,16 @@
  *  • HeartBurst para favoritar
  */
 
-import Link from "next/link";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
-import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -103,6 +104,7 @@ export default function PuppyDetailPanel({
   waLink,
   slug,
 }: Props) {
+  const trackedWaLink = useWhatsAppLink(waLink);
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.available;
   const isSold      = status === "sold";
   const isLastColor = availableOfSameColor === 1 && !isSold;
@@ -205,7 +207,7 @@ export default function PuppyDetailPanel({
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.36 }}
         >
           <PawConfettiButton
-            href={waLink}
+            href={trackedWaLink}
             rel="noreferrer"
             target="_blank"
             // O <span> do rótulo é `truncate` (white-space: nowrap). Como item

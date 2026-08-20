@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 
 import { Modal } from "@/components/dashboard/Modal";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Props = {
@@ -19,7 +20,7 @@ export default function PuppyDetailsModal({ puppy: rawPuppy, onClose }: Props) {
 
   const mediaItems = useMemo(() => puppy?.images ?? [], [puppy]);
 
-  const waLink = useMemo(() => {
+  const baseWaLink = useMemo(() => {
     if (!puppy) return "#";
     return buildWhatsAppLink({
       message: `Olá! Vi o filhote ${puppy.name} (${puppy.color}, ${translateSex(puppy.sex)}) e quero detalhes sobre disponibilidade e valor.`,
@@ -29,6 +30,7 @@ export default function PuppyDetailsModal({ puppy: rawPuppy, onClose }: Props) {
       utmContent: puppy.slug || puppy.id,
     });
   }, [puppy]);
+  const waLink = useWhatsAppLink(baseWaLink);
 
   return (
     <Modal

@@ -12,8 +12,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { PawConfettiButton } from "@/components/motion/PawConfetti";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -42,6 +43,7 @@ function formatPrice(cents?: number) {
 export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, waLink, status }: Props) {
   const [visible, setVisible] = useState(false);
   const reduced = useReducedMotion();
+  const trackedWaLink = useWhatsAppLink(waLink);
 
   const isSold = status === "sold" || status === "vendido";
 
@@ -69,7 +71,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
             transition={{ type: "spring", stiffness: 280, damping: 26 }}
           >
             <PawConfettiButton
-              href={waLink}
+              href={trackedWaLink}
               rel="noreferrer"
               target="_blank"
               className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-base font-semibold text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
@@ -125,7 +127,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
 
               {/* CTA */}
               <PawConfettiButton
-                href={waLink}
+                href={trackedWaLink}
                 rel="noreferrer"
                 target="_blank"
                 className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white shadow hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"

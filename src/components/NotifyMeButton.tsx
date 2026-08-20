@@ -11,6 +11,8 @@
  */
 
 import { useState } from "react";
+
+import { getClickId } from "@/lib/gclid";
 import { sendGA4 } from "@/lib/track";
 
 interface Props {
@@ -44,6 +46,10 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
           consent_version: "1.0",
           page_type: "notify_me",
           page_intent: `notify_color_${color ?? "any"}`,
+          // Fila de espera não é conversão do Ads (não há nome nem intenção de
+          // compra declarada), mas o click id fica gravado: se a venda vier
+          // depois, dá para importá-la como conversão offline.
+          gclid: getClickId(),
         }),
         keepalive: true,
       });
