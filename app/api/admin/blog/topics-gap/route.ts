@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+
+import { requireAdminApi } from '@/lib/adminAuth';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // Matriz de tópicos estratégicos (clusters principais + subtemas)
@@ -27,6 +29,9 @@ const TOPIC_MATRIX: { slug: string; title: string; cluster: string; priority: nu
 ];
 
 export async function GET(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const url = new URL(req.url);
     const sb = supabaseAdmin();

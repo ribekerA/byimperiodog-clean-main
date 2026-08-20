@@ -1,9 +1,14 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Promote a suggestion row to override and mark approved
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const { suggestion_id, approved_by } = await req.json();
     if (!suggestion_id) return NextResponse.json({ error: "suggestion_id é obrigatório" }, { status: 400 });

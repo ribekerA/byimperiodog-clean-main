@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-import { isPublishableSupabasePost } from '@/lib/blog/publishable';
 import { generatedPosts } from '@/lib/_generated-posts';
+import { isPublishableSupabasePost } from '@/lib/blog/publishable';
 import { supabasePublic } from '@/lib/supabasePublic';
 
 export const revalidate = 300;
@@ -43,9 +43,12 @@ export async function GET() {
 
   try {
     const sb = supabasePublic();
+    // title/excerpt/seo_description entram no SELECT porque o portao editorial
+    // avalia esses campos: consulta estreita reprovaria por falta de dado e faria
+    // este sitemap divergir da rota /blog/[slug].
     const { data } = await sb
       .from('blog_posts')
-      .select('slug,updated_at,published_at,status,cover_url,content_mdx')
+      .select('slug,title,excerpt,seo_description,updated_at,published_at,status,cover_url,content_mdx')
       .eq('status', 'published')
       .limit(5000);
 

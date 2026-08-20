@@ -1,5 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type ImageReq = { prompt: string; alt?: string };
@@ -21,6 +23,9 @@ function base64ToUploadData(b64: string, mime = "image/png") {
 }
 
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = (await req.json()) as ImageReq;
     const prompt = (body.prompt || "").trim();

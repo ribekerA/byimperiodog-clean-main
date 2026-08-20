@@ -1,10 +1,15 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // GET: lista tags; aceita ?q= para filtro básico por nome/slug.
 export async function GET(req: NextRequest) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const url = new URL(req.url);
     const q = (url.searchParams.get("q") || "").trim().toLowerCase();
@@ -43,7 +48,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Listagem simples de tags
-    let query = sb.from("blog_tags").select("id,name,slug").order("name", { ascending: true }).limit(500);
+    const query = sb.from("blog_tags").select("id,name,slug").order("name", { ascending: true }).limit(500);
     const { data, error } = await query;
     if (error) throw error;
   const items = (data || []).filter((t: { name?:string|null; slug?:string|null }) => !q || t.name?.toLowerCase().includes(q) || t.slug?.toLowerCase().includes(q));
@@ -55,6 +60,9 @@ export async function GET(req: NextRequest) {
 
 // POST: upsert simples de uma lista de nomes de tags; retorna tags normalizadas.
 export async function POST(req: NextRequest) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = (await req.json()) as { tags?: string[] };
     const incoming = (body?.tags || []).map((s) => String(s || "").trim()).filter(Boolean);

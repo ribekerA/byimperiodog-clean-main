@@ -1,6 +1,10 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
+import { chaveIA, respostaSemChaveIA } from "@/lib/ai/require-key";
+
 import { supabaseAdmin, hasServiceRoleKey } from "../../../../../src/lib/supabaseAdmin";
 
 type SuggestPayload = {
@@ -10,24 +14,18 @@ type SuggestPayload = {
   slug?: string;
 };
 
-async function generateStub(payload: SuggestPayload) {
-  // deterministic, safe suggestions when no OpenAI key provided
-  const base = payload.title || payload.excerpt || payload.slug || "Post";
-  return {
-    seo_title: `${base} — Dicas By Imperio`,
-    seo_description: (payload.excerpt && payload.excerpt.slice(0, 140)) || `Leia sobre ${base} no blog By Imperio.`,
-  };
-}
-
 export async function POST(req: NextRequest) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = (await req.json()) as SuggestPayload;
 
-    const openaiKey = process.env.OPENAI_API_KEY;
-    if (!openaiKey) {
-      const suggestions = await generateStub(body);
-      return NextResponse.json({ ok: true, suggestions });
-    }
+    // Antes daqui saia um par titulo/descricao montado por concatenacao
+    // ("<titulo> — Dicas By Imperio") devolvido como se fosse sugestao de IA.
+    // Sugestao ruim aceita por parecer analisada e pior que sugestao nenhuma.
+    const openaiKey = chaveIA();
+    if (!openaiKey) return respostaSemChaveIA();
 
   // Advanced SEO: consider search intent, generate 3 title variants (short, long-tail, local) and 2 meta descriptions
   const promptTitle = `Você é um especialista em SEO. Gere 3 variações de título (1 curto <=60 chars, 1 longo focado em long-tail, 1 com intenção transacional/local) para este conteúdo:\nTitle: ${body.title || ""}\nExcerpt: ${body.excerpt || ""}\nSlug: ${body.slug || ""}`;

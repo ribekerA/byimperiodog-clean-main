@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import type { AiAltTextRequest, AiAltTextResponse } from "@/types/blog";
 
 /**
@@ -6,6 +8,9 @@ import type { AiAltTextRequest, AiAltTextResponse } from "@/types/blog";
  * Gera alt-text e legendas básicas para imagens informadas.
  */
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = (await req.json()) as AiAltTextRequest;
     const images = Array.isArray(body?.images) ? body.images : [];

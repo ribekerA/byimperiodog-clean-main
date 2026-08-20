@@ -105,6 +105,9 @@ export async function middleware(req: NextRequest) {
 export const config = {
   // Aplica em tudo, exceto assets estáticos comuns
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|assets/|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map)).*)",
+    // llms.txt entra na lista pelo mesmo motivo de robots.txt e sitemap.xml:
+    // e arquivo estatico lido por robo, nao tem sessao para verificar, e o
+    // middleware so encareceria a resposta.
+    "/((?!_next/static|_next/image|favicon.ico|robots.txt|llms.txt|sitemap.xml|assets/|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map)).*)",
   ],
 };

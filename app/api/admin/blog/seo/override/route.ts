@@ -1,9 +1,14 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Upsert SEO overrides for a post by id or slug
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = await req.json();
     const { id, slug, data } = body as { id?: string; slug?: string; data: Record<string, any> };

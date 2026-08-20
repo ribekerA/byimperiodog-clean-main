@@ -1,11 +1,16 @@
 export const dynamic = "force-dynamic";
-import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Publica em lote posts em rascunho/review (opcional: limitar quantidade)
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const { limit = 20, ids }: { limit?: number; ids?: string[] } = await req.json().catch(()=>({}));
     const sb = supabaseAdmin();

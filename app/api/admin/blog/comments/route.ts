@@ -1,9 +1,14 @@
 export const dynamic = "force-dynamic";
-import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const sb = supabaseAdmin();
     const { data, error } = await sb
@@ -20,6 +25,9 @@ export async function GET() {
 }
 
 export async function PATCH(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = await req.json();
     const { id, approved } = body as { id?: string; approved?: boolean };
@@ -47,6 +55,9 @@ export async function PATCH(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const url = new URL(req.url);
     const id = url.searchParams.get("id");

@@ -1,5 +1,8 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
+
+import { requireAdminApi } from '@/lib/adminAuth';
+import { chaveIA, respostaSemChaveIA } from '@/lib/ai/require-key';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 /*
@@ -13,7 +16,10 @@ interface TranslateReq { post_id: string; target_lang: string; force?: boolean }
 
 const SUPPORTED_LANGS = ['pt-BR', 'en-US'];
 
-export async function POST(req: Request){
+export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = await req.json() as TranslateReq;
     if(!body.post_id || !body.target_lang) return NextResponse.json({ ok:false, error:'post_id e target_lang obrigatórios'}, { status:400 });
@@ -29,15 +35,14 @@ export async function POST(req: Request){
       if(existing) return NextResponse.json({ ok:true, reused:true, localization_id: existing.id, slug: existing.slug });
     }
 
-    const openaiKey = process.env.OPENAI_API_KEY;
+    // Sem chave esta rota gravava uma "traducao" que era o texto original com
+    // um prefixo "[en-US]" e a linha "Traducao placeholder". Isso ia direto
+    // para blog_post_localizations: uma URL nova, em outro idioma declarado,
+    // servindo o mesmo portugues — conteudo duplicado com hreflang mentindo.
+    const openaiKey = chaveIA();
+    if (!openaiKey) return respostaSemChaveIA();
     let translatedMDX: string; let translatedTitle: string; let translatedSeoTitle: string; let translatedSeoDesc: string;
-    if(!openaiKey){
-      // fallback simples (marca idioma, não traduz realmente)
-      translatedTitle = `[${lang}] ${post.title}`;
-      translatedMDX = `# ${translatedTitle}\n\n_Tradução placeholder (${lang})_\n\n` + (post.content_mdx||'');
-      translatedSeoTitle = `[${lang}] ${post.seo_title || post.title}`.slice(0,60);
-      translatedSeoDesc = `[${lang}] ${post.seo_description || post.title}`.slice(0,155);
-    } else {
+    {
       const prompt = `Traduza mantendo estrutura MDX e headings, adaptando para SEO natural no idioma alvo. Responda somente o MDX. Idioma destino: ${lang}. Texto:\n\n${post.content_mdx}`;
       const res = await fetch('https://api.openai.com/v1/chat/completions',{ method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${openaiKey}`}, body: JSON.stringify({ model:'gpt-4o-mini', temperature:0.4, messages:[{ role:'user', content: prompt }], max_tokens:4000 }) });
       if(!res.ok){ const t = await res.text(); throw new Error('Falha OpenAI translate: '+t); }

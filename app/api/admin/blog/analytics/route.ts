@@ -1,8 +1,13 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const sb = supabaseAdmin();
     const now = new Date();

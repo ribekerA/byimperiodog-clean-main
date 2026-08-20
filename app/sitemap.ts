@@ -138,9 +138,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const db = supabaseAnon();
+    // title/excerpt/seo_description entram no SELECT porque o portao editorial
+    // avalia esses campos. Se a consulta nao os trouxer, o post e reprovado aqui
+    // por falta de dado e aprovado na rota, que os seleciona — e o sitemap passa
+    // a divergir da pagina, que e exatamente o que publishable.ts existe para impedir.
     const { data: posts } = await db
       .from("blog_posts")
-      .select("slug, updated_at, published_at, status, content_mdx")
+      .select("slug, title, excerpt, seo_description, updated_at, published_at, status, content_mdx")
       .eq("status", "published")
       .order("published_at", { ascending: false })
       .limit(500);

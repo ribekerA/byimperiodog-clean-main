@@ -1,10 +1,12 @@
 export const dynamic = "force-dynamic";
-import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
+
 import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
+import { chaveIA, respostaSemChaveIA } from '@/lib/ai/require-key';
 import { revalidarListagemBlog } from '@/lib/blog/revalidate';
 import { rateLimit } from '@/lib/rateLimit';
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 /*
   Orquestrador multi-fases de geração de post
@@ -51,7 +53,10 @@ export async function POST(req: Request) {
   const topic = (body.topic||'').trim();
   if (!topic) return NextResponse.json({ error: 'topic é obrigatório' }, { status: 400 });
 
-  const openaiKey = process.env.OPENAI_API_KEY;
+  // Sem chave a rota para aqui. Antes ela seguia e montava texto de enchimento
+  // que era gravado como rascunho publicavel — ver src/lib/ai/require-key.ts.
+  const openaiKey = chaveIA();
+  if (!openaiKey) return respostaSemChaveIA();
   const scope = body.scope || 'guia-completo';
   const temperature = body.randomize ? 0.85 : 0.55;
   const wordBudget = Math.max(800, Math.min(2400, body.wordBudget || 1400));
@@ -74,9 +79,7 @@ export async function POST(req: Request) {
   // 2. Expand
   await updateSession({ phase:'expand', progress:25 });
   let expandedSections: { heading: string; content: string }[] = [];
-  if (!openaiKey) {
-    expandedSections = outlineSections.map(s => ({ heading: s.heading, content: `### ${s.heading}\n${s.goal}\n\n(Conteúdo placeholder offline para ${topic} - substituir quando OPENAI disponível)` }));
-  } else {
+  {
   const prompt = `Você é um redator sênior especialista em Spitz Alemão (Lulu da Pomerânia) e comportamento canino. Gere conteúdo EM PORTUGUÊS BRASIL em MDX (GFM) altamente útil, prático e humano para o TEMA: ${topic}\nEscopo: ${scope}.\nDiretrizes de estilo:\n- Tom: caloroso, especialista confiável, sem floreio vazio.\n- Nunca use frases genéricas tipo "Assunto do artigo" ou "Introdução ao tema".\n- Cada seção deve ter exemplos concretos (rotina, idade, sinais, quantidades).\n- Incluir dicas acionáveis, micro-checklists e erros comuns.\n- FAQ: respostas curtas, objetivas e factuais.\n- Usar headings fornecidos EXATOS.\nSeções (não pule):\n${outlineSections.map(s=>`- ${s.heading}: ${s.goal}`).join('\n')}\nFormato de saída: JSON ESTRITO -> {"sections":[{"heading":"...","content_mdx":"..."}]}. Nada antes/depois do JSON.`;
     try {
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -105,7 +108,7 @@ export async function POST(req: Request) {
   mdx = injectInternalLinks(mdx);
   mdx = ensureFAQMinimum(mdx);
   await updateSession({ progress:65 });
-  mdx = await ensureMinWords(mdx, 600, openaiKey, temperature, topic);
+  mdx = await ensureMinWords(mdx, 600, openaiKey, temperature);
   await updateSession({ progress:75 });
   const excerpt = buildExcerpt(mdx, topic);
   const title = buildTitle(topic, scope);
@@ -189,10 +192,20 @@ function buildTags(kw?: string[]): string[] { return Array.from(new Set([ 'Spitz
 function ensureRequiredSections(mdx: string): string {
   const required = [ '## História e Origem','## Características Físicas','## Temperamento (Filhote vs Adulto)','## Desenvolvimento do Filhote','## Cuidados Essenciais','## Socialização','## Alimentação Filhote','## Alimentação Adulto','## Saúde Preventiva','## Grooming e Pelagem','## Exercícios e Enriquecimento','## Treinamento Básico','## Problemas Comportamentais Comuns','## FAQ','## Recursos e CTA'];
   for (const r of required) {
-    if (!new RegExp('^'+r.replace(/[-/\\^$*+?.()|[\]{}]/g,'\\$&'),'m').test(mdx)) {
-      // Preenche com bloco mínimo útil em vez de placeholder genérico
-      const hint = r.includes('Recursos') ? `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/comprar-spitz-anao)\n- [Fale conosco](/contato)\n\nCTA: Agende uma conversa para saber disponibilidade de ninhadas.` : 'Resumo prático desta seção será expandido em revisão.';
-      mdx += `\n\n${r}\n${hint}`;
+    if (new RegExp('^' + r.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'), 'm').test(mdx)) continue;
+
+    // Secao ausente NAO e preenchida com texto inventado.
+    //
+    // Aqui saia "Resumo pratico desta secao sera expandido em revisao." — uma
+    // frase que ocupava o lugar do conteudo, passava por secao escrita e ia
+    // para o banco junto com o resto. Secao que o modelo nao escreveu fica de
+    // fora: artigo com 12 secoes de verdade vale mais que 15 com tres frases
+    // de aviso, e a contagem de palavras do portao editorial nao e enganada.
+    //
+    // A excecao e o bloco de recursos: ali nao ha nada a inventar, sao links
+    // internos reais do site e a chamada comercial que todo artigo carrega.
+    if (r.includes('Recursos')) {
+      mdx += `\n\n${r}\nLinks internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/comprar-spitz-anao)\n- [Fale conosco](/contato)\n\nCTA: Agende uma conversa para saber disponibilidade de ninhadas.`;
     }
   }
   return mdx.trim();
@@ -326,26 +339,19 @@ function buildContentBlocks(mdx: string, faq: {q:string;a:string}[]) {
   return { headings, faq, version: 1 };
 }
 
-async function ensureMinWords(mdx: string, min: number, openaiKey: string|undefined, temperature: number, topic: string): Promise<string> {
+async function ensureMinWords(mdx: string, min: number, openaiKey: string|undefined, temperature: number): Promise<string> {
   const count = (mdx.match(/\b\w+\b/g) || []).length;
   if (count >= min) return mdx;
-  // Se não houver chave OpenAI, faz expansão simples duplicando seções com mais detalhes placeholder.
-  if (!openaiKey) {
-    const deficit = min - count;
-    const filler = `\n\n## Detalhamento Adicional\n${Array.from({length: Math.ceil(deficit/120)}).map((_,i)=>`Parágrafo de aprofundamento (${i+1}) sobre ${topic}, cobrindo aspectos práticos, exemplos reais e dicas aplicáveis para tutores de Spitz Alemão.`).join('\n\n')}`;
-    return (mdx + filler).trim();
-  }
+  // Sem chave nao ha como expandir de verdade. Antes daqui saia um bloco
+  // "Detalhamento Adicional" com paragrafos de enchimento so para bater a
+  // contagem de palavras — texto que enganava o contador e nao o leitor.
+  // Devolver o MDX curto e honesto: o portao editorial reprova depois.
+  if (!openaiKey) return mdx;
   try {
     const prompt = `O texto abaixo tem aproximadamente ${count} palavras. Expanda de forma NATURAL até pelo menos ${min} palavras, mantendo o estilo, adicionando exemplos práticos, dicas avançadas, erros comuns a evitar e mini checklists. NÃO reescreva tudo do zero: apenas acrescente onde fizer sentido. Responda somente o MDX expandido.\n\n--- TEXTO INICIAL ---\n${mdx}`;
     const res = await fetch('https://api.openai.com/v1/chat/completions', { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${openaiKey}`}, body: JSON.stringify({ model:'gpt-4o-mini', temperature: Math.min(0.75, temperature+0.1), messages:[{role:'user', content: prompt}], max_tokens: 4096 }) });
     if (!res.ok) return mdx; // fallback silencioso
     const j = await res.json();
-    const expanded = j.choices?.[0]?.message?.content || mdx;
-    const newCount = (expanded.match(/\b\w+\b/g) || []).length;
-    if (newCount < min) {
-      // última tentativa: append filler curto
-      return expanded + `\n\n### Checklist Rápido\n- Revisão de saúde\n- Socialização planejada\n- Enriquecimento mental diário\n- Rotina de grooming\n- Ajuste nutricional trimestral`;
-    }
-    return expanded;
+    return j.choices?.[0]?.message?.content || mdx;
   } catch { return mdx; }
 }

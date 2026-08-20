@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
 import type { AiExpandRequest, AiExpandResponse, OutlineSection } from "@/types/blog";
 
 /**
@@ -6,6 +8,9 @@ import type { AiExpandRequest, AiExpandResponse, OutlineSection } from "@/types/
  * Expande um outline em MDX + blocks (determinístico, sem provedor externo).
  */
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = (await req.json()) as AiExpandRequest;
     const outline = (body?.outline || []) as OutlineSection[];

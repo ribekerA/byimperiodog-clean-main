@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 interface InjectReq {
@@ -75,6 +76,9 @@ function injectImageAfterH2(mdx: string, heading: string, imageUrl: string): str
 }
 
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = (await req.json()) as InjectReq;
     const { postId, maxImages = 3 } = body;

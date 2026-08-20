@@ -1,6 +1,9 @@
 export const dynamic = "force-dynamic";
-import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { NextResponse } from "next/server";
+
+import { requireAdminApi } from "@/lib/adminAuth";
+import { chaveIA, respostaSemChaveIA } from "@/lib/ai/require-key";
 import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -21,12 +24,20 @@ type WriteRequest = {
 };
 
 export async function POST(req: Request) {
+  const auth = requireAdminApi(req);
+  if (auth) return auth;
+
   try {
     const body = (await req.json()) as WriteRequest;
     const topic = (body.topic || "").trim();
     if (!topic) return NextResponse.json({ error: "topic é obrigatório" }, { status: 400 });
 
-    const openaiKey = process.env.OPENAI_API_KEY;
+    // Sem chave a rota para aqui. Antes daqui saia um MDX montado a mao —
+    // "Contextualizacao inicial sobre X", FAQ generica, CTA — que era gravado
+    // na tabela como rascunho e passava de 800 caracteres com folga, ou seja,
+    // bastava publicar para virar pagina. Ver src/lib/ai/require-key.ts.
+    const openaiKey = chaveIA();
+    if (!openaiKey) return respostaSemChaveIA();
     const targetLang = body.targetLang || "pt-BR";
     const wordBudget = Math.max(600, Math.min(2400, body.wordBudget || 1200));
     const primaryKw = (body.primaryKeyword || "Spitz Alemão filhote").trim();
@@ -35,55 +46,7 @@ export async function POST(req: Request) {
 
   // 1) Generate structured content (sempre incluir seções fixas e CTA final)
     let content: any;
-    if (!openaiKey) {
-      // Stronger local stub: deterministic long-form MDX with FAQ and CTA
-      const heading = `Guia completo: ${topic} (Spitz Alemão / Lulu da Pomerânia)`;
-      const sections = [
-        { h: "Introdução", p: `Contextualização inicial sobre ${topic} focado em filhotes de Spitz Alemão.` },
-        { h: "Características da Raça", list: ["Temperamento", "Energia", "Socialização", "Pelagem"] },
-        { h: "Cuidados Essenciais", list: ["Alimentação", "Higiene e tosa", "Vacinas e veterinário", "Adestramento inicial"] },
-        { h: "Socialização e Enriquecimento", p: "Como introduzir estímulos, pessoas e outros animais de forma segura." },
-        { h: "Alimentação Detalhada", p: "Frequência, tipos de ração, snacks seguros e hidratação." },
-        { h: "Saúde Preventiva", list: ["Calendário de vacinas", "Vermifugação", "Consulta de rotina", "Sinais de alerta"] },
-        { h: "Grooming e Pelagem", p: "Escovação, banhos, cuidados com subpelo e ambientação ao grooming." },
-        { h: "Treinamento Básico", list: ["Nome", "Recall", "Higiene", "Uso de reforço positivo"] },
-        { h: "FAQ", faq: [
-          { q: `Quando começar adestramento do filhote?`, a: `Desde que chega a casa, com ênfase em reforço positivo.` },
-          { q: `Quantas refeições um filhote precisa?`, a: `Normalmente 3 a 4 até estabilizar peso e crescimento.` },
-        ]},
-      ];
-      const lines: string[] = [];
-      lines.push(`# ${heading}`);
-      lines.push("");
-      for (const s of sections) {
-        lines.push(`## ${s.h}`);
-        if (s.p) lines.push(s.p);
-        if (s.list) { for (const li of s.list) lines.push(`- ${li}`); }
-        if (s.faq) {
-          for (const f of s.faq) {
-            lines.push(`### ${f.q}`);
-            lines.push(f.a);
-          }
-        }
-        lines.push("");
-      }
-  lines.push("## Recursos" );
-  lines.push("- Veja os filhotes disponíveis: [/filhotes](/filhotes)");
-  lines.push("- Processo de compra: [/comprar-spitz-anao](/comprar-spitz-anao)");
-  lines.push("- Contato direto: [/contato](/contato)\n");
-  lines.push("> CTA: Solicite agora um vídeo de um filhote disponível no WhatsApp e tire dúvidas em tempo real.");
-      const excerpt = `Tudo que você precisa saber sobre ${topic}.`;
-      content = {
-        title: heading,
-        excerpt,
-        content_mdx: lines.join("\n"),
-        seo_title: heading.slice(0, 60),
-        seo_description: excerpt.slice(0, 155),
-        tags: (body.keywords || []).slice(0, 6),
-        cover_prompt: `Foto realista 16:9 relacionada a ${topic} em contexto profissional, estética editorial, alta qualidade`,
-        cover_alt: `Imagem ilustrativa sobre ${topic}`,
-      };
-    } else {
+    {
       const messages = [
         { role: "system", content: `Você é um redator sênior de SEO com especialização em conteúdo sobre raças caninas, especialmente Spitz Alemão (Lulu da Pomerânia). Produza conteúdo 100% focado na raça e em filhotes. Objetivos: SEO orgânico extremo, capturar intenção de busca (informativa, transacional, comparativa), criar FAQ otimizadas para rich snippets e sugerir interlinks/CTAs. Regras: H1 único, H2/H3 claros, listas quando úteis, exemplos práticos e fontes quando possível. Gere MDX válido (GFM). Retorne apenas um JSON válido com os campos solicitados.` },
         { role: "user", content: `Tópico base: ${topic}\nEscopo: ${scope}.\nObrigatório cobrir (mesmo se o tópico for estreito): História e Origem; Características Físicas; Temperamento (filhote vs adulto); Desenvolvimento do Filhote (0-2m, 2-6m, 6-12m); Cuidados Essenciais; Socialização; Alimentação Filhote; Alimentação Adulto; Saúde Preventiva (vacinas, vermifugação, check-ups, doenças comuns); Grooming / Pelagem; Exercícios & Enriquecimento Mental; Treinamento Básico; Problemas Comportamentais Comuns; FAQ com ao menos 5 perguntas reais; Recursos & CTA final.\nPalavras-chave: ${(body.keywords || []).join(", ")}\nPúblico: ${body.audience || "tutores e compradores (filhote e adulto)"}\nTom: ${body.tone || "informative"}\nMeta palavras: ~${wordBudget}.\nFormato de resposta JSON estrito conforme: {"title","excerpt","content_mdx","seo_title","seo_description","tags":[...],"faq":[{"q","a"}],"cover_prompt","cover_alt","suggested_ctas":[{"label","href"}],"recommended_internal_links":[{"href","anchor","reason"}]` },
