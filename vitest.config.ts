@@ -15,7 +15,9 @@ export default defineConfig({
     coverage: { reporter: ['text','html','json-summary'], enabled: true, reportsDirectory: 'coverage' },
     env: {
       NEXT_PUBLIC_SUPABASE_URL: 'https://npmnuihgydadihktglrd.supabase.co',
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wbW51aWhneWRhZGloa3RnbHJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2OTAwODYsImV4cCI6MjA3MTI2NjA4Nn0.fKsON7BroWxgzxVaF0V4Jh3AZdKlW0a70J29fGvTjGg'
+      // Valor falso de proposito. Aqui esteve uma service_role de producao, o que
+      // significa que a suite inteira rodava com RLS ignorada contra o banco real.
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: 'chave-anon-de-teste'
     }
   },
   resolve: {
