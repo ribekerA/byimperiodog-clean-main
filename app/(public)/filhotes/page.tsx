@@ -16,7 +16,7 @@ const CATALOG_FAQS = [
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
     answer:
-      "Na By Império Dog trabalhamos com quatro cores: Creme (a partir de R$ 7.500), Laranja (a mais conhecida da raça, a partir de R$ 6.500), Preto (a partir de R$ 7.500) e Cinza-Lobo (Wolf Sable), a partir de R$ 6.500. O padrão da raça admite outras cores além dessas quatro — trabalhamos com esse recorte. A disponibilidade varia conforme as ninhadas.",
+      "Na By Império Dog trabalhamos com cinco cores: Branco, Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). O branco custa R$ 7.500 para macho e R$ 8.500 para fêmea. A disponibilidade varia conforme as ninhadas.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
@@ -34,12 +34,12 @@ export const metadata: Metadata = {
   title:       "Filhotes de Spitz Alemão Anão Disponíveis",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
-  description: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis nas cores Creme, Laranja, Preto e Cinza-Lobo. Bragança Paulista, SP — entrega em todo o Brasil.",
+  description: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) nas cores Branco, Creme, Laranja, Preto e Cinza-Lobo. Bragança Paulista, SP.",
   keywords: [
     "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
     "comprar Spitz Alemão creme", "filhote Pomeranian SP",
     "canil Spitz Alemão Bragança Paulista", "Lulu da Pomerânia com registro oficial",
-    "Spitz Alemão laranja preto wolf sable", "filhote cachorro pequeno SP",
+    "Spitz Alemão branco creme laranja preto wolf sable", "filhote cachorro pequeno SP",
   ],
   alternates: { canonical: "/filhotes" },
   openGraph: {

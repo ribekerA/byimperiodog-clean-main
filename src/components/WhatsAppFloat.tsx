@@ -12,9 +12,11 @@
  * • Touch target mínimo 48×48 px (WCAG 2.5.5)
  */
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import ReviewRequestPrompt from "@/components/ReviewRequestPrompt";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "5511968633239";
 
@@ -84,6 +86,9 @@ export function WhatsAppFloat() {
   const firstPulse = useRef(false);
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rafPending = useRef(false);
+  const whatsappUrl = useWhatsAppLink(
+    `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(resolveMessage(pathname))}`,
+  );
 
   // Aparece após 3 s — não perturba CLS / LCP
   useEffect(() => {
@@ -164,16 +169,14 @@ export function WhatsAppFloat() {
   }, [visible]);
 
   const handleClick = useCallback(() => {
-    const message = resolveMessage(pathname);
-    const url = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
     // Evento legado (compatibilidade com dashboards existentes)
     fireEvent("wa_float_click", { page_path: pathname, wa_phone: WA_PHONE });
     // Evento padrão de conversão GA4
     fireEvent("lead_whatsapp", { page_path: pathname, source: "float_button" });
-    window.open(url, "_blank", "noopener,noreferrer");
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     // Solicita review 5s após o clique — growth loop: visita → WhatsApp → review → mais visibilidade
     setTimeout(() => setShowReview(true), 5000);
-  }, [pathname]);
+  }, [pathname, whatsappUrl]);
 
   if (!visible || hasOwnWhatsAppCta(pathname)) return null;
 

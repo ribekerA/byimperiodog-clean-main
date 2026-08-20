@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { AI_BADGE_MAP, type AiBadgeConfig, type AiBadgeId } from "@/components/catalog/ai-badges";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { PUPPY_CARD_SIZES } from "@/lib/image-sizes";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
@@ -170,7 +171,7 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
   const fallbackAlt = `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${baseName} na cor ${color}, ${gender}, localizado em ${location}. Status ${status.label}.`;
   const imageAlt = aiSeo?.altText || p.altText || fallbackAlt;
 
-  const whatsappLink = useMemo(
+  const baseWhatsappLink = useMemo(
     () =>
       buildWhatsAppLink({
         message: `Olá! Vi o filhote ${baseName} (${color}, ${gender}) e quero entender disponibilidade, valor e condições.`,
@@ -181,6 +182,7 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
       }),
     [baseName, color, gender]
   );
+  const whatsappLink = useWhatsAppLink(baseWhatsappLink);
 
   const optimizedCover = useMemo(() => optimizePuppyCardImage(cover), [cover]);
   const resolvedBadges = useMemo<AiBadgeConfig[]>(() => {

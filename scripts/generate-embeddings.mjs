@@ -1,9 +1,25 @@
 import { createClient } from '@supabase/supabase-js'
 import OpenAI from 'openai'
 
-const supabaseUrl = 'https://npmnuihgydadihktglrd.supabase.co'
-const supabaseServiceKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5wbW51aWhneWRhZGloa3RnbHJkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTY5MDA4NiwiZXhwIjoyMDcxMjY2MDg2fQ.IaBdH-IqdwNHNyDMREpYtRtwMEp5LIOirH1FHXWLiPw'
-const openaiApiKey = process.env.OPENAI_API_KEY || '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'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || ''
+// A service_role ignora RLS: ela nunca pode ficar escrita no arquivo — este
+// repositorio e publico. Rode com a chave no ambiente, por exemplo:
+//   SUPABASE_SERVICE_ROLE_KEY=... node scripts/test-db.mjs
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('Defina NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY no ambiente antes de rodar este script.')
+  process.exit(1)
+}
+// A chave da OpenAI tambem estava escrita aqui como fallback, em repositorio
+// publico. Sem variavel de ambiente o script para, em vez de rodar com uma
+// credencial exposta.
+const openaiApiKey = process.env.OPENAI_API_KEY || ''
+
+if (!openaiApiKey) {
+  console.error('Defina OPENAI_API_KEY no ambiente antes de rodar este script.')
+  process.exit(1)
+}
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey)
 const openai = new OpenAI({ apiKey: openaiApiKey })

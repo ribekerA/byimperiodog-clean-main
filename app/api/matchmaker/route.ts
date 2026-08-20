@@ -38,6 +38,7 @@ SLUG                                    | Nome                 | Sexo   | Cor   
 ${buildCatalogTable()}
 
 PERSONALIDADE POR COR:
+- Branco: pelagem de aparência branca e uniforme; a cor não define o temperamento
 - Creme: pelagem sedosa creme/marfim, na faixa superior da tabela atual entre os machos
 - Laranja: cor clássica do Spitz, alegre e extrovertido, ama interagir com crianças
 - Preto: elegante e leal, vínculo muito profundo com o tutor, protetor

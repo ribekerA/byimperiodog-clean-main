@@ -3,7 +3,9 @@
 import { useMemo, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+
 import StaticPuppyCard from "./StaticPuppyCard";
 
 type AnyPuppy = {
@@ -83,12 +85,13 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
 
   const hasFilters = filterColor || filterSex || filterStatus;
 
-  const waEmpty = buildWhatsAppLink({
+  const baseWaEmpty = buildWhatsAppLink({
     message: "Olá! Não encontrei o filhote que procuro no catálogo. Pode me ajudar a encontrar o Spitz ideal?",
     utmSource: "site",
     utmMedium: "catalog_empty",
     utmCampaign: "filhotes",
   });
+  const waEmpty = useWhatsAppLink(baseWaEmpty);
 
   return (
     <>

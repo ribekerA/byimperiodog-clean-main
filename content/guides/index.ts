@@ -49,7 +49,7 @@ export const guides: Guide[] = [
       {
         heading: "As diferenças entre as cores",
         paragraphs: [
-          "Na tabela atual da By Império Dog, creme e preto ficam na faixa superior entre os machos; as fêmeas têm valor único em todas as cores. Cinza-Lobo (Wolf Sable) é a bicolor cinza/laranja. O laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano.",
+          "Na tabela atual da By Império Dog, branco, creme e preto ficam na faixa superior entre os machos; as fêmeas têm valor único em todas as cores. Cinza-Lobo (Wolf Sable) é a bicolor cinza/laranja. O laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano.",
           "A cor não influencia o temperamento nem a saúde — influencia apenas a disponibilidade e, consequentemente, o preço. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
         ],
       },
@@ -91,7 +91,7 @@ export const guides: Guide[] = [
           "Sim, desde que tenha companhia durante boa parte do dia. O Spitz não suporta isolamento prolongado. Considere ter dois filhotes se passar muitas horas fora.",
       },
     ],
-    relatedColors: ["creme", "laranja", "preto", "wolf-sable"],
+    relatedColors: ["branco", "creme", "laranja", "preto", "wolf-sable"],
   },
   {
     slug: "spitz-alemao-anao-alimentacao",
@@ -222,7 +222,7 @@ export const guides: Guide[] = [
           "Pela apresentação do registro oficial emitido em nome do filhote (não só dos pais). O documento lista no mínimo três gerações de ancestrais registrados.",
       },
     ],
-    relatedColors: ["creme", "laranja", "preto", "wolf-sable"],
+    relatedColors: ["branco", "creme", "laranja", "preto", "wolf-sable"],
   },
   {
     slug: "cuidados-basicos-spitz-alemao-anao",
@@ -434,7 +434,7 @@ export const guides: Guide[] = [
           "A cada 15 a 21 dias. A pelagem dupla retém odor e pode desenvolver fungos se o intervalo for muito longo ou se a secagem for incompleta após o banho.",
       },
     ],
-    relatedColors: ["creme", "laranja", "preto", "wolf-sable"],
+    relatedColors: ["branco", "creme", "laranja", "preto", "wolf-sable"],
   },
 ];
 

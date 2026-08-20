@@ -3,19 +3,27 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { sendLeadAutoResponse } from "@/lib/email";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Schema de validação server-side alinhado com o funil de leads (contato + contexto + LGPD)
 const leadSchema = z.object({
   nome: z.string().min(2),
   telefone: z.string().min(10),
-  cidade: z.string().min(2),
-  estado: z.string().length(2).toUpperCase(),
+  // Cidade e estado eram obrigatórios aqui, mas são opcionais no formulário e
+  // nulláveis na tabela — e o chat do matchmaker e a fila de espera nem chegam
+  // a coletá-los. Na prática esses dois canais recebiam 400 e nenhum lead deles
+  // era salvo. Continua aceitando o valor quando ele vem preenchido.
+  cidade: z.string().trim().min(2).nullish().or(z.literal("")),
+  estado: z.string().trim().length(2).toUpperCase().nullish().or(z.literal("")),
   sexo_preferido: z.enum(["macho", "femea", "tanto_faz"]).optional(),
   cor_preferida: z.string().optional(),
   prazo_aquisicao: z.enum(["imediato", "1_mes", "2_3_meses", "3_mais"]).optional(),
   mensagem: z.string().optional(),
+  // nullish e não optional: os clientes mandam getClickId(), que devolve null
+  // quando a visita não veio de anúncio. Exigir string faria a validação
+  // rejeitar o lead inteiro por causa de um campo de atribuição.
+  gclid: z.string().trim().max(2048).nullish(),
   consent_lgpd: z.boolean(),
   consent_version: z.string().default("1.0"),
   consent_timestamp: z.string().optional(),
@@ -77,8 +85,8 @@ export async function POST(req: NextRequest) {
       .insert({
         nome: data.nome,
         telefone: data.telefone,
-        cidade: data.cidade,
-        estado: data.estado,
+        cidade: data.cidade || null,
+        estado: data.estado || null,
         sexo_preferido: data.sexo_preferido ?? null,
         cor_preferida: data.cor_preferida ?? null,
         prazo_aquisicao: data.prazo_aquisicao ?? null,
@@ -94,7 +102,9 @@ export async function POST(req: NextRequest) {
         page_city: data.page_city ?? null,
         page_intent: data.page_intent ?? null,
         referer: req.headers.get("referer"),
-        gclid: url.searchParams.get("gclid"),
+        // O formulário envia o click id persistido no navegador; a query fica
+        // como fallback para integrações que chamam a API diretamente.
+        gclid: data.gclid || url.searchParams.get("gclid"),
         fbclid: url.searchParams.get("fbclid"),
         ip_address: ip,
         user_agent: req.headers.get("user-agent"),
@@ -141,7 +151,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({ ok: true });
+    // O id volta para o cliente porque é ele que vira transaction_id na
+    // conversão do Google Ads: com um id estável por lead, o Ads descarta o
+    // disparo repetido quando a mesma pessoa passa por mais de um caminho.
+    return NextResponse.json({ ok: true, id: inserted?.id ?? null });
   } catch (e: unknown) {
     const errorMessage = e instanceof Error ? e.message : "Erro desconhecido";
     console.error("[API /leads] Unexpected error:", errorMessage);

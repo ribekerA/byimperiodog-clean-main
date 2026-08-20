@@ -61,6 +61,7 @@ export type LeadListItem = {
   page?: string | null;
   preferredSex?: string | null;
   source?: string | null;
+  gclid?: string | null;
   mensagem?: string | null;
   aiSummary?: LeadAiSummary | null;
   matchedPuppy?: LeadPuppyMatch | null;
@@ -333,6 +334,7 @@ export async function fetchAdminLeads({
       page: (row.page_slug ?? row.page ?? null) as string | null,
       preferredSex: (row.sexo_preferido ?? (row as any).sexo ?? null) as string | null,
       source: (row.utm_campaign ?? row.utm_source ?? row.utm_medium ?? row.source ?? row.referer ?? null) as string | null,
+      gclid: row.gclid ?? null,
       mensagem: ((row as any).mensagem ?? (row as any).notes ?? null) as string | null,
       aiSummary: ai
         ? {

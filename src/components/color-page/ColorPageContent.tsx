@@ -19,12 +19,27 @@ import { useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { ALL_COLORS, COLOR_SEO, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Temas por cor ────────────────────────────────────────────────────────────
 
 const THEMES = {
+  branco: {
+    heroGradient: "bg-gradient-to-br from-white via-zinc-50 to-stone-100",
+    heroDark:     false,
+    sectionBg:    "bg-zinc-50",
+    accentText:   "text-zinc-700",
+    accentBg:     "bg-zinc-600",
+    accentLight:  "bg-zinc-100",
+    accentBorder: "border-zinc-200",
+    progressBar:  "bg-zinc-500",
+    badge:        "Branco x creme claro",
+    badgeCss:     "bg-white text-zinc-800 ring-1 ring-zinc-300",
+    swatchCss:    "bg-white ring-zinc-300",
+    heroImg:      "/filhotes/branco/branco-femea-jardim-01.jpg",
+  },
   creme: {
     heroGradient: "bg-gradient-to-br from-amber-50 via-orange-50/40 to-zinc-50",
     heroDark:     false,
@@ -160,13 +175,14 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
     0;
   const isAvailable = puppy.status === "available";
 
-  const waLink = buildWhatsAppLink({
+  const baseWaLink = buildWhatsAppLink({
     message:      `Olá! Vi o ${puppy.name} na página de cores do site e tenho interesse. Pode me informar disponibilidade?`,
     utmSource:    "site",
     utmMedium:    "color_page",
     utmCampaign:  "filhote_cor",
     utmContent:   puppy.slug,
   });
+  const waLink = useWhatsAppLink(baseWaLink);
 
   return (
     <motion.article
@@ -341,6 +357,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
   const theme    = THEMES[color as ColorKey] ?? THEMES.creme;
   const reduced  = useReducedMotion();
   const { heroDark } = theme;
+  const trackedWaLink = useWhatsAppLink(waLink);
 
   const available = puppies.filter((p) => p.status === "available").length;
   const allPrices = puppies.map(
@@ -471,7 +488,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             {/* CTAs */}
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <PawConfettiButton
-                href={waLink}
+                href={trackedWaLink}
                 rel="noreferrer"
                 target="_blank"
                 className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 px-7 text-base font-bold text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-500 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
@@ -687,7 +704,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 Entre na lista de interesse e seja avisado assim que a próxima ninhada for confirmada.
               </p>
               <PawConfettiButton
-                href={waLink}
+                href={trackedWaLink}
                 rel="noreferrer"
                 target="_blank"
                 className="mx-auto mt-7 flex min-h-[52px] w-fit items-center gap-2.5 rounded-2xl bg-emerald-600 px-7 text-sm font-bold text-white shadow-lg transition hover:bg-emerald-500 hover:scale-[1.02]"
@@ -751,7 +768,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <PawConfettiButton
-                href={waLink}
+                href={trackedWaLink}
                 rel="noreferrer"
                 target="_blank"
                 className="flex min-h-[56px] items-center gap-3 rounded-2xl bg-white px-8 text-base font-bold text-emerald-700 shadow-xl transition hover:bg-emerald-50 hover:scale-[1.02] active:scale-[0.98]"

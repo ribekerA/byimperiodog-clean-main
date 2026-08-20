@@ -16,6 +16,7 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 
 import { Badge, Button, Card, CardContent, CardHeader, StatusBadge } from "@/components/ui";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import type { CatalogBadge } from "@/lib/ai/catalog-badges";
 import type { CatalogSeoOutput } from "@/lib/ai/catalog-seo";
 import { getNextImageProps } from "@/lib/images";
@@ -151,7 +152,7 @@ export default function PuppyCardPremium({
     return null;
   }, [mainImage, puppy.slug, priority]);
 
-  const whatsappUrl = useMemo(
+  const baseWhatsappUrl = useMemo(
     () =>
       buildWhatsAppLink({
         message: `Olá! Quero falar sobre o filhote ${name} (${color}, ${gender}). Pode me ajudar com disponibilidade e condições?`,
@@ -162,6 +163,7 @@ export default function PuppyCardPremium({
       }),
     [name, color, gender],
   );
+  const whatsappUrl = useWhatsAppLink(baseWhatsappUrl);
 
   const productLd: Record<string, unknown> = {
     "@context": "https://schema.org",

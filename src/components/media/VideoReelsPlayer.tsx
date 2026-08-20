@@ -23,6 +23,7 @@ import { ChevronDown, Play, Volume2, VolumeX, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 export type ReelItem = {
   src: string;
@@ -72,6 +73,7 @@ function ReelSlide({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState(true);
   const [progress, setProgress] = useState(0);
+  const trackedWaLink = useWhatsAppLink(item.waLink);
   // Encaixe decidido pelo arquivo, não pelo palpite: vertical preenche a tela
   // sem corte; horizontal fica inteiro, com tarja, em vez de perder as laterais.
   const [fit, setFit] = useState<"cover" | "contain">("cover");
@@ -228,7 +230,7 @@ function ReelSlide({
 
         <div className="flex gap-2">
           <a
-            href={item.waLink}
+            href={trackedWaLink}
             target="_blank"
             rel="noopener noreferrer"
             className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 text-sm font-bold text-white shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"

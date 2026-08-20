@@ -4,6 +4,7 @@ import Script from "next/script";
 import { useEffect, useMemo, useState } from "react";
 
 import { getCurrentConsent } from "@/lib/consent";
+import { GOOGLE_ADS_READY_EVENT, registerAdsAccount } from "@/lib/conversions";
 
 export interface PixelsProps {
   isAdminRoute: boolean;
@@ -57,6 +58,13 @@ export default function PixelsByConsent(props: PixelsProps) {
     setConsent(getCurrentConsent());
     setReady(true);
 
+    // O ID da conta e o label de conversão só existem no servidor
+    // (pixels_settings). Como este componente já os recebe por prop e é
+    // montado em toda página pública, ele é o ponto natural para publicá-los
+    // ao helper de conversão — assim um clique em qualquer lugar do site
+    // consegue disparar sem que cada página precise repassar as configurações.
+    registerAdsAccount({ adsId: props.ADS_ID, leadLabel: props.ADS_LABEL });
+
     const onUpdate = (e: Event) => {
       try {
         // detail: ConsentPreferences
@@ -69,7 +77,7 @@ export default function PixelsByConsent(props: PixelsProps) {
     };
     window.addEventListener('consentUpdated', onUpdate as EventListener);
     return () => window.removeEventListener('consentUpdated', onUpdate as EventListener);
-  }, [isAdminRoute]);
+  }, [isAdminRoute, props.ADS_ID, props.ADS_LABEL]);
 
   if (isAdminRoute) return null;
   if (!ready) return null;
@@ -77,7 +85,7 @@ export default function PixelsByConsent(props: PixelsProps) {
   const { analytics, marketing } = consent;
   const allowAnalytics = analyticsConsentRequired ? analytics : true;
   const allowMarketing = marketingConsentRequired ? marketing : true;
-  const { useGTM, GTM_ID, GA4_ID, FB_ID, TT_ID, PIN_ID, HOTJAR_ID, CLARITY_ID, ADS_ID, ADS_LABEL } = props;
+  const { useGTM, GTM_ID, GA4_ID, FB_ID, TT_ID, PIN_ID, HOTJAR_ID, CLARITY_ID, ADS_ID } = props;
 
   return (
     <>
@@ -149,6 +157,7 @@ export default function PixelsByConsent(props: PixelsProps) {
             strategy="lazyOnload"
             onLoad={() => {
               flags.ads = true;
+              window.dispatchEvent(new Event(GOOGLE_ADS_READY_EVENT));
             }}
           >
             {`
@@ -156,9 +165,22 @@ export default function PixelsByConsent(props: PixelsProps) {
               function gtag(){dataLayer.push(arguments);} window.gtag = window.gtag || gtag;
               gtag('js', new Date());
               gtag('config', '${ADS_ID}');
-              ${ADS_LABEL ? `gtag('event','conversion',{'send_to':'${ADS_ID}/${ADS_LABEL}'});` : ""}
             `}
           </Script>
+          {/*
+            NUNCA volte a colocar gtag('event','conversion', ...) aqui.
+
+            Este componente é renderizado pelo <Pixels /> em
+            app/(public)/layout.tsx, ou seja, em TODAS as páginas públicas.
+            Havia uma linha que disparava conversão sempre que ADS_LABEL
+            estivesse preenchido no admin — o que registra uma conversão por
+            pageview. O Lances Inteligentes passaria a enxergar 100% dos
+            cliques como convertidos, perderia qualquer critério para separar
+            clique bom de clique ruim e a campanha gastaria sem aprender nada.
+
+            O lugar da conversão é o ponto em que a ação acontece. Use
+            trackAdsConversion / trackLeadConversion de src/lib/conversions.ts.
+          */}
         </>
       )}
 

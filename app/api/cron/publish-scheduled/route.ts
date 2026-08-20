@@ -2,24 +2,27 @@ export const dynamic = "force-dynamic";
 
 /**
  * GET /api/cron/publish-scheduled
- * Chamado pelo Vercel Cron a cada hora.
+ * Chamado pela funcao agendada da Netlify (netlify/functions/cron-due.mjs).
  * Executa publicações agendadas cujo run_at já passou.
- * Autenticado via CRON_SECRET (Vercel injeta Authorization: Bearer <secret>).
+ * Autenticado via CRON_SECRET (ver src/lib/cron/auth.ts).
  */
 
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 import { revalidarListagemBlog } from "@/lib/blog/revalidate";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { autorizarCron } from "@/lib/cron/auth";
+import { supabaseAdmin, hasServiceRoleKey } from "@/lib/supabaseAdmin";
 
 export async function GET(req: Request) {
-  const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret) {
-    const auth = req.headers.get("authorization") ?? "";
-    if (auth !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-    }
+  const negado = autorizarCron(req);
+  if (negado) return negado;
+
+  // Sem a chave de servico supabaseAdmin() estoura e o Next devolve um 500 sem
+  // corpo — no log da funcao agendada isso aparece como falha generica. Melhor
+  // dizer o que falta.
+  if (!hasServiceRoleKey()) {
+    return NextResponse.json({ ok: false, error: "SUPABASE_SERVICE_ROLE_KEY ausente" }, { status: 500 });
   }
 
   const sb  = supabaseAdmin();
@@ -72,7 +75,11 @@ export async function GET(req: Request) {
         revalidarListagemBlog();
         revalidatePath("/blog");
         if (post?.slug) revalidatePath(`/blog/${post.slug}`);
-      } catch {}
+      } catch {
+        // Falha de revalidacao nao desfaz a publicacao: o post ja esta publicado no
+        // banco e a listagem tem revalidate de 300s, entao o cache se corrige
+        // sozinho no proximo ciclo.
+      }
 
       results.push({ id: ev.id, ok: true, slug: post?.slug });
     }

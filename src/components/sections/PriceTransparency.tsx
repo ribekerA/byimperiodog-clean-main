@@ -21,6 +21,7 @@ const SEXES = [
     colors: [
       { cor: "Laranja", valor: "R$ 6.500" },
       { cor: "Cinza-Lobo", valor: "R$ 6.500" },
+      { cor: "Branco", valor: "R$ 7.500" },
       { cor: "Preto", valor: "R$ 7.500" },
       { cor: "Creme", valor: "R$ 7.500" },
     ],

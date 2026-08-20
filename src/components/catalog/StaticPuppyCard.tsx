@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useMemo } from "react";
 
-import { TiltCard } from "@/components/motion/TiltCard";
-import { PawConfettiButton } from "@/components/motion/PawConfetti";
-import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { HeartBurstButton } from "@/components/motion/HeartBurst";
+import { PawConfettiButton } from "@/components/motion/PawConfetti";
+import { TiltCard } from "@/components/motion/TiltCard";
 import NotifyMeButton from "@/components/NotifyMeButton";
 import { staticPuppies } from "@/content/puppies-static";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { getBadgesForPuppy, type CatalogBadge } from "@/lib/ai/catalog-badges";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -122,7 +123,7 @@ export default function StaticPuppyCard({
   });
   const topBadge = computedBadges[0] ?? null;
 
-  const waLink = useMemo(
+  const baseWaLink = useMemo(
     () =>
       buildWhatsAppLink({
         message: `Olá! Vi o filhote ${name} (${corLabel} ${sexLabel}) no site e quero saber disponibilidade.`,
@@ -133,6 +134,7 @@ export default function StaticPuppyCard({
       }),
     [name, corLabel, sexLabel, slug]
   );
+  const waLink = useWhatsAppLink(baseWaLink);
 
   return (
     <TiltCard glowColor={glowColor} maxTilt={9} className="h-full">

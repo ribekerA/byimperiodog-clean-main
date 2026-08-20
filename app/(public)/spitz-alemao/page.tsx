@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { buildArticleLD } from "@/lib/schema";
@@ -44,7 +44,7 @@ const CHARACTERISTICS = [
   { label: "Peso adulto (referência prática)", value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
-  { label: "Cores na By Império Dog", value: "Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
+  { label: "Cores na By Império Dog", value: "Branco, Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
   { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
@@ -69,7 +69,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "O padrão da raça admite várias cores. As quatro trabalhadas pela By Império Dog são Laranja (a mais conhecida), Creme, Preto e Cinza-Lobo (Wolf Sable), e o padrão também admite branco, marrom, preto e castanho e as variantes particoloridas. Cada cor tem particularidades no preço e na disponibilidade — mas a cor não altera temperamento nem saúde.",
+      "O padrão da raça admite várias cores. As cinco trabalhadas pela By Império Dog são Branco, Laranja, Creme, Preto e Cinza-Lobo (Wolf Sable). O padrão também admite marrom, preto e castanho e variantes particoloridas. A cor não altera temperamento nem saúde.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
@@ -161,7 +161,7 @@ export default function SpitzAlemaoPage() {
       <section aria-labelledby="origem-heading" className="space-y-3">
         <h2 id="origem-heading" className="text-2xl font-bold text-zinc-900">Origem do Spitz Alemão Anão</h2>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          O Spitz Alemão Anão descende dos <strong>Spitz nórdicos</strong>, cães utilizados como pastores e companheiros na região da Pomerânia (atual fronteira entre Alemanha e Polônia). No século XIX, a raça foi refinada na Inglaterra, onde a Rainha Vitória criou exemplares — o que contribuiu para a redução do porte para o que conhecemos hoje como "Anão". O nome popular "Lulu da Pomerânia" vem exatamente desta região histórica.
+          O Spitz Alemão Anão descende dos <strong>Spitz nórdicos</strong>, cães utilizados como pastores e companheiros na região da Pomerânia (atual fronteira entre Alemanha e Polônia). No século XIX, a raça foi refinada na Inglaterra, onde a Rainha Vitória criou exemplares — o que contribuiu para a redução do porte para o que conhecemos hoje como &ldquo;Anão&rdquo;. O nome popular &ldquo;Lulu da Pomerânia&rdquo; vem exatamente desta região histórica.
         </p>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
           Hoje, a raça é reconhecida internacionalmente pela <strong>FCI (Fédération Cynologique Internationale)</strong> como Spitz Alemão Anão, sendo criada e registrada com padrão racial definido — pelagem, estrutura, temperamento e cores reconhecidas.
@@ -211,6 +211,7 @@ export default function SpitzAlemaoPage() {
         <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores do Spitz Alemão Anão na By Império Dog</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
+            { cor: "Branco",     slug: "branco",     desc: "Pelagem de aparência branca e uniforme. Fotos em luz natural ajudam a diferenciar do creme claro." },
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },
             { cor: "Creme",      slug: "creme",      desc: "Pelagem cor de marfim com contraste de olhos e focinho escuros." },
             { cor: "Preto",      slug: "preto",      desc: "Pelagem preta brilhante uniforme. Disponibilidade limitada — ninhadas esporádicas." },

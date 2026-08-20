@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { cn } from "@/lib/cn";
 import { HERO_IMAGE_SIZES } from "@/lib/image-sizes";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -58,6 +59,8 @@ const secondaryWhatsApp = buildWhatsAppLink({
 });
 
 export default function HeroSection() {
+  const trackedPrimaryWhatsApp = useWhatsAppLink(primaryWhatsApp);
+  const trackedSecondaryWhatsApp = useWhatsAppLink(secondaryWhatsApp);
   const greeting = useMemo(() => {
     const hour = new Date().getHours();
     if (hour < 12) {
@@ -110,7 +113,7 @@ export default function HeroSection() {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
-              href={primaryWhatsApp}
+              href={trackedPrimaryWhatsApp}
                 className={cn(
                 buttonVariants({ size: "lg" }),
                 "min-h-[52px] w-full sm:w-auto sm:px-8 bg-emerald-600 text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
@@ -179,7 +182,7 @@ export default function HeroSection() {
                 </p>
               </div>
               <a
-                href={secondaryWhatsApp}
+                href={trackedSecondaryWhatsApp}
                   className="inline-flex min-h-[48px] items-center gap-2 text-sm font-semibold text-emerald-800 transition-colors hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />

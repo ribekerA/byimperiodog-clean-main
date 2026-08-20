@@ -8,6 +8,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { SpringButton } from "@/components/motion/SpringButton";
 import { staticPuppies } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const waHero = buildWhatsAppLink({
@@ -35,6 +36,7 @@ export default function VideoHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoState, setVideoState] = useState<"loading" | "playing" | "paused" | "error">("loading");
   const reduced = useReducedMotion();
+  const trackedWaHero = useWhatsAppLink(waHero);
 
   // ── Lógica de video ─────────────────────────────────────────────────────────
   useEffect(() => {
@@ -311,7 +313,7 @@ export default function VideoHero() {
             className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center"
           >
             <PawConfettiButton
-              href={waHero}
+              href={trackedWaHero}
               rel="noreferrer"
               target="_blank"
               className="group inline-flex min-h-[54px] items-center justify-center gap-2.5 rounded-full bg-emerald-500 px-8 text-base font-bold text-white shadow-xl shadow-emerald-900/40 hover:bg-emerald-400 hover:shadow-emerald-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"

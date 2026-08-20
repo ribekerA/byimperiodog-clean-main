@@ -3,9 +3,11 @@
 import { useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const CORES = [
+  { value: "branco", label: "Branco" },
   { value: "creme", label: "Creme" },
   { value: "laranja", label: "Laranja" },
   { value: "preto", label: "Preto" },
@@ -17,7 +19,7 @@ export default function NinhadaAlert() {
   const [name, setName] = useState("");
   const [cor, setCor] = useState("");
 
-  const waLink =
+  const baseWaLink =
     name.trim() && cor
       ? buildWhatsAppLink({
           message: `Olá! Sou ${name.trim()} e quero entrar na lista de espera para filhotes ${cor === "qualquer" ? "de qualquer cor" : `da cor ${CORES.find((c) => c.value === cor)?.label ?? cor}`}. Me avisem quando houver disponibilidade!`,
@@ -27,6 +29,7 @@ export default function NinhadaAlert() {
           utmContent: cor,
         })
       : "#";
+  const waLink = useWhatsAppLink(baseWaLink);
 
   return (
     <section

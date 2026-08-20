@@ -2,7 +2,7 @@ import { staticPuppies } from "@/content/puppies-static";
 
 export type CatalogItem = (typeof staticPuppies)[number];
 
-export const ALL_COLORS = ["creme", "laranja", "preto", "wolf-sable"] as const;
+export const ALL_COLORS = ["branco", "creme", "laranja", "preto", "wolf-sable"] as const;
 export type PuppyColor = (typeof ALL_COLORS)[number];
 
 export const ALL_SEXES = ["femea", "macho"] as const;
@@ -51,6 +51,43 @@ export type ColorSeo = {
 };
 
 export const COLOR_SEO: Record<string, ColorSeo> = {
+  branco: {
+    seoTitle: "Spitz Alemão Anão Branco — Filhotes e Diferenças do Creme",
+    metaDescription:
+      "Conheça o Spitz Alemão Anão Branco, entenda a diferença visual para o creme claro e consulte filhotes e disponibilidade na By Império Dog.",
+    h1: "Spitz Alemão Anão Branco",
+    intro:
+      "O Spitz Branco tem pelagem de aparência branca e uniforme. Já o creme claro apresenta um tom mais quente, que pode lembrar marfim ou champanhe. Luz, câmera e fase da pelagem podem alterar a percepção da cor; por isso a comparação deve ser feita com imagens atuais e em luz natural.",
+    characteristics: [
+      "Pelagem de aparência branca e uniforme",
+      "Tom visualmente mais neutro que o creme claro",
+      "Fotos e vídeos em luz natural ajudam a comparar as tonalidades",
+      "A cor da pelagem não determina comportamento, inteligência ou saúde",
+      "Disponibilidade deve ser consultada no catálogo atualizado",
+    ],
+    faqs: [
+      {
+        question: "Qual é a diferença entre Spitz Branco e Spitz Creme claro?",
+        answer:
+          "O branco tem aparência visualmente neutra, enquanto o creme claro apresenta um fundo mais quente, próximo de marfim ou champanhe. Iluminação e câmera podem aproximar as duas tonalidades nas fotos, então vale comparar vídeos atuais em luz natural.",
+      },
+      {
+        question: "Qual o preço do Spitz Alemão Anão Branco?",
+        answer:
+          "A tabela atual traz R$ 7.500 para macho e R$ 8.500 para fêmea — a mesma faixa do creme e do preto entre os machos, e o valor único das fêmeas em todas as cores. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia.",
+      },
+      {
+        question: "A cor branca muda o temperamento ou a saúde do Spitz?",
+        answer:
+          "Não. A cor é uma característica estética e, isoladamente, não define temperamento, inteligência ou saúde. O comportamento varia conforme genética, socialização, ambiente e características individuais de cada cão.",
+      },
+      {
+        question: "Há filhotes de Spitz Branco disponíveis agora?",
+        answer:
+          "A disponibilidade muda conforme as ninhadas. O catálogo desta página mostra os filhotes cadastrados na cor branca; quando não houver nenhum, é possível consultar a agenda diretamente com a equipe.",
+      },
+    ],
+  },
   creme: {
     seoTitle: "Spitz Alemão Anão Creme — Filhotes Disponíveis",
     metaDescription:

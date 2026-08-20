@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { routes, type AppRoutes } from "@/lib/route";
 
 const navLinks: { label: string; href: AppRoutes }[] = [
@@ -22,6 +23,12 @@ const navLinks: { label: string; href: AppRoutes }[] = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() || "/";
+  const trimmedPhone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
+  const whatsappLink = useWhatsAppLink(
+    trimmedPhone
+      ? `https://wa.me/${trimmedPhone}`
+      : process.env.NEXT_PUBLIC_WA_LINK || "https://wa.me/",
+  );
 
   const [hash, setHash] = useState<string | null>(null);
   useEffect(() => {
@@ -92,14 +99,8 @@ export default function Navbar() {
             );
           })}
 
-          {(() => {
-            const trimmed = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
-            const waHref = trimmed
-              ? `https://wa.me/${trimmed}`
-              : process.env.NEXT_PUBLIC_WA_LINK || "https://wa.me/";
-            return (
-              <a
-                href={waHref}
+          <a
+                href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-emerald-700 hover:shadow-md min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
@@ -109,8 +110,6 @@ export default function Navbar() {
                 <WAIcon size={18} className="h-[18px] w-[18px]" aria-hidden />
                 WhatsApp
               </a>
-            );
-          })()}
         </div>
 
         <div className="lg:hidden">
@@ -173,14 +172,8 @@ export default function Navbar() {
                       })}
                     </ul>
                     <div className="px-4 pt-6">
-                      {(() => {
-                        const trimmed = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
-                        const waHref = trimmed
-                          ? `https://wa.me/${trimmed}`
-                          : process.env.NEXT_PUBLIC_WA_LINK || "https://wa.me/";
-                        return (
-                          <a
-                            href={waHref}
+                      <a
+                            href={whatsappLink}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={close}
@@ -191,8 +184,6 @@ export default function Navbar() {
                             <WAIcon size={18} className="h-[18px] w-[18px]" aria-hidden />
                             WhatsApp
                           </a>
-                        );
-                      })()}
                     </div>
                   </nav>
                 </aside>
@@ -205,4 +196,3 @@ export default function Navbar() {
     </header>
   );
 }
-

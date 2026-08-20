@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { staticPuppies } from "@/content/puppies-static";
+import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Step = 0 | 1 | 2 | 3; // 3 = resultado
@@ -17,6 +18,7 @@ const PARA_QUEM = [
 ];
 
 const CORES = [
+  { value: "branco", label: "Branco", emoji: "🕊️" },
   { value: "creme", label: "Creme (marfim)", emoji: "🤍" },
   { value: "laranja", label: "Laranja (icônico)", emoji: "🧡" },
   { value: "preto", label: "Preto (elegante)", emoji: "🖤" },
@@ -74,7 +76,7 @@ export default function PuppyMatcherQuiz() {
   const corLabel = CORES.find((c) => c.value === cor)?.label ?? cor;
   const sexoLabel = SEXOS.find((s) => s.value === sexo)?.label ?? sexo;
 
-  const waLink = buildWhatsAppLink({
+  const baseWaLink = buildWhatsAppLink({
     message: match
       ? `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Vi que a cor ${corLabel} ${sexoLabel !== "Tanto faz" ? `(${sexoLabel})` : ""} combina comigo. O filhote ${match.name} está disponível? Pode me ajudar?`
       : `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel}. Pode me ajudar a encontrar o filhote ideal?`,
@@ -83,6 +85,7 @@ export default function PuppyMatcherQuiz() {
     utmCampaign: "matcher_quiz",
     utmContent: `${paraQuem}_${cor}_${sexo}`,
   });
+  const waLink = useWhatsAppLink(baseWaLink);
 
   const coverImg = match?.images?.find((img: string) => !img.endsWith(".mp4")) ?? match?.images?.[0];
   const matchPrice = match?.priceCents ?? match?.price_cents;
