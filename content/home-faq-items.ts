@@ -21,7 +21,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 8.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme, preto e branco). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 9.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto), e o macho branco custa R$ 8.500. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "O Spitz Alemão Anão é bom para apartamento?",
@@ -41,7 +41,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Spitz Alemão (Lulu da Pomerânia) preto é difícil de encontrar? É mais caro?",
     answer:
-      "O preto aparece com menos frequência nas ninhadas do que o laranja, porque a pelagem preta uniforme depende das linhagens usadas no acasalamento. Na By Império Dog, mantemos matrizes na cor preta com registro oficial e acompanhamento veterinário. O preço do preto é de R$ 7.500 para machos e R$ 8.500 para fêmeas (mesmo valor de todas as cores) — no mesmo patamar do creme, acima do laranja e do cinza-lobo.",
+      "O preto aparece com menos frequência nas ninhadas do que o laranja, porque a pelagem preta uniforme depende das linhagens usadas no acasalamento. Na By Império Dog, mantemos matrizes na cor preta com registro oficial e acompanhamento veterinário. O preço do preto é de R$ 7.500 para machos e R$ 8.500 para fêmeas (o mesmo valor das fêmeas creme, laranja e cinza-lobo) — no mesmo patamar do creme, acima do laranja e do cinza-lobo e abaixo do branco.",
   },
   {
     question: "Vocês entregam o filhote em todo o Brasil?",

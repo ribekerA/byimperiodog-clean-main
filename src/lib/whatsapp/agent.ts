@@ -51,7 +51,7 @@ export interface AgentResponse {
 const FAQ: Array<{ q: string; a: string }> = [
   {
     q: "qual o preço / valor / quanto custa",
-    a: "Os filhotes variam de R$ 6.500 a R$ 8.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote, mentoria vitalícia e enxoval. O microchip é opcional, sob contratação.",
+    a: "Os filhotes variam de R$ 6.500 a R$ 9.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote, mentoria vitalícia e enxoval. O microchip é opcional, sob contratação.",
   },
   {
     q: "registro incluso",

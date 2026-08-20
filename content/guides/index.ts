@@ -41,7 +41,7 @@ export const guides: Guide[] = [
       {
         heading: "Macho ou Fêmea: qual escolher?",
         paragraphs: [
-          "O que muda de fato entre macho e fêmea é o preço e o ciclo reprodutivo. Na tabela atual da By Império Dog a fêmea tem valor único em todas as cores, acima do macho. A fêmea não castrada entra no cio cerca de duas vezes por ano, o que exige cuidados extras nesse período.",
+          "O que muda de fato entre macho e fêmea é o preço e o ciclo reprodutivo. Na tabela atual da By Império Dog a fêmea custa de R$ 1.000 a R$ 2.000 a mais que o macho da mesma cor. A fêmea não castrada entra no cio cerca de duas vezes por ano, o que exige cuidados extras nesse período.",
           "Temperamento não vem do sexo. O comportamento é o típico da raça e depende de genética, socialização e da rotina que a família oferece — há macho tranquilo e fêmea agitada, e o contrário também.",
           "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem os mesmos laudos, registro oficial e acompanhamento na By Império Dog.",
         ],
@@ -49,7 +49,7 @@ export const guides: Guide[] = [
       {
         heading: "As diferenças entre as cores",
         paragraphs: [
-          "Na tabela atual da By Império Dog, branco, creme e preto ficam na faixa superior entre os machos; as fêmeas têm valor único em todas as cores. Cinza-Lobo (Wolf Sable) é a bicolor cinza/laranja. O laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano.",
+          "Na tabela atual da By Império Dog, o branco é a cor mais cara nos dois sexos; creme e preto vêm logo abaixo entre os machos, e nas demais cores as fêmeas têm o mesmo valor. Cinza-Lobo (Wolf Sable) é a bicolor cinza/laranja. O laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano.",
           "A cor não influencia o temperamento nem a saúde — influencia apenas a disponibilidade e, consequentemente, o preço. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
         ],
       },

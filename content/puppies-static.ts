@@ -1,7 +1,7 @@
 // content/puppies-static.ts
 // Catálogo estático — By Império Dog
 // Para atualizar disponibilidade: status → "available" | "reserved" | "sold"
-// Hierarquia de preços: Fêmeas R$ 8.500 (todas as cores) | Machos R$ 7.500 (Branco, Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
+// Hierarquia de preços: Branco R$ 9.500 (fêmea) e R$ 8.500 (macho) — o topo da tabela | Demais cores: fêmeas R$ 8.500 | machos R$ 7.500 (Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
 
 export const staticPuppies = [
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
@@ -19,16 +19,21 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
+    // images[0] é a capa do card e do modal. A responsável escolheu a foto da
+    // dupla no gramado como capa; as outras seguem a ordem em que ela enviou.
     images: [
+      "/filhotes/branco/branco-femea-dupla-jardim-01.jpg",
       "/filhotes/branco/branco-femea-jardim-01.jpg",
+      "/filhotes/branco/branco-femea-colo-01.jpg",
       "/filhotes/branco/branco-femea-jardim-02.jpg",
       "/filhotes/branco/branco-femea-jardim-03.jpg",
       "/filhotes/branco/branco-femea-jardim-04.jpg",
       "/filhotes/branco/branco-femea-jardim-05.jpg",
       "/filhotes/branco/branco-femea-jardim-06.jpg",
     ],
-    price_cents: 850000,
-    priceCents: 850000,
+    // Fêmea Branca — única cor fora do valor comum das fêmeas: R$ 9.500.
+    price_cents: 950000,
+    priceCents: 950000,
     currency: "BRL",
     description:
       "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",

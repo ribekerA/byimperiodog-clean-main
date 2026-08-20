@@ -16,12 +16,12 @@ const CATALOG_FAQS = [
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
     answer:
-      "Na By Império Dog trabalhamos com cinco cores: Branco, Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). O branco custa R$ 7.500 para macho e R$ 8.500 para fêmea. A disponibilidade varia conforme as ninhadas.",
+      "Na By Império Dog trabalhamos com cinco cores: Branco, Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). O branco custa R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor da tabela atual. A disponibilidade varia conforme as ninhadas.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
     answer:
-      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) custam mais do que os machos por conta da maior demanda. Fêmeas custam R$ 8.500, valor único para todas as cores. Machos variam de R$ 6.500 a R$ 7.500, dependendo da cor. Todos os valores incluem registro oficial, laudos veterinários e mentoria vitalícia.",
+      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) custam mais do que os machos por conta da maior demanda. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Machos variam de R$ 6.500 a R$ 7.500 conforme a cor, e o branco custa R$ 8.500. Todos os valores incluem registro oficial, laudos veterinários e mentoria vitalícia.",
   },
   {
     question: "Os filhotes são entregues com quais documentos?",

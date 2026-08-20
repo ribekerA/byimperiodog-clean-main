@@ -74,7 +74,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Branco?",
         answer:
-          "A tabela atual traz R$ 7.500 para macho e R$ 8.500 para fêmea — a mesma faixa do creme e do preto entre os machos, e o valor único das fêmeas em todas as cores. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia.",
+          "A tabela atual traz R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as cinco cores, nos dois sexos. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia.",
       },
       {
         question: "A cor branca muda o temperamento ou a saúde do Spitz?",
@@ -94,7 +94,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Creme",
     intro:
-      "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. Na tabela atual da By Império Dog, o creme está na faixa superior entre os machos, junto com o preto. Disponibilidade limitada — consulte a agenda de ninhadas.",
+      "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. Na tabela atual da By Império Dog, o macho creme fica acima do laranja e do cinza-lobo, junto com o preto. Disponibilidade limitada — consulte a agenda de ninhadas.",
     characteristics: [
       "Pelagem densa cor creme/marfim uniforme sem manchas",
       "Olhos escuros expressivos e focinho amendoado",
@@ -111,7 +111,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Por que o Spitz Creme é mais caro que outras cores?",
         answer:
-          "Nem toda ninhada traz filhotes creme com pelagem uniforme dentro do padrão FCI, então a disponibilidade é menor ao longo do ano. Na tabela atual da By Império Dog, o macho creme está na faixa superior, junto com o preto.",
+          "Nem toda ninhada traz filhotes creme com pelagem uniforme dentro do padrão FCI, então a disponibilidade é menor ao longo do ano. Na tabela atual da By Império Dog, o macho creme está acima do laranja e do cinza-lobo, junto com o preto.",
       },
       {
         question: "O Spitz Creme perde muito pelo?",
@@ -273,7 +273,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Spitz Fêmea é mais cara que Macho?",
         answer:
-          "Sim. Todas as fêmeas têm o mesmo valor (R$ 8.500), enquanto o macho varia entre R$ 6.500 e R$ 7.500 conforme a cor — uma diferença de R$ 1.000 a R$ 2.000.",
+          "Sim. A fêmea custa R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco; o macho varia de R$ 6.500 a R$ 8.500 conforme a cor. Comparando a mesma cor, a diferença fica entre R$ 1.000 e R$ 2.000.",
       },
       {
         question: "Posso castrar a Spitz Fêmea?",
@@ -315,7 +315,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Qual a diferença de preço entre Macho e Fêmea?",
         answer:
-          "O Macho é entre R$ 1.000 e R$ 2.000 mais barato que a Fêmea (que tem valor único de R$ 8.500), dependendo da cor do macho, sem qualquer diferença de qualidade, saúde ou documentação.",
+          "O Macho é entre R$ 1.000 e R$ 2.000 mais barato que a Fêmea da mesma cor, sem qualquer diferença de qualidade, saúde ou documentação.",
       },
       {
         question: "O Macho Spitz é bom para crianças?",

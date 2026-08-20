@@ -15,23 +15,26 @@ const INCLUDED = [
 const SEXES = [
   {
     label: "Macho",
-    range: "R$ 6.500 a R$ 7.500",
+    range: "R$ 6.500 a R$ 8.500",
     highlight: false,
     note: "Preço varia conforme a cor. O temperamento é o típico da raça e não depende do sexo.",
     colors: [
       { cor: "Laranja", valor: "R$ 6.500" },
       { cor: "Cinza-Lobo", valor: "R$ 6.500" },
-      { cor: "Branco", valor: "R$ 7.500" },
       { cor: "Preto", valor: "R$ 7.500" },
       { cor: "Creme", valor: "R$ 7.500" },
+      { cor: "Branco", valor: "R$ 8.500" },
     ],
   },
   {
     label: "Fêmea",
-    range: "R$ 8.500",
+    range: "R$ 8.500 a R$ 9.500",
     highlight: true,
-    note: "Valor único em todas as cores. A disponibilidade pode mudar rapidamente conforme as reservas.",
-    colors: [{ cor: "Todas as cores", valor: "R$ 8.500" }],
+    note: "Mesmo valor em creme, preto, laranja e cinza-lobo; o branco é a exceção. A disponibilidade pode mudar rapidamente conforme as reservas.",
+    colors: [
+      { cor: "Creme / Preto / Laranja / Cinza-Lobo", valor: "R$ 8.500" },
+      { cor: "Branco", valor: "R$ 9.500" },
+    ],
   },
 ];
 
@@ -86,7 +89,7 @@ export default function PriceTransparency() {
           >
             {s.highlight && (
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--accent)] px-4 py-1 text-xs font-bold text-[var(--accent-foreground)]">
-                Valor único por cor
+                Maior procura
               </span>
             )}
             <h3 className="text-lg font-bold text-zinc-900">{s.label}</h3>
