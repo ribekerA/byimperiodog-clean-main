@@ -52,7 +52,7 @@ const INCLUDED_ITEMS = [
   "Hemograma",
   "Carteira de vacinação assinada pelo médico-veterinário, com protocolo em dia conforme a idade",
   "Histórico de vermifugação",
-  "Microchip (opcional, sob contratação)",
+  "Identificação conforme a legislação aplicável",
   "Contrato de responsabilidade compartilhada",
   "Mentoria vitalícia direta com a criadora",
 ] as const;
@@ -61,7 +61,7 @@ const PAGE_FAQS = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 9.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto), e o macho branco custa R$ 8.500. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos os valores incluem registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 9.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto), e o macho branco custa R$ 8.500. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos os valores incluem registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     question: "Por que o Spitz Alemão Anão é tão caro?",
@@ -83,7 +83,7 @@ const PAGE_FAQS = [
   {
     question: "O que está incluso no preço da By Império Dog?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, histórico de vermifugação, contrato e mentoria vitalícia. Microchip é opcional, sob contratação. Fora esse item, o valor anunciado é o valor final.",
+      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, histórico de vermifugação, contrato e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Fora esse item, o valor anunciado é o valor final.",
   },
   {
     question: "Existe parcelamento ou condições especiais?",

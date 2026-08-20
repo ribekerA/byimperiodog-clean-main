@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Lulu da Pomerânia em Bragança Paulista SP — By Império Dog",
-    description: "Criação familiar de Spitz Alemão Anão desde 2013. Atende Bragança Paulista e todo o Brasil.",
+    description: `Criação familiar de Spitz Alemão Anão desde ${FOUNDING_YEAR}. Atende Bragança Paulista e todo o Brasil.`,
     type: "website",
   },
 };

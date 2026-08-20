@@ -34,7 +34,7 @@ export interface Puppy {
   color: Color; // Cor da pelagem
   sex: "male" | "female";
   birthDate: Date; // Data de nascimento
-  readyForAdoptionDate?: Date; // Data em que pode ir para o novo lar (geralmente 60 dias)
+  readyForAdoptionDate?: Date; // Data prevista de entrega, apos cumpridos os requisitos legais de comercializacao
   
   // Medidas e porte
   currentWeight?: number; // Peso atual em kg

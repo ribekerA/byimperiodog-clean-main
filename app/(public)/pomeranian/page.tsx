@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
@@ -46,7 +47,7 @@ const FAQS = [
   {
     question: "Qual o preço de um Pomeranian no Brasil?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 9.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo), passam por R$ 7.500 (creme e preto) e chegam a R$ 8.500 (branco). Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 9.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo), passam por R$ 7.500 (creme e preto) e chegam a R$ 8.500 (branco). Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     question: "Pomeranian tem outro nome no Brasil?",
@@ -61,7 +62,7 @@ const FAQS = [
   {
     question: "Como encontrar um Pomeranian com registro oficial no Brasil?",
     answer:
-      "A By Império Dog é criadora responsável de Pomeranian (Lulu da Pomerânia / Spitz Alemão Anão) em Bragança Paulista, SP, desde 2013. Todos os filhotes têm registro oficial (com emissão e entrega conforme o prazo da entidade responsável), laudos veterinários e contrato de venda. O microchip é opcional, sob contratação.",
+      `A By Império Dog é criadora responsável de Pomeranian (Lulu da Pomerânia / Spitz Alemão Anão) em Bragança Paulista, SP, desde ${FOUNDING_YEAR}. Todos os filhotes têm registro oficial (com emissão e entrega conforme o prazo da entidade responsável), laudos veterinários e contrato de venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável.`,
   },
 ];
 
@@ -135,7 +136,7 @@ export default function PomeranianPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-400">
-          Inclui registro oficial, laudo veterinário, hemograma, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria vitalícia. Microchip opcional, sob contratação.{" "}
+          Inclui registro oficial, laudo veterinário, hemograma, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.{" "}
           <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link>
         </p>
       </section>

@@ -70,7 +70,7 @@ export default function GuiasIndexPage() {
           Guias sobre Spitz Alemão Anão
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70">
-          Tudo que você precisa saber antes de levar um filhote para casa — escrito por quem cria desde 2013.
+          Tudo que você precisa saber antes de levar um filhote para casa — escrito por quem cria desde {FOUNDING_YEAR}.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-white/60">
           <span className="flex items-center gap-1.5">
@@ -156,7 +156,7 @@ export default function GuiasIndexPage() {
               Converse com a criadora
             </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-white/70">
-              Tire todas as suas dúvidas direto com quem cria desde 2013 e descubra o filhote ideal para você.
+              Tire todas as suas dúvidas direto com quem cria desde {FOUNDING_YEAR} e descubra o filhote ideal para você.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-4">
               <a

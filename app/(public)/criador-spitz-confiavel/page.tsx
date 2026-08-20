@@ -60,7 +60,7 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Transparência total em documentação",
-    body: "Todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. Microchip é opcional, sob contratação.",
+    body: "Todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     title: "Suporte real e vitalício",
@@ -137,7 +137,7 @@ export default function CriadorConfiavelPage() {
 
       {/* ── HERO ── */}
       <header className="space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável desde 2013</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável desde {FOUNDING_YEAR}</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Criador de Spitz Alemão Anão (Lulu da Pomerânia) confiável em SP
         </h1>
@@ -189,7 +189,7 @@ export default function CriadorConfiavelPage() {
           By Império Dog — criação familiar em Bragança Paulista, SP
         </h2>
         <p className="text-sm text-zinc-700 sm:text-base" itemProp="description">
-          Fundada em 2013 pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Nossos filhotes nascem e crescem dentro de casa, ao lado da família, com socialização diária e cuidado individual. Mantemos poucos cães adultos para garantir atenção personalizada a cada ninhada.
+          Fundada em {FOUNDING_YEAR} pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Nossos filhotes nascem e crescem dentro de casa, ao lado da família, com socialização diária e cuidado individual. Mantemos poucos cães adultos para garantir atenção personalizada a cada ninhada.
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {[
@@ -197,7 +197,7 @@ export default function CriadorConfiavelPage() {
             // (nao existe estrutura) e "Rede de veterinarios, comportamentalista
             // e groomer parceiros" (nao existem parceiros). No lugar entrou o
             // que a entrega comprova: exame, contrato e atendimento direto.
-            "Criação especializada desde 2013",
+            `Criação especializada desde ${FOUNDING_YEAR}`,
             "Laudos de saúde antes de cada cruzamento",
             "Hemograma e acompanhamento veterinário antes da entrega",
             "Socialização com crianças, sons e rotina doméstica",

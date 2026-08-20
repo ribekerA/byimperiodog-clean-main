@@ -57,23 +57,23 @@ export const guides: Guide[] = [
         heading: "Como reconhecer um criador confiável",
         paragraphs: [
           "Um criador sério apresenta registro oficial do filhote e dos pais, laudo de saúde, exames genéticos (opcionais mas recomendados) e vacinação em dia com carteirinha assinada por veterinário.",
-          "Visite o ambiente antes de reservar. Os filhotes devem conviver com os pais, estar limpos, curiosos e sem sinais de medo ou apatia. Criadores que recusam visitas são um sinal de alerta.",
+          "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação. Em qualquer formato, observe se os filhotes estão limpos, curiosos e sem sinais de medo ou apatia.",
           "Mentoria pós-venda é o diferencial que separa criadores comprometidos dos comercializadores. Pergunte diretamente: 'Posso entrar em contato depois da entrega?' A resposta diz muito.",
         ],
       },
       {
         heading: "Documentação obrigatória",
         paragraphs: [
-          "O mínimo exigível ao receber seu filhote: registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, orientação por escrito das doses seguintes e laudo de saúde veterinário. Microchip é opcional e depende de contratação — pergunte se está incluso antes de fechar.",
+          "O mínimo exigível ao receber seu filhote: registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, orientação por escrito das doses seguintes e laudo de saúde veterinário. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme no contrato o que está previsto antes de fechar.",
           "Na By Império Dog, o registro oficial é incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. Os demais documentos são apresentados antes da reserva.",
         ],
       },
     ],
     faqs: [
       {
-        question: "Qual a idade ideal para levar o filhote para casa?",
+        question: "Quando o filhote pode ir para o novo lar?",
         answer:
-          "Entre 60 e 75 dias de vida. Antes disso, a socialização com a mãe e irmãos é fundamental para o equilíbrio comportamental. Criadores sérios não entregam antes dos 60 dias.",
+          "A comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável. A convivência com a mãe e os irmãos nas primeiras semanas é fundamental para o equilíbrio comportamental, e esse período não deve ser abreviado por pressão do comprador.",
       },
       {
         question: "O que é registro oficial e por que importa?",

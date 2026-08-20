@@ -45,14 +45,14 @@ const FIRST_DAYS = [
 
 const FAQS = [
   {
-    question: "Com quantas semanas o filhote de Spitz Alemão pode sair da criadora?",
+    question: "Quando o filhote de Spitz Alemão pode ir para o novo lar?",
     answer:
-      "O ideal é que o filhote saia com no mínimo 60 dias de vida — nunca antes. Filhotes muito novos separados da mãe e da ninhada têm maior risco de problemas comportamentais, imunológicos e de socialização. Criadores responsáveis não antecipam a entrega por pressão do comprador.",
+      "A comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável. Do ponto de vista do desenvolvimento, filhotes separados cedo demais da mãe e da ninhada têm maior risco de problemas comportamentais, imunológicos e de socialização — por isso criadores responsáveis não antecipam a entrega por pressão do comprador.",
   },
   {
     question: "Quais vacinas o filhote precisa tomar?",
     answer:
-      "O protocolo padrão é: V8 ou V10 a partir das 6–8 semanas (com reforços a cada 3–4 semanas até 16 semanas), antirrábica após 12 semanas e reforço anual de todas as vacinas. Filhotes da By Império Dog saem com a primeira dose em dia e com o calendário completo orientado.",
+      "O protocolo padrão é: V8 ou V10 a partir das 6–8 semanas (com reforços a cada 3–4 semanas até 16 semanas), antirrábica após 12 semanas e reforço anual de todas as vacinas. Os filhotes da By Império Dog seguem protocolo veterinário em andamento conforme a idade, com carteira de vacinação assinada pelo médico-veterinário e orientação por escrito das doses seguintes. O protocolo em andamento não é, por si só, condição suficiente para a entrega: a comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável.",
   },
   {
     question: "O que perguntar ao criador antes de comprar o filhote?",

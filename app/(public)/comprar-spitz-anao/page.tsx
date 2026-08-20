@@ -52,7 +52,7 @@ const CHECKLIST_NO = [
   "Preço muito abaixo do mercado (menos de R$ 3.000)",
   "Sem documentação ou 'registro no futuro'",
   "Não permite visitar ou fazer videochamada",
-  "Filhotes entregues com menos de 60 dias",
+  "Entrega antes de cumprir os requisitos legais de comercialização",
   "Sem contrato ou contrato genérico sem garantia",
   "Pagamento apenas via Pix antecipado sem comprovantes",
   "Várias ninhadas 'sempre disponíveis' ao mesmo tempo",
@@ -63,7 +63,7 @@ const STEPS = [
   { num: "02", title: "Solicite documentação dos pais", body: "Exija o registro oficial dos pais, laudos de saúde e histórico veterinário antes de qualquer pagamento. Um criador responsável apresenta tudo sem hesitar." },
   { num: "03", title: "Faça uma visita ou videochamada", body: "Ver o ambiente onde o filhote cresceu é essencial. Na By Império Dog fazemos videochamadas e recebemos visitas agendadas." },
   { num: "04", title: "Confirme reserva com contrato", body: "A reserva é formalizada com contrato detalhado e sinal. O contrato cobre garantia de saúde, suporte pós-venda e responsabilidades de ambas as partes." },
-  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso à mentoria vitalícia. Microchip é opcional, sob contratação." },
+  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso à mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável." },
 ] as const;
 
 const PAGE_FAQS = [
@@ -75,7 +75,7 @@ const PAGE_FAQS = [
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão?",
     answer:
-      "Os documentos essenciais são: registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, teste de patela, histórico de vermifugação, nota fiscal e contrato de compra com garantia de saúde. Microchip é opcional e depende de contratação — confirme com o criador se está incluso. Peça para conferir todos esses itens antes de fechar a compra.",
+      "Os documentos essenciais são: registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, teste de patela, histórico de vermifugação, nota fiscal e contrato de compra com garantia de saúde. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme com o criador o que consta no contrato. Peça para conferir todos esses itens antes de fechar a compra.",
   },
   {
     question: "Como funciona a entrega do filhote em outro estado?",
@@ -85,12 +85,12 @@ const PAGE_FAQS = [
   {
     question: "Posso visitar o canil antes de comprar?",
     answer:
-      "Sim. Fazemos videochamadas para mostrar os filhotes e os pais. Visitas presenciais são permitidas por agendamento em Bragança Paulista, SP.",
+      "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação. As visitas presenciais acontecem por agendamento em Bragança Paulista, SP.",
   },
   {
     question: "O contrato prevê alguma garantia de saúde?",
     answer:
-      "Sim, nos termos previstos em contrato. O tutor deve levar o filhote a uma clínica veterinária de sua confiança em até 72 horas após a entrega. Se nesse prazo for constatado, por laudo assinado por médico-veterinário (CRMV), problema grave de origem pré-existente, a criadora reembolsa integralmente o valor pago ou substitui o animal, a critério do comprador. Leia as cláusulas completas no contrato antes de assinar.",
+      "Sim, nos termos previstos em contrato. O tutor deve levar o filhote a uma clínica veterinária de sua confiança em até 72 horas após a entrega. Se nesse prazo for constatado, por laudo assinado por médico-veterinário (CRMV), problema grave de origem pré-existente, a criadora reembolsa integralmente o valor pago ou substitui o animal, a critério do comprador. A garantia contratual é complementar e não exclui nem reduz a garantia legal e os demais direitos assegurados ao consumidor pela legislação aplicável. Leia as cláusulas completas no contrato antes de assinar.",
   },
   {
     question: "Como evitar golpes ao comprar Spitz Alemão Anão pela internet?",

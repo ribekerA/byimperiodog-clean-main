@@ -11,7 +11,7 @@ const CATALOG_FAQS = [
   {
     question: "Como funciona o processo de reserva de um filhote de Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os laudos do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (registro oficial, carteira de vacinação e laudo de saúde; microchip opcional, sob contratação).",
+      "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os laudos do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (registro oficial, carteira de vacinação e laudo de saúde; identificação do animal conforme a legislação aplicável).",
   },
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
@@ -26,7 +26,7 @@ const CATALOG_FAQS = [
   {
     question: "Os filhotes são entregues com quais documentos?",
     answer:
-      "Todos os filhotes saem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, hemograma, histórico de vermifugação e contrato. Microchip é opcional, sob contratação. Além disso, o tutor recebe acesso à mentoria vitalícia direto com a criadora.",
+      "Todos os filhotes saem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, hemograma, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria vitalícia direto com a criadora.",
   },
 ];
 

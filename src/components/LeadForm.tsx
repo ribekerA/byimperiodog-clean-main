@@ -309,7 +309,7 @@ export default function LeadForm({ context, className }: Props) {
             type="text"
             {...register("cor_preferida")}
             className="w-full rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm placeholder:text-[var(--text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
-            placeholder="Ex: creme, preto, particolor..."
+            placeholder="Ex: branco, creme, preto, particolor..."
           />
         </div>
       </div>

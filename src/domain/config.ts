@@ -74,7 +74,10 @@ export const PRODUCT_CONFIG = {
 
   // Idades importantes
   ages: {
-    minWeeksForAdoption: 8, // 8 semanas = 56 dias (mínimo legal)
+    // Referência de desenvolvimento, NAO requisito legal: a entrega depende do
+    // cumprimento dos requisitos sanitarios, de identificacao e documentais
+    // previstos na legislacao aplicavel (Lei Estadual SP 17.972/2024).
+    minWeeksForAdoption: 8,
     idealWeeksForAdoption: 10, // 10 semanas (ideal)
     maxMonthsForPuppy: 12, // Até 12 meses é considerado filhote
   },

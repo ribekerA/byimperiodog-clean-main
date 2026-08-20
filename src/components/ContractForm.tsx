@@ -181,7 +181,7 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
           </div>
           <div>
             <label htmlFor="cor" className="mb-1 block text-xs font-semibold text-zinc-600">Cor</label>
-            <input id="cor" name="cor" defaultValue={puppyColor ?? ""} placeholder="Ex.: Laranja, Creme, Preto" className={inputCls} />
+            <input id="cor" name="cor" defaultValue={puppyColor ?? ""} placeholder="Ex.: Branco, Laranja, Creme, Preto" className={inputCls} />
           </div>
           <div>
             <label htmlFor="sexo" className="mb-1 block text-xs font-semibold text-zinc-600">Sexo</label>

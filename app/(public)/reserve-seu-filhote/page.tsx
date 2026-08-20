@@ -76,7 +76,7 @@ const processSteps = [
   {
     step: "05",
     title: "Socialização e Preparo",
-    description: "Durante 60 dias, o filhote recebe socialização guiada, enriquecimento ambiental e protocolo vacinal em dia conforme a idade do filhote.",
+    description: "Até a liberação para a entrega, o filhote recebe socialização guiada, enriquecimento ambiental e protocolo veterinário em andamento conforme a idade.",
   },
   {
     step: "06",
@@ -92,7 +92,7 @@ const faqEntries = [
   },
   {
     question: "Posso visitar os filhotes antes de reservar?",
-    answer: "Sim. Agendamos visitas presenciais ou videochamadas para você conhecer os filhotes, ver os pais e tirar todas as dúvidas diretamente com a criadora. Combine o horário pelo WhatsApp.",
+    answer: "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação. Combine o formato diretamente com a criadora pelo WhatsApp.",
   },
   {
     question: "Quanto tempo devo esperar após a reserva?",
@@ -100,11 +100,11 @@ const faqEntries = [
   },
   {
     question: "O que está incluso na reserva?",
-    answer: "Registro oficial (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade, vermifugação, exames laboratoriais, kit de boas-vindas, contrato digital e mentoria vitalícia. Microchip é opcional, sob contratação.",
+    answer: "Registro oficial (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade, vermifugação, exames laboratoriais, kit de boas-vindas, contrato digital e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     question: "E se eu desistir após a reserva?",
-    answer: "Entendemos imprevistos. O sinal pode ser reembolsado parcialmente (70%) ou transferido para outra ninhada, conforme as condições do contrato.",
+    answer: "Nas contratações sujeitas ao direito de arrependimento previsto no art. 49 do Código de Defesa do Consumidor, serão observados integralmente os prazos e efeitos previstos na legislação, inclusive quanto à restituição dos valores pagos. Fora dessas hipóteses, valem as condições pactuadas no contrato: o sinal pode ser reembolsado parcialmente (70%) ou transferido para outra ninhada.",
   },
 ] as const;
 

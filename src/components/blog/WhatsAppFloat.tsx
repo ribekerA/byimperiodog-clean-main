@@ -64,7 +64,7 @@ export default function WhatsAppFloat() {
 
             <div className="mb-4 rounded-2xl bg-surface-subtle p-3 text-sm text-text">
               <p>
-                Ola! Temos Spitz Alemao Anao (Lulu da Pomerania) sob consulta com mentoria vitalicia. Deseja falar agora pelo WhatsApp?
+                Olá! Temos Spitz Alemão Anão (Lulu da Pomerânia) sob consulta com mentoria vitalícia. Deseja falar agora pelo WhatsApp?
               </p>
             </div>
 

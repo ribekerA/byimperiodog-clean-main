@@ -21,7 +21,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 9.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto), e o macho branco custa R$ 8.500. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 9.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto), e o macho branco custa R$ 8.500. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     question: "O Spitz Alemão Anão é bom para apartamento?",
@@ -51,7 +51,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quais documentos acompanham o filhote?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, hemograma, histórico de vermifugação e contrato de responsabilidade compartilhada. Microchip é opcional, sob contratação. Além disso, o tutor recebe acesso à mentoria vitalícia diretamente com a criadora via WhatsApp.",
+      "Todo filhote da By Império Dog sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, hemograma, histórico de vermifugação e contrato de responsabilidade compartilhada. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria vitalícia diretamente com a criadora via WhatsApp.",
   },
   {
     question: "Por quanto tempo tenho suporte após receber o filhote?",

@@ -308,7 +308,7 @@ export default function HomePage() {
                 Por que a By Império Dog?
               </h2>
               <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-                Desde 2013 cuidando de cada detalhe para que você receba um filhote saudável, socializado e com suporte para toda a vida.
+                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, socializado e com suporte para toda a vida.
               </p>
             </ScrollReveal>
 
@@ -411,7 +411,7 @@ export default function HomePage() {
               Prepare-se para receber seu filhote
             </h2>
             <p className="mt-3 text-zinc-600">
-              Guias escritos por quem cria desde 2013: alimentação, cuidados, documentação e muito mais.
+              Guias escritos por quem cria desde {FOUNDING_YEAR}: alimentação, cuidados, documentação e muito mais.
             </p>
             <Link
               href="/guias"

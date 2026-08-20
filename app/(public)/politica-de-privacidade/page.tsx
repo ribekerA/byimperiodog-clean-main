@@ -6,7 +6,9 @@ import { pageMetadata } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 const path = "/politica-de-privacidade";
-const lastUpdated = "2025-10-18T09:00:00.000Z";
+// Data mexida porque o conteudo mudou de verdade nesta revisao (dados
+// coletados, base legal, cookies, prazos e transferencia internacional).
+const lastUpdated = "2026-08-20T09:00:00.000Z";
 
 const tocItems = [
   { id: "dados-coletados", label: "Dados coletados" },
@@ -54,25 +56,39 @@ export default function PoliticaDePrivacidadePage() {
 
       <section id="dados-coletados" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Dados coletados</h2>
+        {/* A politica anunciava coleta de CPF, data de nascimento, documentos de
+            responsabilidade civil, endereco completo e fotos do ambiente logo no
+            primeiro contato. O formulario do site nao pede nada disso: pede nome,
+            WhatsApp, cidade/estado, preferencia de cor e sexo, prazo e uma
+            mensagem livre. Declarar coleta maior do que a real contraria o
+            principio da necessidade (art. 6º, III da LGPD), entao a politica foi
+            separada em duas etapas — interesse e contratacao. */}
         <p className="text-zinc-600">
-          Coletamos apenas informações necessárias para análise de perfil, acompanhamento de saúde e prestação de suporte. Os
-          principais dados incluem:
+          Coletamos apenas o necessário para cada etapa, e a etapa determina o que é pedido.
+        </p>
+        <h3 className="pt-2 text-lg font-semibold text-zinc-900">1. Contato inicial e interesse</h3>
+        <p className="text-zinc-600">
+          No formulário do site e no atendimento por WhatsApp, pedimos somente o suficiente para responder e apresentar os
+          filhotes disponíveis:
         </p>
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
+          <li>Nome e um canal de contato (WhatsApp, telefone ou e-mail).</li>
+          <li>Cidade e estado, para orientar sobre logística de entrega.</li>
           <li>
-            Dados de identificação: nome completo, CPF, data de nascimento e documentos de comprovação de responsabilidade civil.
-          </li>
-          <li>
-            Dados de contato: e-mail, telefone, endereço completo para logística e preferências de comunicação.
-          </li>
-          <li>
-            Informações sobre rotina familiar: presença de crianças ou outros animais, tempo disponível e objetivo ao receber o
-            Spitz Alemão (Lulu da Pomerânia).
-          </li>
-          <li>
-            Registros multimídia fornecidos voluntariamente, como fotos e vídeos para avaliação do ambiente.
+            Preferências informadas voluntariamente: cor, sexo, prazo desejado e a mensagem que você escrever.
           </li>
         </ul>
+        <h3 className="pt-2 text-lg font-semibold text-zinc-900">2. Contratação</h3>
+        <p className="text-zinc-600">
+          Somente quando a aquisição avança é que solicitamos os dados exigidos para emitir contrato e documento fiscal e para
+          organizar a entrega — como qualificação completa, número de documento e endereço. Esses dados não são pedidos na fase de
+          interesse e são tratados para execução do contrato e cumprimento de obrigação legal.
+        </p>
+        <h3 className="pt-2 text-lg font-semibold text-zinc-900">3. Materiais enviados por você</h3>
+        <p className="text-zinc-600">
+          Fotos, vídeos e outras informações sobre a rotina da família são tratados apenas quando você decide enviá-los, e apenas
+          para a finalidade combinada no atendimento.
+        </p>
       </section>
 
       <section id="finalidades" className="space-y-3">
@@ -86,9 +102,16 @@ export default function PoliticaDePrivacidadePage() {
             Avaliar compatibilidade de perfil e orientar a preparação da residência (execução de contrato e procedimentos prévios -
             art. 7º, V da LGPD).
           </li>
+          {/* "Legitimo interesse" estava cobrindo envio de material educativo, que
+              na pratica e comunicacao de marketing. Marketing pede consentimento
+              e opt-out proprio (art. 7º, I da LGPD), nao legitimo interesse. */}
           <li>
-            Compartilhar materiais educativos, cronogramas de socialização e orientações personalizadas (legítimo interesse, art.
-            10 da LGPD).
+            Responder ao contato e informar sobre disponibilidade, valores e etapas da reserva (execução de contrato e
+            procedimentos preliminares — art. 7º, V da LGPD).
+          </li>
+          <li>
+            Enviar materiais educativos, novidades e comunicações de relacionamento (consentimento — art. 7º, I da LGPD). Esse
+            envio é opcional, independe da aquisição e pode ser cancelado a qualquer momento, sem prejuízo do atendimento.
           </li>
           <li>
             Cumprir exigências fiscais, sanitárias e de transporte do Spitz Alemão (Lulu da Pomerânia) (cumprimento de obrigação
@@ -96,8 +119,12 @@ export default function PoliticaDePrivacidadePage() {
           </li>
         </ol>
         <p className="text-zinc-600">
-          Sempre que necessário, solicitamos consentimento específico, permitindo revogação simples por e-mail ou pelo link
-          &ldquo;Preferências de cookies&rdquo; disponível no rodapé do site.
+          O consentimento para comunicações de marketing é recolhido separadamente e não é condição para o atendimento nem para a
+          execução do contrato. Você pode revogá-lo a qualquer momento, respondendo a qualquer comunicação, escrevendo para{" "}
+          <a href="mailto:contato@byimperiodog.com.br" className="font-medium text-emerald-700 underline">
+            contato@byimperiodog.com.br
+          </a>{" "}
+          ou pelo link &ldquo;Preferências de cookies&rdquo; no rodapé do site, quando se tratar de cookies.
         </p>
       </section>
 
@@ -107,7 +134,10 @@ export default function PoliticaDePrivacidadePage() {
           Compartilhamos dados somente com operadores contratados que seguem padrões de segurança equivalentes. Exemplos:
         </p>
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
-          <li>Clínicas veterinárias parceiras para exames, laudos e vacinas.</li>
+          {/* "Clinicas parceiras" sugeria uma rede formal que a responsavel ja
+              confirmou nao existir. O atendimento veterinario existe; a parceria
+              institucional, nao. */}
+          <li>Médicos-veterinários e clínicas responsáveis pelos exames, laudos e vacinas do filhote.</li>
           <li>Serviços de transporte especializado para entrega do Spitz Alemão (Lulu da Pomerânia).</li>
           <li>
             Provedores de hospedagem, banco de dados e comunicação utilizados para operar o site e registrar
@@ -115,8 +145,10 @@ export default function PoliticaDePrivacidadePage() {
           </li>
         </ul>
         <p className="text-zinc-600">
-          Não vendemos dados pessoais. Eventuais transferências internacionais ocorrem apenas quando ferramentas essenciais
-          armazenam informações em servidores fora do Brasil, sempre com salvaguardas contratuais.
+          Não vendemos dados pessoais. Parte da operação do site — hospedagem, banco de dados e medição de audiência — utiliza
+          fornecedores que podem armazenar ou processar informações em servidores fora do Brasil. Essas transferências
+          internacionais ocorrem nos termos do capítulo V da LGPD, com base nas cláusulas e garantias contratuais oferecidas por
+          cada fornecedor.
         </p>
       </section>
 
@@ -131,9 +163,15 @@ export default function PoliticaDePrivacidadePage() {
           <li>Analíticos: medem comportamento de navegação para otimizar experiência.</li>
           <li>Marketing: somente quando o tutor aceita compartilhar preferências com nossos canais de relacionamento.</li>
         </ul>
+        {/* Esta frase era falsa ate esta revisao: o GTM subia em producao sem
+            nenhuma checagem de consentimento. O texto so volta a ser verdadeiro
+            porque o Consent Mode v2 passou a entrar em "denied" por padrao,
+            antes de qualquer tag carregar (ver ConsentModeDefault). */}
         <p className="text-zinc-600">
           Você pode revisar ou revogar o consentimento a qualquer momento pelo link &ldquo;Preferências de cookies&rdquo; no
-          rodapé do site ou entrando em contato conosco. Cookies de analytics e de marketing só são ativados após aceite.
+          rodapé do site ou entrando em contato conosco. Enquanto não houver aceite, as ferramentas de medição e de marketing
+          operam em modo restrito: não gravam cookies de analytics nem de publicidade e não registram identificadores de
+          publicidade. O armazenamento nessas categorias só é habilitado depois que você aceita.
         </p>
       </section>
 
@@ -159,8 +197,9 @@ export default function PoliticaDePrivacidadePage() {
         <h2 className="text-2xl font-semibold text-zinc-900">Direitos do titular</h2>
         <p className="text-zinc-600">
           O titular pode solicitar a qualquer momento: confirmação de tratamento, acesso, correção, anonimização, portabilidade,
-          eliminação, informação sobre compartilhamento e revogação de consentimento. Atendemos solicitações em até 15 dias
-          corridos e sem custo.
+          eliminação, informação sobre compartilhamento e revogação de consentimento. As solicitações relacionadas aos direitos
+          dos titulares serão tratadas nos prazos previstos na legislação e regulamentação aplicáveis, sem custo. Quando cabível,
+          a declaração completa de acesso aos dados será fornecida em até 15 dias, nos termos da LGPD.
         </p>
       </section>
 

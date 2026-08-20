@@ -6,13 +6,17 @@ import { pageMetadata } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 const path = "/termos-de-uso";
-const lastUpdated = "2025-10-18T09:00:00.000Z";
+// Data mexida porque o conteudo mudou de verdade nesta revisao (identificacao
+// do fornecedor, arrependimento, contrato e foro). Fora isso a data nao se toca.
+const lastUpdated = "2026-08-20T09:00:00.000Z";
 
 const tocItems = [
+  { id: "fornecedor", label: "Identificação do fornecedor" },
   { id: "escopo", label: "Escopo dos serviços" },
   { id: "responsabilidades", label: "Responsabilidades do tutor" },
   { id: "obrigacoes", label: "Obrigações da By Império Dog" },
   { id: "condicoes", label: "Condições comerciais e materiais" },
+  { id: "arrependimento", label: "Direito de arrependimento" },
   { id: "alteracoes", label: "Alterações destes termos" },
   { id: "foro", label: "Foro aplicável" },
 ];
@@ -50,6 +54,36 @@ export default function TermosDeUsoPage() {
       </header>
 
       <TOC items={tocItems} />
+
+      {/* O Decreto 7.962/2013 (art. 2º) exige que o site de comercio eletronico
+          exiba em destaque a identificacao do fornecedor e um canal de
+          atendimento. O site nao trazia nada disso: so e-mail e telefone no
+          rodape. Aqui entra o que o proprio site ja publica e pode ser
+          comprovado. O CNPJ e o endereco fisico ficam de fora de proposito:
+          existem dois CNPJs diferentes no codigo (politica de privacidade x
+          contrato) e nao cabe a este reparo escolher um nem inventar endereco. */}
+      <section id="fornecedor" className="space-y-3">
+        <h2 className="text-2xl font-semibold text-zinc-900">Identificação do fornecedor</h2>
+        <p className="text-zinc-600">
+          O site é operado pela By Império Dog, criadora de Spitz Alemão Anão (Lulu da Pomerânia) sediada em Bragança
+          Paulista/SP. O atendimento ao consumidor — dúvidas, reclamações, exercício de direitos e suporte pós-entrega — é
+          prestado pelos canais abaixo:
+        </p>
+        <ul className="list-disc space-y-2 pl-6 text-zinc-600">
+          <li>
+            E-mail:{" "}
+            <a href="mailto:contato@byimperiodog.com.br" className="font-medium text-emerald-700 underline">
+              contato@byimperiodog.com.br
+            </a>
+          </li>
+          <li>WhatsApp e telefone: (11) 9 6863-3239</li>
+          <li>Município de operação: Bragança Paulista/SP</li>
+        </ul>
+        <p className="text-zinc-600">
+          A identificação empresarial completa do fornecedor — incluindo razão social e número de inscrição no CNPJ — consta do
+          contrato de compra e venda e do documento fiscal emitido em cada aquisição.
+        </p>
+      </section>
 
       <section id="escopo" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Escopo dos serviços</h2>
@@ -89,10 +123,39 @@ export default function TermosDeUsoPage() {
 
       <section id="condicoes" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Condições comerciais e materiais</h2>
+        {/* Antes dizia que o contrato "prevalece sobre estes termos". Um contrato
+            de adesao nao pode se sobrepor ao CDC nem a oferta publicada — o
+            art. 30 torna a oferta vinculante, e o art. 51 anula clausula que
+            afaste direito do consumidor. */}
         <p className="text-zinc-600">
-          A aquisição de um filhote é regida por contrato próprio de compra e venda, que prevalece sobre estes termos em caso de
-          divergência. Eventuais condições comerciais são pessoais e intransferíveis. Os conteúdos publicados no site permanecem
-          protegidos por direitos autorais e não podem ser redistribuídos sem autorização expressa.
+          O contrato individual disciplina as condições específicas da aquisição, sem prejuízo dos direitos assegurados pela
+          legislação aplicável e das ofertas vinculantes regularmente apresentadas ao consumidor. Eventuais condições comerciais
+          são pessoais e intransferíveis. Os conteúdos publicados no site permanecem protegidos por direitos autorais e não podem
+          ser redistribuídos sem autorização expressa.
+        </p>
+      </section>
+
+      {/* O site vende a distancia e nao dizia uma palavra sobre o art. 49 do CDC.
+          As condicoes de sinal que ja estavam publicadas continuam aqui — quem
+          revisa contrato e a responsavel, nao este reparo —, mas agora vem
+          depois da regra legal, e nao no lugar dela. */}
+      <section id="arrependimento" className="space-y-3">
+        <h2 className="text-2xl font-semibold text-zinc-900">Direito de arrependimento</h2>
+        <p className="text-zinc-600">
+          Nas contratações sujeitas ao direito de arrependimento previsto no art. 49 do Código de Defesa do Consumidor, serão
+          observados integralmente os prazos e efeitos previstos na legislação, inclusive quanto à restituição dos valores pagos.
+        </p>
+        <p className="text-zinc-600">
+          Fora dessas hipóteses, o cancelamento da reserva segue as condições pactuadas no contrato individual de compra e venda,
+          que podem incluir a devolução parcial do sinal ou a transferência da reserva para outra ninhada. Em qualquer caso, as
+          condições contratuais não afastam nem reduzem os direitos assegurados ao consumidor pela legislação aplicável.
+        </p>
+        <p className="text-zinc-600">
+          Para exercer o direito de arrependimento ou solicitar o cancelamento, entre em contato pelos canais indicados em{" "}
+          <a href="#fornecedor" className="font-medium text-emerald-700 underline">
+            Identificação do fornecedor
+          </a>
+          .
         </p>
       </section>
 
@@ -106,9 +169,12 @@ export default function TermosDeUsoPage() {
 
       <section id="foro" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Foro aplicável</h2>
+        {/* A renuncia "a qualquer outro foro" e nula em relacao de consumo: o
+            CDC (art. 6º, VIII, e art. 101, I) garante ao consumidor o foro do
+            proprio domicilio. A eleicao vira indicacao, nao renuncia. */}
         <p className="text-zinc-600">
-          Fica eleito o foro da comarca de Bragança Paulista/SP para dirimir controvérsias decorrentes destes termos, com renúncia
-          a qualquer outro, por mais privilegiado que seja.
+          Fica indicado o foro de Bragança Paulista/SP para as controvérsias que legalmente admitam eleição de foro, sem prejuízo
+          do foro do domicílio do consumidor e de outros foros legalmente assegurados.
         </p>
       </section>
 

@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "Quanto custa um Lulu da Pomerânia?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 9.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo), R$ 7.500 (creme e preto) e R$ 8.500 (branco). Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 9.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo), R$ 7.500 (creme e preto) e R$ 8.500 (branco). Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     question: "O Lulu da Pomerânia é bom com crianças?",
@@ -175,7 +175,7 @@ export default function LuluDaPomeraniaPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. Microchip opcional, sob contratação. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
+        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
       </section>
 
       {/* FAQ */}

@@ -112,7 +112,7 @@ export default function PuppyForm({
                 onChange={(event) => set("nome", event.target.value)}
                 aria-invalid={Boolean(errors.nome)}
                 aria-describedby={errors.nome ? "nome-error" : undefined}
-                placeholder="Ex: Spitz Alemao"
+                placeholder="Ex: Spitz Alemão"
                 className={`rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 focus:ring-2 focus:ring-[var(--accent)] ${
                   errors.nome ? "border-[var(--error)]" : ""
                 }`}

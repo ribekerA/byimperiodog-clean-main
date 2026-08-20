@@ -12,6 +12,8 @@
 
 import { ImageResponse } from "next/og";
 
+import { FOUNDING_YEAR } from "@/domain/config";
+
 export const runtime = "edge";
 
 export const alt = "By Império Dog — Spitz Alemão Anão | Criação responsável em Bragança Paulista, SP";
@@ -96,7 +98,7 @@ export default function Image() {
             letterSpacing: "0.01em",
           }}
         >
-          Criação responsável desde 2013 · Bragança Paulista, SP
+          {`Criação responsável desde ${FOUNDING_YEAR} · Bragança Paulista, SP`}
         </div>
 
         {/* Trust pills */}

@@ -5,7 +5,7 @@ const INCLUDED = [
   { icon: "📋", title: "Registro oficial", desc: "Documento oficial reconhecido internacionalmente" },
   { icon: "❤️", title: "Laudo de saúde", desc: "Exame veterinário completo antes da entrega" },
   { icon: "💉", title: "Protocolo vacinal", desc: "Em dia conforme a idade do filhote, carteira assinada pelo médico-veterinário" },
-  { icon: "🔖", title: "Microchip (opcional)", desc: "Identificação permanente e rastreável — sob contratação" },
+  { icon: "🔖", title: "Identificação do animal", desc: "Identificação individual e rastreável, conforme os requisitos da legislação aplicável" },
   { icon: "🌿", title: "Vermifugação", desc: "Tratamento preventivo incluso" },
   { icon: "🎓", title: "Mentoria vitalícia", desc: "Você nunca vai ficar sozinho com dúvidas" },
   { icon: "🧸", title: "Enxoval do filhote", desc: "Kit de acolhimento pronto para o primeiro dia" },

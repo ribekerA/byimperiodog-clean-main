@@ -71,7 +71,7 @@ const INCLUDED = [
   { icon: "📋", title: "Registro oficial",     desc: "Documento oficial da raça"        },
   { icon: "❤️", title: "Laudo de saúde",      desc: "Exame veterinário completo"      },
   { icon: "💉", title: "Protocolo vacinal",   desc: "Em dia conforme a idade, carteira assinada pelo médico-veterinário" },
-  { icon: "🔖", title: "Microchip (opcional)", desc: "Identificação permanente — sob contratação" },
+  { icon: "🔖", title: "Identificação do animal", desc: "Identificação individual, conforme os requisitos da legislação aplicável" },
   { icon: "🎓", title: "Mentoria vitalícia",  desc: "Suporte direto com a criadora"   },
   { icon: "🧸", title: "Enxoval do filhote",  desc: "Kit de acolhimento incluso"      },
 ];

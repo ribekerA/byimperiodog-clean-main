@@ -9,6 +9,7 @@ import "../../design-system/tokens.css";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import SkipLink from "@/components/common/SkipLink";
+import ConsentModeDefault from "@/components/ConsentModeDefault";
 import Pixels from "@/components/Pixels";
 import ToastContainer from "@/components/Toast";
 import { getSiteSettings } from "@/lib/getSettings";
@@ -110,6 +111,12 @@ export default async function PublicLayout({ children }: { children: React.React
         {/* PERFORMANCE: Resource hints essenciais */}
         {/* ================================================================ */}
         <link rel="preconnect" href="https://npmnuihgydadihktglrd.supabase.co" crossOrigin="anonymous" />
+
+        {/* Consentimento ANTES de qualquer tag. Enquanto o visitante nao aceita,
+            analytics e publicidade ficam em "denied" -- que e exatamente o que a
+            politica de privacidade promete e o que o site nao cumpria: o GTM
+            abaixo subia sem nenhuma checagem. Precisa vir antes do GTM/GA4. */}
+        <ConsentModeDefault />
 
         {/* Tracking settings from admin (only in prod) */}
         {/* GTM sai de `afterInteractive` para `lazyOnload`.

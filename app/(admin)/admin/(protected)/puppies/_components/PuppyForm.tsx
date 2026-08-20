@@ -498,7 +498,7 @@ export default function PuppyForm({
         id: "tecnico",
         title: "Técnico",
         short: `${name}: ${sexLabel} ${colorLabel}, registro oficial, protocolo vacinal em dia conforme a idade.`,
-        long: `${name} (${sexLabel}, cor ${colorLabel}) possui registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade e acompanhamento veterinário. Microchip opcional, sob contratação. Ótima densidade de pelagem e estrutura compacta. Valor sugerido ${priceLabel}.`,
+        long: `${name} (${sexLabel}, cor ${colorLabel}) possui registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade e acompanhamento veterinário. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Ótima densidade de pelagem e estrutura compacta. Valor sugerido ${priceLabel}.`,
       },
       {
         id: "emocional",

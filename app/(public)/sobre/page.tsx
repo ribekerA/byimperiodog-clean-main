@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   // usado e o sinonimo, nao o termo principal, porque /sobre disputa consulta
   // de marca e nao a de raca — essa e a /spitz-alemao. Assim o titulo cabe
   // inteiro sem separar "Spitz Alemão Anão" de "Lulu da Pomerânia".
-  title: "Sobre o canil — Lulu da Pomerânia desde 2013",
+  title: `Sobre o canil — Lulu da Pomerânia desde ${FOUNDING_YEAR}`,
   description:
     // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
     // vir do FOUNDING_YEAR como no resto do site.
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/sobre`,
-    title: "Sobre a By Império Dog — criando Spitz Alemão Anão (Lulu da Pomerânia) desde 2013",
+    title: `Sobre a By Império Dog — criando Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}`,
     description:
-      "Desde 2013 criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia.",
+      `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia.`,
   },
 };
 
 const TIMELINE = [
   {
-    year: "2013",
+    year: String(FOUNDING_YEAR),
     title: "O primeiro Spitz chegou",
     description:
       "Por puro amor à raça, a família Império recebeu a primeira fêmea de Spitz Alemão Anão (Lulu da Pomerânia) e começou um longo estudo sobre genética, saúde e padrões da raça.",
@@ -182,7 +182,7 @@ export default function SobrePage() {
     url: `${SITE_URL}/sobre`,
     name: "Sobre a By Império Dog",
     description:
-      "Desde 2013 criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia em Bragança Paulista.",
+      `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria vitalícia em Bragança Paulista.`,
     isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Império Dog" },
   };
 
@@ -209,7 +209,7 @@ export default function SobrePage() {
             Nossa história
           </span>
           <h1 className="mt-5 max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Comecei em 2013 por amor à raça.
+            Comecei em {FOUNDING_YEAR} por amor à raça.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-zinc-300 sm:text-xl">
             Hoje, cada filhote que sai daqui carrega{" "}
@@ -247,7 +247,7 @@ export default function SobrePage() {
           <div className="mb-10 text-center">
             <span className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Nossa trajetória</span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-              Desde 2013 construindo confiança
+              Desde {FOUNDING_YEAR} construindo confiança
             </h2>
           </div>
           <ol className="relative space-y-0" aria-label="Linha do tempo da By Império Dog">
