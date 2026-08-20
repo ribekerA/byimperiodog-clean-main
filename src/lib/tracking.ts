@@ -12,7 +12,14 @@ export function isAdminRoute(pathname?: string): boolean {
   return pathname.startsWith("/admin");
 }
 
-function safePushToDataLayer(event: string, payload: Record<string, any> = {}) {
+/**
+ * Exportada para que src/lib/conversions.ts publique `generate_lead` pelo mesmo
+ * caminho dos demais eventos, em vez de reescrever o push e os try/catch de
+ * fbq/ttq. Continua sendo o único lugar do projeto que fala com o dataLayer.
+ */
+export function safePushToDataLayer(event: string, payload: Record<string, any> = {}) {
+  if (typeof window === "undefined") return;
+
   try {
     // GTM/GA4 via dataLayer
     (window as any).dataLayer = (window as any).dataLayer || [];

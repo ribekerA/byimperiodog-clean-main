@@ -144,9 +144,20 @@ export function resolveActiveEnvironment(
 ): { name: "production" | "staging"; config: PixelEnvironmentConfig } {
   const vercelEnv = env.VERCEL_ENV || env.NODE_ENV || "development";
   const name = vercelEnv === "production" ? "production" : "staging";
+  const storedConfig = name === "production" ? settings.production : settings.staging;
+  const envAdsId = env.GOOGLE_ADS_ID?.trim() || null;
+  const envLeadLabel = env.GOOGLE_ADS_CONVERSION_LABEL?.trim() || null;
+
   return {
     name,
-    config: name === "production" ? settings.production : settings.staging,
+    config: {
+      ...storedConfig,
+      // O admin continua sendo a fonte principal. As variáveis são fallback
+      // para ambientes sem pixels_settings, sem expor o label no bundle.
+      googleAdsId: storedConfig.googleAdsId ?? envAdsId,
+      googleAdsConversionLabel:
+        storedConfig.googleAdsConversionLabel ?? envLeadLabel,
+    },
   };
 }
 

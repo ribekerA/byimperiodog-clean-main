@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+import { ObrigadoConversionTracker } from "@/components/ObrigadoConversionTracker";
+import { getPixelsSettings, resolveActiveEnvironment } from "@/lib/pixels";
+
 export const revalidate = 0;
 
 // Página de confirmação pós-formulário: não tem valor de busca, é conteúdo
@@ -9,9 +12,16 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default function ObrigadoPage() {
+export default async function ObrigadoPage() {
+  const pixelsSettings = await getPixelsSettings();
+  const { config } = resolveActiveEnvironment(pixelsSettings);
+
   return (
     <div className="container mx-auto px-4 py-16">
+      <ObrigadoConversionTracker
+        adsId={config.googleAdsId}
+        leadLabel={config.googleAdsConversionLabel}
+      />
       <h1 className="text-3xl font-bold">Obrigado! Recebemos seu interesse</h1>
       <p className="mt-3 text-muted-foreground">Em breve a By Império Dog entrará em contato para continuar seu atendimento.</p>
       <div className="mt-6 space-y-2 text-sm text-muted-foreground">
