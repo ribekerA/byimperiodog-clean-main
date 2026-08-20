@@ -16,7 +16,7 @@ const CATALOG_FAQS = [
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
     answer:
-      "Na By Império Dog trabalhamos com cinco cores: Branco, Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). O branco foi incluído com valores provisórios de R$ 7.500 para macho e R$ 8.500 para fêmea; confirme com a equipe antes da reserva. A disponibilidade varia conforme as ninhadas.",
+      "Na By Império Dog trabalhamos com cinco cores: Branco, Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). O branco custa R$ 7.500 para macho e R$ 8.500 para fêmea. A disponibilidade varia conforme as ninhadas.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",

@@ -148,9 +148,6 @@ export default function ColorGallery() {
             </motion.li>
           ))}
         </ul>
-        <p className="mt-5 text-center text-xs text-zinc-500">
-          * O valor da cor branca é provisório e deve ser confirmado com a equipe.
-        </p>
       </div>
     </section>
   );

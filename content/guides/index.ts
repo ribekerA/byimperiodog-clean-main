@@ -49,7 +49,7 @@ export const guides: Guide[] = [
       {
         heading: "As diferenças entre as cores",
         paragraphs: [
-          "Na tabela atual da By Império Dog, branco (valor provisório), creme e preto ficam na faixa superior entre os machos; as fêmeas têm valor único em todas as cores. Cinza-Lobo (Wolf Sable) é a bicolor cinza/laranja. O laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano.",
+          "Na tabela atual da By Império Dog, branco, creme e preto ficam na faixa superior entre os machos; as fêmeas têm valor único em todas as cores. Cinza-Lobo (Wolf Sable) é a bicolor cinza/laranja. O laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano.",
           "A cor não influencia o temperamento nem a saúde — influencia apenas a disponibilidade e, consequentemente, o preço. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
         ],
       },

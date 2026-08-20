@@ -21,7 +21,7 @@ const SEXES = [
     colors: [
       { cor: "Laranja", valor: "R$ 6.500" },
       { cor: "Cinza-Lobo", valor: "R$ 6.500" },
-      { cor: "Branco*", valor: "R$ 7.500" },
+      { cor: "Branco", valor: "R$ 7.500" },
       { cor: "Preto", valor: "R$ 7.500" },
       { cor: "Creme", valor: "R$ 7.500" },
     ],
@@ -102,10 +102,6 @@ export default function PriceTransparency() {
           </div>
         ))}
       </div>
-
-      <p className="mt-3 text-center text-xs text-zinc-400">
-        * Valor do macho branco provisório; confirme com a equipe antes da reserva.
-      </p>
 
       {/* CTA */}
       <div className="mt-10 text-center">

@@ -74,7 +74,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Branco?",
         answer:
-          "A tabela atual traz R$ 7.500 para macho e R$ 8.500 para fêmea. Na cor branca, confirme com a equipe o valor do filhote disponível antes de reservar.",
+          "A tabela atual traz R$ 7.500 para macho e R$ 8.500 para fêmea — a mesma faixa do creme e do preto entre os machos, e o valor único das fêmeas em todas as cores. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia.",
       },
       {
         question: "A cor branca muda o temperamento ou a saúde do Spitz?",

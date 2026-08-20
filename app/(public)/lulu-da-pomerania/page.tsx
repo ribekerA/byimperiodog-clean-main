@@ -43,7 +43,7 @@ const FAQS = [
   {
     question: "Quanto custa um Lulu da Pomerânia?",
     answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme, preto e, provisoriamente, branco). Fêmeas custam R$ 8.500, valor único para todas as cores. Confirme o valor do branco antes da reserva. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 8.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo) até R$ 7.500 (creme, preto e branco). Fêmeas custam R$ 8.500, valor único para todas as cores. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "O Lulu da Pomerânia é bom com crianças?",
@@ -163,7 +163,7 @@ export default function LuluDaPomeraniaPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", valor: "R$ 6.500", tag: "a partir de" },
-            { cor: "Macho — Branco* / Creme / Preto",            valor: "R$ 7.500", tag: "a partir de" },
+            { cor: "Macho — Branco / Creme / Preto",            valor: "R$ 7.500", tag: "a partir de" },
             { cor: "Fêmea — todas as cores",                    valor: "R$ 8.500", tag: "valor único" },
           ].map((p) => (
             <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
@@ -173,7 +173,7 @@ export default function LuluDaPomeraniaPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-400">* Valor do branco provisório; confirme com a equipe antes da reserva. Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. Microchip opcional, sob contratação. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
+        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. Microchip opcional, sob contratação. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
       </section>
 
       {/* FAQ */}

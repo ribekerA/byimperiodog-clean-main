@@ -1,7 +1,7 @@
 // content/puppies-static.ts
 // Catálogo estático — By Império Dog
 // Para atualizar disponibilidade: status → "available" | "reserved" | "sold"
-// Hierarquia de preços: Fêmeas R$ 8.500 (todas as cores) | Machos R$ 7.500 (Branco provisório, Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
+// Hierarquia de preços: Fêmeas R$ 8.500 (todas as cores) | Machos R$ 7.500 (Branco, Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
 
 export const staticPuppies = [
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
@@ -27,7 +27,6 @@ export const staticPuppies = [
       "/filhotes/branco/branco-femea-jardim-05.jpg",
       "/filhotes/branco/branco-femea-jardim-06.jpg",
     ],
-    // Fêmea Branca — valor provisório da tabela atual, a confirmar antes do deploy.
     price_cents: 850000,
     priceCents: 850000,
     currency: "BRL",

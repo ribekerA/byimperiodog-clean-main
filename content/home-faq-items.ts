@@ -21,7 +21,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 8.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme, preto e, provisoriamente, branco). Fêmeas custam R$ 8.500, valor único para todas as cores. Confirme o valor do branco com a equipe antes da reserva. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
+      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 8.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme, preto e branco). Fêmeas custam R$ 8.500, valor único para todas as cores. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia. O microchip é opcional, sob contratação.",
   },
   {
     question: "O Spitz Alemão Anão é bom para apartamento?",
