@@ -61,7 +61,7 @@ export default function PoliticaEditorialPage() {
 
         <h2>Como produzimos</h2>
         <p>
-          Selecionamos temas com base nas dúvidas reais de tutores e no nosso processo de criação. As pautas passam por:
+          Selecionamos temas com base nas dúvidas reais de tutores e no nosso atendimento. As pautas passam por:
         </p>
         <ul>
           <li>Pesquisa de base (literatura, diretrizes e materiais técnicos relevantes).</li>

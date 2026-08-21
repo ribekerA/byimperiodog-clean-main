@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
@@ -24,7 +24,7 @@ const FAQS = [
 ];
 
 export default function NinhadasPage() {
-  const puppies = staticPuppies.filter((p) => p.status === "planned" || p.status === "pregnant" || p.status === "born");
+  const puppies = puppiesPublicados.filter((p) => p.status === "planned" || p.status === "pregnant" || p.status === "born");
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },

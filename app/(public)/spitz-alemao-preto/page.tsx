@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { formatarPreco, precoDe, RESPOSTA_PRETO } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
@@ -37,12 +38,14 @@ const FAQS = [
   {
     question: "Por que o Spitz Alemão Anão preto é difícil de encontrar?",
     answer:
-      "Produzir uma pelagem preta uniforme e brilhante dentro do padrão racial exige matrizes e padreadores específicos, e nem toda ninhada traz filhotes pretos com essa uniformidade. Por isso a disponibilidade do preto na By Império Dog é menor ao longo do ano do que a do laranja.",
+      "Uma pelagem preta uniforme e brilhante dentro do padrão racial não aparece em toda ninhada. Por isso a disponibilidade do preto na By Império Dog costuma ser menor ao longo do ano do que a do laranja.",
   },
   {
     question: "Qual o preço do Spitz Alemão Anão preto?",
-    answer:
-      "Na By Império Dog, o Spitz Alemão preto custa R$ 7.500 (machos) e R$ 8.500 (fêmeas). Pela menor disponibilidade, o preço do macho é superior ao laranja e ao cinza-lobo (wolf sable), no mesmo patamar do creme. A fêmea preta custa o mesmo que a creme, a laranja e a cinza-lobo; só a branca é mais cara. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    // Resposta oficial de preço do preto, importada de domain/pricing. A versão
+    // anterior comparava a cor com o cinza-lobo e emendava documentação,
+    // vacina e mentoria dentro da resposta de "quanto custa".
+    answer: RESPOSTA_PRETO,
   },
   {
     question: "Como saber se o Spitz Alemão preto tem registro oficial legítimo?",
@@ -57,7 +60,7 @@ const FAQS = [
   {
     question: "Tem disponibilidade de Spitz Alemão preto no Brasil?",
     answer:
-      "A disponibilidade é limitada em comparação com o laranja e o creme. A By Império Dog trabalha com matrizes na cor preta e tem ninhadas periódicas. O ideal é entrar em contato para verificar a agenda atual e, se necessário, entrar em lista de interesse para a próxima ninhada.",
+      "A disponibilidade do preto é menor que a do laranja e a do creme. O ideal é entrar em contato para verificar a agenda atual e, se necessário, entrar em lista de interesse.",
   },
 ];
 
@@ -98,9 +101,9 @@ export default function SpitzAlemaoPretoPage() {
         <h2 id="raridade-heading" className="text-2xl font-bold text-zinc-900">Por que o Spitz Alemão preto aparece com menos frequência?</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { t: "Linhagem específica", b: "A cor preta uniforme depende das matrizes e dos padreadores usados no acasalamento — não é um resultado que se obtenha em qualquer combinação." },
+            { t: "Padrão rigoroso da cor", b: "O preto do padrão é uniforme e brilhante, sem manchas. É um resultado que não aparece em toda ninhada." },
             { t: "Disponibilidade menor", b: "Na By Império Dog, as ninhadas com filhotes pretos dentro do padrão são menos frequentes do que as de laranja — por isso a agenda do preto costuma abrir com menos regularidade." },
-            { t: "Padrão rigoroso", b: "Um preto verdadeiro deve ser uniforme, brilhante e sem manchas. Qualquer desvio desclassifica o cão para exposição." },
+            { t: "Avaliação em exposição", b: "Manchas ou tons irregulares desclassificam o cão para exposição — critério de julgamento, não de saúde nem de temperamento." },
           ].map((c) => (
             <article key={c.t} className="rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm">
               <h3 className="text-sm font-semibold text-zinc-900">{c.t}</h3>
@@ -116,11 +119,11 @@ export default function SpitzAlemaoPretoPage() {
         <div className="flex flex-wrap gap-4">
           <div className="rounded-2xl bg-white border border-zinc-200 p-5 min-w-[160px] text-center shadow-sm">
             <p className="text-xs text-zinc-400 uppercase">Macho</p>
-            <p className="text-2xl font-bold text-zinc-900">R$ 7.500</p>
+            <p className="text-2xl font-bold text-zinc-900">{formatarPreco(precoDe("preto", "macho"))}</p>
           </div>
           <div className="rounded-2xl bg-white border border-zinc-200 p-5 min-w-[160px] text-center shadow-sm">
             <p className="text-xs text-zinc-400 uppercase">Fêmea</p>
-            <p className="text-2xl font-bold text-zinc-900">R$ 8.500</p>
+            <p className="text-2xl font-bold text-zinc-900">{formatarPreco(precoDe("preto", "femea"))}</p>
           </div>
         </div>
         <ul className="space-y-1.5 text-sm text-zinc-700">

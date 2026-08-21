@@ -44,7 +44,7 @@ const CHARACTERISTICS = [
   { label: "Peso adulto (referência prática)", value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
-  { label: "Cores na By Império Dog", value: "Branco, Creme, Laranja, Preto, Cinza-Lobo (Wolf Sable)" },
+  { label: "Cores na By Império Dog", value: "Laranja, Creme, Preto, Branco" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
   { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
@@ -69,7 +69,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "O padrão da raça admite várias cores. As cinco trabalhadas pela By Império Dog são Branco, Laranja, Creme, Preto e Cinza-Lobo (Wolf Sable). O padrão também admite marrom, preto e castanho e variantes particoloridas. A cor não altera temperamento nem saúde.",
+      "O padrão da raça admite várias cores. As quatro divulgadas pela By Império Dog são Laranja, Creme, Preto e Branco. O padrão também admite marrom, preto e castanho e variantes particoloridas. A cor não altera temperamento nem saúde.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
@@ -215,7 +215,6 @@ export default function SpitzAlemaoPage() {
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },
             { cor: "Creme",      slug: "creme",      desc: "Pelagem cor de marfim com contraste de olhos e focinho escuros." },
             { cor: "Preto",      slug: "preto",      desc: "Pelagem preta brilhante uniforme. Disponibilidade limitada — ninhadas esporádicas." },
-            { cor: "Cinza-Lobo (Wolf Sable)", slug: "wolf-sable", desc: "Pelos com ponta escura sobre corpo acinzentado — padrão reconhecido pela FCI." },
           ].map((c) => (
             <Link
               key={c.cor}

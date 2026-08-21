@@ -7,8 +7,9 @@
  * sitemap. Abaixo do mínimo o post simplesmente não existe para o site: nem
  * rota, nem sitemap.
  *
- * Importado por /blog/[slug], por app/sitemap.ts e por /sitemaps/posts.xml,
- * para que as três respostas nunca divirjam — sitemap que aponta para 404 é
+ * Importado por /blog/[slug], pela listagem de /blog, por app/sitemap.ts, por
+ * /sitemaps/posts.xml e por /api/search, para que as respostas nunca divirjam —
+ * sitemap que aponta para 404, ou busca que oferece link quebrado, é
  * exatamente o que essa constante existe para impedir.
  *
  * Desde a revisão do caminho de IA, o corte por tamanho é só a primeira

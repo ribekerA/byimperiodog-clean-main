@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
+import { CARDS_POR_FAIXA, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
@@ -42,8 +43,8 @@ const FAQS = [
   },
   {
     question: "Quanto custa um Lulu da Pomerânia?",
-    answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 9.500 dependendo da cor e do sexo. Machos a partir de R$ 6.500 (laranja e cinza-lobo), R$ 7.500 (creme e preto) e R$ 8.500 (branco). Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. O valor inclui registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    // Mesma resposta oficial da home, de /preco-spitz-anao e de /pomeranian.
+    answer: RESPOSTA_QUANTO_CUSTA,
   },
   {
     question: "O Lulu da Pomerânia é bom com crianças?",
@@ -161,17 +162,11 @@ export default function LuluDaPomeraniaPage() {
           Na By Império Dog os preços são:
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
-          {[
-            { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", valor: "R$ 6.500", tag: "valor da tabela" },
-            { cor: "Macho — Creme / Preto",                     valor: "R$ 7.500", tag: "valor da tabela" },
-            { cor: "Macho — Branco",                            valor: "R$ 8.500", tag: "valor da tabela" },
-            { cor: "Fêmea — Creme / Preto / Laranja / Cinza-Lobo", valor: "R$ 8.500", tag: "valor da tabela" },
-            { cor: "Fêmea — Branco",                            valor: "R$ 9.500", tag: "valor da tabela" },
-          ].map((p) => (
-            <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
-              <p className="text-xs text-zinc-400 uppercase tracking-wide">{p.tag}</p>
+          {CARDS_POR_FAIXA.map((p) => (
+            <div key={p.rotulo} className="rounded-xl bg-white border border-zinc-200 p-4">
+              <p className="text-xs text-zinc-400 uppercase tracking-wide">valor da tabela</p>
               <p className="text-xl font-bold text-emerald-700">{p.valor}</p>
-              <p className="text-sm text-zinc-600">{p.cor}</p>
+              <p className="text-sm text-zinc-600">{p.rotulo}</p>
             </div>
           ))}
         </div>

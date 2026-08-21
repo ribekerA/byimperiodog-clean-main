@@ -2,6 +2,11 @@ import { join } from "path";
 
 const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toISOString();
 
+// `next dev` roda com NODE_ENV=development; `next build` e `next start`, com
+// production. Usado só para não aplicar em dev um cabeçalho de cache que só
+// faz sentido com nome de arquivo versionado.
+const isDev = process.env.NODE_ENV !== "production";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Por padrão continua sendo `.next` — a Netlify e o `npm run dev` não mudam.
@@ -121,7 +126,18 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            // Em producao os arquivos de /_next/static tem hash no nome: mudou o
+            // conteudo, mudou a URL, entao `immutable` e seguro e economiza
+            // revalidacao. Em desenvolvimento nao tem — `app/(public)/page.js`
+            // mantem o mesmo nome a cada recompilacao. Com `immutable` o
+            // navegador guardava aquele bundle por um ano e continuava servindo
+            // a versao antiga: bastava acrescentar um client component novo a
+            // uma pagina para o React pedir um modulo que nao existia no bundle
+            // em cache e a pagina inteira morrer com "Cannot read properties of
+            // undefined (reading 'call')" — sem erro nenhum no terminal, porque
+            // do lado do servidor estava tudo certo. Custa uma revalidacao por
+            // arquivo em dev e devolve o Fast Refresh confiavel.
+            value: isDev ? "no-store, must-revalidate" : "public, max-age=31536000, immutable",
           },
         ],
       },

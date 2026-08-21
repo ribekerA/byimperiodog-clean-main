@@ -2,6 +2,26 @@ import Image from "next/image";
 
 import { FOUNDING_YEAR } from "@/domain/config";
 
+// Depoimentos reais, escritos pelas próprias famílias. A regra aqui é não
+// reescrever ninguém: o texto é o que a pessoa disse. A única intervenção
+// permitida é retirar algo que o canil não oferece a todo mundo — porque um
+// depoimento na página de venda é lido como descrição do que vem incluso, e
+// não como a experiência de uma família só.
+//
+// Foi o caso de duas expressões no primeiro depoimento:
+//
+// • "microchip" — este é o único ponto do site público que dizia que o filhote
+//   chega com microchip. Todos os filhotes em puppies-static têm
+//   `hasMicrochip: false`, e o prompt do chat é explícito: "Nunca prometa
+//   microchip incluso". Uma família lia o depoimento, cobrava o microchip na
+//   entrega e ninguém estava errado — só o site.
+// • "vídeos diários" — enviar vídeo do filhote é real, mas "diários" não
+//   aparece em lugar nenhum como compromisso. Quem lê passa a esperar um vídeo
+//   por dia até a entrega.
+//
+// O resto do texto ficou palavra por palavra. As outras três famílias citam
+// registro oficial, laudo de saúde, enxoval e mentoria vitalícia — tudo isso o
+// canil anuncia em página própria e consta no contrato, então nada a ajustar.
 const TESTIMONIALS = [
   {
     photo: "/clientes/ana.jpeg",
@@ -9,7 +29,7 @@ const TESTIMONIALS = [
     city: "Campinas, SP",
     puppy: "Spitz Creme Fêmea",
     stars: 5,
-    text: "Processo impecável do início ao fim. A criadora me acompanhou em cada dúvida, enviou vídeos diários do filhote e a entrega foi perfeita. Minha Bella já chegou com todos os documentos, microchip e vacinação em dia. Recomendo de olhos fechados.",
+    text: "Processo impecável do início ao fim. A criadora me acompanhou em cada dúvida, enviou vídeos do filhote e a entrega foi perfeita. Minha Bella já chegou com todos os documentos e a vacinação em dia. Recomendo de olhos fechados.",
   },
   {
     photo: "/clientes/marina.jpeg",

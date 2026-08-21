@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function BlogPuppyBanner({ postTitle }: Props) {
-  const available = (staticPuppies as any[]).filter(
+  const available = (puppiesPublicados as any[]).filter(
     (p) => p.status !== "sold" && p.status !== "vendido" && p.status !== "reserved" && p.status !== "reservado"
   );
   const count = available.length;

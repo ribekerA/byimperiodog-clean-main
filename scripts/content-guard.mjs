@@ -62,6 +62,50 @@ const frontmatterEnd = (source) => {
   return end === -1 ? 0 : end + 4;
 };
 
+// ---------------------------------------------------------------------------
+// Preço publicado x tabela comercial
+// ---------------------------------------------------------------------------
+// src/domain/pricing.ts virou a fonte única dos números que o site MOSTRA, mas
+// prosa não importa constante: um .mdx escreve "R$ 8.500" à mão e ninguém
+// percebe quando a tabela muda. Foi assim que a fêmea laranja ficou anunciada
+// por R$ 8.500 em três artigos depois de passar para R$ 7.500.
+//
+// A tabela está repetida aqui de propósito: este script roda no prebuild, antes
+// do Next existir, e não resolve o alias "@/". A dupla é conferida pelo teste
+// tests/pricing-guard.test.ts, que quebra se as duas divergirem.
+const PRECOS_DA_TABELA = new Set([6500, 7500, 8500, 9500]);
+
+// Faixa em que um número solto é, quase certamente, preço de filhote. Abaixo de
+// R$ 6.000 estão custo de manutenção, vacina e consulta; acima de R$ 20.000 não
+// existe nada no site. Dentro da faixa, valor fora da tabela é erro — inclusive
+// os R$ 10.500 que sobraram da tabela antiga.
+const FAIXA_DE_PRECO_DE_FILHOTE = { min: 6000, max: 20000 };
+
+// A única exceção real: o total do primeiro ano de manutenção, que o próprio
+// texto marca como "sem o filhote". Fica escrito aqui em vez de sair da faixa
+// para que, se a frase mudar, alguém releia a frase em vez de o guard calar.
+const PRECOS_QUE_NAO_SAO_FILHOTE = new Map([
+  ["content/posts/quanto-custa-manter-spitz-alemao.mdx", new Set([6000])],
+]);
+
+const PRECO_PATTERN = /R\$\s*(\d{1,3}(?:\.\d{3})+)/g;
+
+// ---------------------------------------------------------------------------
+// Cinza-Lobo (Wolf Sable) fora da comunicação
+// ---------------------------------------------------------------------------
+// A cor deixou de ser divulgada. A regra vale para a prosa: "Cinza-Lobo" e
+// "Wolf Sable" escritos por extenso. O slug "wolf-sable" continua liberado
+// porque é caminho de imagem, chave de objeto e URL indexada — apagar isso
+// quebraria página no ar, decisão de quem responde pelo SEO e não efeito
+// colateral de uma mudança de tabela.
+const CINZA_LOBO_PATTERN = /cinza[-\s]lobo|wolf\s+sable/gi;
+
+// O artigo dedicado é uma URL indexada e continua no ar até haver decisão
+// explícita sobre ela. É o único arquivo em que a cor pode ser escrita.
+const CINZA_LOBO_PERMITIDO = new Set([
+  "content/posts/spitz-alemao-anao-wolf-sable.mdx",
+]);
+
 const BREED_PATTERN = /spitz\s+alem[ãa]o(?:\s+an[ãa]o)?/gi;
 const CERNELHA_PATTERN = /cernelha/gi;
 
@@ -110,6 +154,23 @@ for (const file of files) {
       violations.push(
         `${file}: "${match[0]}" precisa incluir "Lulu da Pomerânia" no mesmo trecho.`
       );
+    }
+  }
+
+  const precosLiberados = PRECOS_QUE_NAO_SAO_FILHOTE.get(file);
+  for (const match of raw.matchAll(PRECO_PATTERN)) {
+    const valor = Number(match[1].replace(/\./g, ""));
+    if (valor < FAIXA_DE_PRECO_DE_FILHOTE.min || valor > FAIXA_DE_PRECO_DE_FILHOTE.max) continue;
+    if (precosLiberados?.has(valor)) continue;
+    if (PRECOS_DA_TABELA.has(valor)) continue;
+    violations.push(
+      `${file}: "${match[0]}" não existe na tabela comercial (R$ 6.500 / 7.500 / 8.500 / 9.500).`
+    );
+  }
+
+  if (!CINZA_LOBO_PERMITIDO.has(file)) {
+    for (const match of raw.matchAll(CINZA_LOBO_PATTERN)) {
+      violations.push(`${file}: "${match[0]}" — a cor não é mais divulgada.`);
     }
   }
 

@@ -13,8 +13,9 @@ import PriceTransparency from "@/components/sections/PriceTransparency";
 import TextTestimonials from "@/components/sections/TextTestimonials";
 import VideoHero from "@/components/sections/VideoHero";
 import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD, buildFAQLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -123,10 +124,13 @@ export default function HomePage() {
   const businessLd = buildLocalBusinessLD();
   const faqLd      = buildFAQLD(HOME_FAQ_ITEMS);
 
-  // 4 filhotes em destaque — disponíveis primeiro, mix de cores
-  const featured = staticPuppies
-    .filter((p) => p.status !== "sold" && p.status !== "vendido")
-    .slice(0, 4);
+  // Todos os filhotes à venda, sem corte. Antes eram os 4 primeiros, e a home
+  // se contradizia sozinha: o hero anuncia "N filhotes disponíveis agora" e a
+  // seção logo abaixo mostrava 4. Quem contava percebia. Quem não contava saía
+  // achando que o canil tinha metade do plantel que tem.
+  const featured = puppiesPublicados.filter(
+    (p) => p.status !== "sold" && p.status !== "vendido",
+  );
 
   return (
     <>
@@ -182,13 +186,21 @@ export default function HomePage() {
             </ScrollReveal>
 
             {/* ── Lista de filhotes — UMA única instância no DOM ──────────────
-                Antes havia um carrossel "mobile" e um grid "desktop" com os
-                mesmos cards, o que duplicava todos os filhotes no HTML público.
-                Agora é o mesmo bloco: carrossel com snap no mobile e grid de
-                4 colunas a partir de sm, alternado só por CSS. */}
+                Uma coluna no celular, um filhote por vez ocupando a largura
+                toda; 2 colunas a partir de sm e 4 a partir de lg.
+
+                Já foi carrossel horizontal aqui. A ideia era boa em teoria —
+                cabe muito card em pouca tela — e ruim na prática por três
+                motivos que só aparecem no aparelho: o deslize lateral disputa
+                com a rolagem vertical da página e com o gesto de "voltar" do
+                navegador; o card encolhia para 80% da tela, e a foto junto,
+                que é o que vende; e o que não está na primeira posição some,
+                então metade do plantel dependia de a pessoa adivinhar que
+                havia mais coisa à direita. Empilhado, o dedo faz o gesto que
+                já ia fazer e cada filhote chega em tamanho de vitrine. */}
             <div className="px-5 sm:px-8">
               <StaggerContainer
-                className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:pb-0 lg:grid-cols-4"
+                className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"
                 stagger={0.12}
                 delay={0.15}
               >
@@ -207,23 +219,28 @@ export default function HomePage() {
                     utmContent: puppy.id,
                   });
                   return (
-                    <StaggerItem
-                      key={puppy.id}
-                      className="w-[72vw] max-w-[260px] shrink-0 snap-start sm:w-auto sm:max-w-none sm:shrink"
-                    >
+                    <StaggerItem key={puppy.id}>
                       <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-900/5 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                         <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
+                          {/* 4/5 em qualquer tela. O quadrado existia para
+                              encolher o card do carrossel e caber o botão junto
+                              na dobra; sem carrossel, a foto ganha de volta os
+                              75px que ela tinha perdido — e ela é o argumento de
+                              venda, não o enfeite. */}
                           <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
                             {cover && (
                               <Image
                                 src={cover}
                                 alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
                                 fill
-                                // Mesmo ajuste do card do catalogo: a foto e
-                                // vertical e o filhote fica na parte de cima do
-                                // quadro, entao o corte centralizado comia a cabeca.
-                                className="object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-105"
-                                sizes="(max-width: 640px) 72vw, (max-width: 1024px) 50vw, 25vw"
+                                // O recorte vem medido por foto (src/lib/photo-focus).
+                                // Um valor unico nao serve: o filhote que posa no
+                                // colo esta no alto do quadro, o que posa na grama
+                                // esta embaixo, e o mesmo 28% que enquadra um deixa
+                                // o outro com meio card de ceu.
+                                className="object-cover transition duration-500 group-hover:scale-105"
+                                style={{ objectPosition: focoDaFoto(cover) }}
+                                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 25vw"
                                 priority={i < 2}
                               />
                             )}
@@ -258,9 +275,9 @@ export default function HomePage() {
                             href={waLink}
                             target="_blank"
                             rel="noreferrer"
-                            /* Os quatro cards repetem "Tenho interesse" e cada um abre uma
+                            /* Todos os cards repetem "Tenho interesse" e cada um abre uma
                                conversa diferente. Sem rotulo proprio, o leitor de tela le
-                               quatro links iguais apontando para destinos distintos. */
+                               uma fila de links iguais apontando para destinos distintos. */
                             aria-label={`Tenho interesse no ${puppy.name} — falar pelo WhatsApp`}
                             className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98]"
                           >
@@ -281,14 +298,17 @@ export default function HomePage() {
                 })}
               </StaggerContainer>
 
-              {/* CTA único — antes existia uma versão "desktop" e outra "mobile",
-                  além do card final do carrossel, repetindo o mesmo link 3×. */}
+              {/* Dizia "Ver todos os filhotes disponíveis" quando a seção
+                  mostrava 4 de 7 — e continuar dizendo isso agora seria prometer
+                  uma página que não tem nada de novo. O que /filhotes tem e a
+                  home não tem é o filtro por cor, então é isso que o botão
+                  oferece. */}
               <ScrollReveal delay={0.2} className="mt-8 text-center sm:mt-12">
                 <Link
                   href="/filhotes"
                   className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full border-2 border-zinc-200 px-8 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
                 >
-                  Ver todos os filhotes disponíveis →
+                  Filtrar filhotes por cor →
                 </Link>
               </ScrollReveal>
             </div>

@@ -46,9 +46,10 @@ const STATUS_OPTIONS = [
   { value: "reserved", label: "Reservados" },
 ];
 
-const COLOR_LABELS: Record<string, string> = {
-  "wolf-sable": "Cinza-Lobo",
-};
+// Rótulo amigável para cores cujo slug não serve como texto. Está vazio porque
+// as quatro cores divulgadas têm slug de uma palavra só — o `capitalize` do
+// fallback dá conta delas. A entrada do cinza-lobo saiu junto com a cor.
+const COLOR_LABELS: Record<string, string> = {};
 
 export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
   const HeroHeading = headingLevel === 2 ? "h2" : "h1";

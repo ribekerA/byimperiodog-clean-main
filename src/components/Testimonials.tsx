@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { cn } from '@/lib/cn';
 import { BLUR_DATA_URL } from '@/lib/placeholders';
 
+import { captionFor } from './clientPhotoCaptions';
 import CLIENT_PHOTOS from './clientPhotos';
 
 type Variant = 'carousel' | 'grid';
@@ -54,10 +55,17 @@ export default function Testimonials({
 
   const current = useMemo(() => list[index % total], [index, list, total]);
 
+  // Legenda só existe para a foto cuja família a criadora identificou (o mapa
+  // em clientPhotoCaptions). As outras seguem sem nome e sem cidade.
+  const currentCaption = useMemo(() => (current ? captionFor(current) : null), [current]);
+
   // A cidade da legenda saía de um rodízio fixo (`CITY_POOL[i % length]`), ou
   // seja, era atribuída à foto pela posição no carrossel — não pela origem real
-  // da família. Legenda e alt agora descrevem só o que a foto mostra.
+  // da família. Agora o nome e a cidade vêm do mapa de legendas, um por um; sem
+  // entrada no mapa, alt e legenda descrevem só o que a foto mostra.
   const altFor = useCallback((p: string) => {
+    const caption = captionFor(p);
+    if (caption) return `${caption.name}, de ${caption.city}, com o seu Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog`;
     const base = p.split('/').pop() || '';
     if (/^cliente/i.test(base)) return 'Família cliente da By Império Dog com seu filhote';
     return 'Spitz Alemão Anão (Lulu da Pomerânia) com a família cliente da By Império Dog';
@@ -187,6 +195,14 @@ export default function Testimonials({
                     placeholder="blur"
                     blurDataURL={BLUR_DATA_URL}
                   />
+                  {/* A faixa escura só cobre o rodapé da foto — é onde o nome
+                      fica legível sobre qualquer imagem, clara ou escura. */}
+                  {currentCaption && (
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/45 to-transparent px-4 pb-3 pt-10 text-left">
+                      <p className="text-sm font-semibold text-white">{currentCaption.name}</p>
+                      <p className="text-xs text-white/80">{currentCaption.city}</p>
+                    </figcaption>
+                  )}
                 </figure>
               )}
               {total > 1 && (

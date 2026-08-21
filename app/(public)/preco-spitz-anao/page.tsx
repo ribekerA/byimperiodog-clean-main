@@ -3,6 +3,12 @@ import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
+import {
+  type CorDivulgada,
+  FAIXA_PUBLICA_TEXTO,
+  LINHAS_FORMATADAS,
+  RESPOSTA_QUANTO_CUSTA,
+} from "@/domain/pricing";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
@@ -16,7 +22,7 @@ export const metadata: Metadata = {
   description:
     // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
     // varia", que é justamente a intenção de busca da página. Reescrita em 156.
-    "Tabela de preços do Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo: Branco, Creme, Laranja, Preto e Cinza-Lobo. Veja o que está incluso e por que o valor varia.",
+    "Tabela de preços do Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo: Laranja, Creme, Preto e Branco. Veja o que está incluso e por que o valor varia.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
@@ -33,18 +39,28 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     title: "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
     description:
-      "Branco R$ 8.500 (macho) e R$ 9.500 (fêmea). Demais cores: machos de R$ 6.500 a R$ 7.500 e fêmeas R$ 8.500 — com registro oficial, laudos e mentoria vitalícia.",
+      "Machos de R$ 6.500 a R$ 8.500 e fêmeas de R$ 7.500 a R$ 9.500, conforme a cor — com registro oficial, laudos e mentoria vitalícia inclusos.",
     type: "article",
   },
 };
 
-const PRICE_TABLE = [
-  { color: "Laranja",                    male: "R$ 6.500", female: "R$ 8.500", note: "A cor mais icônica da raça" },
-  { color: "Cinza-Lobo (Wolf Sable)",    male: "R$ 6.500", female: "R$ 8.500", note: "Bicolor reconhecida pela FCI" },
-  { color: "Preto",                      male: "R$ 7.500", female: "R$ 8.500", note: "Acima do laranja e do cinza-lobo" },
-  { color: "Creme",                      male: "R$ 7.500", female: "R$ 8.500", note: "Acima do laranja e do cinza-lobo" },
-  { color: "Branco",                     male: "R$ 8.500", female: "R$ 9.500", note: "Maior valor da tabela atual" },
-] as const;
+// A observação de cada linha é editorial e fica aqui; os números não. Esta era
+// a tabela em que a fêmea laranja aparecia por R$ 8.500 enquanto o card da
+// home já dizia outra coisa — agora as duas colunas de valor saem de
+// domain/pricing e não têm como divergir.
+const NOTAS_DA_LINHA: Record<CorDivulgada, string> = {
+  laranja: "A cor mais icônica da raça",
+  creme: "Acima do laranja, junto com o preto",
+  preto: "Acima do laranja, junto com o creme",
+  branco: "Maior valor da tabela atual",
+};
+
+const PRICE_TABLE = LINHAS_FORMATADAS.map((linha) => ({
+  color: linha.label,
+  male: linha.macho,
+  female: linha.femea,
+  note: NOTAS_DA_LINHA[linha.cor],
+}));
 
 const INCLUDED_ITEMS = [
   "Registro oficial e legalizado",
@@ -60,25 +76,28 @@ const INCLUDED_ITEMS = [
 const PAGE_FAQS = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
-    answer:
-      "Na By Império Dog, os filhotes de Spitz Alemão Anão custam entre R$ 6.500 e R$ 9.500. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto), e o macho branco custa R$ 8.500. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos os valores incluem registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    // Resposta oficial, importada em vez de reescrita: esta mesma pergunta
+    // aparece na home, em /filhotes e no agente do WhatsApp, e cada cópia
+    // manual era uma chance de divergir.
+    answer: RESPOSTA_QUANTO_CUSTA,
   },
   {
     question: "Por que o Spitz Alemão Anão é tão caro?",
     answer:
       // "maternidade monitorada" saiu da lista: nao existe estrutura desse tipo
-      // aqui. O resto da resposta continua valendo.
-      "O custo elevado reflete investimentos reais: acompanhamento veterinário das matrizes e dos padreadores, exames de saúde, registro oficial, socialização em ambiente familiar e mentoria pós-venda vitalícia. Criadores sérios não vendem 'baratos' — o preço cobre cuidado real, não apenas o filhote.",
+      // aqui. As matrizes e os padreadores tambem sairam — o preço se explica
+      // pelo que acompanha o filhote, sem descrever estrutura de criação.
+      "O valor reflete custos reais: acompanhamento veterinário, exames de saúde, registro oficial, socialização em ambiente familiar e suporte pós-venda. Um preço muito abaixo da faixa praticada costuma significar documentação ou acompanhamento ausentes.",
   },
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
     answer:
-      "Sim. Na tabela atual da By Império Dog, a fêmea custa R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Em relação ao macho da mesma cor, a diferença fica entre R$ 1.000 e R$ 2.000. É a política comercial praticada hoje pela criadora, e não uma regra da raça.",
+      "Sim. Na tabela atual da By Império Dog, a fêmea custa R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco. Em relação ao macho da mesma cor, a diferença é de R$ 1.000. É a política comercial praticada hoje, e não uma regra da raça.",
   },
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
     answer:
-      "O branco. Na tabela atual, a fêmea branca custa R$ 9.500 e o macho branco, R$ 8.500 — o maior valor nos dois sexos. Nas demais cores a fêmea custa R$ 8.500; entre os machos, creme e preto ficam a R$ 7.500, e laranja e cinza-lobo (wolf sable), a R$ 6.500.",
+      "O branco. Na tabela atual, o macho branco custa R$ 8.500 e a fêmea branca, R$ 9.500 — o maior valor nos dois sexos. Creme e preto ficam em R$ 7.500 para macho e R$ 8.500 para fêmea; o laranja é o menor da tabela, com R$ 6.500 para macho e R$ 7.500 para fêmea.",
   },
   {
     question: "O que está incluso no preço da By Império Dog?",
@@ -93,7 +112,10 @@ const PAGE_FAQS = [
   {
     question: "Posso encontrar Spitz Alemão Anão mais barato em outros lugares?",
     answer:
-      "Existem filhotes sendo anunciados por preços menores — geralmente sem documentação, sem laudos, sem garantia e com histórico veterinário duvidoso. Evite comprá-los: o risco de problemas cardíacos (colapso de traqueia, MVP), displasia de patela e outras condições genéticas é alto em linhagens sem controle. O investimento inicial num criador responsável evita custos veterinários muito maiores no futuro.",
+      // A versão anterior listava diagnósticos (colapso de traqueia, MVP,
+      // displasia de patela) para justificar o preço. Diagnóstico é assunto do
+      // médico-veterinário, não de uma FAQ de preço.
+      "Existem anúncios com valores menores, muitos deles sem registro oficial, sem laudos e sem contrato. Antes de comparar preços, compare o que está incluso: documentação, acompanhamento veterinário e garantias mudam o que se está comprando.",
   },
 ] as const;
 
@@ -126,7 +148,7 @@ export default function PrecoSpitzPage() {
           Preço do Spitz Alemão Anão (Lulu da Pomerânia)
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Valores reais, sem surpresas. Saiba quanto custa um filhote de Spitz Alemão Anão na By Império Dog, o que está incluso e por que o preço varia por cor e sexo.
+          Valores reais, sem surpresas: de {FAIXA_PUBLICA_TEXTO}, conforme cor e sexo. Veja abaixo o que está incluso e por que o preço varia.
         </p>
       </header>
 
@@ -193,10 +215,10 @@ export default function PrecoSpitzPage() {
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência nas ninhadas da By Império Dog do que o laranja. Por isso ficam acima do laranja e do cinza-lobo na tabela atual entre os machos." },
-            { title: "Sexo", body: "Fêmeas têm demanda 2–3× maior que machos, o que eleva naturalmente o preço de mercado." },
-            { title: "Linhagem e genética", body: "Matrizes e reprodutores com títulos de exposição, laudos de saúde e histórico de filhotes saudáveis valem mais — e produzem filhotes mais seguros." },
-            { title: "Documentação completa", body: "Registro oficial, laudo de saúde e exames laboratoriais têm custo. Criadores que os incluem precisam cobrar mais — e devem." },
+            { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência entre os filhotes disponíveis do que o laranja. Por isso ficam acima do laranja na tabela atual, nos dois sexos." },
+            { title: "Sexo", body: "A fêmea tem procura maior que o macho, e custa R$ 1.000 a mais na mesma cor." },
+            { title: "Padrão da raça", body: "Filhotes dentro do padrão FCI nº 97 — porte, pelagem e estrutura — são menos frequentes e têm valor maior no mercado." },
+            { title: "Documentação completa", body: "Registro oficial, laudo de saúde e exames laboratoriais têm custo, e já estão inclusos no valor anunciado." },
           ].map((card) => (
             <article key={card.title} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
               <h3 className="text-sm font-semibold text-zinc-900">{card.title}</h3>

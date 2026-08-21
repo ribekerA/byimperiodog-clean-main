@@ -1,7 +1,15 @@
 // content/puppies-static.ts
 // Catálogo estático — By Império Dog
 // Para atualizar disponibilidade: status → "available" | "reserved" | "sold"
-// Hierarquia de preços: Branco R$ 9.500 (fêmea) e R$ 8.500 (macho) — o topo da tabela | Demais cores: fêmeas R$ 8.500 | machos R$ 7.500 (Creme, Preto) e R$ 6.500 (Cinza-Lobo, Laranja)
+//
+// Preço: a tabela vive em src/domain/pricing.ts. Os `priceCents` daqui são a
+// aplicação dela a cada filhote, e o content-guard confere um contra o outro no
+// prebuild — o resumo de hierarquia que ficava nesta linha era mais uma cópia
+// para divergir, e divergiu.
+//
+// `divulgar: false` tira o filhote das vitrines públicas sem apagar a sua
+// página: o Cinza-Lobo saiu da comunicação, mas as URLs que já estavam
+// indexadas continuam respondendo até que se decida o que fazer com elas.
 
 export const staticPuppies = [
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
@@ -189,7 +197,13 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
+    // A capa é a primeira imagem que não é vídeo — é ela que aparece nos cards
+    // do catálogo e no topo da página do filhote. A antiga (flores-01) mostra a
+    // fêmea suspensa na mão do criador, em recorte vertical fechado: no card
+    // quadrado sobra a mão e falta o cão. A nova mostra o animal inteiro, de pé,
+    // em foco, sozinho no enquadramento. flores-01 continua na galeria.
     images: [
+      "/filhotes/laranja/laranja-femea-jardim-04.jpg",
       "/filhotes/laranja/laranja-femea-flores-01.jpg",
       "/filhotes/laranja/laranja-femea-jardim-03.jpg",
       "/filhotes/laranja/laranja-femea-brinquedos-04.jpg",
@@ -203,9 +217,9 @@ export const staticPuppies = [
       "/filhotes/videos/laranja-femea-jardim.mp4",
       "/filhotes/videos/ninhada-jun22-01.mp4",
     ],
-    // Fêmea Laranja — preço único de fêmea → R$ 8.500
-    price_cents: 850000,
-    priceCents: 850000,
+    // Fêmea Laranja → R$ 7.500 (TABELA_DE_PRECOS.laranja.femea)
+    price_cents: 750000,
+    priceCents: 750000,
     currency: "BRL",
     description:
       "Fêmea Laranja de coloração vibrante, exatamente dentro do padrão FCI. Temperamento alegre e extremamente carinhosa. Criada com socialização guiada e acompanhamento veterinário completo.",
@@ -414,6 +428,7 @@ export const staticPuppies = [
     sex: "female",
     gender: "female",
     status: "available",
+    divulgar: false,
     breed: "Spitz Alemão Anão (Lulu da Pomerânia)",
     size: "mini",
     city: "braganca-paulista",
@@ -471,6 +486,7 @@ export const staticPuppies = [
     sex: "male",
     gender: "male",
     status: "available",
+    divulgar: false,
     breed: "Spitz Alemão Anão (Lulu da Pomerânia)",
     size: "mini",
     city: "braganca-paulista",
@@ -517,3 +533,16 @@ export const staticPuppies = [
     ],
   },
 ];
+
+/**
+ * O catálogo como as vitrines genéricas devem enxergá-lo.
+ *
+ * Home, /filhotes, páginas de sexo, cidades, quiz, banner do blog e agente do
+ * WhatsApp listam "os filhotes disponíveis" — e é aí que o Cinza-Lobo não pode
+ * mais aparecer. Já quem responde por uma URL específica (a página do filhote,
+ * a página da cor, o sitemap) continua lendo `staticPuppies` direto, senão uma
+ * página indexada passaria a devolver 404 ou a abrir vazia.
+ */
+export const puppiesPublicados = staticPuppies.filter(
+  (p) => (p as { divulgar?: boolean }).divulgar !== false,
+);

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { buildLocalBusinessLD, buildItemListLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -16,12 +16,12 @@ const CATALOG_FAQS = [
   {
     question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
     answer:
-      "Na By Império Dog trabalhamos com cinco cores: Branco, Creme, Laranja, Preto e Cinza-Lobo (Wolf Sable). O branco custa R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor da tabela atual. A disponibilidade varia conforme as ninhadas.",
+      "A By Império Dog divulga quatro cores: Laranja, Creme, Preto e Branco. O laranja é o menor valor da tabela e o branco, o maior. A disponibilidade é informada no atendimento.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
     answer:
-      "As fêmeas de Spitz Alemão Anão (Lulu da Pomerânia) custam mais do que os machos por conta da maior demanda. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Machos variam de R$ 6.500 a R$ 7.500 conforme a cor, e o branco custa R$ 8.500. Todos os valores incluem registro oficial, laudos veterinários e mentoria vitalícia.",
+      "A fêmea custa R$ 1.000 a mais que o macho da mesma cor, por conta da maior procura. Fêmeas: R$ 7.500 no laranja, R$ 8.500 em creme e preto, R$ 9.500 no branco. Machos: R$ 6.500 no laranja, R$ 7.500 em creme e preto, R$ 8.500 no branco.",
   },
   {
     question: "Os filhotes são entregues com quais documentos?",
@@ -34,12 +34,12 @@ export const metadata: Metadata = {
   title:       "Filhotes de Spitz Alemão Anão Disponíveis",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
-  description: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) nas cores Branco, Creme, Laranja, Preto e Cinza-Lobo. Bragança Paulista, SP.",
+  description: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) nas cores Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
   keywords: [
     "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
     "comprar Spitz Alemão creme", "filhote Pomeranian SP",
     "canil Spitz Alemão Bragança Paulista", "Lulu da Pomerânia com registro oficial",
-    "Spitz Alemão branco creme laranja preto wolf sable", "filhote cachorro pequeno SP",
+    "Spitz Alemão laranja creme preto branco", "filhote cachorro pequeno SP",
   ],
   alternates: { canonical: "/filhotes" },
   openGraph: {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 
 export default function FilhotesPage() {
   const businessLd   = buildLocalBusinessLD();
-  const itemListLd   = buildItemListLD(staticPuppies as any);
+  const itemListLd   = buildItemListLD(puppiesPublicados as any);
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",   url: `${SITE_URL}/` },
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
@@ -66,7 +66,7 @@ export default function FilhotesPage() {
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
-      <StaticCatalog puppies={staticPuppies as any[]} />
+      <StaticCatalog puppies={puppiesPublicados as any[]} />
 
       {/* FAQ visível — indexável por Google/IAs e útil para featured snippets */}
       <section

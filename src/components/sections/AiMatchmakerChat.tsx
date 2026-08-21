@@ -24,6 +24,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
 import { getClickId } from "@/lib/gclid";
+import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -38,10 +39,15 @@ type Puppy = (typeof staticPuppies)[number];
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 
+// A abertura antiga prometia "descobrir qual Spitz combina mais com o seu
+// estilo de vida". O problema não é o tamanho da frase: é que ela anuncia um
+// veredito sobre o animal certo para a pessoa, e logo adiante a conversa
+// entrega isso em forma de cor e sexo. O chat qualifica preferência — moradia,
+// crianças, outros animais, cor, sexo, cidade — e apresenta o que existe.
 const OPENING_MESSAGE: Message = {
   id:      "opening",
   role:    "assistant",
-  content: "Oi! Aqui é a equipe da By Império Dog 🐾 A gente criou esse chat pra ajudar você a descobrir qual Spitz combina mais com o seu estilo de vida. Me conta: você mora em casa ou apartamento, e tem crianças ou outros animais em casa?",
+  content: "Olá! Aqui é a equipe da By Império Dog. Para entendermos o que você procura, conte pra gente: você mora em casa ou apartamento? Há crianças ou outros animais no ambiente?",
 };
 
 const MATCHES_REGEX      = /<MATCHES>([\s\S]*?)<\/MATCHES>/;
@@ -118,8 +124,10 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: EASE }}
     >
+      {/* "fala com você hoje" era promessa de prazo feita por um formulário que
+          não consulta agenda nem horário. O convite continua; o prazo saiu. */}
       <p className="mb-3 text-sm font-semibold text-zinc-800">
-        Deixe seu contato — a criadora fala com você hoje:
+        Deixe seu contato — a criadora entra em contato pelo WhatsApp:
       </p>
       {failed && (
         <p className="mb-2 rounded-lg bg-rose-50 px-3 py-2 text-xs text-rose-700" role="alert">
@@ -165,7 +173,7 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
 
 function TypingDots() {
   return (
-    <div className="flex items-center gap-1 px-1 py-0.5" aria-label="Equipe digitando">
+    <div className="flex items-center gap-1 px-1 py-0.5" aria-label="Escrevendo resposta">
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
@@ -236,7 +244,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
   const priceCents = (puppy as { priceCents?: number }).priceCents ?? (puppy as { price_cents?: number }).price_cents ?? 0;
 
   const baseWaLink = buildWhatsAppLink({
-    message:      `Olá! Fiz o quiz do site e o match indicado foi o ${puppy.name}. Quero saber mais sobre disponibilidade!`,
+    message:      `Olá! Vi o filhote ${puppy.name} pelo chat do site. Quero saber mais sobre a disponibilidade.`,
     utmSource:    "site",
     utmMedium:    "ai_matchmaker",
     utmCampaign:  "match_recommendation",
@@ -255,9 +263,12 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: "spring", stiffness: 220, damping: 24, delay: index * 0.1 }}
     >
+      {/* "Melhor match" era um veredito — o canil declarando qual filhote é o
+          superior para aquela família. A faixa continua onde estava, dizendo o
+          que de fato é: uma sugestão de quem atende. */}
       {isPrimary && (
         <div className="absolute left-0 right-0 top-0 z-10 bg-emerald-500 py-1 text-center text-[10px] font-bold uppercase tracking-widest text-white">
-          ✨ Melhor match
+          ✨ Sugestão da equipe
         </div>
       )}
 
@@ -267,7 +278,12 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
           <img
             src={coverImg}
             alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-            className="h-full w-full object-cover object-top transition duration-500 hover:scale-105"
+            // Era `object-top`, que ancora em 0%: num quadro quadrado com foto
+            // vertical isso mostra o topo da foto e mais nada. No filhote preto,
+            // fotografado de pé na grama, o card virava mato desfocado. Agora vem
+            // medido foto a foto (src/lib/photo-focus).
+            className="h-full w-full object-cover transition duration-500 hover:scale-105"
+            style={{ objectPosition: focoDaFoto(coverImg) }}
             loading="lazy"
           />
           <span
@@ -330,8 +346,11 @@ function MatchGrid({ puppies }: { puppies: Puppy[] }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
+      {/* "Seu match perfeito" prometia o que nenhum questionário entrega. O
+          rótulo agora conta o que a lista é: filhote disponível dentro do que
+          a pessoa descreveu. */}
       <p className="mb-2 text-center text-[11px] font-semibold uppercase tracking-widest text-emerald-700">
-        {puppies.length === 1 ? "Seu match perfeito" : `${puppies.length} opções para você`}
+        {puppies.length === 1 ? "Opção disponível" : `${puppies.length} opções disponíveis`}
       </p>
 
       {/* Mobile: scroll horizontal snap quando 3 cards */}
@@ -659,14 +678,23 @@ export default function AiMatchmakerChat() {
         <p className="text-sm font-semibold uppercase tracking-widest text-emerald-600">
           Fale com a gente
         </p>
+        {/* O título curto e o nome completo no subtítulo é uma escolha de
+            layout: "Qual filhote de Spitz Alemão Anão (Lulu da Pomerânia)
+            combina com suas preferências?" ocupa três linhas neste tamanho e
+            empurra o chat para fora da primeira dobra no celular. A entidade
+            fica clara na linha de baixo, que é onde o texto pode crescer. */}
         <h2
           id="matchmaker-heading"
           className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl"
         >
-          Qual Spitz combina com você?
+          Encontre o filhote que combina com suas preferências
         </h2>
+        {/* "a nossa equipe indica o filhote ideal" saiu: dizia que o canil
+            determina qual animal é o certo para uma pessoa. Ninguém determina
+            isso — o que existe é preferência declarada e filhote disponível. */}
         <p className="mt-2 text-sm text-zinc-500 sm:text-base">
-          Responda algumas perguntas e a nossa equipe indica o filhote ideal
+          Spitz Alemão Anão (Lulu da Pomerânia). Conte um pouco sobre suas
+          preferências para ajudarmos na escolha entre os filhotes disponíveis.
         </p>
       </div>
 
@@ -680,9 +708,15 @@ export default function AiMatchmakerChat() {
           </div>
           <div>
             <p className="text-sm font-bold text-zinc-900">By Império Dog</p>
+            {/* Aqui havia bolinha verde e "respondendo agora". Era texto fixo:
+                nada no componente, na API ou no banco sabe se existe alguém do
+                outro lado — o mesmo aviso aparecia às três da manhã.
+                No lugar entrou o que é verdade em qualquer horário: quem
+                responde aqui é um chat automatizado. A pessoa que descobre isso
+                sozinha, no meio da conversa, sente que foi enganada; quem lê
+                antes de começar, não. */}
             <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden="true" />
-              <p className="text-[11px] text-emerald-600">respondendo agora</p>
+              <p className="text-[11px] text-zinc-500">Chat automatizado</p>
             </div>
           </div>
           <div className="ml-auto text-[11px] text-zinc-400">Bragança Paulista, SP</div>
@@ -705,7 +739,7 @@ export default function AiMatchmakerChat() {
           className="flex max-h-[420px] min-h-[220px] flex-col gap-4 overflow-y-auto p-4 [scrollbar-width:thin] sm:max-h-[500px] sm:min-h-[240px]"
           role="log"
           aria-live="polite"
-          aria-label="Conversa com a equipe By Império Dog"
+          aria-label="Conversa com o atendimento da By Império Dog"
         >
           <AnimatePresence initial={false}>
             {messages.map((msg, idx) => (
@@ -799,7 +833,7 @@ export default function AiMatchmakerChat() {
                   : transcribing
                   ? "✍️ Transcrevendo sua fala..."
                   : streaming
-                  ? "Equipe digitando..."
+                  ? "Escrevendo resposta..."
                   : hasMatch
                   ? "Tem alguma dúvida? Pode perguntar..."
                   : "Digite ou use o microfone..."
@@ -813,13 +847,16 @@ export default function AiMatchmakerChat() {
               }`}
             />
 
-            {/* Botão microfone — modo voz conversacional (Chrome/Edge) */}
+            {/* Botão microfone — modo voz conversacional (Chrome/Edge).
+                O tooltip era o único lugar da interface que dizia "a Ju" —
+                nome que não existe em nenhum outro canto do site. Agora ele
+                descreve o que o botão faz: falar em vez de digitar. */}
             <motion.button
               type="button"
               onClick={toggleVoice}
               aria-label={voiceActive ? "Desligar modo voz" : "Ativar modo voz conversacional"}
               aria-pressed={voiceActive}
-              title={voiceActive ? "Clique para desligar a voz" : "Modo voz: fale e a Ju responde"}
+              title={voiceActive ? "Clique para desligar a voz" : "Modo voz: fale em vez de digitar"}
               className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 ${
                 listening
                   ? "bg-rose-500 text-white shadow-lg shadow-rose-200"

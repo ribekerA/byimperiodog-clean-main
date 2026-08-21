@@ -13,6 +13,7 @@ import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContai
 import { TiltCard } from "@/components/motion/TiltCard";
 import { staticPuppies } from "@/content/puppies-static";
 import { formatPrice, getPuppyBySlug } from "@/lib/catalog-utils";
+import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildLocalBusinessLD, buildPuppyProductLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -261,9 +262,11 @@ export default function PuppyPage({ params }: Props) {
                                 <img
                                   src={relImg}
                                   alt={`Filhote ${rel.name}`}
-                                  // Mesmo motivo do card do catalogo: foto vertical
-                                  // num quadro deitado cortava a cabeca do filhote.
-                                  className="h-full w-full object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-[1.06]"
+                                  // Recorte medido por foto (src/lib/photo-focus):
+                                  // aqui o quadro e quadrado e a foto e vertical, entao
+                                  // sobra ainda menos margem para errar a ancora.
+                                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
+                                  style={{ objectPosition: focoDaFoto(relImg) }}
                                   loading="lazy"
                                 />
                               )}

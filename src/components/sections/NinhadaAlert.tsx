@@ -11,7 +11,6 @@ const CORES = [
   { value: "creme", label: "Creme" },
   { value: "laranja", label: "Laranja" },
   { value: "preto", label: "Preto" },
-  { value: "wolf-sable", label: "Cinza-Lobo (Wolf Sable)" },
   { value: "qualquer", label: "Qualquer cor" },
 ];
 

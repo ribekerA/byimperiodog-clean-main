@@ -7,7 +7,8 @@
 
 import OpenAI from "openai";
 
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
+import { RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // O cliente e criado na primeira chamada, nao no import.
@@ -51,7 +52,10 @@ export interface AgentResponse {
 const FAQ: Array<{ q: string; a: string }> = [
   {
     q: "qual o preço / valor / quanto custa",
-    a: "Os filhotes variam de R$ 6.500 a R$ 9.500 dependendo da cor e sexo. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade do filhote, mentoria vitalícia e enxoval. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    // Mesma resposta do site. O agente respondia com a faixa e emendava
+    // documentação, vacina, mentoria e enxoval — o cliente perguntava o preço
+    // e recebia um parágrafo comercial em que o número se perdia.
+    a: RESPOSTA_QUANTO_CUSTA,
   },
   {
     q: "registro incluso",
@@ -63,7 +67,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "cor raça spitz pomerania lulu",
-    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Trabalhamos com branco, creme, preto, laranja e cinza-lobo, entre as colorações previstas no padrão da raça. Consulte a disponibilidade atual!",
+    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Divulgamos as cores laranja, creme, preto e branco, entre as colorações previstas no padrão da raça. Consulte a disponibilidade atual!",
   },
   {
     q: "reserva como reservar entrada",
@@ -86,7 +90,7 @@ const FAQ: Array<{ q: string; a: string }> = [
 // ─── Skill: Mostrar filhotes ───────────────────────────────────────────────────
 
 function skillMostrarFilhotes(text: string): string {
-  const available = (staticPuppies as any[]).filter(
+  const available = (puppiesPublicados as any[]).filter(
     (p) => p.status !== "sold" && p.status !== "vendido"
   );
 

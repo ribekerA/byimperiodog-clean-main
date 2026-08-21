@@ -20,7 +20,8 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
-import { ALL_COLORS, COLOR_SEO, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
+import { COLOR_SEO, CORES_EXIBIDAS, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
+import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Temas por cor ────────────────────────────────────────────────────────────
@@ -66,7 +67,10 @@ const THEMES = {
     badge:        "🔥 A mais icônica",
     badgeCss:     "bg-orange-100 text-orange-800 ring-1 ring-orange-200",
     swatchCss:    "bg-orange-400 ring-orange-500",
-    heroImg:      "/filhotes/laranja/laranja-femea-flores-01.jpg",
+    // Mesma troca feita na capa do filhote em puppies-static: a foto anterior
+    // (flores-01) fecha o enquadramento na mão do criador e perde o cão nos
+    // recortes. Esta mostra o animal inteiro e em foco.
+    heroImg:      "/filhotes/laranja/laranja-femea-jardim-04.jpg",
   },
   preto: {
     heroGradient: "bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-800",
@@ -201,7 +205,9 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
             <img
               src={img}
               alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-              className="h-full w-full object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-105"
+              // Recorte medido por foto (src/lib/photo-focus).
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              style={{ objectPosition: focoDaFoto(img) }}
               loading="lazy"
             />
           )}
@@ -312,12 +318,22 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 // ─── Color Swatch Nav ─────────────────────────────────────────────────────────
 
 function ColorNav({ active }: { active: string }) {
+  // CORES_EXIBIDAS, nao ALL_COLORS: este seletor aparecia nas quatro paginas
+  // divulgadas oferecendo o cinza-lobo como quinta opcao — ou seja, a cor
+  // continuava sendo anunciada justamente onde o visitante escolhe.
+  //
+  // A cor ativa entra mesmo fora da lista para que a propria pagina do
+  // cinza-lobo, que segue no ar, nao mostre um seletor sem onde voce esta.
+  const cores = CORES_EXIBIDAS.includes(active)
+    ? CORES_EXIBIDAS
+    : [...CORES_EXIBIDAS, active];
+
   return (
     <nav
       aria-label="Navegar por cor"
       className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0"
     >
-      {ALL_COLORS.map((cor) => {
+      {cores.map((cor) => {
         const seo = COLOR_SEO[cor];
         const t = THEMES[cor as ColorKey];
         const isActive = cor === active;

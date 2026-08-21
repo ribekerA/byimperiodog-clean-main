@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -22,12 +22,16 @@ const CORES = [
   { value: "creme", label: "Creme (marfim)", emoji: "🤍" },
   { value: "laranja", label: "Laranja (icônico)", emoji: "🧡" },
   { value: "preto", label: "Preto (elegante)", emoji: "🖤" },
-  { value: "wolf-sable", label: "Cinza-Lobo (Wolf Sable)", emoji: "🩶" },
 ];
 
+// As descrições diziam que a fêmea cria "vínculo mais profundo com a família" e
+// que o macho tem "temperamento alegre e brincalhão". Nada sustenta isso: são
+// dois filhotes da mesma ninhada, e o site estava vendendo personalidade por
+// sexo num botão de filtro. O que separa os dois na comunicação é o preço, que
+// é público e verificável na tabela — é isso que fica.
 const SEXOS = [
-  { value: "female", label: "Fêmea", desc: "Vínculo mais profundo com a família", emoji: "♀️" },
-  { value: "male", label: "Macho", desc: "Temperamento alegre e brincalhão", emoji: "♂️" },
+  { value: "female", label: "Fêmea", desc: "Preço maior na mesma cor", emoji: "♀️" },
+  { value: "male", label: "Macho", desc: "Preço menor na mesma cor", emoji: "♂️" },
   { value: "qualquer", label: "Tanto faz", desc: "Quero conhecer todas as opções", emoji: "✨" },
 ];
 
@@ -38,9 +42,9 @@ const MESSAGES: Record<string, string> = {
   presente: "Quero presentear alguém especial com um Spitz",
 };
 
-// Matching client-side usando staticPuppies
+// Matching client-side usando puppiesPublicados
 function findMatch(cor: string, sexo: string) {
-  const available = (staticPuppies as any[]).filter(
+  const available = (puppiesPublicados as any[]).filter(
     (p) => p.status !== "sold" && p.status !== "vendido"
   );
 
@@ -78,8 +82,8 @@ export default function PuppyMatcherQuiz() {
 
   const baseWaLink = buildWhatsAppLink({
     message: match
-      ? `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Vi que a cor ${corLabel} ${sexoLabel !== "Tanto faz" ? `(${sexoLabel})` : ""} combina comigo. O filhote ${match.name} está disponível? Pode me ajudar?`
-      : `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel}. Pode me ajudar a encontrar o filhote ideal?`,
+      ? `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel} ${sexoLabel !== "Tanto faz" ? `(${sexoLabel})` : ""}. O filhote ${match.name} está disponível? Pode me ajudar?`
+      : `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel}. Pode me mostrar os filhotes disponíveis?`,
     utmSource: "site",
     utmMedium: "quiz",
     utmCampaign: "matcher_quiz",
@@ -93,11 +97,17 @@ export default function PuppyMatcherQuiz() {
   return (
     <section className="mx-auto max-w-2xl px-4 py-16 sm:px-6" aria-labelledby="quiz-heading">
       <div className="mb-8 text-center">
+        {/* Mesmo título e mesmo subtítulo do chat: este quiz é o fallback dele
+            e aparece no mesmo lugar da página quando a IA está indisponível.
+            Duas versões do bloco não podem prometer coisas diferentes. */}
         <p className="text-sm font-semibold uppercase tracking-widest text-emerald-600">Encontre seu filhote</p>
         <h2 id="quiz-heading" className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Qual Spitz combina com você?
+          Encontre o filhote que combina com suas preferências
         </h2>
-        <p className="mt-3 text-zinc-600">3 perguntas rápidas — resultado personalizado na hora</p>
+        <p className="mt-3 text-zinc-600">
+          Spitz Alemão Anão (Lulu da Pomerânia). 3 perguntas rápidas para filtrar
+          os filhotes disponíveis.
+        </p>
       </div>
 
       {/* Progress */}
@@ -193,8 +203,11 @@ export default function PuppyMatcherQuiz() {
       {/* Step 3 — Resultado */}
       {step === 3 && (
         <div className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-md sm:p-8">
+          {/* "Seu match encontrado" dava ao resultado de um filtro de cor e
+              sexo o status de veredito. O que a tela mostra é um filhote que
+              atende ao que foi escolhido — e é isso que ela passa a dizer. */}
           <p className="mb-4 text-center text-sm font-semibold uppercase tracking-widest text-emerald-600">
-            Seu match encontrado ✓
+            Filhote disponível ✓
           </p>
 
           {match ? (

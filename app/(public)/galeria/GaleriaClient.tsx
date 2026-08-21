@@ -35,7 +35,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   ninhada: "Ninhadas",
   raça: "Raça",
   branco: "Branco",
-  wolf: "Cinza-Lobo",
 };
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -45,7 +44,6 @@ const CATEGORY_COLORS: Record<string, string> = {
   ninhada: "bg-violet-900/60 text-violet-300 border-violet-800",
   raça: "bg-blue-900/60 text-blue-300 border-blue-800",
   branco: "bg-zinc-800/60 text-zinc-200 border-zinc-700",
-  wolf: "bg-stone-800/60 text-stone-300 border-stone-700",
 };
 
 function waFor(video: GalleryVideo) {

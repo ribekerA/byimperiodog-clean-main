@@ -11,6 +11,7 @@
  */
 
 import { FOUNDING_YEAR } from "@/domain/config";
+import { RESPOSTA_PRETO, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 
 export type FaqItem = {
   question: string;
@@ -20,8 +21,11 @@ export type FaqItem = {
 export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
-    answer:
-      "Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog custam entre R$ 6.500 e R$ 9.500, dependendo da cor e do sexo. Machos variam de R$ 6.500 (laranja e cinza-lobo) a R$ 7.500 (creme e preto), e o macho branco custa R$ 8.500. Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos os filhotes saem com registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    // Resposta oficial de preço, importada de domain/pricing. O que acompanha o
+    // filhote tem pergunta própria logo abaixo ("Quais documentos acompanham o
+    // filhote?") — misturar as duas coisas era o que fazia esta resposta crescer
+    // até ninguém mais conferir os números dentro dela.
+    answer: RESPOSTA_QUANTO_CUSTA,
   },
   {
     question: "O Spitz Alemão Anão é bom para apartamento?",
@@ -40,8 +44,9 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   },
   {
     question: "Spitz Alemão (Lulu da Pomerânia) preto é difícil de encontrar? É mais caro?",
-    answer:
-      "O preto aparece com menos frequência nas ninhadas do que o laranja, porque a pelagem preta uniforme depende das linhagens usadas no acasalamento. Na By Império Dog, mantemos matrizes na cor preta com registro oficial e acompanhamento veterinário. O preço do preto é de R$ 7.500 para machos e R$ 8.500 para fêmeas (o mesmo valor das fêmeas creme, laranja e cinza-lobo) — no mesmo patamar do creme, acima do laranja e do cinza-lobo e abaixo do branco.",
+    // Mesma resposta da página da cor e da /spitz-alemao-preto — vem de
+    // domain/pricing para as três não divergirem quando a tabela mudar.
+    answer: RESPOSTA_PRETO,
   },
   {
     question: "Vocês entregam o filhote em todo o Brasil?",

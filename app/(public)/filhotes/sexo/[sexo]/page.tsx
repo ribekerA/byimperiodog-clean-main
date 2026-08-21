@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { staticPuppies } from "@/content/puppies-static";
 import { ALL_SEXES, formatPrice, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
+import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -131,7 +132,9 @@ export default function SexLandingPage({ params }: Props) {
                           <img
                             src={img}
                             alt={`Filhote ${puppy.name}`}
-                            className="h-full w-full object-cover [object-position:50%_28%] transition group-hover:scale-105"
+                            // Recorte medido por foto (src/lib/photo-focus).
+                            className="h-full w-full object-cover transition group-hover:scale-105"
+                            style={{ objectPosition: focoDaFoto(img) }}
                             loading="lazy"
                           />
                         )}

@@ -19,6 +19,7 @@ import { AI_BADGE_MAP, type AiBadgeConfig, type AiBadgeId } from "@/components/c
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { PUPPY_CARD_SIZES } from "@/lib/image-sizes";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
+import { focoDaFoto } from "@/lib/photo-focus";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import track from "@/lib/track";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -280,7 +281,11 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
                 loading={priority ? "eager" : "lazy"}
                 placeholder="blur"
                 blurDataURL={BLUR_DATA_URL}
-                className={`object-cover [object-position:50%_28%] transition duration-500 ${
+                // Recorte medido por foto (src/lib/photo-focus). A chave e
+                // `cover`, nao `optimizedCover`: o segundo pode ser uma URL de
+                // transformacao do Supabase, que nao esta no mapa.
+                style={{ objectPosition: focoDaFoto(cover) }}
+                className={`object-cover transition duration-500 ${
                   imgLoaded ? "opacity-100 group-hover:scale-105" : "opacity-0"
                 }`}
                 onLoad={() => setImgLoaded(true)}

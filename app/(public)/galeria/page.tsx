@@ -105,12 +105,6 @@ const GALLERY_VIDEOS = [
     description: "Macho laranja com toda a vivacidade típica do Spitz Alemão Anão.",
     category: "laranja",
   },
-  {
-    src: "/filhotes/videos/wolf-sable-jardim.mp4",
-    title: "Cinza-Lobo (Wolf Sable) no Jardim",
-    description: "O cinza-lobo (wolf sable) tem pelagem bicolor que lembra o padrão do lobo.",
-    category: "wolf",
-  },
 ] as const;
 
 export type GalleryVideo = (typeof GALLERY_VIDEOS)[number];
@@ -166,7 +160,7 @@ export default function GaleriaPage() {
               Galeria Oficial
             </span>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Conheça os nossos Spitz em movimento{" "}
+              Conheça nossos filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em movimento{" "}
               <span aria-hidden>🐾</span>
             </h1>
             {/* "estrutura" prometia instalações que não existem — mesmo caso da

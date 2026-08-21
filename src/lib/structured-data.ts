@@ -1,4 +1,5 @@
 import { FOUNDING_YEAR } from "@/domain/config";
+import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
 import { lastmodFor } from "@/lib/_generated-lastmod";
 import type { CatalogItem } from "@/lib/catalog-utils";
 
@@ -319,7 +320,9 @@ export function buildLocalBusinessLD() {
       `Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia inclusos. Criação especializada desde ${FOUNDING_YEAR}, com envio acompanhado para todo o Brasil.`,
     url: SITE_URL,
     telephone: "+55-11-96863-3239",
-    priceRange: "R$ 6.500 – R$ 9.500",
+    // Derivado da tabela: o JSON-LD é lido pelo Google e não pode continuar
+    // anunciando uma faixa que a página já desmentiu.
+    priceRange: `${formatarPreco(FAIXA_PUBLICA.minCents)} – ${formatarPreco(FAIXA_PUBLICA.maxCents)}`,
     currenciesAccepted: "BRL",
     paymentAccepted: "PIX, transferência bancária, cartão de crédito",
     foundingDate: String(FOUNDING_YEAR),
@@ -377,7 +380,7 @@ export function buildLocalBusinessLD() {
       "Spitz Alemão Preto",
       "Spitz Alemão Creme",
       "Spitz Alemão Laranja",
-      "Spitz Alemão Cinza-Lobo",
+      "Spitz Alemão Branco",
       "Spitz Alemão Baby Face",
       "criação responsável de cães",
       "registro oficial",

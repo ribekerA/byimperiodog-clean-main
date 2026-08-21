@@ -1,4 +1,5 @@
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { LINHAS_FORMATADAS } from "@/domain/pricing";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const INCLUDED = [
@@ -12,29 +13,22 @@ const INCLUDED = [
   { icon: "🤝", title: "Suporte pós-entrega", desc: "Acompanhamento direto com a criadora" },
 ];
 
+// As duas colunas saem de domain/pricing e não de uma cópia escrita na mão. A
+// versão anterior listava um card por cor com o valor digitado ao lado, e foi
+// assim que a fêmea laranja ficou parada em R$ 8.500 enquanto a tabela
+// comercial já dizia outra coisa.
 const SEXES = [
   {
     label: "Macho",
-    range: "R$ 6.500 a R$ 8.500",
     highlight: false,
     note: "Preço varia conforme a cor. O temperamento é o típico da raça e não depende do sexo.",
-    colors: [
-      { cor: "Laranja", valor: "R$ 6.500" },
-      { cor: "Cinza-Lobo", valor: "R$ 6.500" },
-      { cor: "Preto", valor: "R$ 7.500" },
-      { cor: "Creme", valor: "R$ 7.500" },
-      { cor: "Branco", valor: "R$ 8.500" },
-    ],
+    colors: LINHAS_FORMATADAS.map((linha) => ({ cor: linha.label, valor: linha.macho })),
   },
   {
     label: "Fêmea",
-    range: "R$ 8.500 a R$ 9.500",
     highlight: true,
-    note: "Mesmo valor em creme, preto, laranja e cinza-lobo; o branco é a exceção. A disponibilidade pode mudar rapidamente conforme as reservas.",
-    colors: [
-      { cor: "Creme / Preto / Laranja / Cinza-Lobo", valor: "R$ 8.500" },
-      { cor: "Branco", valor: "R$ 9.500" },
-    ],
+    note: "A fêmea custa mais que o macho em todas as cores. A disponibilidade pode mudar rapidamente conforme as reservas.",
+    colors: LINHAS_FORMATADAS.map((linha) => ({ cor: linha.label, valor: linha.femea })),
   },
 ];
 

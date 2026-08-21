@@ -1,6 +1,7 @@
 import { BRAND, FOUNDING_YEAR, PRODUCT_CONFIG } from "@/domain/config";
+import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
 import { generatedPosts } from "@/lib/_generated-posts";
-import { ALL_COLORS } from "@/lib/catalog-utils";
+import { CORES_EXIBIDAS } from "@/lib/catalog-utils";
 
 /**
  * /llms.txt — indice do site em texto, para quem le com modelo de linguagem.
@@ -43,16 +44,7 @@ const NOME_DA_COR: Record<string, string> = {
   creme: "Creme",
   laranja: "Laranja",
   preto: "Preto",
-  "wolf-sable": "Cinza-lobo (wolf sable)",
 };
-
-function reais(centavos: number): string {
-  return (centavos / 100).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    minimumFractionDigits: 0,
-  });
-}
 
 /** Uma linha de link no formato do llms.txt: `- [titulo](url): contexto`. */
 function linha(titulo: string, caminho: string, contexto?: string): string {
@@ -62,8 +54,11 @@ function linha(titulo: string, caminho: string, contexto?: string): string {
 }
 
 export async function GET() {
-  const min = reais(PRODUCT_CONFIG.pricing.minPriceCents);
-  const max = reais(PRODUCT_CONFIG.pricing.maxPriceCents);
+  // Mesmo formatador do site. O `style: "currency"` do Intl separava "R$" do
+  // numero com espaco estreito sem quebra, e o llms.txt saia com um caractere
+  // invisivel no meio do preco.
+  const min = formatarPreco(FAIXA_PUBLICA.minCents);
+  const max = formatarPreco(FAIXA_PUBLICA.maxCents);
   const { breed, specs } = PRODUCT_CONFIG;
 
   // Artigos do mais recente para o mais antigo — a mesma ordem da listagem de
@@ -82,7 +77,7 @@ export async function GET() {
       `catalogo de filhotes disponiveis, a tabela de precos por cor e sexo (${min} a ${max}) e ` +
       `artigos sobre a raca. Venda direta ao tutor, com entrega em todo o Brasil.`,
     "",
-    `O canil trabalha com ${ALL_COLORS.length} cores. Femeas custam mais que machos em todas elas.`,
+    `O canil divulga ${CORES_EXIBIDAS.length} cores. Femeas custam mais que machos em todas elas.`,
     "Cada filhote sai com laudo de saude veterinario, hemograma, protocolo vacinal conforme a",
     "idade, registro oficial e contrato de responsabilidade compartilhada.",
     "",
@@ -97,7 +92,10 @@ export async function GET() {
     "",
     "## Filhotes por cor",
     "",
-    ...ALL_COLORS.map((cor) =>
+    // CORES_EXIBIDAS, nao ALL_COLORS: o indice lista o que esta sendo
+    // divulgado. As URLs de cor fora dessa lista continuam no ar e acessiveis,
+    // so nao sao mais anunciadas aqui.
+    ...CORES_EXIBIDAS.map((cor) =>
       linha(NOME_DA_COR[cor] ?? cor, `/filhotes/cor/${cor}`, "filhotes desta cor no catalogo")
     ),
     "",

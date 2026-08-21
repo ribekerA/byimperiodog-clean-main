@@ -5,7 +5,8 @@ import Link from "next/link";
 import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
+import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
 
@@ -105,7 +106,11 @@ export default function FilhotesRioDeJaneiroPage() {
         name: city,
       })),
     },
-    priceRange: "$$$",
+    // Mesma faixa do LocalBusiness principal, derivada da tabela. As tres
+    // paginas de estado publicavam "$$" enquanto o resto do site anunciava
+    // a faixa em reais: um mesmo negocio descrito de duas formas em paginas
+    // indexadas lado a lado.
+    priceRange: `${formatarPreco(FAIXA_PUBLICA.minCents)} – ${formatarPreco(FAIXA_PUBLICA.maxCents)}`,
   };
 
   // FAQ Schema
@@ -244,7 +249,7 @@ export default function FilhotesRioDeJaneiroPage() {
               indexava uma seção vazia e o visitante via a página em branco até o
               fetch responder. StaticCatalog é o mesmo componente de /filhotes e
               já chega renderizado do servidor. */}
-          <StaticCatalog puppies={staticPuppies as any[]} headingLevel={2} />
+          <StaticCatalog puppies={puppiesPublicados as any[]} headingLevel={2} />
         </section>
 
         {/* FAQ */}

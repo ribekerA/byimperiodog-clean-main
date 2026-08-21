@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import { buscarConteudo } from "@/lib/search";
 import { baseSiteMetadata, canonical } from "@/lib/seo.core";
 
 export const metadata: Metadata = baseSiteMetadata({
@@ -10,29 +11,17 @@ export const metadata: Metadata = baseSiteMetadata({
   robots: { index: false },
 });
 
-interface SearchItem {
-  id: string | number;
-  url: string;
-  title?: string;
-  name?: string;
-  excerpt?: string;
-}
-
 async function SearchResults({ q }: { q: string }) {
   if (!q) {
     return <p className="text-sm text-zinc-500">Digite um termo para buscar.</p>;
   }
 
   try {
-    const endpoint = process.env.NEXT_PUBLIC_SITE_URL || "";
-    const res = await fetch(`${endpoint}/api/search?q=${encodeURIComponent(q)}`, {
-      headers: { Accept: "application/json" },
-      next: { revalidate: 30 },
-    });
-
-    if (!res.ok) throw new Error("Falha na busca");
-    const data = await res.json();
-    const items: SearchItem[] = Array.isArray(data?.results) ? data.results : [];
+    // Chamada direta a lib, e nao fetch na propria /api/search: o endpoint era
+    // montado com NEXT_PUBLIC_SITE_URL, que nunca foi definida nem aqui nem na
+    // Netlify. A URL saia relativa, o fetch de servidor falhava e esta pagina
+    // respondia "Erro ao buscar" para qualquer termo.
+    const { results: items } = await buscarConteudo(q, { limit: 20 });
 
     if (!items.length) {
       return <p className="text-sm text-zinc-500">Nenhum resultado para "{q}".</p>;
@@ -41,9 +30,9 @@ async function SearchResults({ q }: { q: string }) {
     return (
       <ul className="mt-4 space-y-3">
         {items.map((item) => (
-          <li key={item.id} className="rounded-md border border-zinc-200 p-4 transition hover:bg-zinc-50">
+          <li key={item.slug} className="rounded-md border border-zinc-200 p-4 transition hover:bg-zinc-50">
             <a href={item.url} className="font-medium text-emerald-700 hover:underline">
-              {item.title || item.name}
+              {item.title}
             </a>
             {item.excerpt ? (
               <p className="mt-1 text-xs text-zinc-600 line-clamp-2">{item.excerpt}</p>

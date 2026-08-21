@@ -1,9 +1,22 @@
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados as publicados, staticPuppies } from "@/content/puppies-static";
+import { CORES_DIVULGADAS, RESPOSTA_PRETO } from "@/domain/pricing";
 
 export type CatalogItem = (typeof staticPuppies)[number];
 
+// ALL_COLORS continua com as cinco cores de propósito: é daqui que saem os
+// `generateStaticParams` de /filhotes/cor/[cor] e as entradas do sitemap. Tirar
+// o wolf-sable desta lista faria uma URL indexada devolver 404, que é
+// exatamente o que não se faz sem decisão de quem responde pelo SEO.
 export const ALL_COLORS = ["branco", "creme", "laranja", "preto", "wolf-sable"] as const;
 export type PuppyColor = (typeof ALL_COLORS)[number];
+
+/**
+ * Cores que a comunicação divulga hoje — menus, filtros e vitrines.
+ *
+ * O Cinza-Lobo saiu desta lista, não de {@link ALL_COLORS}: a página continua
+ * no ar, ela é que deixou de ser oferecida.
+ */
+export const CORES_EXIBIDAS: readonly string[] = CORES_DIVULGADAS;
 
 export const ALL_SEXES = ["femea", "macho"] as const;
 export type PuppySex = (typeof ALL_SEXES)[number];
@@ -11,6 +24,10 @@ export type PuppySex = (typeof ALL_SEXES)[number];
 // Map URL slug ↔ domain value
 export const SEX_URL_TO_DOMAIN: Record<string, string> = { femea: "female", macho: "male" };
 export const SEX_DOMAIN_TO_URL: Record<string, string> = { female: "femea", male: "macho" };
+
+// Reexportado para quem já importa deste módulo. A lista nasce ao lado dos
+// dados, em content/puppies-static.
+export { puppiesPublicados } from "@/content/puppies-static";
 
 export function getPuppyBySlug(slug: string): CatalogItem | undefined {
   return staticPuppies.find((p) => p.slug === slug);
@@ -22,7 +39,9 @@ export function getPuppiesByColor(color: string): CatalogItem[] {
 
 export function getPuppiesBySex(urlSex: string): CatalogItem[] {
   const domain = SEX_URL_TO_DOMAIN[urlSex] ?? urlSex;
-  return staticPuppies.filter(
+  // Página de sexo é vitrine genérica, não a URL de uma cor: filtra pelo que
+  // está divulgado.
+  return publicados.filter(
     (p) => p.sex === domain || (p as any).gender === domain,
   );
 }
@@ -31,13 +50,10 @@ export function getFirstImage(puppy: CatalogItem): string | undefined {
   return puppy.images.find((img) => !img.endsWith(".mp4"));
 }
 
-export function formatPrice(cents: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(cents / 100);
-}
+// Reexporta o formatador de domain/pricing em vez de manter um segundo. O
+// `style: "currency"` do Intl separa "R$" do número com espaço estreito sem
+// quebra, invisível na revisão e diferente do "R$ 8.500" escrito nos textos.
+export { formatarPreco as formatPrice } from "@/domain/pricing";
 
 // ─── SEO content per color ───────────────────────────────────────────────────
 
@@ -74,7 +90,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Branco?",
         answer:
-          "A tabela atual traz R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as cinco cores, nos dois sexos. O valor inclui registro oficial, laudo de saúde, protocolo vacinal em dia conforme a idade e mentoria vitalícia.",
+          "A tabela atual traz R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as quatro cores, nos dois sexos. A disponibilidade é informada no atendimento.",
       },
       {
         question: "A cor branca muda o temperamento ou a saúde do Spitz?",
@@ -94,7 +110,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria vitalícia inclusa.",
     h1: "Spitz Alemão Anão Creme",
     intro:
-      "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. Na tabela atual da By Império Dog, o macho creme fica acima do laranja e do cinza-lobo, junto com o preto. Disponibilidade limitada — consulte a agenda de ninhadas.",
+      "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. Na tabela atual da By Império Dog, o macho creme fica acima do laranja, junto com o preto. Disponibilidade limitada — consulte a agenda de ninhadas.",
     characteristics: [
       "Pelagem densa cor creme/marfim uniforme sem manchas",
       "Olhos escuros expressivos e focinho amendoado",
@@ -106,12 +122,12 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço de um Spitz Alemão Anão Creme?",
         answer:
-          "Na By Império Dog, a Fêmea Creme é R$ 8.500 e o Macho Creme é R$ 7.500. Todos os valores incluem registro oficial, protocolo vacinal em dia conforme a idade do filhote, laudos de saúde e mentoria vitalícia.",
+          "Na By Império Dog, o Macho Creme é R$ 7.500 e a Fêmea Creme é R$ 8.500. A disponibilidade é informada no atendimento.",
       },
       {
-        question: "Por que o Spitz Creme é mais caro que outras cores?",
+        question: "Por que o Spitz Creme é mais caro que o laranja?",
         answer:
-          "Nem toda ninhada traz filhotes creme com pelagem uniforme dentro do padrão FCI, então a disponibilidade é menor ao longo do ano. Na tabela atual da By Império Dog, o macho creme está acima do laranja e do cinza-lobo, junto com o preto.",
+          "Porque o creme tem disponibilidade menor ao longo do ano. Na tabela atual da By Império Dog o creme fica acima do laranja, junto com o preto: R$ 7.500 para macho e R$ 8.500 para fêmea.",
       },
       {
         question: "O Spitz Creme perde muito pelo?",
@@ -143,7 +159,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Laranja?",
         answer:
-          "Na By Império Dog, a Fêmea Laranja é R$ 8.500 e o Macho Laranja é R$ 6.500. Inclui registro oficial, vacinação, laudos e mentoria vitalícia.",
+          "Na By Império Dog, o Macho Laranja é R$ 6.500 e a Fêmea Laranja é R$ 7.500 — o menor valor da tabela nos dois sexos. A disponibilidade é informada no atendimento.",
       },
       {
         question: "Spitz Laranja é dócil com crianças?",
@@ -179,18 +195,17 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     faqs: [
       {
         question: "Qual o preço do Spitz Alemão Anão Preto?",
-        answer:
-          "Na By Império Dog, a Fêmea Preta é R$ 8.500 e o Macho Preto é R$ 7.500. Incluem registro oficial, vacinação, laudos e mentoria vitalícia.",
+        answer: RESPOSTA_PRETO,
       },
       {
         question: "Por que o Spitz Preto tem menos disponibilidade?",
         answer:
-          "A pelagem preta uniforme depende das linhagens usadas no acasalamento, e nem toda ninhada traz filhotes pretos dentro do padrão FCI. Por isso as ninhadas pretas da By Império Dog são menos frequentes do que as de laranja.",
+          "A cor preta aparece com menos frequência entre os filhotes disponíveis pela By Império Dog do que o laranja. A disponibilidade varia ao longo do ano e é informada no atendimento.",
       },
       {
         question: "Existe lista de espera para Spitz Preto?",
         answer:
-          "Sim. Como as ninhadas pretas são menos frequentes, mantemos lista de interesse prioritária. Entre em contato via WhatsApp para reservar sua posição na próxima ninhada.",
+          "Sim. Como o preto tem disponibilidade menor, mantemos lista de interesse prioritária. Entre em contato via WhatsApp para reservar sua posição.",
       },
       {
         question: "Spitz Preto fica com a pelagem opaca?",
@@ -273,7 +288,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Spitz Fêmea é mais cara que Macho?",
         answer:
-          "Sim. A fêmea custa R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco; o macho varia de R$ 6.500 a R$ 8.500 conforme a cor. Comparando a mesma cor, a diferença fica entre R$ 1.000 e R$ 2.000.",
+          "Sim. A fêmea custa R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco; o macho varia de R$ 6.500 a R$ 8.500 conforme a cor. Comparando a mesma cor, a diferença é de R$ 1.000.",
       },
       {
         question: "Posso castrar a Spitz Fêmea?",
@@ -315,7 +330,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Qual a diferença de preço entre Macho e Fêmea?",
         answer:
-          "O Macho é entre R$ 1.000 e R$ 2.000 mais barato que a Fêmea da mesma cor, sem qualquer diferença de qualidade, saúde ou documentação.",
+          "O Macho é R$ 1.000 mais barato que a Fêmea da mesma cor, sem qualquer diferença de qualidade, saúde ou documentação.",
       },
       {
         question: "O Macho Spitz é bom para crianças?",

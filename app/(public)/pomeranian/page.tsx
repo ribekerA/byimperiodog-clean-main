@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { CARDS_POR_FAIXA, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
@@ -46,8 +47,9 @@ const FAQS = [
   },
   {
     question: "Qual o preço de um Pomeranian no Brasil?",
-    answer:
-      "Na By Império Dog, os preços variam de R$ 6.500 a R$ 9.500 dependendo da cor e do sexo. Machos partem de R$ 6.500 (laranja e cinza-lobo), passam por R$ 7.500 (creme e preto) e chegam a R$ 8.500 (branco). Fêmeas custam R$ 8.500 em creme, preto, laranja e cinza-lobo, e R$ 9.500 no branco. Todos incluem registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    // Mesma resposta oficial usada na home e em /preco-spitz-anao. Pomeranian,
+    // Lulu e Spitz Alemão Anão são o mesmo cão — não podem ter três tabelas.
+    answer: RESPOSTA_QUANTO_CUSTA,
   },
   {
     question: "Pomeranian tem outro nome no Brasil?",
@@ -121,17 +123,11 @@ export default function PomeranianPage() {
           Os valores variam conforme a cor e o sexo. Todos os filhotes incluem registro oficial, laudos e mentoria vitalícia.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
-          {[
-            { cor: "Macho — Laranja / Cinza-Lobo (Wolf Sable)", preco: "R$ 6.500", tag: "valor da tabela" },
-            { cor: "Macho — Creme / Preto",                     preco: "R$ 7.500", tag: "valor da tabela" },
-            { cor: "Macho — Branco",                            preco: "R$ 8.500", tag: "valor da tabela" },
-            { cor: "Fêmea — Creme / Preto / Laranja / Cinza-Lobo", preco: "R$ 8.500", tag: "valor da tabela" },
-            { cor: "Fêmea — Branco",                            preco: "R$ 9.500", tag: "valor da tabela" },
-          ].map((p) => (
-            <div key={p.cor} className="rounded-xl bg-white border border-zinc-200 p-4">
-              <p className="text-xs text-zinc-400 uppercase tracking-wide">{p.tag}</p>
-              <p className="text-xl font-bold text-emerald-700">{p.preco}</p>
-              <p className="text-sm text-zinc-600">{p.cor}</p>
+          {CARDS_POR_FAIXA.map((p) => (
+            <div key={p.rotulo} className="rounded-xl bg-white border border-zinc-200 p-4">
+              <p className="text-xs text-zinc-400 uppercase tracking-wide">valor da tabela</p>
+              <p className="text-xl font-bold text-emerald-700">{p.valor}</p>
+              <p className="text-sm text-zinc-600">{p.rotulo}</p>
             </div>
           ))}
         </div>

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { SpringButton } from "@/components/motion/SpringButton";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -22,7 +22,7 @@ const waHero = buildWhatsAppLink({
 const HEADLINE_WORDS = ["Spitz", "Alemão", "Anão"];
 
 // Contagem ao vivo de filhotes disponíveis — atualiza quando puppies-static muda
-const AVAILABLE_COUNT = (staticPuppies as Array<{ status: string }>).filter(
+const AVAILABLE_COUNT = (puppiesPublicados as Array<{ status: string }>).filter(
   (p) => p.status === "available"
 ).length;
 
@@ -141,7 +141,22 @@ export default function VideoHero() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-zinc-950"
+      // O header do site é `sticky top-0` e opaco: ele ocupa 73px do fluxo, e o
+      // hero começa depois dele. Com `min-h-[100svh]` o hero media a tela inteira
+      // a partir do 73 — terminava 73px depois da dobra. Duas consequências, e
+      // nenhuma delas era intencional: sobrava vídeo preto sem nada logo abaixo
+      // do último elemento, e a pista "Rolar", que é `bottom-8` desta section,
+      // caía fora da primeira tela em todos os aparelhos — o indicador de rolagem
+      // só aparecia depois de a pessoa já ter rolado.
+      //
+      // Descontando a altura do header o hero passa a terminar na dobra. São
+      // dois valores porque o header tem dois tamanhos: 73px enquanto o bloco de
+      // botões é `lg:flex` e não aparece, 87px a partir de lg, quando aparece.
+      // No celular desconta-se mais 87px de propósito: é a próxima seção
+      // aparecendo por baixo, que é a pista de rolagem que funciona sem precisar
+      // de desenho nenhum — e a pista desenhada é `sm:flex`, não existe no
+      // celular. Se o header mudar de altura, estes números mudam junto.
+      className="relative isolate flex min-h-[calc(100svh_-_10rem)] flex-col items-center justify-center overflow-hidden bg-zinc-950 sm:min-h-[calc(100svh_-_73px)] lg:min-h-[calc(100svh_-_87px)]"
       aria-labelledby="hero-heading"
     >
       {/* ── Fundo ────────────────────────────────────────────────────────────── */}
@@ -217,7 +232,7 @@ export default function VideoHero() {
 
       {/* ── Conteúdo ─────────────────────────────────────────────────────────── */}
       <div className="relative z-10 w-full">
-        <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-12 text-center sm:gap-7 sm:py-28 sm:px-8">
+        <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-8 text-center sm:gap-7 sm:py-16 sm:px-8">
 
           {/* Eyebrow — entra primeiro */}
           <motion.div

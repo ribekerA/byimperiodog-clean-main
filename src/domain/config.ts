@@ -2,6 +2,7 @@
  * @module domain/config
  * @description Configurações e constantes de negócio centralizadas
  */
+import { FAIXA_PUBLICA } from "@/domain/pricing";
 
 /**
  * Ano de início da criação — FONTE ÚNICA.
@@ -82,11 +83,15 @@ export const PRODUCT_CONFIG = {
     maxMonthsForPuppy: 12, // Até 12 meses é considerado filhote
   },
 
-  // Faixas de preço (em centavos)
+  // Faixas de preço (em centavos).
+  //
+  // Derivadas de domain/pricing, não escritas na mão: estes três números são
+  // consequência aritmética da tabela comercial, e mantê-los soltos aqui já
+  // fez o /llms.txt anunciar uma faixa que a tabela do site não praticava.
   pricing: {
-    minPriceCents: 650000, // R$ 6.500,00
-    maxPriceCents: 950000, // R$ 9.500,00 — fêmea branca, o teto da tabela
-    averagePriceCents: 800000, // R$ 8.000,00 — média das dez combinações cor/sexo
+    minPriceCents: FAIXA_PUBLICA.minCents,
+    maxPriceCents: FAIXA_PUBLICA.maxCents,
+    averagePriceCents: FAIXA_PUBLICA.mediaCents,
   },
 } as const;
 

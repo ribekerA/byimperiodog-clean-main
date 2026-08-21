@@ -11,6 +11,7 @@ import NotifyMeButton from "@/components/NotifyMeButton";
 import { staticPuppies } from "@/content/puppies-static";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { getBadgesForPuppy, type CatalogBadge } from "@/lib/ai/catalog-badges";
+import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -153,10 +154,14 @@ export default function StaticPuppyCard({
               <img
                 src={cover}
                 alt={`${name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
-                // As fotos sao verticais e o filhote fica na parte de cima do
-                // quadro. Cortar pelo centro decapitava o cachorro; ancorar em
-                // 28% mantem a cabeca dentro do recorte.
-                className="h-full w-full object-cover [object-position:50%_28%] transition duration-500 group-hover:scale-[1.07]"
+                // As fotos sao verticais e o filhote raramente esta no mesmo
+                // lugar do quadro: quem posa no colo fica no alto, quem posa na
+                // grama fica embaixo. O 28% fixo servia para o primeiro caso e
+                // deixava o segundo no rodape do card. Agora vem medido foto a
+                // foto (src/lib/photo-focus), com o 28% de padrao para quem nao
+                // foi medido.
+                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.07]"
+                style={{ objectPosition: focoDaFoto(cover) }}
                 loading={priority ? "eager" : "lazy"}
               />
             )}
