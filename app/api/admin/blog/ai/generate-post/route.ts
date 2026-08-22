@@ -80,7 +80,7 @@ export async function POST(req: Request) {
   await updateSession({ phase:'expand', progress:25 });
   let expandedSections: { heading: string; content: string }[] = [];
   {
-  const prompt = `Você é um redator sênior especialista em Spitz Alemão (Lulu da Pomerânia) e comportamento canino. Gere conteúdo EM PORTUGUÊS BRASIL em MDX (GFM) altamente útil, prático e humano para o TEMA: ${topic}\nEscopo: ${scope}.\nDiretrizes de estilo:\n- Tom: caloroso, especialista confiável, sem floreio vazio.\n- Nunca use frases genéricas tipo "Assunto do artigo" ou "Introdução ao tema".\n- Cada seção deve ter exemplos concretos (rotina, idade, sinais, quantidades).\n- Incluir dicas acionáveis, micro-checklists e erros comuns.\n- FAQ: respostas curtas, objetivas e factuais.\n- Usar headings fornecidos EXATOS.\nSeções (não pule):\n${outlineSections.map(s=>`- ${s.heading}: ${s.goal}`).join('\n')}\nFormato de saída: JSON ESTRITO -> {"sections":[{"heading":"...","content_mdx":"..."}]}. Nada antes/depois do JSON.`;
+  const prompt = `Você é um redator sênior especialista em Spitz Alemão Anão (Lulu da Pomerânia) e comportamento canino. Gere conteúdo EM PORTUGUÊS BRASIL em MDX (GFM) altamente útil, prático e humano para o TEMA: ${topic}\nEscopo: ${scope}.\nDiretrizes de estilo:\n- Tom: caloroso, especialista confiável, sem floreio vazio.\n- Nunca use frases genéricas tipo "Assunto do artigo" ou "Introdução ao tema".\n- Cada seção deve ter exemplos concretos (rotina, idade, sinais, quantidades).\n- Incluir dicas acionáveis, micro-checklists e erros comuns.\n- FAQ: respostas curtas, objetivas e factuais.\n- Usar headings fornecidos EXATOS.\nSeções (não pule):\n${outlineSections.map(s=>`- ${s.heading}: ${s.goal}`).join('\n')}\nFormato de saída: JSON ESTRITO -> {"sections":[{"heading":"...","content_mdx":"..."}]}. Nada antes/depois do JSON.`;
     try {
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -136,7 +136,7 @@ export async function POST(req: Request) {
 
 function buildOutline(scope: string): SectionOutline[] {
   const base: SectionOutline[] = [
-    { id: 'intro', heading: 'Introdução', goal: 'Contextualizar o tema e relação com Spitz Alemão (Lulu da Pomerânia).'},
+    { id: 'intro', heading: 'Introdução', goal: 'Contextualizar o tema e relação com Spitz Alemão Anão.'},
     { id: 'historia', heading: 'História e Origem', goal: 'Breve origem e evolução da raça.'},
     { id: 'fisicas', heading: 'Características Físicas', goal: 'Tamanho, pelagem, longevidade.'},
     { id: 'temperamento', heading: 'Temperamento (Filhote vs Adulto)', goal: 'Comparar fases comportamentais.'},
@@ -229,7 +229,7 @@ function refineMDX(mdx: string, topic: string){
   });
   // CTA Section enhancement
   out = out.replace(/##\s+Recursos e CTA[\r\n]+(?!Links internos)([\s\S]*?)(?=^##\s|$)/m,(m,body)=>{
-    const links = `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/comprar-spitz-anao)\n- [Socialização](/blog)\n\nCTA: Entre em contato para conhecer a próxima ninhada e receber dicas personalizadas.`;
+    const links = `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/comprar-spitz-anao)\n- [Socialização](/blog)\n\nCTA: Entre em contato para saber quais filhotes estão disponíveis e tirar dúvidas.`;
     return `## Recursos e CTA\n${links}`;
   });
   return out;

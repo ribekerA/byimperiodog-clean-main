@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     // 192 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 155, agora com "Lulu da Pomerânia".
-    "Filhote de Spitz Alemão Anão (Lulu da Pomerânia): como escolher, o que verificar, primeiros cuidados, alimentação e vacinação. Onde comprar com procedência.",
+    "Filhote de Spitz Alemão Anão: como escolher, o que verificar, primeiros cuidados, alimentação e vacinação. Onde comprar com procedência.",
   keywords: [
     "filhote de Spitz Alemão Anão",
     "filhote Lulu da Pomerânia",
@@ -38,7 +38,7 @@ const FIRST_DAYS = [
   { title: "Ambiente seguro", body: "Prepare um espaço calmo com cama, tapete higiênico e brinquedos. Evite visitantes nas primeiras 48–72 horas para não sobrecarregar o filhote." },
   { title: "Alimentação", body: "Mantenha a ração indicada pela criadora por pelo menos 15 dias antes de qualquer troca. Mudanças bruscas de dieta causam diarreia em filhotes pequenos." },
   { title: "Hidratação", body: "Água fresca disponível 24h. Filhotes de porte muito pequeno podem sofrer hipoglicemia — alimentação a cada 4–6 horas é essencial nos primeiros dias." },
-  { title: "Veterinário", body: "Agende consulta veterinária nas primeiras 72 horas — é o prazo previsto em contrato para a avaliação clínica. Leve a carteira de vacinação, histórico de vermifugação e o laudo de saúde entregues pela criadora." },
+  { title: "Veterinário", body: "Agende a primeira consulta veterinária logo após a chegada e confira no contrato os prazos previstos. Leve a carteira de vacinação, o histórico de vermifugação e os exames entregues pela criadora." },
   { title: "Temperatura", body: "Filhotes têm dificuldade de regular temperatura. Mantenha entre 22–24°C. Evite correntes de ar, piso frio e ar-condicionado direto." },
   { title: "Socialização gradual", body: "Permita exploração no espaço seguro antes de apresentar outros animais ou crianças. Respeite o ritmo do filhote para evitar trauma." },
 ];
@@ -52,12 +52,12 @@ const FAQS = [
   {
     question: "Quais vacinas o filhote precisa tomar?",
     answer:
-      "O protocolo padrão é: V8 ou V10 a partir das 6–8 semanas (com reforços a cada 3–4 semanas até 16 semanas), antirrábica após 12 semanas e reforço anual de todas as vacinas. Os filhotes da By Império Dog seguem protocolo veterinário em andamento conforme a idade, com carteira de vacinação assinada pelo médico-veterinário e orientação por escrito das doses seguintes. O protocolo em andamento não é, por si só, condição suficiente para a entrega: a comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável.",
+      "Os filhotes da By Império Dog são entregues vacinados e vermifugados, com o protocolo em andamento conforme a idade e definido pelo médico-veterinário responsável, com carteira de vacinação assinada pelo médico-veterinário e orientação por escrito das doses seguintes. O protocolo em andamento não é, por si só, condição suficiente para a entrega: a comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável.",
   },
   {
     question: "O que perguntar ao criador antes de comprar o filhote?",
     answer:
-      "Pergunte: (1) Os pais têm laudo de saúde? (2) O filhote tem registro oficial? (3) Quais exames foram feitos? (4) Qual o protocolo de vacinação? (5) Posso fazer visita ou videochamada? (6) Tem contrato de venda? (7) Qual o suporte pós-venda? Um criador responsável responde todas essas perguntas sem dificuldade.",
+      "Pergunte: (1) O filhote tem registro oficial? (2) Quais exames foram feitos? (3) Qual o protocolo de vacinação e o que consta na carteira? (4) Como a criação pode ser verificada? (5) Tem contrato de venda, e o que ele descreve? (6) Qual o suporte após a entrega? Um criador responsável responde todas essas perguntas sem dificuldade.",
   },
   {
     question: "O filhote de Spitz Alemão Anão é difícil de adestrar?",
@@ -112,10 +112,10 @@ export default function FilhoteDeSpitzPage() {
         <ul className="space-y-3">
           {[
             { t: "Procedência documentada", b: "Registro oficial nos pais e garantia de registro no filhote — é o que permite conferir a linhagem por escrito." },
-            { t: "Laudos veterinários dos pais", b: "Laudo de saúde e teste de patela bilateral dos reprodutores antes de cada ninhada." },
-            { t: "Socialização comprovada", b: "Filhotes criados dentro de casa, com contato humano diário, sons e rotinas domésticas tendem a se adaptar melhor à rotina da nova família." },
+            { t: "Laudos veterinários dos pais", b: "Pergunte quais exames os reprodutores fizeram e peça os laudos por escrito." },
+            { t: "Socialização em ambiente familiar", b: "Filhotes criados dentro de casa, com contato humano diário, sons e rotinas domésticas tendem a se adaptar melhor à rotina da nova família." },
             { t: "Carteira de vacinação em dia", b: "Protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes." },
-            { t: "Contrato com garantia", b: "Contrato claro com garantia de saúde, responsabilidades e suporte pós-venda." },
+            { t: "Contrato claro", b: "Contrato que descreve por escrito as condições de saúde, as responsabilidades de cada parte e o suporte pós-venda." },
           ].map((item) => (
             <li key={item.t} className="flex items-start gap-3 rounded-xl border border-zinc-100 bg-white p-4 shadow-sm">
               <span className="mt-0.5 text-emerald-500 font-bold">✓</span>

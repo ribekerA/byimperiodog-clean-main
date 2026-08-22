@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     // 188 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 142, agora com "Lulu da Pomerânia".
-    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão (Lulu da Pomerânia), com registro oficial e suporte direto com a criadora.",
+    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão, com registro oficial e suporte direto com a criadora.",
   alternates: { canonical: "/reserve-seu-filhote" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     url: "/reserve-seu-filhote",
     title: "Reserve seu Filhote de Spitz Alemão Anão | By Império Dog",
     description:
-      "Processo de reserva transparente: entrevista, sinal de garantia, socialização acompanhada e entrega humanizada com suporte vitalício.",
+      "Processo de reserva transparente: conversa inicial, sinal, acompanhamento até a entrega e suporte pós-venda.",
   },
 };
 
@@ -37,18 +37,18 @@ const benefits = [
   },
   {
     icon: HeartHandshake,
-    title: "Socialização Acompanhada",
-    description: "Vídeos e fotos do desenvolvimento do filhote, do nascimento até a entrega, com orientação sobre temperamento.",
+    title: "Acompanhamento até a entrega",
+    description: "Fotos e informações sobre o filhote reservado até o momento da entrega.",
   },
   {
     icon: Clock,
     title: "Prioridade de Escolha",
-    description: "Reserva antecipada garante primeiro acesso à ninhada, com possibilidade de visita presencial ou videochamada.",
+    description: "A reserva antecipada define a ordem de escolha entre os filhotes disponíveis.",
   },
   {
     icon: CheckCircle,
-    title: "Mentoria Vitalícia",
-    description: "Acompanhamento direto via WhatsApp para rotina, nutrição, comportamento e qualquer dúvida durante toda a vida do Spitz.",
+    title: "Mentoria pós-venda",
+    description: "Acompanhamento direto pelo WhatsApp para rotina, cuidados e dúvidas depois da entrega.",
   },
 ] as const;
 
@@ -56,7 +56,7 @@ const processSteps = [
   {
     step: "01",
     title: "Entrevista e Alinhamento",
-    description: "Conversamos sobre sua rotina, expectativas e preparação do lar. Enviamos checklist personalizado e orientações sobre o processo.",
+    description: "Conversamos sobre a sua rotina e as suas preferências, e explicamos como funciona o processo.",
   },
   {
     step: "02",
@@ -100,7 +100,7 @@ const faqEntries = [
   },
   {
     question: "O que está incluso na reserva?",
-    answer: "Registro oficial (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade, vermifugação, exames laboratoriais, kit de boas-vindas, contrato digital e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    answer: "Registro oficial (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade, vermifugação, exames laboratoriais, kit de boas-vindas, contrato digital e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     question: "E se eu desistir após a reserva?",
@@ -129,7 +129,7 @@ export default function ReserveSeuFilhotePage() {
     url: `${SITE_URL}/reserve-seu-filhote`,
     name: "Reserve seu Filhote de Spitz Alemão Anão",
     description:
-      "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão com processo transparente, socialização acompanhada e suporte vitalício.",
+      "Prioridade de escolha entre os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis, com processo transparente e suporte pós-venda.",
     isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Império Dog" },
   };
 
@@ -161,7 +161,7 @@ export default function ReserveSeuFilhotePage() {
           Garanta seu Filhote de Spitz Alemão Anão com Processo Transparente
         </h1>
         <p className="max-w-3xl text-base text-[var(--text-muted)] sm:text-lg">
-          Trabalhamos com poucas ninhadas ao ano para garantir saúde, temperamento equilibrado e adaptação tranquila. Reserve agora e acompanhe todo o processo: da gestação à entrega humanizada.
+          Reserve e acompanhe o processo até a entrega, com as condições descritas em contrato.
         </p>
         <div className="flex flex-wrap justify-center gap-3 sm:justify-start">
           <a
@@ -223,7 +223,7 @@ export default function ReserveSeuFilhotePage() {
         <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-8 shadow-sm">
           <h2 className="text-2xl font-semibold text-[var(--text)]">Inicie sua reserva</h2>
           <p className="mt-2 text-sm text-[var(--text-muted)]">
-            Preencha o formulário abaixo e entraremos em contato em até 2 horas para agendar a entrevista de alinhamento.
+            Preencha o formulário abaixo e entraremos em contato no horário de atendimento (todos os dias, das 8h às 22h) para falar sobre os filhotes disponíveis.
           </p>
           <TrustBar className="mt-4" />
           <div className="mt-6">

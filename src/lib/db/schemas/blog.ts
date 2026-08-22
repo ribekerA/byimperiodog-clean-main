@@ -5,7 +5,11 @@ const spitzPattern = /(spitz\s+alem[aã]o(?:\s+an[aã]o)?)/gi;
 const luluPattern = /(lulu\s+da\s+pomer[aã]nia)/i;
 const cernelhaPattern = /\bcernelha\b/i;
 
-function enforceContentRules(value: string | null | undefined, field: string) {
+function enforceContentRules(
+  value: string | null | undefined,
+  field: string,
+  { exigirDefinicao = false }: { exigirDefinicao?: boolean } = {},
+) {
   if (!value) return true;
   const input = value.normalize("NFC");
   if (bannedPattern.test(input)) {
@@ -14,13 +18,16 @@ function enforceContentRules(value: string | null | undefined, field: string) {
   if (cernelhaPattern.test(input) && !/cernelha\s*\(altura\)/i.test(input)) {
     throw new Error(`Use "cernelha (altura)" no campo ${field}.`);
   }
-  const matches = [...input.matchAll(spitzPattern)];
-  for (const match of matches) {
-    const surrounding = input.slice(Math.max(0, (match.index ?? 0) - 80), (match.index ?? 0) + match[0].length + 80);
-    if (!luluPattern.test(surrounding)) {
-      throw new Error(`Sempre utilize "Spitz Alemão (Lulu da Pomerânia)" no campo ${field}.`);
-    }
+  // Só o texto longo precisa apresentar a raça. E precisa apresentá-la uma
+  // vez, não a cada menção: quem chega pelo artigo lê "Lulu da Pomerânia"
+  // no primeiro encontro e o nome oficial no resto.
+  if (exigirDefinicao && spitzPattern.test(input) && !luluPattern.test(input)) {
+    spitzPattern.lastIndex = 0;
+    throw new Error(
+      `Apresente a raça uma vez no ${field}: escreva "Spitz Alemão Anão (Lulu da Pomerânia)" na primeira menção.`,
+    );
   }
+  spitzPattern.lastIndex = 0;
   return true;
 }
 
@@ -50,7 +57,7 @@ export const postContentSchema = z
       enforceContentRules(data.title, "título");
       enforceContentRules(data.subtitle ?? null, "subtítulo");
       enforceContentRules(data.excerpt ?? null, "resumo");
-      enforceContentRules(data.content, "conteúdo");
+      enforceContentRules(data.content, "conteúdo", { exigirDefinicao: true });
       enforceContentRules(data.coverAlt ?? null, "alt da imagem");
       enforceContentRules(data.seoTitle ?? null, "SEO title");
       enforceContentRules(data.seoDescription ?? null, "SEO description");

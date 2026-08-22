@@ -11,7 +11,7 @@ const PAGE_URL = `${SITE_URL}/cuidados`;
 const guide = guides.find((g) => g.slug.includes("cuidados-basicos")) ?? guides[0];
 
 export const metadata: Metadata = {
-  title: "Cuidados com o Spitz Alemão (Lulu da Pomerânia) — Banho, Escovação e Saúde",
+  title: "Cuidados com o Spitz Alemão Anão",
   description: guide.metaDescription,
   keywords: ["cuidados spitz alemão", "escovação lulu da pomerania", "banho spitz"],
   // Esta pagina reaproveita integralmente o corpo do guia /guias/cuidados-basicos-spitz-alemao-anao.

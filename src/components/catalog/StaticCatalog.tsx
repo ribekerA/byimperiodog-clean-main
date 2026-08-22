@@ -87,7 +87,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
   const hasFilters = filterColor || filterSex || filterStatus;
 
   const baseWaEmpty = buildWhatsAppLink({
-    message: "Olá! Não encontrei o filhote que procuro no catálogo. Pode me ajudar a encontrar o Spitz ideal?",
+    message: "Olá! Não encontrei o filhote que procuro no catálogo. Pode me ajudar a encontrar o filhote certo para a minha família?",
     utmSource: "site",
     utmMedium: "catalog_empty",
     utmCampaign: "filhotes",
@@ -103,7 +103,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
           Filhotes disponíveis
         </HeroHeading>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
-          Cada filhote sai com registro oficial, laudos veterinários e mentoria vitalícia. Saúde documentada, sem surpresas.
+          Cada filhote sai com registro oficial, laudos veterinários e mentoria pós-venda. Saúde documentada, sem surpresas.
         </p>
       </div>
 

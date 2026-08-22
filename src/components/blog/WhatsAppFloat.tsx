@@ -58,13 +58,13 @@ export default function WhatsAppFloat() {
               </div>
               <div className="space-y-1">
                 <h3 className="text-sm font-semibold text-text">By Império Dog</h3>
-                <p className="text-xs text-text-soft">Resposta humana em até 2 horas, no horário de atendimento (8h–22h).</p>
+                <p className="text-xs text-text-soft">Atendimento humano, todos os dias das 8h às 22h.</p>
               </div>
             </div>
 
             <div className="mb-4 rounded-2xl bg-surface-subtle p-3 text-sm text-text">
               <p>
-                Olá! Temos Spitz Alemão Anão (Lulu da Pomerânia) sob consulta com mentoria vitalícia. Deseja falar agora pelo WhatsApp?
+                Olá! Temos Spitz Alemão Anão sob consulta com mentoria pós-venda. Deseja falar agora pelo WhatsApp?
               </p>
             </div>
 

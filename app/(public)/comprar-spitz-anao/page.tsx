@@ -17,14 +17,14 @@ export const metadata: Metadata = {
   description:
     // 226 caracteres: o Google cortava a partir de "como evitar golpes".
     // Reescrita em 141.
-    "Como comprar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
+    "Como comprar um filhote de Spitz Alemão Anão com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
   keywords: [
     "comprar Spitz Alemão Anão",
     "onde comprar Lulu da Pomerânia confiável",
     "como comprar filhote Spitz Alemão com documentação",
     "Lulu da Pomerânia à venda SP",
     "canil Spitz Alemão responsável interior SP",
-    "comprar Pomeranian Brasil com garantia",
+    "comprar Pomeranian no Brasil",
     "filhote Lulu da Pomerânia documentado",
   ],
   alternates: { canonical: "/comprar-spitz-anao" },
@@ -39,43 +39,42 @@ export const metadata: Metadata = {
 
 const CHECKLIST_YES = [
   "Registro oficial (não apenas 'em andamento')",
-  "Laudo de saúde dos pais e do filhote",
-  "Teste de patela bilateral",
+  "Consulta veterinária e hemograma completo do filhote",
   "Carteira de vacinação com carimbos veterinários reais",
-  "Contrato claro com garantia de saúde e suporte pós-venda",
+  "Contrato claro, com as condições de saúde e o suporte pós-venda descritos",
   "Fotos e vídeos reais — sem filtros exagerados",
-  "Visita ou videochamada para conhecer os filhotes e a criadora",
+  "Transparência sobre como a criação pode ser verificada",
   "Referências de compradores anteriores",
 ] as const;
 
 const CHECKLIST_NO = [
-  "Preço muito abaixo do mercado (menos de R$ 3.000)",
+  "Valor muito distante da média praticada, sem explicação para a diferença",
   "Sem documentação ou 'registro no futuro'",
-  "Não permite visitar ou fazer videochamada",
+  "Não informa com transparência como a criação pode ser verificada",
   "Entrega antes de cumprir os requisitos legais de comercialização",
-  "Sem contrato ou contrato genérico sem garantia",
+  "Sem contrato, ou contrato genérico que não descreve as condições",
   "Pagamento apenas via Pix antecipado sem comprovantes",
   "Várias ninhadas 'sempre disponíveis' ao mesmo tempo",
 ] as const;
 
 const STEPS = [
   { num: "01", title: "Pesquise e compare criadores", body: "Busque criadores com histórico online, avaliações reais de clientes e presença nas redes sociais. Desconfie de quem não tem referências." },
-  { num: "02", title: "Solicite documentação dos pais", body: "Exija o registro oficial dos pais, laudos de saúde e histórico veterinário antes de qualquer pagamento. Um criador responsável apresenta tudo sem hesitar." },
-  { num: "03", title: "Faça uma visita ou videochamada", body: "Ver o ambiente onde o filhote cresceu é essencial. Na By Império Dog fazemos videochamadas e recebemos visitas agendadas." },
-  { num: "04", title: "Confirme reserva com contrato", body: "A reserva é formalizada com contrato detalhado e sinal. O contrato cobre garantia de saúde, suporte pós-venda e responsabilidades de ambas as partes." },
-  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso à mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável." },
+  { num: "02", title: "Peça a documentação do filhote", body: "Confira o registro oficial, a carteira de vacinação e o histórico veterinário do filhote antes de qualquer pagamento. Um criador responsável apresenta o que tem sem hesitar." },
+  { num: "03", title: "Verifique antes de decidir", body: "Peça a documentação do filhote e combine com a criadora, pelo WhatsApp, o formato de verificação possível." },
+  { num: "04", title: "Confirme reserva com contrato", body: "A reserva é formalizada com contrato de compra e venda e sinal. Leia as condições antes de assinar: o contrato descreve prazos, obrigações e responsabilidades de ambas as partes." },
+  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso à mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável." },
 ] as const;
 
 const PAGE_FAQS = [
   {
-    question: "Onde comprar Spitz Alemão Anão (Lulu da Pomerânia) com segurança?",
+    question: "Onde comprar Spitz Alemão Anão com segurança?",
     answer:
-      `A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com criação responsável desde ${FOUNDING_YEAR} e mais de 180 famílias atendidas. Todos os filhotes têm registro oficial, laudos veterinários e mentoria vitalícia. Atendemos famílias de todo o Brasil.`,
+      `A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com criação responsável desde ${FOUNDING_YEAR}. Os filhotes saem com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, histórico de vermifugação, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
   },
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão?",
     answer:
-      "Os documentos essenciais são: registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, teste de patela, histórico de vermifugação, nota fiscal e contrato de compra com garantia de saúde. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme com o criador o que consta no contrato. Peça para conferir todos esses itens antes de fechar a compra.",
+      "Os documentos essenciais são: registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, histórico de vermifugação, nota fiscal e contrato de compra e venda. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme com o criador o que consta no contrato. Peça para conferir todos esses itens antes de fechar a compra.",
   },
   {
     question: "Como funciona a entrega do filhote em outro estado?",
@@ -85,22 +84,22 @@ const PAGE_FAQS = [
   {
     question: "Posso visitar o canil antes de comprar?",
     answer:
-      "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação. As visitas presenciais acontecem por agendamento em Bragança Paulista, SP.",
+      "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação.",
   },
   {
-    question: "O contrato prevê alguma garantia de saúde?",
+    question: "Como funciona o contrato de compra e venda?",
     answer:
-      "Sim, nos termos previstos em contrato. O tutor deve levar o filhote a uma clínica veterinária de sua confiança em até 72 horas após a entrega. Se nesse prazo for constatado, por laudo assinado por médico-veterinário (CRMV), problema grave de origem pré-existente, a criadora reembolsa integralmente o valor pago ou substitui o animal, a critério do comprador. A garantia contratual é complementar e não exclui nem reduz a garantia legal e os demais direitos assegurados ao consumidor pela legislação aplicável. Leia as cláusulas completas no contrato antes de assinar.",
+      "A compra é formalizada por contrato escrito, apresentado antes do pagamento. Ele descreve o filhote, o valor, as condições de entrega e as obrigações de cada parte. Leia as cláusulas completas antes de assinar e peça esclarecimento sobre qualquer ponto. As garantias e demais direitos assegurados ao consumidor pela legislação aplicável valem independentemente do que o contrato preveja.",
   },
   {
     question: "Como evitar golpes ao comprar Spitz Alemão Anão pela internet?",
     answer:
-      "Verifique: presença consistente nas redes sociais com histórico de filhotes, avaliações reais de clientes (não só prints), registro oficial verificável, contrato detalhado e possibilidade de visita ou videochamada. Desconfie de preços muito abaixo do mercado, pagamento apenas por Pix antecipado e criadores que não permitem qualquer forma de verificação presencial.",
+      "Verifique: presença consistente nas redes sociais com histórico de filhotes, avaliações reais de clientes (não só prints), registro oficial verificável, contrato detalhado e transparência sobre como a criação pode ser verificada. Valores muito diferentes da média podem justificar uma verificação mais cuidadosa das condições da oferta e da documentação.",
   },
   {
     question: "Quanto tempo leva o processo de compra?",
     answer:
-      "Da primeira conversa até a entrega, geralmente de 2 a 8 semanas — depende da disponibilidade de filhotes e da maturidade da ninhada. A reserva pode ser feita assim que o filhote estiver pronto (geralmente com 45+ dias de vida), com entrega após 60 dias.",
+      "O prazo depende da disponibilidade de filhotes no momento do contato. A entrega é realizada após o cumprimento dos requisitos legais e sanitários aplicáveis. Consulte a disponibilidade atual pelo WhatsApp.",
   },
 ] as const;
 
@@ -130,7 +129,7 @@ export default function ComprarSpitzPage() {
       <header className="space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Guia de compra segura</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Como comprar um Spitz Alemão Anão (Lulu da Pomerânia) com segurança
+          Como comprar um Spitz Alemão Anão com segurança
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
           Um guia completo para quem quer comprar um filhote de Lulu da Pomerânia sem cair em armadilhas: documentos obrigatórios, sinais de alerta, como funciona a entrega e o que esperar de um criador responsável.

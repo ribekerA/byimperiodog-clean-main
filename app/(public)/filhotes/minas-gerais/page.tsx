@@ -17,15 +17,15 @@ const WA_LINK = `https://wa.me/${WA_PHONE}`;
 export const metadata: Metadata = {
   // Com "(Lulu da Pomerânia)" o title batia em 87 caracteres somando o sufixo
   // da marca e o Google cortava o estado. O sinônimo continua na description.
-  title: "Filhotes de Spitz Alemão Anão em Minas Gerais (MG)",
+  title: "Filhotes de Spitz Alemão Anão em Minas Gerais",
   description:
-    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais, com entrega em BH, Uberlândia, Juiz de Fora e todo o estado.",
+    "Filhotes de Spitz Alemão Anão em Minas Gerais, com entrega em BH, Uberlândia, Juiz de Fora e todo o estado.",
   alternates: { canonical: canonical("/filhotes/minas-gerais") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/minas-gerais"),
-    title: "Filhotes de Spitz Alemão (Lulu da Pomerânia) em Minas Gerais",
-    description: "Compre Spitz Alemão (Lulu da Pomerânia) com entrega em todo MG. Criadora especializada.",
+    title: "Filhotes de Spitz Alemão Anão em Minas Gerais",
+    description: "Compre Spitz Alemão Anão com entrega em todo MG. Criadora especializada.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630 }],
   },
 };
@@ -64,17 +64,17 @@ const faqMG = [
   {
     question: "O que está incluso na compra do filhote?",
     answer:
-      "Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, atestado veterinário, contrato, manual do tutor e suporte vitalício via WhatsApp. Também fornecemos orientação sobre alimentação e cuidados.",
+      "Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, atestado veterinário, contrato, manual do tutor e suporte pós-venda via WhatsApp. Também fornecemos orientação sobre alimentação e cuidados.",
   },
   {
-    question: "Qual o tamanho e peso do Spitz Alemão (Lulu da Pomerânia) adulto?",
+    question: "Qual o tamanho e peso do Spitz Alemão Anão adulto?",
     answer:
       "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão — na prática, adultos costumam ficar entre 1,5 kg e 3,5 kg. São cães de porte pequeno, perfeitos para apartamentos e casas em MG.",
   },
 ];
 
 export default function FilhotesMinasGeraisPage() {
-  const waText = "Olá! Gostaria de informações sobre filhotes de Spitz Alemão (Lulu da Pomerânia) disponíveis em Minas Gerais.";
+  const waText = "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão disponíveis em Minas Gerais.";
   const waLink = `${WA_LINK}?text=${encodeURIComponent(waText)}`;
 
   // Local Business JSON-LD específico para MG
@@ -163,12 +163,12 @@ export default function FilhotesMinasGeraisPage() {
             Atendemos todo Minas Gerais
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
-            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
+            Filhotes de Spitz Alemão Anão
             <span className="block text-[var(--brand)]">em Minas Gerais (MG)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-secondary)]">
             Compre seu Spitz Alemão Anão (Lulu da Pomerânia) com segurança e entrega em BH, Uberlândia, Juiz de Fora e
-            todo o estado de Minas Gerais. Criadora especializada com suporte vitalício.
+            todo o estado de Minas Gerais. Criadora especializada com suporte pós-venda.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -234,7 +234,7 @@ export default function FilhotesMinasGeraisPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Phone className="h-8 w-8 text-[var(--brand)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte Vitalício</h3>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-secondary)]">Acompanhamento permanente após a compra</p>
             </div>
           </div>
@@ -275,7 +275,7 @@ export default function FilhotesMinasGeraisPage() {
         {/* CTA Final */}
         <section className="mx-auto mt-20 max-w-4xl px-5 text-center">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
-            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão (Lulu da Pomerânia) em Minas Gerais?</h2>
+            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão em Minas Gerais?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-secondary)]">
               Fale agora com nossa equipe e garanta seu filhote com entrega segura em todo MG
             </p>

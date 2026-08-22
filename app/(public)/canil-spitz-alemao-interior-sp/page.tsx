@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     // 219 caracteres: o Google cortava justamente a lista de cidades, que é o
     // que essa página tem de próprio. Reescrita em 157.
-    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo, em Bragança Paulista. Atende Campinas, Sorocaba, São José dos Campos e todo o estado.",
+    "Canil de Spitz Alemão Anão no interior de São Paulo, em Bragança Paulista. Atende Campinas, Sorocaba, São José dos Campos e todo o estado.",
   keywords: [
     "canil Spitz Alemão interior SP",
     "canil Lulu da Pomerânia interior São Paulo",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Canil Spitz Alemão Anão — Interior de SP | By Império Dog",
-    description: `Criação responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, no interior de SP, desde ${FOUNDING_YEAR}.`,
+    description: `Criação responsável de Spitz Alemão Anão em Bragança Paulista, no interior de SP, desde ${FOUNDING_YEAR}.`,
     type: "website",
   },
 };
@@ -54,7 +54,7 @@ const FAQS = [
   {
     question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis. O que dá para verificar é o que cada criador entrega: registro oficial, laudo de saúde, exames laboratoriais, carteira de vacinação assinada pelo médico-veterinário e contrato. A By Império Dog fica em Bragança Paulista, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}, já atendeu mais de 180 famílias e entrega todos esses itens. Peça a mesma lista a qualquer criador antes de decidir.`,
+      `Não existe um ranking oficial de canis. O que dá para verificar é o que cada criador entrega: registro oficial, laudo de saúde, exames laboratoriais, carteira de vacinação assinada pelo médico-veterinário e contrato. A By Império Dog fica em Bragança Paulista, cria Spitz Alemão Anão desde ${FOUNDING_YEAR} e entrega todos esses itens. Peça a mesma lista a qualquer criador antes de decidir.`,
   },
   {
     question: "Vocês entregam em Campinas, Sorocaba e outras cidades do interior?",
@@ -74,7 +74,7 @@ const FAQS = [
   {
     question: "Como agendar uma visita ao canil?",
     answer:
-      "Visitas são bem-vindas por agendamento via WhatsApp. Também realizamos videochamadas para quem não pode se deslocar. O processo de conhecer o canil, os pais e os filhotes é parte fundamental antes da decisão de compra.",
+      "A possibilidade e o formato da visita são combinados diretamente com a criadora pelo WhatsApp. Quando a visita não for viável, o interessado pode solicitar documentação e outras formas de verificação antes de decidir.",
   },
 ];
 
@@ -116,7 +116,7 @@ export default function CanilInteriorSPPage() {
           {[
             { v: String(FOUNDING_YEAR), l: "Fundação" },
             { v: "Spitz Alemão Anão", l: "Raça exclusiva" },
-            { v: "180+", l: "Famílias atendidas" },
+            { v: "Contrato", l: "Compra e venda por escrito" },
             { v: "Incluso", l: "Registro oficial" },
           ].map((c) => (
             <div key={c.l} className="rounded-2xl border border-zinc-200 bg-white p-4 text-center shadow-sm">

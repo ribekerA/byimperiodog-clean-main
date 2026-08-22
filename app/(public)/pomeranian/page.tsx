@@ -120,7 +120,7 @@ export default function PomeranianPage() {
           Preço do Pomeranian no Brasil — By Império Dog
         </h2>
         <p className="text-sm text-zinc-600">
-          Os valores variam conforme a cor e o sexo. Todos os filhotes incluem registro oficial, laudos e mentoria vitalícia.
+          Os valores variam conforme a cor e o sexo. Todos os filhotes incluem registro oficial, laudos e mentoria pós-venda.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {CARDS_POR_FAIXA.map((p) => (
@@ -132,7 +132,7 @@ export default function PomeranianPage() {
           ))}
         </div>
         <p className="text-xs text-zinc-400">
-          Inclui registro oficial, laudo veterinário, hemograma, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável.{" "}
+          Inclui registro oficial, laudo veterinário, hemograma, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável.{" "}
           <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link>
         </p>
       </section>

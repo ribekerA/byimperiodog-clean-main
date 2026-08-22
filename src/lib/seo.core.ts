@@ -25,7 +25,6 @@ export const SITE_ORIGIN = (
  */
 export const ALTERNATE_ORIGINS = [
   'https://byimperiodog.com.br',
-  'https://byimperiodog.com.br',
   'https://www.canilspitzalemao.com.br',
   'https://canilspitzalemao.com.br',
 ].map(url => url.replace(/\/$/, ''));
@@ -37,7 +36,7 @@ export function canonical(path: string) {
 
 /** Metadados base do site público (home / institucionais). */
 export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
-  const title = overrides.title || { default: 'Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog', template: '%s | By Império Dog' };
+  const title = overrides.title || { default: 'Spitz Alemão Anão | By Império Dog', template: '%s | By Império Dog' };
   const description = overrides.description || 'Filhotes legítimos, entrega responsável e pós-venda acolhedor.';
   return {
     metadataBase: new URL(SITE_ORIGIN),
@@ -57,12 +56,19 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
       ],
       apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
     },
-    alternates: { canonical: SITE_ORIGIN + '/' },
+    // Aqui NAO entra canonical nem og:url. Este objeto é o metadata do layout
+    // de (public), e no App Router tudo que o layout declara é herdado por
+    // qualquer segmento filho que não sobrescreva. Com o canonical fixo na
+    // home, toda resposta 404 vinda de notFound() — /filhotes/slug-inexistente,
+    // /guias/inexistente, /blog/inexistente — saía dizendo ao Google "esta
+    // página é a home", com o título da home junto. A home declara o próprio
+    // canonical e o próprio og:url em app/(public)/page.tsx, e as demais rotas
+    // passam por pageMetadata()/blogPostMetadata(), que também declaram. Nada
+    // se perde ao tirar daqui.
     openGraph: {
       type: 'website',
-      url: SITE_ORIGIN + '/',
-  siteName: 'By Império Dog',
-  images: [{ url: '/spitz-hero-desktop.webp', width: 1200, height: 630, alt: 'Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog' }],
+      siteName: 'By Império Dog',
+      images: [{ url: '/spitz-hero-desktop.webp', width: 1200, height: 630, alt: 'Spitz Alemão Anão — By Império Dog' }],
       ...overrides.openGraph,
     },
     twitter: { card: 'summary_large_image', ...(overrides.twitter || {}) },

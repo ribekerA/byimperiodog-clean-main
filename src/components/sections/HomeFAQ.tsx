@@ -44,7 +44,7 @@ export default function HomeFAQ() {
             Tudo que você precisa saber antes de escolher
           </h2>
           <p className="mt-3 text-sm text-zinc-600">
-            Respostas diretas para as perguntas mais comuns sobre o Spitz Alemão Anão (Lulu da Pomerânia) e sobre nosso atendimento.
+            Respostas diretas para as perguntas mais comuns sobre o Spitz Alemão Anão e sobre nosso atendimento.
           </p>
         </div>
 

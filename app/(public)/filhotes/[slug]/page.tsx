@@ -62,10 +62,17 @@ export function generateMetadata({ params }: Props): Metadata {
   // caracteres com o sufixo da marca, cortado na busca e com a palavra "Spitz"
   // três vezes. O nome do filhote já traz cor e sexo; só falta o sinônimo pelo
   // qual a raça é mais pesquisada.
-  const title = `${puppy.name} — Lulu da Pomerânia`;
+  // O sinônimo só entra quando cabe. "Spitz Cinza-Lobo (Wolf Sable) Fêmea —
+  // Lulu da Pomerânia" dava 72 caracteres com o sufixo da marca, e o Google
+  // cortava exatamente em cima do sinônimo — que era a única razão de ele
+  // estar ali. Nos nomes curtos ele ajuda quem pesquisa por "Lulu"; nos longos
+  // o próprio nome do filhote já diz cor, sexo e raça.
+  const tituloCompleto = `${puppy.name} — Lulu da Pomerânia`;
+  const title = tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??
-    `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia. By Império Dog.`;
+    `Filhote Spitz Alemão Anão ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda. By Império Dog.`;
+  const descricaoBusca = resumirParaBusca(description);
   const firstImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
   // A rota /og/filhote/[slug] nunca chegou a devolver imagem: quebrava no
@@ -79,11 +86,11 @@ export function generateMetadata({ params }: Props): Metadata {
 
   return {
     title,
-    description: description.slice(0, 160),
+    description: descricaoBusca,
     alternates: { canonical: `/filhotes/${puppy.slug}` },
     openGraph: {
       title,
-      description,
+      description: descricaoBusca,
       type:   "website",
       url:    `/filhotes/${puppy.slug}`,
       images: ogImages,
@@ -91,10 +98,34 @@ export function generateMetadata({ params }: Props): Metadata {
     twitter: {
       card:        "summary_large_image",
       title,
-      description,
+      description: descricaoBusca,
       images:      ogImages,
     },
   };
+}
+
+/**
+ * Encurta o texto do filhote para a busca sem cortar palavra pela metade.
+ *
+ * A meta description saía de description.slice(0, 160) e seis das nove fichas
+ * terminavam assim: "...confirmar disponibilidade, documentação e cond".
+ * O texto inteiro continua na página, dentro do PuppyHero — quem corta é só o
+ * resumo que vai para o Google. Aqui ele fecha na última frase que couber, e
+ * só recorre ao corte por palavra quando nem a primeira frase cabe.
+ */
+function resumirParaBusca(texto: string, limite = 158) {
+  const limpo = texto.replace(/\s+/g, " ").trim();
+  if (limpo.length <= limite) return limpo;
+
+  const cortado = limpo.slice(0, limite);
+  const fimDeFrase = Math.max(
+    cortado.lastIndexOf(". "),
+    cortado.lastIndexOf("! "),
+    cortado.lastIndexOf("? "),
+  );
+  if (fimDeFrase > limite / 2) return cortado.slice(0, fimDeFrase + 1);
+
+  return cortado.slice(0, cortado.lastIndexOf(" ")).replace(/[,;:—-]$/, "") + "…";
 }
 
 // ─── Mapa de cor → glow (TiltCard dos relacionados) ──────────────────────────
@@ -129,7 +160,7 @@ export default function PuppyPage({ params }: Props) {
   const colorSlug = (puppy.color ?? (puppy as any).cor ?? "").toLowerCase();
   const description =
     (puppy as any).description ??
-    `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusa.`;
+    `Filhote Spitz Alemão Anão ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusa.`;
 
   const status = ((puppy.status ?? "available") as string) as "available" | "reserved" | "sold";
   const isSold = status === "sold" || status === "vendido" as string;

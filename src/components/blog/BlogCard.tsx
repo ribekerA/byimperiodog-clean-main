@@ -96,7 +96,7 @@ export function FeaturedBlogCard({ post }: { post: BlogCardPost }) {
   const catLabel  = category ? (CATEGORY_LABELS[category] ?? category) : null;
 
   const waLink = buildWhatsAppLink({
-    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão (Lulu da Pomerânia).`,
+    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão.`,
     utmSource:  "site", utmMedium: "blog_featured", utmCampaign: "blog_lead", utmContent: post.slug,
   });
 
@@ -177,7 +177,7 @@ export default function BlogCard({ post }: { post: BlogCardPost }) {
   const catLabel  = category ? (CATEGORY_LABELS[category] ?? category) : null;
 
   const waLink = buildWhatsAppLink({
-    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão (Lulu da Pomerânia).`,
+    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão.`,
     utmSource:  "site", utmMedium: "blog_card", utmCampaign: "blog_lead", utmContent: post.slug,
   });
 

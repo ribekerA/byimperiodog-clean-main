@@ -57,7 +57,7 @@ const OBJECTION_PATTERNS: Record<string, RegExp> = {
 };
 
 const OBJECTION_RESPONSES: Record<string, string> = {
-  price: "Detalho o investimento completo, incluindo acompanhamento vitalício e preparo exclusivo.",
+  price: "Detalho o investimento completo, incluindo acompanhamento pós-venda e preparo exclusivo.",
   trust: "Enviamos contrato, referências e todo o histórico de cuidado para segurança total.",
   time: "Organizo agenda premium no melhor horário para você e mantenho você atualizada em tempo real.",
   logistics: "Coordenamos transporte com motorista parceiro e checklist de conforto para o filhote.",

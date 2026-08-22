@@ -12,7 +12,7 @@ const PAGE_URL = `${SITE_URL}/spitz-alemao-branco`;
 const WHITE_FEMALE_IMAGE = "/filhotes/branco/branco-femea-jardim-01.jpg";
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Branco — Diferença do Creme e Filhotes",
+  title: "Spitz Alemão Anão Branco ou Creme",
   description:
     "Entenda a diferença entre Spitz Alemão Anão Branco e creme claro, como comparar a pelagem e onde consultar filhotes, preços e disponibilidade.",
   keywords: [

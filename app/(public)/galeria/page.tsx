@@ -10,7 +10,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.b
 export const metadata: Metadata = {
   title: "Galeria de Vídeos do Spitz Alemão Anão",
   description:
-    "Assista aos nossos Spitz Alemão Anão (Lulu da Pomerânia) em movimento. Vídeos reais dos filhotes, ninhadas e do canil By Império Dog em Bragança Paulista, SP.",
+    "Assista aos nossos Spitz Alemão Anão em movimento. Vídeos reais dos filhotes, ninhadas e do canil By Império Dog em Bragança Paulista, SP.",
   keywords: [
     "vídeos Spitz Alemão Anão",
     "galeria Lulu da Pomerânia",

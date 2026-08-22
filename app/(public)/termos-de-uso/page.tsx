@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Termos de Uso",
     description:
-      "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão (Lulu da Pomerânia).",
+      "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão Anão.",
     path,
     // /og/termos-uso.jpg não existe (a pasta public/og/ nunca foi criada) e
     // respondia 404. Sem `images`, entra a imagem padrão do site.
@@ -48,7 +48,7 @@ export default function TermosDeUsoPage() {
         <h1 className="text-4xl font-bold text-zinc-900">Termos de Uso</h1>
         <p className="text-lg text-zinc-600">
           Estes termos regem o uso do site, dos materiais educativos e do suporte oferecido pela By Império Dog a tutores e
-          interessados no Spitz Alemão (Lulu da Pomerânia). Ao continuar navegando ou utilizar nossos serviços, você concorda com
+          interessados no Spitz Alemão Anão (Lulu da Pomerânia). Ao continuar navegando ou utilizar nossos serviços, você concorda com
           as condições descritas abaixo.
         </p>
       </header>
@@ -58,14 +58,15 @@ export default function TermosDeUsoPage() {
       {/* O Decreto 7.962/2013 (art. 2º) exige que o site de comercio eletronico
           exiba em destaque a identificacao do fornecedor e um canal de
           atendimento. O site nao trazia nada disso: so e-mail e telefone no
-          rodape. Aqui entra o que o proprio site ja publica e pode ser
-          comprovado. O CNPJ e o endereco fisico ficam de fora de proposito:
-          existem dois CNPJs diferentes no codigo (politica de privacidade x
-          contrato) e nao cabe a este reparo escolher um nem inventar endereco. */}
+          rodape. O CNPJ tambem ficava de fora, porque havia dois numeros
+          diferentes no codigo — politica de privacidade x contrato — e escolher
+          um seria chute. O numero foi confirmado pelo canil e agora e o mesmo
+          nos tres lugares. O endereco fisico continua fora: o canil nao tem
+          estrutura aberta a visitacao e o municipio ja esta declarado. */}
       <section id="fornecedor" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Identificação do fornecedor</h2>
         <p className="text-zinc-600">
-          O site é operado pela By Império Dog, criadora de Spitz Alemão Anão (Lulu da Pomerânia) sediada em Bragança
+          O site é operado pela By Império Dog, criadora de Spitz Alemão Anão sediada em Bragança
           Paulista/SP. O atendimento ao consumidor — dúvidas, reclamações, exercício de direitos e suporte pós-entrega — é
           prestado pelos canais abaixo:
         </p>
@@ -78,17 +79,18 @@ export default function TermosDeUsoPage() {
           </li>
           <li>WhatsApp e telefone: (11) 9 6863-3239</li>
           <li>Município de operação: Bragança Paulista/SP</li>
+          <li>CNPJ: 22.587.478/0001-00</li>
         </ul>
         <p className="text-zinc-600">
-          A identificação empresarial completa do fornecedor — incluindo razão social e número de inscrição no CNPJ — consta do
-          contrato de compra e venda e do documento fiscal emitido em cada aquisição.
+          A razão social completa e os demais dados de identificação empresarial do fornecedor constam do contrato de compra e
+          venda e do documento fiscal emitido em cada aquisição.
         </p>
       </section>
 
       <section id="escopo" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Escopo dos serviços</h2>
         <p className="text-zinc-600">
-          Disponibilizamos conteúdos educativos e orientações gerais de pós-entrega do Spitz Alemão (Lulu da Pomerânia). As
+          Disponibilizamos conteúdos educativos e orientações gerais de pós-entrega do Spitz Alemão Anão. As
           informações têm caráter informativo e não substituem consulta com médico-veterinário ou outro profissional habilitado.
         </p>
       </section>
@@ -97,8 +99,10 @@ export default function TermosDeUsoPage() {
         <h2 className="text-2xl font-semibold text-zinc-900">Responsabilidades do tutor</h2>
         <p className="text-zinc-600">
           O tutor compromete-se a fornecer informações verídicas, seguir orientações sanitárias, manter consultas preventivas e
-          garantir ambiente seguro para o Spitz Alemão (Lulu da Pomerânia). O descumprimento de protocolos ou recomendações pode
-          inviabilizar garantias contratuais.
+          garantir ambiente seguro para o Spitz Alemão Anão. O eventual descumprimento de condições expressamente
+          previstas no contrato poderá ser considerado na análise de garantias contratuais, conforme o caso e o
+          nexo com o problema apresentado, sem prejuízo das garantias e demais direitos assegurados pela
+          legislação.
         </p>
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
           <li>Realizar consultas veterinárias periódicas e cumprir o calendário de vacinas.</li>

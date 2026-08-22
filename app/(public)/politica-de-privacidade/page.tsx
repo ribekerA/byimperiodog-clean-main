@@ -24,7 +24,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Política de Privacidade",
     description:
-      "Como a By Império Dog trata dados pessoais de tutores interessados no Spitz Alemão (Lulu da Pomerânia): coleta, finalidade, retenção, segurança e atendimento à LGPD.",
+      "Como a By Império Dog trata os dados pessoais de quem entra em contato: coleta, finalidade, retenção, segurança e atendimento à LGPD.",
     path,
     // /og/politica-privacidade.jpg não existe (a pasta public/og/ nunca foi
     // criada) e respondia 404. Sem `images`, entra a imagem padrão do site.
@@ -47,7 +47,7 @@ export default function PoliticaDePrivacidadePage() {
         <h1 className="text-4xl font-bold text-zinc-900">Política de Privacidade</h1>
         <p className="text-lg text-zinc-600">
           Esta política descreve como coletamos, utilizamos e protegemos dados pessoais fornecidos por tutores e interessadas em
-          receber um Spitz Alemão (Lulu da Pomerânia). Mantemos transparência total durante o relacionamento e respeitamos os
+          receber um Spitz Alemão Anão (Lulu da Pomerânia). Informamos como os dados são usados durante o relacionamento e respeitamos os
           princípios da Lei Geral de Proteção de Dados (Lei nº 13.709/2018).
         </p>
       </header>
@@ -94,12 +94,12 @@ export default function PoliticaDePrivacidadePage() {
       <section id="finalidades" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Finalidades e base legal</h2>
         <p className="text-zinc-600">
-          Utilizamos os dados para garantir alinhamento entre o tutor e o Spitz Alemão (Lulu da Pomerânia), cumprir obrigações
+          Utilizamos os dados para garantir alinhamento entre o tutor e o Spitz Alemão Anão, cumprir obrigações
           legais e oferecer suporte contínuo. As principais finalidades são:
         </p>
         <ol className="list-decimal space-y-2 pl-6 text-zinc-600">
           <li>
-            Avaliar compatibilidade de perfil e orientar a preparação da residência (execução de contrato e procedimentos prévios -
+            Compreender as preferências informadas pelo interessado, apresentar as opções disponíveis e orientar a preparação da residência (execução de contrato e procedimentos prévios -
             art. 7º, V da LGPD).
           </li>
           {/* "Legitimo interesse" estava cobrindo envio de material educativo, que
@@ -114,7 +114,7 @@ export default function PoliticaDePrivacidadePage() {
             envio é opcional, independe da aquisição e pode ser cancelado a qualquer momento, sem prejuízo do atendimento.
           </li>
           <li>
-            Cumprir exigências fiscais, sanitárias e de transporte do Spitz Alemão (Lulu da Pomerânia) (cumprimento de obrigação
+            Cumprir exigências fiscais, sanitárias e de transporte do Spitz Alemão Anão (cumprimento de obrigação
             legal).
           </li>
         </ol>
@@ -131,14 +131,14 @@ export default function PoliticaDePrivacidadePage() {
       <section id="compartilhamento" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Compartilhamento e operadores</h2>
         <p className="text-zinc-600">
-          Compartilhamos dados somente com operadores contratados que seguem padrões de segurança equivalentes. Exemplos:
+          Compartilhamos dados somente com operadores contratados, obrigados contratualmente a manter sigilo e a tratar os dados apenas para a finalidade combinada. Exemplos:
         </p>
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
           {/* "Clinicas parceiras" sugeria uma rede formal que a responsavel ja
               confirmou nao existir. O atendimento veterinario existe; a parceria
               institucional, nao. */}
           <li>Médicos-veterinários e clínicas responsáveis pelos exames, laudos e vacinas do filhote.</li>
-          <li>Serviços de transporte especializado para entrega do Spitz Alemão (Lulu da Pomerânia).</li>
+          <li>Serviços de transporte especializado para entrega do Spitz Alemão Anão.</li>
           <li>
             Provedores de hospedagem, banco de dados e comunicação utilizados para operar o site e registrar
             atendimentos, sujeitos aos termos e às políticas de privacidade de cada fornecedor.
@@ -206,7 +206,7 @@ export default function PoliticaDePrivacidadePage() {
       <section id="contato" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Contato do controlador</h2>
         <p className="text-zinc-600">
-          Controladora: By Império Dog LTDA • CNPJ 34.010.264/0001-12
+          Controladora: By Império Dog LTDA • CNPJ 22.587.478/0001-00
         </p>
         <p className="text-zinc-600">
           E-mail para assuntos de privacidade: <strong>privacidade@byimperiodog.com.br</strong>

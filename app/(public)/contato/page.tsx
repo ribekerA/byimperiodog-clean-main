@@ -41,7 +41,7 @@ const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://youtube.com/
 export const metadata: Metadata = {
   title: "Contato — Fale direto com a criadora",
   description:
-    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
+    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão em Bragança Paulista, SP.",
   alternates: { canonical: `${SITE_URL}/contato` },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
@@ -54,12 +54,12 @@ export const metadata: Metadata = {
 
 const FAQ_ITEMS = [
   {
-    q: "Qual o prazo de resposta pelo WhatsApp?",
-    a: "Respondemos em até 2 horas no horário de atendimento (todos os dias, 8h–22h). Fora desse horário, responderemos assim que possível.",
+    q: "Qual o horário de atendimento pelo WhatsApp?",
+    a: "Atendemos todos os dias, das 8h às 22h. Mensagens enviadas fora desse horário são respondidas no atendimento seguinte.",
   },
   {
     q: "Posso visitar o canil presencialmente?",
-    a: "Sim! Agendamos visitas aos sábados, mediante disponibilidade. Durante a semana, oferecemos videochamadas ao vivo para você conhecer os filhotes.",
+    a: "A possibilidade e o formato da visita são combinados diretamente com a criadora pelo WhatsApp, conforme a disponibilidade.",
   },
   {
     q: "Vocês entregam em outras cidades?",
@@ -67,11 +67,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "Como funciona a reserva de um filhote?",
-    a: "Após nossa conversa e aprovação da família, enviamos contrato digital e combinamos o sinal de reserva. Simples, transparente e sem surpresas.",
+    a: "Depois da nossa conversa, enviamos o contrato digital e combinamos o sinal de reserva. Você lê as condições antes de assinar.",
   },
   {
     q: "É possível ver vídeos e fotos antes de decidir?",
-    a: "Claro! Enviamos vídeos diários do filhote escolhido via WhatsApp enquanto aguarda a entrega. Você acompanha tudo de perto.",
+    a: "Sim. Enviamos fotos e vídeos do filhote pelo WhatsApp. A frequência é combinada diretamente com a criadora.",
   },
 ] as const;
 
@@ -141,7 +141,7 @@ export default function ContatoPage() {
             pelo formulário abaixo.
           </p>
           <p className="mt-2 text-zinc-400">
-            Respondemos em até 2 horas no horário de atendimento.
+            Atendemos todos os dias, das 8h às 22h.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
@@ -183,7 +183,7 @@ export default function ContatoPage() {
               <div>
                 <p className="font-bold text-zinc-900">WhatsApp</p>
                 <p className="mt-1 text-sm text-zinc-500">
-                  Respondemos em até 2 horas no horário de atendimento
+                  Atendimento todos os dias, das 8h às 22h
                 </p>
                 <p className="mt-2 text-sm font-semibold text-emerald-700">{DISPLAY_PHONE}</p>
               </div>
@@ -205,7 +205,7 @@ export default function ContatoPage() {
               <div>
                 <p className="font-bold text-zinc-900">Instagram</p>
                 <p className="mt-1 text-sm text-zinc-500">
-                  Fotos e vídeos diários dos filhotes
+                  Fotos e vídeos dos filhotes
                 </p>
                 <p className="mt-2 text-sm font-semibold text-pink-700">@byimperiodog</p>
               </div>
@@ -354,7 +354,7 @@ export default function ContatoPage() {
               <p className="text-sm text-zinc-600">
                 Bragança Paulista, SP<br />
                 Região Bragantina · Interior de São Paulo<br />
-                <span className="text-zinc-400">Visitas: sábados com agendamento</span>
+                <span className="text-zinc-400">Visitas combinadas caso a caso com a criadora</span>
               </p>
               <a
                 href="https://maps.google.com/?q=Bragança+Paulista+SP"

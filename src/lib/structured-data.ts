@@ -154,10 +154,6 @@ export function buildPuppyProductLD(
         ? "https://schema.org/PreOrder"
         : "https://schema.org/OutOfStock";
 
-  const priceValidUntil = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
-    .toISOString()
-    .split("T")[0];
-
   const priceCents =
     (puppy as unknown as Record<string, number>).priceCents ??
     (puppy as unknown as Record<string, number>).price_cents ??
@@ -187,7 +183,6 @@ export function buildPuppyProductLD(
       "@type":          "Offer",
       priceCurrency:    "BRL",
       price:            (priceCents / 100).toFixed(2),
-      priceValidUntil,
       availability,
       url:              `${SITE_URL}/filhotes/${puppy.slug}`,
       seller: {
@@ -317,7 +312,7 @@ export function buildLocalBusinessLD() {
     name: "By Império Dog",
     alternateName: ["Canil By Império Dog", "Criador Spitz Alemão Anão", "Império Dog"],
     description:
-      `Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia inclusos. Criação especializada desde ${FOUNDING_YEAR}, com envio acompanhado para todo o Brasil.`,
+      `Criação familiar e responsável de Spitz Alemão Anão em Bragança Paulista, SP. Filhotes com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda inclusos. Criação especializada desde ${FOUNDING_YEAR}, com envio acompanhado para todo o Brasil.`,
     url: SITE_URL,
     telephone: "+55-11-96863-3239",
     // Derivado da tabela: o JSON-LD é lido pelo Google e não pode continuar
@@ -371,8 +366,10 @@ export function buildLocalBusinessLD() {
     // Sem `aggregateRating`: a nota 5.0 com reviewCount 180 era fixa no código,
     // não vinha de nenhuma plataforma de avaliações verificadas. Marcação de
     // review sem avaliação real viola a política de dados estruturados do
-    // Google e sujeita o domínio a ação manual. Os 180 são famílias atendidas,
-    // não avaliações — e famílias atendidas não são AggregateRating.
+    // Google e sujeita o domínio a ação manual. O mesmo 180, que o site depois
+    // repetia como "famílias atendidas", também saiu — não havia como conferir
+    // a contagem. Volta aqui, como AggregateRating, apenas se um dia vier de
+    // plataforma pública de avaliações verificadas.
     knowsAbout: [
       "Spitz Alemão Anão",
       "Lulu da Pomerânia",
@@ -396,7 +393,7 @@ export function buildLocalBusinessLD() {
         "@type": "Offer",
         name: "Filhote de Spitz Alemão Anão — Lulu da Pomerânia",
         description:
-          "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. Entrega presencial em Bragança Paulista, SP, ou envio acompanhado para todo o Brasil.",
+          "Filhote de Spitz Alemão Anão com registro oficial, laudos veterinários, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. Entrega presencial em Bragança Paulista, SP, ou envio acompanhado para todo o Brasil.",
         priceCurrency: "BRL",
         url: `${SITE_URL}/filhotes`,
         areaServed: { "@type": "Country", name: "Brasil" },

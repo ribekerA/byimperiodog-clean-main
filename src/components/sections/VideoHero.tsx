@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
@@ -12,7 +12,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const waHero = buildWhatsAppLink({
-  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis. Pode me contar mais sobre disponibilidade e valores?",
+  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão disponíveis. Pode me contar mais sobre disponibilidade e valores?",
   utmSource: "site",
   utmMedium: "video_hero",
   utmCampaign: "hero_cta",
@@ -266,8 +266,8 @@ export default function VideoHero() {
             {/* Linha 1: "Spitz Alemão Anão" — cada palavra com stagger */}
             <span className="inline-flex flex-wrap justify-center gap-x-[0.26em]">
               {HEADLINE_WORDS.map((word, i) => (
+                <Fragment key={word}>
                 <motion.span
-                  key={word}
                   initial={init ?? { opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -279,10 +279,13 @@ export default function VideoHero() {
                 >
                   {word}
                 </motion.span>
+                {i < HEADLINE_WORDS.length - 1 ? " " : null}
+                </Fragment>
               ))}
             </span>
 
             {/* Linha 1b: "(Lulu da Pomerânia)" — nome popular da raça, clarificador estático */}
+            {" "}
             <motion.span
               initial={init ?? { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -293,6 +296,7 @@ export default function VideoHero() {
             </motion.span>
 
             {/* Linha 2: "com alma familiar" — emerge com brilho esmeralda */}
+            {" "}
             <motion.span
               initial={init ?? { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -313,7 +317,7 @@ export default function VideoHero() {
             transition={{ duration: 0.65, delay: 1.14, ease: EASE }}
             className="mx-auto max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl"
           >
-            Saúde documentada, registro oficial e mentoria vitalícia.{" "}
+            Saúde documentada, registro oficial e mentoria pós-venda.{" "}
             <strong className="font-semibold text-white">
               Criação responsável desde {FOUNDING_YEAR}
             </strong>{" "}
@@ -358,10 +362,12 @@ export default function VideoHero() {
             className="mt-2 flex flex-col items-center gap-2 sm:mt-3"
           >
             {/* Prova social acima da dobra — sem nota em estrelas, que não vem
-                de nenhuma plataforma pública de avaliações verificadas. */}
-            <div className="flex items-center gap-2" aria-label="Mais de 180 famílias atendidas em todo o Brasil">
+                de nenhuma plataforma pública de avaliações verificadas, e sem
+                contagem de famílias, que não vem de lugar nenhum. O que sobra
+                é a área de atendimento, que é fato operacional. */}
+            <div className="flex items-center gap-2">
               <span className="text-base leading-none" aria-hidden="true">🐾</span>
-              <span className="text-xs text-white/70">Mais de 180 famílias atendidas em todo o Brasil</span>
+              <span className="text-xs text-white/70">Atendemos famílias em todo o Brasil</span>
             </div>
             {/* Stats — empilhado no mobile para não quebrar no meio de um item e
                 colidir com o indicador "Rolar" (absolute, bottom-8 da section) */}

@@ -242,7 +242,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
     },
     {
       title: "Processo completo",
-      description: "Veja as etapas: entrevista, socialização, entrega humanizada e mentoria vitalícia.",
+      description: "Veja as etapas: entrevista, socialização, entrega humanizada e mentoria pós-venda.",
       href: "/sobre#processo",
     },
     {

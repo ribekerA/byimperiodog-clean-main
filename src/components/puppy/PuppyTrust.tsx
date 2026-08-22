@@ -20,7 +20,7 @@ export function PuppyTrust() {
           Por que escolher a By Império Dog?
         </h2>
         <p className="mt-2 text-base text-zinc-600">
-          Transparência total em cada etapa do processo
+          O que acompanha o filhote e o que está descrito em contrato
         </p>
       </div>
 
@@ -66,7 +66,7 @@ export function PuppyTrust() {
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-rose-100">
               <Users className="h-7 w-7 text-rose-600" aria-hidden="true" />
             </div>
-            <h3 className="mt-4 text-base font-semibold text-zinc-900">Suporte vitalício</h3>
+            <h3 className="mt-4 text-base font-semibold text-zinc-900">Suporte pós-venda</h3>
             <p className="mt-2 text-sm text-zinc-600">
               Atendimento direto com a criadora pelo WhatsApp, sempre que precisar
             </p>

@@ -17,17 +17,17 @@ const WA_LINK = `https://wa.me/${WA_PHONE}`;
 export const metadata: Metadata = {
   // Com "(Lulu da Pomerânia)" o title batia em 84 caracteres somando o sufixo
   // da marca e o Google cortava o estado. O sinônimo continua na description.
-  title: "Filhotes de Spitz Alemão Anão em São Paulo (SP)",
+  title: "Filhotes de Spitz Alemão Anão em São Paulo",
   description:
     // 184 caracteres. Reescrita em 134. Sai "criadora de referência": é um
     // superlativo sem nada que o comprove.
-    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com entrega segura em São Paulo: capital, Grande SP e interior. Com registro oficial.",
+    "Filhotes de Spitz Alemão Anão com entrega segura em São Paulo: capital, Grande SP e interior. Com registro oficial.",
   alternates: { canonical: canonical("/filhotes/sao-paulo") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/sao-paulo"),
-    title: "Filhotes de Spitz Alemão (Lulu da Pomerânia) em São Paulo",
-    description: "Compre Spitz Alemão (Lulu da Pomerânia) com entrega em toda São Paulo. Criadora especializada.",
+    title: "Filhotes de Spitz Alemão Anão em São Paulo",
+    description: "Compre Spitz Alemão Anão com entrega em toda São Paulo. Criadora especializada.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630 }],
   },
 };
@@ -68,14 +68,14 @@ const faqSP = [
       "Sim. Todos os filhotes são entregues com protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes, além de vermifugação em dia e atestado de saúde veterinário.",
   },
   {
-    question: "Qual o tamanho de um Spitz Alemão (Lulu da Pomerânia) adulto?",
+    question: "Qual o tamanho de um Spitz Alemão Anão adulto?",
     answer:
       "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão — na prática, adultos costumam ficar entre 1,5 kg e 3,5 kg. São cães de porte pequeno, ideais para apartamentos.",
   },
 ];
 
 export default function FilhotesSaoPauloPage() {
-  const waText = "Olá! Gostaria de informações sobre filhotes de Spitz Alemão (Lulu da Pomerânia) disponíveis em São Paulo.";
+  const waText = "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão disponíveis em São Paulo.";
   const waLink = `${WA_LINK}?text=${encodeURIComponent(waText)}`;
 
   // Local Business JSON-LD específico para SP
@@ -159,12 +159,12 @@ export default function FilhotesSaoPauloPage() {
             Atendemos toda São Paulo
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
-            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
+            Filhotes de Spitz Alemão Anão
             <span className="block text-[var(--brand)]">em São Paulo (SP)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-secondary)]">
             Compre seu Spitz Alemão Anão (Lulu da Pomerânia) com segurança e entrega em toda capital paulista, Grande SP
-            e interior. Criadora especializada com suporte vitalício.
+            e interior. Criadora especializada com suporte pós-venda.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -230,7 +230,7 @@ export default function FilhotesSaoPauloPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Phone className="h-8 w-8 text-[var(--brand)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte Vitalício</h3>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-secondary)]">Acompanhamento permanente após a compra</p>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default function FilhotesSaoPauloPage() {
         {/* CTA Final */}
         <section className="mx-auto mt-20 max-w-4xl px-5 text-center">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
-            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão (Lulu da Pomerânia) em São Paulo?</h2>
+            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão em São Paulo?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-secondary)]">
               Fale agora com nossa equipe e garanta seu filhote com entrega segura em toda São Paulo
             </p>

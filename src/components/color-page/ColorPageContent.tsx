@@ -204,7 +204,7 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={img}
-              alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
+              alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
               // Recorte medido por foto (src/lib/photo-focus).
               className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
               style={{ objectPosition: focoDaFoto(img) }}
@@ -478,7 +478,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   ? { value: formatPrice(priceMin), label: "a partir de" }
                   : null,
                 { value: "Registro oficial", label: "incluso" },
-                { value: "Mentoria", label: "vitalícia" },
+                { value: "Mentoria", label: "pós-venda" },
               ]
                 .filter(Boolean)
                 .map((item) => (
@@ -569,7 +569,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   Registro oficial
                 </p>
                 <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  + Mentoria vitalícia
+                  + Mentoria pós-venda
                 </p>
               </motion.div>
 
@@ -693,7 +693,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             </h2>
             {puppies.length > 0 && (
               <p className="mt-2 text-zinc-500">
-                Todos criados em ambiente familiar com socialização guiada desde o nascimento.
+                Filhotes disponíveis pela By Império Dog, com socialização em ambiente familiar.
               </p>
             )}
           </motion.div>
@@ -780,7 +780,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
               Pronto para encontrar seu companheiro?
             </h2>
             <p className="mt-3 text-lg text-emerald-100">
-              Fale com a nossa equipe. A gente te ajuda a encontrar o filhote ideal para o seu perfil.
+              Fale com a criadora para saber quais filhotes estão disponíveis e tirar as suas dúvidas.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <PawConfettiButton

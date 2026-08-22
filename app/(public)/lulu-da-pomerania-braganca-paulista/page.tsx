@@ -53,12 +53,12 @@ const FAQS = [
   {
     question: "Posso fazer uma visita antes de decidir?",
     answer:
-      "Sim. Fazemos videochamadas para mostrar a estrutura e os filhotes a qualquer momento. Visitas presenciais em Bragança Paulista são bem-vindas por agendamento prévio via WhatsApp.",
+      "A possibilidade e o formato da visita são combinados diretamente com a criadora pelo WhatsApp. Quando a visita não for viável, o interessado pode solicitar documentação e outras formas de verificação antes de decidir.",
   },
   {
     question: "Bragança Paulista tem outros canis de Spitz Alemão?",
     answer:
-      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e mentoria vitalícia pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
+      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e mentoria pós-venda pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
   },
 ];
 
@@ -105,7 +105,7 @@ export default function LuluBragancaPage() {
             { label: "Distância de SP Capital", value: "≈ 100 km / 1h30" },
             { label: "Visitas", value: "Por agendamento (WhatsApp)" },
             { label: "Desde", value: String(FOUNDING_YEAR) },
-            { label: "Famílias atendidas", value: "180+ em todo o Brasil" },
+            { label: "Envio", value: "Todo o Brasil" },
           ].map((info) => (
             <div key={info.label} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide">{info.label}</p>

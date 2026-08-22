@@ -5,8 +5,9 @@ import { buscarConteudo } from "@/lib/search";
 import { baseSiteMetadata, canonical } from "@/lib/seo.core";
 
 export const metadata: Metadata = baseSiteMetadata({
-  title: "Busca",
-  description: "Pesquise conteudos e filhotes disponiveis pela By Império Dog.",
+  title: "Buscar filhotes e conteúdos",
+  description:
+    "Pesquise no site da By Império Dog: filhotes de Spitz Alemão Anão disponíveis, guias de criação, saúde e rotina, e artigos do blog.",
   alternates: { canonical: canonical("/search") },
   robots: { index: false },
 });

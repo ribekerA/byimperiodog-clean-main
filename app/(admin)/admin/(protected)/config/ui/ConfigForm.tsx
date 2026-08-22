@@ -103,7 +103,7 @@ export function ConfigForm({ initialData }: { initialData: GeneralSettings }) {
             id="followup_rules"
             value={form.followup_rules}
             onChange={(v) => onChange("followup_rules", v)}
-            hint="Ex.: responder em até 2 horas no horário de atendimento, 2 follow-ups em 24h, oferta expira em 48h."
+            hint="Ex.: responder em até 2 horas no horário de atendimento, até 2 follow-ups em 24h."
           />
         </div>
       </Section>

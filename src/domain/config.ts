@@ -12,6 +12,21 @@ import { FAIXA_PUBLICA } from "@/domain/pricing";
  */
 export const FOUNDING_YEAR = 2013;
 
+/**
+ * Não existe constante de "famílias atendidas" — e não deve passar a existir.
+ *
+ * O site publicava "180+ famílias atendidas" em vinte arquivos. O número nasceu
+ * do aggregateRating fixo no código (nota 5.0, reviewCount 180) que uma rodada
+ * anterior removeu por ser avaliação inventada: o campo saiu, o 180 ficou com
+ * outro rótulo. Nenhuma planilha, CRM ou plataforma pública sustenta o valor.
+ *
+ * Prova social do canil hoje é o que se verifica: o ano de fundação daqui de
+ * cima, o registro oficial, o contrato de compra e venda, os laudos e as fotos
+ * das famílias que autorizaram a publicação. Se um dia houver contagem real e
+ * auditável, ela entra aqui — como dado, com fonte, e não escrita à mão em
+ * cada componente.
+ */
+
 /** Anos completos de criação, calculados a partir de {@link FOUNDING_YEAR}. */
 export function yearsOfExperience(now: Date = new Date()): number {
   return Math.max(0, now.getFullYear() - FOUNDING_YEAR);
@@ -117,7 +132,7 @@ export const BUSINESS_RULES = {
   warranties: {
     healthGuaranteeDays: 90, // 90 dias de garantia de saúde
     pedigreeIncluded: true,
-    lifetimeSupport: true, // Suporte vitalício
+    lifetimeSupport: true, // Suporte pós-venda
   },
 
   // Documentação obrigatória
@@ -163,18 +178,18 @@ export const BUSINESS_GOALS = {
 export const SEO_CONFIG = {
   // Templates de título
   titleTemplates: {
-    puppy: "{name} • {color} • {sex} | Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog",
-    category: "Filhotes de Spitz Alemão (Lulu da Pomerânia) {category} | By Império Dog",
-    city: "Spitz Alemão (Lulu da Pomerânia) em {city} | Entrega Segura | By Império Dog",
-    color: "Spitz Alemão (Lulu da Pomerânia) {color} | Filhotes Disponíveis | By Império Dog",
+    puppy: "{name} • {color} • {sex} | Spitz Alemão Anão | By Império Dog",
+    category: "Filhotes de Spitz Alemão Anão {category} | By Império Dog",
+    city: "Spitz Alemão Anão em {city} | Entrega Segura | By Império Dog",
+    color: "Spitz Alemão Anão {color} | Filhotes Disponíveis | By Império Dog",
   },
 
   // Descrições padrão
   defaultDescriptions: {
     puppy:
-      "Conheça {name}, filhote de Spitz Alemão Anão (Lulu da Pomerânia) {color} {sex}. Registro oficial, suporte vitalício e entrega segura. By Império Dog - criadora especializada.",
+      "Conheça {name}, filhote de Spitz Alemão Anão {color} {sex}. Registro oficial, suporte pós-venda e entrega segura. By Império Dog - criadora especializada.",
     catalog:
-      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com registro oficial, garantia de saúde e suporte vitalício. Entrega em todo Brasil. By Império Dog.",
+      "Filhotes de Spitz Alemão Anão com registro oficial, contrato e mentoria pós-venda. Entrega em todo Brasil. By Império Dog.",
   },
 
   // Schema.org types usados

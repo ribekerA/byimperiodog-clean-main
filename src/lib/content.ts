@@ -26,6 +26,17 @@ const CMS = (process.env.CMS_DRIVER || 'contentlayer').toLowerCase();
 // Webpack bundla normalmente — sem tricks de require/eval
 import { generatedPosts } from './_generated-posts';
 
+/**
+ * Posts que continuam publicados na própria URL, mas fora de toda vitrine:
+ * listagem, busca, tags, categorias e relacionados. Serve para conteúdo que
+ * responde a uma busca legítima sem que o site o ofereça como produto.
+ */
+const POSTS_FORA_DA_VITRINE = new Set(["spitz-alemao-anao-wolf-sable"]);
+
+function listaveis(posts: BlogPost[]): BlogPost[] {
+  return posts.filter((p) => !POSTS_FORA_DA_VITRINE.has(p.slug));
+}
+
 function loadContentlayerPosts(): any[] {
   try {
     return Array.isArray(generatedPosts) ? (generatedPosts as any[]) : [];
@@ -66,7 +77,7 @@ export async function getAllPosts(opts?: { page?: number; pageSize?: number; q?:
   }
 
   const src = loadContentlayerPosts();
-  let items = src.map(normalizePost);
+  let items = listaveis(src.map(normalizePost));
   if (q) {
     items = items.filter((p) =>
       [p.title, p.excerpt, p.bodyRaw].some((t) => String(t || '').toLowerCase().includes(q))
@@ -103,7 +114,7 @@ export async function getPostsByTag(tag: string, limit = 12) {
     return [];
   }
   const src = loadContentlayerPosts();
-  const items = src.map(normalizePost).filter((p) => (p.tags || []).map((t) => String(t).toLowerCase()).includes(tag.toLowerCase()));
+  const items = listaveis(src.map(normalizePost)).filter((p) => (p.tags || []).map((t) => String(t).toLowerCase()).includes(tag.toLowerCase()));
   return items.slice(0, limit);
 }
 
@@ -113,7 +124,7 @@ export async function getRelatedPosts(slug: string, limit = 4) {
     return [];
   }
   const src = loadContentlayerPosts();
-  const items = src.map(normalizePost);
+  const items = listaveis(src.map(normalizePost));
   const post = items.find((p) => p.slug === slug);
   if (!post) return items.slice(0, limit);
   const tags = new Set((post.tags || []).map((t) => String(t).toLowerCase()));

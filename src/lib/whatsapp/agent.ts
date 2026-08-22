@@ -67,7 +67,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "cor raça spitz pomerania lulu",
-    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Divulgamos as cores laranja, creme, preto e branco, entre as colorações previstas no padrão da raça. Consulte a disponibilidade atual!",
+    a: "Criamos Spitz Alemão Anão. Divulgamos as cores laranja, creme, preto e branco, entre as colorações previstas no padrão da raça. Consulte a disponibilidade atual!",
   },
   {
     q: "reserva como reservar entrada",
@@ -75,11 +75,11 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "mentoria suporte apoio dúvidas",
-    a: "Oferecemos mentoria vitalícia direto com a criadora via WhatsApp — alimentação, comportamento, saúde, rotina. Você nunca fica sozinho!",
+    a: "Oferecemos mentoria pós-venda direto com a criadora via WhatsApp — alimentação, comportamento, saúde, rotina. Você nunca fica sozinho!",
   },
   {
     q: "saúde vacinação laudo exame",
-    a: "Todos os filhotes têm protocolo vacinal em dia conforme a idade, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes, laudo de saúde e acompanhamento veterinário desde o nascimento. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    a: "Todos os filhotes têm protocolo vacinal em dia conforme a idade, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes, laudo de saúde e acompanhamento veterinário. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     q: "localização onde fica endereço",
@@ -165,7 +165,7 @@ function skillResponderFaq(text: string): string | null {
 function skillSaudacao(name?: string): string {
   const firstName = name ? ` ${name.trim().split(" ")[0]}` : "";
   return (
-    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — criação familiar de Spitz Alemão Anão (Lulu da Pomerânia).\n\n` +
+    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — criação familiar de Spitz Alemão Anão.\n\n` +
     `Como posso te ajudar hoje?\n\n` +
     `1️⃣ Ver filhotes disponíveis\n` +
     `2️⃣ Saber sobre preços e condições\n` +

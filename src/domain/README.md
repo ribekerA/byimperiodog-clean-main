@@ -45,7 +45,7 @@ interface Puppy {
   currentWeight?: number; // kg
   expectedAdultWeight?: number; // 1.5 - 3.5 kg
   currentHeight?: number; // cm
-  expectedAdultHeight?: number; // 18-22cm
+  expectedAdultHeight?: number; // cernelha, padrão FCI nº 97: 21 cm ± 3 cm
   size: "toy" | "mini" | "standard";
 
   // COMERCIAL (BY IMPÉRIO DOG)

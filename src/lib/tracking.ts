@@ -159,7 +159,7 @@ export function buildOrganizationLD(siteUrl: string) {
     name: "By Império Dog",
     alternateName: ["Canil By Império Dog", "Império Dog"],
     description:
-      "Criação familiar e responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com suporte dedicado ao tutor e entrega para todo o Brasil.",
+      "Criação familiar e responsável de Spitz Alemão Anão em Bragança Paulista, SP, com suporte dedicado ao tutor e entrega para todo o Brasil.",
     url: `${base}/`,
     logo: `${base}/byimperiologo.png`,
     image: `${base}/spitz-hero-desktop.webp`,
@@ -210,9 +210,9 @@ export function buildWebsiteLD(siteUrl: string) {
     "@type": "WebSite",
     "@id": `${clean}/#website`,
     name: "By Império Dog",
-    alternateName: "Canil By Império Dog — Spitz Alemão Anão (Lulu da Pomerânia)",
+    alternateName: "Canil By Império Dog — Spitz Alemão Anão",
     description:
-      "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão (Lulu da Pomerânia).",
+      "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão.",
     url: `${clean}/`,
     inLanguage: "pt-BR",
     publisher: { "@id": `${clean}/#organization` },

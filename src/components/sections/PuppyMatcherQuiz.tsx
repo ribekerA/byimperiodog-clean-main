@@ -105,7 +105,7 @@ export default function PuppyMatcherQuiz() {
           Encontre o filhote que combina com suas preferências
         </h2>
         <p className="mt-3 text-zinc-600">
-          Spitz Alemão Anão (Lulu da Pomerânia). 3 perguntas rápidas para filtrar
+          Spitz Alemão Anão. 3 perguntas rápidas para filtrar
           os filhotes disponíveis.
         </p>
       </div>
@@ -231,7 +231,7 @@ export default function PuppyMatcherQuiz() {
                   <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400">{match.cor ?? match.color}</p>
                   <h3 className="mt-0.5 text-xl font-bold text-zinc-900">{match.name}</h3>
                   <p className="mt-1 text-sm text-zinc-600">
-                    {match.sex === "female" ? "Fêmea" : "Macho"} · Spitz Alemão Anão (Lulu da Pomerânia) · Bragança Paulista, SP
+                    {match.sex === "female" ? "Fêmea" : "Macho"} · Spitz Alemão Anão · Bragança Paulista, SP
                   </p>
                 </div>
                 {matchPrice > 0 && (

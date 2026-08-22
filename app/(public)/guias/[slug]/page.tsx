@@ -133,9 +133,9 @@ export default function GuidePage({ params }: Props) {
         {/* CTA */}
         <div className="mt-14 overflow-hidden rounded-2xl bg-[var(--brand)] px-8 py-10 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">Pronto para o próximo passo?</p>
-          <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Encontre seu filhote ideal</h2>
+          <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Veja os filhotes disponíveis</h2>
           <p className="mx-auto mt-2 max-w-md text-sm text-white/70">
-            Converse com a criadora e descubra qual filhote combina com você e sua família.
+            Converse com a criadora sobre a disponibilidade atual e tire as suas dúvidas antes de decidir.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-4">
             <a

@@ -19,7 +19,7 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import PuppyMatcherQuiz from "@/components/sections/PuppyMatcherQuiz";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados, staticPuppies } from "@/content/puppies-static";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
@@ -61,7 +61,7 @@ function parseMatches(text: string): Puppy[] {
     .map((s) => s.trim())
     .filter(Boolean);
   return slugs
-    .map((slug) => staticPuppies.find((p) => p.slug === slug))
+    .map((slug) => puppiesPublicados.find((p) => p.slug === slug))
     .filter((p): p is Puppy => !!p);
 }
 
@@ -163,7 +163,7 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
         </button>
       </div>
       <p className="mt-2 text-center text-[10px] text-zinc-400">
-        Seus dados são protegidos. Respondemos em até 2 horas no horário comercial.
+        Seus dados são protegidos. Atendemos todos os dias, das 8h às 22h.
       </p>
     </motion.form>
   );
@@ -277,7 +277,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={coverImg}
-            alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
+            alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
             // Era `object-top`, que ancora em 0%: num quadro quadrado com foto
             // vertical isso mostra o topo da foto e mais nada. No filhote preto,
             // fotografado de pé na grama, o card virava mato desfocado. Agora vem
@@ -679,7 +679,7 @@ export default function AiMatchmakerChat() {
           Fale com a gente
         </p>
         {/* O título curto e o nome completo no subtítulo é uma escolha de
-            layout: "Qual filhote de Spitz Alemão Anão (Lulu da Pomerânia)
+            layout: "Qual filhote de Spitz Alemão Anão
             combina com suas preferências?" ocupa três linhas neste tamanho e
             empurra o chat para fora da primeira dobra no celular. A entidade
             fica clara na linha de baixo, que é onde o texto pode crescer. */}
@@ -693,7 +693,7 @@ export default function AiMatchmakerChat() {
             determina qual animal é o certo para uma pessoa. Ninguém determina
             isso — o que existe é preferência declarada e filhote disponível. */}
         <p className="mt-2 text-sm text-zinc-500 sm:text-base">
-          Spitz Alemão Anão (Lulu da Pomerânia). Conte um pouco sobre suas
+          Spitz Alemão Anão. Conte um pouco sobre suas
           preferências para ajudarmos na escolha entre os filhotes disponíveis.
         </p>
       </div>

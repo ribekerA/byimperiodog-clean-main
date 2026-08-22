@@ -122,7 +122,7 @@ export function buildPuppyProductLD(puppy: PuppyForSchema): Record<string, unkno
       {
         "@type": "PropertyValue",
         name: "Raça",
-        value: "Spitz Alemão Anão (Lulu da Pomerânia)",
+        value: "Spitz Alemão Anão",
       },
       {
         "@type": "PropertyValue",
@@ -233,7 +233,7 @@ export function buildPuppyOfferCatalogLD(puppies: PuppyForSchema[]): Record<stri
     "@type": "OfferCatalog",
     "@id": `${SITE_URL}/filhotes#offercatalog`,
     name: "Filhotes de Spitz Alemão Disponíveis",
-    description: "Catálogo completo de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis para venda",
+    description: "Catálogo completo de filhotes de Spitz Alemão Anão disponíveis para venda",
     url: `${SITE_URL}/filhotes`,
     numberOfItems: puppies.length,
     itemListElement,

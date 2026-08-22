@@ -4,7 +4,7 @@
  */
 
 /**
- * Cores oficiais do Spitz Alemão Anão (Lulu da Pomerânia)
+ * Cores oficiais do Spitz Alemão Anão
  */
 export const PUPPY_COLORS = {
   creme: {

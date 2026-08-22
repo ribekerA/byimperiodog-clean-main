@@ -52,7 +52,7 @@ export default function Footer() {
   }, []);
 
   const baseWhatsapp = buildWhatsAppLink({
-    message: "Olá! Quero falar com a By Império Dog sobre disponibilidade de Spitz Alemão Anão (Lulu da Pomerânia).",
+    message: "Olá! Quero falar com a By Império Dog sobre disponibilidade de Spitz Alemão Anão.",
     utmSource: "site",
     utmMedium: "footer",
     utmCampaign: "footer_whatsapp",
@@ -99,7 +99,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-zinc-400">
-              Spitz Alemão Anão (Lulu da Pomerânia) — criado com responsabilidade, saúde validada e suporte para toda a vida do seu cão.
+              Spitz Alemão Anão — criado com responsabilidade, acompanhamento veterinário e suporte da criadora depois da entrega.
             </p>
             <address className="not-italic space-y-1 text-sm">
               <p>
@@ -179,7 +179,7 @@ export default function Footer() {
           <div className="space-y-3">
             <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Criação responsável</h3>
             <ul className="space-y-2 text-sm text-zinc-400">
-              {["Registro oficial incluso", "Laudos de saúde", "Mentoria vitalícia", `Criando desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
+              {["Registro oficial incluso", "Laudos de saúde", "Mentoria pós-venda", `Criando desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
                 <li key={item} className="flex items-center gap-2">
                   <span className="text-emerald-500" aria-hidden="true">✓</span>
                   {item}
@@ -193,7 +193,7 @@ export default function Footer() {
         <div className="border-t border-zinc-800 py-4">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 text-xs text-zinc-600 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados.</p>
-            <p>Spitz Alemão Anão (Lulu da Pomerânia) — saúde validada, suporte premium, famílias felizes.</p>
+            <p>Spitz Alemão Anão — acompanhamento veterinário e suporte direto com a criadora.</p>
           </div>
         </div>
       </div>

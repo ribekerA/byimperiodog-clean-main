@@ -11,12 +11,12 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania`;
 
 export const metadata: Metadata = {
-  title: "Lulu da Pomerânia — Raça, Preço, Cuidados e Filhotes",
+  title: "Lulu da Pomerânia — Guia da Raça e Preço",
   description:
     // Tinha "preços em ${CURRENT_YEAR}" — mesma data dinâmica dos outros rótulos.
     // Aproveitei para encurtar: com o ano, a description passava de 190 caracteres
     // e o Google cortava antes de "Bragança Paulista".
-    "Guia completo do Lulu da Pomerânia (Spitz Alemão Anão): características, personalidade, preços, cuidados e cores. Criadora responsável em Bragança Paulista, SP.",
+    "Guia do Lulu da Pomerânia (Spitz Alemão Anão): características, temperamento, preços, cuidados e cores. Criação responsável em Bragança Paulista, SP.",
   keywords: [
     "Lulu da Pomerânia",
     "Lulu da Pomerânia preço",
@@ -170,7 +170,7 @@ export default function LuluDaPomeraniaPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
+        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
       </section>
 
       {/* FAQ */}

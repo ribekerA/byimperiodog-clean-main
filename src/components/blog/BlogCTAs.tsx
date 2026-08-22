@@ -19,7 +19,7 @@ const CTA_LINKS = [
   },
   {
     title: "Processo completo",
-    description: "Conheça cada etapa: entrevista, socialização guiada, entrega humanizada e mentoria vitalícia.",
+    description: "Conheça cada etapa: contato, documentação, reserva em contrato, entrega e acompanhamento pós-venda.",
     href: "/sobre#processo",
     utmContent: "cta_processo",
   },
@@ -100,7 +100,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
               Pronto para uma conversa sob consulta?
             </h3>
             <p className="text-sm text-text-muted">
-              Atendimento humano, análise de perfil em até 2 horas e material exclusivo para planejar a chegada do Spitz.
+              Atendimento humano, todos os dias das 8h às 22h, para tirar dúvidas sobre os filhotes disponíveis.
             </p>
           </div>
           <a

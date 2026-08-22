@@ -100,7 +100,7 @@ export function buildProductLD(puppy: PuppyForSchema): Record<string, unknown> {
       },
     },
     additionalProperty: [
-      { "@type": "PropertyValue", name: "Raça", value: "Spitz Alemão Anão (Lulu da Pomerânia)" },
+      { "@type": "PropertyValue", name: "Raça", value: "Spitz Alemão Anão" },
       { "@type": "PropertyValue", name: "Sexo", value: sexLabel(puppy.sex) },
       { "@type": "PropertyValue", name: "Cor", value: puppy.color.charAt(0).toUpperCase() + puppy.color.slice(1) },
       { "@type": "PropertyValue", name: "Cidade", value: puppy.city },

@@ -14,19 +14,19 @@ const CATALOG_FAQS = [
       "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os laudos do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (registro oficial, carteira de vacinação e laudo de saúde; identificação do animal conforme a legislação aplicável).",
   },
   {
-    question: "Quais são as cores de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis?",
+    question: "Quais são as cores de Spitz Alemão Anão disponíveis?",
     answer:
       "A By Império Dog divulga quatro cores: Laranja, Creme, Preto e Branco. O laranja é o menor valor da tabela e o branco, o maior. A disponibilidade é informada no atendimento.",
   },
   {
-    question: "Qual a diferença de preço entre Spitz Alemão (Lulu da Pomerânia) Fêmea e Macho?",
+    question: "Qual a diferença de preço entre Spitz Alemão Anão Fêmea e Macho?",
     answer:
       "A fêmea custa R$ 1.000 a mais que o macho da mesma cor, por conta da maior procura. Fêmeas: R$ 7.500 no laranja, R$ 8.500 em creme e preto, R$ 9.500 no branco. Machos: R$ 6.500 no laranja, R$ 7.500 em creme e preto, R$ 8.500 no branco.",
   },
   {
     question: "Os filhotes são entregues com quais documentos?",
     answer:
-      "Todos os filhotes saem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, hemograma, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria vitalícia direto com a criadora.",
+      "Todos os filhotes saem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, hemograma, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda direto com a criadora.",
   },
 ];
 
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   title:       "Filhotes de Spitz Alemão Anão Disponíveis",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
-  description: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) nas cores Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
+  description: "Filhotes de Spitz Alemão Anão nas cores Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
   keywords: [
     "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
     "comprar Spitz Alemão creme", "filhote Pomeranian SP",
@@ -43,10 +43,10 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/filhotes" },
   openGraph: {
-    title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
-    description: "Catálogo de filhotes com registro oficial, laudos veterinários e mentoria vitalícia. Bragança Paulista, SP.",
+    title:       "Filhotes de Spitz Alemão Anão — By Império Dog",
+    description: "Catálogo de filhotes com registro oficial, laudos veterinários e mentoria pós-venda. Bragança Paulista, SP.",
     type:        "website",
-    images:      [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630, alt: "Filhotes Spitz Alemão Anão (Lulu da Pomerânia) disponíveis — By Império Dog" }],
+    images:      [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630, alt: "Filhotes Spitz Alemão Anão disponíveis — By Império Dog" }],
   },
 };
 
@@ -67,6 +67,36 @@ export default function FilhotesPage() {
       <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <StaticCatalog puppies={puppiesPublicados as any[]} />
+
+      {/* Caminho de clique para as páginas de estado, que até aqui só existiam
+          no sitemap. O breadcrumb delas já declara /filhotes como pai. */}
+      <nav
+        aria-labelledby="catalog-estados-heading"
+        className="mx-auto max-w-3xl px-5 pb-4 sm:px-8"
+      >
+        <h2
+          id="catalog-estados-heading"
+          className="mb-3 text-sm font-semibold tracking-tight text-zinc-900"
+        >
+          Entrega e acompanhamento por estado
+        </h2>
+        <ul className="flex flex-wrap gap-2">
+          {[
+            { href: "/filhotes/sao-paulo",      rotulo: "São Paulo (SP)" },
+            { href: "/filhotes/minas-gerais",   rotulo: "Minas Gerais (MG)" },
+            { href: "/filhotes/rio-de-janeiro", rotulo: "Rio de Janeiro (RJ)" },
+          ].map((estado) => (
+            <li key={estado.href}>
+              <Link
+                href={estado.href}
+                className="inline-flex rounded-full border border-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:border-emerald-300 hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              >
+                {estado.rotulo}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       {/* FAQ visível — indexável por Google/IAs e útil para featured snippets */}
       <section

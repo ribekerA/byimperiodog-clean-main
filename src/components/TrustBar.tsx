@@ -24,10 +24,10 @@ export default function TrustBar({ className = "", variant = "light" }: TrustBar
       className={`flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs ${textColor} ${className}`}
       aria-label="Credenciais do canil"
     >
-      {/* Famílias atendidas */}
+      {/* Área de atendimento */}
       <span className="flex items-center gap-1">
         <span aria-hidden="true">🐾</span>
-        <span className="font-semibold">Mais de 180 famílias atendidas</span>
+        <span className="font-semibold">Atendemos famílias em todo o Brasil</span>
       </span>
 
       <span className={dividerColor} aria-hidden="true">·</span>
@@ -35,7 +35,7 @@ export default function TrustBar({ className = "", variant = "light" }: TrustBar
       {/* Resposta rápida */}
       <span className="flex items-center gap-1">
         <span aria-hidden="true">⚡</span>
-        <span>Resposta em até 2 horas</span>
+        <span>Atendimento das 8h às 22h</span>
       </span>
 
       <span className={dividerColor} aria-hidden="true">·</span>

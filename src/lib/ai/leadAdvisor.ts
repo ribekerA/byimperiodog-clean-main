@@ -207,7 +207,7 @@ function buildLossPrevention(input: LeadAdvisorInput, status: AdvisorStatus): Ad
   const hoursSinceUpdate = diffInHours(input.updatedAt ?? input.createdAt);
   const isCold = hoursSinceUpdate >= HOURS_48 && status.suggestion !== "fechado" && status.suggestion !== "perdido";
   const summary = isCold ? `Lead sem resposta ha ${hoursSinceUpdate}h.` : "Lead ainda dentro da janela esperada.";
-  const reactivationMessage = `Oi ${toFirstName(input.name)}! Temos ${input.preferredColor ? `um Spitz ${input.preferredColor}` : "o filhote ideal"} reservado para voce e posso garantir as mesmas condicoes por mais 24h. Me da um ok para te enviar novidades?`;
+  const reactivationMessage = `Oi ${toFirstName(input.name)}! Passando para saber se voce ainda tem interesse${input.preferredColor ? ` no Spitz ${input.preferredColor}` : ""}. Posso te enviar a disponibilidade atual?`;
   return { isCold, hoursSinceUpdate, summary, reactivationMessage };
 }
 

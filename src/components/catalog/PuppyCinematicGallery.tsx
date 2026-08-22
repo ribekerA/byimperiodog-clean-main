@@ -175,7 +175,7 @@ export default function PuppyCinematicGallery({
     return () => clearTimeout(t);
   }, [swipeHint]);
 
-  const alt = `${puppyName} — Spitz Alemão Anão (Lulu da Pomerânia) ${puppyColor} ${puppySex}`;
+  const alt = `${puppyName} — Spitz Alemão Anão ${puppyColor} ${puppySex}`;
 
   // ── Navegação ────────────────────────────────────────────────────────────
   const navigate = useCallback(

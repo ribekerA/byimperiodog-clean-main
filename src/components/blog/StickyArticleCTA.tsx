@@ -12,7 +12,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
         Interesse em um filhote?
       </p>
       <p className="mt-2 text-sm leading-snug text-zinc-700">
-        Análise de perfil gratuita. Resposta em até 2 horas no horário de atendimento.
+        Conversa sem compromisso. Atendimento todos os dias, das 8h às 22h.
       </p>
       <a
         href={whatsappUrl}
@@ -31,7 +31,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
         Ver filhotes disponíveis →
       </Link>
       <p className="mt-3 text-center text-[10px] text-zinc-400">
-        Mais de 180 famílias · Contrato digital
+        Registro oficial · Contrato digital
       </p>
     </div>
   );

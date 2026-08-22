@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     }
     const items = images.map((img) => {
       const ctx = (img.context || "").toString();
-      const spitzHint = /spitz|lulu|pomer/iu.test(ctx) ? "" : " de Spitz Alemão (Lulu da Pomerânia)";
+      const spitzHint = /spitz|lulu|pomer/iu.test(ctx) ? "" : " de Spitz Alemão Anão (Lulu da Pomerânia)";
       return {
         url: img.url,
         alt: (ctx ? `Imagem relacionada a ${ctx}` : "Imagem ilustrativa") + spitzHint +

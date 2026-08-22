@@ -18,11 +18,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: "Preço do Spitz Alemão Anão — Tabela Atualizada",
+  title: "Preço do Spitz Alemão Anão por Cor e Sexo",
   description:
     // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
     // varia", que é justamente a intenção de busca da página. Reescrita em 156.
-    "Tabela de preços do Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo: Laranja, Creme, Preto e Branco. Veja o que está incluso e por que o valor varia.",
+    "Tabela de preços do Spitz Alemão Anão por cor e sexo: Laranja, Creme, Preto e Branco. Veja o que está incluso e por que o valor varia.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     title: "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
     description:
-      "Machos de R$ 6.500 a R$ 8.500 e fêmeas de R$ 7.500 a R$ 9.500, conforme a cor — com registro oficial, laudos e mentoria vitalícia inclusos.",
+      "Machos de R$ 6.500 a R$ 8.500 e fêmeas de R$ 7.500 a R$ 9.500, conforme a cor — com registro oficial, contrato e mentoria pós-venda inclusos.",
     type: "article",
   },
 };
@@ -64,18 +64,18 @@ const PRICE_TABLE = LINHAS_FORMATADAS.map((linha) => ({
 
 const INCLUDED_ITEMS = [
   "Registro oficial e legalizado",
-  "Laudo de saúde veterinário",
-  "Hemograma",
+  "Consulta veterinária",
+  "Hemograma completo",
   "Carteira de vacinação assinada pelo médico-veterinário, com protocolo em dia conforme a idade",
   "Histórico de vermifugação",
   "Identificação conforme a legislação aplicável",
-  "Contrato de responsabilidade compartilhada",
-  "Mentoria vitalícia direta com a criadora",
+  "Contrato de compra e venda",
+  "Mentoria pós-venda direta com a criadora",
 ] as const;
 
 const PAGE_FAQS = [
   {
-    question: "Quanto custa um Spitz Alemão Anão (Lulu da Pomerânia)?",
+    question: "Quanto custa um Spitz Alemão Anão?",
     // Resposta oficial, importada em vez de reescrita: esta mesma pergunta
     // aparece na home, em /filhotes e no agente do WhatsApp, e cada cópia
     // manual era uma chance de divergir.
@@ -87,7 +87,7 @@ const PAGE_FAQS = [
       // "maternidade monitorada" saiu da lista: nao existe estrutura desse tipo
       // aqui. As matrizes e os padreadores tambem sairam — o preço se explica
       // pelo que acompanha o filhote, sem descrever estrutura de criação.
-      "O valor reflete custos reais: acompanhamento veterinário, exames de saúde, registro oficial, socialização em ambiente familiar e suporte pós-venda. Um preço muito abaixo da faixa praticada costuma significar documentação ou acompanhamento ausentes.",
+      "O valor reflete custos reais: acompanhamento veterinário, exames laboratoriais, registro oficial e mentoria pós-venda. Antes de comparar valores, confira item a item o que cada criador entrega junto com o filhote.",
   },
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
@@ -102,7 +102,7 @@ const PAGE_FAQS = [
   {
     question: "O que está incluso no preço da By Império Dog?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, histórico de vermifugação, contrato e mentoria vitalícia. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Fora esse item, o valor anunciado é o valor final.",
+      "Todo filhote da By Império Dog sai com: registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, histórico de vermifugação, contrato e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Fora esse item, o valor anunciado é o valor final.",
   },
   {
     question: "Existe parcelamento ou condições especiais?",
@@ -115,7 +115,7 @@ const PAGE_FAQS = [
       // A versão anterior listava diagnósticos (colapso de traqueia, MVP,
       // displasia de patela) para justificar o preço. Diagnóstico é assunto do
       // médico-veterinário, não de uma FAQ de preço.
-      "Existem anúncios com valores menores, muitos deles sem registro oficial, sem laudos e sem contrato. Antes de comparar preços, compare o que está incluso: documentação, acompanhamento veterinário e garantias mudam o que se está comprando.",
+      "Existem anúncios com valores menores. Antes de comparar preços, compare o que está incluso: documentação, acompanhamento veterinário e contrato mudam o que se está comprando.",
   },
 ] as const;
 
@@ -145,10 +145,10 @@ export default function PrecoSpitzPage() {
       <header className="space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Tabela de preços atualizada</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Preço do Spitz Alemão Anão (Lulu da Pomerânia)
+          Preço do Spitz Alemão Anão
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Valores reais, sem surpresas: de {FAIXA_PUBLICA_TEXTO}, conforme cor e sexo. Veja abaixo o que está incluso e por que o preço varia.
+          De {FAIXA_PUBLICA_TEXTO}, conforme cor e sexo. Veja abaixo o que está incluso e por que o preço varia.
         </p>
       </header>
 
@@ -158,7 +158,7 @@ export default function PrecoSpitzPage() {
           Tabela de preços por cor e sexo
         </h2>
         <p className="mb-6 text-sm text-zinc-600">
-          Todos os filhotes da By Império Dog são entregues com registro oficial, laudos veterinários e mentoria vitalícia inclusos no valor abaixo. Não há custos ocultos.
+          Os filhotes da By Império Dog são entregues com registro oficial, contrato e mentoria pós-venda inclusos no valor abaixo.
         </p>
         <div className="overflow-x-auto rounded-2xl border border-zinc-200 shadow-sm">
           <table className="w-full min-w-[480px] text-sm">
@@ -218,7 +218,7 @@ export default function PrecoSpitzPage() {
             { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência entre os filhotes disponíveis do que o laranja. Por isso ficam acima do laranja na tabela atual, nos dois sexos." },
             { title: "Sexo", body: "A fêmea tem procura maior que o macho, e custa R$ 1.000 a mais na mesma cor." },
             { title: "Padrão da raça", body: "Filhotes dentro do padrão FCI nº 97 — porte, pelagem e estrutura — são menos frequentes e têm valor maior no mercado." },
-            { title: "Documentação completa", body: "Registro oficial, laudo de saúde e exames laboratoriais têm custo, e já estão inclusos no valor anunciado." },
+            { title: "Documentação completa", body: "Registro oficial, consulta veterinária e exames laboratoriais têm custo, e já estão inclusos no valor anunciado." },
           ].map((card) => (
             <article key={card.title} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
               <h3 className="text-sm font-semibold text-zinc-900">{card.title}</h3>

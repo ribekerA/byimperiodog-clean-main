@@ -153,7 +153,7 @@ export default function StaticPuppyCard({
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={cover}
-                alt={`${name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
+                alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
                 // As fotos sao verticais e o filhote raramente esta no mesmo
                 // lugar do quadro: quem posa no colo fica no alto, quem posa na
                 // grama fica embaixo. O 28% fixo servia para o primeiro caso e

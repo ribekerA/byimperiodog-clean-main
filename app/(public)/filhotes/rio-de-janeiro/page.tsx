@@ -17,17 +17,17 @@ const WA_LINK = `https://wa.me/${WA_PHONE}`;
 export const metadata: Metadata = {
   // Com "(Lulu da Pomerânia)" o title batia em 89 caracteres somando o sufixo
   // da marca e o Google cortava o estado. O sinônimo continua na description.
-  title: "Filhotes de Spitz Alemão Anão no Rio de Janeiro (RJ)",
+  title: "Filhotes Spitz Alemão Anão no Rio de Janeiro",
   description:
     // 185 caracteres: o Google cortava a lista de regiões atendidas, que é o
     // que essa página tem de próprio. Reescrita em 159.
-    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com entrega segura no Rio de Janeiro: capital, Niterói, região metropolitana e interior. Com registro oficial.",
+    "Filhotes de Spitz Alemão Anão com entrega segura no Rio de Janeiro: capital, Niterói, região metropolitana e interior. Com registro oficial.",
   alternates: { canonical: canonical("/filhotes/rio-de-janeiro") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/rio-de-janeiro"),
-    title: "Filhotes de Spitz Alemão (Lulu da Pomerânia) no Rio de Janeiro",
-    description: "Compre Spitz Alemão (Lulu da Pomerânia) com entrega em todo RJ. Criadora especializada.",
+    title: "Filhotes de Spitz Alemão Anão no Rio de Janeiro",
+    description: "Compre Spitz Alemão Anão com entrega em todo RJ. Criadora especializada.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630 }],
   },
 };
@@ -68,15 +68,15 @@ const faqRJ = [
       "Sim. Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, atestado veterinário e contrato.",
   },
   {
-    question: "Spitz Alemão (Lulu da Pomerânia) se adapta bem ao clima do Rio?",
+    question: "Spitz Alemão Anão se adapta bem ao clima do Rio?",
     answer:
-      "Sim! Apesar da pelagem farta, o Spitz Alemão (Lulu da Pomerânia) se adapta muito bem ao clima carioca. Recomendamos manter o filhote em ambientes frescos nas horas mais quentes e garantir acesso constante a água. A tosa higiênica ajuda no conforto.",
+      "Sim! Apesar da pelagem farta, o Spitz Alemão Anão se adapta muito bem ao clima carioca. Recomendamos manter o filhote em ambientes frescos nas horas mais quentes e garantir acesso constante a água. A tosa higiênica ajuda no conforto.",
   },
 ];
 
 export default function FilhotesRioDeJaneiroPage() {
   const waText =
-    "Olá! Gostaria de informações sobre filhotes de Spitz Alemão (Lulu da Pomerânia) disponíveis no Rio de Janeiro.";
+    "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão disponíveis no Rio de Janeiro.";
   const waLink = `${WA_LINK}?text=${encodeURIComponent(waText)}`;
 
   // Local Business JSON-LD específico para RJ
@@ -164,12 +164,12 @@ export default function FilhotesRioDeJaneiroPage() {
             Atendemos todo o Rio de Janeiro
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
-            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
+            Filhotes de Spitz Alemão Anão
             <span className="block text-[var(--brand)]">no Rio de Janeiro (RJ)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-secondary)]">
             Compre seu Spitz Alemão Anão (Lulu da Pomerânia) com segurança e entrega em toda a capital, Niterói, região
-            metropolitana e interior do RJ. Criadora especializada com suporte vitalício.
+            metropolitana e interior do RJ. Criadora especializada com suporte pós-venda.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -235,7 +235,7 @@ export default function FilhotesRioDeJaneiroPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Phone className="h-8 w-8 text-[var(--brand)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte Vitalício</h3>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-secondary)]">Acompanhamento permanente após a compra</p>
             </div>
           </div>
@@ -276,7 +276,7 @@ export default function FilhotesRioDeJaneiroPage() {
         {/* CTA Final */}
         <section className="mx-auto mt-20 max-w-4xl px-5 text-center">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
-            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão (Lulu da Pomerânia) no Rio de Janeiro?</h2>
+            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão no Rio de Janeiro?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-secondary)]">
               Fale agora com nossa equipe e garanta seu filhote com entrega segura em todo o RJ
             </p>

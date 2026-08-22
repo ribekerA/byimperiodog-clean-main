@@ -305,7 +305,7 @@ export async function analyzeLead(
   if (risk === "alto") alerts.add("Risco de perda alto: tente contato imediato.");
   if (heuristics.urgency === "alta") alerts.add("Alta urgência: responder em minutos.");
 
-  const nextStep = ai?.next_step ?? "Responder em até 2 horas no horário de atendimento, com fotos/vídeo do melhor match.";
+  const nextStep = ai?.next_step ?? "Responder em até 2 horas no horário de atendimento, com fotos/vídeo dos filhotes disponíveis.";
 
   const prefs = {
     color: ai?.desired_color ?? heuristics.desired_color ?? lead.cor_preferida ?? null,

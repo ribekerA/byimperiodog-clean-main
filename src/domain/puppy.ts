@@ -16,7 +16,7 @@ import type { City, Color, PuppyStatus } from "./taxonomies";
 export type PuppySource = "own-breeding" | "external-breeder";
 
 /**
- * Entidade Puppy - Filhote de Spitz Alemão Anão (Lulu da Pomerânia)
+ * Entidade Puppy - Filhote de Spitz Alemão Anão
  * Comercializado 100% sob a marca "By Império Dog"
  */
 export interface Puppy {
@@ -40,7 +40,7 @@ export interface Puppy {
   currentWeight?: number; // Peso atual em kg
   expectedAdultWeight?: number; // Peso adulto esperado (1.5 - 3.5 kg para Spitz Anão)
   currentHeight?: number; // Altura atual em cm
-  expectedAdultHeight?: number; // Altura adulta esperada (18-22cm na cernelha)
+  expectedAdultHeight?: number; // Altura adulta esperada na cernelha (padrão FCI nº 97: 21 cm ± 3 cm)
   size: "toy" | "mini" | "standard"; // Classificação de porte
 
   // ==========================================
@@ -330,7 +330,7 @@ export const PuppyHelpers = {
     const sexLabel = puppy.sex === "male" ? "macho" : "fêmea";
     const price = PuppyPrice.fromCents(puppy.priceCents).format();
 
-    return `Conheça ${puppy.name}, filhote de Spitz Alemão Anão ${puppy.color} ${sexLabel}. ${price}. Registro oficial, entrega segura e suporte vitalício. By Império Dog.`;
+    return `Conheça ${puppy.name}, filhote de Spitz Alemão Anão ${puppy.color} ${sexLabel}. ${price}. Registro oficial, entrega segura e suporte pós-venda. By Império Dog.`;
   },
 
   /**

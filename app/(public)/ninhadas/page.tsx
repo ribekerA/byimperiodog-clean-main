@@ -11,11 +11,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/ninhadas`;
 
 export const metadata: Metadata = {
-  title: "Ninhadas — Agenda de Filhotes e Próximas Ninhadas",
+  title: "Agenda de Ninhadas de Spitz Alemão Anão",
   description: "Agenda de ninhadas planejadas, próximas ninhadas e filhotes reserváveis. Veja quais cores e datas previstas e entre na lista de interesse.",
   keywords: ["ninhadas", "próximas ninhadas", "filhotes spitz alemão", "lulu da pomerania ninhadas"],
   alternates: { canonical: "/ninhadas" },
-  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Agenda e disponibilidade de ninhadas de Spitz Alemão Anão (Lulu da Pomerânia)." },
+  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Agenda e disponibilidade de ninhadas de Spitz Alemão Anão." },
 };
 
 const FAQS = [

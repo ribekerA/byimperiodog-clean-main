@@ -3,7 +3,7 @@
 import { CheckCircle2, HeartHandshake, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
@@ -17,18 +17,18 @@ import heroDesktop from "@/public/spitz-hero-desktop.webp";
 const SELLING_POINTS = [
   {
     icon: ShieldCheck,
-    title: "Saúde validada",
-    description: "Exames genéticos e laudos de saúde. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
+    title: "Saúde acompanhada",
+    description: "Hemograma e acompanhamento veterinário. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
   },
   {
     icon: HeartHandshake,
-    title: "Mentoria vitalícia",
+    title: "Mentoria pós-venda",
     description: "Acompanhamento direto pelo WhatsApp para rotina, nutrição e comportamento.",
   },
   {
     icon: CheckCircle2,
     title: "Dentro do padrão FCI",
-    description: "Seleção cuidadosa para famílias que buscam Spitz Alemão Anão (Lulu da Pomerânia) dentro do padrão FCI nº 97: altura na cernelha de 21 cm ± 3 cm.",
+    description: "Padrão FCI nº 97 como referência de criação: altura na cernelha de 21 cm ± 3 cm.",
   },
 ] as const;
 
@@ -36,13 +36,13 @@ const SELLING_POINTS = [
 // O ano de fundação é fato fixo e não precisa de manutenção.
 const STATS = [
   { value: `Desde ${FOUNDING_YEAR}`, label: "criando Spitz Alemão Anão" },
-  { value: "180+", label: "famílias acompanhadas" },
+  { value: "Todo o Brasil", label: "área de atendimento" },
   { value: "24h", label: "suporte humano dedicado" },
 ] as const;
 
 const primaryWhatsApp = buildWhatsAppLink({
   message:
-    "Olá! Quero receber orientação personalizada sobre os Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog.",
+    "Olá! Quero saber quais Spitz Alemão Anão estão disponíveis na By Império Dog.",
   utmSource: "site",
   utmMedium: "hero",
   utmCampaign: "hero_primary_cta",
@@ -61,15 +61,16 @@ const secondaryWhatsApp = buildWhatsAppLink({
 export default function HeroSection() {
   const trackedPrimaryWhatsApp = useWhatsAppLink(primaryWhatsApp);
   const trackedSecondaryWhatsApp = useWhatsAppLink(secondaryWhatsApp);
-  const greeting = useMemo(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) {
-      return "Bom dia! Vamos planejar juntos a chegada do seu Spitz com saúde validada.";
-    }
-    if (hour < 18) {
-      return "Boa tarde! Temos filhotes socializados aguardando tutores responsáveis.";
-    }
-    return "Boa noite! Ainda dá tempo de receber orientação personalizada hoje.";
+  // "saúde validada" e "ainda dá tempo" prometiam o que nao da para sustentar:
+  // um selo que ninguem emite e um prazo que nao existe.
+  const [greeting, setGreeting] = useState(
+    "Converse com a criadora sobre os filhotes disponíveis e a documentação de cada um.",
+  );
+  useEffect(() => {
+    const hora = new Date().getHours();
+    if (hora < 12) setGreeting("Bom dia! Veja os filhotes disponíveis e fale direto com a criadora.");
+    else if (hora < 18) setGreeting("Boa tarde! Veja os filhotes disponíveis e fale direto com a criadora.");
+    else setGreeting("Boa noite! Deixe a sua mensagem e a criadora responde pelo WhatsApp.");
   }, []);
 
   return (
@@ -80,17 +81,17 @@ export default function HeroSection() {
       <div className="mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 sm:px-8 lg:grid-cols-[1.1fr,1fr] lg:items-center lg:gap-16 lg:py-20">
         <div className="space-y-7">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-emerald-700 shadow-sm">
-            Spitz Alemão Anão (Lulu da Pomerânia) com mentoria premium
+            Criação especializada em Spitz Alemão Anão desde {FOUNDING_YEAR}
           </span>
 
           <header className="space-y-5">
             <h1 id="hero-heading" className="text-4xl font-semibold leading-tight text-zinc-900 sm:text-5xl">
-              Transparência e carinho para entregar o seu Spitz Alemão Anão (Lulu da Pomerânia) com suporte vitalício
+              Spitz Alemão Anão (Lulu da Pomerânia) criado em família em Bragança Paulista, SP
             </h1>
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">{greeting}</p>
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">
-              Entrevista de alinhamento, socialização guiada, logística assistida e mentoria contínua.
-              Tudo para que o seu Spitz viva em equilíbrio com a sua família.
+              Filhotes criados dentro de casa, entregues com registro oficial, laudo de saúde e
+              carteira de vacinação — e com a criadora disponível pelo WhatsApp depois da entrega.
             </p>
           </header>
 
@@ -135,11 +136,11 @@ export default function HeroSection() {
             <li className="text-zinc-600" aria-hidden="true">
               •
             </li>
-            <li>Mentoria vitalícia</li>
+            <li>Mentoria pós-venda</li>
             <li className="text-zinc-600" aria-hidden="true">
               •
             </li>
-            <li>Planejamento financeiro claro</li>
+            <li>Valores publicados por cor e sexo</li>
           </ul>
 
           <dl className="grid gap-4 sm:grid-cols-3" aria-label="Indicadores de confiança">
@@ -168,7 +169,7 @@ export default function HeroSection() {
               />
             </div>
             <figcaption className="absolute bottom-3 left-3 rounded-full bg-white px-4 py-1 text-xs font-semibold text-emerald-700 shadow">
-              Socialização guiada, acompanhada em vídeo
+              Filhotes criados dentro de casa
             </figcaption>
           </figure>
 
@@ -177,8 +178,8 @@ export default function HeroSection() {
               <div className="space-y-1">
                 <p className="text-sm font-semibold text-zinc-900">Atendimento humano pelo WhatsApp</p>
                 <p className="text-xs leading-relaxed text-zinc-600">
-                  Envie um vídeo da sua casa e receba checklist de rotina, enxoval e investimento.
-                  Resposta em até 2 horas no horário de atendimento.
+                  Tire dúvidas sobre disponibilidade, documentação e valores direto com a criadora.
+                  Atendimento todos os dias, das 8h às 22h.
                 </p>
               </div>
               <a

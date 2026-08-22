@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Guias sobre Spitz Alemão Anão",
   description:
     // O ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
-    `Guias completos sobre Spitz Alemão Anão (Lulu da Pomerânia): como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde ${FOUNDING_YEAR}.`,
+    `Guias completos sobre Spitz Alemão Anão: como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde ${FOUNDING_YEAR}.`,
   alternates: { canonical: "/guias" },
 };
 
@@ -156,7 +156,7 @@ export default function GuiasIndexPage() {
               Converse com a criadora
             </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-white/70">
-              Tire todas as suas dúvidas direto com quem cria desde {FOUNDING_YEAR} e descubra o filhote ideal para você.
+              Tire as suas dúvidas direto com quem cria desde {FOUNDING_YEAR} e veja quais filhotes estão disponíveis.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-4">
               <a

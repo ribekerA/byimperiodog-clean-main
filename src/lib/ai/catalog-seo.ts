@@ -1,7 +1,7 @@
 /**
  * CatalogSEOAI
  * Gera textos curtos e otimizados para SEO/conversão nos cards do catálogo.
- * Tom premium e seguro, reforçando Spitz Alemão Anão (Lulu da Pomerânia).
+ * Tom premium e seguro, reforçando Spitz Alemão Anão.
  */
 
 type Sex = "male" | "female" | string;

@@ -169,7 +169,7 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
     if (!Array.isArray(rawSeoKeywords)) return [] as string[];
     return rawSeoKeywords.map((keyword) => keyword?.trim()).filter((keyword): keyword is string => Boolean(keyword));
   }, [rawSeoKeywords]);
-  const fallbackAlt = `Filhote Spitz Alemão Anão (Lulu da Pomerânia) ${baseName} na cor ${color}, ${gender}, localizado em ${location}. Status ${status.label}.`;
+  const fallbackAlt = `Filhote Spitz Alemão Anão ${baseName} na cor ${color}, ${gender}, localizado em ${location}. Status ${status.label}.`;
   const imageAlt = aiSeo?.altText || p.altText || fallbackAlt;
 
   const baseWhatsappLink = useMemo(
@@ -390,12 +390,12 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
               </li>
             ) : null}
 
-            <li className="flex flex-1 min-w-[180px] items-center gap-3 rounded-2xl border border-zinc-200/80 bg-white px-3 py-2 shadow-sm" key="mentoria" aria-label="Mentoria vitalícia inclusa">
-              <span role="img" aria-label="Mentoria vitalícia inclusa" className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+            <li className="flex flex-1 min-w-[180px] items-center gap-3 rounded-2xl border border-zinc-200/80 bg-white px-3 py-2 shadow-sm" key="mentoria" aria-label="Mentoria pós-venda inclusa">
+              <span role="img" aria-label="Mentoria pós-venda inclusa" className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                 <GraduationCap className="h-4 w-4" aria-hidden="true" />
               </span>
               <div className="text-sm">
-                <p className="font-semibold text-zinc-900">Mentoria vitalícia</p>
+                <p className="font-semibold text-zinc-900">Mentoria pós-venda</p>
                 <p className="text-xs text-zinc-500">Suporte do time By Império</p>
               </div>
             </li>

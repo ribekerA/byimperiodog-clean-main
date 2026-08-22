@@ -11,9 +11,9 @@ const lastUpdated = "2026-08-06T09:00:00.000Z";
 
 const faqItems = [
   {
-    question: "Como preparamos cada Spitz Alemão (Lulu da Pomerânia) antes da nova família?",
+    question: "Como preparamos cada Spitz Alemão Anão antes da nova família?",
     answer:
-      "Os filhotes crescem em convívio familiar, com contato cotidiano com pessoas e com os sons normais de uma casa, enriquecimento ambiental supervisionado e acompanhamento veterinário. O objetivo é que o Spitz Alemão (Lulu da Pomerânia) chegue com autoconfiança e rotina estável.",
+      "Os filhotes crescem em convívio familiar, com contato cotidiano com pessoas e com os sons normais de uma casa, enriquecimento ambiental supervisionado e acompanhamento veterinário. O objetivo é que o Spitz Alemão Anão chegue com autoconfiança e rotina estável.",
   },
   {
     question: "Qual o porte adulto esperado do Spitz Alemão Anão (Lulu da Pomerânia)?",
@@ -34,12 +34,12 @@ const faqItems = [
   {
     question: "Como funciona o suporte contínuo após a entrega?",
     answer:
-      "O tutor tem contato direto com a criadora por WhatsApp, com orientação sobre rotina, manejo e reforço positivo, além de videochamadas quando for útil. Disponibilizamos orientações gerais de pós-entrega. Essas informações não substituem atendimento veterinário, nutricional ou comportamental realizado por profissional habilitado.",
+      "O tutor tem contato direto com a criadora por WhatsApp, com orientação sobre rotina, manejo e reforço positivo. Disponibilizamos orientações gerais de pós-entrega. Essas informações não substituem atendimento veterinário, nutricional ou comportamental realizado por profissional habilitado.",
   },
   {
-    question: "Quais exames acompanham o Spitz Alemão (Lulu da Pomerânia)?",
+    question: "Quais exames acompanham o Spitz Alemão Anão?",
     answer:
-      "Entregamos a carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, o histórico de vermifugação, o laudo de saúde e o hemograma. Também emitimos contrato de responsabilidade compartilhada, com mentoria vitalícia junto à criadora.",
+      "Entregamos a carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, o histórico de vermifugação, o laudo de saúde e o hemograma. Também emitimos contrato de responsabilidade compartilhada, com mentoria pós-venda junto à criadora.",
   },
 ];
 
@@ -56,9 +56,9 @@ export const revalidate = 3600;
 export function generateMetadata(): Metadata {
   return pageMetadata({
     // Sem a marca aqui: o layout raiz já aplica o template "%s | By Império Dog".
-    title: "FAQ do Tutor — Spitz Alemão Anão (Lulu da Pomerânia)",
+    title: "FAQ do Tutor — Spitz Alemão Anão",
     description:
-      "Perguntas frequentes sobre preparo, saúde, socialização e suporte vitalício para o Spitz Alemão (Lulu da Pomerânia).",
+      "Perguntas frequentes sobre preparo, saúde, socialização e suporte pós-venda para o Spitz Alemão Anão.",
     path,
     // A imagem apontava para /og/faq-tutor.jpg, que não existe no repositório
     // (a pasta public/og/ nunca foi criada) e respondia 404. Sem `images`, o
@@ -84,7 +84,7 @@ export default function FaqDoTutorPage() {
     url: `${siteBase}${path}`,
     name: "FAQ do Tutor",
     description:
-      "Perguntas frequentes sobre preparo, saúde, socialização e suporte vitalício para o Spitz Alemão (Lulu da Pomerânia).",
+      "Perguntas frequentes sobre preparo, saúde, socialização e suporte pós-venda para o Spitz Alemão Anão.",
     isPartOf: { "@type": "WebSite", url: siteBase, name: "By Império Dog" },
   };
 
@@ -92,7 +92,7 @@ export default function FaqDoTutorPage() {
     <div className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
       <header className="space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600">FAQ do tutor</p>
-        <h1 className="text-4xl font-bold text-zinc-900">Guia prático para receber o Spitz Alemão (Lulu da Pomerânia)</h1>
+        <h1 className="text-4xl font-bold text-zinc-900">Guia prático para receber o Spitz Alemão Anão</h1>
         <p className="text-lg text-zinc-600">
           Reunimos os pontos mais importantes para preparar a casa, organizar os primeiros dias e acionar o suporte da criadora.
           Use esta página como referência rápida sempre que surgir uma dúvida sobre rotina, nutrição ou comportamento.
@@ -116,7 +116,7 @@ export default function FaqDoTutorPage() {
       <section id="primeiros-cuidados" className="space-y-4">
         <h2 className="text-2xl font-semibold text-zinc-900">Primeiros cuidados nas 48 horas</h2>
         <p className="text-zinc-600">
-          A adaptação do Spitz Alemão (Lulu da Pomerânia) depende de rotina previsível, estímulos positivos e monitoramento próximo.
+          A adaptação do Spitz Alemão Anão depende de rotina previsível, estímulos positivos e monitoramento próximo.
           Recomendamos o seguinte passo a passo:
         </p>
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
@@ -151,14 +151,13 @@ export default function FaqDoTutorPage() {
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-emerald-800">
               <li>Socialização por faixa etária.</li>
               <li>Reforço positivo e treino de caixa de transporte.</li>
-              <li>Checklist de viagem com o Spitz Alemão (Lulu da Pomerânia).</li>
+              <li>Checklist de viagem com o Spitz Alemão Anão.</li>
             </ul>
           </article>
           <article>
             <h3 className="text-lg font-semibold text-emerald-900">Suporte direto</h3>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-emerald-800">
               <li>Contato direto com a criadora por WhatsApp.</li>
-              <li>Videochamadas para ajustes de rotina e ambientação.</li>
               <li>Encaminhamento ao médico-veterinário quando o caso exigir avaliação profissional.</li>
             </ul>
           </article>
@@ -182,7 +181,7 @@ export default function FaqDoTutorPage() {
         </p>
         <div className="flex flex-wrap gap-3">
           <a
-            href="https://wa.me/5511968633239?text=Olá! Preciso de orientação para o meu Spitz Alemão (Lulu da Pomerânia)."
+            href="https://wa.me/5511968633239?text=Olá! Preciso de orientação para o meu Spitz Alemão Anão."
             className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200 focus-visible:ring-offset-2"
           >
             Falar no WhatsApp

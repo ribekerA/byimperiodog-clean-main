@@ -32,7 +32,7 @@ export default function PuppiesGrid({ initialItems = [] }: Props) {
   const mountedRef = useRef(true);
   const emptyStateWhatsApp = useWhatsAppLink(
     buildWhatsAppLink({
-      message: "Olá! Não encontrei filhotes com esses filtros. Pode me ajudar a encontrar o Spitz ideal?",
+      message: "Olá! Não encontrei filhotes com esses filtros. Pode me ajudar a encontrar o filhote certo para a minha família?",
       utmSource: "site",
       utmMedium: "catalog_empty",
       utmCampaign: "filhotes",

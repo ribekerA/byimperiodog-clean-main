@@ -12,7 +12,7 @@ type GenPayload = {
 };
 
 function stubGenerate(p: GenPayload) {
-  const breed = "Spitz Alemão Anão (Lulu da Pomerânia)";
+  const breed = "Spitz Alemão Anão";
   const topic = p.topic || p.prompt || breed;
   const title = `Cuidados e dicas para filhotes de ${breed}`;
   const excerpt = `Tudo que você precisa saber sobre cuidados, alimentação e treinamento de filhotes de ${breed}.`;
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
 
 
   // Call OpenAI Chat completions (basic flow)
-  const defaultTopic = "Spitz Alemão Anão (Lulu da Pomerânia)";
+  const defaultTopic = "Spitz Alemão Anão";
   const prompt = `Gere um post em MDX sobre: ${body.topic || body.prompt || defaultTopic}.
 Inclua título, um excerpt curto e conteúdo estruturado com headings (Introdução, Cuidados com filhotes, Alimentação, Treinamento, Saúde, Conclusão). Foque em filhotes, escreva em Português (pt-BR). Ao final, sugira 2-3 CTAs curtos e 2 links internos relevantes no formato JSON.`;
 

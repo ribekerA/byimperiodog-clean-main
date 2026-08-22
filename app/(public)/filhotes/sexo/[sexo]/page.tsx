@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { staticPuppies } from "@/content/puppies-static";
 import { ALL_SEXES, formatPrice, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
@@ -49,7 +48,7 @@ export default function SexLandingPage({ params }: Props) {
   const businessLd = buildLocalBusinessLD();
 
   const waLink = buildWhatsAppLink({
-    message: `Olá! Tenho interesse em ${seo.h1} Spitz Alemão Anão (Lulu da Pomerânia). Pode me informar disponibilidade e valores?`,
+    message: `Olá! Tenho interesse em ${seo.h1} Spitz Alemão Anão. Pode me informar disponibilidade e valores?`,
     utmSource: "site",
     utmMedium: "sex_page",
     utmCampaign: "filhote_sexo",

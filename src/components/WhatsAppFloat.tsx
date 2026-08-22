@@ -23,15 +23,15 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "551196
 // Mensagem contextual por rota
 function resolveMessage(pathname: string): string {
   if (pathname.startsWith("/filhotes/cor/creme"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Creme no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão Creme no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/preto") || pathname.startsWith("/spitz-alemao-preto"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Preto no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão Preto no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/laranja"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Laranja no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão Laranja no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/sexo/femea"))
-    return "Olá! Tenho interesse em uma fêmea de Spitz Alemão Anão (Lulu da Pomerânia). Pode me informar disponibilidade?";
+    return "Olá! Tenho interesse em uma fêmea de Spitz Alemão Anão. Pode me informar disponibilidade?";
   if (pathname.startsWith("/filhotes/sexo/macho"))
-    return "Olá! Tenho interesse em um macho de Spitz Alemão Anão (Lulu da Pomerânia). Pode me informar disponibilidade?";
+    return "Olá! Tenho interesse em um macho de Spitz Alemão Anão. Pode me informar disponibilidade?";
   if (pathname.startsWith("/filhotes/") && pathname !== "/filhotes")
     return "Olá! Vi um filhote no catálogo da By Império Dog e gostaria de mais informações.";
   if (pathname === "/filhotes")
@@ -39,7 +39,7 @@ function resolveMessage(pathname: string): string {
   if (pathname.startsWith("/preco-spitz-anao"))
     return "Olá! Vi a tabela de preços no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/comprar-spitz-anao"))
-    return "Olá! Estou interessado em comprar um Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog. Pode me ajudar?";
+    return "Olá! Estou interessado em comprar um Spitz Alemão Anão da By Império Dog. Pode me ajudar?";
   if (pathname.startsWith("/criador-spitz-confiavel"))
     return "Olá! Vi o perfil da By Império Dog e gostaria de conhecer melhor o canil e os filhotes.";
   if (pathname.startsWith("/spitz-alemao-baby-face"))
@@ -47,7 +47,7 @@ function resolveMessage(pathname: string): string {
   if (pathname.startsWith("/blog"))
     return "Olá! Li um artigo no blog da By Império Dog e gostaria de saber mais sobre os filhotes.";
   // default
-  return "Olá! Vim pelo site da By Império Dog e gostaria de informações sobre o Spitz Alemão Anão (Lulu da Pomerânia).";
+  return "Olá! Vim pelo site da By Império Dog e gostaria de informações sobre o Spitz Alemão Anão.";
 }
 
 function fireEvent(eventName: string, params: Record<string, string>) {

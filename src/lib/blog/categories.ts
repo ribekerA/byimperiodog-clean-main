@@ -40,18 +40,18 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     id: "comportamento",
     title: "Comportamento",
     description:
-      "Socialização guiada, enriquecimento ambiental e reforço positivo focado em lares urbanos.",
-    highlight: "Protocolos semanais com vídeos e check-ins pelo WhatsApp.",
+      "Socialização, enriquecimento ambiental e reforço positivo aplicados a lares urbanos.",
+    highlight: "Manejo do dia a dia, com indicação de quando procurar um profissional.",
     color: "bg-violet-50 border-violet-200 text-violet-700",
     keywords: ["adestramento", "comportamento", "socializacao", "tutor", "guia"],
-    cta: { label: "Conhecer nosso processo", href: "/sobre#processo" },
+    cta: { label: "Conhecer a criadora", href: "/sobre" },
   },
   {
     id: "saude",
     title: "Saúde",
     description:
       "Cuidado preventivo: sinais de alerta, rotina veterinária e saúde do Spitz no dia a dia.",
-    highlight: "Transparência total com laudos digitais e acompanhamento pós-entrega.",
+    highlight: "O que cada exame mostra e o que acompanha o filhote na entrega.",
     color: "bg-emerald-50 border-emerald-200 text-emerald-700",
     keywords: ["saude", "clínico", "veterin", "check-up", "exame"],
     // /faq nunca existiu como rota: a pagina e /faq-do-tutor. O link respondia 404.
@@ -71,8 +71,8 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     id: "cuidados",
     title: "Cuidados",
     description:
-      "Nutrição personalizada, higiene estratégica e protocolos preventivos para manter o Spitz saudável.",
-    highlight: "Orientações da neonatologia ao primeiro ano com suporte contínuo.",
+      "Alimentação, higiene e rotina preventiva no dia a dia de um Spitz de porte anão.",
+    highlight: "Do primeiro dia em casa ao primeiro ano, passo a passo.",
     color: "bg-blue-50 border-blue-200 text-blue-700",
     keywords: ["cuidado", "rotina", "nutri", "higiene", "enxoval"],
     cta: { label: "Ver dicas de cuidados", href: "/faq-do-tutor#primeiros-cuidados" },

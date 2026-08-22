@@ -6,7 +6,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 // Matriz de tópicos estratégicos (clusters principais + subtemas)
 // slugBase sem prefixo /blog
 const TOPIC_MATRIX: { slug: string; title: string; cluster: string; priority: number; scope?: 'guia-completo' | 'filhote' | 'adulto' }[] = [
-  { slug: 'guia-completo-spitz-alemao', title: 'Guia Completo do Spitz Alemão (Lulu da Pomerânia)', cluster: 'Guia', priority: 1, scope: 'guia-completo' },
+  { slug: 'guia-completo-spitz-alemao', title: 'Guia Completo do Spitz Alemão Anão (Lulu da Pomerânia)', cluster: 'Guia', priority: 1, scope: 'guia-completo' },
   { slug: 'socializacao-spitz-alemao', title: 'Socialização do Spitz Alemão: Etapas e Práticas', cluster: 'Comportamento', priority: 2, scope: 'filhote' },
   { slug: 'adestramento-basico-spitz', title: 'Adestramento Básico do Spitz Alemão: Comandos Essenciais', cluster: 'Comportamento', priority: 2, scope: 'filhote' },
   { slug: 'comportamento-latidos-spitz', title: 'Latidos do Spitz Alemão: Como Reduzir e Entender', cluster: 'Comportamento', priority: 3 },

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     // 184 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 150, agora com "Lulu da Pomerânia".
-    "Spitz Alemão Anão (Lulu da Pomerânia): origem, características, temperamento, cores, tamanho adulto, cuidados e preço. Criadora em Bragança Paulista, SP.",
+    "Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto, cuidados e preço. Criadora em Bragança Paulista, SP.",
   keywords: [
     "Spitz Alemão Anão",
     "Spitz Alemão características",
@@ -193,7 +193,7 @@ export default function SpitzAlemaoPage() {
           {[
             { t: "Escovação", b: "Pelo menos 3–4 vezes por semana. Evita nós, controla a muda e mantém a pelagem fluffy saudável. Em época de muda (2× ao ano), aumente para diário." },
             { t: "Banho", b: "A cada 15–21 dias, com shampoo específico para pelagem dupla. Secagem completa é obrigatória — pelo úmido favorece fungos." },
-            { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Império Dog fornece plano alimentar personalizado." },
+            { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Império Dog orienta sobre a alimentação por fase no acompanhamento pós-venda." },
             { t: "Exercício", b: "2 passeios curtos por dia (15–20 min cada) são suficientes. Não suporta calor intenso — evite saídas no pico do calor." },
             { t: "Dentes", b: "Raças pequenas são propensas a tartaro. Escovação 2–3× por semana + petiscos dentais. Consulta veterinária anual para limpeza profissional." },
             { t: "Veterinário", b: "Consulta anual de rotina, calendário de reforços vacinais em dia conforme a prescrição do médico-veterinário e avaliação cardiológica a partir dos 3 anos (raça com predisposição a sopro cardíaco)." },

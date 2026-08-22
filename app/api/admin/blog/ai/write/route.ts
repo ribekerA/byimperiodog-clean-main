@@ -41,14 +41,13 @@ export async function POST(req: Request) {
     const targetLang = body.targetLang || "pt-BR";
     const wordBudget = Math.max(600, Math.min(2400, body.wordBudget || 1200));
     const primaryKw = (body.primaryKeyword || "Spitz Alemão filhote").trim();
-  const enforcedKeywords = [primaryKw, "Spitz Alemão", "Lulu da Pomerânia", "filhote"]; 
   const scope = body.scope || 'guia-completo';
 
   // 1) Generate structured content (sempre incluir seções fixas e CTA final)
     let content: any;
     {
       const messages = [
-        { role: "system", content: `Você é um redator sênior de SEO com especialização em conteúdo sobre raças caninas, especialmente Spitz Alemão (Lulu da Pomerânia). Produza conteúdo 100% focado na raça e em filhotes. Objetivos: SEO orgânico extremo, capturar intenção de busca (informativa, transacional, comparativa), criar FAQ otimizadas para rich snippets e sugerir interlinks/CTAs. Regras: H1 único, H2/H3 claros, listas quando úteis, exemplos práticos e fontes quando possível. Gere MDX válido (GFM). Retorne apenas um JSON válido com os campos solicitados.` },
+        { role: "system", content: `Você é um redator sênior de SEO com especialização em conteúdo sobre raças caninas, especialmente Spitz Alemão Anão (Lulu da Pomerânia). Produza conteúdo 100% focado na raça e em filhotes. Objetivos: SEO orgânico extremo, capturar intenção de busca (informativa, transacional, comparativa), criar FAQ otimizadas para rich snippets e sugerir interlinks/CTAs. Regras: H1 único, H2/H3 claros, listas quando úteis, exemplos práticos e fontes quando possível. Gere MDX válido (GFM). Retorne apenas um JSON válido com os campos solicitados.` },
         { role: "user", content: `Tópico base: ${topic}\nEscopo: ${scope}.\nObrigatório cobrir (mesmo se o tópico for estreito): História e Origem; Características Físicas; Temperamento (filhote vs adulto); Desenvolvimento do Filhote (0-2m, 2-6m, 6-12m); Cuidados Essenciais; Socialização; Alimentação Filhote; Alimentação Adulto; Saúde Preventiva (vacinas, vermifugação, check-ups, doenças comuns); Grooming / Pelagem; Exercícios & Enriquecimento Mental; Treinamento Básico; Problemas Comportamentais Comuns; FAQ com ao menos 5 perguntas reais; Recursos & CTA final.\nPalavras-chave: ${(body.keywords || []).join(", ")}\nPúblico: ${body.audience || "tutores e compradores (filhote e adulto)"}\nTom: ${body.tone || "informative"}\nMeta palavras: ~${wordBudget}.\nFormato de resposta JSON estrito conforme: {"title","excerpt","content_mdx","seo_title","seo_description","tags":[...],"faq":[{"q","a"}],"cover_prompt","cover_alt","suggested_ctas":[{"label","href"}],"recommended_internal_links":[{"href","anchor","reason"}]` },
       ];
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -80,12 +79,12 @@ export async function POST(req: Request) {
   let txt0 = String(content?.content_mdx || "");
     const mentionsSpitz = /spitz/i.test(txt0) || /lulu/i.test(txt0) || /pomer/iu.test(txt0);
     if (!mentionsSpitz) {
-      const heading = content?.title || `Guia de ${body.category || 'cuidados'} com filhotes de Spitz Alemão (Lulu da Pomerânia)`;
-      const mdx = `# ${heading}\n\nEste guia cobre ${body.category || 'cuidados essenciais'} para filhotes de Spitz Alemão (Lulu da Pomerânia).\n\n## Perfil da raça\nVivo, inteligente e apegado à família.\n\n## Socialização\nIntroduza estímulos de forma gradual a partir da 8ª semana.\n\n## Alimentação e saúde\nRação premium para raças pequenas e calendário de vacinas em dia.\n\n## Higiene e pelagem\nEscovação regular e banhos espaçados mantêm a pelagem saudável.\n\n## FAQ\n### Quando começar a socialização?\nA partir da 8ª semana, reforço positivo.\n\n### Qual a quantidade de ração?\nConforme orientação do veterinário, ajustando ao peso.`;
+      const heading = content?.title || `Guia de ${body.category || 'cuidados'} com filhotes de Spitz Alemão Anão`;
+      const mdx = `# ${heading}\n\nEste guia cobre ${body.category || 'cuidados essenciais'} para filhotes de Spitz Alemão Anão.\n\n## Perfil da raça\nVivo, inteligente e apegado à família.\n\n## Socialização\nIntroduza estímulos de forma gradual a partir da 8ª semana.\n\n## Alimentação e saúde\nRação premium para raças pequenas e calendário de vacinas em dia.\n\n## Higiene e pelagem\nEscovação regular e banhos espaçados mantêm a pelagem saudável.\n\n## FAQ\n### Quando começar a socialização?\nA partir da 8ª semana, reforço positivo.\n\n### Qual a quantidade de ração?\nConforme orientação do veterinário, ajustando ao peso.`;
       content = {
         ...content,
         title: heading,
-        excerpt: content?.excerpt || `Tudo sobre ${primaryKw} com foco na raça Spitz Alemão (Lulu da Pomerânia).`,
+        excerpt: content?.excerpt || `Tudo sobre ${primaryKw} com foco na raça Spitz Alemão Anão.`,
         content_mdx: mdx,
         seo_title: (content?.seo_title || heading).slice(0, 60),
         seo_description: (content?.seo_description || `Guia para filhotes de Spitz Alemão.`).slice(0, 155),
@@ -93,8 +92,8 @@ export async function POST(req: Request) {
       txt0 = String(content.content_mdx || '');
     }
   if (!content?.cover_prompt || !/spitz|lulu|pomer/iu.test(String(content.cover_prompt))) {
-      content.cover_prompt = `Fotografia realista 16:9 de filhote de Spitz Alemão (Lulu da Pomerânia), nítida, luz suave, fundo neutro, estilo editorial, cores quentes`;
-      content.cover_alt = `Filhote de Spitz Alemão (Lulu da Pomerânia)`;
+      content.cover_prompt = `Fotografia realista 16:9 de filhote de Spitz Alemão Anão, nítida, luz suave, fundo neutro, estilo editorial, cores quentes`;
+      content.cover_alt = `Filhote de Spitz Alemão Anão`;
     }
     // Garantir tags de SEO relacionadas
     const baseTags = Array.from(new Set(["Spitz Alemão", "Lulu da Pomerânia", "filhote", "adulto", "guia", ...(content?.tags || []), ...(body.keywords || [])]));
@@ -102,7 +101,7 @@ export async function POST(req: Request) {
 
     // Pós-processador para garantir seções obrigatórias faltantes
     const requiredSections: { heading: string; template: string }[] = [
-      { heading: '## História e Origem', template: '## História e Origem\nBreve contexto da origem do Spitz Alemão (Lulu da Pomerânia), evolução e popularização.' },
+      { heading: '## História e Origem', template: '## História e Origem\nBreve contexto da origem do Spitz Alemão Anão, evolução e popularização.' },
       { heading: '## Características Físicas', template: '## Características Físicas\nTamanho, pelagem dupla, cores comuns, expectativa de peso e longevidade.' },
       { heading: '## Temperamento (Filhote vs Adulto)', template: '## Temperamento (Filhote vs Adulto)\nComparação de energia, curiosidade, socialização e maturidade comportamental.' },
       { heading: '## Desenvolvimento do Filhote', template: '## Desenvolvimento do Filhote\n### 0–2 meses\nNecessidades iniciais.\n### 2–6 meses\nSocialização intensa e regras.\n### 6–12 meses\nTransição para adulto jovem.' },

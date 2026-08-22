@@ -112,7 +112,7 @@ export default function Image() {
             padding: "0 60px",
           }}
         >
-          {["Registro oficial", "Laudos veterinários", "180+ famílias", "Mentoria vitalícia"].map(
+          {["Registro oficial", "Laudos veterinários", "Contrato digital", "Mentoria pós-venda"].map(
             (tag) => (
               <div
                 key={tag}

@@ -37,7 +37,7 @@ export function PuppyHero({ puppy, whatsappLink, onFavorite, isFavorited }: Prop
           {puppy.images?.[0] ? (
             <Image
               {...getNextImageProps(puppy.slug, "hero", { priority: true })}
-              alt={`Filhote ${puppy.name} - Spitz Alemão Anão (Lulu da Pomerânia) ${puppy.color}, ${translateSex(puppy.sex)}, ${location}`}
+              alt={`Filhote ${puppy.name} - Spitz Alemão Anão ${puppy.color}, ${translateSex(puppy.sex)}, ${location}`}
               className="object-cover w-full h-full"
             />
           ) : (
@@ -123,7 +123,7 @@ export function PuppyHero({ puppy, whatsappLink, onFavorite, isFavorited }: Prop
             </Button>
           </a>
           <p className="text-center text-xs text-zinc-500">
-            Resposta em até 2 horas • Atendimento humanizado 7 dias por semana
+            Atendimento humano • Todos os dias, das 8h às 22h
           </p>
         </div>
       </div>

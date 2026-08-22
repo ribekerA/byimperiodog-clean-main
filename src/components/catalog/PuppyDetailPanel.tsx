@@ -69,11 +69,10 @@ const STATUS_CONFIG = {
 
 const INCLUDED = [
   { icon: "📋", title: "Registro oficial",     desc: "Documento oficial da raça"        },
-  { icon: "❤️", title: "Laudo de saúde",      desc: "Exame veterinário completo"      },
+  { icon: "❤️", title: "Consulta veterinária", desc: "Avaliação clínica e hemograma completo" },
   { icon: "💉", title: "Protocolo vacinal",   desc: "Em dia conforme a idade, carteira assinada pelo médico-veterinário" },
   { icon: "🔖", title: "Identificação do animal", desc: "Identificação individual, conforme os requisitos da legislação aplicável" },
-  { icon: "🎓", title: "Mentoria vitalícia",  desc: "Suporte direto com a criadora"   },
-  { icon: "🧸", title: "Enxoval do filhote",  desc: "Kit de acolhimento incluso"      },
+  { icon: "🎓", title: "Mentoria pós-venda",  desc: "Suporte direto com a criadora"   },
 ];
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
@@ -160,7 +159,7 @@ export default function PuppyDetailPanel({
           {name}
         </h1>
         <p className="mt-1 text-sm text-zinc-500">
-          Spitz Alemão Anão (Lulu da Pomerânia) · Bragança Paulista, SP
+          Spitz Alemão Anão · Bragança Paulista, SP
         </p>
       </motion.div>
 
@@ -276,7 +275,7 @@ export default function PuppyDetailPanel({
         <div className="flex flex-wrap items-center gap-4 rounded-xl border border-zinc-100 bg-zinc-50/60 px-4 py-3">
           {[
             { icon: "🏆", text: `Criando desde ${FOUNDING_YEAR}` },
-            { icon: "👨‍👩‍👧", text: "180+ famílias felizes" },
+            { icon: "📄", text: "Contrato de compra e venda" },
             { icon: "✈️", text: "Entregamos em todo o Brasil" },
           ].map((item) => (
             <div key={item.text} className="flex items-center gap-1.5 text-xs text-zinc-600">

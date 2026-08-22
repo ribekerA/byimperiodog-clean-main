@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   // para caber inteira, mantendo "Lulu da Pomerânia" — que sai do título por
   // falta de espaço, mas é o nome pelo qual a raça é de fato pesquisada.
   description:
-    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, laudo de saúde e mentoria vitalícia. Enviamos para todo o Brasil.",
+    "Canil de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudo de saúde e mentoria pós-venda. Enviamos para todo o Brasil.",
   keywords: [
     "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
     "filhote Spitz Alemão", "canil Bragança Paulista",
@@ -58,18 +58,18 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
+    title: "By Império Dog | Spitz Alemão Anão — Bragança Paulista, SP",
     description:
-      `Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria vitalícia inclusos. Criação desde ${FOUNDING_YEAR}, mais de 180 famílias atendidas.`,
+      `Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos. Criação desde ${FOUNDING_YEAR}, com registro oficial e contrato.`,
     // `/og/home.jpg` nunca existiu: a pasta public/og/ não existe no repositório
     // e o arquivo respondia 404. Toda pré-visualização de link da home saía sem
     // imagem. Agora aponta para o arquivo real de 1200x630.
-    images: [{ url: OG_DEFAULT_IMAGE.url, width: OG_DEFAULT_IMAGE.width, height: OG_DEFAULT_IMAGE.height, alt: "Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog, Bragança Paulista SP" }],
+    images: [{ url: OG_DEFAULT_IMAGE.url, width: OG_DEFAULT_IMAGE.width, height: OG_DEFAULT_IMAGE.height, alt: "Spitz Alemão Anão da By Império Dog, Bragança Paulista SP" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
-    description: "Criação responsável em Bragança Paulista, SP. Registro oficial, laudos e mentoria vitalícia inclusos.",
+    title: "By Império Dog | Spitz Alemão Anão",
+    description: "Criação responsável em Bragança Paulista, SP. Registro oficial, laudos e mentoria pós-venda inclusos.",
     images: [OG_DEFAULT_IMAGE.url],
   },
 };
@@ -97,19 +97,19 @@ const RACE_LINKS = [
 const DIFFERENTIALS = [
   { emoji: "🏅", title: "Registro oficial incluso", body: "Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato." },
   { emoji: "🩺", title: "Saúde documentada", body: "Laudo de saúde, hemograma e protocolo vacinal em dia conforme a idade do filhote, com carteira assinada pelo médico-veterinário." },
-  { emoji: "🏡", title: "Socialização guiada", body: "Criados em ambiente familiar com estímulos visuais, auditivos e de contato desde o nascimento." },
-  { emoji: "💬", title: "Mentoria vitalícia", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
-  { emoji: "🚗", title: "Logística assistida", body: "Orientação completa sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },
-  { emoji: "📋", title: "Lista de enxoval", body: "Lista personalizada de itens, alimentação e rotina entregue antes da chegada do filhote." },
+  { emoji: "🏡", title: "Socialização guiada", body: "Convivência com pessoas, sons e rotinas domésticas, com orientação de ambientação para a chegada na nova casa." },
+  { emoji: "💬", title: "Mentoria pós-venda", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
+  { emoji: "🚗", title: "Transporte orientado", body: "Orientação sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },
+  { emoji: "📋", title: "Lista de enxoval", body: "Lista de itens, alimentação e rotina entregue antes da chegada do filhote." },
 ] as const;
 
 // Prova social — barra de trust signals
 const TRUST_SIGNALS = [
   "Registro oficial",
   "Laudos de saúde",
-  "Mentoria vitalícia inclusa",
+  "Mentoria pós-venda inclusa",
   `Criação desde ${FOUNDING_YEAR}`,
-  "180+ famílias atendidas",
+  "Envio para todo o Brasil",
 ] as const;
 
 // WebSite e Organization saíram daqui: o layout público já emite os dois em
@@ -181,7 +181,7 @@ export default function HomePage() {
                 Conheça os filhotes
               </h2>
               <p className="mt-3 text-sm text-zinc-600 sm:text-base">
-                Cada filhote criado com socialização guiada, alimentação premium e acompanhamento veterinário desde o nascimento.
+                Filhotes disponíveis pela By Império Dog, com acompanhamento veterinário e a documentação descrita em contrato.
               </p>
             </ScrollReveal>
 
@@ -231,7 +231,7 @@ export default function HomePage() {
                             {cover && (
                               <Image
                                 src={cover}
-                                alt={`${puppy.name} — Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel}`}
+                                alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
                                 fill
                                 // O recorte vem medido por foto (src/lib/photo-focus).
                                 // Um valor unico nao serve: o filhote que posa no
@@ -328,7 +328,7 @@ export default function HomePage() {
                 Por que a By Império Dog?
               </h2>
               <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, socializado e com suporte para toda a vida.
+                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
               </p>
             </ScrollReveal>
 

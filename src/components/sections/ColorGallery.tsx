@@ -111,7 +111,7 @@ export default function ColorGallery() {
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src={cor.image}
-                    alt={`Spitz Alemão Anão (Lulu da Pomerânia) ${cor.label}`}
+                    alt={`Spitz Alemão Anão ${cor.label}`}
                     fill
                     sizes="(max-width: 1024px) calc(50vw - 28px), 292px"
                     className="object-cover transition duration-500 group-hover:scale-108"

@@ -6,6 +6,7 @@ import { lastmodFor } from "@/lib/_generated-lastmod";
 import { generatedPosts } from "@/lib/_generated-posts";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { ALL_COLORS, ALL_SEXES } from "@/lib/catalog-utils";
+import { CORES_DIVULGADAS } from "@/domain/pricing";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -92,12 +93,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // preço, fotos) mora em content/puppies-static.ts, então a data do catálogo é
   // a data real delas. Mesma coisa para cor e sexo, que são recortes do mesmo
   // catálogo.
-  const puppyPages: MetadataRoute.Sitemap = staticPuppies.map((p) =>
-    entrada(`/filhotes/${p.slug}`, "weekly", p.status === "available" ? 0.85 : 0.45, "@puppy")
-  );
+  // O filtro por cor divulgada é o que mantém sitemap e vitrine dizendo a
+  // mesma coisa. Cor fora de CORES_DIVULGADAS continua com página no ar — só
+  // deixa de ser oferecida ao rastreador, como já não é oferecida ao visitante.
+  const divulgada = (cor: string) => (CORES_DIVULGADAS as readonly string[]).includes(cor);
+
+  const puppyPages: MetadataRoute.Sitemap = staticPuppies
+    .filter((p) => divulgada(p.color))
+    .map((p) => entrada(`/filhotes/${p.slug}`, "weekly", p.status === "available" ? 0.85 : 0.45, "@puppy"));
 
   // ─── Color landing pages ─────────────────────────────────────────────────────
-  const colorPages: MetadataRoute.Sitemap = ALL_COLORS.map((cor) =>
+  const colorPages: MetadataRoute.Sitemap = ALL_COLORS.filter(divulgada).map((cor) =>
     entrada(`/filhotes/cor/${cor}`, "weekly", 0.80, "@color")
   );
 

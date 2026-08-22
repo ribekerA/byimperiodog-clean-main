@@ -309,7 +309,7 @@ export default function LeadForm({ context, className }: Props) {
             type="text"
             {...register("cor_preferida")}
             className="w-full rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm placeholder:text-[var(--text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
-            placeholder="Ex: branco, creme, preto, particolor..."
+            placeholder="Branco, creme, preto, laranja ou sem preferência"
           />
         </div>
       </div>
@@ -392,11 +392,11 @@ export default function LeadForm({ context, className }: Props) {
       {/* Prova social + garantia de resposta (CRO: reduz ansiedade antes do clique) */}
       <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-xl bg-emerald-50 px-3 py-2">
         <span className="flex items-center gap-1 text-xs text-emerald-800">
-          <span aria-hidden="true">⚡</span> Resposta em até 2 horas no horário de atendimento (todos os dias, 8h–22h)
+          <span aria-hidden="true">⚡</span> Atendimento humano todos os dias, das 8h às 22h
         </span>
         <span className="hidden text-emerald-300 sm:inline" aria-hidden="true">·</span>
         <span className="flex items-center gap-1 text-xs text-emerald-800">
-          <span aria-hidden="true">🐾</span> Mais de 180 famílias atendidas em todo o Brasil
+          <span aria-hidden="true">🐾</span> Atendemos famílias em todo o Brasil
         </span>
       </div>
 

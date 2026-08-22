@@ -11,10 +11,10 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Preto — Preço, Disponibilidade e Filhotes",
+  title: "Spitz Alemão Anão Preto — Preço e Filhotes",
   description:
     // 215 caracteres. Reescrita em 157.
-    "O Spitz Alemão Anão Preto é a cor de menor disponibilidade nas ninhadas da By Império Dog. Veja preço, o que exigir do criador e filhotes com registro oficial.",
+    "O Spitz Alemão Anão Preto é a cor de menor disponibilidade nas ninhadas da By Império Dog. Veja preço, o que exigir do criador e o registro oficial.",
   keywords: [
     "Spitz Alemão preto",
     "Lulu da Pomerânia preto",
@@ -127,7 +127,7 @@ export default function SpitzAlemaoPretoPage() {
           </div>
         </div>
         <ul className="space-y-1.5 text-sm text-zinc-700">
-          {["Registro oficial", "Laudo de saúde", "Hemograma", "Protocolo vacinal em dia", "Identificação conforme a legislação aplicável", "Contrato", "Mentoria vitalícia"].map((i) => (
+          {["Registro oficial", "Laudo de saúde", "Hemograma", "Protocolo vacinal em dia", "Identificação conforme a legislação aplicável", "Contrato", "Mentoria pós-venda"].map((i) => (
             <li key={i} className="flex items-center gap-2"><span className="text-emerald-600">✓</span>{i}</li>
           ))}
         </ul>

@@ -17,27 +17,27 @@ export function PuppyBenefits() {
     {
       icon: Stethoscope,
       title: "Acompanhamento veterinário completo",
-      description: "Exames genéticos, laudos de saúde e protocolo de vacinação com documentação digital.",
+      description: "Laudo de saúde, hemograma e protocolo vacinal conforme a idade, com a documentação entregue junto ao filhote.",
     },
     {
       icon: Heart,
-      title: "Socialização guiada desde o nascimento",
+      title: "Socialização em ambiente familiar",
       description: "Exposição controlada a estímulos, pessoas e ambientes para filhote equilibrado.",
     },
     {
       icon: Sparkles,
-      title: "Mentoria vitalícia para tutores",
+      title: "Mentoria pós-venda para tutores",
       description: "Suporte contínuo via WhatsApp com orientações sobre rotina, nutrição e comportamento.",
     },
     {
       icon: Shield,
-      title: "Garantia de saúde e procedência",
-      description: "Contrato detalhado, registro oficial e rastreabilidade completa da linhagem.",
+      title: "Documentação e procedência",
+      description: "Contrato de compra e venda, registro oficial e linhagem declarada perante a entidade emissora.",
     },
     {
       icon: Video,
-      title: "Chamadas de vídeo antes da entrega",
-      description: "Conheça o filhote, veja sua personalidade e tire todas as dúvidas online.",
+      title: "Fotos e vídeos do filhote",
+      description: "Você acompanha o filhote pelo WhatsApp e tira dúvidas direto com a criadora.",
     },
     {
       icon: Award,

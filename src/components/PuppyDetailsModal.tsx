@@ -159,7 +159,7 @@ export default function PuppyDetailsModal({ puppy: rawPuppy, onClose }: Props) {
                     </span>
                   </div>
                 )}
-                {puppy.averageRating && (
+                {puppy.reviewCount > 0 && puppy.averageRating > 0 && (
                   <div className="flex items-center gap-2">
                     <PawPrint className="h-4 w-4 text-amber-500" aria-hidden="true" />
                     <span className="text-[var(--text)]">
@@ -270,7 +270,7 @@ function normalize(p: any) {
     state: p.state,
     status: p.status,
     // Campos obrigatórios de Puppy preenchidos com valores padrão se ausentes
-    breed: p.breed || "Spitz Alemão Anão (Lulu da Pomerânia)",
+    breed: p.breed || "Spitz Alemão Anão",
     size: p.size || "mini",
     title: p.title || name,
     currency: p.currency || "BRL",

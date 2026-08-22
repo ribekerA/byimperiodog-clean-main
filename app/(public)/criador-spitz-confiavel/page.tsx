@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     // 256 caracteres: o Google mostra ~160 e cortava a frase no meio. Reescrita
     // em 153 sem perder nenhum termo de busca — só a repetição do que já está
     // no title e no H1.
-    `Como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia): o que exigir, como evitar golpes e o que a By Império Dog entrega desde ${FOUNDING_YEAR}.`,
+    `Como escolher um criador confiável de Spitz Alemão Anão: o que exigir, como evitar golpes e o que a By Império Dog entrega desde ${FOUNDING_YEAR}.`,
   keywords: [
     "criador Spitz Alemão Anão confiável SP",
     "melhor canil Lulu da Pomerânia interior SP",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     title: "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
     description:
-      `Criação responsável desde ${FOUNDING_YEAR}, mais de 180 famílias atendidas, registro oficial e mentoria vitalícia. Saiba como identificar um criador confiável.`,
+      `Criação responsável desde ${FOUNDING_YEAR}, com registro oficial, laudo de saúde e mentoria pós-venda. Saiba como identificar um criador confiável.`,
     type: "article",
   },
 };
@@ -44,27 +44,27 @@ export const metadata: Metadata = {
 // verificadas do canil, então qualquer média exibida aqui seria inventada.
 const CREDENTIALS = [
   { label: "Desde",        value: String(FOUNDING_YEAR), note: "Criação especializada em Spitz Alemão Anão" },
-  { label: "Famílias",     value: "180+",    note: "Mais de 180 famílias atendidas em todo o Brasil" },
+  { label: "Atendimento",  value: "Todo o Brasil", note: "Envio e acompanhamento para famílias de qualquer estado" },
   { label: "Registro",     value: "Incluso", note: "Emissão e entrega conforme o prazo da entidade responsável" },
-  { label: "Mentoria",     value: "Vitalícia", note: "Suporte direto com a criadora após a entrega" },
+  { label: "Mentoria",     value: "Pós-venda", note: "Suporte direto com a criadora após a entrega" },
 ] as const;
 
 const WHAT_MAKES_RESPONSIBLE = [
   {
-    title: "Planejamento genético documentado",
-    body: "Criador responsável planeja os cruzamentos com base em laudos genéticos, histórico de saúde e padrão racial — não apenas na aparência. Na By Império Dog, matrizes e padreadores têm acompanhamento veterinário e laudo de saúde antes de cada ninhada.",
+    title: "Planejamento de cruzamentos",
+    body: "Criador responsável planeja os cruzamentos com base no histórico de saúde e no padrão racial — não apenas na aparência. Vale perguntar como a seleção dos pais foi feita antes de fechar a reserva.",
   },
   {
-    title: "Socialização desde o primeiro dia",
-    body: "Filhotes que crescem integrados à rotina familiar desenvolvem temperamento equilibrado. Na By Império Dog, os filhotes nascem e vivem dentro de casa, convivendo com crianças, adultos, sons e rotinas domésticas diárias.",
+    title: "Socialização em ambiente familiar",
+    body: "Filhotes que convivem com a rotina de uma casa tendem a desenvolver temperamento equilibrado. Vale perguntar ao criador como foi a convivência do filhote com pessoas, sons e rotinas domésticas.",
   },
   {
-    title: "Transparência total em documentação",
+    title: "Transparência na documentação",
     body: "Todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
-    title: "Suporte real e vitalício",
-    body: "Responsabilidade não termina na entrega. A By Império Dog oferece mentoria vitalícia direta com a criadora via WhatsApp — orientação sobre alimentação, comportamento, saúde e emergências ao longo de toda a vida do animal.",
+    title: "Suporte real depois da entrega",
+    body: "Responsabilidade não termina na entrega. A By Império Dog oferece mentoria pós-venda direta com a criadora via WhatsApp — orientação sobre alimentação, comportamento e cuidados, com encaminhamento ao médico-veterinário quando o caso exigir avaliação profissional.",
   },
   {
     title: "Seleção criteriosa de famílias",
@@ -84,12 +84,12 @@ const PAGE_FAQS = [
   {
     question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}, já atendeu mais de 180 famílias e entrega registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria vitalícia. Peça essa mesma lista a qualquer criador antes de decidir.`,
+      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão desde ${FOUNDING_YEAR} e entrega registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria pós-venda. Peça essa mesma lista a qualquer criador antes de decidir.`,
   },
   {
     question: "Como saber se um criador de Spitz Alemão Anão é confiável?",
     answer:
-      "Um criador confiável: tem presença online consistente com histórico real de filhotes, fornece registro oficial (não apenas prometido), apresenta laudos de saúde dos pais, permite visita ou videochamada, tem contrato claro com garantia de saúde, e oferece suporte pós-venda. Desconfie de preços muito baixos, sem visita permitida ou sem documentação completa.",
+      "Um criador confiável: tem presença online consistente com histórico real de filhotes, fornece registro oficial (não apenas prometido), apresenta o acompanhamento veterinário do filhote, informa com transparência como a criação pode ser verificada, tem contrato por escrito que descreve as condições e oferece suporte pós-venda. Desconfie de preços muito abaixo da média sem explicação, de quem não informa como verificar a criação e de documentação incompleta.",
   },
   {
     question: "A By Império Dog tem criação com registro oficial?",
@@ -99,7 +99,7 @@ const PAGE_FAQS = [
   {
     question: "Quantos anos de experiência tem a By Império Dog?",
     answer:
-      `A By Império Dog iniciou a criação de Spitz Alemão Anão (Lulu da Pomerânia) em ${FOUNDING_YEAR} e se dedica exclusivamente à raça desde então. Ao longo desse período, mais de 180 famílias foram atendidas em todo o Brasil com filhotes documentados e com suporte vitalício.`,
+      `A By Império Dog iniciou a criação de Spitz Alemão Anão em ${FOUNDING_YEAR} e se dedica exclusivamente à raça desde então. Ao longo desse período, atendeu famílias em todo o Brasil com filhotes documentados e com suporte pós-venda.`,
   },
   {
     question: "Qual a diferença entre um canil e um criador responsável?",
@@ -139,7 +139,7 @@ export default function CriadorConfiavelPage() {
       <header className="space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável desde {FOUNDING_YEAR}</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Criador de Spitz Alemão Anão (Lulu da Pomerânia) confiável em SP
+          Criador de Spitz Alemão Anão confiável em SP
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
           Aprenda a diferenciar um criador responsável de um irresponsável, conheça os critérios que definem uma criação séria e veja o que a By Império Dog entrega por escrito — criação de Spitz Alemão Anão no interior de São Paulo desde {FOUNDING_YEAR}.
@@ -189,7 +189,7 @@ export default function CriadorConfiavelPage() {
           By Império Dog — criação familiar em Bragança Paulista, SP
         </h2>
         <p className="text-sm text-zinc-700 sm:text-base" itemProp="description">
-          Fundada em {FOUNDING_YEAR} pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Nossos filhotes nascem e crescem dentro de casa, ao lado da família, com socialização diária e cuidado individual. Mantemos poucos cães adultos para garantir atenção personalizada a cada ninhada.
+          Fundada em {FOUNDING_YEAR} pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Os filhotes disponíveis pela By Império Dog são acompanhados por médico-veterinário e entregues com a documentação descrita em contrato. O atendimento é individual, direto com a criadora.
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {[
@@ -202,7 +202,7 @@ export default function CriadorConfiavelPage() {
             "Hemograma e acompanhamento veterinário antes da entrega",
             "Socialização com crianças, sons e rotina doméstica",
             "Contrato assinado antes da entrega, com as condições por escrito",
-            "Mentoria vitalícia e pós-venda para todos os tutores",
+            "Mentoria pós-venda e pós-venda para todos os tutores",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-zinc-800">
               <span className="mt-0.5 text-emerald-600" aria-hidden>✓</span>

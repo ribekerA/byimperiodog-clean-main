@@ -112,7 +112,7 @@ export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a $
  * próprias.
  */
 export const RESPOSTA_QUANTO_CUSTA =
-  "Os valores dos filhotes de Spitz Alemão Anão (Lulu da Pomerânia) variam de " +
+  "Os valores dos filhotes de Spitz Alemão Anão variam de " +
   `${FAIXA_PUBLICA_TEXTO}, conforme sexo e cor. Machos: laranja ${formatarPreco(
     TABELA_DE_PRECOS.laranja.macho
   )}; creme e preto ${formatarPreco(TABELA_DE_PRECOS.creme.macho)}; branco ${formatarPreco(
@@ -131,7 +131,7 @@ export const RESPOSTA_QUANTO_CUSTA =
  * Aqui sobra o que é verificável: disponibilidade e valor.
  */
 export const RESPOSTA_PRETO =
-  "O Spitz Alemão Anão (Lulu da Pomerânia) preto pode apresentar menor disponibilidade em " +
+  "O Spitz Alemão Anão preto pode apresentar menor disponibilidade em " +
   `determinados períodos. Os valores atuais são ${formatarPreco(TABELA_DE_PRECOS.preto.macho)} para machos e ` +
   `${formatarPreco(TABELA_DE_PRECOS.preto.femea)} para fêmeas, sujeitos à disponibilidade.`;
 

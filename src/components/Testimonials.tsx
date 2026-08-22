@@ -8,6 +8,7 @@ import { BLUR_DATA_URL } from "@/lib/placeholders";
 
 import { captionFor } from "./clientPhotoCaptions";
 import CLIENT_PHOTOS, { type ClientPhoto } from "./clientPhotos";
+import { descreverCaes } from "./clientPhotoScenes";
 
 // Álbum de fotos das famílias clientes.
 //
@@ -65,12 +66,20 @@ export default function Testimonials({
   // seja, era atribuída à foto pela posição no carrossel — não pela origem real
   // da família. Agora o nome e a cidade vêm do mapa de legendas, um por um; sem
   // entrada no mapa, alt e legenda descrevem só o que a foto mostra.
+  // O alt tinha dois textos genéricos para 34 das 37 fotos: quem usa leitor de
+  // tela ouvia a mesma frase 34 vezes e não distinguia uma foto da outra. Agora
+  // a cor e a quantidade de cães vêm de clientPhotoScenes.ts, conferido foto a
+  // foto — o que muda o alt é a imagem, não o palpite.
   const altFor = useCallback((p: string) => {
     const caption = captionFor(p);
-    if (caption) return `${caption.name}, de ${caption.city}, com o seu Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog`;
-    const base = p.split("/").pop() || "";
-    if (/^cliente/i.test(base)) return "Família cliente da By Império Dog com seu filhote";
-    return "Spitz Alemão Anão (Lulu da Pomerânia) com a família cliente da By Império Dog";
+    const caes = descreverCaes(p);
+
+    if (caption) {
+      const sujeito = caes ?? "o seu Spitz";
+      return `${caption.name}, de ${caption.city}, com ${sujeito}`;
+    }
+    if (caes) return `Família cliente da By Império Dog com ${caes}`;
+    return "Família cliente da By Império Dog com o seu Spitz Alemão Anão";
   }, []);
 
   const abrir = useCallback((i: number, gatilho: HTMLButtonElement | null) => {

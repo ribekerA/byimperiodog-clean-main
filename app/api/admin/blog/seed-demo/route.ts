@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         title: "Como cuidar do seu Spitz Alemão Anão",
         subtitle: "Dicas práticas para os primeiros meses",
         excerpt:
-          "Guia rápido para alimentação, higiene, vacinas e rotina do seu Spitz Alemão Anão (Lulu da Pomerânia).",
+          "Guia rápido para alimentação, higiene, vacinas e rotina do seu Spitz Alemão Anão.",
         cover_url: "/spitz-hero-desktop.webp",
         content_mdx:
           "# Alimentação\n\n- Ração de qualidade para filhotes\n- 3 a 4 pequenas refeições\n- Água fresca sempre disponível\n\n## Higiene e escovação\n\nEscove 2–3x por semana e use produtos próprios para pets.\n\n## Rotina e enriquecimento\n\nPasseios curtos, brinquedos interativos e reforço positivo.\n",

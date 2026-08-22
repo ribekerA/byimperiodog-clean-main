@@ -57,15 +57,15 @@ export function buildWhatsAppLink(options?: WhatsAppLinkOptions): string {
 }
 
 export const WHATSAPP_MESSAGES = {
-  default: "Ola! Tenho interesse em um Spitz Alemao Anao.",
+  default: "Olá! Tenho interesse em um Spitz Alemão Anão.",
   blog: (postTitle: string) =>
-    `Ola! Li o artigo "${postTitle}" no blog da By Império Dog e quero receber orientacoes personalizadas.`,
+    `Olá! Li o artigo "${postTitle}" no blog da By Império Dog e fiquei com algumas dúvidas.`,
   filhotes: (puppyName?: string) =>
     puppyName
-      ? `Ola! Quero saber mais sobre o Spitz ${puppyName}. Poderia me enviar disponibilidade e valores?`
-      : "Ola! Quero conversar sobre os Spitz Alemao Anao sob consulta.",
-  contato: "Ola! Gostaria de tirar duvidas sobre o processo By Império Dog.",
-  sobre: "Ola! Quero conhecer mais sobre a criadora e o acompanhamento vitalicio.",
+      ? `Olá! Quero saber mais sobre o Spitz ${puppyName}. Poderia me enviar disponibilidade e valores?`
+      : "Olá! Quero conversar sobre os Spitz Alemão Anão sob consulta.",
+  contato: "Olá! Gostaria de tirar dúvidas sobre o processo By Império Dog.",
+  sobre: "Olá! Quero conhecer mais sobre a criadora e o acompanhamento pós-venda.",
 } as const;
 
 type LeadForMessage = {
