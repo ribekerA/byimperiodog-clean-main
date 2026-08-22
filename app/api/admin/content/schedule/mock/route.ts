@@ -3,7 +3,7 @@ import { requireAdmin } from '@/lib/adminAuth';
 
 // Endpoint mock: aceita POST { title, date } e responde 204. Sem persistência real.
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:write" });
   if (auth) return auth; // 401 se não autenticado
   try {
     const body = await req.json().catch(()=>({}));

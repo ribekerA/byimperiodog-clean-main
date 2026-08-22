@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { puppiesPublicados } from "@/content/puppies-static";
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
 import { buildLocalBusinessLD, buildItemListLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -61,10 +62,10 @@ export default function FilhotesPage() {
 
   return (
     <>
-      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
-      <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
-      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(businessLd) }} />
+      <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(itemListLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbLd) }} />
+      <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(faqLd) }} />
 
       <StaticCatalog puppies={puppiesPublicados as any[]} />
 

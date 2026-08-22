@@ -2,21 +2,19 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
+import { requireAdminApi } from '@/lib/adminAuth';
 
 interface PublishBody { id?: string; slug?: string }
 
 /**
  * POST /api/admin/blog/publish
  * Body: { id?: string; slug?: string }
- * Header: x-admin-token = ADMIN_TOKEN (ou DEBUG_TOKEN fallback)
+ * Auth: sessao admin assinada com permissao blog:write, ou ADMIN_PASS em x-admin-pass
  * Ação: status -> published (trigger preenche published_at se null)
  */
 export async function POST(req: NextRequest) {
-  const tokenHeader = req.headers.get('x-admin-token');
-  const adminToken = process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN;
-  if (!adminToken || tokenHeader !== adminToken) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  }
+  const guard = await requireAdminApi(req, { permission: 'blog:write' });
+  if (guard) return guard;
   if (!hasServiceRoleKey()) {
     return NextResponse.json({ error: 'missing-service-role-key' }, { status: 500 });
   }

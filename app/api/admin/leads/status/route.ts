@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   const { id, status } = (await req.json().catch(() => ({}))) as { id?: string; status?: string };

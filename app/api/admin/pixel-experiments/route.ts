@@ -24,7 +24,7 @@ const supabaseAdmin = (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPAB
 
 export async function GET(request: NextRequest) {
   try {
-    const authError = requireAdmin(request);
+    const authError = await requireAdmin(request, { permission: "settings:read" });
     if (authError) {
       return authError;
     }
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const authError = requireAdmin(request);
+    const authError = await requireAdmin(request, { permission: "settings:write" });
     if (authError) {
       return authError;
     }

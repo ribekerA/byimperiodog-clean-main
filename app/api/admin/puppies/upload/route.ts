@@ -120,7 +120,7 @@ const execute = safeAction({
 });
 
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "cadastros:write" }); if(auth) return auth;
   // Limit uploads to prevent abuse: 6/min per IP
   try { await rateLimit(req as unknown as Request, { identifier: 'admin-puppies-upload', limit: 6, windowMs: 60_000 }); } catch {
     return NextResponse.json({ error:'rate-limit' },{ status:429 });

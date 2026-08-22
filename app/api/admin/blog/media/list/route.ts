@@ -6,7 +6,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 export const dynamic = "force-dynamic"; // evitar cache
 
 export async function GET(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:read" });
   if (auth) return auth;
   try {
     const url = new URL(req.url);

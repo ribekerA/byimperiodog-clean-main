@@ -10,7 +10,7 @@ import { createZapSignDocument, isConfigured } from "@/lib/zapsign";
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   if (!isConfigured()) {

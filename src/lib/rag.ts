@@ -31,25 +31,40 @@ function localEmbed(text: string, dim=128): EmbeddingVector {
   return vec.map(v=> v/norm);
 }
 
-export async function embedText(text: string): Promise<EmbeddingVector>{
+interface EmbedOptions {
+  signal?: AbortSignal;
+}
+
+export async function embedTexts(texts: string[], options: EmbedOptions = {}): Promise<EmbeddingVector[]>{
+  if (!texts.length) return [];
   const key = process.env.OPENAI_API_KEY; // not mandatory
   if(!key){
-    return localEmbed(text);
+    return texts.map((text) => localEmbed(text));
   }
   try {
-    const r = await fetch('https://api.openai.com/v1/embeddings',{ method:'POST', headers:{ 'Authorization':`Bearer ${key}`,'Content-Type':'application/json' }, body: JSON.stringify({ model:'text-embedding-3-small', input: text }) });
+    const r = await fetch('https://api.openai.com/v1/embeddings',{ method:'POST', headers:{ 'Authorization':`Bearer ${key}`,'Content-Type':'application/json' }, body: JSON.stringify({ model:'text-embedding-3-small', input: texts }), signal: options.signal });
     if(!r.ok) throw new Error('openai error');
     const j = await r.json();
-    return j.data[0].embedding as number[];
+    const rows = (j.data ?? []) as Array<{ index?: number; embedding?: number[] }>;
+    const ordered = [...rows].sort((a, b) => (a.index ?? 0) - (b.index ?? 0));
+    if (ordered.length !== texts.length || ordered.some((row) => !Array.isArray(row.embedding))) {
+      throw new Error('invalid embeddings response');
+    }
+    return ordered.map((row) => row.embedding as number[]);
   } catch(e){
     console.warn('[rag] embedding fallback', e);
-    return localEmbed(text);
+    return texts.map((text) => localEmbed(text));
   }
 }
 
-export async function rankChunks(query: string, chunks: BlogChunk[], topK=5){
+export async function embedText(text: string, options: EmbedOptions = {}): Promise<EmbeddingVector>{
+  const [embedding] = await embedTexts([text], options);
+  return embedding ?? localEmbed(text);
+}
+
+export async function rankChunks(query: string, chunks: BlogChunk[], topK=5, options: EmbedOptions = {}){
   if(!chunks.length) return [] as { chunk:BlogChunk; score:number }[];
-  const qEmb = await embedText(query);
+  const qEmb = await embedText(query, options);
   return chunks
     .filter(c=> c.embedding)
     .map(c=> ({ chunk:c, score: cosine(qEmb, c.embedding as EmbeddingVector) }))

@@ -1,4 +1,6 @@
 // components/SeoArticle.tsx
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
+
 export function SeoArticle({ title, description, url, published, modified, author, faq, howTo }:{
   title:string; description:string; url:string; published:string; modified:string;
   author:{ name:string }; faq?: { question:string; answer:string }[];
@@ -34,9 +36,9 @@ export function SeoArticle({ title, description, url, published, modified, autho
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(article) }} />
-      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      {howToSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }} />}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(article) }} />
+      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(faqSchema) }} />}
+      {howToSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(howToSchema) }} />}
     </>
   );
 }

@@ -4,7 +4,7 @@ import { recalcDemandPredictions } from "@/lib/ai/demand-prediction";
 import { requireAdmin } from "@/lib/adminAuth";
 
 export async function POST(req: Request) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:write" });
   if (guard) return guard;
   try {
     const result = await recalcDemandPredictions();

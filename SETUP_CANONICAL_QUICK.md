@@ -118,7 +118,7 @@ export default function DynamicPage() {
 
   useEffect(() => {
     // Calcular canonical baseado em state/props
-    setCanonical('https://www.canilspitzalemao.com.br/...');
+    setCanonical('https://byimperiodog.com.br/...');
   }, []);
 
   return (
@@ -152,10 +152,10 @@ npm run dev
 
 ```bash
 # Verificar canonical
-curl -s https://www.canilspitzalemao.com.br/filhotes | grep canonical
+curl -s https://byimperiodog.com.br/filhotes | grep canonical
 
 # Esperado:
-# <link rel="canonical" href="https://www.canilspitzalemao.com.br/filhotes" />
+# <link rel="canonical" href="https://byimperiodog.com.br/filhotes" />
 ```
 
 ### SEO Audit

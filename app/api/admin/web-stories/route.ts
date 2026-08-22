@@ -3,8 +3,13 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { requireAdminApi } from "@/lib/adminAuth";
+import { webStoryInputSchema } from "@/lib/webStoryAmp";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const guard = await requireAdminApi(req, { permission: "blog:read" });
+  if (guard) return guard;
+
   try {
     const supabase = supabaseAdmin();
 
@@ -26,18 +31,21 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const guard = await requireAdminApi(request, { permission: "blog:write" });
+  if (guard) return guard;
+
   try {
     const supabase = supabaseAdmin();
-    const body = await request.json();
+    const parsed = webStoryInputSchema.safeParse(await request.json());
 
-    const { title, slug, publisher, poster_url, logo_url, status, pages } = body;
-
-    if (!title || !slug || !publisher || !poster_url || !logo_url) {
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Campos obrigatórios faltando" },
+        { error: "Dados da Web Story inválidos", details: parsed.error.flatten() },
         { status: 400 }
       );
     }
+
+    const { title, slug, publisher, poster_url, logo_url, status, pages } = parsed.data;
 
     // Verifica se o slug já existe
     const { data: existing } = await supabase
@@ -61,8 +69,8 @@ export async function POST(request: NextRequest) {
         publisher,
         poster_url,
         logo_url,
-        status: status || "draft",
-        pages: pages || [],
+        status,
+        pages,
       })
       .select()
       .single();

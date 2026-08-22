@@ -91,7 +91,7 @@ function mapPayload(body: TrackingRequestPayload) {
 }
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "settings:read" });
   if (guard) return guard;
 
   const env = sanitizeEnvironment(req.nextUrl.searchParams.get("environment"));
@@ -105,7 +105,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "settings:write" });
   if (guard) return guard;
 
   let body: TrackingRequestPayload;

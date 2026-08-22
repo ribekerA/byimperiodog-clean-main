@@ -76,7 +76,7 @@ function injectImageAfterH2(mdx: string, heading: string, imageUrl: string): str
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

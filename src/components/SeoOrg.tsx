@@ -1,4 +1,6 @@
 // components/SeoOrg.tsx
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
+
 export function SeoOrg() {
   const json = {
     "@context": "https://schema.org",
@@ -18,5 +20,5 @@ export function SeoOrg() {
       "availableLanguage": ["pt-BR"]
     }]
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(json) }} />;
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(json) }} />;
 }

@@ -9,7 +9,7 @@ interface ScheduleBody { post_id:string; run_at:string; action?:'publish'; overw
 // POST /api/admin/blog/schedule  -> agenda publicação futura
 // Body: { post_id, run_at (ISO), action?="publish", overwrite? } 
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   let body: unknown = {};
   try { body = await req.json(); } catch { body = {}; }
   const { post_id, run_at, action='publish', overwrite=false } = (body as ScheduleBody);
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest){
 
 // GET /api/admin/blog/schedule?post_id=... -> lista eventos futuros pendentes
 export async function GET(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:read" }); if(auth) return auth;
   const url = new URL(req.url);
   const postId = url.searchParams.get('post_id');
   const sb = supabaseAdmin();

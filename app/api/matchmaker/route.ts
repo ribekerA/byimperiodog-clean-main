@@ -12,10 +12,18 @@ export const dynamic = "force-dynamic";
 
 import type { NextRequest } from "next/server";
 import OpenAI from "openai";
+import { z } from "zod";
 
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { formatPrice } from "@/lib/catalog-utils";
+import { rateLimitRequest, tooManyRequests } from "@/lib/rateLimitDurable";
+import {
+  RequestBodyError,
+  readJsonWithLimit,
+  UpstreamTimeoutError,
+  withTimeout,
+} from "@/lib/requestGuards";
 
 // ─── Catálogo ──────────────────────────────────────────────────────────────────
 // Gerado a partir de content/puppies-static.ts (mesma fonte do catálogo público)
@@ -185,15 +193,35 @@ Quando convidar para deixar contato (só UMA vez, só depois de pelo menos 1 tro
 
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
-export async function POST(req: NextRequest) {
-  let messages: Array<{ role: "user" | "assistant"; content: string }>;
+const requestSchema = z.object({
+  messages: z.array(z.object({
+    role: z.enum(["user", "assistant"]),
+    content: z.string().trim().min(1).max(2_000),
+  })).min(1).max(30),
+}).strict();
 
+export async function POST(req: NextRequest) {
+  const rate = await rateLimitRequest(req, {
+    scope: "matchmaker",
+    limit: 20,
+    windowMs: 10 * 60_000,
+  });
+  if (!rate.allowed) return tooManyRequests(rate);
+
+  let rawBody: unknown;
   try {
-    const body = await req.json();
-    messages = body.messages ?? [];
-  } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
+    rawBody = await readJsonWithLimit(req, 64 * 1024);
+  } catch (error) {
+    const status = error instanceof RequestBodyError ? error.status : 400;
+    const code = error instanceof RequestBodyError ? error.code : "invalid_body";
+    return Response.json({ error: "Invalid request body", code }, { status });
   }
+
+  const parsed = requestSchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return Response.json({ error: "Invalid messages", details: parsed.error.issues }, { status: 400 });
+  }
+  const { messages } = parsed.data;
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey || apiKey.includes("placeholder")) {
@@ -209,23 +237,29 @@ export async function POST(req: NextRequest) {
       baseURL: "https://api.groq.com/openai/v1",
     });
 
-    const stream = await client.chat.completions.create({
-      model:       "llama-3.3-70b-versatile",
-      messages:    [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-      stream:      true,
-      max_tokens:  700,
-      temperature: 0.78,
-    });
+    const stream = await withTimeout(
+      (signal) => client.chat.completions.create({
+        model:       "llama-3.3-70b-versatile",
+        messages:    [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+        stream:      true,
+        max_tokens:  700,
+        temperature: 0.78,
+      }, { signal }),
+      30_000,
+      "matchmaker",
+    );
 
     const encoder = new TextEncoder();
     const readable = new ReadableStream({
       async start(controller) {
+        const streamTimeout = setTimeout(() => stream.controller.abort(), 60_000);
         try {
           for await (const chunk of stream) {
             const token = chunk.choices[0]?.delta?.content ?? "";
             if (token) controller.enqueue(encoder.encode(token));
           }
         } finally {
+          clearTimeout(streamTimeout);
           controller.close();
         }
       },
@@ -243,6 +277,12 @@ export async function POST(req: NextRequest) {
     });
   } catch (err: unknown) {
     console.error("[Matchmaker] Groq error:", err);
+    if (err instanceof UpstreamTimeoutError) {
+      return new Response(JSON.stringify({ error: "AI service timed out" }), {
+        status: 504,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
     return new Response(JSON.stringify({ error: "AI service unavailable" }), {
       status: 503,
       headers: { "Content-Type": "application/json" },

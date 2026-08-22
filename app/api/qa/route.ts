@@ -1,11 +1,12 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+import { z } from "zod";
 
-import { embedText, lexicalFallback, rankChunks } from "@/lib/rag";
-import { rateLimit } from "@/lib/rateLimit";
+import { embedTexts, lexicalFallback, rankChunks } from "@/lib/rag";
+import { rateLimitRequest, tooManyRequests } from "@/lib/rateLimitDurable";
+import { RequestBodyError, readJsonWithLimit } from "@/lib/requestGuards";
 import { supabasePublic } from "@/lib/supabasePublic";
 
-interface QaRequestBody { q?: string }
 interface BlogPostRow { id: string; slug: string; title: string; content_mdx?: string | null; excerpt?: string | null }
 interface ChunkCandidate { id: string; slug: string; title: string; content: string; anchor?: string; offset: number; embedding?: number[] }
 
@@ -13,16 +14,22 @@ export const runtime = "edge";
 
 // Simple QA endpoint: retrieves candidate chunks (naive split) then ranks.
 // Simple in-memory embedding cache (query -> vector) ephemeral
-const EMB_CACHE = new Map<string, { v:number[]; t:number }>();
+const requestSchema = z.object({ q: z.string().trim().min(1).max(300) }).strict();
 
 export async function POST(req: Request){
-  const body: QaRequestBody = await req.json().catch(()=>({}));
-  const q: string = (body.q||'').slice(0,300);
-  if(!q) return NextResponse.json({ ok:false, error:'q vazio' }, { status:400 });
-  // Rate limit by IP
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anon';
-  const rl = rateLimit(`qa:${ip}`, { capacity: 8, refillPerSec: 0.05 }); // ~1 nova a cada 20s além do burst
-  if(!rl.allowed) return NextResponse.json({ ok:false, error:'rate_limited', retryAfterSec: Math.ceil((1)/0.05) }, { status:429 });
+  const rate = await rateLimitRequest(req, { scope: "qa", limit: 8, windowMs: 60_000 });
+  if(!rate.allowed) return tooManyRequests(rate);
+
+  let body: unknown;
+  try {
+    body = await readJsonWithLimit(req, 8 * 1024);
+  } catch (error) {
+    const status = error instanceof RequestBodyError ? error.status : 400;
+    return NextResponse.json({ ok:false, error:'invalid_body' }, { status });
+  }
+  const parsed = requestSchema.safeParse(body);
+  if (!parsed.success) return NextResponse.json({ ok:false, error:'q invalido' }, { status:400 });
+  const { q } = parsed.data;
   // Fetch latest published posts (limit for performance)
   const sb = supabasePublic();
   const { data } = await sb.from('blog_posts')
@@ -52,15 +59,18 @@ export async function POST(req: Request){
   const key = process.env.OPENAI_API_KEY;
   if(key){
     try {
-      // Batch embed up to 50 chunks in groups to reduce latency (simplified serial here)
-      for(const c of chunks.slice(0,120)){
-        c.embedding = await embedText(c.content);
-      }
+      // Uma chamada em lote substitui ate 120 chamadas individuais.
+      const candidates = chunks.slice(0,120);
+      const embeddings = await embedTexts(
+        candidates.map((chunk) => chunk.content),
+        { signal: AbortSignal.timeout(15_000) },
+      );
+      candidates.forEach((chunk, index) => { chunk.embedding = embeddings[index]; });
     } catch(e){ /* ignore errors */ }
   }
 
   let ranked: { chunk:any; score:number }[] = [];
-  if(chunks.some((c: ChunkCandidate) => c.embedding)) ranked = await rankChunks(q, chunks, 8); else ranked = lexicalFallback(q, chunks, 8);
+  if(chunks.some((c: ChunkCandidate) => c.embedding)) ranked = await rankChunks(q, chunks, 8, { signal: AbortSignal.timeout(15_000) }); else ranked = lexicalFallback(q, chunks, 8);
 
   // Build answer (extractive: top 2-3 sentences from best chunk)
   const top = ranked[0];

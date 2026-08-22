@@ -6,7 +6,7 @@ import { createSessionWithTasks, listSessions } from '@/lib/aiPipeline';
 interface PostBody { topic:string; phases?:string[]; gamAnonId?:string }
 
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   let body: unknown = {};
   try { body = await req.json(); } catch { body = {}; }
   const { topic, phases, gamAnonId } = (body as PostBody);
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest){
 }
 
 export async function GET(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:read" }); if(auth) return auth;
   const url = new URL(req.url);
   const limit = Number(url.searchParams.get('limit')||20);
   const sessions = await listSessions(Math.min(Math.max(limit,1),100));

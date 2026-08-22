@@ -1,0 +1,48 @@
+# Analise estatica de seguranca do proprio codigo.
+#
+# O CI principal prova que o projeto tipa, testa e compila. Isso nao diz nada
+# sobre injecao, XSS, path traversal ou uso perigoso de API — que e o que o
+# CodeQL procura. Roda no push, no PR e uma vez por semana, porque regra nova
+# do CodeQL encontra defeito em codigo que nao mudou.
+
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Segunda-feira, 06:00 UTC (03:00 em Brasilia).
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analisar:
+    name: Analise
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Preparar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          # Inclui as consultas de qualidade alem das de seguranca.
+          queries: security-and-quality
+
+      - name: Analisar
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"

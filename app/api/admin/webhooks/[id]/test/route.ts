@@ -30,7 +30,7 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const authError = requireAdmin(request);
+    const authError = await requireAdmin(request, { permission: "settings:write" });
     if (authError) {
       return authError;
     }

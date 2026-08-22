@@ -85,7 +85,7 @@ type AuthorRow = {
 const MAX_LIST_ITEMS = 6;
 
 export async function GET(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "dashboard:read" });
   if (auth) return auth;
   const now = Date.now();
   if (cache && now - cache.ts < TTL_MS) {

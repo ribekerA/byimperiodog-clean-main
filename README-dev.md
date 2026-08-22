@@ -109,7 +109,7 @@ Ferramentas adicionadas para agilizar publicação e depuração.
 - Dentro do post em preview (não publicado) aparece um banner com botão "Publicar agora".
 
 ### Endpoints Admin
-Requer header `x-admin-token` igual a `ADMIN_TOKEN` (ou fallback `DEBUG_TOKEN` se `ADMIN_TOKEN` não definido). Necessário também `SUPABASE_SERVICE_ROLE_KEY` configurado.
+Exigem sessao de admin assinada com permissao `blog:write` — o mesmo cookie do painel — ou, para chamada de maquina, o header `x-admin-pass` igual a `ADMIN_PASS` (minimo 24 caracteres). O par `x-admin-token`/`ADMIN_TOKEN` nao vale mais, e o fallback para `DEBUG_TOKEN` foi removido: um token de depuracao nao devia dar escrita no blog. Necessario tambem `SUPABASE_SERVICE_ROLE_KEY` configurado.
 
 1. Publicar post
 ```
@@ -127,10 +127,10 @@ POST /api/admin/revalidate
 Body: { path?: "/blog" } ou { slug: "meu-post" }
 ```
 
-Exemplo curl (PowerShell use `$env:ADMIN_TOKEN`):
+Exemplo curl (PowerShell use `$env:ADMIN_PASS`):
 ```bash
 curl -X POST \
-	-H "x-admin-token: $ADMIN_TOKEN" \
+	-H "x-admin-pass: $ADMIN_PASS" \
 	-H "Content-Type: application/json" \
 	-d '{"slug":"meu-post"}' \
 	http://localhost:3000/api/admin/blog/publish

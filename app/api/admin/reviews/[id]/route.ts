@@ -8,11 +8,15 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { requireAdminApi } from "@/lib/adminAuth";
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const guard = await requireAdminApi(req, { permission: "cadastros:write" });
+  if (guard) return guard;
+
   const { id } = params;
   if (!id) return NextResponse.json({ error: "id obrigatório" }, { status: 400 });
 

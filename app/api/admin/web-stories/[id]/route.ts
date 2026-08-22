@@ -2,11 +2,15 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { requireAdminApi } from "@/lib/adminAuth";
 
 export async function DELETE(
-  _request: Request,
+  request: Request,
   { params }: { params: { id: string } }
 ) {
+  const guard = await requireAdminApi(request, { permission: "blog:write" });
+  if (guard) return guard;
+
   try {
     const supabase = supabaseAdmin();
     const { id } = params;

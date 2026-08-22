@@ -7,7 +7,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // Executa eventos vencidos (publish) até um limite (default 20)
 export async function POST(req: Request){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   const url = new URL(req.url);
   const limit = parseInt(url.searchParams.get('limit')||'20',10);
   const now = new Date().toISOString();

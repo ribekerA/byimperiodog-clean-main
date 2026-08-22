@@ -15,7 +15,7 @@ import {
 } from "@/lib/tracking/validators";
 
 export async function GET(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:read" });
   if (auth) return auth;
   const { data, error } = await supabaseAdmin()
     .from("site_settings")
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth; // 401
 
   const body = await req.json();

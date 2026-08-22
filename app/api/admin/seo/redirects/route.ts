@@ -14,7 +14,7 @@ type RedirectRow = {
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:read" });
   if (auth) return auth;
   const sb = supabaseAdmin();
   if (!sb) return NextResponse.json({ items: [] });
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
   const payload = await req.json();
   const sb = supabaseAdmin();
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
   const { searchParams } = new URL(req.url);
   const from = searchParams.get("from");

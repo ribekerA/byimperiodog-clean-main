@@ -4,7 +4,7 @@ import { recommendPuppiesForLead } from "@/lib/puppyRecommender";
 import { requireAdmin } from "@/lib/adminAuth";
 
 export async function POST(req: Request) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:read" });
   if (guard) return guard;
 
   const { leadId } = await req.json();

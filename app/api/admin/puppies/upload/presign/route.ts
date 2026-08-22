@@ -15,7 +15,7 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "cadastros:write" }); if(auth) return auth;
   try { await rateLimit(req as unknown as Request, { identifier: 'admin-puppies-presign', limit: 12, windowMs: 60_000 }); } catch {
     return NextResponse.json({ error:'rate-limit' },{ status:429 });
   }

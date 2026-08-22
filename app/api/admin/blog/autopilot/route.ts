@@ -6,7 +6,7 @@ import { requireAdminApi } from "@/lib/adminAuth";
 import { applyAutopilotSeo, runAutopilotSeo } from "@/lib/ai/autopilot-seo";
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "blog:read" });
   if (guard) return guard;
   try {
     const result = await runAutopilotSeo();
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "blog:write" });
   if (guard) return guard;
   const body = await req.json().catch(() => ({}));
   if (body.action === "apply") {

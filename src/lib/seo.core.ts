@@ -10,8 +10,9 @@ import { supabasePublic } from './supabasePublic';
  * 2. NEXT_PUBLIC_CANONICAL_ORIGIN (domínio custom para canonical)
  * 3. Fallback: https://byimperiodog.com.br
  * 
- * Para usar domínio canilspitzalemao.com.br:
- * Defina NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.canilspitzalemao.com.br
+ * O domínio canônico é https://byimperiodog.com.br. Em produção nenhuma das
+ * duas variáveis precisa existir: o fallback já é o domínio certo. Elas ficam
+ * para ambiente de teste, quando o site responde em outro host.
  */
 export const SITE_ORIGIN = (
   process.env.NEXT_PUBLIC_CANONICAL_ORIGIN ||
@@ -25,8 +26,7 @@ export const SITE_ORIGIN = (
  */
 export const ALTERNATE_ORIGINS = [
   'https://byimperiodog.com.br',
-  'https://www.canilspitzalemao.com.br',
-  'https://canilspitzalemao.com.br',
+  'https://www.byimperiodog.com.br',
 ].map(url => url.replace(/\/$/, ''));
 
 export function canonical(path: string) {
@@ -210,7 +210,7 @@ export const adminNoIndexMetadata: Metadata = {
  * - Adicionar hreflang tags para cada variação de idioma
  * - Incluir x-default para versão sem prefixo de idioma
  * - Exemplo:
- *   <link rel="alternate" hreflang="pt-BR" href="https://www.canilspitzalemao.com.br/..." />
- *   <link rel="alternate" hreflang="en-US" href="https://www.canilspitzalemao.com.br/en/..." />
- *   <link rel="alternate" hreflang="x-default" href="https://www.canilspitzalemao.com.br/..." />
+ *   <link rel="alternate" hreflang="pt-BR" href="https://byimperiodog.com.br/..." />
+ *   <link rel="alternate" hreflang="en-US" href="https://byimperiodog.com.br/en/..." />
+ *   <link rel="alternate" hreflang="x-default" href="https://byimperiodog.com.br/..." />
  */

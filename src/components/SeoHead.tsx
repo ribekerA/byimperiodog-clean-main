@@ -16,7 +16,7 @@ import { useEffect } from 'react';
  *   return (
  *     <>
  *       <SeoHead 
- *         canonical="https://www.canilspitzalemao.com.br/minha-pagina"
+ *         canonical="https://byimperiodog.com.br/minha-pagina"
  *         title="Mra Página | By Império Dog"
  *         description="Descrição da minha página"
  *       />

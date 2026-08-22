@@ -26,7 +26,7 @@ const ALLOWED = [
 type Body = Partial<Record<typeof ALLOWED[number], string | null>>;
 
 export async function GET(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:read" });
   if (auth) return auth;
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     // Evita falha de prerender no build. Status 200 com placeholder.
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
   const body = (await req.json()) as Body;
   const patch: any = {};

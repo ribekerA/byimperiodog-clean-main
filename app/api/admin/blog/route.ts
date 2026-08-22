@@ -21,7 +21,7 @@ function serverError(error: unknown) {
 }
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:read" });
   if (auth) return auth;
 
   try {
@@ -67,7 +67,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {
@@ -161,7 +161,7 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {
@@ -176,7 +176,7 @@ export async function PATCH(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

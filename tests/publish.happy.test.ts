@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { describe, it, expect, vi } from 'vitest';
 import { POST as publishPost } from '../app/api/admin/blog/publish/route';
 import { makeNextRequestStub } from './helpers/nextRequestStub';
@@ -19,16 +20,22 @@ vi.mock('@/lib/supabaseAdmin', () => ({
   })
 }));
 
+const SEGREDO = 'chave-de-maquina-longa-o-suficiente-2026';
+
 describe('publish endpoint happy path', () => {
   it('publica por id', async () => {
-    process.env.ADMIN_TOKEN = 'secret';
+    process.env.ADMIN_PASS = SEGREDO;
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'k';
-  const req = makeNextRequestStub('http://localhost/api/admin/blog/publish', { method: 'POST', headers: { 'x-admin-token': 'secret', 'content-type': 'application/json' }, body: { id: 'p1' } });
-  // req já possui shape mínimo de NextRequest via helper
-  const res = await publishPost(req as unknown as import('next/server').NextRequest);
-    expect(res.status).toBe(200);
-    const json = await res.json();
-    expect(json.ok).toBe(true);
-    expect(json.post.status).toBe('published');
+    try {
+      const req = makeNextRequestStub('http://localhost/api/admin/blog/publish', { method: 'POST', headers: { 'x-admin-pass': SEGREDO, 'content-type': 'application/json' }, body: { id: 'p1' } });
+      // req já possui shape mínimo de NextRequest via helper
+      const res = await publishPost(req as unknown as import('next/server').NextRequest);
+      expect(res.status).toBe(200);
+      const json = await res.json();
+      expect(json.ok).toBe(true);
+      expect(json.post.status).toBe('published');
+    } finally {
+      delete process.env.ADMIN_PASS;
+    }
   });
 });

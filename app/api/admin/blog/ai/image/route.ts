@@ -23,7 +23,7 @@ function base64ToUploadData(b64: string, mime = "image/png") {
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

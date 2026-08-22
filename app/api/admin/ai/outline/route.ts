@@ -5,7 +5,7 @@ import { createAiTask, updateAiTask } from '@/lib/aiTasks';
 interface OutlineReq { topic:string; scope?:string; keyword?:string; }
 
 export async function POST(req:Request){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   const body = await req.json().catch(()=>({})) as OutlineReq;
   const topic = (body.topic||'').trim();
   if(!topic) return NextResponse.json({ ok:false, error:'topic obrigatório' },{ status:400 });

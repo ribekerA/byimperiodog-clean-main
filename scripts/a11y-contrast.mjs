@@ -22,35 +22,103 @@ async function safeImport(mod) {
   try { return await import(mod); } catch { return null; }
 }
 
-function listRoutes() {
-  if (process.env.FULL_A11Y === '1') {
-    const appDir = path.join(root, 'app');
-  const routes = [];
-  function walk(dir) {
-      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-        if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
-        const full = path.join(dir, entry.name);
-        if (entry.isDirectory()) walk(full);
-        else if (/page\.(tsx?|jsx?)$/i.test(entry.name)) {
-          const rel = path.relative(appDir, path.dirname(full)).replace(/\\/g, '/');
-          const parts = rel.split('/').filter(Boolean).filter(p => !p.startsWith('(') || p.includes('site'));
-          if (!parts.length) routes.push('/'); else {
-            const segs = parts.map(p => (p.startsWith('[') && p.endsWith(']')) ? 'test' : p);
-            routes.push('/' + segs.join('/'));
-          }
-        }
-      }
+// Rotas fixas: páginas que existem de verdade. A lista antiga trazia
+// /filhote/test — URL que nunca existiu, responde 404 e voltava no relatório
+// como "0 falhas de contraste", ou seja, relatório verde sobre página de erro.
+const ROTAS_FIXAS = ['/', '/filhotes', '/sobre', '/contato', '/blog', '/preco-spitz-anao', '/admin/login'];
+
+/** Uma URL real de cada família dinâmica, colhida do sitemap do próprio site. */
+async function fixturesDoSitemap(baseUrl) {
+  const base = baseUrl.replace(/\/$/, '');
+  const ler = async (u) => {
+    try {
+      const r = await fetch(u);
+      if (!r.ok) return '';
+      return await r.text();
+    } catch { return ''; }
+  };
+  let xml = await ler(base + '/sitemap-index.xml');
+  if (!xml.includes('<loc>')) xml = await ler(base + '/sitemap.xml');
+  if (!xml.includes('<loc>')) return [];
+
+  let locs = [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map((m) => m[1]);
+  if (xml.includes('<sitemapindex')) {
+    const filhos = locs;
+    locs = [];
+    for (const filho of filhos) {
+      const caminho = filho.replace(/^https?:\/\/[^/]+/, '');
+      const t = await ler(base + caminho);
+      locs.push(...[...t.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map((m) => m[1]));
     }
-    if (fs.existsSync(appDir)) walk(appDir);
-    return [...new Set(routes)];
   }
-  return ['/', '/sobre', '/contato', '/filhote/test', '/admin'];
+  return [...new Set(locs.map((u) => u.replace(/^https?:\/\/[^/]+/, '')))];
+}
+
+/** Casa uma rota dinâmica de app/ com uma URL publicada de verdade. */
+function slugReal(rotaDinamica, publicadas) {
+  const prefixo = rotaDinamica.split('/[')[0];
+  const profundidade = rotaDinamica.split('/').filter(Boolean).length;
+  return publicadas.find(
+    (u) => u.startsWith(prefixo + '/') && u.split('/').filter(Boolean).length === profundidade
+  ) || null;
+}
+
+async function listRoutes(baseUrl) {
+  const publicadas = await fixturesDoSitemap(baseUrl);
+  const puladas = [];
+
+  if (process.env.FULL_A11Y !== '1') {
+    const routes = [...ROTAS_FIXAS];
+    // Uma página de filhote e um post do blog, sempre com slug publicado.
+    for (const prefixo of ['/filhotes', '/blog', '/guias']) {
+      const real = publicadas.find(
+        (u) => u.startsWith(prefixo + '/') && u.split('/').filter(Boolean).length === 2
+      );
+      if (real) routes.push(real);
+      else puladas.push(prefixo + '/[slug] — sem URL publicada no sitemap');
+    }
+    return { routes: [...new Set(routes)], puladas };
+  }
+
+  // FULL_A11Y: varre app/. Route group — (public), (admin) — é organização de
+  // pasta e não entra na URL, mas a pasta precisa ser percorrida; a versão
+  // anterior filtrava o segmento e, com isso, montava caminhos errados.
+  const appDir = path.join(root, 'app');
+  const estaticas = [];
+  const dinamicas = [];
+
+  function walk(dir, urlPath) {
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    if (entries.some((e) => e.isFile() && /^page\.(tsx|ts|jsx|js)$/i.test(e.name))) {
+      const rota = urlPath === '' ? '/' : urlPath;
+      (rota.includes('[') ? dinamicas : estaticas).push(rota);
+    }
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const nome = entry.name;
+      if (nome === 'node_modules' || nome.startsWith('.') || nome.startsWith('_') || nome.startsWith('@')) continue;
+      if (urlPath === '' && nome === 'api') continue;
+      const grupo = nome.startsWith('(') && nome.endsWith(')');
+      walk(path.join(dir, nome), grupo ? urlPath : urlPath + '/' + nome);
+    }
+  }
+  if (fs.existsSync(appDir)) walk(appDir, '');
+
+  const routes = [...estaticas];
+  for (const dinamica of dinamicas) {
+    const real = slugReal(dinamica, publicadas);
+    // Sem fixture real a rota é pulada. Trocar [slug] por "test" só produzia
+    // 404 disfarçado de aprovação.
+    if (real) routes.push(real);
+    else puladas.push(dinamica + ' — sem slug real disponível');
+  }
+  return { routes: [...new Set(routes)].sort(), puladas };
 }
 
 
 async function run() {
   if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
-  const routes = listRoutes();
+  const { routes, puladas } = await listRoutes(baseUrl);
 
   const playwright = await safeImport('playwright');
   const axe = await safeImport('axe-core');
@@ -64,8 +132,7 @@ async function run() {
       let lastErr;
       for(let i=0;i<attempts;i++){
         try {
-          await page.goto(url, { waitUntil: 'load', timeout: 20000 });
-          return;
+          return await page.goto(url, { waitUntil: 'load', timeout: 20000 });
         } catch(e){
           lastErr = e;
           if(/ERR_CONNECTION_REFUSED|ECONNREFUSED/.test(String(e.message||e))){
@@ -80,7 +147,14 @@ async function run() {
       const page = await context.newPage();
       const urlToVisit = baseUrl.replace(/\/$/, '') + route;
       try {
-        await gotoWithRetry(page, urlToVisit);
+        const resposta = await gotoWithRetry(page, urlToVisit);
+        const status = resposta ? resposta.status() : 0;
+        // Página que não respondeu 200 não gera relatório de contraste: axe
+        // acharia zero violação no HTML de erro e isso viraria "aprovado".
+        if (status !== 200) {
+          results.push({ route, error: `HTTP ${status} em ${urlToVisit} — rota não auditada` });
+          continue;
+        }
         // Injetar axe e executar somente regra de contraste
         const axePath = path.join(root, 'node_modules', 'axe-core', 'axe.min.js');
         if (fs.existsSync(axePath)) {
@@ -265,6 +339,11 @@ async function run() {
       }
     }
   }
+  if (puladas.length) {
+    md.push('');
+    md.push('## Rotas puladas (sem fixture real)');
+    for (const p of puladas) md.push(`- ${p}`);
+  }
   md.push('');
   md.push('## Fixes propostos (tokens neutros)');
   md.push('- Ajustes sugeridos em app/globals.css para tokens: --surface, --surface-2, --border, --text-muted');
@@ -273,9 +352,36 @@ async function run() {
   fs.writeFileSync(reportMdPath, md.join('\n'), 'utf8');
   fs.writeFileSync(patchPath, diff || '# Sem diferenças\n', 'utf8');
 
-  // Saída
+  // Contagem honesta: rota que não carregou é FALHA de execução, não aprovação.
+  const comErro = results.filter((r) => r.error);
+  const seriasPorRota = results
+    .filter((r) => r.violations)
+    .map((r) => ({
+      route: r.route,
+      serias: r.violations
+        .filter((v) => v.id === 'color-contrast' && (v.impact === 'serious' || v.impact === 'critical'))
+        .reduce((acc, v) => acc + v.nodes.length, 0),
+    }));
+  const totalSerias = seriasPorRota.reduce((a, r) => a + r.serias, 0);
+
   console.log(`Relatório: ${path.relative(root, reportMdPath)}`);
   console.log(`Patch:     ${path.relative(root, patchPath)}`);
+  console.log(`Rotas auditadas: ${seriasPorRota.length} | rotas não auditadas: ${comErro.length} | puladas: ${puladas.length}`);
+  for (const r of seriasPorRota.filter((r) => r.serias > 0)) {
+    console.log(`  FALHA ${r.route}: ${r.serias} violação(ões) séria(s) de contraste`);
+  }
+  for (const r of comErro) console.log(`  NAO AUDITADA ${r.route}: ${r.error}`);
+  console.log(`Violações sérias de contraste: ${totalSerias}`);
+
+  if (totalSerias > 0 || comErro.length > 0) {
+    console.log('Resultado: FALHOU');
+    process.exitCode = 1;
+  } else if (!seriasPorRota.length) {
+    console.log('Resultado: NAO EXECUTADO (Playwright/axe indisponível)');
+    process.exitCode = 2;
+  } else {
+    console.log('Resultado: PASSOU');
+  }
 }
 
 run().catch(err => { console.error(err); process.exit(1); });

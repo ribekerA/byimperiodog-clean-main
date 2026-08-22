@@ -7,7 +7,7 @@
 
 ## 📋 RESUMO EXECUTIVO
 
-Foram implementadas **canonical tags automáticas** em todas as páginas públicas do site, com suporte a domínio customizável (`canilspitzalemao.com.br` ou outro).
+Foram implementadas **canonical tags automáticas** em todas as páginas públicas do site, com suporte a domínio customizável (`byimperiodog.com.br` ou outro).
 
 ### ✅ O Que Foi Feito
 
@@ -29,7 +29,7 @@ Foram implementadas **canonical tags automáticas** em todas as páginas públic
 
 ```html
 <!-- Toda página pública tem isto automaticamente -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/seu/caminho" />
+<link rel="canonical" href="https://byimperiodog.com.br/seu/caminho" />
 ```
 
 ### Prioridade de Domínio
@@ -46,11 +46,11 @@ Fallback: https://www.byimperiodog.com.br
 
 | Página | Canonical |
 |--------|-----------|
-| / | https://www.canilspitzalemao.com.br/ |
-| /filhotes | https://www.canilspitzalemao.com.br/filhotes |
-| /blog/meu-artigo | https://www.canilspitzalemao.com.br/blog/meu-artigo |
-| /sobre | https://www.canilspitzalemao.com.br/sobre |
-| /comprar-spitz-anao | https://www.canilspitzalemao.com.br/comprar-spitz-anao |
+| / | https://byimperiodog.com.br/ |
+| /filhotes | https://byimperiodog.com.br/filhotes |
+| /blog/meu-artigo | https://byimperiodog.com.br/blog/meu-artigo |
+| /sobre | https://byimperiodog.com.br/sobre |
+| /comprar-spitz-anao | https://byimperiodog.com.br/comprar-spitz-anao |
 | /admin/* | ❌ (Omitida - noindex) |
 
 ---
@@ -69,7 +69,7 @@ export default function Page() {
   return (
     <>
       <SeoHead
-        canonical="https://www.canilspitzalemao.com.br/minha-pagina"
+        canonical="https://byimperiodog.com.br/minha-pagina"
         title="Meu Título | By Imperio Dog"
         description="Descrição curta"
         ogImage="/og-image.jpg"
@@ -152,20 +152,20 @@ export const SITE_ORIGIN = (
 ```
 Settings → Environment Variables
 
-NEXT_PUBLIC_CANONICAL_ORIGIN = https://www.canilspitzalemao.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN = https://byimperiodog.com.br
 ```
 
 **Option 2: Netlify**
 ```toml
 # netlify.toml
 [build.environment]
-  NEXT_PUBLIC_CANONICAL_ORIGIN = "https://www.canilspitzalemao.com.br"
+  NEXT_PUBLIC_CANONICAL_ORIGIN = "https://byimperiodog.com.br"
 ```
 
 **Option 3: Local**
 ```bash
 # .env.local
-NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.canilspitzalemao.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN=https://byimperiodog.com.br
 ```
 
 ---
@@ -202,13 +202,13 @@ npm run dev
 
 ```bash
 # Verificar canonical em /
-curl -s https://www.canilspitzalemao.com.br/ | grep canonical
+curl -s https://byimperiodog.com.br/ | grep canonical
 
 # Verificar em /filhotes
-curl -s https://www.canilspitzalemao.com.br/filhotes | grep canonical
+curl -s https://byimperiodog.com.br/filhotes | grep canonical
 
 # Esperado:
-# <link rel="canonical" href="https://www.canilspitzalemao.com.br/..." />
+# <link rel="canonical" href="https://byimperiodog.com.br/..." />
 ```
 
 ### 3️⃣ Google Search Console
@@ -338,7 +338,7 @@ export async function generateMetadata({ params }) {
 ### Depois
 ```html
 <!-- ✅ TODAS as páginas públicas têm canonical -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/..." />
+<link rel="canonical" href="https://byimperiodog.com.br/..." />
 
 <!-- ✅ Admin SEM canonical + noindex (correto) -->
 <!-- <meta name="robots" content="noindex, nofollow" /> -->
@@ -358,7 +358,7 @@ export async function generateMetadata({ params }) {
 Sim, sempre use https. Google redireciona http automaticamente.
 
 **P: Posso deixar com www?**  
-Sim, use `https://www.canilspitzalemao.com.br`. Sempre com www se o site usa.
+Sim, use `https://byimperiodog.com.br`. O site responde sem www; o www redireciona para essa versão.
 
 **P: Como mudar domínio depois?**  
 Atualize `NEXT_PUBLIC_CANONICAL_ORIGIN` em env vars → redeploy.

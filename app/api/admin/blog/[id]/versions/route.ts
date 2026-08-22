@@ -7,7 +7,7 @@ export async function GET(
   req: Request,
   context: { params: { id: string } },
 ) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:read" });
   if (auth) return auth;
 
   const postId = context.params.id;

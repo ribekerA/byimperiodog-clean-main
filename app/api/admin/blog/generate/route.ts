@@ -58,7 +58,7 @@ Com amor, rotina e atenção, seu filhote de ${breed} crescerá saudável e feli
 }
 
 export async function POST(req: NextRequest) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

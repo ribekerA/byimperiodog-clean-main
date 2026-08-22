@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 import { ADMIN_SESSION_COOKIE, ADMIN_SESSION_MAX_AGE, signAdminSession } from "@/lib/adminSession";
 import { rateLimit } from "@/lib/rateLimit";
-import { normalizeRole, serializeRoleCookie } from "@/lib/rbac";
+import { normalizeRole } from "@/lib/rbac";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
@@ -50,7 +50,10 @@ export async function POST(req: Request) {
     (authData.user.user_metadata?.full_name as string | undefined) ||
     authData.user.email?.split("@")[0] ||
     "Admin";
-  const role = normalizeRole(adminRow.role);
+  // Linha vinda do banco pelo servidor: e a unica origem que ainda pode cair
+  // em "owner" quando a coluna role esta vazia, porque as linhas existentes sao
+  // anteriores a coluna. Qualquer outro valor irreconhecivel vira viewer.
+  const role = normalizeRole(adminRow.role, "owner");
 
   let sessionToken: string;
   try {
@@ -76,42 +79,14 @@ export async function POST(req: Request) {
     maxAge: ADMIN_SESSION_MAX_AGE,
   });
 
-  cookies().set("admin_auth", "1", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookies().set("adm", "true", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookies().set("admin_email", authData.user.email ?? email, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookies().set("admin_name", displayName, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookies().set("admin_user_id", authData.user.id, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  const roleCookie = serializeRoleCookie(role);
-  cookies().set(roleCookie.name, roleCookie.value, roleCookie.options);
+  // Os cookies admin_auth, adm, admin_role, admin_email, admin_name e
+  // admin_user_id sairam daqui. Nenhum era assinado e dois deles (admin_auth,
+  // adm) valiam como autenticacao no guard das rotas. Identidade, e-mail, nome
+  // e funcao ja viajam dentro do payload coberto pelo HMAC do admin_session; o
+  // resto era copia forjavel do mesmo dado. O logout continua apagando todos,
+  // para encerrar as sessoes que ja tinham esses cookies no navegador.
+  for (const legado of ["admin_auth", "adm", "admin_role", "admin_email", "admin_name", "admin_user_id"]) {
+    cookies().set(legado, "", { httpOnly: true, expires: new Date(0), path: "/" });
+  }
   return res;
 }

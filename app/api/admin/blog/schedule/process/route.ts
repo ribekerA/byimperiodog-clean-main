@@ -9,7 +9,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // POST /api/admin/blog/schedule/process  -> executa eventos vencidos (uso manual / cron externo)
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   const sb = supabaseAdmin();
   const nowIso = new Date().toISOString();
   const { data: events, error } = await sb.from('blog_post_schedule_events')

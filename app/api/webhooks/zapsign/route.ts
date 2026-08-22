@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { type NextRequest, NextResponse } from "next/server";
 
+import { RequestBodyError, readJsonWithLimit } from "@/lib/requestGuards";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // ZapSign envia um POST a cada mudança de status no documento.
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "não autorizado" }, { status: 401 });
     }
 
-    const body = await req.json();
+    const body = await readJsonWithLimit(req, 256 * 1024);
 
     // Estrutura do webhook ZapSign:
     // { token, status, external_id, signed_file, signers: [{ token, status, signed_at }] }
@@ -77,6 +78,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (e) {
+    if (e instanceof RequestBodyError) {
+      return NextResponse.json({ ok: false, error: e.code }, { status: e.status });
+    }
     console.error("[webhook/zapsign]", e);
     return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
   }

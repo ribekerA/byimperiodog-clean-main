@@ -19,7 +19,7 @@ function defaultRobots(origin?: string) {
 }
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:read" });
   if (auth) return auth;
   const sb = supabaseAdmin();
   if (!sb) return NextResponse.json({ robotsTxt: defaultRobots(new URL(req.url).origin) });
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
   const { robotsTxt } = (await req.json()) as { robotsTxt?: string };
   if (!robotsTxt) return NextResponse.json({ error: "missing-robotsTxt" }, { status: 400 });

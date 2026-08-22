@@ -6,7 +6,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 const ENTIDADES = ['spitz','pomerânia','filhote','adulto','treinamento','socialização','alimentação','saúde','grooming','vacina'];
 
 export async function GET(req:Request){
-  const auth = requireAdmin(req as any); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:read" }); if(auth) return auth;
   const url = new URL(req.url); const id = url.searchParams.get('id');
   if(!id) return NextResponse.json({ ok:false, error:'id obrigatório' },{ status:400 });
   try {

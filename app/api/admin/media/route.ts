@@ -7,7 +7,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:read" });
   if (auth) return auth;
   const { searchParams } = new URL(req.url);
   const limit = Number(searchParams.get("limit") || "50");
@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "media:write" });
   if (auth) return auth;
   try {
     const body = await req.json().catch(() => null);

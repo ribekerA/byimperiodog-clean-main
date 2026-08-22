@@ -23,7 +23,7 @@ const execute = safeAction({
 });
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdminApi(req, { permission: "cadastros:write" });
+  const guard = await requireAdminApi(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   try {

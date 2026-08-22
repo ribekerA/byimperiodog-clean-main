@@ -4,7 +4,7 @@ import { requireAdmin } from "@/lib/adminAuth";
 import { approveSuggestion, applySuggestion } from "@/lib/seoSuggestions";
 
 export async function POST(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:write" });
   if (auth) return auth;
 
   const body = await req.json().catch(() => ({}));

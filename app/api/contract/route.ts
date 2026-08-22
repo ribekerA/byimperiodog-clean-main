@@ -3,32 +3,35 @@ export const dynamic = "force-dynamic";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+import { rateLimitRequest, tooManyRequests } from "@/lib/rateLimitDurable";
+import { RequestBodyError, readFormDataWithLimit } from "@/lib/requestGuards";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { rateLimit } from "@/lib/rateLimit";
 
 const STORAGE_BUCKET = "contracts";
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
+const MAX_SIGNATURE_BYTES = 2 * 1024 * 1024;
+const MAX_MULTIPART_BYTES = 24 * 1024 * 1024;
 const ADMIN_EMAIL    = process.env.ADMIN_EMAIL || "byimperiodog@gmail.com";
 
 const payloadSchema = z.object({
-  nome:               z.string().min(3),
-  cpf:                z.string().min(11),
-  rg:                 z.string().optional(),
-  email:              z.string().email().optional().or(z.literal("")),
-  telefone:           z.string().min(10),
-  endereco:           z.string().min(5),
-  nascimento:         z.string().optional(),
-  nome_filhote:       z.string().optional(),
-  cor:                z.string().optional(),
-  sexo:               z.string().optional(),
-  nascimento_filhote: z.string().optional(),
-  ip_timestamp:       z.string().optional(),
-});
+  nome:               z.string().trim().min(3).max(120),
+  cpf:                z.string().trim().min(11).max(20),
+  rg:                 z.string().trim().max(30).optional(),
+  email:              z.string().trim().email().max(254).optional().or(z.literal("")),
+  telefone:           z.string().trim().min(10).max(30),
+  endereco:           z.string().trim().min(5).max(500),
+  nascimento:         z.string().trim().max(20).optional(),
+  nome_filhote:       z.string().trim().max(120).optional(),
+  cor:                z.string().trim().max(80).optional(),
+  sexo:               z.string().trim().max(30).optional(),
+  nascimento_filhote: z.string().trim().max(20).optional(),
+  ip_timestamp:       z.string().trim().max(100).optional(),
+}).strict();
 
 async function uploadFile(sb: ReturnType<typeof supabaseAdmin>, code: string, field: string, file: File): Promise<string | null> {
   if (!file || file.size === 0) return null;
   if (file.size > MAX_FILE_BYTES) throw new Error(`Arquivo ${field} excede 10 MB`);
-  const ext    = file.name.split(".").pop() ?? "bin";
+  const ext    = (file.name.split(".").pop() ?? "bin").replace(/[^a-zA-Z0-9]/g, "").slice(0, 10) || "bin";
   const path   = `${code}/${field}.${ext}`;
   const buffer = Buffer.from(await file.arrayBuffer());
   const { error } = await sb.storage.from(STORAGE_BUCKET).upload(path, buffer, { contentType: file.type, upsert: true });
@@ -40,6 +43,9 @@ async function uploadSignature(sb: ReturnType<typeof supabaseAdmin>, code: strin
   if (!dataUrl || !dataUrl.startsWith("data:image/png")) return null;
   const base64 = dataUrl.split(",")[1];
   if (!base64) return null;
+  if (Math.floor(base64.length * 0.75) > MAX_SIGNATURE_BYTES) {
+    throw new RequestBodyError("Assinatura excede 2 MB", { status: 413, code: "payload_too_large" });
+  }
   const buffer = Buffer.from(base64, "base64");
   const path   = `${code}/assinatura.png`;
   const { error } = await sb.storage.from(STORAGE_BUCKET).upload(path, buffer, { contentType: "image/png", upsert: true });
@@ -48,17 +54,19 @@ async function uploadSignature(sb: ReturnType<typeof supabaseAdmin>, code: strin
 }
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  const rl = rateLimit(`contract-submit:${ip}`, 10, 10 * 60_000);
-  if (!rl.allowed) return NextResponse.json({ error: "Muitas tentativas. Tente novamente em alguns minutos." }, { status: 429 });
+  const rate = await rateLimitRequest(req, { scope: "contract-submit", limit: 10, windowMs: 10 * 60_000 });
+  if (!rate.allowed) return tooManyRequests(rate, "Muitas tentativas. Tente novamente em alguns minutos.");
 
   try {
-    const form       = await req.formData();
+    const form       = await readFormDataWithLimit(req, MAX_MULTIPART_BYTES);
     const code       = String(form.get("code") ?? "").trim();
     const rawPayload = form.get("payload");
     const signatureDataUrl = String(form.get("signature") ?? "");
 
-    if (!code) return NextResponse.json({ error: "Código do contrato ausente" }, { status: 400 });
+    if (!code || code.length > 64) return NextResponse.json({ error: "Código do contrato ausente ou inválido" }, { status: 400 });
+    if (String(rawPayload ?? "").length > 32 * 1024) {
+      return NextResponse.json({ error: "Payload do contrato excede o limite" }, { status: 413 });
+    }
 
     let buyerData: z.infer<typeof payloadSchema>;
     try {
@@ -112,6 +120,7 @@ export async function POST(req: NextRequest) {
     if (resendKey) {
       fetch("https://api.resend.com/emails", {
         method: "POST",
+        signal: AbortSignal.timeout(10_000),
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${resendKey}` },
         body: JSON.stringify({
           from:    `By Império Dog <noreply@byimperiodog.com.br>`,
@@ -124,6 +133,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
+    if (e instanceof RequestBodyError) {
+      return NextResponse.json({ error: e.message, code: e.code }, { status: e.status });
+    }
     const msg = e instanceof Error ? e.message : String(e);
     console.error("[contract/POST]", msg);
     return NextResponse.json({ error: msg }, { status: 500 });

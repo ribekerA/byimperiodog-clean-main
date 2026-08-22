@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { requireAdminApi } from "@/lib/adminAuth";
 
 type ImportBody = {
   title: string;
@@ -24,11 +25,8 @@ function getSupabase() {
 
 export async function POST(req: Request) {
   try {
-    const token = req.headers.get("x-admin-token") || "";
-    const required = process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN || "";
-    if (!required || token !== required) {
-      return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
-    }
+    const guard = await requireAdminApi(req, { permission: "blog:write" });
+    if (guard) return guard;
 
     const body = (await req.json()) as ImportBody;
     if (!body.title || !body.slug) {

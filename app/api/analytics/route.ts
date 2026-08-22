@@ -1,6 +1,9 @@
 export const dynamic = "force-dynamic";
 import { NextResponse, type NextRequest } from 'next/server';
+import { requireAdminApi } from '@/lib/adminAuth';
 
+import { rateLimitRequestMemory, tooManyRequests } from '@/lib/rateLimitDurable';
+import { RequestBodyError, readJsonWithLimit } from '@/lib/requestGuards';
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
 
 
@@ -14,10 +17,16 @@ export async function POST(req: NextRequest) {
   if (process.env.DISABLE_ANALYTICS === '1') {
     return NextResponse.json({ disabled: true }, { status: 202 });
   }
+  const rate = rateLimitRequestMemory(req, { scope: 'analytics', limit: 120, windowMs: 60_000 });
+  if (!rate.allowed) return tooManyRequests(rate);
+
   let body: unknown = null;
   try {
-    body = await req.json();
-  } catch {
+    body = await readJsonWithLimit(req, 16 * 1024);
+  } catch (error) {
+    if (error instanceof RequestBodyError && error.status === 413) {
+      return NextResponse.json({ error: error.code }, { status: error.status });
+    }
     return NextResponse.json({ error: 'invalid json' }, { status: 400 });
   }
 
@@ -138,13 +147,10 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET agregador simples: requer x-admin-token
+// GET agregador: exige sessao admin com dashboard:read
 export async function GET(req: NextRequest) {
-  const tokenHeader = req.headers.get('x-admin-token');
-  const adminToken = process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN;
-  if (!adminToken || tokenHeader !== adminToken) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  }
+  const guard = await requireAdminApi(req, { permission: 'dashboard:read' });
+  if (guard) return guard;
 
   const searchParams = req.nextUrl.searchParams;
   const windowParam = (searchParams.get('window') || '24h').toLowerCase();

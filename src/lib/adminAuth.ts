@@ -1,17 +1,15 @@
-﻿import { cookies } from "next/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { ADMIN_SESSION_COOKIE, verifyAdminSession, type AdminSessionPayload } from "@/lib/adminSession";
-import { createLogger } from "@/lib/logger";
 import {
-  DEFAULT_ROLE,
-  getRoleFromCookies,
-  getRoleFromHeaders,
-  hasPermission,
-  type AdminPermission,
-  type AdminRole,
-} from "@/lib/rbac";
+  autenticadoPorSegredoDeMaquina,
+  lerCookieDoHeader,
+  origemSuspeita,
+} from "@/lib/adminRequestGuard";
+import { createLogger } from "@/lib/logger";
+import { hasPermission, type AdminPermission, type AdminRole } from "@/lib/rbac";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type LayoutGuardOptions = {
@@ -20,17 +18,14 @@ type LayoutGuardOptions = {
 
 type ApiGuardOptions = {
   permission?: AdminPermission;
+  /** Rotas que legitimamente aceitam POST de outra origem (nenhuma, hoje). */
+  allowCrossOrigin?: boolean;
 };
+
+const adminAuthLogger = createLogger("admin:auth");
 
 async function getVerifiedSession(store = cookies()): Promise<AdminSessionPayload | null> {
   return verifyAdminSession(store.get(ADMIN_SESSION_COOKIE)?.value);
-}
-
-function resolveRoleFromRequest(req: Request | NextRequest): AdminRole {
-  if (req instanceof NextRequest) {
-    return getRoleFromCookies(req.cookies);
-  }
-  return getRoleFromHeaders(req.headers);
 }
 
 export type AdminIdentity = {
@@ -38,8 +33,6 @@ export type AdminIdentity = {
   email?: string | null;
   role: AdminRole;
 };
-
-const adminAuthLogger = createLogger("admin:auth");
 
 function identityFromSession(payload: AdminSessionPayload): AdminIdentity {
   return { role: payload.role, email: payload.email, name: payload.name };
@@ -70,44 +63,70 @@ export async function redirectIfAuthed() {
   if (session) redirect("/admin/dashboard");
 }
 
-export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOptions = {}) {
-  // Nota: este guard e sincrono e nao verifica a assinatura do admin_session (isso exigiria
-  // async em ~90 call sites). A defesa real contra forjar cookies vive no middleware.ts,
-  // que verifica a assinatura HMAC antes de qualquer /api/admin/* chegar aqui. Este guard
-  // e uma segunda camada e, por isso, precisa falhar fechado quando nada bate.
-  const checkPermission = (): NextResponse | null => {
-    if (!options.permission) return null;
-    const role = resolveRoleFromRequest(req);
-    if (!hasPermission(role, options.permission)) {
+/**
+ * Portao unico das rotas administrativas.
+ *
+ * O que existia antes aceitava `admin_auth=1` ou `adm=true` — cookies sem
+ * assinatura nenhuma, que qualquer cliente monta a mao — e lia a funcao do
+ * usuario do header `x-admin-role`, tambem enviado pelo cliente. Na pratica a
+ * autorizacao era um pedido gentil. Agora funcao e identidade saem so do
+ * cookie assinado (HMAC, ver src/lib/adminSession.ts) ou do segredo de maquina.
+ *
+ * Devolve null quando pode seguir, ou a resposta de erro quando nao pode.
+ */
+export async function requireAdminApi(
+  req: Request,
+  options: ApiGuardOptions = {}
+): Promise<NextResponse | null> {
+  if (!options.allowCrossOrigin && origemSuspeita(req)) {
+    adminAuthLogger.warn("Acao administrativa recusada por origem cruzada", {
+      metodo: req.method,
+    });
+    return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
+  }
+
+  const sessao = await verifyAdminSession(lerCookieDoHeader(req, ADMIN_SESSION_COOKIE));
+
+  if (sessao) {
+    if (options.permission && !hasPermission(sessao.role, options.permission)) {
+      adminAuthLogger.warn("Admin sem permissao chamou rota", {
+        role: sessao.role,
+        permission: options.permission,
+      });
       return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
     }
     return null;
-  };
-
-  try {
-    const nreq = req as NextRequest;
-    const cookieAuth =
-      (nreq.cookies?.get?.("admin_auth")?.value) === "1" ||
-      (nreq.cookies?.get?.("adm")?.value) === "true";
-    if (cookieAuth) {
-      return checkPermission();
-    }
-  } catch {
-    // ignore cookie access failures on generic Request
   }
 
-  // Apenas ADMIN_PASS: NEXT_PUBLIC_* vai para o bundle do browser.
-  const expected = process.env.ADMIN_PASS;
-  const pass = req.headers.get("x-admin-pass");
-  if (expected && pass === expected) {
-    return checkPermission();
-  }
+  // Sem sessao valida sobra o segredo de maquina, que vale como owner porque e
+  // um segredo server-only e rotacionavel.
+  const porSegredo = autenticadoPorSegredoDeMaquina(req, (minimo) => {
+    adminAuthLogger.warn("ADMIN_PASS curto demais para servir de segredo de maquina", { minimo });
+  });
+  if (porSegredo) return null;
 
   return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
 }
 
-export function requireAdmin(req: Request | NextRequest, options: ApiGuardOptions = {}) {
+export function requireAdmin(req: Request, options: ApiGuardOptions = {}) {
   return requireAdminApi(req, options);
+}
+
+/**
+ * Sessao completa dentro de um route handler, ou null.
+ *
+ * Existe porque AdminIdentity nao carrega o userId, e ha caso — gravar token
+ * de integracao no nome de quem autorizou — em que o id e justamente o dado
+ * que importa.
+ */
+export async function adminSessionFromRequest(req: Request): Promise<AdminSessionPayload | null> {
+  return verifyAdminSession(lerCookieDoHeader(req, ADMIN_SESSION_COOKIE));
+}
+
+/** Identidade da sessao dentro de um route handler, ou null. */
+export async function adminIdentityFromRequest(req: Request): Promise<AdminIdentity | null> {
+  const sessao = await adminSessionFromRequest(req);
+  return sessao ? identityFromSession(sessao) : null;
 }
 
 export async function logAdminAction(params: {
@@ -137,9 +156,4 @@ export async function logAdminAction(params: {
       error: String(error),
     });
   }
-}
-
-export function resolveAdminContext(req: Request | NextRequest) {
-  const role = resolveRoleFromRequest(req) ?? DEFAULT_ROLE;
-  return { role };
 }

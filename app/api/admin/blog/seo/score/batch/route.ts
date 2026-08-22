@@ -26,7 +26,7 @@ function compute(mdx:string, meta:{seo_title?:string|null;seo_description?:strin
 type BlogPostRow = { id: string; content_mdx: string | null; seo_title?: string | null; seo_description?: string | null; excerpt?: string | null };
 
 export async function POST(req:Request){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   try {
     const body = await req.json() as { ids?: string[] };
     const ids:string[] = body?.ids||[];

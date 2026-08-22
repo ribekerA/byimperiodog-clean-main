@@ -14,7 +14,7 @@ interface AttachBody {
 const ROLES = new Set(["cover", "gallery", "inline"]);
 
 export async function POST(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "media:write" });
   if (auth) return auth;
   let json: unknown;
   try { json = await req.json(); } catch { return NextResponse.json({ error: "invalid-json" }, { status: 400 }); }

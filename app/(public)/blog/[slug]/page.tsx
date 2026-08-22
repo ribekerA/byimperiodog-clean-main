@@ -33,6 +33,7 @@ import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { getRelatedUnified } from "@/lib/blog/related";
 import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
 import { parseSources } from "@/lib/blog/sources";
+import { remarkMdxSecurityPlugin } from "@/lib/contentSecurity";
 import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import { supabaseAnon } from "@/lib/supabaseAnon";
@@ -386,7 +387,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
                   // demoteBodyH1Plugin: o <h1> da página é o título do post,
                   // logo acima. Posts cujo corpo também começava com "# Título"
                   // mandavam DOIS <h1> para o HTML público.
-                  options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, demoteBodyH1Plugin] } }}
+                  options={{ mdxOptions: { remarkPlugins: [remarkGfm, remarkMdxSecurityPlugin], rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings, demoteBodyH1Plugin] } }}
                 />
               ) : (
                 <p className="italic text-text-muted">Conteúdo em atualização.</p>

@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/cn';
 import { getAllPosts } from '@/lib/content';
+import { safeJsonLdStringify } from '@/lib/contentSecurity';
 import { supabasePublic } from '@/lib/supabasePublic';
 
 import RecentPostsSkeleton from './RecentPostsSkeleton';
@@ -73,7 +74,7 @@ export async function RecentPostsSection() {
 					<script
 						type="application/ld+json"
 						dangerouslySetInnerHTML={{
-							__html: JSON.stringify({
+							__html: safeJsonLdStringify({
 								'@context': 'https://schema.org',
 								'@type': 'ItemList',
 								itemListElement: recentPosts.map((p: { slug: string; title: string }, i:number) => ({

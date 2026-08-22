@@ -3,19 +3,17 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
+import { requireAdminApi } from '@/lib/adminAuth';
 
 /**
  * POST /api/admin/blog/unpublish
  * Body JSON: { id?: string; slug?: string; toStatus?: 'draft' | 'review' | 'archived'; keepPublishedAt?: boolean }
- * Auth: header x-admin-token must equal process.env.ADMIN_TOKEN (or FALLBACK process.env.DEBUG_TOKEN)
+ * Auth: sessao admin assinada com permissao blog:write, ou ADMIN_PASS em x-admin-pass
  * Effect: Set status to provided (default 'draft'); optionally nullify published_at.
  */
 export async function POST(req: NextRequest) {
-  const authHeader = req.headers.get('x-admin-token');
-  const adminToken = process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN;
-  if (!adminToken || authHeader !== adminToken) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  }
+  const guard = await requireAdminApi(req, { permission: 'blog:write' });
+  if (guard) return guard;
 
   if (!hasServiceRoleKey()) {
     return NextResponse.json({ error: 'missing-service-role-key' }, { status: 500 });

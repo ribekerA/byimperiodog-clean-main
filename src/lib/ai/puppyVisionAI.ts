@@ -3,7 +3,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { promises as fs } from "node:fs";
 
-import sharp from "sharp";
+import sharp, { type Sharp, type Stats } from "sharp";
 import { z } from "zod";
 
 import { createLogger } from "@/lib/logger";
@@ -249,19 +249,19 @@ function cleanupHashes() {
   }
 }
 
-function calculateBrightness(stats: sharp.Stats): number {
+function calculateBrightness(stats: Stats): number {
   const channels = stats.channels?.slice(0, 3) ?? [];
   if (!channels.length) return 140;
   return channels.reduce((sum, ch) => sum + ch.mean, 0) / channels.length;
 }
 
-function calculateNoise(stats: sharp.Stats): number {
+function calculateNoise(stats: Stats): number {
   const channels = stats.channels?.slice(0, 3) ?? [];
   if (!channels.length) return 0;
   return channels.reduce((sum, ch) => sum + ch.stdev, 0) / channels.length;
 }
 
-async function measureSharpness(image: sharp.Sharp, options: PuppyVisionOptions): Promise<number> {
+async function measureSharpness(image: Sharp, options: PuppyVisionOptions): Promise<number> {
   try {
     const hints: string[] = [];
     if (options.puppyName) hints.push(`filhote ${options.puppyName}`);
@@ -318,7 +318,7 @@ Responda SOMENTE em JSON com os campos solicitados.`;
   }
 }
 
-async function detectBackgroundComplexity(image: sharp.Sharp) {
+async function detectBackgroundComplexity(image: Sharp) {
   try {
     const { data, info } = await image
       .clone()

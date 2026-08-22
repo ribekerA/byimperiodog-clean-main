@@ -16,7 +16,7 @@ function getGoogleScopes(provider: ProviderKey): string[] {
   ];
 }
 
-async function exchangeGoogleCode(code: string, redirectUri: string): Promise<OAuthTokens> {
+async function exchangeGoogleCode(code: string, redirectUri: string, codeVerifier?: string): Promise<OAuthTokens> {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
@@ -28,6 +28,9 @@ async function exchangeGoogleCode(code: string, redirectUri: string): Promise<OA
   body.set("client_secret", clientSecret);
   body.set("redirect_uri", redirectUri);
   body.set("grant_type", "authorization_code");
+  // PKCE: o Google so aceita o code se o verificador corresponder ao desafio
+  // enviado na autorizacao.
+  if (codeVerifier) body.set("code_verifier", codeVerifier);
 
   const res = await fetch(GOOGLE_TOKEN_URL, {
     method: "POST",
@@ -138,7 +141,7 @@ async function listGoogleTagManagerResources(tokens: OAuthTokens): Promise<Resou
 
 const googleAnalyticsAdapter: ProviderAdapter = {
   id: "google_analytics",
-  buildAuthUrl: ({ redirectUri, state }): OAuthInfo => {
+  buildAuthUrl: ({ redirectUri, state, codeChallenge }): OAuthInfo => {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
     if (!clientId || clientId.includes("your-google")) {
@@ -155,17 +158,21 @@ const googleAnalyticsAdapter: ProviderAdapter = {
     url.searchParams.set("access_type", "offline");
     url.searchParams.set("prompt", "consent");
     url.searchParams.set("state", state);
+    if (codeChallenge) {
+      url.searchParams.set("code_challenge", codeChallenge);
+      url.searchParams.set("code_challenge_method", "S256");
+    }
     url.searchParams.set("scope", scope.join(" "));
     return { authUrl: url.toString(), scope, provider: "google_analytics" };
   },
-  exchangeCode: ({ code, redirectUri }) => exchangeGoogleCode(code, redirectUri),
+  exchangeCode: ({ code, redirectUri, codeVerifier }) => exchangeGoogleCode(code, redirectUri, codeVerifier),
   refreshTokens: refreshGoogleToken,
   listResources: listGoogleAnalyticsResources,
 };
 
 const googleTagManagerAdapter: ProviderAdapter = {
   id: "google_tag_manager",
-  buildAuthUrl: ({ redirectUri, state }): OAuthInfo => {
+  buildAuthUrl: ({ redirectUri, state, codeChallenge }): OAuthInfo => {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     if (!clientId) throw new Error("GOOGLE_CLIENT_ID is not configured");
     const scope = getGoogleScopes("google_tag_manager");
@@ -176,10 +183,14 @@ const googleTagManagerAdapter: ProviderAdapter = {
     url.searchParams.set("access_type", "offline");
     url.searchParams.set("prompt", "consent");
     url.searchParams.set("state", state);
+    if (codeChallenge) {
+      url.searchParams.set("code_challenge", codeChallenge);
+      url.searchParams.set("code_challenge_method", "S256");
+    }
     url.searchParams.set("scope", scope.join(" "));
     return { authUrl: url.toString(), scope, provider: "google_tag_manager" };
   },
-  exchangeCode: ({ code, redirectUri }) => exchangeGoogleCode(code, redirectUri),
+  exchangeCode: ({ code, redirectUri, codeVerifier }) => exchangeGoogleCode(code, redirectUri, codeVerifier),
   refreshTokens: refreshGoogleToken,
   listResources: listGoogleTagManagerResources,
 };

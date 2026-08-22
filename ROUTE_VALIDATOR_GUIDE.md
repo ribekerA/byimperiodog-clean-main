@@ -62,16 +62,18 @@ pnpm route:validate
 yarn route:validate
 ```
 
-#### **Produção (https://www.canilspitzalemao.com.br)**
+#### **Produção (https://byimperiodog.com.br)**
 
 ```bash
 npm run route:validate:prod
 ```
 
-#### **Staging (https://staging.canilspitzalemao.com.br)**
+#### **Outro ambiente (staging, preview do Netlify)**
+
+Não existe host de staging fixo. Aponte o validador para a URL que quiser:
 
 ```bash
-npm run route:validate:staging
+npx cross-env ROUTE_VALIDATOR_URL=https://<preview>.netlify.app npm run route:validate
 ```
 
 #### **Custom URL**
@@ -321,7 +323,7 @@ curl -X POST https://api.vercel.com/v1/deployments \
   -d '{
     "name": "by-imperio-dog",
     "project": "by-imperio-dog",
-    "env": ["ROUTE_VALIDATOR_URL=https://www.canilspitzalemao.com.br"]
+    "env": ["ROUTE_VALIDATOR_URL=https://byimperiodog.com.br"]
   }' \
   && npm run route:validate:prod
 ```

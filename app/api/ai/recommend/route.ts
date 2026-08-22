@@ -1,8 +1,14 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
+
+import { rateLimitRequestMemory, tooManyRequests } from '@/lib/rateLimitDurable';
+import { RequestBodyError, readJsonWithLimit } from '@/lib/requestGuards';
 import { supabasePublic } from '@/lib/supabasePublic';
 
 export const runtime = 'edge';
+
+const requestSchema = z.object({ slug: z.string().trim().min(1).max(200) }).strict();
 
 function cacheJson(data:unknown, status=200){
   return NextResponse.json(data, { status, headers:{ 'Cache-Control':'s-maxage=120, stale-while-revalidate=300' } });
@@ -41,20 +47,29 @@ async function compute(slug:string){
 }
 
 export async function POST(req:Request){
+  const rate = rateLimitRequestMemory(req, { scope: 'ai-recommend', limit: 60, windowMs: 60_000 });
+  if (!rate.allowed) return tooManyRequests(rate);
+
   try {
-    const { slug } = await req.json().catch(()=>({}));
-    if(!slug) return cacheJson({ ok:false, error:'slug required' },400);
+    const parsed = requestSchema.safeParse(await readJsonWithLimit(req, 4 * 1024));
+    if(!parsed.success) return cacheJson({ ok:false, error:'slug required' },400);
+    const { slug } = parsed.data;
     const related = await compute(slug);
     return cacheJson({ ok:true, related });
   } catch(e:any){
+    if (e instanceof RequestBodyError) return cacheJson({ ok:false, error:e.code }, e.status);
     return cacheJson({ ok:false, error:e?.message||'erro' },500);
   }
 }
 
 export async function GET(req:Request){
+  const rate = rateLimitRequestMemory(req, { scope: 'ai-recommend', limit: 60, windowMs: 60_000 });
+  if (!rate.allowed) return tooManyRequests(rate);
+
   const { searchParams } = new URL(req.url);
-  const slug = searchParams.get('slug');
-  if(!slug) return cacheJson({ ok:false, error:'slug required' },400);
+  const parsed = requestSchema.safeParse({ slug: searchParams.get('slug') });
+  if(!parsed.success) return cacheJson({ ok:false, error:'slug required' },400);
+  const { slug } = parsed.data;
   try {
     const related = await compute(slug);
     return cacheJson({ ok:true, related });

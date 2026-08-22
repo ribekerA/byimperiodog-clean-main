@@ -4,7 +4,7 @@ import { requireAdmin } from '@/lib/adminAuth';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function POST(req:Request){
-  const auth = requireAdmin(req as any); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "media:write" }); if(auth) return auth;
   const { media_id, hint } = await req.json().catch(()=>({}));
   if(!media_id) return NextResponse.json({ ok:false, error:'media_id obrigatório' },{ status:400 });
   try {

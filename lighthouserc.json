@@ -6,7 +6,8 @@
         "http://localhost:3000/",
         "http://localhost:3000/filhotes",
         "http://localhost:3000/blog",
-        "http://localhost:3000/filhote/teste"  
+        "http://localhost:3000/preco-spitz-anao",
+        "http://localhost:3000/comprar-spitz-anao"
       ],
       "settings": {
         "preset": "mobile",
