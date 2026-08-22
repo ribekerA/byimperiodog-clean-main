@@ -71,7 +71,7 @@ export function generateMetadata({ params }: Props): Metadata {
   const title = tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??
-    `Filhote Spitz Alemão Anão ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda. By Império Dog.`;
+    `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
   const descricaoBusca = resumirParaBusca(description);
   const firstImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
@@ -160,7 +160,7 @@ export default function PuppyPage({ params }: Props) {
   const colorSlug = (puppy.color ?? (puppy as any).cor ?? "").toLowerCase();
   const description =
     (puppy as any).description ??
-    `Filhote Spitz Alemão Anão ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusa.`;
+    `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
 
   const status = ((puppy.status ?? "available") as string) as "available" | "reserved" | "sold";
   const isSold = status === "sold" || status === "vendido" as string;

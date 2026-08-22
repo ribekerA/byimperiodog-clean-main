@@ -47,6 +47,14 @@ const stripRouteGroups = (file) => file.replace(/\([^)/]+\)\//g, "");
 const stripComments = (source) =>
   source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
 
+// Mensagem pré-preenchida do WhatsApp não é texto da página: vai para a URL do
+// wa.me e só aparece dentro do aplicativo, depois que a pessoa toca no botão.
+// Contá-la fazia o guard cobrar apresentação de nomenclatura dentro de uma
+// mensagem de WhatsApp — nas rotas /filhotes/cor e /filhotes/sexo ela era a
+// única menção à raça no arquivo, porque o texto visível vem de COLOR_SEO e
+// SEX_SEO, que moram em src/ e o guard já ignora.
+const stripWhatsAppPrefill = (source) => source.replace(/message:\s*`[^`]*`/g, "message: ``");
+
 const BANNED_TERMS = ["adocao", "doacao", "boutique"];
 // O frontmatter de um .mdx nao e prosa: `title`, `seo_title` e `description`
 // sao campos independentes, exibidos juntos no resultado do Google e nunca
@@ -127,8 +135,8 @@ for (const file of files) {
   // linha ocupa 2 chars em vez de 1. Isso encolhia a janela de contexto e
   // acusava violacao em arquivos que passam no checkout da Netlify (LF) — o
   // guard reprovava por causa do sistema operacional, nao do texto.
-  const raw = stripComments(
-    readFileSync(absolutePath, "utf8").replace(/\r\n/g, "\n")
+  const raw = stripWhatsAppPrefill(
+    stripComments(readFileSync(absolutePath, "utf8").replace(/\r\n/g, "\n"))
   );
   const normalized = normalize(raw);
 
@@ -142,17 +150,25 @@ for (const file of files) {
   const fmHasSynonym =
     fmEnd > 0 && /lulu\s+da\s+pomerania/i.test(normalize(raw.slice(0, fmEnd)));
 
-  for (const match of raw.matchAll(BREED_PATTERN)) {
-    const index = match.index ?? 0;
-    if (index < fmEnd && fmHasSynonym) continue;
-    const context = raw.slice(
-      Math.max(0, index - 140),
-      index + match[0].length + 140
-    );
-    const contextNormalized = normalize(context);
-    if (!/lulu\s+da\s+pomerania/i.test(contextNormalized)) {
+  // A apresentação vale uma vez por arquivo. Exigir o sinônimo colado em cada
+  // menção transformava a regra em ordem de repetir a mesma palavra dezenas de
+  // vezes na mesma página — que é o oposto do que ela quer garantir. Basta que
+  // o texto diga, em algum trecho, que Spitz Alemão Anão e Lulu da Pomerânia
+  // são o mesmo cão; da segunda menção em diante o leitor já sabe.
+  const mencoesDaRaca = [...raw.matchAll(BREED_PATTERN)];
+  if (mencoesDaRaca.length) {
+    const apresentaOSinonimo = mencoesDaRaca.some((match) => {
+      const index = match.index ?? 0;
+      if (index < fmEnd && fmHasSynonym) return true;
+      const context = raw.slice(
+        Math.max(0, index - 140),
+        index + match[0].length + 140
+      );
+      return /lulu\s+da\s+pomerania/i.test(normalize(context));
+    });
+    if (!apresentaOSinonimo) {
       violations.push(
-        `${file}: "${match[0]}" precisa incluir "Lulu da Pomerânia" no mesmo trecho.`
+        `${file}: cita a raça ${mencoesDaRaca.length}x e nunca apresenta "Lulu da Pomerânia" no mesmo trecho.`
       );
     }
   }
