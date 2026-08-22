@@ -3,7 +3,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { promises as fs } from "node:fs";
 
-import sharp from "sharp";
+import sharp, { type Sharp, type Stats } from "sharp";
 import { z } from "zod";
 
 import { createLogger } from "@/lib/logger";
@@ -216,20 +216,20 @@ async function toBuffer(input: File | string | Buffer): Promise<Buffer> {
   throw new Error("Unsupported file input for analyzePuppyImage");
 }
 
-function calculateBrightness(stats: sharp.Stats): number {
+function calculateBrightness(stats: Stats): number {
   const rgb = stats.channels?.slice(0, 3) ?? [];
   if (!rgb.length) return 140;
   const avg = rgb.reduce((sum, ch) => sum + ch.mean, 0) / rgb.length;
   return avg;
 }
 
-function calculateNoise(stats: sharp.Stats): number {
+function calculateNoise(stats: Stats): number {
   const rgb = stats.channels?.slice(0, 3) ?? [];
   if (!rgb.length) return 0;
   return rgb.reduce((sum, ch) => sum + ch.stdev, 0) / rgb.length;
 }
 
-async function measureSharpness(image: sharp.Sharp): Promise<number> {
+async function measureSharpness(image: Sharp): Promise<number> {
   try {
     const { data, info } = await image
       .clone()

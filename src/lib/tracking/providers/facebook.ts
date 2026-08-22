@@ -6,7 +6,7 @@ const FB_TOKEN_URL = "https://graph.facebook.com/v18.0/oauth/access_token";
 const facebookAdapter: ProviderAdapter = {
   id: "facebook",
 
-  buildAuthUrl: ({ redirectUri, state }): OAuthInfo => {
+  buildAuthUrl: ({ redirectUri, state, codeChallenge }): OAuthInfo => {
     const clientId = process.env.FACEBOOK_CLIENT_ID;
     if (!clientId) {
       throw new Error("FACEBOOK_CLIENT_ID is not configured");
@@ -17,11 +17,15 @@ const facebookAdapter: ProviderAdapter = {
     url.searchParams.set("redirect_uri", redirectUri);
     url.searchParams.set("state", state);
     url.searchParams.set("response_type", "code");
+    if (codeChallenge) {
+      url.searchParams.set("code_challenge", codeChallenge);
+      url.searchParams.set("code_challenge_method", "S256");
+    }
     url.searchParams.set("scope", scope.join(","));
     return { authUrl: url.toString(), scope, provider: "facebook" };
   },
 
-  exchangeCode: async ({ code, redirectUri }): Promise<OAuthTokens> => {
+  exchangeCode: async ({ code, redirectUri, codeVerifier }): Promise<OAuthTokens> => {
     const clientId = process.env.FACEBOOK_CLIENT_ID;
     const clientSecret = process.env.FACEBOOK_CLIENT_SECRET;
     if (!clientId || !clientSecret) {
@@ -32,6 +36,7 @@ const facebookAdapter: ProviderAdapter = {
     url.searchParams.set("client_secret", clientSecret);
     url.searchParams.set("redirect_uri", redirectUri);
     url.searchParams.set("code", code);
+    if (codeVerifier) url.searchParams.set("code_verifier", codeVerifier);
 
     const res = await fetch(url.toString(), { method: "GET" });
     if (!res.ok) {

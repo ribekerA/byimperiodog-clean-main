@@ -10,6 +10,10 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { z } from "zod";
+
+import { rateLimitRequest, tooManyRequests } from "@/lib/rateLimitDurable";
+import { RequestBodyError, readJsonWithLimit } from "@/lib/requestGuards";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 // ─── GET — avaliações aprovadas ───────────────────────────────────────────────
@@ -41,38 +45,34 @@ export async function GET(req: NextRequest) {
 
 // ─── POST — submeter nova avaliação ──────────────────────────────────────────
 
-interface ReviewBody {
-  puppySlug:    string;
-  reviewerName: string;
-  reviewerCity?: string;
-  rating:        number;
-  comment:       string;
-  photoUrl?:     string;
-}
+const reviewSchema = z.object({
+  puppySlug: z.string().trim().min(1).max(200),
+  reviewerName: z.string().trim().min(1).max(80),
+  reviewerCity: z.string().trim().max(120).optional(),
+  rating: z.number().int().min(1).max(5),
+  comment: z.string().trim().min(10).max(2_000),
+  photoUrl: z.string().trim().max(2_048).optional(),
+}).strict();
 
 export async function POST(req: NextRequest) {
-  let body: ReviewBody;
+  const rate = await rateLimitRequest(req, { scope: "reviews", limit: 5, windowMs: 10 * 60_000 });
+  if (!rate.allowed) return tooManyRequests(rate);
+
+  let body: unknown;
   try {
-    body = await req.json();
-  } catch {
+    body = await readJsonWithLimit(req, 16 * 1024);
+  } catch (error) {
+    if (error instanceof RequestBodyError) {
+      return NextResponse.json({ error: error.message, code: error.code }, { status: error.status });
+    }
     return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
   }
 
-  const { puppySlug, reviewerName, rating, comment, reviewerCity, photoUrl } = body;
-
-  // Validação básica
-  if (!puppySlug || !reviewerName || !rating || !comment) {
-    return NextResponse.json({ error: "Campos obrigatórios ausentes" }, { status: 400 });
+  const parsed = reviewSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Dados inválidos" }, { status: 400 });
   }
-  if (typeof rating !== "number" || rating < 1 || rating > 5) {
-    return NextResponse.json({ error: "Rating deve ser entre 1 e 5" }, { status: 400 });
-  }
-  if (comment.length < 10) {
-    return NextResponse.json({ error: "Comentário muito curto (mínimo 10 caracteres)" }, { status: 400 });
-  }
-  if (reviewerName.length > 80) {
-    return NextResponse.json({ error: "Nome muito longo" }, { status: 400 });
-  }
+  const { puppySlug, reviewerName, rating, comment, reviewerCity, photoUrl } = parsed.data;
 
   try {
     const sb = supabaseAnon();

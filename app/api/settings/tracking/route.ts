@@ -122,7 +122,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
-    const auth = requireAdmin(req);
+    const auth = await requireAdmin(req);
     if (auth) return auth; // 401/403 de adminAuth
 
     const body = (await req.json().catch(() => ({}))) as TrackingPostBody;

@@ -18,7 +18,7 @@ function diffSnapshots(a: Record<string, unknown>, b: Record<string, unknown>): 
 
 // GET /api/admin/blog/:id/versions/:versionId?diff=1
 export async function GET(req: NextRequest, ctx: { params:{ id:string; versionId:string } }){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:read" }); if(auth) return auth;
   const url = new URL(req.url);
   const wantDiff = url.searchParams.get('diff') === '1';
   const sb = supabaseAdmin();

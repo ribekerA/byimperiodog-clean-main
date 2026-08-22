@@ -29,7 +29,7 @@ const TOPIC_MATRIX: { slug: string; title: string; cluster: string; priority: nu
 ];
 
 export async function GET(req: Request) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:read" });
   if (auth) return auth;
 
   try {

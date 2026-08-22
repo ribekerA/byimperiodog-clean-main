@@ -5,7 +5,7 @@ import { expRepo } from "@/lib/db";
 import type { Experiment } from "@/lib/db";
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:read" });
   if (auth) return auth;
 
   const { searchParams } = new URL(req.url);
@@ -17,7 +17,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
 
   const payload = (await req.json()) as Partial<Experiment>;
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
 
   const payload = (await req.json()) as Partial<Experiment> & { id: string };
@@ -44,7 +44,7 @@ export async function PATCH(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
 
   const { searchParams } = new URL(req.url);

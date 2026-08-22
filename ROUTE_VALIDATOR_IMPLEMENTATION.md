@@ -83,14 +83,11 @@ cat reports/route-validation.json
 # Local (http://localhost:3000)
 npm run route:validate
 
-# Produção (https://www.canilspitzalemao.com.br)
+# Produção (https://byimperiodog.com.br)
 npm run route:validate:prod
 
-# Staging (https://staging.canilspitzalemao.com.br)
-npm run route:validate:staging
-
-# Custom
-ROUTE_VALIDATOR_URL=https://seu-dominio.com tsx scripts/route-validator.ts
+# Qualquer outra URL (preview, staging temporário)
+npx cross-env ROUTE_VALIDATOR_URL=https://seu-dominio.com npm run route:validate
 ```
 
 ---
@@ -200,8 +197,7 @@ Adicionados em `package.json`:
 {
   "scripts": {
     "route:validate": "tsx scripts/route-validator.ts",
-    "route:validate:prod": "ROUTE_VALIDATOR_URL=https://www.canilspitzalemao.com.br tsx scripts/route-validator.ts",
-    "route:validate:staging": "ROUTE_VALIDATOR_URL=https://staging.canilspitzalemao.com.br tsx scripts/route-validator.ts"
+    "route:validate:prod": "cross-env ROUTE_VALIDATOR_URL=https://byimperiodog.com.br tsx scripts/route-validator.ts"
   }
 }
 ```

@@ -1,11 +1,20 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
+import { rateLimitRequestMemory, tooManyRequests } from "@/lib/rateLimitDurable";
+import { RequestBodyError, readJsonWithLimit } from "@/lib/requestGuards";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
 
-const VALID_METRICS = ["LCP", "INP", "CLS", "FCP", "TTFB"];
+const VALID_METRICS = ["LCP", "INP", "CLS", "FCP", "TTFB"] as const;
+const rumSchema = z.object({
+  name: z.enum(VALID_METRICS),
+  value: z.number().finite().nonnegative(),
+  id: z.string().trim().max(200).nullish(),
+  page: z.string().trim().max(2_048).nullish(),
+});
 const THRESHOLDS: Record<string, [number, number]> = {
   LCP:  [2500, 4000],
   INP:  [200,  500],
@@ -22,13 +31,15 @@ function rating(name: string, value: number): "good" | "needs-improvement" | "po
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const { name, value, id, page } = body;
+  const rate = rateLimitRequestMemory(req, { scope: "rum", limit: 120, windowMs: 60_000 });
+  if (!rate.allowed) return tooManyRequests(rate);
 
-    if (!VALID_METRICS.includes(name) || typeof value !== "number") {
+  try {
+    const parsed = rumSchema.safeParse(await readJsonWithLimit(req, 4 * 1024));
+    if (!parsed.success) {
       return NextResponse.json({ ok: false }, { status: 400 });
     }
+    const { name, value, id, page } = parsed.data;
 
     await supabaseAdmin()
       .from("rum_vitals")
@@ -40,7 +51,10 @@ export async function POST(req: NextRequest) {
         page: page ?? null,
         created_at: new Date().toISOString(),
       });
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyError) {
+      return NextResponse.json({ ok: false, error: error.code }, { status: error.status });
+    }
     // silently fail — never block the user
   }
 

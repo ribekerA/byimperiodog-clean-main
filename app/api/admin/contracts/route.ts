@@ -8,7 +8,7 @@ import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "cadastros:read" });
   if (guard) return guard;
 
   try {
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   const {

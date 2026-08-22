@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { ALL_SEXES, formatPrice, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
@@ -59,9 +60,9 @@ export default function SexLandingPage({ params }: Props) {
 
   return (
     <>
-      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbLd) }} />
+      <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(faqLd) }} />
+      <script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(businessLd) }} />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
         {/* Breadcrumb */}

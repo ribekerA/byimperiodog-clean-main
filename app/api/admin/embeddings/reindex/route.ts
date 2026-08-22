@@ -5,7 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 
 // Minimal reindex endpoint: re-embeds latest N published posts using OpenAI if available
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   try{
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;

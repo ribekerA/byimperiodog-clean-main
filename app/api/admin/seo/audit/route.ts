@@ -27,7 +27,7 @@ function estimateWordCount(text: string): number {
 }
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:read" });
   if (auth) return auth;
 
   const { items: posts } = await blogRepo.listPosts({ status: "published", limit: 1000 });

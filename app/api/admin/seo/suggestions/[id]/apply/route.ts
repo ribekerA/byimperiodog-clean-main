@@ -5,7 +5,7 @@ import { applySuggestion, approveSuggestion } from '@/lib/seoSuggestions';
 
 // POST /api/admin/seo/suggestions/:id/apply  (aprova se ainda proposed e aplica patch)
 export async function POST(_req: NextRequest, ctx:{ params:{ id:string } }){
-  const auth = requireAdmin(_req); if(auth) return auth;
+  const auth = await requireAdmin(_req, { permission: "blog:write" }); if(auth) return auth;
   try {
     try { await approveSuggestion(ctx.params.id); } catch (e) { /* ignore if already approved */ }
     const r = await applySuggestion(ctx.params.id);

@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { requireAdmin } from '@/lib/adminAuth';
 
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "cadastros:write" }); if(auth) return auth;
   try {
     const { puppy_id, client_name, client_phone, client_email } = await req.json();
     if(!puppy_id || !client_name) return NextResponse.json({ error:'puppy_id e client_name obrigatórios' },{ status:400 });

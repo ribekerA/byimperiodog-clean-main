@@ -3,13 +3,18 @@ import Link from "next/link";
 import React from "react";
 
 import { getImageSize } from "@/lib/_generated-image-sizes";
+import { sanitizeMdxUrl } from "@/lib/contentSecurity";
 
 export const mdxComponents = {
   // Links use Next.js Link for internal routes; external fall back to <a>
   a: function A({ href = "", children, ...props }: any) {
-    const isInternal = href?.startsWith("/") || href?.startsWith(process.env.NEXT_PUBLIC_SITE_URL || "");
+    const safeHref = sanitizeMdxUrl(href, "link");
+    if (!safeHref) return <span>{children}</span>;
+
+    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
+    const isInternal = safeHref.startsWith("/") || Boolean(siteUrl && safeHref.startsWith(siteUrl));
     if (isInternal) {
-      const to = href.replace(process.env.NEXT_PUBLIC_SITE_URL || "", "");
+      const to = siteUrl && safeHref.startsWith(siteUrl) ? safeHref.slice(siteUrl.length) || "/" : safeHref;
       return (
   <Link href={to} {...props} className={`link-brand underline-always ${props.className || ""}`}>
           {children}
@@ -17,22 +22,20 @@ export const mdxComponents = {
       );
     }
     return (
-  <a href={href} {...props} className={`link-brand underline-always ${props.className || ""}`} target="_blank" rel="noopener noreferrer">
+  <a href={safeHref} {...props} className={`link-brand underline-always ${props.className || ""}`} target="_blank" rel="noopener noreferrer">
         {children}
       </a>
     );
   },
   img: function Img(props: any) {
     const { src = "", alt = "", width, height, ...rest } = props;
-    const isLocal = typeof src === "string" && src.startsWith("/");
-    // next/image can't handle data: or blob: URLs; fallback to <img> for those.
-    if (typeof src === "string" && (src.startsWith("blob:") || src.startsWith("data:"))) {
-      // eslint-disable-next-line @next/next/no-img-element
-      return <img src={src} alt={alt} {...rest} />;
-    }
+    const safeSrc = sanitizeMdxUrl(src, "image");
+    if (!safeSrc) return null;
+
+    const isLocal = safeSrc.startsWith("/");
     if (!isLocal) {
       // external images: use next/image with unoptimized to avoid remote loader issues
-      return <Image src={src} alt={alt} width={Number(width) || 800} height={Number(height) || 450} unoptimized className="h-auto w-full rounded-lg" {...rest} />;
+      return <Image src={safeSrc} alt={alt} width={Number(width) || 800} height={Number(height) || 450} unoptimized className="h-auto w-full rounded-lg" {...rest} />;
     }
 
     // A sintaxe `![alt](/caminho)` do markdown nao tem onde declarar dimensao, e
@@ -40,14 +43,14 @@ export const mdxComponents = {
     // catalogo sao retrato. O navegador reservava uma faixa 16:9 e, ao carregar,
     // empurrava o texto para baixo: CLS causado justamente pela foto que deveria
     // melhorar a pagina. O manifesto tem a medida real de cada arquivo.
-    const medida = getImageSize(src);
+    const medida = getImageSize(safeSrc);
     const w = Number(width) || medida?.[0] || 800;
     const h = Number(height) || medida?.[1] || 450;
     const retrato = h > w;
 
     return (
       <Image
-        src={src}
+        src={safeSrc}
         alt={alt}
         width={w}
         height={h}
@@ -98,4 +101,3 @@ export const mdxComponents = {
 };
 
 export default mdxComponents;
-

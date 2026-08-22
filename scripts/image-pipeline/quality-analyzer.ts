@@ -3,7 +3,7 @@
  * Detecta problemas de qualidade em imagens
  */
 
-import sharp from 'sharp';
+import sharp, { type Sharp, type Stats } from 'sharp';
 import { IMAGE_CONFIG } from './config';
 
 export interface QualityReport {
@@ -140,7 +140,7 @@ export async function analyzeImageQuality(
 /**
  * Calcula brilho médio da imagem
  */
-function calculateBrightness(stats: sharp.Stats): number {
+function calculateBrightness(stats: Stats): number {
   const channels = stats.channels;
   if (!channels || channels.length === 0) return 128;
 
@@ -156,7 +156,7 @@ function calculateBrightness(stats: sharp.Stats): number {
  * Detecta blur usando variância Laplaciana
  * Valores baixos = imagem desfocada
  */
-async function detectBlur(image: sharp.Sharp): Promise<number> {
+async function detectBlur(image: Sharp): Promise<number> {
   try {
     // Converte para escala de cinza e aplica Laplacian
     const { data, info } = await image

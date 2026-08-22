@@ -139,7 +139,7 @@ async function hydrateMedia(record: any, client: SupabaseClient) {
 
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:read" });
   if (guard) return guard;
 
   const id = req.nextUrl.searchParams.get("id");
@@ -159,7 +159,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   let data;

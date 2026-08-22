@@ -1,4 +1,3 @@
-import { join } from "path";
 
 const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toISOString();
 
@@ -153,12 +152,6 @@ const nextConfig = {
     ];
   },
   
-  webpack: (config) => {
-    config.resolve = config.resolve || {};
-    config.resolve.alias = config.resolve.alias || {};
-    config.resolve.alias["contentlayer/generated"] = join(process.cwd(), ".contentlayer/generated");
-    return config;
-  },
 };
 
 export default nextConfig;

@@ -43,7 +43,7 @@ function buildRange(url: URL): DateRange {
 }
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:read" });
   if (auth) return auth;
   const url = new URL(req.url);
   const range = buildRange(url);
@@ -63,7 +63,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:write" });
   if (auth) return auth;
   try {
     const body = await req.json().catch(() => ({}));
@@ -100,7 +100,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "blog:write" });
   if (auth) return auth;
   try {
     const url = new URL(req.url);

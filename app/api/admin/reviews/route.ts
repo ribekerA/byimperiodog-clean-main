@@ -9,8 +9,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { requireAdminApi } from "@/lib/adminAuth";
 
 export async function GET(req: NextRequest) {
+  const guard = await requireAdminApi(req, { permission: "cadastros:read" });
+  if (guard) return guard;
+
   const status = req.nextUrl.searchParams.get("status") ?? "pending";
   const limit  = Math.min(Number(req.nextUrl.searchParams.get("limit") ?? "2000"), 2000);
 

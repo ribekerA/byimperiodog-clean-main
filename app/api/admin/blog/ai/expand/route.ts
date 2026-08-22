@@ -8,7 +8,7 @@ import type { AiExpandRequest, AiExpandResponse, OutlineSection } from "@/types/
  * Expande um outline em MDX + blocks (determinístico, sem provedor externo).
  */
 export async function POST(req: Request) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

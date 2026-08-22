@@ -10,7 +10,7 @@ export const runtime = "edge"; // fast uploads when possible
 
 export async function POST(req: Request) {
   try {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "media:write" });
   if (auth) return auth;
     // Throttle uploads (Edge): 6/min per IP
     {

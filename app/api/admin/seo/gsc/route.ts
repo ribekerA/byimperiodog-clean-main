@@ -6,7 +6,7 @@ import { requireAdminApi } from "@/lib/adminAuth";
 import { fetchGscData, isGscConfigured } from "@/lib/gsc";
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "blog:read" });
   if (guard) return guard;
 
   if (!isGscConfigured()) {

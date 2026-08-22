@@ -90,3 +90,50 @@ jobs:
           # estoura o heap padrao do Node e o build morre com
           # "Ineffective mark-compacts near heap limit" -- reproduzido local.
           NODE_OPTIONS: --max-old-space-size=4096
+
+  seguranca:
+    name: Segredos e dependencias
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Nao precisa de node_modules: le git e package-lock.
+      #
+      # A varredura cobre os arquivos versionados. O historico tem chaves do
+      # incidente de agosto de 2026 (service_role do Supabase e chave da OpenAI,
+      # removidas do codigo no commit cd6329d e ja rotacionadas), entao varrer o
+      # historico aqui reprovaria todo push por um problema que ja foi tratado
+      # na origem: as chaves antigas nao valem mais. Para auditar o historico,
+      # rode `npm run scan:secrets:history` na mao.
+      - name: Varredura de segredos
+        run: npm run scan:secrets
+
+      - name: Vulnerabilidades de producao
+        run: npm run audit:prod
+
+  dependencias-novas:
+    name: Revisao de dependencias
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Compara o que o PR acrescenta ao lockfile e reprova dependencia nova
+      # com vulnerabilidade conhecida alta ou critica, antes de ela entrar.
+      - name: Revisar dependencias do PR
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high

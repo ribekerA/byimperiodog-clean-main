@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-import { requireAdmin } from "@/lib/adminAuth";
+import { adminSessionFromRequest, requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import type { ProviderKey } from "@/lib/tracking/providers/types";
 import { listResourcesByProvider } from "@/lib/tracking/resources";
@@ -22,15 +22,17 @@ const FIELD_MAP: Record<ProviderKey, { idField: string; flagField: string }> = {
 const DEFAULT_USER_ID = process.env.INTEGRATIONS_DEFAULT_USER_ID;
 
 export async function POST(req: NextRequest) {
-  const auth = requireAdmin(req);
-  if (auth) return auth;
+  // Escolher qual pixel o site usa e mexer em configuracao, nao ler.
+  const guard = await requireAdminApi(req, { permission: "settings:write" });
+  if (guard) return guard;
 
   const body = (await req.json()) as Body;
   const map = FIELD_MAP[body.provider];
   if (!map) {
     return NextResponse.json({ error: "unsupported_provider" }, { status: 400 });
   }
-  const userId = DEFAULT_USER_ID;
+  const sessao = await adminSessionFromRequest(req);
+  const userId = sessao?.userId || DEFAULT_USER_ID;
   if (!userId) {
     return NextResponse.json({ error: "missing_user" }, { status: 400 });
   }

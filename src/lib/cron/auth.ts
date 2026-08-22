@@ -15,21 +15,42 @@ const logger = createLogger("cron:auth");
  * `x-cron-secret` tambem serve, porque e mais simples de mandar num curl de
  * teste.
  *
- * Sem CRON_SECRET definido a rota continua aberta, do jeito que estava. E
- * proposital: trancar a porta antes de entregar a chave derrubaria o
- * agendamento no primeiro deploy. O aviso no log existe para essa configuracao
- * nao passar despercebida.
+ * Sem CRON_SECRET definido a rota FECHA. Antes ela seguia aberta, com a
+ * justificativa de nao derrubar o agendamento no primeiro deploy — na pratica
+ * isso deixava publicacao agendada, disparo de venda e revalidacao ao alcance
+ * de qualquer um que descobrisse a URL. Falta de chave e falha de
+ * configuracao, e falha de configuracao fecha a porta.
  *
- * Devolve null quando pode seguir, ou a resposta 401 quando nao pode.
+ * Tambem exige o metodo esperado: o agendador chama com GET ou POST, e nada
+ * mais deve executar o trabalho.
+ *
+ * Devolve null quando pode seguir, ou a resposta de erro quando nao pode.
  */
+const METODOS_ACEITOS = new Set(["GET", "POST"]);
+
 export function autorizarCron(req: Request): NextResponse | null {
+  if (!METODOS_ACEITOS.has(req.method.toUpperCase())) {
+    return NextResponse.json({ ok: false, error: "method_not_allowed" }, { status: 405 });
+  }
+
   const esperado = process.env.CRON_SECRET?.trim();
 
   if (!esperado) {
-    logger.warn("cron_sem_segredo", {
-      aviso: "CRON_SECRET nao definido — endpoint de cron respondendo sem autenticacao",
+    logger.error("cron_sem_segredo", {
+      aviso: "CRON_SECRET nao definido — execucao de cron bloqueada",
     });
-    return null;
+    return NextResponse.json(
+      { ok: false, error: "cron_nao_configurado" },
+      { status: 503 }
+    );
+  }
+
+  if (esperado.length < 24) {
+    logger.error("cron_segredo_curto", { minimo: 24 });
+    return NextResponse.json(
+      { ok: false, error: "cron_nao_configurado" },
+      { status: 503 }
+    );
   }
 
   const auth = req.headers.get("authorization") ?? "";

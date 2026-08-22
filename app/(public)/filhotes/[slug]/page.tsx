@@ -13,6 +13,7 @@ import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContai
 import { TiltCard } from "@/components/motion/TiltCard";
 import { staticPuppies } from "@/content/puppies-static";
 import { formatPrice, getPuppyBySlug } from "@/lib/catalog-utils";
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildLocalBusinessLD, buildPuppyProductLD } from "@/lib/structured-data";
@@ -196,9 +197,9 @@ export default function PuppyPage({ params }: Props) {
   return (
     <>
       {/* JSON-LD */}
-      <script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
-      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
+      <script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(productLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbLd) }} />
+      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(businessLd) }} />
       {/* GA4: lead_filhote — disparado quando visitante visualiza a página do filhote */}
       <LeadEventTracker eventName="lead_filhote" params={{ puppy_slug: puppy.slug, puppy_color: colorSlug, puppy_sex: sexSlug }} />
 

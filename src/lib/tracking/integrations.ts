@@ -1,4 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { cifrarToken, cifrarTokenOpcional, decifrarToken } from "@/lib/tokenCipher";
 
 import type { OAuthTokens, ProviderKey } from "./providers/types";
 
@@ -35,8 +36,10 @@ export async function upsertIntegrationTokens(opts: {
     {
       user_id: userId,
       provider: opts.provider,
-      access_token: opts.tokens.accessToken,
-      refresh_token: opts.tokens.refreshToken ?? null,
+      // Cifrados em repouso: um refresh_token do Google nao vence, entao a
+      // linha vazada continua valendo depois. Ver src/lib/tokenCipher.ts.
+      access_token: await cifrarToken(opts.tokens.accessToken),
+      refresh_token: await cifrarTokenOpcional(opts.tokens.refreshToken),
       expires_at: expiresAtIso,
       provider_account_id: opts.providerAccountId ?? null,
       metadata: opts.metadata ?? null,
@@ -65,5 +68,14 @@ export async function getIntegrationForUser(provider: ProviderKey, userId?: stri
   if (error) {
     throw new Error(`Failed to load integration: ${error.message}`);
   }
-  return data as IntegrationRow | null;
+  if (!data) return null;
+
+  // Quem chama espera o token pronto para uso. Linha gravada antes da cifra
+  // volta como esta — decifrarToken so mexe no que tem o envelope de versao.
+  const linha = data as IntegrationRow;
+  return {
+    ...linha,
+    access_token: (await decifrarToken(linha.access_token)) ?? linha.access_token,
+    refresh_token: await decifrarToken(linha.refresh_token),
+  };
 }

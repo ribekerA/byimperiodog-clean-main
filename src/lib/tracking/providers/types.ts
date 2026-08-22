@@ -25,11 +25,21 @@ export type ProviderAdapter = {
   /**
    * Build the authorization URL for OAuth
    */
-  buildAuthUrl: (opts: { redirectUri: string; state: string }) => Promise<OAuthInfo> | OAuthInfo;
+  buildAuthUrl: (opts: {
+    redirectUri: string;
+    state: string;
+    /** Desafio PKCE (S256). O verificador correspondente fica no cookie de estado. */
+    codeChallenge?: string;
+  }) => Promise<OAuthInfo> | OAuthInfo;
   /**
    * Exchange authorization code for tokens
    */
-  exchangeCode: (opts: { code: string; redirectUri: string }) => Promise<OAuthTokens>;
+  exchangeCode: (opts: {
+    code: string;
+    redirectUri: string;
+    /** Verificador PKCE. Sem ele o provedor recusa o code quando houve desafio. */
+    codeVerifier?: string;
+  }) => Promise<OAuthTokens>;
   /**
    * Refresh tokens (if supported)
    */

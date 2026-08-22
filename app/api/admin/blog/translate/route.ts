@@ -17,7 +17,7 @@ interface TranslateReq { post_id: string; target_lang: string; force?: boolean }
 const SUPPORTED_LANGS = ['pt-BR', 'en-US'];
 
 export async function POST(req: Request) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

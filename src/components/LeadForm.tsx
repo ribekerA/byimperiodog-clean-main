@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -61,6 +61,7 @@ type SubmitStatus = "idle" | "success" | "error";
 
 export default function LeadForm({ context, className }: Props) {
   const [status, setStatus] = useState<SubmitStatus>("idle");
+  const idempotencyKeyRef = useRef<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {
@@ -98,6 +99,7 @@ export default function LeadForm({ context, className }: Props) {
     setErrorMessage(null);
 
     try {
+      idempotencyKeyRef.current ??= crypto.randomUUID();
       const payload = {
         ...data,
         consent_timestamp: new Date().toISOString(),
@@ -111,7 +113,10 @@ export default function LeadForm({ context, className }: Props) {
 
       const response = await fetch("/api/leads", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Idempotency-Key": idempotencyKeyRef.current,
+        },
         body: JSON.stringify(payload),
       });
 
@@ -133,6 +138,8 @@ export default function LeadForm({ context, className }: Props) {
         .json()
         .then((corpo: { id?: string | null }) => corpo?.id ?? null)
         .catch(() => null);
+
+      idempotencyKeyRef.current = null;
 
       trackLeadAdsConversion({ transactionId: leadId ?? undefined });
       rememberLeadConversion(leadId);

@@ -2,54 +2,18 @@ export const dynamic = "force-dynamic";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+import { rateLimitRequest, tooManyRequests } from "@/lib/rateLimitDurable";
+import { RequestBodyError, readJsonWithLimit } from "@/lib/requestGuards";
 import { hasServiceRoleKey, supabaseAdmin } from "@/lib/supabaseAdmin";
-
-// Rate limiting simples baseado em IP
-const rateLimitMap = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minuto
-const MAX_REQUESTS = 3; // máximo 3 inscrições por minuto por IP
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const timestamps = rateLimitMap.get(ip) || [];
-  const recentTimestamps = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW);
-  
-  if (recentTimestamps.length >= MAX_REQUESTS) {
-    return false;
-  }
-  
-  recentTimestamps.push(now);
-  rateLimitMap.set(ip, recentTimestamps);
-  
-  // Limpar entradas antigas periodicamente
-  if (Math.random() < 0.01) {
-    for (const [key, stamps] of rateLimitMap.entries()) {
-      const valid = stamps.filter((t) => now - t < RATE_LIMIT_WINDOW);
-      if (valid.length === 0) {
-        rateLimitMap.delete(key);
-      } else {
-        rateLimitMap.set(key, valid);
-      }
-    }
-  }
-  
-  return true;
-}
 
 const newsletterSchema = z.object({
   email: z.string().email("E-mail inválido").trim().toLowerCase(),
-});
+}).strict();
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate limiting
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { message: "Muitas tentativas. Aguarde um momento." },
-        { status: 429 }
-      );
-    }
+    const rate = await rateLimitRequest(req, { scope: "newsletter", limit: 3, windowMs: 60_000 });
+    if (!rate.allowed) return tooManyRequests(rate, "Muitas tentativas. Aguarde um momento.");
 
     if (!hasServiceRoleKey()) {
       return NextResponse.json(
@@ -58,7 +22,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const body = await req.json().catch(() => ({}));
+    const body = await readJsonWithLimit(req, 4 * 1024);
     const result = newsletterSchema.safeParse(body);
     
     if (!result.success) {
@@ -81,7 +45,10 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ message: "Inscrição confirmada!" }, { status: 200 });
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyError) {
+      return NextResponse.json({ message: error.message, code: error.code }, { status: error.status });
+    }
     return NextResponse.json({ message: "Erro inesperado" }, { status: 500 });
   }
 }

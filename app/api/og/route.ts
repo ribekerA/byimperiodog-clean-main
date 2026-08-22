@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
+import { rateLimitRequestMemory, tooManyRequests } from '@/lib/rateLimitDurable';
 
 export async function GET(req: Request) {
+  const rate = rateLimitRequestMemory(req, { scope: 'og', limit: 120, windowMs: 60_000 });
+  if (!rate.allowed) return tooManyRequests(rate);
+
   try {
     const url = new URL(req.url);
   const title = url.searchParams.get('title') || 'By Império Dog';

@@ -6,7 +6,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { requireAdmin } from "@/lib/adminAuth";
 
 export async function GET(req: Request) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:read" });
   if (guard) return guard;
   const { searchParams } = new URL(req.url);
   const leadId = searchParams.get("leadId");
@@ -20,7 +20,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   const { leadId, force } = await req.json();

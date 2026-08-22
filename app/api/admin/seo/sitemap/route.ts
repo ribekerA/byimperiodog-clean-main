@@ -20,7 +20,7 @@ const STATIC_URLS = [
 ];
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:read" });
   if (auth) return auth;
 
   const { items: posts } = await blogRepo.listPosts({ status: "published", limit: 5000 });
@@ -66,7 +66,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "settings:write" });
   if (auth) return auth;
 
   const sitemapUrl = `${ORIGIN}/sitemap.xml`;

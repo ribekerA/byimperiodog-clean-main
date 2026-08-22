@@ -12,6 +12,7 @@ import SkipLink from "@/components/common/SkipLink";
 import ConsentModeDefault from "@/components/ConsentModeDefault";
 import Pixels from "@/components/Pixels";
 import ToastContainer from "@/components/Toast";
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
 import { getSiteSettings } from "@/lib/getSettings";
 import { getPixelsSettings, resolveActiveEnvironment } from "@/lib/pixels";
 import { resolveRobots } from "@/lib/seo";
@@ -198,21 +199,21 @@ export default async function PublicLayout({ children }: { children: React.React
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+            dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(organizationLd) }}
           />
         )}
         {websiteLd && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+            dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(websiteLd) }}
           />
         )}
         {siteNavigationLd && (
           <script
             type="application/ld+json"
             // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationLd) }}
+            dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(siteNavigationLd) }}
           />
         )}
         {/**

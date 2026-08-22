@@ -4,13 +4,14 @@ import type { NextRequest } from 'next/server';
 import { z } from 'zod';
 
 import { revalidarListagemBlog } from '@/lib/blog/revalidate';
+import { requireAdminApi } from '@/lib/adminAuth';
 import { rateLimit } from '@/lib/limiter';
 import { safeAction } from '@/lib/safeAction';
 
 /**
  * POST /api/admin/revalidate
  * Body: { path?: string; slug?: string }
- * Header: x-admin-token = ADMIN_TOKEN (ou DEBUG_TOKEN)
+ * Auth: sessao admin assinada com permissao blog:write, ou ADMIN_PASS em x-admin-pass
  * Se slug fornecido, revalida /blog/[slug] e /blog; se path fornecido revalida path literal.
  */
 const schema = z.object({
@@ -41,10 +42,7 @@ export async function POST(req: NextRequest) {
   try { await rateLimit(req as unknown as Request, { identifier: 'admin-revalidate', limit: 10, windowMs: 60_000 }); } catch {
     return NextResponse.json({ error: 'rate-limit' }, { status: 429 });
   }
-  const token = req.headers.get('x-admin-token');
-  const adminToken = process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN;
-  if (!adminToken || token !== adminToken) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  }
+  const guard = await requireAdminApi(req, { permission: 'blog:write' });
+  if (guard) return guard;
   return execute(req as unknown as Request);
 }

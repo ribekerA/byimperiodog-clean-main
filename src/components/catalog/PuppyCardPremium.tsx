@@ -19,6 +19,7 @@ import { Badge, Button, Card, CardContent, CardHeader, StatusBadge } from "@/com
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import type { CatalogBadge } from "@/lib/ai/catalog-badges";
 import type { CatalogSeoOutput } from "@/lib/ai/catalog-seo";
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
 import { getNextImageProps } from "@/lib/images";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
@@ -200,7 +201,7 @@ export default function PuppyCardPremium({
       interactive
       className="group relative h-full overflow-hidden rounded-3xl border border-[var(--border)] shadow-sm focus-within:ring-2 focus-within:ring-emerald-500 focus-within:ring-offset-2"
     >
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(productLd) }} />
 
       <CardHeader noPadding>
         <div className="relative aspect-[4/3] w-full overflow-hidden rounded-b-none rounded-t-3xl">

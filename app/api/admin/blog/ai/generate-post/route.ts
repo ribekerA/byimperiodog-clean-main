@@ -44,7 +44,7 @@ interface PersistExtras {
 }
 
 export async function POST(req: Request) {
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   const ip = (req as any).ip || '0.0.0.0';
   const rl = rateLimit('gen:'+ip, 10, 60_000); // 10/min
   if(!rl.allowed) return NextResponse.json({ ok:false, error:'rate-limit', retry_at: rl.reset }, { status:429 });

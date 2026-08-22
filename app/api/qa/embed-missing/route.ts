@@ -9,7 +9,7 @@ export const runtime = "edge";
 
 // Gera embeddings para posts que não têm registro mdx em blog_post_embeddings
 export async function POST(req: Request){
-  if(!internalGuard(req)) return NextResponse.json({ ok:false, error:'unauthorized' }, { status:401 });
+  if(!(await internalGuard(req))) return NextResponse.json({ ok:false, error:'unauthorized' }, { status:401 });
   const sb = supabaseAdmin();
   // Query posts published recentes
   const { data: posts } = await sb.from('blog_posts')

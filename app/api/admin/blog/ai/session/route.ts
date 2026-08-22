@@ -5,7 +5,7 @@ import { rateLimit } from '@/lib/rateLimit';
 
 // GET /api/admin/blog/ai/session?id=... | ?active=1 | lista
 export async function GET(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:read" }); if(auth) return auth;
   const sb = supabaseAdmin();
   const url = new URL(req.url);
   const id = url.searchParams.get('id');
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest){
 // POST cria ou atualiza sessão
 // body: { id?, topic?, phase?, progress?, status?, error_message?, post_id? }
 export async function POST(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   const ip = (req as any).ip || '0.0.0.0';
   const rl = rateLimit('session:'+ip, 20, 60_000);
   if(!rl.allowed) return NextResponse.json({ ok:false, error:'rate-limit' }, { status:429 });

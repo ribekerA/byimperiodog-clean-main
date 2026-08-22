@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { autenticadoPorSegredoDeMaquina, origemSuspeita } from "@/lib/adminRequestGuard";
 import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
 
 /**
@@ -68,16 +69,17 @@ export async function middleware(req: NextRequest) {
   // 4) REGRA: Proteção de /api/admin/* (cookie OU header "x-admin-pass")
   // ============================================================================
   if (isAdminApiPath && pathname !== "/api/admin/login") {
-    // Só ADMIN_PASS. NEXT_PUBLIC_* é inlinado no bundle do browser pelo Next,
-    // então aceitar NEXT_PUBLIC_ADMIN_PASS aqui tornava possível autenticar com
-    // uma senha que fica legível no JS público. Se precisar de acesso por
-    // script, use o header x-admin-pass com o valor de ADMIN_PASS.
-    const expectedPass = process.env.ADMIN_PASS;
-    const headerPass = req.headers.get("x-admin-pass");
-    const authedByHeader = !!expectedPass && headerPass === expectedPass;
+    // Primeira tranca de CSRF, antes de qualquer efeito: POST/PUT/PATCH/DELETE
+    // vindo de outra origem é recusado aqui, sem chegar ao handler.
+    if (origemSuspeita(req)) {
+      return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
+    }
 
-    // Rejeita se não tem sessão E não tem header válido
-    if (!hasSession && !authedByHeader) {
+    // As regras do segredo de máquina saíram daqui para src/lib/adminRequestGuard.ts,
+    // que é o mesmo módulo usado por requireAdminApi nas rotas. Antes eram duas
+    // implementações: esta comparava ADMIN_PASS com `===`, sem tamanho mínimo e
+    // sem tempo constante — ou seja, a porta da frente era a mais fraca das duas.
+    if (!hasSession && !autenticadoPorSegredoDeMaquina(req)) {
       return NextResponse.json(
         { ok: false, error: "Unauthorized" },
         { status: 401 }

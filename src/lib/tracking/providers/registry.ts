@@ -5,7 +5,7 @@ import type { ProviderAdapter, ProviderKey } from "./types";
 // Placeholder for TikTok; implement when ready.
 const tiktokAdapter: ProviderAdapter = {
   id: "tiktok",
-  buildAuthUrl: ({ redirectUri, state }) => {
+  buildAuthUrl: ({ redirectUri, state, codeChallenge }) => {
     const scope = ["pixel.event.read", "pixel.event.manage"]; // placeholder scopes
     const base = process.env.TIKTOK_AUTH_URL || "https://business-api.tiktok.com/portal/auth";
     const clientId = process.env.TIKTOK_CLIENT_ID;
@@ -15,6 +15,10 @@ const tiktokAdapter: ProviderAdapter = {
     url.searchParams.set("redirect_uri", redirectUri);
     url.searchParams.set("state", state);
     url.searchParams.set("response_type", "code");
+    if (codeChallenge) {
+      url.searchParams.set("code_challenge", codeChallenge);
+      url.searchParams.set("code_challenge_method", "S256");
+    }
     url.searchParams.set("scope", scope.join(","));
     return { authUrl: url.toString(), scope, provider: "tiktok" };
   },

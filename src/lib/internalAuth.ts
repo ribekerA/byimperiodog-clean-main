@@ -1,21 +1,57 @@
-// Internal lightweight auth (no env). Provides token verification for admin-like endpoints.
-// Accepts either the raw phrase or a precomputed SHA-256 hex of that phrase.
-// Implemented without Node 'crypto' to be Edge-compatible.
+/**
+ * Portao das rotas internas (reindex, seed de badges, embeddings pendentes).
+ *
+ * A versao anterior guardava a frase `byid-internal-v1-2025` e o SHA-256 dela
+ * dentro deste arquivo, versionado num repositorio publico. Quem abrisse o
+ * codigo tinha a credencial: bastava mandar o header `x-internal-token` com a
+ * frase para disparar reindexacao e geracao de embeddings — rotas que gastam
+ * chamada de IA e escrevem no banco. Nao havia segredo nenhum, so a aparencia
+ * de um.
+ *
+ * Agora existem dois caminhos, os dois verificados no servidor:
+ *   1. sessao de admin assinada (o mesmo cookie do painel);
+ *   2. INTERNAL_API_SECRET, segredo de maquina, externo e rotacionavel.
+ *
+ * Sem INTERNAL_API_SECRET configurado o caminho 2 simplesmente nao existe — a
+ * rota nao fica aberta, fica sem essa porta.
+ *
+ * Implementado com WebCrypto para continuar valendo no runtime Edge.
+ */
 
-// Fixed phrase (can be rotated manually). Avoid using a publicly obvious value.
-const PHRASE = 'byid-internal-v1-2025';
-// Precomputed: sha256(PHRASE) in hex. If you rotate PHRASE, update this too.
-// To compute locally (Node 18+):
-//  node -e "(async()=>{ const { webcrypto } = require('crypto'); const phrase='byid-internal-v1-2025'; const enc=new TextEncoder(); const buf=await webcrypto.subtle.digest('SHA-256', enc.encode(phrase)); const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); console.log(hex); })()"
-const HASH = '8ffa8b33008ae698052eb58047d47a78f7b3db6228b22a76131db07b730a9215';
+import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
 
-export function verifyInternalToken(headerValue: string | null | undefined){
-  if(!headerValue) return false;
-  // Accept either the raw phrase or the precomputed hex hash of the phrase
-  return headerValue === PHRASE || headerValue.toLowerCase() === HASH;
+/** Tamanho minimo do segredo. Abaixo disso e senha, nao chave. */
+const MIN_SECRET_LENGTH = 24;
+
+function comparacaoConstante(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
 }
 
-export function internalGuard(req: Request){
-  const token = req.headers.get('x-internal-token');
-  return verifyInternalToken(token);
+function lerCookie(req: Request, nome: string): string | undefined {
+  const bruto = req.headers.get("cookie");
+  if (!bruto) return undefined;
+  for (const parte of bruto.split(";")) {
+    const eq = parte.indexOf("=");
+    if (eq < 0) continue;
+    if (parte.slice(0, eq).trim() !== nome) continue;
+    return decodeURIComponent(parte.slice(eq + 1).trim());
+  }
+  return undefined;
+}
+
+export function verifyInternalToken(headerValue: string | null | undefined): boolean {
+  if (!headerValue) return false;
+  const esperado = process.env.INTERNAL_API_SECRET?.trim();
+  if (!esperado || esperado.length < MIN_SECRET_LENGTH) return false;
+  return comparacaoConstante(headerValue, esperado);
+}
+
+/** Devolve true quando a chamada pode seguir. */
+export async function internalGuard(req: Request): Promise<boolean> {
+  const sessao = await verifyAdminSession(lerCookie(req, ADMIN_SESSION_COOKIE));
+  if (sessao) return true;
+  return verifyInternalToken(req.headers.get("x-internal-token"));
 }

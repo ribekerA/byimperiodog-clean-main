@@ -5,7 +5,7 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import sharp from 'sharp';
+import sharp, { type Sharp } from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 import { IMAGE_CONFIG, type ImageSize } from './config';
 
@@ -112,7 +112,7 @@ export async function processImage(
  * Processa imagem para um tamanho e formato específico
  */
 async function processImageSize(
-  originalImage: sharp.Sharp,
+  originalImage: Sharp,
   size: ImageSize,
   format: 'webp' | 'jpeg',
   outputDir: string,

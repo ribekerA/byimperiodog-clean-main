@@ -5,7 +5,7 @@ import { listSuggestions } from '@/lib/seoSuggestions';
 
 // GET /api/admin/seo/suggestions?status=proposed
 export async function GET(req: NextRequest){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:read" }); if(auth) return auth;
   const url = new URL(req.url);
   const status = url.searchParams.get('status')||'proposed';
   try {

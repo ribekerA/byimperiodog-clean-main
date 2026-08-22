@@ -36,9 +36,6 @@
       ],
       "@/public/*": [
         "public/*"
-      ],
-      "contentlayer/generated": [
-        ".contentlayer/generated"
       ]
     },
     "strict": true,
@@ -66,7 +63,6 @@
   ],
   "exclude": [
     "node_modules",
-    "contentlayer.config.ts",
     "tests",
     "**/*.test.ts",
     "**/*.test.tsx",

@@ -11,7 +11,7 @@ type VariantMetrics = {
 };
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "dashboard:read" });
   if (auth) return auth;
 
   const { searchParams } = new URL(req.url);

@@ -3,22 +3,16 @@
 // Mantém suppressHydrationWarning e serialização estável
 import React from 'react';
 
-type JsonLd = Record<string, any> | Array<Record<string, any>>;
+import { safeJsonLdStringify } from '@/lib/contentSecurity';
 
-function safeStringify(data: JsonLd) {
-  try {
-    return JSON.stringify(data);
-  } catch {
-    return 'null';
-  }
-}
+type JsonLd = Record<string, any> | Array<Record<string, any>>;
 
 export function SeoJsonLd({ data }: { data: JsonLd }) {
   return (
     <script
       type="application/ld+json"
       suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: safeStringify(data) }}
+      dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(data) }}
     />
   );
 }

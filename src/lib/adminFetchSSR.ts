@@ -1,15 +1,16 @@
 import { cookies } from 'next/headers';
 
+import { ADMIN_SESSION_COOKIE } from '@/lib/adminSession';
+
 /** Fetch server-side reutilizando cookies admin para rotas internas. */
 export async function adminFetchSSR(path:string, init:RequestInit = {}){
   const base = process.env.NEXT_PUBLIC_SITE_URL || '';
   const url = path.startsWith('http')? path : `${base}${path}`;
-  // Encaminha cookies admin
+  // Encaminha a sessao assinada. Antes encaminhava adm/admin_auth, que eram os
+  // cookies sem assinatura — a chamada interna reproduzia o mesmo caminho fraco.
   const cookieStore = cookies();
-  const adm = cookieStore.get('adm');
-  const legacy = cookieStore.get('admin_auth');
+  const sessao = cookieStore.get(ADMIN_SESSION_COOKIE);
   const headers = new Headers(init.headers||{});
-  if(adm) headers.append('cookie', `adm=${adm.value}`);
-  if(legacy) headers.append('cookie', `admin_auth=${legacy.value}`);
+  if(sessao) headers.append('cookie', `${ADMIN_SESSION_COOKIE}=${sessao.value}`);
   return fetch(url, { ...init, headers, cache:'no-store' });
 }

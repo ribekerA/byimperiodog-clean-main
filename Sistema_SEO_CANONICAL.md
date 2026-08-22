@@ -12,13 +12,13 @@
 
 ```html
 <!-- Exemplo: página /filhotes -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/filhotes" />
+<link rel="canonical" href="https://byimperiodog.com.br/filhotes" />
 
 <!-- Exemplo: página blog /blog/meu-artigo -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/blog/meu-artigo" />
+<link rel="canonical" href="https://byimperiodog.com.br/blog/meu-artigo" />
 
 <!-- Homepage -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/" />
+<link rel="canonical" href="https://byimperiodog.com.br/" />
 ```
 
 ### ✅ Componentes SEO Criados
@@ -49,7 +49,7 @@ export default function MyPage() {
   return (
     <>
       <SeoHead
-        canonical="https://www.canilspitzalemao.com.br/seo/especial"
+        canonical="https://byimperiodog.com.br/seo/especial"
         title="Página Especial | By Imperio Dog"
         description="Descrição customizada"
         ogImage="/custom-og.jpg"
@@ -81,27 +81,27 @@ export default function MyPage() {
 **Vercel (Production):**
 ```bash
 # Settings → Environment Variables
-NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.canilspitzalemao.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN=https://byimperiodog.com.br
 ```
 
 **Local (.env.local):**
 ```bash
-NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.canilspitzalemao.com.br
-NEXT_PUBLIC_SITE_URL=https://www.canilspitzalemao.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN=https://byimperiodog.com.br
+NEXT_PUBLIC_SITE_URL=https://byimperiodog.com.br
 ```
 
 **Netlify (netlify.toml):**
 ```toml
 [build.environment]
-  NEXT_PUBLIC_CANONICAL_ORIGIN = "https://www.canilspitzalemao.com.br"
-  NEXT_PUBLIC_SITE_URL = "https://www.canilspitzalemao.com.br"
+  NEXT_PUBLIC_CANONICAL_ORIGIN = "https://byimperiodog.com.br"
+  NEXT_PUBLIC_SITE_URL = "https://byimperiodog.com.br"
 ```
 
 #### Option B: Código Direto
 
 Editar `src/lib/seo.core.ts`:
 ```typescript
-export const SITE_ORIGIN = 'https://www.canilspitzalemao.com.br'.replace(/\/$/, '');
+export const SITE_ORIGIN = 'https://byimperiodog.com.br'.replace(/\/$/, '');
 ```
 
 ---
@@ -169,7 +169,7 @@ export default function DynamicPage() {
 
   useEffect(() => {
     // Calcular URL canonicalbasedeem lógica complexa
-    setFinalUrl(`https://www.canilspitzalemao.com.br/special/${computed}`);
+    setFinalUrl(`https://byimperiodog.com.br/special/${computed}`);
   }, []);
 
   return (
@@ -189,13 +189,13 @@ export default function DynamicPage() {
 
 ```html
 <!-- Página pública: renderizada automaticamente -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/caminho" />
+<link rel="canonical" href="https://byimperiodog.com.br/caminho" />
 
 <!-- Página admin: OMITIDA (skipCanonical=true) -->
 <!-- Não renderiza canonical em /admin/* -->
 
 <!-- Página 404: usa canonical homepage -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/" />
+<link rel="canonical" href="https://byimperiodog.com.br/" />
 ```
 
 ### OpenGraph & Twitter Card
@@ -204,7 +204,7 @@ Gerados automaticamente via **metadata** de Next.js:
 
 ```html
 <!-- auto-gerado em baseSiteMetadata() ou buildBlogPostMetadata() -->
-<meta property="og:url" content="https://www.canilspitzalemao.com.br/..." />
+<meta property="og:url" content="https://byimperiodog.com.br/..." />
 <meta property="og:type" content="website|article" />
 <meta property="og:title" content="..." />
 <meta property="og:description" content="..." />
@@ -225,9 +225,9 @@ Gerados automaticamente via **metadata** de Next.js:
 <!-- 3. Incluir hreflang vazio prejudica SEO -->
 
 <!-- SE IMPLEMENTAR I18N NO FUTURO, adicionar: -->
-<link rel="alternate" hreflang="pt-BR" href="https://www.canilspitzalemao.com.br/" />
-<link rel="alternate" hreflang="en" href="https://www.canilspitzalemao.com.br/en/" />
-<link rel="alternate" hreflang="x-default" href="https://www.canilspitzalemao.com.br/" />
+<link rel="alternate" hreflang="pt-BR" href="https://byimperiodog.com.br/" />
+<link rel="alternate" hreflang="en" href="https://byimperiodog.com.br/en/" />
+<link rel="alternate" hreflang="x-default" href="https://byimperiodog.com.br/" />
 ```
 
 ---
@@ -251,7 +251,7 @@ export default function Home() {
 }
 
 // Renderizado:
-// <link rel="canonical" href="https://www.canilspitzalemao.com.br/" />
+// <link rel="canonical" href="https://byimperiodog.com.br/" />
 ```
 
 ### Exemplo 2: Página de Filhotes
@@ -272,7 +272,7 @@ export default function PuppiesPage() {
 }
 
 // Renderizado:
-// <link rel="canonical" href="https://www.canilspitzalemao.com.br/filhotes" />
+// <link rel="canonical" href="https://byimperiodog.com.br/filhotes" />
 ```
 
 ### Exemplo 3: Blog Post Dinâmico
@@ -296,7 +296,7 @@ export default function BlogPostPage({ params }) {
 }
 
 // Renderizado:
-// <link rel="canonical" href="https://www.canilspitzalemao.com.br/blog/como-cuidar-spitz" />
+// <link rel="canonical" href="https://byimperiodog.com.br/blog/como-cuidar-spitz" />
 // <meta property="og:type" content="article" />
 // <article:published_time>2026-02-01</article:published_time>
 ```
@@ -332,17 +332,17 @@ Abrir DevTools (F12) > Elements:
 
 ```html
 <!-- Verificar se existe no <head> -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/seu/caminho" />
+<link rel="canonical" href="https://byimperiodog.com.br/seu/caminho" />
 ```
 
 ### 2️⃣ Verificar em Produção
 
 ```bash
 # Verificar canonical tag
-curl -s https://www.canilspitzalemao.com.br/filhotes | grep canonical
+curl -s https://byimperiodog.com.br/filhotes | grep canonical
 
 # Esperado:
-# <link rel="canonical" href="https://www.canilspitzalemao.com.br/filhotes" />
+# <link rel="canonical" href="https://byimperiodog.com.br/filhotes" />
 ```
 
 ### 3️⃣ Verificar em Google Search Console

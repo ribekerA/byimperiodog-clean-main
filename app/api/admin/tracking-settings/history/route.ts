@@ -6,7 +6,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "settings:read" });
   if (guard) return guard;
 
   const env = req.nextUrl.searchParams.get("environment") || undefined;

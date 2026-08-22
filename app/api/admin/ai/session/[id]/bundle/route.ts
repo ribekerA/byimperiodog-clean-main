@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/adminAuth";
 import { assembleSessionProduct, recomputeSessionProgress } from "@/lib/aiPipeline";
 
 export async function GET(_req: NextRequest, ctx: { params: { id: string } }) {
-  const auth = requireAdmin(_req);
+  const auth = await requireAdmin(_req, { permission: "blog:read" });
   if (auth) return auth;
   await recomputeSessionProgress(ctx.params.id);
   const bundle = await assembleSessionProduct(ctx.params.id);

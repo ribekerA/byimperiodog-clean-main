@@ -24,7 +24,7 @@ type WriteRequest = {
 };
 
 export async function POST(req: Request) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

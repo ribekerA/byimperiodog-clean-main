@@ -2,14 +2,21 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
 import { applyAutopilotSeo, runAutopilotSeo } from "@/lib/ai/autopilot-seo";
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const guard = await requireAdminApi(req, { permission: "dashboard:read" });
+  if (guard) return guard;
+
   const result = await runAutopilotSeo();
   return NextResponse.json(result);
 }
 
 export async function POST(request: Request) {
+  const guard = await requireAdminApi(request, { permission: "blog:write" });
+  if (guard) return guard;
+
   const body = await request.json().catch(() => ({}));
   const apply = Boolean(body?.apply);
   const result = apply ? await applyAutopilotSeo() : await runAutopilotSeo();

@@ -10,7 +10,7 @@
  * Trigger externo programado: criadora envia mensagem quando nova ninhada chega.
  */
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { getClickId } from "@/lib/gclid";
 import { sendGA4 } from "@/lib/track";
@@ -26,6 +26,7 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
   const [step, setStep] = useState<Step>("idle");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const idempotencyKeyRef = useRef<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,9 +35,13 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
 
     setLoading(true);
     try {
-      await fetch("/api/leads", {
+      idempotencyKeyRef.current ??= crypto.randomUUID();
+      const response = await fetch("/api/leads", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Idempotency-Key": idempotencyKeyRef.current,
+        },
         body: JSON.stringify({
           telefone: digits,
           nome: "Notificação de disponibilidade",
@@ -53,10 +58,12 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
         }),
         keepalive: true,
       });
+      if (!response.ok) throw new Error("Falha ao registrar interesse");
+      idempotencyKeyRef.current = null;
       sendGA4("notify_me_subscribe", { color: color ?? "any" });
       setStep("success");
     } catch {
-      setStep("success"); // graceful — salva localmente mesmo se falhar
+      setStep("form");
     } finally {
       setLoading(false);
     }

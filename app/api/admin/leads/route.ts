@@ -5,7 +5,7 @@ import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:read" });
   if (guard) return guard;
 
   const id = req.nextUrl.searchParams.get("id");

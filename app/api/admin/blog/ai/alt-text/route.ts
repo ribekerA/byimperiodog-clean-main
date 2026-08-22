@@ -8,7 +8,7 @@ import type { AiAltTextRequest, AiAltTextResponse } from "@/types/blog";
  * Gera alt-text e legendas básicas para imagens informadas.
  */
 export async function POST(req: Request) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

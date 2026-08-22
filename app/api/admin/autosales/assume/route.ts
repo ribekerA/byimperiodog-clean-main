@@ -5,7 +5,7 @@ import { requireAdminApi, logAdminAction } from "@/lib/adminAuth";
 import { markAutoSalesHuman } from "@/lib/ai/autoSalesEngine";
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   const { sequenceId } = (await req.json().catch(() => ({}))) as { sequenceId?: string };

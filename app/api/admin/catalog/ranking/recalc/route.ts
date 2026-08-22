@@ -2,10 +2,13 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
 import { recalcCatalogRanking } from "@/lib/ai/catalog-ranking";
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function POST() {
-  // Opcional: validar sessão admin aqui (middleware)
+export async function POST(req: Request) {
+  const guard = await requireAdminApi(req, { permission: "cadastros:write" });
+  if (guard) return guard;
+
   try {
     const summary = await recalcCatalogRanking();
     await supabaseAdmin()

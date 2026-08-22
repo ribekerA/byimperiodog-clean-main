@@ -69,7 +69,7 @@ function getStartDate(period: AnalyticsPeriod, customStart?: string): Date {
  * Retorna métricas do dashboard
  */
 export async function GET(req: NextRequest) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "dashboard:read" });
   if (auth) return auth;
 
   try {

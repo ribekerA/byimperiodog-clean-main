@@ -15,7 +15,7 @@ type SuggestPayload = {
 };
 
 export async function POST(req: NextRequest) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

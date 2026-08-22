@@ -1,6 +1,8 @@
 // Geração de JSON-LD estruturado para páginas de blog e site
 // Uso: importar getPostJsonLd / getSiteJsonLd e injetar via <script type="application/ld+json">.
 
+import { safeJsonLdStringify } from '@/lib/contentSecurity';
+
 export function getSiteJsonLd(opts: { siteUrl: string; name: string; searchUrl?: string }) {
   const { siteUrl, name, searchUrl } = opts;
   return {
@@ -60,7 +62,7 @@ export function getBreadcrumbJsonLd(opts: { siteUrl: string; items: { name: stri
 }
 
 export function serializeJsonLd(obj: unknown) {
-  return JSON.stringify(obj, null, 0);
+  return safeJsonLdStringify(obj);
 }
 
 // WebPage JSON-LD helper for institutional pages

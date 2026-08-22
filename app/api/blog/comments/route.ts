@@ -3,32 +3,8 @@ import { NextResponse } from "next/server";
 import { supabasePublic } from "@/lib/supabasePublic";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { z } from "zod";
-
-// best-effort in-memory rate limiter
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 5;
-const rateMap = new Map<string, { count: number; resetAt: number }>();
-
-function getClientIp(req: Request) {
-  const xf = req.headers.get("x-forwarded-for");
-  if (xf) return xf.split(",")[0].trim();
-  const realIp = req.headers.get("x-real-ip");
-  if (realIp) return realIp;
-  return "anonymous";
-}
-
-function checkRate(req: Request) {
-  const key = getClientIp(req);
-  const now = Date.now();
-  const entry = rateMap.get(key);
-  if (!entry || now > entry.resetAt) {
-    rateMap.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT_MAX) return false;
-  entry.count += 1;
-  return true;
-}
+import { rateLimitRequest, tooManyRequests } from "@/lib/rateLimitDurable";
+import { RequestBodyError, readJsonWithLimit } from "@/lib/requestGuards";
 
 export async function GET(req: Request) {
   try {
@@ -80,9 +56,8 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    if (!checkRate(req)) {
-      return NextResponse.json({ error: "Muitas tentativas. Tente novamente em instantes." }, { status: 429 });
-    }
+    const rate = await rateLimitRequest(req, { scope: "blog-comments", limit: 5, windowMs: 60_000 });
+    if (!rate.allowed) return tooManyRequests(rate);
 
     const schema = z.object({
       post_id: z.string().uuid({ message: "post_id inválido" }),
@@ -101,7 +76,7 @@ export async function POST(req: Request) {
         .or(z.literal("").transform(() => undefined)),
       body: z.string().trim().min(5, { message: "Comentário muito curto" }).max(2000, { message: "Comentário muito longo" }),
     });
-    const json = await req.json();
+    const json = await readJsonWithLimit(req, 16 * 1024);
     const parsed = schema.safeParse(json);
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.issues[0]?.message || "Dados inválidos" }, { status: 400 });
@@ -130,6 +105,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true, comment: data }, { status: 201 });
   } catch (err: any) {
+    if (err instanceof RequestBodyError) {
+      return NextResponse.json({ error: err.message, code: err.code }, { status: err.status });
+    }
     console.error(err?.message || err);
     return NextResponse.json({ error: err?.message || String(err) }, { status: 500 });
   }

@@ -6,7 +6,7 @@ import { requireAdminApi } from "@/lib/adminAuth";
 import { recalcPricingForPuppy } from "@/lib/ai/pricing-engine";
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdminApi(req);
+  const guard = await requireAdminApi(req, { permission: "cadastros:read" });
   if (guard) return guard;
 
   const puppyId = req.nextUrl.searchParams.get("id");

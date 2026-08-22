@@ -4,7 +4,7 @@ import { recalcPricingBulk, recalcPricingForPuppy } from "@/lib/ai/pricing-engin
 import { requireAdmin } from "@/lib/adminAuth";
 
 export async function POST(req: Request) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   const { puppyId } = await req.json().catch(() => ({}));

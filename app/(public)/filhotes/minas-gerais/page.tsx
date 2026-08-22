@@ -8,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
 import { cn } from "@/lib/cn";
+import { safeJsonLdStringify } from "@/lib/contentSecurity";
 import { canonical } from "@/lib/seo.core";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
@@ -142,17 +143,17 @@ export default function FilhotesMinasGeraisPage() {
       <script
         id="localbusiness-mg-ld"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(localBusinessLd) }}
       />
       <script
         id="faq-mg-ld"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(faqLd) }}
       />
       <script
         id="breadcrumb-mg-ld"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(breadcrumbLd) }}
       />
 
       <div className="bg-[var(--bg)] pb-24 pt-16">

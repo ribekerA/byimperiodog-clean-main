@@ -4,67 +4,59 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { sendLeadAutoResponse } from "@/lib/email";
+import {
+  beginIdempotentRequest,
+  completeIdempotentRequest,
+  readIdempotencyKey,
+  releaseIdempotentRequest,
+} from "@/lib/idempotency";
+import { rateLimitRequest, tooManyRequests } from "@/lib/rateLimitDurable";
+import { RequestBodyError, readJsonWithLimit } from "@/lib/requestGuards";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Schema de validação server-side alinhado com o funil de leads (contato + contexto + LGPD)
 const leadSchema = z.object({
-  nome: z.string().min(2),
-  telefone: z.string().min(10),
+  nome: z.string().trim().min(2).max(120),
+  telefone: z.string().trim().min(10).max(30),
   // Cidade e estado eram obrigatórios aqui, mas são opcionais no formulário e
   // nulláveis na tabela — e o chat do matchmaker e a fila de espera nem chegam
   // a coletá-los. Na prática esses dois canais recebiam 400 e nenhum lead deles
   // era salvo. Continua aceitando o valor quando ele vem preenchido.
-  cidade: z.string().trim().min(2).nullish().or(z.literal("")),
+  cidade: z.string().trim().min(2).max(120).nullish().or(z.literal("")),
   estado: z.string().trim().length(2).toUpperCase().nullish().or(z.literal("")),
   sexo_preferido: z.enum(["macho", "femea", "tanto_faz"]).optional(),
-  cor_preferida: z.string().optional(),
+  cor_preferida: z.string().trim().max(80).optional(),
   prazo_aquisicao: z.enum(["imediato", "1_mes", "2_3_meses", "3_mais"]).optional(),
-  mensagem: z.string().optional(),
+  mensagem: z.string().trim().max(2_000).optional(),
   // nullish e não optional: os clientes mandam getClickId(), que devolve null
   // quando a visita não veio de anúncio. Exigir string faria a validação
   // rejeitar o lead inteiro por causa de um campo de atribuição.
   gclid: z.string().trim().max(2048).nullish(),
-  consent_lgpd: z.boolean(),
-  consent_version: z.string().default("1.0"),
-  consent_timestamp: z.string().optional(),
+  consent_lgpd: z.literal(true),
+  consent_version: z.string().trim().max(20).default("1.0"),
+  consent_timestamp: z.string().trim().max(64).optional(),
+  email: z.string().trim().email().max(254).optional(),
   // Contexto opcional de página
-  page_type: z.string().optional(),
-  page_slug: z.string().optional(),
-  page_color: z.string().optional(),
-  page_city: z.string().optional(),
-  page_intent: z.string().optional(),
+  page_type: z.string().trim().max(80).optional(),
+  page_slug: z.string().trim().max(200).optional(),
+  page_color: z.string().trim().max(80).optional(),
+  page_city: z.string().trim().max(120).optional(),
+  page_intent: z.string().trim().max(80).optional(),
+  utm_source: z.string().trim().max(200).nullish(),
+  utm_medium: z.string().trim().max(200).nullish(),
+  utm_campaign: z.string().trim().max(200).nullish(),
+  utm_content: z.string().trim().max(500).nullish(),
+  utm_term: z.string().trim().max(500).nullish(),
 });
 
-// Rate limiting simples (memória)
-const rateLimitMap = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW = 60000; // 60 segundos
-const MAX_REQUESTS = 3;
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const timestamps = rateLimitMap.get(ip) || [];
-  const recent = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW);
-  if (recent.length >= MAX_REQUESTS) return false;
-  recent.push(now);
-  rateLimitMap.set(ip, recent);
-  if (Math.random() < 0.01) {
-    for (const [key, value] of rateLimitMap.entries()) {
-      const valid = value.filter((t) => now - t < RATE_LIMIT_WINDOW);
-      if (valid.length === 0) rateLimitMap.delete(key);
-      else rateLimitMap.set(key, valid);
-    }
-  }
-  return true;
-}
-
 export async function POST(req: NextRequest) {
+  let idempotencyStorageKey: string | null = null;
   try {
     const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json({ error: "Muitas requisições. Aguarde 1 minuto e tente novamente." }, { status: 429 });
-    }
+    const rate = await rateLimitRequest(req, { scope: "leads", limit: 3, windowMs: 60_000 });
+    if (!rate.allowed) return tooManyRequests(rate, "Muitas requisições. Aguarde 1 minuto e tente novamente.");
 
-    const body = await req.json();
+    const body = await readJsonWithLimit(req, 32 * 1024);
     const validation = leadSchema.safeParse(body);
     if (!validation.success) {
       return NextResponse.json({ error: "Dados inválidos", details: validation.error.errors }, { status: 400 });
@@ -73,12 +65,27 @@ export async function POST(req: NextRequest) {
     const data = validation.data;
     const url = new URL(req.url);
 
+    const idempotency = await beginIdempotentRequest("leads", readIdempotencyKey(req));
+    if (idempotency.state === "completed") {
+      return NextResponse.json(idempotency.responseBody, {
+        status: idempotency.responseStatus,
+        headers: { "Idempotency-Replayed": "true" },
+      });
+    }
+    if (idempotency.state === "in_progress") {
+      return NextResponse.json(
+        { error: "Uma submissão idêntica ainda está sendo processada." },
+        { status: 409, headers: { "Retry-After": "2" } },
+      );
+    }
+    idempotencyStorageKey = idempotency.storageKey;
+
     // UTM params (query tem precedência, fallback no body)
-    const utm_source = url.searchParams.get("utm_source") ?? body.utm_source ?? null;
-    const utm_medium = url.searchParams.get("utm_medium") ?? body.utm_medium ?? null;
-    const utm_campaign = url.searchParams.get("utm_campaign") ?? body.utm_campaign ?? null;
-    const utm_content = url.searchParams.get("utm_content") ?? body.utm_content ?? null;
-    const utm_term = url.searchParams.get("utm_term") ?? body.utm_term ?? null;
+    const utm_source = url.searchParams.get("utm_source") ?? data.utm_source ?? null;
+    const utm_medium = url.searchParams.get("utm_medium") ?? data.utm_medium ?? null;
+    const utm_campaign = url.searchParams.get("utm_campaign") ?? data.utm_campaign ?? null;
+    const utm_content = url.searchParams.get("utm_content") ?? data.utm_content ?? null;
+    const utm_term = url.searchParams.get("utm_term") ?? data.utm_term ?? null;
 
     const { data: inserted, error } = await supabaseAdmin()
       .from("leads")
@@ -122,6 +129,7 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error("[API /leads] Supabase error:", error);
+      await releaseIdempotentRequest(idempotencyStorageKey);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
@@ -138,7 +146,7 @@ export async function POST(req: NextRequest) {
       }
 
       // 2. E-mail automático de confirmação (requer RESEND_API_KEY + email no body)
-      const emailAddr = (body as { email?: string }).email ?? null;
+      const emailAddr = data.email ?? null;
       if (emailAddr) {
         sendLeadAutoResponse({
           name:  data.nome,
@@ -154,8 +162,14 @@ export async function POST(req: NextRequest) {
     // O id volta para o cliente porque é ele que vira transaction_id na
     // conversão do Google Ads: com um id estável por lead, o Ads descarta o
     // disparo repetido quando a mesma pessoa passa por mais de um caminho.
-    return NextResponse.json({ ok: true, id: inserted?.id ?? null });
+    const responseBody = { ok: true, id: inserted?.id ?? null };
+    await completeIdempotentRequest(idempotencyStorageKey, 200, responseBody);
+    return NextResponse.json(responseBody);
   } catch (e: unknown) {
+    await releaseIdempotentRequest(idempotencyStorageKey);
+    if (e instanceof RequestBodyError) {
+      return NextResponse.json({ error: e.message, code: e.code }, { status: e.status });
+    }
     const errorMessage = e instanceof Error ? e.message : "Erro desconhecido";
     console.error("[API /leads] Unexpected error:", errorMessage);
     return NextResponse.json({ error: errorMessage }, { status: 500 });

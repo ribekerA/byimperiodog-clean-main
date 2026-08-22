@@ -7,7 +7,7 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // GET: lista tags; aceita ?q= para filtro básico por nome/slug.
 export async function GET(req: NextRequest) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:read" });
   if (auth) return auth;
 
   try {
@@ -60,7 +60,7 @@ export async function GET(req: NextRequest) {
 
 // POST: upsert simples de uma lista de nomes de tags; retorna tags normalizadas.
 export async function POST(req: NextRequest) {
-  const auth = requireAdminApi(req);
+  const auth = await requireAdminApi(req, { permission: "blog:write" });
   if (auth) return auth;
 
   try {

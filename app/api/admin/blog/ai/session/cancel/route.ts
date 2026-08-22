@@ -4,7 +4,7 @@ import { requireAdmin } from '@/lib/adminAuth';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function POST(req:Request){
-  const auth = requireAdmin(req); if(auth) return auth;
+  const auth = await requireAdmin(req, { permission: "blog:write" }); if(auth) return auth;
   const { id } = await req.json().catch(()=>({}));
   if(!id) return NextResponse.json({ ok:false, error:'id required' },{ status:400 });
   try {

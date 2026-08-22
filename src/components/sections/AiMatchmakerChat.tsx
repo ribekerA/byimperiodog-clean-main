@@ -393,6 +393,7 @@ export default function AiMatchmakerChat() {
   const [streamingId,    setStreamingId]    = useState<string | null>(null);
   const [showLeadForm,   setShowLeadForm]   = useState(false);
   const [leadSubmitted,  setLeadSubmitted]  = useState(false);
+  const leadIdempotencyKeyRef = useRef<string | null>(null);
   const [listening,    setListening]    = useState(false);
   const [voiceActive,  setVoiceActive]  = useState(false);
   const [transcribing, setTranscribing] = useState(false);
@@ -771,9 +772,13 @@ export default function AiMatchmakerChat() {
               <LeadInlineForm
                 onSubmit={async (nome, telefone) => {
                   try {
+                    leadIdempotencyKeyRef.current ??= crypto.randomUUID();
                     const res = await fetch("/api/leads", {
                       method: "POST",
-                      headers: { "Content-Type": "application/json" },
+                      headers: {
+                        "Content-Type": "application/json",
+                        "Idempotency-Key": leadIdempotencyKeyRef.current,
+                      },
                       body: JSON.stringify({
                         nome,
                         telefone,
@@ -787,6 +792,7 @@ export default function AiMatchmakerChat() {
                       }),
                     });
                     if (!res.ok) return false;
+                    leadIdempotencyKeyRef.current = null;
 
                     // Nome e telefone entregues aqui valem o mesmo que o
                     // formulário da página: é lead, e a conversão do Ads

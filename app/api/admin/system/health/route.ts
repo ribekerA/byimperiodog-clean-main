@@ -20,7 +20,7 @@ function pct(sorted: number[], p: number): number {
 type EvRow = { name: string; value: unknown; created_at: string; path?: string | null; meta?: unknown };
 
 export async function GET(req: Request) {
-  const auth = requireAdmin(req);
+  const auth = await requireAdmin(req, { permission: "dashboard:read" });
   if (auth) return auth;
 
   const url = new URL(req.url);

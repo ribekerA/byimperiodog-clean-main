@@ -165,7 +165,7 @@ function buildOrderedList(order: OrderEntry[], existing: string[], uploads: Map<
 }
 
 export async function POST(req: NextRequest) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "cadastros:write" });
   if (guard) return guard;
 
   const contentType = req.headers.get("content-type") || "";

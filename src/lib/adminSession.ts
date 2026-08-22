@@ -1,3 +1,4 @@
+import { base64url, base64urlToBytes } from "@/lib/base64url";
 import type { AdminRole } from "@/lib/rbac";
 
 export const ADMIN_SESSION_COOKIE = "admin_session";
@@ -11,21 +12,6 @@ export type AdminSessionPayload = {
   iat: number;
   exp: number;
 };
-
-function base64url(bytes: ArrayBuffer | Uint8Array): string {
-  const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
-  let str = "";
-  for (const b of arr) str += String.fromCharCode(b);
-  return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-
-function base64urlToBytes(value: string): Uint8Array {
-  const padded = value.replace(/-/g, "+").replace(/_/g, "/").padEnd(value.length + ((4 - (value.length % 4)) % 4), "=");
-  const str = atob(padded);
-  const bytes = new Uint8Array(str.length);
-  for (let i = 0; i < str.length; i++) bytes[i] = str.charCodeAt(i);
-  return bytes;
-}
 
 async function getSigningKey(): Promise<CryptoKey> {
   const secret = process.env.ADMIN_SESSION_SECRET;

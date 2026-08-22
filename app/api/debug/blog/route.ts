@@ -1,23 +1,32 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
 
+import { requireAdminApi } from '@/lib/adminAuth';
+import { createLogger } from '@/lib/logger';
 import { supabaseAnon } from '@/lib/supabaseAnon';
 
-// GET /api/debug/blog  (requer header x-debug-token = process.env.DEBUG_TOKEN)
-export async function GET(req: NextRequest){
-  const token = req.headers.get('x-debug-token');
-  if(!process.env.DEBUG_TOKEN || token !== process.env.DEBUG_TOKEN){
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  }
+export const dynamic = 'force-dynamic';
+
+const logger = createLogger('debug:blog');
+
+/**
+ * Contagem de posts por status.
+ *
+ * Trocou o header `x-debug-token` (segredo proprio, sem tamanho minimo e sem
+ * comparacao em tempo constante) pelo mesmo portao das outras rotas privadas.
+ */
+export async function GET(req: Request) {
+  const guard = await requireAdminApi(req, { permission: 'blog:read' });
+  if (guard) return guard;
+
   const sb = supabaseAnon();
-  // Agrupa por status
-  const { data, error } = await sb.from('blog_posts').select('status, count:id').group('status');
-  if(error){
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  const { data, error } = await sb.from('blog_posts').select('status');
+  if (error) {
+    logger.warn('falha ao contar posts', { error: error.message });
+    return NextResponse.json({ error: 'consulta_falhou' }, { status: 500 });
   }
   const counts: Record<string, number> = {};
-  (data as { status: string; count: number }[] | null | undefined)?.forEach(r => {
-    counts[r.status] = Number(r.count) || 0;
-  });
+  for (const linha of (data as { status: string }[] | null) ?? []) {
+    counts[linha.status] = (counts[linha.status] ?? 0) + 1;
+  }
   return NextResponse.json({ counts });
 }

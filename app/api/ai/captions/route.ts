@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
 
 export async function POST(req:Request){
-  const auth = requireAdmin(req as any); if(auth) return auth;
+  const auth = await requireAdmin(req); if(auth) return auth;
   const body = await req.json().catch(()=>({}));
   const title = body.title || 'Spitz Alemão';
   return NextResponse.json({ ok:true, captions: [

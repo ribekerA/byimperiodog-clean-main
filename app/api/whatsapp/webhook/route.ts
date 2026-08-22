@@ -5,35 +5,87 @@ export const dynamic = "force-dynamic";
  * GET  /api/whatsapp/webhook  → verificação do webhook Meta
  * POST /api/whatsapp/webhook  → recebe mensagens e responde com o agente
  *
- * Variáveis de ambiente necessárias:
+ * Variáveis de ambiente necessárias (nomes, nunca valores, ver .env.example):
  *   WA_VERIFY_TOKEN       — token de verificação definido no painel Meta
+ *   WA_APP_SECRET         — App Secret do app Meta, usado na assinatura HMAC
  *   WA_ACCESS_TOKEN       — token de acesso permanente (Meta System User)
  *   WA_PHONE_NUMBER_ID    — ID do número de telefone no Meta Business
+ *
+ * O que mudou e por quê:
+ *
+ * 1. O POST era aberto. Não conferia `X-Hub-Signature-256`, então qualquer
+ *    pessoa que soubesse a URL mandava um payload montado à mão e o site
+ *    rodava o agente de IA e disparava mensagem pela conta comercial para o
+ *    número que o payload escolhesse. Custo de API, custo de LLM e mensagem
+ *    saindo em nome da marca — tudo sem autenticação nenhuma.
+ *
+ * 2. WA_VERIFY_TOKEN tinha valor padrão no código ("byimperiodog_verify").
+ *    Segredo padrão em repositório é segredo público: bastava lê-lo para
+ *    concluir a verificação do webhook da Meta. Agora, sem configuração, a
+ *    rota responde 503 em vez de aceitar o valor de fábrica.
+ *
+ * 3. As comparações eram `===`. Agora são em tempo constante.
  */
 
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { createLogger } from "@/lib/logger";
+import { assinaturaMetaValida, comparacaoConstante } from "@/lib/webhookSignature";
 import { runAgent } from "@/lib/whatsapp/agent";
 
-const VERIFY_TOKEN = process.env.WA_VERIFY_TOKEN ?? "byimperiodog_verify";
-const ACCESS_TOKEN = process.env.WA_ACCESS_TOKEN ?? "";
-const PHONE_NUMBER_ID = process.env.WA_PHONE_NUMBER_ID ?? "";
+const logger = createLogger("whatsapp:webhook");
 
 const META_GRAPH_URL = "https://graph.facebook.com/v19.0";
 
-// Deduplication cache (in-memory, resets on cold start)
+/** Corpo maior que isto não é webhook da Meta: é tentativa de esgotar memória. */
+const MAX_BODY_BYTES = 128 * 1024;
+
+/** Mensagem com carimbo mais velho que isto é replay, não entrega atrasada. */
+const JANELA_DE_REPLAY_SEGUNDOS = 10 * 60;
+
+/**
+ * Deduplicação em memória, com teto.
+ *
+ * Limitação conhecida e deliberada: em ambiente serverless cada instância tem o
+ * próprio conjunto, então uma reentrega da Meta que caia em outra instância
+ * ainda passa. A assinatura já impede replay de terceiros; o que sobra é a
+ * própria Meta reenviando. Dedup à prova de instância exigiria tabela nova no
+ * Supabase (`whatsapp_processed_messages`), que depende de acesso ao banco —
+ * está registrado como pendência externa, não inventado aqui.
+ *
+ * O teto existe porque o Set anterior crescia sem limite enquanto a instância
+ * vivesse.
+ */
+const TETO_DEDUP = 5000;
 const processedIds = new Set<string>();
+
+function jaProcessada(id: string): boolean {
+  if (processedIds.has(id)) return true;
+  if (processedIds.size >= TETO_DEDUP) {
+    // Descarta o mais antigo: Set em JS preserva ordem de inserção.
+    const maisAntigo = processedIds.values().next().value;
+    if (maisAntigo !== undefined) processedIds.delete(maisAntigo);
+  }
+  processedIds.add(id);
+  return false;
+}
 
 // ─── GET — Verificação do webhook Meta ────────────────────────────────────────
 
 export function GET(req: NextRequest) {
+  const esperado = process.env.WA_VERIFY_TOKEN?.trim();
+  if (!esperado) {
+    logger.error("WA_VERIFY_TOKEN nao configurado; verificacao recusada");
+    return NextResponse.json({ error: "Webhook nao configurado" }, { status: 503 });
+  }
+
   const { searchParams } = req.nextUrl;
   const mode = searchParams.get("hub.mode");
-  const token = searchParams.get("hub.verify_token");
-  const challenge = searchParams.get("hub.challenge");
+  const token = searchParams.get("hub.verify_token") ?? "";
+  const challenge = searchParams.get("hub.challenge") ?? "";
 
-  if (mode === "subscribe" && token === VERIFY_TOKEN) {
+  if (mode === "subscribe" && comparacaoConstante(token, esperado)) {
     return new NextResponse(challenge, { status: 200 });
   }
 
@@ -43,14 +95,44 @@ export function GET(req: NextRequest) {
 // ─── POST — Recebe e processa mensagens ───────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  const appSecret = process.env.WA_APP_SECRET?.trim();
+  if (!appSecret) {
+    // Falha fechada: sem o segredo não há como distinguir a Meta de qualquer
+    // outra pessoa, e nesse caso não processar é a única resposta correta.
+    logger.error("WA_APP_SECRET nao configurado; webhook recusado");
+    return NextResponse.json({ error: "Webhook nao configurado" }, { status: 503 });
+  }
+
+  const declarado = Number(req.headers.get("content-length") ?? "0");
+  if (Number.isFinite(declarado) && declarado > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+  }
+
+  // Precisa do texto CRU: a assinatura cobre os bytes como chegaram, e
+  // reserializar o JSON invalidaria toda assinatura legítima.
+  const corpoCru = await req.text();
+  if (corpoCru.length > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+  }
+
+  const assinado = await assinaturaMetaValida(
+    appSecret,
+    corpoCru,
+    req.headers.get("x-hub-signature-256")
+  );
+  if (!assinado) {
+    logger.warn("Webhook recusado por assinatura invalida ou ausente");
+    return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+  }
+
   let body: unknown;
   try {
-    body = await req.json();
+    body = JSON.parse(corpoCru);
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  // Aceitar confirmação de entrega imediatamente (não bloquear Meta)
+  const agora = Math.floor(Date.now() / 1000);
   const entries = (body as any)?.entry ?? [];
 
   for (const entry of entries) {
@@ -60,15 +142,25 @@ export async function POST(req: NextRequest) {
 
       const messages: any[] = value.messages ?? [];
       const contacts: any[] = value.contacts ?? [];
-      const phoneNumberId: string = value.metadata?.phone_number_id ?? PHONE_NUMBER_ID;
+
+      // O número de origem é o nosso, configurado no ambiente. Ler isso do
+      // payload deixava o remetente escolher por qual número o site responde.
+      const phoneNumberId = process.env.WA_PHONE_NUMBER_ID?.trim() ?? "";
 
       for (const message of messages) {
         // Processar apenas mensagens de texto
         if (message.type !== "text") continue;
 
+        const carimbo = Number(message.timestamp ?? 0);
+        if (Number.isFinite(carimbo) && carimbo > 0 && agora - carimbo > JANELA_DE_REPLAY_SEGUNDOS) {
+          logger.warn("Mensagem fora da janela de replay descartada", {
+            atrasoSegundos: agora - carimbo,
+          });
+          continue;
+        }
+
         const messageId: string = message.id ?? "";
-        if (messageId && processedIds.has(messageId)) continue; // dedup
-        if (messageId) processedIds.add(messageId);
+        if (messageId && jaProcessada(messageId)) continue;
 
         const from: string = message.from ?? "";
         const text: string = message.text?.body ?? "";
@@ -79,8 +171,8 @@ export async function POST(req: NextRequest) {
         const name: string | undefined = contact?.profile?.name;
 
         // Roda o agente (não bloqueia a resposta 200 — processa em background)
-        processMessage({ phone: from, name, text, messageId, phoneNumberId }).catch(
-          (err) => console.error("[WA Agent] Error:", err)
+        processMessage({ phone: from, name, text, messageId, phoneNumberId }).catch((err) =>
+          logger.error("Falha ao processar mensagem", { error: String(err) })
         );
       }
     }
@@ -111,7 +203,7 @@ async function processMessage({
 
   // Se escalou para humano, notifica internamente (log ou futura notificação push)
   if (escalate) {
-    console.info(`[WA Agent] 🚨 Escalonado para humano — ${phone} (${name ?? "sem nome"})`);
+    logger.info("Conversa escalonada para atendimento humano", { name: name ?? "sem nome" });
   }
 }
 
@@ -126,8 +218,9 @@ async function sendWhatsAppMessage({
   body: string;
   phoneNumberId: string;
 }) {
-  if (!ACCESS_TOKEN || !phoneNumberId) {
-    console.warn("[WA Agent] WA_ACCESS_TOKEN ou WA_PHONE_NUMBER_ID não configurados.");
+  const accessToken = process.env.WA_ACCESS_TOKEN?.trim();
+  if (!accessToken || !phoneNumberId) {
+    logger.warn("WA_ACCESS_TOKEN ou WA_PHONE_NUMBER_ID nao configurados; envio ignorado");
     return;
   }
 
@@ -137,7 +230,7 @@ async function sendWhatsAppMessage({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
       messaging_product: "whatsapp",
@@ -148,7 +241,7 @@ async function sendWhatsAppMessage({
   });
 
   if (!res.ok) {
-    const err = await res.text();
-    console.error(`[WA Agent] Erro ao enviar para ${to}: ${err}`);
+    // Sem o corpo do erro no log: a resposta da Meta ecoa trechos da requisição.
+    logger.error("Erro ao enviar mensagem pela Meta", { status: res.status });
   }
 }

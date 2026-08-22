@@ -31,7 +31,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const authError = requireAdmin(request);
+    const authError = await requireAdmin(request, { permission: "dashboard:read" });
     if (authError) {
       return authError;
     }

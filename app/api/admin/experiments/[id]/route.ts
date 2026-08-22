@@ -31,7 +31,7 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const authError = requireAdmin(request);
+    const authError = await requireAdmin(request, { permission: "settings:read" });
     if (authError) {
       return authError;
     }
@@ -68,7 +68,7 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const authError = requireAdmin(request);
+    const authError = await requireAdmin(request, { permission: "settings:write" });
     if (authError) {
       return authError;
     }
@@ -136,7 +136,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const authError = requireAdmin(request);
+    const authError = await requireAdmin(request, { permission: "settings:write" });
     if (authError) {
       return authError;
     }

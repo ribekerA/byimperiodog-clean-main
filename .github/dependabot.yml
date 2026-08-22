@@ -1,0 +1,60 @@
+# Atualizacao automatica de dependencias.
+#
+# O motivo de existir: o projeto chegou a 45 vulnerabilidades em dependencias de
+# producao — 2 criticas e 14 altas — porque ninguem atualizava nada entre um
+# recurso e outro. Sem alguem abrindo o PR, a divida so cresce.
+#
+# A configuracao e deliberadamente pouco barulhenta. Uma leva por semana, tudo
+# que for patch e minor agrupado em um PR so, e major separado, um por vez —
+# porque major e leitura de changelog, nao merge de rotina.
+
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    labels:
+      - dependencias
+    groups:
+      # Um PR por semana com tudo que nao muda API.
+      rotina:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # O Next fica fora do automatico de proposito: 14 -> 15 muda
+      # cookies/headers/params para async, exige React 19 e inverte o padrao de
+      # cache do App Router. Isso e migracao com teste manual, nao PR automatico.
+      # A decisao esta registrada em scripts/audit-prod.mjs, com data de revisao.
+      - dependency-name: "next"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint-config-next"
+        update-types: ["version-update:semver-major"]
+      # React 19 depende da mesma migracao acima.
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+
+  # As proprias actions do CI tambem envelhecem, e action desatualizada e
+  # superficie de ataque na esteira de build.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "chore(ci)"
+    labels:
+      - dependencias

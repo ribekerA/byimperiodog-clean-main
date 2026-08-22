@@ -5,7 +5,7 @@ import { approveSuggestion } from '@/lib/seoSuggestions';
 
 // POST /api/admin/seo/suggestions/:id/approve
 export async function POST(_req: NextRequest, ctx:{ params:{ id:string } }){
-  const auth = requireAdmin(_req); if(auth) return auth;
+  const auth = await requireAdmin(_req, { permission: "blog:write" }); if(auth) return auth;
   try {
     await approveSuggestion(ctx.params.id);
     return NextResponse.json({ ok:true });

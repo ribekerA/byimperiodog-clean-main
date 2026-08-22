@@ -60,7 +60,7 @@ class ValidationError extends Error {
 }
 
 export async function GET(req: Request) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "settings:read" });
   if (guard) return guard;
 
   const sb = supabaseAdmin();
@@ -84,7 +84,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const guard = requireAdmin(req);
+  const guard = await requireAdmin(req, { permission: "settings:write" });
   if (guard) return guard;
 
   let body: unknown;

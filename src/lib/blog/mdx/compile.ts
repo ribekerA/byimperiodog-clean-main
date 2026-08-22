@@ -10,6 +10,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import { buildToc } from './toc';
 import type { TocItem } from './toc';
 import { VFile } from 'vfile';
+import { remarkMdxSecurityPlugin } from '@/lib/contentSecurity';
 
 export interface CompileResult {
   code: string; // ESM code string for evaluation via new Function
@@ -31,7 +32,7 @@ export async function compileBlogMdx(source: string, opts: Options = {}): Promis
   const file = new VFile({ value: source });
   const result = await compile(file, {
     outputFormat: 'function-body',
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: [remarkGfm, remarkMdxSecurityPlugin],
     rehypePlugins: [
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: 'wrap' }],

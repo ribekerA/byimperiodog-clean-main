@@ -52,7 +52,7 @@ const customPixelSanitizer = (input: unknown) => {
 
 export async function POST(req: Request) {
   try {
-    const auth = requireAdmin(req);
+    const auth = await requireAdmin(req, { permission: "settings:write" });
     if (auth) return auth;
 
     const body = await req.json().catch(() => ({}));
