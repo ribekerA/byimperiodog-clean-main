@@ -1,6 +1,6 @@
 /**
  * CATALOG SERVICE - Camada de serviço centralizada
- * 
+ *
  * REGRA: NUNCA acesse Supabase diretamente de componentes.
  */
 
@@ -41,7 +41,7 @@ const PUBLIC_COLUMNS = "*" as const;
  */
 function applyFilters(puppies: Puppy[], filters: PuppyFilters): Puppy[] {
   let result = puppies;
-  
+
   // Filtro de texto (busca em nome, descrição, cor)
   if (filters.search) {
     const q = filters.search.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
@@ -52,42 +52,42 @@ function applyFilters(puppies: Puppy[], filters: PuppyFilters): Puppy[] {
       return name.includes(q) || desc.includes(q) || color.includes(q);
     });
   }
-  
+
   // Filtro de cor
   if (filters.colors && filters.colors.length > 0) {
-    result = result.filter(p => 
+    result = result.filter(p =>
       filters.colors!.includes(p.color as Color)
     );
   }
-  
+
   // Filtro de sexo
   if (filters.sex) {
     result = result.filter(p => p.sex === filters.sex);
   }
-  
+
   // Filtro de status
   if (filters.status) {
     const statuses = Array.isArray(filters.status) ? filters.status : [filters.status];
     result = result.filter(p => statuses.includes(p.status));
   }
-  
+
   // Filtro de cidade
   if (filters.cities && filters.cities.length > 0) {
-    result = result.filter(p => 
+    result = result.filter(p =>
       filters.cities!.includes(p.city)
     );
   }
-  
+
   // Filtro de preço mínimo
   if (filters.minPrice !== undefined) {
     result = result.filter(p => p.priceCents >= filters.minPrice!);
   }
-  
+
   // Filtro de preço máximo
   if (filters.maxPrice !== undefined) {
     result = result.filter(p => p.priceCents <= filters.maxPrice!);
   }
-  
+
   return result;
 }
 
@@ -96,29 +96,29 @@ function applyFilters(puppies: Puppy[], filters: PuppyFilters): Puppy[] {
  */
 function applySorting(puppies: Puppy[], sortBy: PuppySortBy): Puppy[] {
   const sorted = [...puppies];
-  
+
   switch (sortBy) {
     case 'recent':
       return sorted.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    
+
     case 'price-asc':
       return sorted.sort((a, b) => a.priceCents - b.priceCents);
-    
+
     case 'price-desc':
       return sorted.sort((a, b) => b.priceCents - a.priceCents);
-    
+
     case 'popular':
       return sorted.sort((a, b) => b.viewCount - a.viewCount);
-    
+
     case 'rating':
       return sorted.sort((a, b) => b.averageRating - a.averageRating);
-    
+
     case 'name-asc':
       return sorted.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-    
+
     case 'name-desc':
       return sorted.sort((a, b) => b.name.localeCompare(a.name, 'pt-BR'));
-    
+
     default:
       return sorted;
   }
@@ -138,12 +138,12 @@ export async function listPuppies(
     if (cached) return cached;
 
     const sb = supabaseAnon();
-    
+
     // Query base (usa wildcard e normaliza depois)
     let query = sb
       .from('puppies')
       .select(PUBLIC_COLUMNS, { count: 'exact' });
-    
+
     // Aplicar filtros no DB quando possível (performance)
     if (filters.status) {
       const statuses = Array.isArray(filters.status) ? filters.status : [filters.status];
@@ -156,26 +156,26 @@ export async function listPuppies(
     if (filters.sex) {
       query = query.eq('gender', filters.sex);
     }
-    
+
     // Buscar dados
     const { data, error, count } = await query;
-    
+
     if (error) {
       throw new Error(`Erro ao buscar puppies: ${error.message}`);
     }
-    
+
     // Normalizar e aplicar filtros client-side (para filtros complexos)
     let puppies = (data || []).map(normalizePuppyFromDB);
     puppies = applyFilters(puppies, filters);
     puppies = applySorting(puppies, sortBy);
-    
+
     // Paginação
     const total = puppies.length;
     const offset = options.offset || 0;
     const limit = options.limit || 20;
     const paginated = puppies.slice(offset, offset + limit);
     const page = Math.floor(offset / limit) + 1;
-    
+
     const result = {
       puppies: paginated,
       total,
@@ -187,7 +187,7 @@ export async function listPuppies(
     };
     setCache(cacheKey, result);
     return result;
-    
+
   } catch (error) {
     console.error('[CatalogService] Error listing puppies:', error);
     return {
@@ -212,21 +212,21 @@ export async function getPuppyBySlug(slug: string): Promise<Puppy | null> {
     if (cached !== null) return cached;
 
     const sb = supabaseAnon();
-    
+
     const { data, error } = await sb
       .from('puppies')
       .select(PUBLIC_COLUMNS)
       .eq('slug', slug)
       .single();
-    
+
     if (error || !data) {
       return null;
     }
-    
+
     const normalized = normalizePuppyFromDB(data);
     setCache(cacheKey, normalized);
     return normalized;
-    
+
   } catch (error) {
     console.error('[CatalogService] Error fetching puppy by slug:', error);
     return null;
@@ -243,21 +243,21 @@ export async function getPuppyById(id: string): Promise<Puppy | null> {
     if (cached !== null) return cached;
 
     const sb = supabaseAnon();
-    
+
     const { data, error } = await sb
       .from('puppies')
       .select(PUBLIC_COLUMNS)
       .eq('id', id)
       .single();
-    
+
     if (error || !data) {
       return null;
     }
-    
+
     const normalized = normalizePuppyFromDB(data);
     setCache(cacheKey, normalized);
     return normalized;
-    
+
   } catch (error) {
     console.error('[CatalogService] Error fetching puppy by id:', error);
     return null;
@@ -286,7 +286,7 @@ export async function getPuppiesByCity(city: City): Promise<Puppy[]> {
 export async function getRelatedPuppies(puppy: Puppy, limit: number = 3): Promise<Puppy[]> {
   try {
     const sb = supabaseAnon();
-    
+
     // Buscar candidatos e filtrar client-side por mesma cor/cidade, evitando dependência de coluna 'city'
     const { data, error } = await sb
       .from('puppies')
@@ -301,7 +301,7 @@ export async function getRelatedPuppies(puppy: Puppy, limit: number = 3): Promis
       .filter((p: any) => p.status === 'available')
       .filter((p: any) => p.color === puppy.color || (puppy.city && p.city === puppy.city));
     return filtered.slice(0, limit);
-    
+
   } catch (error) {
     console.error('[CatalogService] Error fetching related puppies:', error);
     return [];
@@ -314,23 +314,23 @@ export async function getRelatedPuppies(puppy: Puppy, limit: number = 3): Promis
 export async function getAvailableColors(): Promise<string[]> {
   try {
     const sb = supabaseAnon();
-    
+
     const { data, error } = await sb
       .from('puppies')
       .select('color')
       .eq('status', 'available');
-    
+
     if (error || !data) {
       return [];
     }
-    
+
     const colors = new Set<string>();
     data.forEach((p: { color?: string }) => {
       if (p.color) colors.add(p.color);
     });
-    
+
     return Array.from(colors).sort();
-    
+
   } catch (error) {
     console.error('[CatalogService] Error fetching available colors:', error);
     return [];
@@ -343,11 +343,11 @@ export async function getAvailableColors(): Promise<string[]> {
 export async function getCatalogStats() {
   try {
     const sb = supabaseAnon();
-    
+
     const { data, error } = await sb
       .from('puppies')
       .select('status, price_cents');
-    
+
     if (error || !data) {
       return {
         total: 0,
@@ -359,17 +359,17 @@ export async function getCatalogStats() {
         maxPrice: 0,
       };
     }
-    
+
     const total = data.length;
     const available = data.filter((p: { status?: string }) => p.status === 'available').length;
     const reserved = data.filter((p: { status?: string }) => p.status === 'reserved').length;
     const sold = data.filter((p: { status?: string }) => p.status === 'sold').length;
-    
+
     const prices = data.map((p: { price_cents?: number }) => p.price_cents || 0).filter((p: number) => p > 0);
     const avgPrice = prices.length > 0 ? prices.reduce((a: number, b: number) => a + b, 0) / prices.length : 0;
     const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
     const maxPrice = prices.length > 0 ? Math.max(...prices) : 0;
-    
+
     return {
       total,
       available,
@@ -379,7 +379,7 @@ export async function getCatalogStats() {
       minPrice,
       maxPrice,
     };
-    
+
   } catch (error) {
     console.error('[CatalogService] Error fetching catalog stats:', error);
     return {

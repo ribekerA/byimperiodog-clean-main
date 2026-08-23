@@ -6,7 +6,7 @@ import { rateLimit as rateLimitEdge } from "@/lib/rateLimit";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { ALLOWED_IMAGE_MIME, MAX_IMAGE_BYTES } from "@/lib/uploadValidation";
 
-export const runtime = "edge"; // fast uploads when possible
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {

@@ -10,7 +10,7 @@ import type { ValidationResult } from '@/types/tracking';
  * - Deve ser string numérica (15-16 dígitos tipicamente)
  * - Sem espaços ou caracteres especiais
  * - Pode ser vazio/null
- * 
+ *
  * @example validateFacebookPixelId('1234567890123456') // { valid: true }
  * @example validateFacebookPixelId('abc123') // { valid: false, error: '...' }
  */
@@ -46,7 +46,7 @@ export function validateFacebookPixelId(id: string | null | undefined): Validati
  * - Deve começar com "G-" seguido de código alfanumérico
  * - Formato: G-XXXXXXXXXX
  * - Pode ser vazio/null
- * 
+ *
  * @example validateGoogleAnalyticsId('G-ABCD12345') // { valid: true }
  * @example validateGoogleAnalyticsId('UA-12345-1') // { valid: false, error: '...' }
  */
@@ -81,7 +81,7 @@ export function validateGoogleAnalyticsId(id: string | null | undefined): Valida
  * Valida Google Tag Manager ID
  * - Deve começar com "GTM-" seguido de código alfanumérico
  * - Formato: GTM-XXXXXXX
- * 
+ *
  * @example validateGTMId('GTM-ABC123') // { valid: true }
  */
 export function validateGTMId(id: string | null | undefined): ValidationResult {
@@ -111,7 +111,7 @@ export function validateGTMId(id: string | null | undefined): ValidationResult {
 /**
  * Valida TikTok Pixel ID
  * - Formato alfanumérico (ex: C123ABC456DEF)
- * 
+ *
  * @example validateTikTokPixelId('C123ABC456DEF') // { valid: true }
  */
 export function validateTikTokPixelId(id: string | null | undefined): ValidationResult {
@@ -135,7 +135,7 @@ export function validateTikTokPixelId(id: string | null | undefined): Validation
 /**
  * Valida Google Ads ID
  * - Formato: AW-XXXXXXXXXX
- * 
+ *
  * @example validateGoogleAdsId('AW-123456789') // { valid: true }
  */
 export function validateGoogleAdsId(id: string | null | undefined): ValidationResult {
@@ -165,7 +165,7 @@ export function validateGoogleAdsId(id: string | null | undefined): ValidationRe
 /**
  * Valida Hotjar ID
  * - Apenas números (6-10 dígitos)
- * 
+ *
  * @example validateHotjarId('123456') // { valid: true }
  */
 export function validateHotjarId(id: string | null | undefined): ValidationResult {
@@ -188,7 +188,7 @@ export function validateHotjarId(id: string | null | undefined): ValidationResul
 /**
  * Valida Microsoft Clarity ID
  * - Formato alfanumérico (ex: abcdef123456)
- * 
+ *
  * @example validateClarityId('abcdef123456') // { valid: true }
  */
 export function validateClarityId(id: string | null | undefined): ValidationResult {
@@ -211,7 +211,7 @@ export function validateClarityId(id: string | null | undefined): ValidationResu
 /**
  * Valida Pinterest Tag ID
  * - Apenas números (13 dígitos tipicamente)
- * 
+ *
  * @example validatePinterestTagId('1234567890123') // { valid: true }
  */
 export function validatePinterestTagId(id: string | null | undefined): ValidationResult {
@@ -233,7 +233,7 @@ export function validatePinterestTagId(id: string | null | undefined): Validatio
 
 /**
  * Valida meta de posts semanal
- * 
+ *
  * @example validateWeeklyPostGoal(7) // { valid: true }
  */
 export function validateWeeklyPostGoal(goal: number | null | undefined): ValidationResult {

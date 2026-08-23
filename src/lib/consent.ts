@@ -48,18 +48,18 @@ export const DEFAULT_CONSENT: ConsentPreferences = {
  */
 export function loadConsent(): ConsentState | null {
   if (typeof window === 'undefined') return null;
-  
+
   try {
     const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
     if (!stored) return null;
-    
+
     const parsed = JSON.parse(stored) as ConsentState;
-    
+
     // Valida versão da política
     if (parsed.version !== CURRENT_POLICY_VERSION) {
       return null;
     }
-    
+
     return parsed;
   } catch {
     return null;
@@ -71,20 +71,20 @@ export function loadConsent(): ConsentState | null {
  */
 export function saveConsent(preferences: ConsentPreferences): void {
   if (typeof window === 'undefined') return;
-  
+
   const state: ConsentState = {
     ...preferences,
     necessary: true, // Sempre true
     timestamp: Date.now(),
     version: CURRENT_POLICY_VERSION,
   };
-  
+
   try {
     localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(state));
-    
+
     // Atualiza Google Consent Mode
     updateGoogleConsent(preferences);
-    
+
     // Dispara evento customizado para atualizar pixels
     window.dispatchEvent(new CustomEvent('consentUpdated', { detail: preferences }));
   } catch {
@@ -97,7 +97,7 @@ export function saveConsent(preferences: ConsentPreferences): void {
  */
 export function clearConsent(): void {
   if (typeof window === 'undefined') return;
-  
+
   try {
     localStorage.removeItem(CONSENT_STORAGE_KEY);
   } catch {
@@ -110,11 +110,11 @@ export function clearConsent(): void {
  */
 function updateGoogleConsent(preferences: ConsentPreferences): void {
   if (typeof window === 'undefined') return;
-  
+
   // Verifica se gtag está disponível
   const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
   if (typeof gtag !== 'function') return;
-  
+
   gtag('consent', 'update', {
     ad_storage: preferences.marketing ? 'granted' : 'denied',
     ad_user_data: preferences.marketing ? 'granted' : 'denied',
@@ -132,14 +132,14 @@ function updateGoogleConsent(preferences: ConsentPreferences): void {
  */
 export function setDefaultConsent(): void {
   if (typeof window === 'undefined') return;
-  
+
   // Verifica se já existe consentimento salvo
   const existing = loadConsent();
   if (existing) {
     updateGoogleConsent(existing);
     return;
   }
-  
+
   // Configura modo padrão (denied) até usuário consentir
   const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
   if (typeof gtag === 'function') {

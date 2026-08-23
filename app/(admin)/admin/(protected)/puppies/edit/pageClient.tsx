@@ -1,8 +1,8 @@
 "use client";
 
+import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { ArrowRight, Loader2 } from "lucide-react";
 
 export function PuppyEditLauncher() {
   const router = useRouter();

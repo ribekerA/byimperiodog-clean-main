@@ -3,7 +3,7 @@
  * Bloco de confiança: garantias, transparência, processo
  * UX: Redução de fricção no funil de conversão
  * A11y: Estrutura semântica clara
- * 
+ *
  * Migrado para usar componentes do Design System:
  * - Card para cada elemento de confiança
  */

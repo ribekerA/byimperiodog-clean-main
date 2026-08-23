@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function AdminPuppiesPage({ searchParams }: { searchParams?: Record<string, string | string[] | undefined> }) {
+export default async function AdminPuppiesPage(
+  props: { searchParams?: Promise<Record<string, string | string[] | undefined>> }
+) {
+  const searchParams = await props.searchParams;
   const { filters, sort } = parsePuppyFilters(searchParams ?? {});
   const data = await fetchAdminPuppies({ filters, sort });
 

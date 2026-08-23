@@ -2,17 +2,17 @@
 
 /**
  * Route Validator Script
- * 
+ *
  * Valida rotas públicas do Next.js app/:
  * 1. Varre estrutura de pastas em app/
  * 2. Faz fetch em http://localhost:3000 para rotas críticas
  * 3. Verifica: status HTTP, <title>, autenticação de /admin
  * 4. Gera relatório JSON com erros e avisos
- * 
+ *
  * Uso:
  *   pnpm route:validate
  *   npm run route:validate
- * 
+ *
  * Requisitos:
  *   - Servidor Next.js rodando em http://localhost:3000
  *   - Node.js 18+ (com fetch nativo)
@@ -213,7 +213,8 @@ function extractTitle(html: string): string | null {
 async function fetchRoute(
   baseUrl: string,
   route: string,
-  timeout = 5000
+  timeout = 5000,
+  redirect: RequestRedirect = 'follow'
 ): Promise<FetchResult | null> {
   const url = new URL(route, baseUrl).toString();
   const startTime = Date.now();
@@ -224,7 +225,7 @@ async function fetchRoute(
 
     const response = await fetch(url, {
       method: 'GET',
-      redirect: 'follow',
+      redirect,
       signal: controller.signal,
       headers: {
         'User-Agent': 'RouteValidator/1.0 (Node.js)',
@@ -357,14 +358,19 @@ Aguarde enquanto fazemos o fetch das rotas...
   console.log('\n🔐 Testando rotas admin (verificando auth)...');
   for (const route of ADMIN_ROUTES) {
     process.stdout.write(`  ├─ ${route.padEnd(35)} `);
-    const result = await fetchRoute(baseUrl, route);
+    // Não seguir o redirect aqui: o status 307 é justamente a evidência de
+    // que a rota protegida enviou o visitante anônimo para o login.
+    const result = await fetchRoute(baseUrl, route, 5000, 'manual');
 
     if (result) {
       results.push(result);
       report.rawData.push(result);
 
-      // Admin sem auth deveria redirecionar (301/302/307) ou retornar 401
-      if (result.statusCode === 200) {
+      // /admin/login é pública por definição; as demais devem redirecionar
+      // ou negar acesso sem credenciais.
+      if (route === '/admin/login' && result.statusCode === 200) {
+        console.log(`✅ ${result.statusCode} - Login público`);
+      } else if (result.statusCode === 200) {
         // ⚠️ Acessível sem auth! Pode ser error.
         report.errors.adminAccessible.push(result);
         console.log(`❌ ${result.statusCode} - ADMIN ACESSÍVEL SEM AUTH!`);

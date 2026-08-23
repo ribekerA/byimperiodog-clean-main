@@ -1,5 +1,6 @@
-import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
+
+import { test, expect } from '@playwright/test';
 
 function firstLocalPostSlug(): string | null {
   const dir = 'content/posts';

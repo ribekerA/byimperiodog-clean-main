@@ -1,4 +1,4 @@
-import { FOUNDING_YEAR } from "@/domain/config";
+import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import type { PixelEnvironmentConfig } from "@/lib/pixels";
 
 type TrackingEvent = "page_view" | "view_form" | "submit_start" | "submit_success" | "submit_error";
@@ -24,19 +24,25 @@ export function safePushToDataLayer(event: string, payload: Record<string, any> 
     // GTM/GA4 via dataLayer
     (window as any).dataLayer = (window as any).dataLayer || [];
     (window as any).dataLayer.push({ event, ...payload });
-  } catch (_) {}
+  } catch {
+    // Pixels podem estar bloqueados pelo navegador sem impedir a navegação.
+  }
   try {
     // Facebook Pixel
     if ((window as any).fbq) {
       (window as any).fbq("trackCustom", event, payload);
     }
-  } catch (_) {}
+  } catch {
+    // Pixels podem estar bloqueados pelo navegador sem impedir a navegação.
+  }
   try {
     // TikTok Pixel
     if ((window as any).ttq) {
       (window as any).ttq.track(event, payload);
     }
-  } catch (_) {}
+  } catch {
+    // Pixels podem estar bloqueados pelo navegador sem impedir a navegação.
+  }
 }
 
 export function track(event: TrackingEvent, payload: Record<string, any> = {}) {
@@ -133,78 +139,53 @@ export function resolveTracking(
     metaVerify: norm(config?.metaDomainVerification ?? settings?.meta_domain_verify ?? env.NEXT_PUBLIC_META_DOMAIN_VERIFY),
     googleVerify: norm((settings as any)?.google_site_verify ?? env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION),
     pinterestVerify: norm((settings as any)?.pinterest_domain_verify ?? env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY),
-    siteUrl: norm(env.NEXT_PUBLIC_SITE_URL) || "https://byimperiodog.com.br",
+    siteUrl: BRAND.urls.site,
     custom,
   };
 }
 
 /**
- * Organization — nó único do site.
- *
- * O @id usa a barra antes do fragmento (`/#organization`) para bater com o
- * emissor de src/lib/structured-data.ts. Sem isso o Google enxergava
- * `...com.br#organization` e `...com.br/#organization` como DUAS empresas e
- * reportava campos duplicados.
- *
- * O endereço anterior era "Sao Paulo / 01000-000" — um CEP genérico que não
- * corresponde ao endereço real. Agora usa a mesma localidade declarada em todo
- * o site: Bragança Paulista, SP.
+ * Organização e negócio local compartilham o mesmo @id e os mesmos fatos.
  */
-export function buildOrganizationLD(siteUrl: string) {
-  const base = siteUrl.endsWith("/") ? siteUrl.slice(0, -1) : siteUrl;
+export function buildOrganizationLD(_siteUrl: string) {
+  const base = BRAND.urls.site;
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${base}/#organization`,
-    name: "By Império Dog",
-    alternateName: ["Canil By Império Dog", "Império Dog"],
-    description:
-      "Criação familiar e responsável de Spitz Alemão Anão em Bragança Paulista, SP, com suporte dedicado ao tutor e entrega para todo o Brasil.",
+    "@type": ["Organization", "LocalBusiness"],
+    "@id": `${base}/#business`,
+    name: BRAND.name,
+    alternateName: BRAND.schema.alternateNames,
+    description: BRAND.schema.description,
     url: `${base}/`,
     logo: `${base}/byimperiologo.png`,
     image: `${base}/spitz-hero-desktop.webp`,
-    telephone: "+55 11 96863-3239",
-    email: "contato@byimperiodog.com.br",
+    telephone: BRAND.contact.phone,
+    email: BRAND.contact.email,
     publishingPrinciples: `${base}/politica-editorial`,
-    knowsAbout: [
-      "Spitz Alemão Anão",
-      "Lulu da Pomerânia",
-      "Pomeranian",
-      "criação responsável de cães",
-      "registro oficial",
-      "genética canina",
-      "socialização de filhotes",
-      "mentoria para tutores de pets",
-    ],
+    knowsAbout: BRAND.schema.knowsAbout,
     contactPoint: [
       {
         "@type": "ContactPoint",
-        telephone: "+55 11 96863-3239",
+        telephone: BRAND.contact.phone,
         contactType: "customer service",
         areaServed: "BR",
         availableLanguage: ["pt-BR"],
       },
     ],
-    sameAs: [
-      "https://instagram.com/byimperiodog",
-      "https://www.youtube.com/@byimperiodog",
-      "https://www.tiktok.com/@byimperiodog",
-      "https://www.facebook.com/byimperiodog"
-    ],
+    sameAs: BRAND.schema.sameAs,
     foundingDate: String(FOUNDING_YEAR),
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Bragança Paulista",
-      addressLocality: "Bragança Paulista",
-      addressRegion: "SP",
-      postalCode: "12900-000",
-      addressCountry: "BR",
-    }
+      addressLocality: BRAND.headquarters.city,
+      addressRegion: BRAND.headquarters.state,
+      addressCountry: BRAND.headquarters.country,
+    },
+    areaServed: { "@type": "Country", name: "Brasil" },
   };
 }
 
-export function buildWebsiteLD(siteUrl: string) {
-  const clean = siteUrl.replace(/\/$/, "");
+export function buildWebsiteLD(_siteUrl: string) {
+  const clean = BRAND.urls.site;
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -215,7 +196,7 @@ export function buildWebsiteLD(siteUrl: string) {
       "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão.",
     url: `${clean}/`,
     inLanguage: "pt-BR",
-    publisher: { "@id": `${clean}/#organization` },
+    publisher: { "@id": `${clean}/#business` },
     // /search existe (app/(public)/search/page.tsx). O alvo anterior era
     // /blog?q=, que não é o buscador do site.
     potentialAction: {
@@ -250,8 +231,8 @@ export function shouldLoadImmediate(ids: TrackingIDs) {
 }
 
 /** SiteNavigationElement: ajuda o Google a entender os principais links do site. */
-export function buildSiteNavigationLD(siteUrl: string) {
-  const base = siteUrl.replace(/\/$/, "");
+export function buildSiteNavigationLD(_siteUrl: string) {
+  const base = BRAND.urls.site;
   const items = [
     { name: "Inicio", path: "/" },
     { name: "Filhotes", path: "/filhotes" },
@@ -277,6 +258,5 @@ export function buildSiteNavigationLD(siteUrl: string) {
  * eram duas empresas concorrentes com horarios e priceRange conflitantes,
  * e era essa a origem dos avisos de campo duplicado no Search Console.
  *
- * A lista de estados e cidades atendidas que vivia aqui foi preservada e
- * ampliada em SERVED_AREAS, no proprio structured-data.ts.
+ * A área atendida fica reduzida ao país no nó canônico do negócio.
  */

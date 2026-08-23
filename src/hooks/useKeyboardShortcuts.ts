@@ -18,7 +18,7 @@ export function useKeyboardShortcuts(shortcuts: KeyboardShortcut[], enabled = tr
       // Ignorar se estiver em input/textarea (exceto se for escape)
       const target = event.target as HTMLElement;
       const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName);
-      
+
       if (isInput && event.key !== 'Escape') return;
 
       for (const shortcut of shortcuts) {

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { RefreshCcw } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   onChange: (dataUrl: string | null) => void;

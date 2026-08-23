@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
 
 type DayPoint = { label: string; value: number };
 

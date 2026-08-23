@@ -1,13 +1,16 @@
 export const dynamic = "force-dynamic";
-import { NextRequest, NextResponse } from "next/server";
-import { getProvider } from "@/lib/tracking/providers/registry";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
+
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { getProvider } from "@/lib/tracking/providers/registry";
 
 function getQuery(url: string): URLSearchParams {
   return new URL(url).searchParams;
 }
 
-export async function GET(req: NextRequest, { params }: { params: { provider: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ provider: string }> }) {
+  const params = await props.params;
   const providerKey = (params?.provider || "").trim();
   const adapter = getProvider(providerKey);
   if (!adapter) {

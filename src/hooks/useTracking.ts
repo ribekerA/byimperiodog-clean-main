@@ -15,7 +15,7 @@ interface UseTrackingOptions {
    * Requer autenticação de admin
    */
   admin?: boolean;
-  
+
   /**
    * Se true, carrega automaticamente as configurações ao montar o componente
    */
@@ -32,11 +32,11 @@ interface UseTrackingReturn {
 
 /**
  * Hook para gerenciar configurações de tracking (pixels e analytics)
- * 
+ *
  * @example
  * // Frontend público
  * const { settings, loading } = useTracking();
- * 
+ *
  * @example
  * // Painel admin
  * const { settings, updateSettings } = useTracking({ admin: true });
@@ -44,7 +44,7 @@ interface UseTrackingReturn {
  */
 export function useTracking(options: UseTrackingOptions = {}): UseTrackingReturn {
   const { admin = false, autoLoad = true } = options;
-  
+
   const [settings, setSettings] = useState<PublicTrackingSettings | TrackingSettings | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +55,7 @@ export function useTracking(options: UseTrackingOptions = {}): UseTrackingReturn
 
     try {
       const endpoint = admin ? '/api/admin/settings' : '/api/settings/tracking';
-      
+
       const response = await fetch(endpoint, {
         credentials: admin ? 'include' : 'same-origin',
       });

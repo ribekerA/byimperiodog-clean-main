@@ -77,7 +77,7 @@ export function ModernEditor({ content, onChange, placeholder = "Digite seu cont
 
   const setLink = useCallback(() => {
     if (!editor) return;
-    
+
     const previousUrl = editor.getAttributes("link").href;
     const url = window.prompt("URL:", previousUrl);
 
@@ -93,9 +93,9 @@ export function ModernEditor({ content, onChange, placeholder = "Digite seu cont
 
   const addImage = useCallback(() => {
     if (!editor) return;
-    
+
     const url = window.prompt("URL da imagem:");
-    
+
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
     }

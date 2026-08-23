@@ -20,7 +20,7 @@ async function main() {
   }
 
   console.log("[autosales-worker] loop mode ON");
-  // eslint-disable-next-line no-constant-condition
+
   while (true) {
     try {
       await runOnce();

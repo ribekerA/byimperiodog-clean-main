@@ -1,7 +1,7 @@
 /**
  * Exemplos de uso do backend de Tracking Settings
  * By Império Dog - Sistema de Pixels/Analytics
- * 
+ *
  * Este arquivo contém exemplos de como consumir as APIs de tracking
  * tanto no frontend público quanto no painel admin.
  */
@@ -21,7 +21,7 @@ import type {
 /**
  * Busca as configurações públicas de tracking (pixels e analytics)
  * Usado no frontend para injetar scripts dinamicamente
- * 
+ *
  * Endpoint: GET /api/settings/tracking
  * Auth: Não requer autenticação (público)
  */
@@ -56,29 +56,29 @@ export function ExampleUsageInComponent() {
   // Em um useEffect ou Server Component:
   /*
   'use client';
-  
+
   import { useEffect, useState } from 'react';
   import { getPublicTrackingSettings } from '@/lib/tracking/examples';
-  
+
   export function TrackingLoader() {
     const [settings, setSettings] = useState<PublicTrackingSettings | null>(null);
-    
+
     useEffect(() => {
       getPublicTrackingSettings().then(setSettings);
     }, []);
-    
+
     useEffect(() => {
       if (settings?.meta_pixel_id) {
         // Injetar Facebook Pixel
         console.log('Facebook Pixel ID:', settings.meta_pixel_id);
       }
-      
+
       if (settings?.ga4_id) {
         // Injetar Google Analytics
         console.log('GA4 ID:', settings.ga4_id);
       }
     }, [settings]);
-    
+
     return null;
   }
   */
@@ -91,7 +91,7 @@ export function ExampleUsageInComponent() {
 /**
  * Busca todas as configurações (incluindo tokens secretos)
  * Usado apenas no painel admin
- * 
+ *
  * Endpoint: GET /api/admin/settings
  * Auth: Requer autenticação de admin
  */
@@ -128,7 +128,7 @@ export async function getAdminTrackingSettings(): Promise<TrackingSettings | nul
 
 /**
  * Atualiza as configurações de tracking no painel admin
- * 
+ *
  * Endpoint: POST /api/admin/settings
  * Auth: Requer autenticação de admin
  */
@@ -239,17 +239,17 @@ export const exampleCustomPixels: UpdateTrackingPayload = {
 export function ExampleAdminForm() {
   /*
   'use client';
-  
+
   import { useState, useEffect } from 'react';
   import { getAdminTrackingSettings, updateTrackingSettings } from '@/lib/tracking/examples';
-  
+
   export function TrackingSettingsForm() {
     const [loading, setLoading] = useState(false);
     const [facebookPixelId, setFacebookPixelId] = useState('');
     const [googleAnalyticsId, setGoogleAnalyticsId] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
-    
+
     // Carregar configurações atuais
     useEffect(() => {
       getAdminTrackingSettings().then((settings) => {
@@ -259,28 +259,28 @@ export function ExampleAdminForm() {
         }
       });
     }, []);
-    
+
     // Salvar configurações
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       setLoading(true);
       setError('');
       setSuccess(false);
-      
+
       const result = await updateTrackingSettings({
         meta_pixel_id: facebookPixelId || null,
         ga4_id: googleAnalyticsId || null,
       });
-      
+
       setLoading(false);
-      
+
       if (result.success) {
         setSuccess(true);
       } else {
         setError(result.error || 'Erro ao salvar');
       }
     };
-    
+
     return (
       <form onSubmit={handleSubmit}>
         <div>
@@ -292,7 +292,7 @@ export function ExampleAdminForm() {
             placeholder="1234567890123456"
           />
         </div>
-        
+
         <div>
           <label>Google Analytics ID (GA4)</label>
           <input
@@ -302,10 +302,10 @@ export function ExampleAdminForm() {
             placeholder="G-ABCD12345"
           />
         </div>
-        
+
         {error && <div className="error">{error}</div>}
         {success && <div className="success">Salvo com sucesso!</div>}
-        
+
         <button type="submit" disabled={loading}>
           {loading ? 'Salvando...' : 'Salvar Configurações'}
         </button>

@@ -19,9 +19,9 @@
  * Roda como <script> cru no <head> (mesmo padrão do scrollRestoration) porque
  * precisa ser síncrono e anterior ao GTM, que entra em `lazyOnload`.
  *
- * Efeito prático a comunicar: enquanto o visitante não aceita, o Google recebe
- * pings sem cookies (modelagem), então a contagem de conversões medidas cai em
- * relação ao que era registrado sem consentimento nenhum.
+ * O site usa consentimento básico: enquanto o visitante não escolhe uma
+ * categoria, a biblioteca correspondente nem é baixada. Este script apenas
+ * deixa o estado correto preparado para quando PixelsByConsent a carregar.
  *
  * A chave e a versão abaixo precisam continuar iguais às de src/lib/consent.ts
  * (CONSENT_STORAGE_KEY e CURRENT_POLICY_VERSION).
@@ -47,8 +47,8 @@ const INLINE_SCRIPT = `
       wait_for_update:500
     });
 
-    // Sem cookie de publicidade, o Google ainda consegue medir a campanha se o
-    // gclid viajar na URL e os identificadores forem redigidos.
+    // Se as tags forem carregadas depois do aceite, mantenha identificadores de
+    // publicidade redigidos sempre que o consentimento estiver negado.
     gtag('set','ads_data_redaction',true);
     gtag('set','url_passthrough',true);
 
@@ -75,7 +75,7 @@ export default function ConsentModeDefault() {
   return (
     <script
       id="consent-mode-default"
-      // eslint-disable-next-line react/no-danger
+
       dangerouslySetInnerHTML={{ __html: INLINE_SCRIPT }}
     />
   );

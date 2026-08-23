@@ -1,5 +1,6 @@
 "use client";
 import React, { useMemo } from 'react';
+
 import { parseBRLToCents } from '@/lib/price';
 
 interface Props {

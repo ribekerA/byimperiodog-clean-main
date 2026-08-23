@@ -10,14 +10,14 @@ import { requireAdmin } from '@/lib/adminAuth';
 import { rateLimit } from '@/lib/limiter';
 import { safeAction } from '@/lib/safeAction';
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
-import { 
-  ALLOWED_IMAGE_MIME, 
+import {
+  ALLOWED_IMAGE_MIME,
   ALLOWED_VIDEO_MIME,
   MAX_IMAGE_BYTES,
   MAX_GIF_BYTES,
   MAX_VIDEO_BYTES,
-  inferExtFromMime, 
-  sanitizeFilename 
+  inferExtFromMime,
+  sanitizeFilename
 } from '@/lib/uploadValidation';
 
 // Upload simples (base64 ou multipart futura). Por hora aceita JSON { filename, dataBase64 }

@@ -6,7 +6,6 @@ import { z } from "zod";
 
 import { createLogger } from "@/lib/logger";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-
 import type { Database } from "@/types/supabase";
 
 type LeadRow = Database["public"]["Tables"]["leads"]["Row"];

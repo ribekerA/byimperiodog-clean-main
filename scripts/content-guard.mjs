@@ -126,10 +126,10 @@ for (const file of files) {
   if (!file.startsWith("app/") && !file.startsWith("content/")) continue;
 
   const absolutePath = resolve(process.cwd(), file);
-  
+
   // Skip if file doesn't exist (e.g., archived folders)
   if (!existsSync(absolutePath)) continue;
-  
+
   // Normaliza CRLF -> LF antes de qualquer checagem. As regras de proximidade
   // abaixo contam CARACTERES, e no Windows (core.autocrlf=true) cada quebra de
   // linha ocupa 2 chars em vez de 1. Isso encolhia a janela de contexto e

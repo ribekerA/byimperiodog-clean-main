@@ -1,18 +1,18 @@
+import { Users, PawPrint, BarChart2, Plus, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Users, PawPrint, BarChart2, Plus, TrendingUp, TrendingDown, Minus } from "lucide-react";
 
-import { generateDeepInsights } from "@/lib/ai/deep-insights";
 import { generateDecisions } from "@/lib/ai/decision-engine";
+import { generateDeepInsights } from "@/lib/ai/deep-insights";
 import { recalcDemandPredictions } from "@/lib/ai/demand-prediction";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-import { AIInsightsPanel, type AIInsightPayload } from "./AIInsightsPanel";
-import { OperationalAlertsPanel, type OperationalAlerts } from "./OperationalAlertsPanel";
 import { refreshOperationalInsightsAction } from "./actions";
+import { AIInsightsPanel, type AIInsightPayload } from "./AIInsightsPanel";
+import { DashboardChartsSection } from "./DashboardChartsSection";
 import { DashboardErrorNotifier } from "./DashboardErrorNotifier";
 import { mapDeepInsightsToPayload } from "./insights";
-import { DashboardChartsSection } from "./DashboardChartsSection";
+import { OperationalAlertsPanel, type OperationalAlerts } from "./OperationalAlertsPanel";
 
 export const dynamic = "force-dynamic";
 
@@ -705,4 +705,4 @@ function buildOperationalAlerts(ops: OpsSnapshot, demandRisks: DemandRiskItem[])
   return alerts;
 }
 
- 
+

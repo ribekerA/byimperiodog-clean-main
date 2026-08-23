@@ -3,7 +3,7 @@
  * Filhotes relacionados (por cor, cidade ou disponibilidade)
  * UX: Cards compactos, fácil navegação
  * A11y: Estrutura semântica, links descritivos
- * 
+ *
  * Migrado para usar componentes do Design System:
  * - Card para cada filhote relacionado
  */

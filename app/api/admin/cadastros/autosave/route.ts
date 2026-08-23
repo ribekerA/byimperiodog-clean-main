@@ -5,8 +5,8 @@ import { requireAdminApi } from "@/lib/adminAuth";
 import { respondWithError } from "@/lib/errors";
 import { rateLimit } from "@/lib/limiter";
 import { createLogger } from "@/lib/logger";
-import { adminCadastroAutosaveSchema } from "@/lib/schemas/adminCadastros";
 import { safeAction } from "@/lib/safeAction";
+import { adminCadastroAutosaveSchema } from "@/lib/schemas/adminCadastros";
 
 const logger = createLogger("api:admin:cadastros-autosave");
 

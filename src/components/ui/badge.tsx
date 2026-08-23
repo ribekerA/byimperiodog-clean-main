@@ -8,7 +8,7 @@ import { cn } from '@/lib/cn';
 
 /**
  * Badge - Rótulo visual para status, tags, contadores
- * 
+ *
  * @example
  * <Badge variant="success">Disponível</Badge>
  * <Badge variant="warning" size="sm">Reservado</Badge>
@@ -65,7 +65,7 @@ export interface StatusBadgeProps extends Omit<BadgeProps, 'variant'> {
 
 export function StatusBadge({ status, ...props }: StatusBadgeProps) {
   const normalizedStatus = status.toLowerCase();
-  
+
   const statusMap: Record<string, { variant: BadgeProps['variant']; label: string }> = {
     disponivel: { variant: 'success', label: 'Disponível' },
     available: { variant: 'success', label: 'Disponível' },
@@ -76,9 +76,9 @@ export function StatusBadge({ status, ...props }: StatusBadgeProps) {
     'em-breve': { variant: 'neutral', label: 'Em breve' },
     'coming-soon': { variant: 'neutral', label: 'Em breve' },
   };
-  
+
   const config = statusMap[normalizedStatus] || { variant: 'default', label: status };
-  
+
   return (
     <Badge variant={config.variant} {...props} role="status" aria-label={`Status: ${config.label}`}>
       {config.label}

@@ -2,7 +2,7 @@
 // Stubbed meilisearch client (dependency removida / opcional). Mantido shape mínimo para chamadas existentes.
 // Caso reative Meili, reinstale pacote e restaure implementação anterior.
 interface MeiliSearchClient { getIndex: (name:string)=> any; createIndex: (name:string, opts:any)=> any }
-let _client: MeiliSearchClient | null = null;
+const _client: MeiliSearchClient | null = null;
 export function getMeili(): MeiliSearchClient | null { return _client; }
 
 export type BlogSearchDoc = {

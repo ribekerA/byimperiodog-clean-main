@@ -74,7 +74,7 @@ export interface AnalyticsEvent {
   id: string;
   timestamp: string;
   type: 'pageview' | 'conversion' | 'custom_event';
-  
+
   // Dados do evento
   event: {
     name: string;

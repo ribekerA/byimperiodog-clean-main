@@ -73,6 +73,10 @@ const PATTERNS_TO_IGNORE = [
   /dist/,
   /build/,
   /coverage/,
+  // Relatorios de ferramentas repetem mensagens e trechos do codigo-fonte;
+  // nao sao conteudo entregue ao visitante.
+  /reports/,
+  /playwright-report/,
   /test-results/,
   /.contentlayer/,
   /public\/clientes/,
@@ -139,9 +143,8 @@ function* walkDir(dir) {
  * Troca comentarios de codigo por espacos, preservando as quebras de linha para
  * a numeracao continuar batendo com o arquivo real.
  *
- * Comentario nunca chega ao visitante: o JSDoc "pronto para adoção" acima de
- * isReadyForAdoption e documentacao interna, nao copy do site. Acusar isso so
- * ensina o time a ignorar o relatorio.
+ * Comentario nunca chega ao visitante: documentacao interna nao e copy do
+ * site. Acusar esse texto so ensina o time a ignorar o relatorio.
  *
  * A varredura acompanha strings e escapes para nao confundir o "//" de
  * "https://..." nem o "\/" de uma expressao regular com inicio de comentario.
@@ -230,7 +233,7 @@ function checkFileForBannedWords(filePath) {
 
     return violations;
   } catch {
-    // eslint-disable-next-line no-console
+
     console.warn(`⚠️  Não foi possível ler: ${relative(rootDir, filePath)}`);
     return [];
   }
@@ -264,33 +267,33 @@ function main() {
     process.exit(0);
   }
 
-  // eslint-disable-next-line no-console
+
   console.error(`❌ Encontradas ${totalViolations} violações:\n`);
 
   for (const [filePath, violations] of violationsByFile.entries()) {
     const relativePath = relative(rootDir, filePath);
-    // eslint-disable-next-line no-console
+
     console.error(`\n📄 ${relativePath}`);
 
     for (const violation of violations) {
-      // eslint-disable-next-line no-console
+
       console.error(
         `   Linha ${violation.line}:${violation.column} - "${violation.word}"`
       );
-      // eslint-disable-next-line no-console
+
       console.error(`   Contexto: ${violation.context}`);
     }
   }
 
-  // eslint-disable-next-line no-console
+
   console.error("\n");
-  // eslint-disable-next-line no-console
+
   console.error("💡 Sugestões:");
-  // eslint-disable-next-line no-console
+
   console.error("   - Substitua 'adoção/doação' por 'aquisição responsável'");
-  // eslint-disable-next-line no-console
+
   console.error("   - Substitua 'boutique/pet shop' por 'banho e tosa profissional'");
-  // eslint-disable-next-line no-console
+
   console.error("   - Evite termos que violem as diretrizes da marca\n");
 
   process.exit(1);

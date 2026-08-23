@@ -24,7 +24,7 @@ describe('Consent Management', () => {
     // Limpa localStorage e mocks antes de cada teste
     localStorage.clear();
     vi.clearAllMocks();
-    
+
     // Mock window.gtag se necessário
     const win = window as WindowWithGtag;
     if (typeof win.gtag === 'undefined') {
@@ -60,7 +60,7 @@ describe('Consent Management', () => {
         version: '0.9', // versão antiga
       };
       localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(oldVersion));
-      
+
       const result = loadConsent();
       expect(result).toBeNull();
     });
@@ -75,7 +75,7 @@ describe('Consent Management', () => {
         version: '1.0',
       };
       localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(validConsent));
-      
+
       const result = loadConsent();
       expect(result).not.toBeNull();
       expect(result?.analytics).toBe(true);
@@ -84,7 +84,7 @@ describe('Consent Management', () => {
 
     it('deve retornar null se o JSON estiver corrompido', () => {
       localStorage.setItem(CONSENT_STORAGE_KEY, 'invalid-json{');
-      
+
       const result = loadConsent();
       expect(result).toBeNull();
     });
@@ -98,12 +98,12 @@ describe('Consent Management', () => {
         marketing: true,
         functional: true,
       };
-      
+
       saveConsent(preferences);
-      
+
       const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
       expect(stored).not.toBeNull();
-      
+
       const parsed = JSON.parse(stored!) as ConsentState;
       expect(parsed.analytics).toBe(true);
       expect(parsed.marketing).toBe(true);
@@ -118,9 +118,9 @@ describe('Consent Management', () => {
         marketing: false,
         functional: false,
       };
-      
+
       saveConsent(preferences);
-      
+
       const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
       const parsed = JSON.parse(stored!) as ConsentState;
       expect(parsed.necessary).toBe(true); // forçado
@@ -129,16 +129,16 @@ describe('Consent Management', () => {
     it('deve disparar evento consentUpdated', () => {
       const eventSpy = vi.fn();
       window.addEventListener('consentUpdated', eventSpy);
-      
+
       const preferences: ConsentPreferences = {
         necessary: true,
         analytics: true,
         marketing: false,
         functional: true,
       };
-      
+
       saveConsent(preferences);
-      
+
       expect(eventSpy).toHaveBeenCalledTimes(1);
       window.removeEventListener('consentUpdated', eventSpy);
     });
@@ -147,16 +147,16 @@ describe('Consent Management', () => {
       const gtagMock = vi.fn();
       const win = window as WindowWithGtag;
       win.gtag = gtagMock;
-      
+
       const preferences: ConsentPreferences = {
         necessary: true,
         analytics: true,
         marketing: true,
         functional: true,
       };
-      
+
       saveConsent(preferences);
-      
+
       expect(gtagMock).toHaveBeenCalledWith('consent', 'update', expect.objectContaining({
         analytics_storage: 'granted',
         ad_storage: 'granted',
@@ -167,10 +167,10 @@ describe('Consent Management', () => {
   describe('acceptAllConsent', () => {
     it('deve aceitar todas as categorias', () => {
       acceptAllConsent();
-      
+
       const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
       const parsed = JSON.parse(stored!) as ConsentState;
-      
+
       expect(parsed.necessary).toBe(true);
       expect(parsed.analytics).toBe(true);
       expect(parsed.marketing).toBe(true);
@@ -181,10 +181,10 @@ describe('Consent Management', () => {
   describe('rejectAllConsent', () => {
     it('deve rejeitar analytics e marketing', () => {
       rejectAllConsent();
-      
+
       const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
       const parsed = JSON.parse(stored!) as ConsentState;
-      
+
       expect(parsed.necessary).toBe(true); // sempre true
       expect(parsed.analytics).toBe(false);
       expect(parsed.marketing).toBe(false);
@@ -212,7 +212,7 @@ describe('Consent Management', () => {
         version: '0.5',
       };
       localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(oldVersion));
-      
+
       expect(hasConsent()).toBe(false);
     });
   });
@@ -220,7 +220,7 @@ describe('Consent Management', () => {
   describe('getCurrentConsent', () => {
     it('deve retornar DEFAULT_CONSENT quando não há consentimento salvo', () => {
       const current = getCurrentConsent();
-      
+
       expect(current).toEqual(DEFAULT_CONSENT);
     });
 
@@ -231,9 +231,9 @@ describe('Consent Management', () => {
         marketing: false,
         functional: true,
       };
-      
+
       saveConsent(preferences);
-      
+
       const current = getCurrentConsent();
       expect(current.analytics).toBe(true);
       expect(current.marketing).toBe(false);
@@ -246,7 +246,7 @@ describe('Consent Management', () => {
       rejectAllConsent();
       expect(getCurrentConsent().analytics).toBe(false);
       expect(getCurrentConsent().marketing).toBe(false);
-      
+
       // Usuário muda de ideia e aceita tudo
       acceptAllConsent();
       expect(getCurrentConsent().analytics).toBe(true);
@@ -255,11 +255,11 @@ describe('Consent Management', () => {
 
     it('deve manter consentimento através de recargas (localStorage)', () => {
       acceptAllConsent();
-      
+
       // Simula nova sessão
       const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
       expect(stored).not.toBeNull();
-      
+
       const loaded = loadConsent();
       expect(loaded?.analytics).toBe(true);
       expect(loaded?.marketing).toBe(true);
@@ -271,9 +271,9 @@ describe('Consent Management', () => {
       const gtagMock = vi.fn();
       const win = window as WindowWithGtag;
       win.gtag = gtagMock;
-      
+
       rejectAllConsent();
-      
+
       expect(gtagMock).toHaveBeenCalledWith('consent', 'update', expect.objectContaining({
         analytics_storage: 'denied',
         ad_storage: 'denied',
@@ -284,9 +284,9 @@ describe('Consent Management', () => {
       const gtagMock = vi.fn();
       const win = window as WindowWithGtag;
       win.gtag = gtagMock;
-      
+
       acceptAllConsent();
-      
+
       expect(gtagMock).toHaveBeenCalledWith('consent', 'update', expect.objectContaining({
         ad_storage: 'granted',
         ad_user_data: 'granted',
@@ -297,7 +297,7 @@ describe('Consent Management', () => {
     it('não deve falhar se gtag não estiver disponível', () => {
       const win = window as WindowWithGtag;
       delete win.gtag;
-      
+
       expect(() => {
         acceptAllConsent();
       }).not.toThrow();

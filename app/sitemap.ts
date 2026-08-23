@@ -2,11 +2,11 @@ import type { MetadataRoute } from "next";
 
 import { guides } from "@/content/guides";
 import { staticPuppies } from "@/content/puppies-static";
+import { CORES_DIVULGADAS } from "@/domain/pricing";
 import { lastmodFor } from "@/lib/_generated-lastmod";
 import { generatedPosts } from "@/lib/_generated-posts";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { ALL_COLORS, ALL_SEXES } from "@/lib/catalog-utils";
-import { CORES_DIVULGADAS } from "@/domain/pricing";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");

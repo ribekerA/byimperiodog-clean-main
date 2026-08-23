@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ExternalLink, Loader2, MousePointerClick, Search, TrendingUp } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { adminFetch } from "@/lib/adminFetch";
 

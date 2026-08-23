@@ -52,7 +52,7 @@ async function main(){
   const loop = process.argv.includes('--loop');
   if(loop){
     console.log('[scheduler] Loop mode');
-    // eslint-disable-next-line no-constant-condition
+
     while(true){
       await runOnce();
       await new Promise(r=> setTimeout(r, 5000));

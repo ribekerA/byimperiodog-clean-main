@@ -1,11 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { PawConfettiButton } from "@/components/motion/PawConfetti";
-import { SpringButton } from "@/components/motion/SpringButton";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
@@ -26,74 +25,36 @@ const AVAILABLE_COUNT = (puppiesPublicados as Array<{ status: string }>).filter(
   (p) => p.status === "available"
 ).length;
 
-// Curva de animação padrão do projeto — tupla para tipagem correta do Framer Motion
-const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
-// Spring com overshoot leve — para os CTAs
-const SPRING = { type: "spring", stiffness: 320, damping: 24 } as const;
-
 export default function VideoHero() {
-  const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoState, setVideoState] = useState<"loading" | "playing" | "paused" | "error">("loading");
-  const reduced = useReducedMotion();
+  const [videoState, setVideoState] = useState<"loading" | "playing" | "paused" | "error">("paused");
+  const [videoRequested, setVideoRequested] = useState(false);
   const trackedWaHero = useWhatsAppLink(waHero);
 
   // ── Lógica de video ─────────────────────────────────────────────────────────
   useEffect(() => {
+    if (!videoRequested) return;
     const video = videoRef.current;
     if (!video) return;
 
     let staleTimer: ReturnType<typeof setTimeout>;
-    let idleHandle: number;
 
-    // Quem não deve baixar 26 MB de vídeo decorativo sem pedir:
-    //  · Save-Data ligado, ou conexão 2g/3g — o arquivo é maior que a página
-    //    inteira e o plano de dados é de quem visita, não nosso;
-    //  · prefers-reduced-motion — o `reduced` daqui só desligava o Framer
-    //    Motion; o vídeo de fundo em loop continuava rodando, que é justamente
-    //    o tipo de movimento que a preferência pede para parar.
-    // Nos dois casos a pessoa cai no estado "paused", que já existe e já é
-    // desenhado: poster + o botão "Reproduzir vídeo". Nada some da tela, e o
-    // botão continua sendo o caminho para quem quiser assistir mesmo assim.
-    const conexao = (navigator as Navigator & {
-      connection?: { saveData?: boolean; effectiveType?: string };
-    }).connection;
-    const banda = Boolean(conexao?.saveData) || /^(slow-)?2g$|^3g$/.test(conexao?.effectiveType || "");
-    const movimento = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    const bloqueado = banda || movimento;
+    // O elemento de video — e portanto seu src de 25,6 MB — só existe depois
+    // deste clique. O poster otimizado permanece como primeira pintura/LCP.
 
     const onCanPlay = () => {
       clearTimeout(staleTimer);
-      // Sem este `if` o guard vazava: quando o arquivo já está em cache o
-      // `canplay` dispara sozinho, mesmo com preload="metadata", e daria play
-      // exatamente em quem pediu para não baixar. Medido — era 1 chamada.
-      if (bloqueado) return;
       video.play().then(() => setVideoState("playing")).catch(() => setVideoState("paused"));
     };
     const onError = () => { clearTimeout(staleTimer); setVideoState("error"); };
     const onPlaying = () => setVideoState("playing");
     const onPause = () => setVideoState((s) => s !== "error" ? "paused" : s);
 
-    // Os quatro continuam registrados mesmo bloqueado: é como o estado
-    // acompanha o vídeo depois que a pessoa clica em "Reproduzir vídeo".
     video.addEventListener("canplay", onCanPlay);
     video.addEventListener("error", onError);
     video.addEventListener("playing", onPlaying);
     video.addEventListener("pause", onPause);
 
-    if (bloqueado) {
-      setVideoState("paused");
-      return () => {
-        video.removeEventListener("canplay", onCanPlay);
-        video.removeEventListener("error", onError);
-        video.removeEventListener("playing", onPlaying);
-        video.removeEventListener("pause", onPause);
-      };
-    }
-
-    // Adia o início do download do vídeo (o .play() força o carregamento
-    // completo mesmo com preload="metadata") até o navegador ficar ocioso,
-    // para não competir por banda/main-thread com o LCP do hero.
     const startPlayback = () => {
       staleTimer = setTimeout(() => {
         setVideoState((s) => s === "loading" ? "paused" : s);
@@ -101,46 +62,31 @@ export default function VideoHero() {
 
       video.play()
         .then(() => { clearTimeout(staleTimer); setVideoState("playing"); })
-        .catch(() => { /* Bloqueado — aguarda evento canplay */ });
+        .catch(() => { /* Aguarda canplay ou novo clique. */ });
     };
 
-    if (typeof window.requestIdleCallback === "function") {
-      idleHandle = window.requestIdleCallback(startPlayback, { timeout: 2000 });
-    } else {
-      idleHandle = window.setTimeout(startPlayback, 300);
-    }
+    startPlayback();
 
     return () => {
       clearTimeout(staleTimer);
-      if (typeof window.cancelIdleCallback === "function") {
-        window.cancelIdleCallback(idleHandle);
-      } else {
-        clearTimeout(idleHandle);
-      }
       video.removeEventListener("canplay", onCanPlay);
       video.removeEventListener("error", onError);
       video.removeEventListener("playing", onPlaying);
       video.removeEventListener("pause", onPause);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [videoRequested]);
 
   const handlePlayClick = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.play().then(() => setVideoState("playing")).catch(() => {});
+    setVideoState("loading");
+    setVideoRequested(true);
   };
 
   const showVideo = videoState !== "error";
   const videoVisible = videoState === "playing";
   const showPlayBtn = videoState === "paused";
 
-  // Shortcut: sem animação no modo reduced
-  const init = reduced ? false : undefined;
-
   return (
     <section
-      ref={sectionRef}
       // O header do site é `sticky top-0` e opaco: ele ocupa 73px do fluxo, e o
       // hero começa depois dele. Com `min-h-[100svh]` o hero media a tela inteira
       // a partir do 73 — terminava 73px depois da dobra. Duas consequências, e
@@ -162,27 +108,32 @@ export default function VideoHero() {
       {/* ── Fundo ────────────────────────────────────────────────────────────── */}
       <div className="absolute inset-0">
         {/* Video */}
-        {showVideo && (
+        {videoRequested && showVideo && (
           <video
             ref={videoRef}
-            className={`h-full w-full object-cover transition-opacity duration-[1200ms] ${
+            className={`absolute inset-0 z-10 h-full w-full object-cover transition-opacity duration-500 ${
               videoVisible ? "opacity-100" : "opacity-0"
             }`}
             src="/filhotes/videos/apresentacao-canil.mp4"
-            poster="/filhotes/creme/creme-femea-01.jpg"
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             aria-hidden="true"
           />
         )}
 
         {/* Poster enquanto o vídeo carrega */}
         {!videoVisible && (
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-700"
-            style={{ backgroundImage: "url('/filhotes/creme/creme-femea-01.jpg')" }}
+          <Image
+            src="/filhotes/creme/creme-femea-01.jpg"
+            alt=""
+            fill
+            preload
+            fetchPriority="high"
+            quality={75}
+            sizes="100vw"
+            className="object-cover object-center"
             aria-hidden="true"
           />
         )}
@@ -215,19 +166,16 @@ export default function VideoHero() {
 
       {/* ── Botão play (autoplay bloqueado) — desktop only ─────────────────── */}
       {showPlayBtn && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3, ...SPRING }}
+        <button
           type="button"
           onClick={handlePlayClick}
           aria-label="Reproduzir vídeo"
-          className="absolute right-5 bottom-24 z-20 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          className="absolute right-5 bottom-24 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
         >
           <svg className="h-5 w-5 translate-x-0.5" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M6 3.5l7 4.5-7 4.5V3.5z" />
           </svg>
-        </motion.button>
+        </button>
       )}
 
       {/* ── Conteúdo ─────────────────────────────────────────────────────────── */}
@@ -235,12 +183,7 @@ export default function VideoHero() {
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-8 text-center sm:gap-7 sm:py-16 sm:px-8">
 
           {/* Eyebrow — entra primeiro */}
-          <motion.div
-            initial={init ?? { opacity: 0, y: 18, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.65, delay: 0.2, ease: EASE }}
-            className="flex flex-wrap items-center justify-center gap-2"
-          >
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-sm">
               Criação especializada · Bragança Paulista, SP
             </span>
@@ -256,7 +199,7 @@ export default function VideoHero() {
                 {AVAILABLE_COUNT} {AVAILABLE_COUNT === 1 ? "filhote disponível" : "filhotes disponíveis"} agora
               </span>
             )}
-          </motion.div>
+          </div>
 
           {/* Headline — palavra por palavra */}
           <h1
@@ -267,18 +210,9 @@ export default function VideoHero() {
             <span className="inline-flex flex-wrap justify-center gap-x-[0.26em]">
               {HEADLINE_WORDS.map((word, i) => (
                 <Fragment key={word}>
-                <motion.span
-                  initial={init ?? { opacity: 0, y: 28 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.42 + i * 0.13,
-                    ease: EASE,
-                  }}
-                  className="inline-block"
-                >
+                <span className="inline-block">
                   {word}
-                </motion.span>
+                </span>
                 {i < HEADLINE_WORDS.length - 1 ? " " : null}
                 </Fragment>
               ))}
@@ -286,81 +220,55 @@ export default function VideoHero() {
 
             {/* Linha 1b: "(Lulu da Pomerânia)" — nome popular da raça, clarificador estático */}
             {" "}
-            <motion.span
-              initial={init ?? { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.78, ease: EASE }}
-              className="block text-xl font-semibold text-white/70 sm:text-2xl lg:text-3xl"
-            >
+            <span className="block text-xl font-semibold text-white/70 sm:text-2xl lg:text-3xl">
               (Lulu da Pomerânia)
-            </motion.span>
+            </span>
 
             {/* Linha 2: "com alma familiar" — emerge com brilho esmeralda */}
             {" "}
-            <motion.span
-              initial={init ?? { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.98, ease: EASE }}
+            <span
               className="block bg-gradient-to-r from-emerald-300 to-emerald-400 bg-clip-text text-transparent"
               style={{
                 textShadow: "0 0 60px rgba(52,211,153,0.25), 0 0 120px rgba(52,211,153,0.12)",
               }}
             >
               com alma familiar
-            </motion.span>
+            </span>
           </h1>
 
           {/* Parágrafo */}
-          <motion.p
-            initial={init ?? { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 1.14, ease: EASE }}
-            className="mx-auto max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl"
-          >
+          <p className="mx-auto max-w-xl text-lg leading-relaxed text-white/80 sm:text-xl">
             Saúde documentada, registro oficial e mentoria pós-venda.{" "}
             <strong className="font-semibold text-white">
               Criação responsável desde {FOUNDING_YEAR}
             </strong>{" "}
             para a sua família.
-          </motion.p>
+          </p>
 
           {/* CTAs — spring com overshoot */}
-          <motion.div
-            initial={init ?? { opacity: 0, y: 28, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.55, delay: 1.28, ...SPRING }}
-            className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center"
-          >
-            <PawConfettiButton
+          <div className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
+            <a
               href={trackedWaHero}
               rel="noreferrer"
               target="_blank"
               className="group inline-flex min-h-[54px] items-center justify-center gap-2.5 rounded-full bg-emerald-500 px-8 text-base font-bold text-white shadow-xl shadow-emerald-900/40 hover:bg-emerald-400 hover:shadow-emerald-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              emojis="mixed"
-              count={16}
               aria-label="Falar com a criadora via WhatsApp"
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
               Falar com a criadora
-            </PawConfettiButton>
+            </a>
 
-            <SpringButton
-              as="a"
-              preset="soft"
+            <Link
               href="/filhotes"
+              prefetch={false}
               className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-full border border-white/35 bg-white/10 px-8 text-base font-semibold text-white backdrop-blur-sm hover:border-white/55 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               Ver filhotes disponíveis
-            </SpringButton>
-          </motion.div>
+            </Link>
+          </div>
 
           {/* Trust bar — números */}
-          <motion.div
-            initial={init ?? { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 1.28, ease: EASE }}
-            className="mt-2 flex flex-col items-center gap-2 sm:mt-3"
-          >
+          <div className="mt-2 flex flex-col items-center gap-2 sm:mt-3">
             {/* Prova social acima da dobra — sem nota em estrelas, que não vem
                 de nenhuma plataforma pública de avaliações verificadas, e sem
                 contagem de famílias, que não vem de lugar nenhum. O que sobra
@@ -390,25 +298,18 @@ export default function VideoHero() {
                 </div>
               ))}
             </dl>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* ── Scroll cue ────────────────────────────────────────────────────────── */}
-      <motion.div
-        initial={init ?? { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.9, delay: 1.55, ease: EASE }}
+      <div
         className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/40 sm:flex"
         aria-hidden="true"
       >
         <span className="text-[10px] font-semibold uppercase tracking-[0.3em]">Rolar</span>
-        <motion.span
-          animate={{ scaleY: [1, 0.4, 1], opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="h-8 w-px bg-white/40 origin-top block"
-        />
-      </motion.div>
+        <span className="h-8 w-px bg-white/40 origin-top block motion-safe:animate-pulse" />
+      </div>
     </section>
   );
 }

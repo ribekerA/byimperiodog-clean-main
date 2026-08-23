@@ -44,7 +44,7 @@ export default function WebStoriesPage() {
 
   const deleteStory = async (id: string) => {
     if (!confirm("Tem certeza que deseja excluir esta Web Story?")) return;
-    
+
     try {
       const response = await fetch(`/api/admin/web-stories/${id}`, {
         method: "DELETE",

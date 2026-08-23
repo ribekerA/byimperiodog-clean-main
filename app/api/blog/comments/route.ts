@@ -1,8 +1,9 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
-import { supabasePublic } from "@/lib/supabasePublic";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { z } from "zod";
+
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { supabasePublic } from "@/lib/supabasePublic";
 
 // best-effort in-memory rate limiter
 const RATE_LIMIT_WINDOW_MS = 60_000;

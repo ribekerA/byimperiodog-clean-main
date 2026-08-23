@@ -1,13 +1,14 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+
 import { requireAdmin } from '@/lib/adminAuth';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 interface ScheduleBody { post_id:string; run_at:string; action?:'publish'; overwrite?:boolean }
 
 // POST /api/admin/blog/schedule  -> agenda publicação futura
-// Body: { post_id, run_at (ISO), action?="publish", overwrite? } 
+// Body: { post_id, run_at (ISO), action?="publish", overwrite? }
 export async function POST(req: NextRequest){
   const auth = requireAdmin(req); if(auth) return auth;
   let body: unknown = {};

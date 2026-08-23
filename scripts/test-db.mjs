@@ -16,13 +16,13 @@ async function testConnection() {
 
   try {
     console.log('Testando conexão com o Supabase...')
-    
+
     // Teste 1: Verificar conexão básica
     const { data: settings, error: settingsError } = await supabase
       .from('site_settings')
       .select('*')
       .limit(1)
-    
+
     if (settingsError) {
       console.error('Erro ao acessar site_settings:', settingsError)
     } else {
@@ -34,7 +34,7 @@ async function testConnection() {
       .from('blog_posts')
       .select('*')
       .limit(1)
-    
+
     if (postsError) {
       console.error('Erro ao acessar blog_posts:', postsError)
     } else {

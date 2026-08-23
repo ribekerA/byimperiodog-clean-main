@@ -17,7 +17,7 @@ async function createEmbeddingsTable() {
   try {
     // Verificar se a tabela existe
     const { error: tableError } = await supabase.from('blog_post_embeddings').select('*').limit(1)
-    
+
     if (tableError && tableError.code === 'PGRST205') {
       // Tabela não existe, vamos criá-la
       const { error: createError } = await supabase.rpc('execute_sql', {
@@ -31,7 +31,7 @@ async function createEmbeddingsTable() {
           );
         `
       })
-      
+
       if (createError) {
         console.error('Erro ao criar tabela:', createError)
         return

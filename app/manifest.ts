@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name,
     short_name,
-    description: 'Spitz Alemão Anão — filhotes legítimos, criação responsável e acompanhamento premium.',
+    description: 'Spitz Alemão Anão (Lulu da Pomerânia) — filhotes disponíveis pela By Império Dog em Bragança Paulista, SP.',
     start_url: '/',
     display: 'standalone',
     theme_color,

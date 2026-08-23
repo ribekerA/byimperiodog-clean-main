@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { headers } from "next/headers";
 import { FileText, ShieldCheck } from "lucide-react";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 
 import ContractForm from "@/components/ContractForm";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { rateLimit } from "@/lib/rateLimit";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const metadata: Metadata = {
   title: "Dados para Contrato",
@@ -26,11 +26,12 @@ type PuppyRow = { id: string; name?: string | null };
 async function fetchContract(code: string): Promise<{ contract: ContractRow; puppy: PuppyRow | null } | null> {
   try {
     const sb = supabaseAdmin();
-    let { data: contract, error } = await sb
+    const { data: initialContract, error } = await sb
       .from("contracts")
       .select("id,code,status,puppy_id,signed_at,expires_at")
       .eq("code", code)
       .maybeSingle();
+    let contract = initialContract;
 
     // Fallback enquanto a migração de expires_at (sql/migration_contracts_expires_at.sql) não roda em produção.
     if (error && String(error.message).includes("expires_at")) {
@@ -58,8 +59,9 @@ async function fetchContract(code: string): Promise<{ contract: ContractRow; pup
   }
 }
 
-export default async function ContractPage({ params }: { params: { code: string } }) {
-  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+export default async function ContractPage(props: { params: Promise<{ code: string }> }) {
+  const params = await props.params;
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rl = rateLimit(`contract-view:${ip}`, 30, 60_000);
   if (!rl.allowed) notFound();
 

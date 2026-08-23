@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { applyGeneralDefaults, GENERAL_COLUMN_SELECT, type GeneralSettings } from "@/lib/admin/generalConfig";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { getTrackingConfig } from "@/lib/tracking/getTrackingConfig";
 
 import { ConfigTabs } from "./ui/ConfigTabs";

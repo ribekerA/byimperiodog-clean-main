@@ -79,12 +79,12 @@ describe('seo.core', () => {
       vi.doMock('../src/lib/supabasePublic', () => ({ supabasePublic: () => sbMock }));
     });
 
-    it('usa override quando existe', async () => {
+    it('usa override de conteúdo sem permitir outro domínio no canonical', async () => {
       const { buildPostMetadata: build } = await import('../src/lib/seo.core');
       const meta = await build('s1');
       expect(meta.title).toBe('Override T');
       expect(meta.description).toBe('Override D');
-      expect(meta.alternates?.canonical).toBe('https://x/custom');
+      expect(meta.alternates?.canonical).toBe('https://byimperiodog.com.br/custom');
       // @ts-expect-error override fornece openGraph.images
       expect(meta.openGraph.images[0].url).toBe('/o.png');
       expect(meta.other).toEqual({ 'article:published_time': '2025-01-02' });

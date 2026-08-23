@@ -2,12 +2,12 @@ import { buildCanonical } from '@/lib/seo';
 
 /**
  * SeoHeadServer - Componente servidor para renderizar tags SEO essenciais
- * 
+ *
  * Aplicado automaticamente no layout.tsx global para garantir que:
  * 1. Canonical tags apontam para o domínio principal
  * 2. hreflang é removido (não há multi-idioma não configurado)
  * 3. Todas as páginas públicas têm SEO completo
- * 
+ *
  * Este componente é apenas para reforço; as tags principais já vêm do
  * sistema metadata de Next.js, mas este garante coerência.
  */
@@ -51,12 +51,12 @@ export function SeoHeadServer({
         <link rel="canonical" href={canonical} key="canonical" />
       )}
 
-      {/* 
+      {/*
         Nota: hreflang foi propositalmente removido porque:
         1. Não há i18n/multi-idioma configurado no projeto
         2. Páginas em húngaro foram bloqueadas via redirects (netlify.toml)
         3. Incluir hreflang sem implementar i18n prejudica SEO
-        
+
         Se no futuro mudar para i18n (pt-BR, en-US, es-ES, etc):
         1. Implementar i18n middleware
         2. Adicionar hreflang para cada variação de idioma

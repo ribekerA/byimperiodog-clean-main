@@ -1,9 +1,10 @@
-import { notFound } from "next/navigation";
-import { headers } from "next/headers";
 import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { notFound } from "next/navigation";
 
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { BRAND } from "@/domain/config";
 import { rateLimit } from "@/lib/rateLimit";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 import { PrintButton } from "./PrintButton";
 
@@ -76,8 +77,9 @@ function fmtBirthDate(v?: string | null) {
   return v;
 }
 
-export default async function ContractDocumento({ params }: { params: { code: string } }) {
-  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+export default async function ContractDocumento(props: { params: Promise<{ code: string }> }) {
+  const params = await props.params;
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rl = rateLimit(`contract-doc:${ip}`, 30, 60_000);
   if (!rl.allowed) notFound();
 
@@ -139,7 +141,7 @@ export default async function ContractDocumento({ params }: { params: { code: st
           <div className="block grid2">
             <div className="field"><span className="label">Razão social:</span><span className="value">BY IMPÉRIO DOG</span></div>
             <div className="field"><span className="label">CNPJ:</span><span className="value">22.587.478/0001-00</span></div>
-            <div className="field"><span className="label">E-mail:</span><span className="value">byimperiodog@gmail.com</span></div>
+            <div className="field"><span className="label">E-mail:</span><span className="value">{BRAND.contact.email}</span></div>
             <div className="field"><span className="label">Instagram:</span><span className="value">@byimperiodog</span></div>
           </div>
 

@@ -1,7 +1,7 @@
 /**
  * Otimiza URLs de imagens do Supabase Storage convertendo GIFs para WebP
  * e aplicando resize/qualidade adequados.
- * 
+ *
  * Supabase Image Transformation API:
  * https://supabase.com/docs/guides/storage/image-transformations
  */
@@ -14,10 +14,10 @@ export function optimizeSupabaseImage(url: string | undefined | null, options: {
   resize?: 'cover' | 'contain' | 'fill';
 } = {}): string | undefined {
   if (!url) return undefined;
-  
+
   // Se não for URL do Supabase, retornar original
   if (!url.includes('supabase.co/storage')) return url;
-  
+
   const {
     width = 800,
     height,
@@ -25,23 +25,23 @@ export function optimizeSupabaseImage(url: string | undefined | null, options: {
     format = 'webp',
     resize = 'cover'
   } = options;
-  
+
   try {
     const urlObj = new URL(url);
-    
+
     // Adicionar parâmetros de transformação
     const params = new URLSearchParams();
-    
+
     if (width) params.set('width', width.toString());
     if (height) params.set('height', height.toString());
     if (quality) params.set('quality', quality.toString());
     if (format && format !== 'origin') params.set('format', format);
     if (resize) params.set('resize', resize);
-    
+
     // Construir nova URL com transformações
     const transformParams = params.toString();
     if (!transformParams) return url;
-    
+
     // Se já tem query params, adicionar com &, senão com ?
     const separator = urlObj.search ? '&' : '?';
     return `${url}${separator}${transformParams}`;

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { PawPrint, RefreshCw, Search, Upload } from "lucide-react";
+import Link from "next/link";
 
 import { PuppyEditLauncher } from "./pageClient";
 

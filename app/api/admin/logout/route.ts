@@ -2,7 +2,8 @@
 import { NextResponse } from "next/server";
 
 export async function POST() {
-  const clear = (name: string) => cookies().set(name, "", { httpOnly: true, expires: new Date(0), path: "/" });
+  const cookieStore = await cookies();
+  const clear = (name: string) => cookieStore.set(name, "", { httpOnly: true, expires: new Date(0), path: "/" });
   clear("admin_session");
   clear("admin_auth");
   clear("adm");

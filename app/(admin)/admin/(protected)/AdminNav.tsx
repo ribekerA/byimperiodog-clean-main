@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
 import {
   Activity,
   BarChart3,
@@ -27,6 +25,8 @@ import {
   Webhook,
   Zap,
 } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Dialog, DialogContent } from "@/components/ui/dialog";

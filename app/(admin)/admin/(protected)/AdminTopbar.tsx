@@ -1,8 +1,8 @@
 ﻿"use client";
 
-import { useMemo } from "react";
-import { usePathname } from "next/navigation";
 import { ChevronRight, UserRound } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 type Props = {
   environment: string;

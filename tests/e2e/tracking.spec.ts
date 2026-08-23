@@ -1,284 +1,254 @@
-/**
- * Testes E2E - Módulo de Tracking/Pixels
- * By Império Dog - Sistema de Pixels/Analytics
- * 
- * Testes completos do fluxo:
- * 1. Login no admin
- * 2. Navegar para /admin/settings/tracking
- * 3. Configurar Facebook Pixel e Google Analytics
- * 4. Salvar configurações
- * 5. Testar pixels
- * 6. Verificar injeção no frontend
- */
+import { expect, test, type Page } from '@playwright/test';
 
-import { test, expect } from '@playwright/test';
+import { signAdminSession } from '../../src/lib/adminSession';
+import type { TrackingConfig } from '../../src/lib/tracking/getTrackingConfig';
 
-// Configurações de teste
-// Ajuste: sistema atual utiliza somente senha (campo "Senha") sem email.
-// Usa ordem de fallback para reutilizar senha real configurada em .env.local.
-const ADMIN_PASSWORD = process.env.TEST_ADMIN_PASSWORD
-  || process.env.ADMIN_PASS
-  || 'test123';
-const BASE_URL = process.env.TEST_BASE_URL || 'http://localhost:3000';
+const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000';
 
-test.describe('Tracking Settings - Configuração de Pixels', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/login`);
-    const passwordField = page.locator('input#admin-password');
-    await expect(passwordField).toBeVisible();
-    await passwordField.fill(ADMIN_PASSWORD);
-    await page.getByRole('button', { name: /Entrar no painel/i }).click();
-    await page.waitForURL(/\/admin(?!\/login)/);
+const emptyConfig = (): TrackingConfig => ({
+  isGTMEnabled: false,
+  gtmContainerId: null,
+  isGAEnabled: false,
+  gaMeasurementId: null,
+  isFacebookEnabled: false,
+  facebookPixelId: null,
+  isTikTokEnabled: false,
+  tiktokPixelId: null,
+  metaDomainVerification: null,
+  googleSiteVerification: null,
+  googleAdsId: null,
+  hotjarId: null,
+  clarityId: null,
+  pinterestId: null,
+});
+
+type TrackingApiMock = {
+  getConfig: (environment?: string) => TrackingConfig;
+  requests: Array<{ method: string; pathname: string }>;
+};
+
+async function addLocalAdminSession(page: Page) {
+  if (!process.env.ADMIN_SESSION_SECRET) {
+    throw new Error('ADMIN_SESSION_SECRET precisa estar configurado para os E2E locais.');
+  }
+
+  const token = await signAdminSession({
+    userId: 'playwright-local',
+    email: 'playwright@local.test',
+    name: 'Playwright Local',
+    role: 'owner',
   });
 
-  test('deve acessar a página de configuração de tracking', async ({ page }) => {
-    // Navegar para página de tracking
-    // Nova rota de pixels
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    await expect(page.locator('h1')).toContainText('Pixels e Consentimento');
-    // Campos agora são por ambiente: production.gtmId etc.
+  await page.context().addCookies([
+    {
+      name: 'admin_session',
+      value: token,
+      url: BASE_URL,
+      httpOnly: true,
+      sameSite: 'Lax',
+    },
+  ]);
+}
+
+async function mockTrackingApi(page: Page): Promise<TrackingApiMock> {
+  const configs: Record<string, TrackingConfig> = {
+    production: emptyConfig(),
+    staging: emptyConfig(),
+    development: emptyConfig(),
+  };
+  const requests: TrackingApiMock['requests'] = [];
+
+  await page.route('**/api/admin/tracking-settings**', async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+    requests.push({ method: request.method(), pathname: url.pathname });
+
+    if (request.method() === 'GET') {
+      const environment = url.searchParams.get('environment') || 'production';
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ environment, config: configs[environment] ?? emptyConfig() }),
+      });
+      return;
+    }
+
+    if (request.method() === 'POST') {
+      const payload = request.postDataJSON() as Partial<TrackingConfig> & { environment?: string };
+      const environment = payload.environment || 'production';
+      const current = configs[environment] ?? emptyConfig();
+      configs[environment] = {
+        ...current,
+        ...Object.fromEntries(
+          Object.entries(payload).filter(([key]) => key !== 'environment')
+        ),
+      } as TrackingConfig;
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({ environment, config: configs[environment] }),
+      });
+      return;
+    }
+
+    await route.fulfill({
+      status: 405,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Method not allowed' }),
+    });
+  });
+
+  // A rota mais específica é registrada por último porque o Playwright
+  // avalia os handlers na ordem inversa de registro.
+  await page.route('**/api/admin/tracking-settings/history**', async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+    requests.push({ method: request.method(), pathname: url.pathname });
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ history: [] }),
+    });
+  });
+
+  return {
+    getConfig: (environment = 'production') => configs[environment],
+    requests,
+  };
+}
+
+test.describe('Admin de tracking - acesso', () => {
+  test('login exibe os campos atuais de email e senha', async ({ page }) => {
+    await page.goto('/admin/login');
+
+    await expect(page.getByRole('heading', { name: 'Acesso Admin' })).toBeVisible();
+    await expect(page.getByPlaceholder('admin@exemplo.com')).toBeVisible();
+    await expect(page.getByPlaceholder('********')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Entrar' })).toBeVisible();
+  });
+
+  test('rota protegida redireciona visitante para o login', async ({ page }) => {
+    await page.goto('/admin/config/tracking');
+
+    await expect(page).toHaveURL(/\/admin\/login$/);
+  });
+});
+
+test.describe('Admin de tracking - configuração isolada', () => {
+  let api: TrackingApiMock;
+
+  test.beforeEach(async ({ page }) => {
+    await addLocalAdminSession(page);
+    api = await mockTrackingApi(page);
+    await page.goto('/admin/config/tracking');
+    await expect(page.getByRole('heading', { name: 'Tracking & Pixels' })).toBeVisible();
+  });
+
+  test('exibe os campos da rota atual', async ({ page }) => {
     await expect(page.getByPlaceholder('GTM-XXXXXXX')).toBeVisible();
-    await expect(page.getByPlaceholder('G-XXXXXXXXX')).toBeVisible();
+    await expect(page.getByPlaceholder('G-XXXXXXXXXX')).toBeVisible();
     await expect(page.getByPlaceholder('1234567890')).toBeVisible();
+    await expect(page.getByPlaceholder('C4A3XXXXXXXXXX')).toBeVisible();
   });
 
-  test('deve configurar Facebook Pixel ID', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    const testPixelId = '12345678'; // dentro do padrão 8-20 dígitos
-    // Marcar consentimento de marketing (necessário para salvar)
-    await page.getByText(/Requer consentimento para marketing/i).click();
-    // Preencher campo (Meta Pixel)
-    const metaInput = page.getByPlaceholder('1234567890');
-    await metaInput.fill(testPixelId);
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    await expect(page.getByText(/Configuracoes atualizadas com sucesso/i)).toBeVisible({ timeout: 8000 });
+  test('salva Meta Pixel somente no mock local e preserva após recarregar', async ({ page }) => {
+    await page.getByPlaceholder('1234567890').fill('1234567890');
+    await page.getByRole('switch', { name: 'Ativar Meta / Facebook Pixel' }).check({ force: true });
+    await page.getByRole('button', { name: 'Salvar configurações' }).click();
+
+    await expect(page.getByText('Tracking salvo com sucesso.')).toBeVisible();
+    expect(api.getConfig().facebookPixelId).toBe('1234567890');
+    expect(api.getConfig().isFacebookEnabled).toBe(true);
+
     await page.reload();
-    await expect(metaInput).toHaveValue(testPixelId);
+    await expect(page.getByPlaceholder('1234567890')).toHaveValue('1234567890');
   });
 
-  test('deve configurar Google Analytics ID', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    const testGA4Id = 'G-ABCDEF1234';
-    
-    // Preencher campo
-    // Consentimento analytics
-    await page.getByText(/Requer consentimento para analytics/i).click();
-    const gaInput = page.getByPlaceholder('G-XXXXXXXXX');
-    await gaInput.fill(testGA4Id);
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    await expect(page.getByText(/Configuracoes atualizadas com sucesso/i)).toBeVisible({ timeout: 8000 });
-    await page.reload();
-    await expect(gaInput).toHaveValue(testGA4Id);
+  test('salva Google Analytics somente no mock local', async ({ page }) => {
+    await page.getByPlaceholder('G-XXXXXXXXXX').fill('G-ABCD123456');
+    await page.getByRole('switch', { name: 'Ativar Google Analytics 4' }).check({ force: true });
+    await page.getByRole('button', { name: 'Salvar configurações' }).click();
+
+    await expect(page.getByText('Tracking salvo com sucesso.')).toBeVisible();
+    expect(api.getConfig().gaMeasurementId).toBe('G-ABCD123456');
+    expect(api.getConfig().isGAEnabled).toBe(true);
   });
 
-  test('deve validar formato de Facebook Pixel ID', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    // Tentar salvar ID inválido (com letras)
-    const metaInput = page.getByPlaceholder('1234567890');
-    await metaInput.fill('abc123xyz'); // inválido (letras)
-    
-    // Salvar
-    await page.getByText(/Requer consentimento para marketing/i).click();
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    
-    // Esperar mensagem de erro
-    await expect(page.getByText(/Pixel Meta deve conter somente 8-20 digitos/i)).toBeVisible({ timeout: 8000 });
+  test('valida Meta Pixel curto sem enviar POST', async ({ page }) => {
+    await page.getByPlaceholder('1234567890').fill('12');
+    await expect(page.getByText('Formato inválido')).toBeVisible();
+    await page.getByRole('button', { name: 'Salvar configurações' }).click();
+
+    await expect(page.getByText('Corrija os campos antes de salvar.')).toBeVisible();
+    expect(api.requests.filter((request) => request.method === 'POST')).toHaveLength(0);
   });
 
-  test('deve validar formato de Google Analytics ID', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    // Tentar salvar ID inválido (formato antigo UA-)
-    const gaInput = page.getByPlaceholder('G-XXXXXXXXX');
-    await gaInput.fill('UA-12345-1');
-    
-    // Salvar
-    await page.getByText(/Requer consentimento para analytics/i).click();
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    
-    // Esperar mensagem de erro
-    await expect(page.getByText(/Formato GA4 invalido/i)).toBeVisible({ timeout: 8000 });
+  test('valida o formato antigo do Google Analytics sem enviar POST', async ({ page }) => {
+    await page.getByPlaceholder('G-XXXXXXXXXX').fill('UA-12345-1');
+    await expect(page.getByText('Formato inválido')).toBeVisible();
+    await page.getByRole('button', { name: 'Salvar configurações' }).click();
+
+    await expect(page.getByText('Corrija os campos antes de salvar.')).toBeVisible();
+    expect(api.requests.filter((request) => request.method === 'POST')).toHaveLength(0);
   });
 
-  test('deve permitir limpar campos (desabilitar pixels)', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    // Preencher campo
-    const metaInput = page.getByPlaceholder('1234567890');
-    await page.getByText(/Requer consentimento para marketing/i).click();
-    await metaInput.fill('12345678');
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    await expect(page.getByText(/Configuracoes atualizadas com sucesso/i)).toBeVisible();
-    
-    // Limpar campo
-    await metaInput.fill('');
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    await expect(page.getByText(/Configuracoes atualizadas com sucesso/i)).toBeVisible();
-    
-    // Recarregar e verificar que está vazio
-    await page.reload();
-    await expect(metaInput).toHaveValue('');
+  test('permite limpar um ID salvo', async ({ page }) => {
+    const input = page.getByPlaceholder('1234567890');
+    const toggle = page.getByRole('switch', { name: 'Ativar Meta / Facebook Pixel' });
+    await input.fill('1234567890');
+    await toggle.check({ force: true });
+    await page.getByRole('button', { name: 'Salvar configurações' }).click();
+    await expect(page.getByText('Tracking salvo com sucesso.')).toBeVisible();
+
+    await input.fill('');
+    await toggle.uncheck({ force: true });
+    await page.getByRole('button', { name: 'Salvar configurações' }).click();
+    await expect(page.getByText('Tracking salvo com sucesso.').last()).toBeVisible();
+
+    expect(api.getConfig().facebookPixelId).toBe('');
+    expect(api.getConfig().isFacebookEnabled).toBe(false);
+  });
+
+  test('gera diagnóstico local sem chamada de gravação', async ({ page }) => {
+    await page.getByRole('button', { name: 'Testar configuração' }).click();
+
+    await expect(page.getByText('Diagnóstico', { exact: true })).toBeVisible();
+    expect(api.requests.filter((request) => request.method === 'POST')).toHaveLength(0);
+  });
+
+  test('troca de ambiente carregando apenas dados simulados', async ({ page }) => {
+    await page.getByRole('button', { name: 'Staging' }).click();
+
+    await expect(page.getByText('Ambiente Staging carregado.')).toBeVisible();
+    expect(api.requests.some((request) => request.pathname === '/api/admin/tracking-settings')).toBe(true);
+  });
+
+  test('histórico vazio é carregado pelo mock local', async ({ page }) => {
+    await page.getByRole('button', { name: 'Histórico' }).click();
+
+    await expect(page.getByText('Nenhuma alteração registrada ainda.')).toBeVisible({ timeout: 10_000 });
+    expect(api.requests.some((request) => request.pathname.endsWith('/history'))).toBe(true);
   });
 });
 
-test.describe('Tracking Settings - Teste de Pixels', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/login`);
-    const passwordField = page.locator('input#admin-password');
-    await passwordField.fill(ADMIN_PASSWORD);
-    await page.getByRole('button', { name: /Entrar no painel/i }).click();
-    await page.waitForURL(/\/admin(?!\/login)/);
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    await page.getByText(/Requer consentimento para marketing/i).click();
-    await page.getByText(/Requer consentimento para analytics/i).click();
-    await page.getByPlaceholder('1234567890').fill('12345678');
-    await page.getByPlaceholder('G-XXXXXXXXX').fill('G-ABCDEF1234');
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    await expect(page.getByText(/Configuracoes atualizadas com sucesso/i)).toBeVisible();
-  });
-
-  test('botão "Testar Facebook Pixel" deve estar visível', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    // Verificar que botão de teste aparece
-    await expect(page.getByRole('button', { name: /Testar Facebook Pixel/i })).toBeVisible();
-  });
-
-  test('botão "Testar Google Analytics" deve estar visível', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    // Verificar que botão de teste aparece
-    await expect(page.getByRole('button', { name: /Testar Google Analytics/i })).toBeVisible();
-  });
-
-  test('clicar em "Testar Pixel" deve mostrar feedback', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    
-    // Mock do window.fbq para simular pixel carregado
-    await page.evaluate(() => {
-      (window as unknown as { fbq: () => void }).fbq = () => {};
-    });
-    
-    // Listener para alert
-    page.on('dialog', async dialog => {
-      expect(dialog.message()).toContain('Evento de teste enviado');
-      await dialog.accept();
-    });
-    
-    // Clicar no botão de teste
-    await page.getByRole('button', { name: /Testar Facebook Pixel/i }).click();
-  });
-});
-
-test.describe('Frontend - Injeção de Scripts', () => {
-  test('deve injetar Facebook Pixel no frontend quando configurado', async ({ page }) => {
-    // Configurar pixel primeiro
-    await page.goto(`${BASE_URL}/admin/login`);
-    const passwordField = page.locator('input#admin-password');
-    await passwordField.fill(ADMIN_PASSWORD);
-    await page.getByRole('button', { name: /Entrar no painel/i }).click();
-    await page.waitForURL(/\/admin(?!\/login)/);
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    await page.getByText(/Requer consentimento para marketing/i).click();
-    await page.getByPlaceholder('1234567890').fill('12345678');
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    await expect(page.getByText(/Configuracoes atualizadas com sucesso/i)).toBeVisible();
-    
-    // Ir para página pública
-    await page.goto(`${BASE_URL}/`);
-    
-    // Verificar que script foi injetado
-    const fbqExists = await page.evaluate(() => {
-      const win = window as unknown as { fbq?: () => void };
-      return typeof win.fbq === 'function';
-    });
-    
-    expect(fbqExists).toBeTruthy();
-  });
-
-  test('deve injetar Google Analytics no frontend quando configurado', async ({ page }) => {
-    // Configurar GA4
-    await page.goto(`${BASE_URL}/admin/login`);
-    const passwordField = page.locator('input#admin-password');
-    await passwordField.fill(ADMIN_PASSWORD);
-    await page.getByRole('button', { name: /Entrar no painel/i }).click();
-    await page.waitForURL(/\/admin(?!\/login)/);
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    await page.getByText(/Requer consentimento para analytics/i).click();
-    await page.getByPlaceholder('G-XXXXXXXXX').fill('G-ABCDEF1234');
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    await expect(page.getByText(/Configuracoes atualizadas com sucesso/i)).toBeVisible();
-    
-    // Ir para página pública
-    await page.goto(`${BASE_URL}/`);
-    
-    // Verificar que script foi injetado
-    const gtagExists = await page.evaluate(() => {
-      const win = window as unknown as { gtag?: () => void };
-      return typeof win.gtag === 'function';
-    });
-    
-    expect(gtagExists).toBeTruthy();
-  });
-
-  test('não deve injetar pixels quando não configurados', async ({ page }) => {
-    // Limpar configurações
-    await page.goto(`${BASE_URL}/admin/login`);
-    const passwordField = page.locator('input#admin-password');
-    await passwordField.fill(ADMIN_PASSWORD);
-    await page.getByRole('button', { name: /Entrar no painel/i }).click();
-    await page.waitForURL(/\/admin(?!\/login)/);
-    await page.goto(`${BASE_URL}/admin/pixels`);
-    // Marcar ambos consentimentos para permitir salvar vazio
-    await page.getByText(/Requer consentimento para marketing/i).click();
-    await page.getByText(/Requer consentimento para analytics/i).click();
-    await page.getByPlaceholder('1234567890').fill('');
-    await page.getByPlaceholder('G-XXXXXXXXX').fill('');
-    await page.getByRole('button', { name: /Salvar configuracoes/i }).click();
-    
-    // Ir para página pública
-    await page.goto(`${BASE_URL}/`);
-    
-    // Aguardar um pouco para garantir que não injetou
-    await page.waitForTimeout(2000);
-    
-    // Verificar que scripts NÃO foram injetados
-    const fbqExists = await page.evaluate(() => {
-      const win = window as unknown as { fbq?: () => void };
-      return typeof win.fbq === 'function';
-    });
-    
-    expect(fbqExists).toBeFalsy();
-  });
-});
-
-test.describe('API - Endpoints de Tracking', () => {
-  test('GET /api/settings/tracking deve retornar configurações públicas', async ({ request }) => {
-    const response = await request.get(`${BASE_URL}/api/settings/tracking`);
-    
-    expect(response.ok()).toBeTruthy();
-    
+test.describe('APIs de tracking', () => {
+  test('GET público responde com campos públicos e sem segredos', async ({ request }) => {
+    const response = await request.get('/api/settings/tracking');
     const data = await response.json();
+
+    expect(response.ok()).toBe(true);
     expect(data).toHaveProperty('settings');
     expect(data.settings).toHaveProperty('meta_pixel_id');
     expect(data.settings).toHaveProperty('ga4_id');
-    
-    // Não deve expor tokens secretos
     expect(data.settings).not.toHaveProperty('fb_capi_token');
     expect(data.settings).not.toHaveProperty('tiktok_api_token');
   });
 
-  test('POST /api/admin/settings deve requerer autenticação', async ({ request }) => {
-    const response = await request.post(`${BASE_URL}/api/admin/settings`, {
-      data: {
-        meta_pixel_id: '1234567890123456',
-      },
+  test('POST administrativo sem autenticação retorna 401', async ({ request }) => {
+    const response = await request.post('/api/admin/tracking-settings', {
+      data: { environment: 'production', facebookPixelId: '1234567890' },
     });
-    
-    // Deve retornar 401 sem autenticação
+
     expect(response.status()).toBe(401);
   });
 });

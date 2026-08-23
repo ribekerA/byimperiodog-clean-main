@@ -1,7 +1,9 @@
 export const dynamic = "force-dynamic";
-import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
+
 import { requireAdmin } from '@/lib/adminAuth';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function POST(req: NextRequest){
   const auth = requireAdmin(req); if(auth) return auth;

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import NextDynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 
 import PuppyCinematicGallery from "@/components/catalog/PuppyCinematicGallery";
+import {
+  ClientOnlyNotifyMeButton,
+  ClientOnlyPuppyReviews,
+  ClientOnlyPuppyStickyFloatingCTA,
+} from "@/components/catalog/PuppyClientOnly";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
 import LeadEventTracker from "@/components/LeadEventTracker";
-import dynamic from "next/dynamic";
-const NotifyMeButton = dynamic(() => import("@/components/NotifyMeButton"), { ssr: false });
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { TiltCard } from "@/components/motion/TiltCard";
@@ -18,17 +20,6 @@ import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildLocalBusinessLD, buildPuppyProductLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
-// Sistema de reviews (client-only)
-const PuppyReviews = NextDynamic(
-  () => import("@/components/reviews/PuppyReviews"),
-  { ssr: false, loading: () => null }
-);
-
-// Componentes client-only (sem SSR)
-const PuppyStickyFloatingCTA = NextDynamic(
-  () => import("@/components/catalog/PuppyStickyFloatingCTA"),
-  { ssr: false }
-);
 // UrgencyCountdown, PuppyViewerCount e VisitorActivityToast foram removidos.
 // Os tres exibiam atividade que nunca aconteceu:
 //  • UrgencyCountdown derivava um "reservado em" por hash do slug e contava
@@ -41,7 +32,7 @@ const PuppyStickyFloatingCTA = NextDynamic(
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
-type Props = { params: { slug: string } };
+type Props = { params: Promise<{ slug: string }> };
 
 // ─── Static params ────────────────────────────────────────────────────────────
 
@@ -51,7 +42,8 @@ export function generateStaticParams() {
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
-export function generateMetadata({ params }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const puppy = getPuppyBySlug(params.slug);
   if (!puppy) return { title: "Filhote não encontrado" };
 
@@ -77,7 +69,7 @@ export function generateMetadata({ params }: Props): Metadata {
 
   // A rota /og/filhote/[slug] nunca chegou a devolver imagem: quebrava no
   // Satori ("Expected <div> to have explicit display: flex"), buscava a foto em
-  // outro domínio (canilspitzalemao.com.br) e baixava fonte de emoji em tempo
+  // outro domínio e baixava fonte de emoji em tempo
   // de requisição. Estas 8 páginas ficavam sem og:image no WhatsApp. A foto do
   // próprio filhote é arquivo estático, sempre responde e compartilha melhor.
   // Sem width/height: a foto do filhote não é 1200×630, e declarar essa medida
@@ -150,7 +142,8 @@ const STATUS_LABEL: Record<string, string> = {
 
 // ─── Página ────────────────────────────────────────────────────────────────────
 
-export default function PuppyPage({ params }: Props) {
+export default async function PuppyPage(props: Props) {
+  const params = await props.params;
   const puppy = getPuppyBySlug(params.slug);
   if (!puppy) notFound();
 
@@ -249,13 +242,13 @@ export default function PuppyPage({ params }: Props) {
 
             {/* Hooked loop: filhote vendido/reservado → usuário deixa WhatsApp para ser notificado */}
             {isSold && (
-              <NotifyMeButton color={colorSlug} colorLabel={corLabel} />
+              <ClientOnlyNotifyMeButton color={colorSlug} colorLabel={corLabel} />
             )}
           </div>
         </div>
 
         {/* ── Avaliações das famílias ────────────────────────────────────── */}
-        <PuppyReviews puppySlug={puppy.slug} puppyName={puppy.name} />
+        <ClientOnlyPuppyReviews puppySlug={puppy.slug} puppyName={puppy.name} />
 
         {/* ── Filhotes relacionados ──────────────────────────────────────── */}
         {related.length > 0 && (
@@ -351,7 +344,7 @@ export default function PuppyPage({ params }: Props) {
       </div>
 
       {/* ── CTA flutuante (desktop card + mobile barra) ────────────────── */}
-      <PuppyStickyFloatingCTA
+      <ClientOnlyPuppyStickyFloatingCTA
         name={puppy.name}
         coverImage={coverImage}
         priceCents={(puppy as any).priceCents ?? (puppy as any).price_cents}

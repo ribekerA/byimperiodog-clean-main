@@ -198,7 +198,7 @@ async function run() {
         b = b.replace('}', `  --surface-2: 240 4.8% 95.9%; /* leve contraste com bg */\n}`);
       }
       if (needFix.border || !/--border\s*:/.test(body)) {
-        // se já existe --border, mantemos; caso contrário define 
+        // se já existe --border, mantemos; caso contrário define
         if (!/--border\s*:/.test(body)) b = b.replace('}', `  --border: 240 5.9% 90%;\n}`);
       }
       if (needFix.textMuted || !/--text-muted\s*:/.test(body)) {

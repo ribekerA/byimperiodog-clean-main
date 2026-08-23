@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { initWebVitals, logEvent } from "@/lib/analytics";
+import { getCurrentConsent, type ConsentPreferences } from "@/lib/consent";
 import { isAdminRoute } from "@/lib/tracking";
 
 export default function TrackingScripts() {
@@ -25,7 +26,7 @@ export default function TrackingScripts() {
         } else if (attempts++ > maxAttempts) {
           clearInterval(timer);
           onFail?.();
-          // eslint-disable-next-line no-console
+
           console.warn(`[pixel-test] ${label} não carregou para teste`);
         }
       }, intervalMs);
@@ -36,6 +37,7 @@ export default function TrackingScripts() {
       const url = window.location.href;
       const pathname = window.location.pathname;
       const search = window.location.search ? window.location.search.replace(/^\?/, "") : "";
+      const consent = getCurrentConsent();
 
       // Don't track pageviews from admin routes
       if (isAdminRoute(pathname)) {
@@ -43,9 +45,8 @@ export default function TrackingScripts() {
       }
 
       // GA4 / Ads (gtag)
-      // @ts-ignore
       const gtag = (window as any).gtag;
-      if (typeof gtag === "function") {
+      if (consent.analytics && typeof gtag === "function") {
         gtag("event", "page_view", {
           page_location: url,
           page_path: pathname + (search ? `?${search}` : ""),
@@ -53,41 +54,46 @@ export default function TrackingScripts() {
       }
 
       // Meta Pixel
-      // @ts-ignore
       const fbq = (window as any).fbq;
-      if (typeof fbq === "function") {
+      if (consent.marketing && typeof fbq === "function") {
         fbq("track", "PageView");
       }
 
       // TikTok
-      // @ts-ignore
       const ttq = (window as any).ttq;
-      if (ttq && typeof ttq.page === "function") {
+      if (consent.marketing && ttq && typeof ttq.page === "function") {
         ttq.page();
       }
 
       // Pinterest
-      // @ts-ignore
       const pintrk = (window as any).pintrk;
-      if (typeof pintrk === "function") {
+      if (consent.marketing && typeof pintrk === "function") {
         pintrk("page");
       }
     };
 
     // Defer tracking para não bloquear main thread
     // RequestIdleCallback para melhor TBT/INP
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => {
-        sendPageView();
-        initWebVitals();
-      }, { timeout: 2000 });
-    } else {
-      // Fallback para navegadores sem suporte
-      setTimeout(() => {
-        sendPageView();
-        initWebVitals();
-      }, 1);
-    }
+    // Pixel initialization already emits the first page_view. Repeating it
+    // here counted the landing page twice. Only SPA navigations are sent below.
+    let vitalsStarted = false;
+    let idleHandle: number | undefined;
+    const startVitals = () => {
+      if (vitalsStarted || !getCurrentConsent().analytics) return;
+      vitalsStarted = true;
+      if ('requestIdleCallback' in window) {
+        idleHandle = window.requestIdleCallback(() => void initWebVitals(), { timeout: 2000 });
+      } else {
+        idleHandle = setTimeout(() => void initWebVitals(), 1) as unknown as number;
+      }
+    };
+    startVitals();
+
+    const onConsentUpdated = (event: Event) => {
+      const detail = (event as CustomEvent<ConsentPreferences>).detail;
+      if (detail?.analytics) startVitals();
+    };
+    window.addEventListener('consentUpdated', onConsentUpdated);
 
     // Delegated clicks for CTR (cards, toc, share)
     const onClick = (e: MouseEvent) => {
@@ -97,6 +103,7 @@ export default function TrackingScripts() {
       if (!el) return;
       const name = el.getAttribute('data-evt');
       if (!name) return;
+      if (!getCurrentConsent().analytics) return;
       const meta: Record<string, any> = {};
       const id = el.getAttribute('data-id'); if (id) meta.id = id;
       const label = el.getAttribute('aria-label') || el.textContent?.trim()?.slice(0,80) || undefined;
@@ -195,7 +202,12 @@ export default function TrackingScripts() {
     return () => {
       window.removeEventListener("popstate", onPop);
       window.removeEventListener("pushstate" as any, onPop);
+      window.removeEventListener('consentUpdated', onConsentUpdated);
       document.removeEventListener('click', onClick, true);
+      if (idleHandle !== undefined) {
+        if ('cancelIdleCallback' in window) window.cancelIdleCallback(idleHandle);
+        else clearTimeout(idleHandle);
+      }
       if (waitHandle) {
         clearInterval(waitHandle);
       }

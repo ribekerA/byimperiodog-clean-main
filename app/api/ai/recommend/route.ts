@@ -1,8 +1,9 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
+
 import { supabasePublic } from '@/lib/supabasePublic';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 function cacheJson(data:unknown, status=200){
   return NextResponse.json(data, { status, headers:{ 'Cache-Control':'s-maxage=120, stale-while-revalidate=300' } });

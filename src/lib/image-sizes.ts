@@ -62,7 +62,7 @@ export const MODAL_IMAGE_SIZES = "(max-width: 768px) 90vw, 80vw";
 
 /**
  * Helper genérico: criar sizes baseado em colunas por breakpoint
- * 
+ *
  * @example
  * generateSizes({ sm: 1, md: 2, lg: 3 })
  * // "(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
@@ -75,7 +75,7 @@ export function generateSizes(columns: {
   "2xl"?: number;
 }): string {
   const sizes: string[] = [];
-  
+
   if (columns.sm) {
     sizes.push(`(max-width: ${BREAKPOINTS.sm}px) ${Math.floor(100 / columns.sm)}vw`);
   }
@@ -88,11 +88,11 @@ export function generateSizes(columns: {
   if (columns.xl) {
     sizes.push(`(max-width: ${BREAKPOINTS.xl}px) ${Math.floor(100 / columns.xl)}vw`);
   }
-  
+
   // Fallback: usar última coluna definida ou 100vw
   const lastCol = columns["2xl"] || columns.xl || columns.lg || columns.md || columns.sm || 1;
   sizes.push(`${Math.floor(100 / lastCol)}vw`);
-  
+
   return sizes.join(", ");
 }
 
@@ -109,7 +109,7 @@ export function getAspectDimensions(
     "16/9": 16 / 9,
     "3/4": 3 / 4,
   };
-  
+
   const ratio = ratios[aspectRatio];
   return {
     width: baseWidth,

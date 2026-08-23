@@ -32,7 +32,7 @@ async function generateEmbeddings() {
       .select('id, title, content_mdx, excerpt')
       .eq('status', 'published')
       .limit(5) // Limitar para teste
-    
+
     if (postsError) {
       console.error('Erro ao buscar posts:', postsError)
       return
@@ -45,7 +45,7 @@ async function generateEmbeddings() {
       try {
         // Preparar o texto para embedding (título + conteúdo)
         const text = `Título: ${post.title}\n\nResumo: ${post.excerpt}\n\nConteúdo: ${post.content_mdx}`
-        
+
         // Gerar embedding via OpenAI
         const response = await openai.embeddings.create({
           model: "text-embedding-3-small",

@@ -20,24 +20,24 @@ async function testEmbeddingsTable() {
       .from('blog_post_embeddings')
       .select('*')
       .limit(1)
-    
+
     if (tableError) {
       console.error('❌ Erro ao acessar tabela:', tableError)
       return
     }
     console.log('✅ Tabela blog_post_embeddings está acessível')
-    
+
     // Teste 2: Tentar inserir um registro de teste
     const testData = {
       post_id: '00000000-0000-0000-0000-000000000000', // UUID de teste
       source: 'test',
       embedding: '[]' // Array vazio como texto para teste
     }
-    
+
     const { error: insertError } = await supabase
       .from('blog_post_embeddings')
       .upsert(testData)
-    
+
     if (insertError && insertError.code === 'PGRST204') {
       console.log('✅ Políticas de segurança funcionando (bloqueio de insert sem autenticação)')
     } else if (insertError) {
@@ -49,7 +49,7 @@ async function testEmbeddingsTable() {
     // Teste 3: Verificar as políticas de RLS
     const { data: policies, error: policiesError } = await supabase
       .rpc('get_policies', { table_name: 'blog_post_embeddings' })
-    
+
     if (policiesError) {
       console.error('❌ Erro ao verificar políticas:', policiesError)
     } else {

@@ -3,7 +3,7 @@
  * By Império Dog - Sistema de Notificações de Conversões
  */
 
-export type WebhookEvent = 
+export type WebhookEvent =
   | 'lead_form_submit'
   | 'puppy_reservation'
   | 'contact_form'

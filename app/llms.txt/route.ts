@@ -78,8 +78,8 @@ export async function GET() {
       `artigos sobre a raça. Venda direta ao tutor, com entrega em todo o Brasil.`,
     "",
     `O canil divulga ${CORES_EXIBIDAS.length} cores. Fêmeas custam mais que machos em todas elas.`,
-    "Cada filhote sai com laudo de saúde veterinário, hemograma, protocolo vacinal conforme a",
-    "idade, registro oficial e contrato de responsabilidade compartilhada.",
+    "Cada filhote sai vacinado e vermifugado, com consulta veterinária, hemograma completo,",
+    "pedigree e contrato de responsabilidade compartilhada.",
     "",
     "## Catálogo",
     "",
@@ -110,8 +110,8 @@ export async function GET() {
     linha(
       breed.official,
       "/spitz-alemao",
-      `adulto de ${specs.adultHeightMin} a ${specs.adultHeightMax} cm e ${specs.adultWeightMin} a ` +
-        `${specs.adultWeightMax} kg, expectativa de vida de ${specs.lifeExpectancy}`
+      `altura oficial de ${specs.officialAdultHeight}, peso ${specs.officialAdultWeight}, ` +
+        `expectativa de vida de ${specs.lifeExpectancy}`
     ),
     linha(breed.alternative, "/lulu-da-pomerania", "o mesmo cão, pelo nome mais usado no Brasil"),
     linha("Pomeranian", "/pomeranian", "o mesmo cão, pelo nome usado em inglês"),

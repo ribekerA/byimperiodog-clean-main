@@ -1,5 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
+
 import { GET as mediaList } from '../app/api/admin/blog/media/list/route';
+
 import { makeNextRequestStub } from './helpers/nextRequestStub';
 
 vi.mock('@/lib/adminAuth', () => ({ requireAdmin: () => null }));
@@ -10,7 +12,7 @@ const mediaRows: Media[] = [
   { id: 'm1', file_path: 'a.jpg', alt: 'Cão feliz', caption: null, tags: ['dog','cute'], created_at: new Date(Date.now()-1000).toISOString() },
   { id: 'm2', file_path: 'b.jpg', alt: 'Gato', caption: 'Fofo', tags: ['cat'], created_at: new Date().toISOString() }
 ];
-let pivot = [ { media_id: 'm2', role: 'cover', post_id: 'p1' } ];
+const pivot = [ { media_id: 'm2', role: 'cover', post_id: 'p1' } ];
 
 vi.mock('@/lib/supabaseAdmin', () => ({
   supabaseAdmin: () => ({

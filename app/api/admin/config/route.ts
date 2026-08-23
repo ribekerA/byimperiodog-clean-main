@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
-import { requireAdmin } from "@/lib/adminAuth";
 import {
   applyGeneralDefaults,
   GENERAL_COLUMN_SELECT,
@@ -10,6 +9,7 @@ import {
   type GeneralSettings,
   type GeneralTextField,
 } from "@/lib/admin/generalConfig";
+import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const REQUIRED_FIELDS: GeneralTextField[] = [

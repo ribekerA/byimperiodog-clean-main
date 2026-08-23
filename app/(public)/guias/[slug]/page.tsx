@@ -9,13 +9,14 @@ import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
-type Props = { params: { slug: string } };
+type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
   return guides.map((g) => ({ slug: g.slug }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const guide = getGuideBySlug(params.slug);
   if (!guide) return { title: "Guia não encontrado" };
   return {
@@ -29,7 +30,8 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function GuidePage({ params }: Props) {
+export default async function GuidePage(props: Props) {
+  const params = await props.params;
   const guide = getGuideBySlug(params.slug);
   if (!guide) notFound();
 

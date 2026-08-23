@@ -4,7 +4,8 @@ import { useMemo, useRef, useState } from 'react';
 import { useToast } from '@/components/ui/toast';
 import { adminFetch } from '@/lib/adminFetch';
 import { formatCentsToBRL, parseBRLToCents } from '@/lib/price';
-import { PuppyDTO, RawPuppy, normalizePuppy } from '@/types/puppy';
+import type { PuppyDTO, RawPuppy} from '@/types/puppy';
+import { normalizePuppy } from '@/types/puppy';
 
 type AnyPuppyInput = RawPuppy | (RawPuppy & { nome?: string|null; name?: string|null });
 
@@ -93,7 +94,7 @@ export function usePuppyForm({ mode, record, onSuccess }: UsePuppyFormOptions){
         video_url: values.video_url || null,
         midia: values.midia,
       };
-      let url = '/api/admin/puppies';
+      const url = '/api/admin/puppies';
       let method: 'POST'|'PUT' = 'POST';
       if(isEdit){ method='PUT'; payload.id = record?.id; }
       const r = await adminFetch(url,{ method, headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});

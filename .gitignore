@@ -23,6 +23,11 @@ pnpm-debug.log*
 coverage/
 playwright-report/
 reports/a11y-contrast.diff
+# Evidências brutas locais da migração (regeráveis e muito volumosas)
+reports/migration-next16/screenshots/
+reports/migration-next16/*eslint*.json
+reports/migration-next16/*lighthouse*.json
+reports/route-validation.json
 
 # Env (local secrets)
 .env.local
@@ -42,6 +47,7 @@ bkp*.zip
 
 # Testing
 .test-results/
+test-results/
 
 # IDE
 .vscode/*

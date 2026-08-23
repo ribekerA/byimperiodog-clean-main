@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 
-import OpenAI from "openai";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import OpenAI from "openai";
 
 export async function POST(req: NextRequest) {
   const apiKey = process.env.GROQ_API_KEY;

@@ -3,10 +3,11 @@
 /**
  * Testa conexão do admin com SERVICE_ROLE_KEY
  */
-import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+import { createClient } from '@supabase/supabase-js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const envPath = join(__dirname, '..', '.env.local');
@@ -59,7 +60,7 @@ async function main() {
   }
 
   console.log(`✅ Total de posts no banco: ${count}`);
-  
+
   if (posts && posts.length > 0) {
     console.log('\n📋 Posts encontrados:');
     posts.forEach(p => {
@@ -71,7 +72,7 @@ async function main() {
 
   // Testar listSummaries
   console.log('\n🔎 Testando query listSummaries simulada...\n');
-  
+
   const { data: summaries, error: err2, count: count2 } = await sbAdmin
     .from('blog_posts')
     .select(

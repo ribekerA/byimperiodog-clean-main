@@ -1,7 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
+
 import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
 import { rateLimit } from '@/lib/rateLimit';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // GET /api/admin/blog/ai/session?id=... | ?active=1 | lista
 export async function GET(req: NextRequest){

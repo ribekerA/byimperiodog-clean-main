@@ -60,14 +60,14 @@ export default function PuppiesGrid({ initialItems = [] }: Props) {
         setLoading(false);
         return;
       }
-      
+
       console.log('[PuppiesGrid] Buscando filhotes...');
       try {
         setLoading(true);
         setError(null);
-        
+
         const result = await listPuppiesCatalog({}, 'recent', { limit: 40 });
-        
+
         if (mountedRef.current) {
           console.log('[PuppiesGrid] Filhotes carregados:', result.puppies.length);
           setItems(result.puppies);
@@ -102,7 +102,7 @@ export default function PuppiesGrid({ initialItems = [] }: Props) {
   const filtered = useMemo(() => {
     let arr = items;
     const qTerm = q.trim();
-    
+
     if (qTerm) {
       const normQ = qTerm.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
       arr = arr.filter(p => {
@@ -112,19 +112,19 @@ export default function PuppiesGrid({ initialItems = [] }: Props) {
         return name.includes(normQ) || desc.includes(normQ) || color.includes(normQ);
       });
     }
-    
+
     if (gender) {
       arr = arr.filter(p => p.sex === gender);
     }
-    
+
     if (status) {
       arr = arr.filter(p => p.status === status);
     }
-    
+
     if (color) {
       arr = arr.filter(p => p.color.toLowerCase() === color.toLowerCase());
     }
-    
+
     return arr;
   }, [items, q, gender, status, color]);
 

@@ -22,8 +22,11 @@ type ApiGuardOptions = {
   permission?: AdminPermission;
 };
 
-async function getVerifiedSession(store = cookies()): Promise<AdminSessionPayload | null> {
-  return verifyAdminSession(store.get(ADMIN_SESSION_COOKIE)?.value);
+async function getVerifiedSession(
+  store?: Awaited<ReturnType<typeof cookies>>,
+): Promise<AdminSessionPayload | null> {
+  const cookieStore = store ?? await cookies();
+  return verifyAdminSession(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
 }
 
 function resolveRoleFromRequest(req: Request | NextRequest): AdminRole {
@@ -46,7 +49,7 @@ function identityFromSession(payload: AdminSessionPayload): AdminIdentity {
 }
 
 export async function requireAdminLayout(options: LayoutGuardOptions = {}) {
-  const store = cookies();
+  const store = await cookies();
   const session = await getVerifiedSession(store);
   if (!session) {
     adminAuthLogger.warn("Admin layout guard bloqueou acesso sem sessao valida");

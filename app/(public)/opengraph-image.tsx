@@ -14,7 +14,7 @@ import { ImageResponse } from "next/og";
 
 import { FOUNDING_YEAR } from "@/domain/config";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export const alt = "By Império Dog — Spitz Alemão Anão | Criação responsável em Bragança Paulista, SP";
 export const size = { width: 1200, height: 630 };

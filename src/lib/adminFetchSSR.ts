@@ -5,7 +5,7 @@ export async function adminFetchSSR(path:string, init:RequestInit = {}){
   const base = process.env.NEXT_PUBLIC_SITE_URL || '';
   const url = path.startsWith('http')? path : `${base}${path}`;
   // Encaminha cookies admin
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const adm = cookieStore.get('adm');
   const legacy = cookieStore.get('admin_auth');
   const headers = new Headers(init.headers||{});

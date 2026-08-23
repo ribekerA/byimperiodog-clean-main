@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
 
 interface PublishBody { id?: string; slug?: string }

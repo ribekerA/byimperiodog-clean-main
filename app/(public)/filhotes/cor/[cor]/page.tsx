@@ -7,18 +7,19 @@ import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
-type Props = { params: { cor: string } };
+type Props = { params: Promise<{ cor: string }> };
 
 export function generateStaticParams() {
   return ALL_COLORS.map((cor) => ({ cor }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const seo = COLOR_SEO[params.cor];
   if (!seo) return { title: "Filhotes por Cor" };
   // A rota /og/cor/[cor] nunca chegou a devolver imagem: quebrava no Satori
   // ("Expected <div> to have explicit display: flex"), buscava a foto em outro
-  // domínio (canilspitzalemao.com.br) e baixava fonte de emoji em tempo de
+  // domínio externo e baixava fonte de emoji em tempo de
   // requisição. Estas 4 páginas ficavam sem og:image no WhatsApp. A foto de um
   // filhote da própria cor é arquivo estático e sempre responde.
   const colorPhoto = getPuppiesByColor(params.cor)
@@ -46,7 +47,8 @@ export function generateMetadata({ params }: Props): Metadata {
   };
 }
 
-export default function ColorLandingPage({ params }: Props) {
+export default async function ColorLandingPage(props: Props) {
+  const params = await props.params;
   const seo = COLOR_SEO[params.cor];
   if (!seo) notFound();
 

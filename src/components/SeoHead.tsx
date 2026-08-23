@@ -4,19 +4,19 @@ import { useEffect } from 'react';
 
 /**
  * SeoHead - Componente cliente para injetar tags SEO dinamicamente
- * 
+ *
  * Use em situações onde metadata estática não for suficiente.
  * Em caso normal, use a exportação de `metadata` em layout.tsx ou page.tsx.
- * 
+ *
  * @example
  * 'use client';
  * import { SeoHead } from '@/components/SeoHead';
- * 
+ *
  * export default function MyPage() {
  *   return (
  *     <>
- *       <SeoHead 
- *         canonical="https://www.canilspitzalemao.com.br/minha-pagina"
+ *       <SeoHead
+ *         canonical="https://byimperiodog.com.br/minha-pagina"
  *         title="Mra Página | By Império Dog"
  *         description="Descrição da minha página"
  *       />
@@ -28,25 +28,25 @@ import { useEffect } from 'react';
 export interface SeoHeadProps {
   /** URL canônica da página (essencial para SEO) */
   canonical?: string;
-  
+
   /** Título da página (se não usar metadata de Next.js) */
   title?: string;
-  
+
   /** Descrição meta (if not using Next.js metadata) */
   description?: string;
-  
+
   /** robots meta tag (index, follow, noindex, nofollow, etc) */
   robots?: string;
-  
+
   /** Palavras-chave (comma-separated) */
   keywords?: string;
-  
+
   /** URL da imagem para Open Graph / Twitter Card */
   ogImage?: string;
-  
+
   /** Tipo de página (website, article, etc) */
   ogType?: string;
-  
+
   /** URL da página para OG (se diferente de canonical) */
   ogUrl?: string;
 }

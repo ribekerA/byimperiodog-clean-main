@@ -40,7 +40,7 @@ export const LASTMOD: Record<string, string> = {
   "/temperamento": "2026-08-22T12:00:02.000Z",
   "/termos-de-uso": "2026-08-22T12:00:02.000Z",
   "@color": "2026-08-22T12:00:02.000Z",
-  "@puppy": "2026-08-22T12:00:02.000Z",
+  "@puppy": "2026-08-22T12:16:47.000Z",
   "@sex": "2026-08-22T12:00:02.000Z",
 } as const;
 

@@ -340,7 +340,7 @@ async function fetchPendingComments(client: SupabaseClient, postIds: string[]): 
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 async function execList<T>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   query: any,

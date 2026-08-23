@@ -83,7 +83,6 @@ type PuppyForMessage = {
   price_cents?: number | null;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type WhatsAppMessageTone = "premium" | "consultivo" | "objetivo" | (string & {});
 
 export type WhatsAppMessagePayload = {

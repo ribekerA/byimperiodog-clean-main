@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
+import { AdminErrorState } from "@/components/admin/ui/AdminErrorState";
 import { createLogger } from "@/lib/logger";
 
 import LeadsCRM from "./LeadsCRM";
 import { fetchAdminLeads, parseLeadFilters } from "./queries";
-import { AdminErrorState } from "@/components/admin/ui/AdminErrorState";
 
 export const metadata: Metadata = {
   title: "Leads | Admin",
@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
-export default async function AdminLeadsPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function AdminLeadsPage(props: { searchParams: Promise<SearchParams> }) {
+  const searchParams = await props.searchParams;
   const logger = createLogger("admin:leads");
   const { filters, page } = parseLeadFilters(searchParams ?? {});
   try {

@@ -6,6 +6,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+
 import type { Experiment } from '@/types/experiments';
 
 export default function PixelExperimentsPage() {

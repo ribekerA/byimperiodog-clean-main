@@ -1,9 +1,13 @@
 "use client";
 
 import Script from "next/script";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
-import { getCurrentConsent } from "@/lib/consent";
+import {
+  DEFAULT_CONSENT,
+  getCurrentConsent,
+  type ConsentPreferences,
+} from "@/lib/consent";
 import { GOOGLE_ADS_READY_EVENT, registerAdsAccount } from "@/lib/conversions";
 
 export interface PixelsProps {
@@ -18,8 +22,17 @@ export interface PixelsProps {
   CLARITY_ID?: string;
   ADS_ID?: string;
   ADS_LABEL?: string;
-  analyticsConsentRequired?: boolean;
-  marketingConsentRequired?: boolean;
+}
+
+const SERVER_CONSENT = JSON.stringify(DEFAULT_CONSENT);
+
+function subscribeConsent(onStoreChange: () => void) {
+  window.addEventListener("consentUpdated", onStoreChange);
+  return () => window.removeEventListener("consentUpdated", onStoreChange);
+}
+
+function getConsentSnapshot() {
+  return JSON.stringify(getCurrentConsent());
 }
 
 /**
@@ -29,84 +42,55 @@ export interface PixelsProps {
  * Evita carregar scripts desnecessários antes do consentimento → melhora TTI/TBT.
  */
 export default function PixelsByConsent(props: PixelsProps) {
-  const {
-    isAdminRoute,
-    analyticsConsentRequired = true,
-    marketingConsentRequired = true,
-  } = props;
-  const [ready, setReady] = useState(false);
-  const [consent, setConsent] = useState(() => (typeof window !== 'undefined' ? getCurrentConsent() : { necessary: true, analytics: false, marketing: false, functional: true }));
-
-  // Flags para prevenir injeções duplicadas por re-render
-  const flags = useMemo(
-    () => ({
-      gtm: false,
-      ga: false,
-      ads: false,
-      fb: false,
-      tt: false,
-      pin: false,
-      hj: false,
-      cl: false,
-    }),
-    []
+  const { isAdminRoute } = props;
+  const consentSnapshot = useSyncExternalStore(
+    subscribeConsent,
+    getConsentSnapshot,
+    () => SERVER_CONSENT,
   );
+  const consent = JSON.parse(consentSnapshot) as ConsentPreferences;
 
   useEffect(() => {
     if (isAdminRoute) return;
-    // Estado inicial
-    setConsent(getCurrentConsent());
-    setReady(true);
-
     // O ID da conta e o label de conversão só existem no servidor
     // (pixels_settings). Como este componente já os recebe por prop e é
     // montado em toda página pública, ele é o ponto natural para publicá-los
     // ao helper de conversão — assim um clique em qualquer lugar do site
     // consegue disparar sem que cada página precise repassar as configurações.
     registerAdsAccount({ adsId: props.ADS_ID, leadLabel: props.ADS_LABEL });
-
-    const onUpdate = (e: Event) => {
-      try {
-        // detail: ConsentPreferences
-        // @ts-expect-error: CustomEvent detail comes untyped here
-        const detail = e?.detail;
-        if (detail) setConsent(detail);
-      } catch {
-        // ignore parsing errors
-      }
-    };
-    window.addEventListener('consentUpdated', onUpdate as EventListener);
-    return () => window.removeEventListener('consentUpdated', onUpdate as EventListener);
   }, [isAdminRoute, props.ADS_ID, props.ADS_LABEL]);
 
   if (isAdminRoute) return null;
-  if (!ready) return null;
 
   const { analytics, marketing } = consent;
-  const allowAnalytics = analyticsConsentRequired ? analytics : true;
-  const allowMarketing = marketingConsentRequired ? marketing : true;
+  // Basic consent mode: optional libraries are not downloaded before the
+  // visitor explicitly opts in. Admin settings cannot bypass this guarantee.
+  const allowAnalytics = analytics;
+  const allowMarketing = marketing;
   const { useGTM, GTM_ID, GA4_ID, FB_ID, TT_ID, PIN_ID, HOTJAR_ID, CLARITY_ID, ADS_ID } = props;
+  const allowGTM = useGTM && Boolean(GTM_ID) && (allowAnalytics || allowMarketing);
 
   return (
     <>
       {/* Analytics: GTM (preferencial) ou GA4 direto, somente com consent.analytics */}
       {/* strategy="lazyOnload" para evitar bloqueio de TBT/TTI (carrega após onLoad) */}
-      {allowAnalytics && useGTM && GTM_ID && !flags.gtm && (
-        <Script id="gtm-consent" strategy="lazyOnload" onLoad={() => { flags.gtm = true; }}>
+      {allowGTM && GTM_ID && (
+        <Script id="gtm-consent" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;
+            j.onload=function(){w.dispatchEvent(new Event('${GOOGLE_ADS_READY_EVENT}'));};j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','${GTM_ID}');
           `}
         </Script>
       )}
 
-      {allowAnalytics && !useGTM && GA4_ID && !flags.ga && (
+      {allowAnalytics && !useGTM && GA4_ID && (
         <>
-          <Script id="ga4-src-consent" src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="lazyOnload" onLoad={() => { /* noop */ }} />
-          <Script id="ga4-init-consent" strategy="lazyOnload" onLoad={() => { flags.ga = true; }}>
+          <Script id="ga4-src-consent" src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="lazyOnload" />
+          <Script id="ga4-init-consent" strategy="lazyOnload">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
@@ -117,8 +101,8 @@ export default function PixelsByConsent(props: PixelsProps) {
       )}
 
       {/* Analytics auxiliares: Hotjar e Clarity */}
-      {allowAnalytics && HOTJAR_ID && !isNaN(Number(HOTJAR_ID)) && !flags.hj && (
-        <Script id="hotjar-consent" strategy="lazyOnload" onLoad={() => { flags.hj = true; }}>
+      {allowAnalytics && !useGTM && HOTJAR_ID && !isNaN(Number(HOTJAR_ID)) && (
+        <Script id="hotjar-consent" strategy="lazyOnload">
           {`
             (function(h,o,t,j,a,r){ h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
             h._hjSettings={hjid:${Number(HOTJAR_ID)},hjsv:6}; a=o.getElementsByTagName('head')[0];
@@ -128,8 +112,8 @@ export default function PixelsByConsent(props: PixelsProps) {
         </Script>
       )}
 
-      {allowAnalytics && CLARITY_ID && !flags.cl && (
-        <Script id="clarity-consent" strategy="lazyOnload" onLoad={() => { flags.cl = true; }}>
+      {allowAnalytics && !useGTM && CLARITY_ID && (
+        <Script id="clarity-consent" strategy="lazyOnload">
           {`
             (function(c,l,a,r,i,t,y){ c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i; y=l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y);
@@ -140,23 +124,17 @@ export default function PixelsByConsent(props: PixelsProps) {
 
       {/* Marketing: Facebook, TikTok, Pinterest */}
       {/* strategy="lazyOnload" para minimizar impacto no TBT */}
-      {allowMarketing && ADS_ID && (
+      {allowMarketing && !useGTM && ADS_ID && (
         <>
-          {!useGTM && !flags.ga && !flags.ads && (
-            <Script
-              id="google-ads-src"
-              src={`https://www.googletagmanager.com/gtag/js?id=${ADS_ID}`}
-              strategy="lazyOnload"
-              onLoad={() => {
-                flags.ads = true;
-              }}
-            />
-          )}
+          <Script
+            id="google-ads-src"
+            src={`https://www.googletagmanager.com/gtag/js?id=${ADS_ID}`}
+            strategy="lazyOnload"
+          />
           <Script
             id="google-ads-init"
             strategy="lazyOnload"
             onLoad={() => {
-              flags.ads = true;
               window.dispatchEvent(new Event(GOOGLE_ADS_READY_EVENT));
             }}
           >
@@ -184,9 +162,9 @@ export default function PixelsByConsent(props: PixelsProps) {
         </>
       )}
 
-      {allowMarketing && FB_ID && !flags.fb && (
+      {allowMarketing && !useGTM && FB_ID && (
         <>
-          <Script id="fb-pixel-consent" strategy="lazyOnload" onLoad={() => { flags.fb = true; }}>
+          <Script id="fb-pixel-consent" strategy="lazyOnload">
             {`
               !(function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
               n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -199,8 +177,8 @@ export default function PixelsByConsent(props: PixelsProps) {
         </>
       )}
 
-      {allowMarketing && TT_ID && !flags.tt && (
-        <Script id="tiktok-consent" strategy="lazyOnload" onLoad={() => { flags.tt = true; }}>
+      {allowMarketing && !useGTM && TT_ID && (
+        <Script id="tiktok-consent" strategy="lazyOnload">
           {`
             !function (w, d, t) {w.TiktokAnalyticsObject = t; var ttq = w[t] = w[t] || [];
             ttq.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],
@@ -219,8 +197,8 @@ export default function PixelsByConsent(props: PixelsProps) {
         </Script>
       )}
 
-      {allowMarketing && PIN_ID && !flags.pin && (
-        <Script id="pinterest-consent" strategy="lazyOnload" onLoad={() => { flags.pin = true; }}>
+      {allowMarketing && !useGTM && PIN_ID && (
+        <Script id="pinterest-consent" strategy="lazyOnload">
           {`
             !function(e){if(!window.pintrk){window.pintrk=function(){window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var n=window.pintrk;n.queue=[],n.version="3.0";var t=document.createElement("script");t.async=!0,t.src=e;var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
             pintrk('load', '${PIN_ID}'); pintrk('page');

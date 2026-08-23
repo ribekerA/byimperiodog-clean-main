@@ -1,7 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
 import { AlertTriangle, Brain, CheckCircle2, Lightbulb, ListChecks, Loader2, RefreshCcw } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { useServerAction } from "@/hooks/useServerAction";
 

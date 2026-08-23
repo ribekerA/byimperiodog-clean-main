@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 
+import type { TocItem } from "@/lib/blog/mdx/toc";
+
 import TocNav from "./Toc";
 
-import type { TocItem } from "@/lib/blog/mdx/toc";
 
 /**
  * Sumário do artigo — instância ÚNICA no DOM.

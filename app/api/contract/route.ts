@@ -3,12 +3,13 @@ export const dynamic = "force-dynamic";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { BRAND } from "@/domain/config";
 import { rateLimit } from "@/lib/rateLimit";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const STORAGE_BUCKET = "contracts";
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
-const ADMIN_EMAIL    = process.env.ADMIN_EMAIL || "byimperiodog@gmail.com";
+const ADMIN_EMAIL    = process.env.ADMIN_EMAIL || BRAND.contact.email;
 
 const payloadSchema = z.object({
   nome:               z.string().min(3),

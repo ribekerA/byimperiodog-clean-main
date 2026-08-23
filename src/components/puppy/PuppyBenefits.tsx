@@ -3,7 +3,7 @@
  * Lista de benefícios e diferenciais do criador
  * UX: Visual claro com ícones, hierarquia de informação
  * A11y: Lista semântica, ícones decorativos
- * 
+ *
  * Migrado para usar componentes do Design System:
  * - Card para cada benefício
  */
@@ -62,8 +62,8 @@ export function PuppyBenefits() {
           const Icon = benefit.icon;
           return (
             <li key={index}>
-              <Card 
-                variant="outline" 
+              <Card
+                variant="outline"
                 interactive
                 className="h-full overflow-hidden transition hover:border-emerald-200"
               >

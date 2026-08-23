@@ -70,7 +70,7 @@ function formatPrice(priceCents?: number): string | null {
   }).format(priceCents / 100);
 }
 
-function buildKeywords(input: CatalogSeoInput, warnings: string[]): string[] {
+function buildKeywords(input: CatalogSeoInput): string[] {
   const keywords = new Set<string>();
   const sex = normalizeSex(input.sex);
   const color = input.color?.toLowerCase();
@@ -136,7 +136,7 @@ export function generateCatalogSeoCopy(input: CatalogSeoInput): CatalogSeoOutput
   altText = altSanitized.text;
   warnings.push(...altSanitized.warnings);
 
-  const seoKeywords = buildKeywords(input, warnings);
+  const seoKeywords = buildKeywords(input);
   const focusedKeywords = seoKeywords.slice(0, 5);
 
   // JSON-LD básico (snippet de Product)
@@ -148,17 +148,16 @@ export function generateCatalogSeoCopy(input: CatalogSeoInput): CatalogSeoOutput
     brand: { "@type": "Brand", name: "By Império Dog" },
     category: "Spitz Alemão Anão / Lulu da Pomerânia",
     color,
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "BRL",
-      price: (input.priceCents ?? 0) / 100,
-      availability:
-        status === "available"
-          ? "https://schema.org/InStock"
-          : status === "reserved"
-            ? "https://schema.org/PreOrder"
-            : "https://schema.org/OutOfStock",
-    },
+    ...(status === "available"
+      ? {
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "BRL",
+            price: (input.priceCents ?? 0) / 100,
+            availability: "https://schema.org/InStock",
+          },
+        }
+      : {}),
   };
 
   if (!input.color) warnings.push("Falta cor do filhote para SEO.");

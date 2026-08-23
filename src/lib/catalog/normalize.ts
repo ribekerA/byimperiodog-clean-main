@@ -83,7 +83,7 @@ export function normalizePuppyFromDB(rawInput: unknown): Puppy {
   const genderValue = (base as any).sexo || base.gender;
   const sex = genderValue === "femea" || genderValue === "female" ? "female" : "male";
   const birthDate = safeDate((base as any).nascimento || base.birth_date);
-  
+
   // Preço: converte de decimal para centavos se necessário
   let priceCents = base.price_cents ?? 0;
   if ((base as any).preco && !base.price_cents) {
@@ -117,7 +117,6 @@ export function normalizePuppyFromDB(rawInput: unknown): Puppy {
     sex,
     size: "mini",
     birthDate,
-    readyForAdoptionDate: new Date(birthDate.getTime() + 60 * 24 * 60 * 60 * 1000),
     images,
     thumbnailUrl: thumbnail,
     city: coerceCity(((base as any).cidade as string) || (base.city as string)),

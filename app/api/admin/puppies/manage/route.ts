@@ -2,7 +2,8 @@ export const dynamic = "force-dynamic";
 import { randomUUID } from "crypto";
 import { Buffer } from "node:buffer";
 
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
 
 import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";

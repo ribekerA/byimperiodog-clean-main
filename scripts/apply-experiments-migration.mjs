@@ -2,10 +2,11 @@
 // Script para aplicar migração experiments.sql
 // Uso: node scripts/apply-experiments-migration.mjs
 
-import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+import { createClient } from '@supabase/supabase-js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(__dirname, '..');
@@ -87,16 +88,16 @@ const commands = [
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now()
   )`,
-  
+
   // Cria índices
   `CREATE INDEX IF NOT EXISTS idx_experiments_status ON public.experiments (status)`,
   `CREATE INDEX IF NOT EXISTS idx_experiments_key ON public.experiments (key)`,
-  
+
   // Cria trigger
   `DROP TRIGGER IF EXISTS t_experiments_touch ON public.experiments`,
   `CREATE TRIGGER t_experiments_touch BEFORE UPDATE ON public.experiments
    FOR EACH ROW EXECUTE FUNCTION public._touch_updated_at()`,
-  
+
   // Adiciona comentários
   `COMMENT ON TABLE public.experiments IS 'A/B tests and experiments configuration'`,
   `COMMENT ON COLUMN public.experiments.key IS 'Unique identifier used in tracking events'`,

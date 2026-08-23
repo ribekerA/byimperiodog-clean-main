@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 /**
  * Script de otimização das imagens hero para LCP < 2.5s
- * 
+ *
  * PROBLEMA: spitz-hero-desktop.webp tem 2MB → LCP 11.6s
  * META: Mobile ≤100KB, Desktop ≤200KB → LCP <2.5s
- * 
+ *
  * Uso: node scripts/optimize-hero-images.mjs
  */
 
-import sharp from 'sharp';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+import sharp from 'sharp';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -53,31 +54,31 @@ const optimizations = [
 
 async function optimizeImage({ name, width, quality, targetSize, description }) {
   const outputPath = join(publicDir, name);
-  
+
   try {
     const startTime = Date.now();
-    
+
     await sharp(sourceImage)
-      .resize(width, null, { 
+      .resize(width, null, {
         fit: 'inside',
-        withoutEnlargement: true 
+        withoutEnlargement: true
       })
-      .webp({ 
+      .webp({
         quality,
         effort: 6 // 0-6, maior = melhor compressão mas mais lento
       })
       .toFile(outputPath);
-    
+
     const stats = await sharp(outputPath).metadata();
     const sizeKB = Math.round(Buffer.byteLength(readFileSync(outputPath)) / 1024);
     const duration = Date.now() - startTime;
-    
+
     console.log(`✅ ${name}`);
     console.log(`   ${description}`);
     console.log(`   Dimensões: ${stats.width}x${stats.height}px`);
     console.log(`   Tamanho: ${sizeKB}KB (meta: ${targetSize})`);
     console.log(`   Tempo: ${duration}ms\n`);
-    
+
     return { name, sizeKB, width: stats.width, height: stats.height };
   } catch (error) {
     console.error(`❌ Erro ao otimizar ${name}:`, error.message);

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
   whatsappUrl: string;

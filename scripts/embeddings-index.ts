@@ -1,7 +1,8 @@
 #!/usr/bin/env tsx
-import { createClient } from '@supabase/supabase-js';
 import fs from 'node:fs';
 import path from 'node:path';
+
+import { createClient } from '@supabase/supabase-js';
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const key = process.env.SUPABASE_SERVICE_ROLE_KEY!;

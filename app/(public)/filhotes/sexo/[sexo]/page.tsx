@@ -9,13 +9,14 @@ import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
-type Props = { params: { sexo: string } };
+type Props = { params: Promise<{ sexo: string }> };
 
 export function generateStaticParams() {
   return ALL_SEXES.map((sexo) => ({ sexo }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const seo = SEX_SEO[params.sexo];
   if (!seo) return { title: "Filhotes por Sexo" };
   return {
@@ -32,7 +33,8 @@ const STATUS_CONFIG = {
   sold: { label: "Vendido", className: "bg-zinc-100 text-zinc-600" },
 } as const;
 
-export default function SexLandingPage({ params }: Props) {
+export default async function SexLandingPage(props: Props) {
+  const params = await props.params;
   const seo = SEX_SEO[params.sexo];
   if (!seo) notFound();
 

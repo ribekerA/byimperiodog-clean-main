@@ -1,0 +1,2583 @@
+{
+  "phase": "migrated",
+  "generatedAt": "2026-08-22T19:00:38.294Z",
+  "baseUrl": "http://localhost:3000",
+  "sitemapDocuments": [
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "durationMs": 123,
+      "locationCount": 77
+    },
+    {
+      "path": "/sitemap-index.xml",
+      "status": 200,
+      "durationMs": 22,
+      "locationCount": 2
+    },
+    {
+      "path": "/sitemaps/posts.xml",
+      "status": 200,
+      "durationMs": 15,
+      "locationCount": 30
+    }
+  ],
+  "sitemap": {
+    "discoveredLocationCount": 107,
+    "uniquePageCount": 77,
+    "duplicateCount": 30
+  },
+  "summary": {
+    "pageCount": 77,
+    "statusCounts": {
+      "200": 77
+    },
+    "missingTitle": [],
+    "missingDescription": [],
+    "missingCanonical": [],
+    "invalidH1Count": [],
+    "invalidJsonLd": []
+  },
+  "adminRedirects": {
+    "/admin": {
+      "status": 307,
+      "location": "/admin/login"
+    },
+    "/admin/dashboard": {
+      "status": 307,
+      "location": "/admin/login"
+    },
+    "/admin/login": {
+      "status": 200,
+      "location": null
+    }
+  },
+  "pages": [
+    {
+      "path": "/",
+      "status": 200,
+      "finalPath": "/",
+      "durationMs": 105,
+      "title": "Canil Spitz Alemão Anão em Bragança Paulista | By Império Dog",
+      "description": "Canil de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudo de saúde e mentoria pós-venda. Enviamos para todo o Brasil.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br",
+      "openGraph": {
+        "title": "By Império Dog | Spitz Alemão Anão — Bragança Paulista, SP",
+        "description": "Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos. Criação desde 2013, com registro oficial e contrato.",
+        "url": "https://byimperiodog.com.br",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!+Tenho+uma+d%C3%BAvida+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conhecer+os+filhotes+dispon%C3%ADveis+e+entender+os+pr%C3%B3ximos+passos+para+reservar.&utm_source=site&utm_medium=price_section&utm_campaign=conhecer_filhotes",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Branco+F%C3%AAmea+%28Branco+F%C3%AAmea%29+no+site+e+quero+saber+mais+informa%C3%A7%C3%B5es.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-branco-femea-01",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Creme+F%C3%AAmea+%28Creme+F%C3%AAmea%29+no+site+e+quero+saber+mais+informa%C3%A7%C3%B5es.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-creme-femea-01",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Creme+Macho+%28Creme+Macho%29+no+site+e+quero+saber+mais+informa%C3%A7%C3%B5es.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-creme-macho-01",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Laranja+F%C3%AAmea+%28Laranja+F%C3%AAmea%29+no+site+e+quero+saber+mais+informa%C3%A7%C3%B5es.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-laranja-femea-01",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Laranja+Macho+%28Laranja+Macho%29+no+site+e+quero+saber+mais+informa%C3%A7%C3%B5es.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-laranja-macho-01",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Preto+F%C3%AAmea+%28Preto+F%C3%AAmea%29+no+site+e+quero+saber+mais+informa%C3%A7%C3%B5es.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-preto-femea-01",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Preto+Macho+%28Preto+Macho%29+no+site+e+quero+saber+mais+informa%C3%A7%C3%B5es.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-preto-macho-01",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+site+da+By+Imp%C3%A9rio+Dog+e+me+interessei+pelos+filhotes+de+Spitz+Alem%C3%A3o+An%C3%A3o+dispon%C3%ADveis.+Pode+me+contar+mais+sobre+disponibilidade+e+valores%3F&utm_source=site&utm_medium=video_hero&utm_campaign=hero_cta"
+      ]
+    },
+    {
+      "path": "/blog",
+      "status": 200,
+      "finalPath": "/blog",
+      "durationMs": 110,
+      "title": "Blog | Guia do Spitz Alemão Anão | By Império Dog",
+      "description": "Guias escritos pela criadora, que cria a raça desde 2013, sobre Spitz Alemão Anão: cuidados, rotina, comportamento, saúde preventiva e preços.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog",
+      "openGraph": {
+        "title": "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão",
+        "description": "Pilares evergreen sobre saúde, rotina e comportamento do Spitz Alemão Anão.",
+        "url": "https://byimperiodog.com.br/blog",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Blog",
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Adestramento+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+T%C3%A9cnicas%2C+Comandos+e+Como+Come%C3%A7ar%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=adestramento-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Alimenta%C3%A7%C3%A3o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+por+Fase+de+Vida%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=alimentacao-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Ansiedade+de+Separa%C3%A7%C3%A3o+no+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Sinais%2C+Causas+e+Manejo%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-ansiedade-separacao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Calend%C3%A1rio+de+Vacinas+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+por+Idade%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=vacinas-spitz-alemao-anao-filhote",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Canil+de+Spitz+Alem%C3%A3o+An%C3%A3o+em+Bragan%C3%A7a+Paulista%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-braganca-paulista",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Como+Escolher+um+Canil+de+Spitz+Alem%C3%A3o+An%C3%A3o+Confi%C3%A1vel%3A+10+Sinais+de+Alerta%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=como-escolher-canil-spitz-alemao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Cores+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Qual+%C3%A9+a+Mais+Cara%3F%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=cores-spitz-alemao-anao-qual-mais-cara",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Cuidados+com+o+Pelo+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Tosa%2C+Escova%C3%A7%C3%A3o+e+Banho%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=cuidados-pelo-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Cuidados+com+os+Dentes+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+de+Sa%C3%BAde+Dental%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-dentes",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Documenta%C3%A7%C3%A3o+e+Registro+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+O+Que+Voc%C3%AA+Precisa+Saber%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=documentacao-registro-spitz-alemao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Entrega+de+Spitz+Alem%C3%A3o+An%C3%A3o+para+Todo+o+Brasil%3A+Como+Funciona%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-entrega-brasil",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Exerc%C3%ADcios+e+Passeios+para+o+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Quanto+e+Como%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-exercicios-passeios",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Guia+Definitivo+do+Spitz+Alem%C3%A3o+An%C3%A3o%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=guia-spitz-alemao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Lulu+da+Pomer%C3%A2nia+ou+Spitz+Alem%C3%A3o+An%C3%A3o%3F+Entenda+de+Uma+Vez%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=lulu-pomerania-ou-spitz-alemao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Peso+e+Desenvolvimento+do+Spitz+Alem%C3%A3o+An%C3%A3o+por+Idade%3A+Tabela+Completa%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-peso-desenvolvimento",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Pre%C3%A7o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Tabela+por+Cor+e+Sexo%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=preco-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Quanto+Custa+Manter+um+Spitz+Alem%C3%A3o+An%C3%A3o+por+M%C3%AAs%3A+Custo+Real+Atualizado%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=quanto-custa-manter-spitz-alemao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Sa%C3%BAde+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Doen%C3%A7as+Comuns%2C+Preven%C3%A7%C3%A3o+e+Expectativa+de+Vida%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=saude-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+%C3%A9+Bom+para+Apartamento%3F+A+Resposta+Direta+da+Criadora%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-bom-para-apartamento",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+Creme%3A+Gen%C3%A9tica+da+Cor%2C+Pre%C3%A7o+e+Cuidados%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-creme",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+Filhote%3A+Como+Cuidar+nos+Primeiros+30+Dias+em+Casa%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-filhote-primeiros-dias",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+Late+Muito%3F+Causas%2C+Solu%C3%A7%C3%B5es+e+Como+Controlar%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-latido",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+Macho+ou+F%C3%AAmea%3A+Diferen%C3%A7as+Reais+para+Ajudar+na+Escolha%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-macho-ou-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+Para+Idosos+e+Pessoas+que+Moram+Sozinhas%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-idoso-adulto-solo",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+Preto+%28Lulu+da+Pomer%C3%A2nia%29%3A+Pre%C3%A7o%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-preto",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+com+Crian%C3%A7as%3A+Conviv%C3%AAncia%2C+Cuidados+e+Dicas+Pr%C3%A1ticas%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-com-criancas",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+com+Outros+Animais%3A+C%C3%A3es%2C+Gatos+e+Conviv%C3%AAncia+Dom%C3%A9stica%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-outros-animais",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Spitz+Alem%C3%A3o+An%C3%A3o+vs+Pinscher+vs+Chihuahua%3A+Qual+Escolher%3F%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-vs-pinscher-chihuahua",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Acabei+de+ler+%22Temperamento+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Personalidade%2C+Comportamento+e+Car%C3%A1ter%22+e+quero+saber+mais+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=blog_card&utm_campaign=blog_lead&utm_content=spitz-alemao-anao-temperamento",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/adestramento-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/blog/adestramento-spitz-alemao-anao",
+      "durationMs": 103,
+      "title": "Adestramento do Spitz Alemão Anão | By Império Dog",
+      "description": "Como adestrar o Spitz Alemão Anão com reforço positivo: comandos básicos, controle do latido e os erros mais comuns.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/adestramento-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Adestramento do Spitz Alemão Anão",
+        "description": "Como adestrar o Spitz Alemão Anão com reforço positivo: comandos básicos, controle do latido e os erros mais comuns.",
+        "url": "https://byimperiodog.com.br/blog/adestramento-spitz-alemao-anao",
+        "image": "https://byimperiodog.com.br/images/blog/adestramento-spitz-alemao-anao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Adestramento%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20T%C3%A9cnicas%2C%20Comandos%20e%20Como%20Come%C3%A7ar%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Adestramento+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+T%C3%A9cnicas%2C+Comandos+e+Como+Come%C3%A7ar%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Adestramento+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+T%C3%A9cnicas%2C+Comandos+e+Como+Come%C3%A7ar%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/alimentacao-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/blog/alimentacao-spitz-alemao-anao",
+      "durationMs": 101,
+      "title": "Alimentação do Spitz Alemão Anão por Fase | By Império Dog",
+      "description": "Saiba exatamente o que, quanto e quando alimentar seu Spitz Alemão Anão. Guia completo por fase de vida, marcas recomendadas e erros a evitar.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/alimentacao-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Alimentação do Spitz Alemão Anão por Fase",
+        "description": "Saiba exatamente o que, quanto e quando alimentar seu Spitz Alemão Anão. Guia completo por fase de vida, marcas recomendadas e erros a evitar.",
+        "url": "https://byimperiodog.com.br/blog/alimentacao-spitz-alemao-anao",
+        "image": "https://byimperiodog.com.br/images/blog/alimentacao-spitz-alemao-anao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Alimenta%C3%A7%C3%A3o%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Guia%20Completo%20por%20Fase%20de%20Vida%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Alimenta%C3%A7%C3%A3o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+por+Fase+de+Vida%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Alimenta%C3%A7%C3%A3o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+por+Fase+de+Vida%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/como-escolher-canil-spitz-alemao",
+      "status": 200,
+      "finalPath": "/blog/como-escolher-canil-spitz-alemao",
+      "durationMs": 103,
+      "title": "Como Escolher um Canil de Lulu da Pomerânia | By Império Dog",
+      "description": "Como identificar um criador responsável de Spitz Alemão Anão, os sinais de alerta de golpe e o que perguntar antes de comprar.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/como-escolher-canil-spitz-alemao",
+      "openGraph": {
+        "title": "Como Escolher um Canil de Lulu da Pomerânia",
+        "description": "Como identificar um criador responsável de Spitz Alemão Anão, os sinais de alerta de golpe e o que perguntar antes de comprar.",
+        "url": "https://byimperiodog.com.br/blog/como-escolher-canil-spitz-alemao",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Como%20Escolher%20um%20Canil%20de%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20Confi%C3%A1vel%3A%2010%20Sinais%20de%20Alerta%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Como+Escolher+um+Canil+de+Spitz+Alem%C3%A3o+An%C3%A3o+Confi%C3%A1vel%3A+10+Sinais+de+Alerta%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Como+Escolher+um+Canil+de+Spitz+Alem%C3%A3o+An%C3%A3o+Confi%C3%A1vel%3A+10+Sinais+de+Alerta%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/cores-spitz-alemao-anao-qual-mais-cara",
+      "status": 200,
+      "finalPath": "/blog/cores-spitz-alemao-anao-qual-mais-cara",
+      "durationMs": 102,
+      "title": "Cores do Spitz Alemão Anão: a Mais Cara | By Império Dog",
+      "description": "Laranja, creme, preto ou branco: veja a tabela de cores do Spitz Alemão Anão e os valores praticados pela By Império Dog.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/cores-spitz-alemao-anao-qual-mais-cara",
+      "openGraph": {
+        "title": "Cores do Spitz Alemão Anão: a Mais Cara",
+        "description": "Laranja, creme, preto ou branco: veja a tabela de cores do Spitz Alemão Anão e os valores praticados pela By Império Dog.",
+        "url": "https://byimperiodog.com.br/blog/cores-spitz-alemao-anao-qual-mais-cara",
+        "image": "https://byimperiodog.com.br/images/blog/cores-spitz-alemao-anao-qual-mais-cara.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Cores%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Qual%20%C3%A9%20a%20Mais%20Cara%3F%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Cores+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Qual+%C3%A9+a+Mais+Cara%3F%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Cores+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Qual+%C3%A9+a+Mais+Cara%3F%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/cuidados-pelo-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/blog/cuidados-pelo-spitz-alemao-anao",
+      "durationMs": 104,
+      "title": "Cuidados com o Pelo do Spitz Alemão Anão | By Império Dog",
+      "description": "Guia completo de grooming para o Spitz Alemão Anão: frequência de banho, como escovar, tosa higiênica e como manter o pelo volumoso e saudável.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/cuidados-pelo-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Cuidados com o Pelo do Spitz Alemão Anão",
+        "description": "Guia completo de grooming para o Spitz Alemão Anão: frequência de banho, como escovar, tosa higiênica e como manter o pelo volumoso e saudável.",
+        "url": "https://byimperiodog.com.br/blog/cuidados-pelo-spitz-alemao-anao",
+        "image": "https://byimperiodog.com.br/images/blog/cuidados-pelo-spitz-alemao-anao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Cuidados%20com%20o%20Pelo%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Tosa%2C%20Escova%C3%A7%C3%A3o%20e%20Banho%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Cuidados+com+o+Pelo+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Tosa%2C+Escova%C3%A7%C3%A3o+e+Banho%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Cuidados+com+o+Pelo+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Tosa%2C+Escova%C3%A7%C3%A3o+e+Banho%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/documentacao-registro-spitz-alemao",
+      "status": 200,
+      "finalPath": "/blog/documentacao-registro-spitz-alemao",
+      "durationMs": 105,
+      "title": "Documentação e Registro do Spitz Alemão Anão | By Império Dog",
+      "description": "Pedigree, registro CBKC e microchip do Spitz Alemão Anão: o que verificar antes de comprar e como transferir o registro.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+      "openGraph": {
+        "title": "Documentação e Registro do Spitz Alemão Anão",
+        "description": "Pedigree, registro CBKC e microchip do Spitz Alemão Anão: o que verificar antes de comprar e como transferir o registro.",
+        "url": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Documenta%C3%A7%C3%A3o%20e%20Registro%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20O%20Que%20Voc%C3%AA%20Precisa%20Saber%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Documenta%C3%A7%C3%A3o+e+Registro+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+O+Que+Voc%C3%AA+Precisa+Saber%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Documenta%C3%A7%C3%A3o+e+Registro+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+O+Que+Voc%C3%AA+Precisa+Saber%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/guia-spitz-alemao",
+      "status": 200,
+      "finalPath": "/blog/guia-spitz-alemao",
+      "durationMs": 33,
+      "title": "Guia Definitivo do Spitz Alemão Anão | By Império Dog",
+      "description": "Tudo sobre filhotes, cuidados, saúde, alimentação, grooming, adestramento e compra responsável do Spitz Alemão Anão.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/guia-spitz-alemao",
+      "openGraph": {
+        "title": "Guia Definitivo do Spitz Alemão Anão",
+        "description": "Tudo sobre filhotes, cuidados, saúde, alimentação, grooming, adestramento e compra responsável do Spitz Alemão Anão.",
+        "url": "https://byimperiodog.com.br/blog/guia-spitz-alemao",
+        "image": "https://byimperiodog.com.br/images/blog/guia-spitz-alemao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Guia%20Definitivo%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Guia+Definitivo+do+Spitz+Alem%C3%A3o+An%C3%A3o%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Guia+Definitivo+do+Spitz+Alem%C3%A3o+An%C3%A3o%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/lulu-pomerania-ou-spitz-alemao",
+      "status": 200,
+      "finalPath": "/blog/lulu-pomerania-ou-spitz-alemao",
+      "durationMs": 32,
+      "title": "Lulu da Pomerânia ou Spitz Alemão Anão? | By Império Dog",
+      "description": "Lulu da Pomerânia e Spitz Alemão Anão são a mesma raça? Origem do nome, diferenças de tamanho, registro oficial e como identificar um filhote legítimo.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/lulu-pomerania-ou-spitz-alemao",
+      "openGraph": {
+        "title": "Lulu da Pomerânia ou Spitz Alemão Anão?",
+        "description": "Lulu da Pomerânia e Spitz Alemão Anão são a mesma raça? Origem do nome, diferenças de tamanho, registro oficial e como identificar um filhote legítimo.",
+        "url": "https://byimperiodog.com.br/blog/lulu-pomerania-ou-spitz-alemao",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Lulu%20da%20Pomer%C3%A2nia%20ou%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3F%20Entenda%20de%20Uma%20Vez%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Lulu+da+Pomer%C3%A2nia+ou+Spitz+Alem%C3%A3o+An%C3%A3o%3F+Entenda+de+Uma+Vez%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Lulu+da+Pomer%C3%A2nia+ou+Spitz+Alem%C3%A3o+An%C3%A3o%3F+Entenda+de+Uma+Vez%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/preco-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/blog/preco-spitz-alemao-anao",
+      "durationMs": 50,
+      "title": "Tabela de Preço do Spitz Alemão Anão | By Império Dog",
+      "description": "Descubra quanto custa um Spitz Alemão Anão. Preços por cor, sexo, documentação e o que está incluso no valor de um canil sério.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/preco-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Tabela de Preço do Spitz Alemão Anão",
+        "description": "Descubra quanto custa um Spitz Alemão Anão. Preços por cor, sexo, documentação e o que está incluso no valor de um canil sério.",
+        "url": "https://byimperiodog.com.br/blog/preco-spitz-alemao-anao",
+        "image": "https://byimperiodog.com.br/images/blog/preco-spitz-alemao-anao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Pre%C3%A7o%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Tabela%20por%20Cor%20e%20Sexo%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Pre%C3%A7o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Tabela+por+Cor+e+Sexo%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Pre%C3%A7o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Tabela+por+Cor+e+Sexo%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/quanto-custa-manter-spitz-alemao",
+      "status": 200,
+      "finalPath": "/blog/quanto-custa-manter-spitz-alemao",
+      "durationMs": 52,
+      "title": "Custo Mensal de um Spitz Alemão Anão | By Império Dog",
+      "description": "Calcule o custo mensal real de ter um Spitz Alemão Anão: alimentação, veterinário, banho, tosa, vacinas e custos inesperados.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/quanto-custa-manter-spitz-alemao",
+      "openGraph": {
+        "title": "Custo Mensal de um Spitz Alemão Anão",
+        "description": "Calcule o custo mensal real de ter um Spitz Alemão Anão: alimentação, veterinário, banho, tosa, vacinas e custos inesperados.",
+        "url": "https://byimperiodog.com.br/blog/quanto-custa-manter-spitz-alemao",
+        "image": "https://byimperiodog.com.br/images/blog/quanto-custa-manter-spitz-alemao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Quanto%20Custa%20Manter%20um%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20por%20M%C3%AAs%3A%20Custo%20Real%20Atualizado%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Quanto+Custa+Manter+um+Spitz+Alem%C3%A3o+An%C3%A3o+por+M%C3%AAs%3A+Custo+Real+Atualizado%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Quanto+Custa+Manter+um+Spitz+Alem%C3%A3o+An%C3%A3o+por+M%C3%AAs%3A+Custo+Real+Atualizado%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/saude-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/blog/saude-spitz-alemao-anao",
+      "durationMs": 49,
+      "title": "Doenças Comuns no Spitz Alemão Anão | By Império Dog",
+      "description": "Conheça as principais doenças que afetam o Spitz Alemão Anão, como prevenir, sinais de alerta e a expectativa de vida da raça.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/saude-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Doenças Comuns no Spitz Alemão Anão",
+        "description": "Conheça as principais doenças que afetam o Spitz Alemão Anão, como prevenir, sinais de alerta e a expectativa de vida da raça.",
+        "url": "https://byimperiodog.com.br/blog/saude-spitz-alemao-anao",
+        "image": "https://byimperiodog.com.br/images/blog/saude-spitz-alemao-anao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Sa%C3%BAde%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Doen%C3%A7as%20Comuns%2C%20Preven%C3%A7%C3%A3o%20e%20Expectativa%20de%20Vida%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Sa%C3%BAde+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Doen%C3%A7as+Comuns%2C+Preven%C3%A7%C3%A3o+e+Expectativa+de+Vida%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Sa%C3%BAde+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Doen%C3%A7as+Comuns%2C+Preven%C3%A7%C3%A3o+e+Expectativa+de+Vida%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-ansiedade-separacao",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-ansiedade-separacao",
+      "durationMs": 50,
+      "title": "Ansiedade de Separação no Spitz Alemão Anão | By Império Dog",
+      "description": "O Spitz Alemão Anão tem ansiedade de separação? Os sinais, as causas e como conduzir a dessensibilização com apoio profissional.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-ansiedade-separacao",
+      "openGraph": {
+        "title": "Ansiedade de Separação no Spitz Alemão Anão",
+        "description": "O Spitz Alemão Anão tem ansiedade de separação? Os sinais, as causas e como conduzir a dessensibilização com apoio profissional.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-ansiedade-separacao",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-ansiedade-separacao.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Ansiedade%20de%20Separa%C3%A7%C3%A3o%20no%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Sinais%2C%20Causas%20e%20Manejo%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Ansiedade+de+Separa%C3%A7%C3%A3o+no+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Sinais%2C+Causas+e+Manejo%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Ansiedade+de+Separa%C3%A7%C3%A3o+no+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Sinais%2C+Causas+e+Manejo%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-bom-para-apartamento",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-bom-para-apartamento",
+      "durationMs": 51,
+      "title": "Spitz Alemão Anão é Bom para Apartamento? | By Império Dog",
+      "description": "O Spitz Alemão Anão se adapta bem a apartamento, mas exige cuidados específicos. A criadora explica o que funciona e o que evitar.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-bom-para-apartamento",
+      "openGraph": {
+        "title": "Spitz Alemão Anão é Bom para Apartamento?",
+        "description": "O Spitz Alemão Anão se adapta bem a apartamento, mas exige cuidados específicos. A criadora explica o que funciona e o que evitar.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-bom-para-apartamento",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20%C3%A9%20Bom%20para%20Apartamento%3F%20A%20Resposta%20Direta%20da%20Criadora%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+%C3%A9+Bom+para+Apartamento%3F+A+Resposta+Direta+da+Criadora%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+%C3%A9+Bom+para+Apartamento%3F+A+Resposta+Direta+da+Criadora%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-braganca-paulista",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-braganca-paulista",
+      "durationMs": 52,
+      "title": "Spitz Alemão Anão em Bragança Paulista | By Império Dog",
+      "description": "By Império Dog, canil de Spitz Alemão Anão em Bragança Paulista, SP. Criação desde 2013, com registro oficial e mentoria pós-venda.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-braganca-paulista",
+      "openGraph": {
+        "title": "Spitz Alemão Anão em Bragança Paulista",
+        "description": "By Império Dog, canil de Spitz Alemão Anão em Bragança Paulista, SP. Criação desde 2013, com registro oficial e mentoria pós-venda.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-braganca-paulista",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Canil%20de%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20em%20Bragan%C3%A7a%20Paulista%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Canil+de+Spitz+Alem%C3%A3o+An%C3%A3o+em+Bragan%C3%A7a+Paulista%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Canil+de+Spitz+Alem%C3%A3o+An%C3%A3o+em+Bragan%C3%A7a+Paulista%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-com-criancas",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-com-criancas",
+      "durationMs": 45,
+      "title": "Spitz Alemão Anão com Crianças | By Império Dog",
+      "description": "O Spitz Alemão Anão convive bem com crianças? Cuidados por faixa etária e como apresentar o filhote à família com segurança.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-com-criancas",
+      "openGraph": {
+        "title": "Spitz Alemão Anão com Crianças",
+        "description": "O Spitz Alemão Anão convive bem com crianças? Cuidados por faixa etária e como apresentar o filhote à família com segurança.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-com-criancas",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20com%20Crian%C3%A7as%3A%20Conviv%C3%AAncia%2C%20Cuidados%20e%20Dicas%20Pr%C3%A1ticas%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+com+Crian%C3%A7as%3A+Conviv%C3%AAncia%2C+Cuidados+e+Dicas+Pr%C3%A1ticas%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+com+Crian%C3%A7as%3A+Conviv%C3%AAncia%2C+Cuidados+e+Dicas+Pr%C3%A1ticas%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-creme",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-creme",
+      "durationMs": 47,
+      "title": "Spitz Alemão Anão Creme: Preço e Pelo | By Império Dog",
+      "description": "Spitz Alemão Anão Creme (Lulu da Pomerânia): como a cor aparece, o preço na tabela da By Império Dog e os cuidados com a pelagem clara.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-creme",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Creme: Preço e Pelo",
+        "description": "Spitz Alemão Anão Creme (Lulu da Pomerânia): como a cor aparece, o preço na tabela da By Império Dog e os cuidados com a pelagem clara.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-creme",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-creme.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20Creme%3A%20Gen%C3%A9tica%20da%20Cor%2C%20Pre%C3%A7o%20e%20Cuidados%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Creme%3A+Gen%C3%A9tica+da+Cor%2C+Pre%C3%A7o+e+Cuidados%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Creme%3A+Gen%C3%A9tica+da+Cor%2C+Pre%C3%A7o+e+Cuidados%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-dentes",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-dentes",
+      "durationMs": 46,
+      "title": "Dentes do Spitz Alemão Anão: Cuidados | By Império Dog",
+      "description": "Os dentes do Spitz Alemão Anão pedem atenção especial: como escovar, prevenir tártaro e quando fazer a limpeza veterinária.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-dentes",
+      "openGraph": {
+        "title": "Dentes do Spitz Alemão Anão: Cuidados",
+        "description": "Os dentes do Spitz Alemão Anão pedem atenção especial: como escovar, prevenir tártaro e quando fazer a limpeza veterinária.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-dentes",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-dentes.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Cuidados%20com%20os%20Dentes%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Guia%20Completo%20de%20Sa%C3%BAde%20Dental%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Cuidados+com+os+Dentes+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+de+Sa%C3%BAde+Dental%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Cuidados+com+os+Dentes+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+de+Sa%C3%BAde+Dental%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-entrega-brasil",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-entrega-brasil",
+      "durationMs": 45,
+      "title": "Entrega de Spitz Alemão Anão para o Brasil | By Império Dog",
+      "description": "Como funciona a entrega de um filhote de Spitz Alemão Anão para outras cidades e estados: transporte aéreo, terrestre, custos e cuidados.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-entrega-brasil",
+      "openGraph": {
+        "title": "Entrega de Spitz Alemão Anão para o Brasil",
+        "description": "Como funciona a entrega de um filhote de Spitz Alemão Anão para outras cidades e estados: transporte aéreo, terrestre, custos e cuidados.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-entrega-brasil",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Entrega%20de%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20para%20Todo%20o%20Brasil%3A%20Como%20Funciona%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Entrega+de+Spitz+Alem%C3%A3o+An%C3%A3o+para+Todo+o+Brasil%3A+Como+Funciona%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Entrega+de+Spitz+Alem%C3%A3o+An%C3%A3o+para+Todo+o+Brasil%3A+Como+Funciona%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-exercicios-passeios",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-exercicios-passeios",
+      "durationMs": 46,
+      "title": "Exercícios e Passeios do Spitz Alemão Anão | By Império Dog",
+      "description": "Quanto exercício o Spitz Alemão Anão precisa por idade, os melhores tipos de atividade e como estimular a mente do cão.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-exercicios-passeios",
+      "openGraph": {
+        "title": "Exercícios e Passeios do Spitz Alemão Anão",
+        "description": "Quanto exercício o Spitz Alemão Anão precisa por idade, os melhores tipos de atividade e como estimular a mente do cão.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-exercicios-passeios",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-exercicios-passeios.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Exerc%C3%ADcios%20e%20Passeios%20para%20o%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Quanto%20e%20Como%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Exerc%C3%ADcios+e+Passeios+para+o+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Quanto+e+Como%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Exerc%C3%ADcios+e+Passeios+para+o+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Quanto+e+Como%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-filhote-primeiros-dias",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-filhote-primeiros-dias",
+      "durationMs": 47,
+      "title": "Spitz Alemão Anão Filhote: 30 Primeiros Dias | By Império Dog",
+      "description": "Como receber um filhote de Spitz Alemão Anão: o que preparar, rotina, alimentação, sono, primeiras visitas ao veterinário e adaptação.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-filhote-primeiros-dias",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Filhote: 30 Primeiros Dias",
+        "description": "Como receber um filhote de Spitz Alemão Anão: o que preparar, rotina, alimentação, sono, primeiras visitas ao veterinário e adaptação.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-filhote-primeiros-dias",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20Filhote%3A%20Como%20Cuidar%20nos%20Primeiros%2030%20Dias%20em%20Casa%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Filhote%3A+Como+Cuidar+nos+Primeiros+30+Dias+em+Casa%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Filhote%3A+Como+Cuidar+nos+Primeiros+30+Dias+em+Casa%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-idoso-adulto-solo",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-idoso-adulto-solo",
+      "durationMs": 47,
+      "title": "Spitz Alemão Anão Para Idosos e Quem Mora Só | By Império Dog",
+      "description": "Por que o Spitz Alemão Anão se adapta bem a idosos e a quem mora sozinho: pontos fortes, limitações reais e por onde começar.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-idoso-adulto-solo",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Para Idosos e Quem Mora Só",
+        "description": "Por que o Spitz Alemão Anão se adapta bem a idosos e a quem mora sozinho: pontos fortes, limitações reais e por onde começar.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-idoso-adulto-solo",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20Para%20Idosos%20e%20Pessoas%20que%20Moram%20Sozinhas%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Para+Idosos+e+Pessoas+que+Moram+Sozinhas%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Para+Idosos+e+Pessoas+que+Moram+Sozinhas%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-latido",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-latido",
+      "durationMs": 47,
+      "title": "Spitz Alemão Anão Late Muito? | By Império Dog",
+      "description": "O Spitz Alemão Anão late muito? Por que a raça late, as causas do latido excessivo e as técnicas de manejo que ajudam.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-latido",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Late Muito?",
+        "description": "O Spitz Alemão Anão late muito? Por que a raça late, as causas do latido excessivo e as técnicas de manejo que ajudam.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-latido",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-latido.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20Late%20Muito%3F%20Causas%2C%20Solu%C3%A7%C3%B5es%20e%20Como%20Controlar%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Late+Muito%3F+Causas%2C+Solu%C3%A7%C3%B5es+e+Como+Controlar%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Late+Muito%3F+Causas%2C+Solu%C3%A7%C3%B5es+e+Como+Controlar%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-macho-ou-femea",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-macho-ou-femea",
+      "durationMs": 27,
+      "title": "Spitz Alemão Anão: Macho ou Fêmea? | By Império Dog",
+      "description": "Macho ou fêmea? As diferenças reais de comportamento, saúde e cuidados no Spitz Alemão Anão para você escolher com clareza.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-macho-ou-femea",
+      "openGraph": {
+        "title": "Spitz Alemão Anão: Macho ou Fêmea?",
+        "description": "Macho ou fêmea? As diferenças reais de comportamento, saúde e cuidados no Spitz Alemão Anão para você escolher com clareza.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-macho-ou-femea",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20Macho%20ou%20F%C3%AAmea%3A%20Diferen%C3%A7as%20Reais%20para%20Ajudar%20na%20Escolha%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Macho+ou+F%C3%AAmea%3A+Diferen%C3%A7as+Reais+para+Ajudar+na+Escolha%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Macho+ou+F%C3%AAmea%3A+Diferen%C3%A7as+Reais+para+Ajudar+na+Escolha%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-outros-animais",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-outros-animais",
+      "durationMs": 29,
+      "title": "Spitz Alemão Anão com Outros Animais | By Império Dog",
+      "description": "O Spitz Alemão Anão convive bem com cães e gatos? Como fazer a apresentação, reconhecer sinais de conflito e manter a harmonia.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-outros-animais",
+      "openGraph": {
+        "title": "Spitz Alemão Anão com Outros Animais",
+        "description": "O Spitz Alemão Anão convive bem com cães e gatos? Como fazer a apresentação, reconhecer sinais de conflito e manter a harmonia.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-outros-animais",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20com%20Outros%20Animais%3A%20C%C3%A3es%2C%20Gatos%20e%20Conviv%C3%AAncia%20Dom%C3%A9stica%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+com+Outros+Animais%3A+C%C3%A3es%2C+Gatos+e+Conviv%C3%AAncia+Dom%C3%A9stica%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+com+Outros+Animais%3A+C%C3%A3es%2C+Gatos+e+Conviv%C3%AAncia+Dom%C3%A9stica%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-peso-desenvolvimento",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-peso-desenvolvimento",
+      "durationMs": 31,
+      "title": "Peso do Spitz Alemão Anão por Idade | By Império Dog",
+      "description": "Acompanhe o desenvolvimento do Spitz Alemão Anão com a tabela de peso por idade, marcos de crescimento e quando se preocupar com o peso.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-peso-desenvolvimento",
+      "openGraph": {
+        "title": "Peso do Spitz Alemão Anão por Idade",
+        "description": "Acompanhe o desenvolvimento do Spitz Alemão Anão com a tabela de peso por idade, marcos de crescimento e quando se preocupar com o peso.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-peso-desenvolvimento",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-peso-desenvolvimento.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Peso%20e%20Desenvolvimento%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20por%20Idade%3A%20Tabela%20Completa%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Peso+e+Desenvolvimento+do+Spitz+Alem%C3%A3o+An%C3%A3o+por+Idade%3A+Tabela+Completa%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Peso+e+Desenvolvimento+do+Spitz+Alem%C3%A3o+An%C3%A3o+por+Idade%3A+Tabela+Completa%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-preto",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-preto",
+      "durationMs": 43,
+      "title": "Spitz Alemão Anão Preto: Genética e Preço | By Império Dog",
+      "description": "Spitz Alemão Anão Preto (Lulu da Pomerânia): preço por sexo, características da pelagem, temperamento e os cuidados para manter o pelo preto brilhante.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-preto",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Preto: Genética e Preço",
+        "description": "Spitz Alemão Anão Preto (Lulu da Pomerânia): preço por sexo, características da pelagem, temperamento e os cuidados para manter o pelo preto brilhante.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-preto",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-preto.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20Preto%20(Lulu%20da%20Pomer%C3%A2nia)%3A%20Pre%C3%A7o%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Preto+%28Lulu+da+Pomer%C3%A2nia%29%3A+Pre%C3%A7o%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Preto+%28Lulu+da+Pomer%C3%A2nia%29%3A+Pre%C3%A7o%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-temperamento",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-temperamento",
+      "durationMs": 44,
+      "title": "Temperamento do Spitz Alemão Anão | By Império Dog",
+      "description": "Conheça o temperamento real do Spitz Alemão Anão: como ele se comporta com a família, crianças, outros animais e em diferentes ambientes.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-temperamento",
+      "openGraph": {
+        "title": "Temperamento do Spitz Alemão Anão",
+        "description": "Conheça o temperamento real do Spitz Alemão Anão: como ele se comporta com a família, crianças, outros animais e em diferentes ambientes.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-temperamento",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Temperamento%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Personalidade%2C%20Comportamento%20e%20Car%C3%A1ter%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Temperamento+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Personalidade%2C+Comportamento+e+Car%C3%A1ter%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Temperamento+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Personalidade%2C+Comportamento+e+Car%C3%A1ter%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-vs-pinscher-chihuahua",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-vs-pinscher-chihuahua",
+      "durationMs": 42,
+      "title": "Spitz Alemão Anão, Pinscher ou Chihuahua? | By Império Dog",
+      "description": "Spitz Alemão Anão, Pinscher ou Chihuahua: temperamento, cuidados e saúde de cada um para ver qual combina com sua rotina.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-vs-pinscher-chihuahua",
+      "openGraph": {
+        "title": "Spitz Alemão Anão, Pinscher ou Chihuahua?",
+        "description": "Spitz Alemão Anão, Pinscher ou Chihuahua: temperamento, cuidados e saúde de cada um para ver qual combina com sua rotina.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-vs-pinscher-chihuahua",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20vs%20Pinscher%20vs%20Chihuahua%3A%20Qual%20Escolher%3F%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+vs+Pinscher+vs+Chihuahua%3A+Qual+Escolher%3F%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+vs+Pinscher+vs+Chihuahua%3A+Qual+Escolher%3F%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/spitz-alemao-anao-wolf-sable",
+      "status": 200,
+      "finalPath": "/blog/spitz-alemao-anao-wolf-sable",
+      "durationMs": 44,
+      "title": "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) | By Império Dog",
+      "description": "Spitz Alemão Anão Cinza-Lobo (Wolf Sable): como a coloração se forma, o que diz o padrão da FCI e como ela se distingue do Sable.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/spitz-alemao-anao-wolf-sable",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",
+        "description": "Spitz Alemão Anão Cinza-Lobo (Wolf Sable): como a coloração se forma, o que diz o padrão da FCI e como ela se distingue do Sable.",
+        "url": "https://byimperiodog.com.br/blog/spitz-alemao-anao-wolf-sable",
+        "image": "https://byimperiodog.com.br/images/blog/spitz-alemao-anao-wolf-sable.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Spitz%20Alem%C3%A3o%20An%C3%A3o%20Cinza-Lobo%20(Wolf%20Sable)%3A%20A%20Bicolor%20da%20Ra%C3%A7a%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Cinza-Lobo+%28Wolf+Sable%29%3A+A+Bicolor+da+Ra%C3%A7a%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+Cinza-Lobo+%28Wolf+Sable%29%3A+A+Bicolor+da+Ra%C3%A7a%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/blog/vacinas-spitz-alemao-anao-filhote",
+      "status": 200,
+      "finalPath": "/blog/vacinas-spitz-alemao-anao-filhote",
+      "durationMs": 45,
+      "title": "Calendário de Vacinas do Spitz Alemão Anão | By Império Dog",
+      "description": "Quais vacinas o Spitz Alemão Anão precisa, em que idade, com que frequência e como funciona a imunidade do filhote nos primeiros meses.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/blog/vacinas-spitz-alemao-anao-filhote",
+      "openGraph": {
+        "title": "Calendário de Vacinas do Spitz Alemão Anão",
+        "description": "Quais vacinas o Spitz Alemão Anão precisa, em que idade, com que frequência e como funciona a imunidade do filhote nos primeiros meses.",
+        "url": "https://byimperiodog.com.br/blog/vacinas-spitz-alemao-anao-filhote",
+        "image": "https://byimperiodog.com.br/images/blog/vacinas-spitz-alemao-anao-filhote.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Calend%C3%A1rio%20de%20Vacinas%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20Guia%20Completo%20por%20Idade%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Calend%C3%A1rio+de+Vacinas+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+por+Idade%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Calend%C3%A1rio+de+Vacinas+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo+por+Idade%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/canil-spitz-alemao-interior-sp",
+      "status": 200,
+      "finalPath": "/canil-spitz-alemao-interior-sp",
+      "durationMs": 65,
+      "title": "Canil de Spitz Alemão Anão no Interior de SP | By Império Dog",
+      "description": "Canil de Spitz Alemão Anão no interior de São Paulo, em Bragança Paulista. Atende Campinas, Sorocaba, São José dos Campos e todo o estado.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/canil-spitz-alemao-interior-sp",
+      "openGraph": {
+        "title": "Canil Spitz Alemão Anão — Interior de SP | By Império Dog",
+        "description": "Criação responsável de Spitz Alemão Anão em Bragança Paulista, no interior de SP, desde 2013.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/comprar-spitz-anao",
+      "status": 200,
+      "finalPath": "/comprar-spitz-anao",
+      "durationMs": 65,
+      "title": "Como Comprar Spitz Alemão Anão com Segurança | By Império Dog",
+      "description": "Como comprar um filhote de Spitz Alemão Anão com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/comprar-spitz-anao",
+      "openGraph": {
+        "title": "Como Comprar Spitz Alemão Anão com Segurança — By Império Dog",
+        "description": "Guia completo: o que exigir, documentos obrigatórios, sinais de alerta e como funciona a compra na By Império Dog. Bragança Paulista, SP.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/contato",
+      "status": 200,
+      "finalPath": "/contato",
+      "durationMs": 65,
+      "title": "Contato — Fale direto com a criadora | By Império Dog",
+      "description": "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão em Bragança Paulista, SP.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/contato",
+      "openGraph": {
+        "title": "Contato | By Império Dog",
+        "description": "Fale diretamente com a criadora. WhatsApp, e-mail ou formulário — você escolhe.",
+        "url": "https://byimperiodog.com.br/contato",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vim+do+site+By+Imp%C3%A9rio+Dog+e+gostaria+de+saber+sobre+filhotes+dispon%C3%ADveis.&utm_source=contato&utm_campaign=contato-hero"
+      ]
+    },
+    {
+      "path": "/criador-spitz-confiavel",
+      "status": 200,
+      "finalPath": "/criador-spitz-confiavel",
+      "durationMs": 65,
+      "title": "Criador de Spitz Alemão Anão Confiável em SP | By Império Dog",
+      "description": "Como escolher um criador confiável de Spitz Alemão Anão: o que exigir, como evitar golpes e o que a By Império Dog entrega desde 2013.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/criador-spitz-confiavel",
+      "openGraph": {
+        "title": "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
+        "description": "Criação responsável desde 2013, com registro oficial, laudo de saúde e mentoria pós-venda. Saiba como identificar um criador confiável.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/faq-do-tutor",
+      "status": 200,
+      "finalPath": "/faq-do-tutor",
+      "durationMs": 63,
+      "title": "FAQ do Tutor — Spitz Alemão Anão | By Império Dog",
+      "description": "Perguntas frequentes sobre preparo, saúde, socialização e suporte pós-venda para o Spitz Alemão Anão.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/faq-do-tutor",
+      "openGraph": {
+        "title": "FAQ do Tutor — Spitz Alemão Anão",
+        "description": "Perguntas frequentes sobre preparo, saúde, socialização e suporte pós-venda para o Spitz Alemão Anão.",
+        "url": "https://byimperiodog.com.br/faq-do-tutor",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebPage",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Olá! Preciso de orientação para o meu Spitz Alemão Anão."
+      ]
+    },
+    {
+      "path": "/filhote-de-spitz-alemao",
+      "status": 200,
+      "finalPath": "/filhote-de-spitz-alemao",
+      "durationMs": 66,
+      "title": "Filhote de Spitz Alemão Anão — Onde Comprar | By Império Dog",
+      "description": "Filhote de Spitz Alemão Anão: como escolher, o que verificar, primeiros cuidados, alimentação e vacinação. Onde comprar com procedência.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhote-de-spitz-alemao",
+      "openGraph": {
+        "title": "Filhote de Spitz Alemão Anão — Guia Completo | By Império Dog",
+        "description": "Como escolher, o que verificar e os primeiros cuidados com um filhote de Spitz Alemão Anão.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/filhotes",
+      "status": 200,
+      "finalPath": "/filhotes",
+      "durationMs": 66,
+      "title": "Filhotes de Spitz Alemão Anão Disponíveis | By Império Dog",
+      "description": "Filhotes de Spitz Alemão Anão nas cores Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes",
+      "openGraph": {
+        "title": "Filhotes de Spitz Alemão Anão — By Império Dog",
+        "description": "Catálogo de filhotes com registro oficial, laudos veterinários e mentoria pós-venda. Bragança Paulista, SP.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/spitz-hero-desktop.webp"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "ItemList",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Branco+F%C3%AAmea+%28Branco+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-branco-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+F%C3%AAmea+%28Creme+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+Macho+%28Creme+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+F%C3%AAmea+%28Laranja+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+Macho+%28Laranja+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+F%C3%AAmea+%28Preto+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+Macho+%28Preto+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/cor/branco",
+      "status": 200,
+      "finalPath": "/filhotes/cor/branco",
+      "durationMs": 65,
+      "title": "Spitz Alemão Anão Branco — Filhotes | By Império Dog",
+      "description": "Conheça o Spitz Alemão Anão Branco, entenda a diferença visual para o creme claro e consulte filhotes e disponibilidade na By Império Dog.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/cor/branco",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Branco — Filhotes",
+        "description": "Conheça o Spitz Alemão Anão Branco, entenda a diferença visual para o creme claro e consulte filhotes e disponibilidade na By Império Dog.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/filhotes/branco/branco-femea-dupla-jardim-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Tenho+interesse+em+filhotes+Spitz+Alem%C3%A3o+An%C3%A3o+Spitz+Alem%C3%A3o+An%C3%A3o+Branco.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=branco",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Branco+F%C3%AAmea+na+p%C3%A1gina+de+cores+do+site+e+tenho+interesse.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=spitz-alemao-anao-branco-femea"
+      ]
+    },
+    {
+      "path": "/filhotes/cor/creme",
+      "status": 200,
+      "finalPath": "/filhotes/cor/creme",
+      "durationMs": 51,
+      "title": "Spitz Alemão Anão Creme — Filhotes | By Império Dog",
+      "description": "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria pós-venda inclusa.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/cor/creme",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Creme — Filhotes",
+        "description": "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria pós-venda inclusa.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/filhotes/creme/creme-femea-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Tenho+interesse+em+filhotes+Spitz+Alem%C3%A3o+An%C3%A3o+Spitz+Alem%C3%A3o+An%C3%A3o+Creme.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=creme",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Creme+F%C3%AAmea+na+p%C3%A1gina+de+cores+do+site+e+tenho+interesse.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=spitz-alemao-anao-creme-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Creme+Macho+na+p%C3%A1gina+de+cores+do+site+e+tenho+interesse.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=spitz-alemao-anao-creme-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/cor/laranja",
+      "status": 200,
+      "finalPath": "/filhotes/cor/laranja",
+      "durationMs": 50,
+      "title": "Spitz Alemão Anão Laranja — Filhotes | By Império Dog",
+      "description": "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, laudos veterinários e mentoria pós-venda.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/cor/laranja",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Laranja — Filhotes",
+        "description": "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, laudos veterinários e mentoria pós-venda.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/filhotes/laranja/laranja-femea-jardim-04.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Tenho+interesse+em+filhotes+Spitz+Alem%C3%A3o+An%C3%A3o+Spitz+Alem%C3%A3o+An%C3%A3o+Laranja.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=laranja",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Laranja+F%C3%AAmea+na+p%C3%A1gina+de+cores+do+site+e+tenho+interesse.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=spitz-alemao-anao-laranja-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Laranja+Macho+na+p%C3%A1gina+de+cores+do+site+e+tenho+interesse.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=spitz-alemao-anao-laranja-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/cor/preto",
+      "status": 200,
+      "finalPath": "/filhotes/cor/preto",
+      "durationMs": 51,
+      "title": "Spitz Alemão Anão Preto — Filhotes | By Império Dog",
+      "description": "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Disponibilidade limitada. Registro oficial, laudos veterinários e mentoria pós-venda inclusa.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/cor/preto",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Preto — Filhotes",
+        "description": "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Disponibilidade limitada. Registro oficial, laudos veterinários e mentoria pós-venda inclusa.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/filhotes/preto/preto-filhote-flores-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Tenho+interesse+em+filhotes+Spitz+Alem%C3%A3o+An%C3%A3o+Spitz+Alem%C3%A3o+An%C3%A3o+Preto.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=preto",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Preto+F%C3%AAmea+na+p%C3%A1gina+de+cores+do+site+e+tenho+interesse.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=spitz-alemao-anao-preto-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+Spitz+Preto+Macho+na+p%C3%A1gina+de+cores+do+site+e+tenho+interesse.+Pode+me+informar+disponibilidade%3F&utm_source=site&utm_medium=color_page&utm_campaign=filhote_cor&utm_content=spitz-alemao-anao-preto-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/minas-gerais",
+      "status": 200,
+      "finalPath": "/filhotes/minas-gerais",
+      "durationMs": 52,
+      "title": "Filhotes de Spitz Alemão Anão em Minas Gerais | By Império Dog",
+      "description": "Filhotes de Spitz Alemão Anão em Minas Gerais, com entrega em BH, Uberlândia, Juiz de Fora e todo o estado.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/minas-gerais",
+      "openGraph": {
+        "title": "Filhotes de Spitz Alemão Anão em Minas Gerais",
+        "description": "Compre Spitz Alemão Anão com entrega em todo MG. Criadora especializada.",
+        "url": "https://byimperiodog.com.br/filhotes/minas-gerais",
+        "image": "https://byimperiodog.com.br/spitz-hero-desktop.webp"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20filhotes%20de%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20dispon%C3%ADveis%20em%20Minas%20Gerais.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Branco+F%C3%AAmea+%28Branco+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-branco-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+F%C3%AAmea+%28Creme+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+Macho+%28Creme+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+F%C3%AAmea+%28Laranja+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+Macho+%28Laranja+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+F%C3%AAmea+%28Preto+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+Macho+%28Preto+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/rio-de-janeiro",
+      "status": 200,
+      "finalPath": "/filhotes/rio-de-janeiro",
+      "durationMs": 52,
+      "title": "Filhotes Spitz Alemão Anão no Rio de Janeiro | By Império Dog",
+      "description": "Filhotes de Spitz Alemão Anão com entrega segura no Rio de Janeiro: capital, Niterói, região metropolitana e interior. Com registro oficial.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/rio-de-janeiro",
+      "openGraph": {
+        "title": "Filhotes de Spitz Alemão Anão no Rio de Janeiro",
+        "description": "Compre Spitz Alemão Anão com entrega em todo RJ. Criadora especializada.",
+        "url": "https://byimperiodog.com.br/filhotes/rio-de-janeiro",
+        "image": "https://byimperiodog.com.br/spitz-hero-desktop.webp"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20filhotes%20de%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20dispon%C3%ADveis%20no%20Rio%20de%20Janeiro.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Branco+F%C3%AAmea+%28Branco+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-branco-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+F%C3%AAmea+%28Creme+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+Macho+%28Creme+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+F%C3%AAmea+%28Laranja+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+Macho+%28Laranja+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+F%C3%AAmea+%28Preto+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+Macho+%28Preto+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/sao-paulo",
+      "status": 200,
+      "finalPath": "/filhotes/sao-paulo",
+      "durationMs": 52,
+      "title": "Filhotes de Spitz Alemão Anão em São Paulo | By Império Dog",
+      "description": "Filhotes de Spitz Alemão Anão com entrega segura em São Paulo: capital, Grande SP e interior. Com registro oficial.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/sao-paulo",
+      "openGraph": {
+        "title": "Filhotes de Spitz Alemão Anão em São Paulo",
+        "description": "Compre Spitz Alemão Anão com entrega em toda São Paulo. Criadora especializada.",
+        "url": "https://byimperiodog.com.br/filhotes/sao-paulo",
+        "image": "https://byimperiodog.com.br/spitz-hero-desktop.webp"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Gostaria%20de%20informa%C3%A7%C3%B5es%20sobre%20filhotes%20de%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20dispon%C3%ADveis%20em%20S%C3%A3o%20Paulo.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Branco+F%C3%AAmea+%28Branco+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-branco-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+F%C3%AAmea+%28Creme+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+Macho+%28Creme+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+F%C3%AAmea+%28Laranja+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+Macho+%28Laranja+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-macho",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+F%C3%AAmea+%28Preto+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-femea",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+Macho+%28Preto+Macho%29+no+site+e+quero+saber+disponibilidade.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/sexo/femea",
+      "status": 200,
+      "finalPath": "/filhotes/sexo/femea",
+      "durationMs": 51,
+      "title": "Spitz Alemão Anão Fêmea — Filhotes | By Império Dog",
+      "description": "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/sexo/femea",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Fêmea — Filhotes",
+        "description": "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Tenho+interesse+em+Spitz+Alem%C3%A3o+An%C3%A3o+F%C3%AAmea+Spitz+Alem%C3%A3o+An%C3%A3o.+Pode+me+informar+disponibilidade+e+valores%3F&utm_source=site&utm_medium=sex_page&utm_campaign=filhote_sexo&utm_content=femea"
+      ]
+    },
+    {
+      "path": "/filhotes/sexo/macho",
+      "status": 200,
+      "finalPath": "/filhotes/sexo/macho",
+      "durationMs": 51,
+      "title": "Spitz Alemão Anão Macho — Filhotes | By Império Dog",
+      "description": "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/sexo/macho",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Macho — Filhotes",
+        "description": "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Tenho+interesse+em+Spitz+Alem%C3%A3o+An%C3%A3o+Macho+Spitz+Alem%C3%A3o+An%C3%A3o.+Pode+me+informar+disponibilidade+e+valores%3F&utm_source=site&utm_medium=sex_page&utm_campaign=filhote_sexo&utm_content=macho"
+      ]
+    },
+    {
+      "path": "/filhotes/spitz-alemao-anao-branco-femea",
+      "status": 200,
+      "finalPath": "/filhotes/spitz-alemao-anao-branco-femea",
+      "durationMs": 45,
+      "title": "Spitz Branco Fêmea — Lulu da Pomerânia | By Império Dog",
+      "description": "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e…",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-branco-femea",
+      "openGraph": {
+        "title": "Spitz Branco Fêmea — Lulu da Pomerânia",
+        "description": "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e…",
+        "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-branco-femea",
+        "image": "https://byimperiodog.com.br/filhotes/branco/branco-femea-dupla-jardim-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "Product",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Branco+F%C3%AAmea+%28Branco%2C+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade+e+condi%C3%A7%C3%B5es.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-branco-femea"
+      ]
+    },
+    {
+      "path": "/filhotes/spitz-alemao-anao-creme-femea",
+      "status": 200,
+      "finalPath": "/filhotes/spitz-alemao-anao-creme-femea",
+      "durationMs": 44,
+      "title": "Spitz Creme Fêmea — Lulu da Pomerânia | By Império Dog",
+      "description": "Fêmea Creme de pelagem clara e uniforme. Registro oficial, protocolo vacinal em dia conforme a idade e mentoria pós-venda inclusos.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-creme-femea",
+      "openGraph": {
+        "title": "Spitz Creme Fêmea — Lulu da Pomerânia",
+        "description": "Fêmea Creme de pelagem clara e uniforme. Registro oficial, protocolo vacinal em dia conforme a idade e mentoria pós-venda inclusos.",
+        "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-creme-femea",
+        "image": "https://byimperiodog.com.br/filhotes/creme/creme-femea-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "Product",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+F%C3%AAmea+%28Creme%2C+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade+e+condi%C3%A7%C3%B5es.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-creme-femea"
+      ]
+    },
+    {
+      "path": "/filhotes/spitz-alemao-anao-creme-macho",
+      "status": 200,
+      "finalPath": "/filhotes/spitz-alemao-anao-creme-macho",
+      "durationMs": 44,
+      "title": "Spitz Creme Macho — Lulu da Pomerânia | By Império Dog",
+      "description": "Macho Creme com estrutura compacta dentro do padrão FCI nº 97 (altura na cernelha de 21 cm ± 3 cm). Registro oficial e acompanhamento veterinário.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-creme-macho",
+      "openGraph": {
+        "title": "Spitz Creme Macho — Lulu da Pomerânia",
+        "description": "Macho Creme com estrutura compacta dentro do padrão FCI nº 97 (altura na cernelha de 21 cm ± 3 cm). Registro oficial e acompanhamento veterinário.",
+        "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-creme-macho",
+        "image": "https://byimperiodog.com.br/filhotes/creme/creme-macho-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "Product",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Creme+Macho+%28Creme%2C+Macho%29+no+site+e+quero+saber+disponibilidade+e+condi%C3%A7%C3%B5es.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-creme-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/spitz-alemao-anao-laranja-femea",
+      "status": 200,
+      "finalPath": "/filhotes/spitz-alemao-anao-laranja-femea",
+      "durationMs": 45,
+      "title": "Spitz Laranja Fêmea — Lulu da Pomerânia | By Império Dog",
+      "description": "Fêmea Laranja de coloração viva, dentro do padrão FCI nº 97. Registro oficial e acompanhamento veterinário.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-laranja-femea",
+      "openGraph": {
+        "title": "Spitz Laranja Fêmea — Lulu da Pomerânia",
+        "description": "Fêmea Laranja de coloração viva, dentro do padrão FCI nº 97. Registro oficial e acompanhamento veterinário.",
+        "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-laranja-femea",
+        "image": "https://byimperiodog.com.br/filhotes/laranja/laranja-femea-jardim-04.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "Product",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+F%C3%AAmea+%28Laranja%2C+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade+e+condi%C3%A7%C3%B5es.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-laranja-femea"
+      ]
+    },
+    {
+      "path": "/filhotes/spitz-alemao-anao-laranja-macho",
+      "status": 200,
+      "finalPath": "/filhotes/spitz-alemao-anao-laranja-macho",
+      "durationMs": 43,
+      "title": "Spitz Laranja Macho — Lulu da Pomerânia | By Império Dog",
+      "description": "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-laranja-macho",
+      "openGraph": {
+        "title": "Spitz Laranja Macho — Lulu da Pomerânia",
+        "description": "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo.",
+        "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-laranja-macho",
+        "image": "https://byimperiodog.com.br/filhotes/laranja/laranja-macho-flores-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "Product",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Laranja+Macho+%28Laranja%2C+Macho%29+no+site+e+quero+saber+disponibilidade+e+condi%C3%A7%C3%B5es.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-laranja-macho"
+      ]
+    },
+    {
+      "path": "/filhotes/spitz-alemao-anao-preto-femea",
+      "status": 200,
+      "finalPath": "/filhotes/spitz-alemao-anao-preto-femea",
+      "durationMs": 45,
+      "title": "Spitz Preto Fêmea — Lulu da Pomerânia | By Império Dog",
+      "description": "Fêmea Preta de pelagem escura e brilhante, estrutura compacta. Registro oficial, consulta veterinária e hemograma completo.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-preto-femea",
+      "openGraph": {
+        "title": "Spitz Preto Fêmea — Lulu da Pomerânia",
+        "description": "Fêmea Preta de pelagem escura e brilhante, estrutura compacta. Registro oficial, consulta veterinária e hemograma completo.",
+        "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-preto-femea",
+        "image": "https://byimperiodog.com.br/filhotes/preto/preto-filhote-flores-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "Product",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+F%C3%AAmea+%28Preto%2C+F%C3%AAmea%29+no+site+e+quero+saber+disponibilidade+e+condi%C3%A7%C3%B5es.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-preto-femea"
+      ]
+    },
+    {
+      "path": "/filhotes/spitz-alemao-anao-preto-macho",
+      "status": 200,
+      "finalPath": "/filhotes/spitz-alemao-anao-preto-macho",
+      "durationMs": 45,
+      "title": "Spitz Preto Macho — Lulu da Pomerânia | By Império Dog",
+      "description": "Macho Preto de pelagem escura e brilhante, estrutura compacta. Registro oficial e acompanhamento veterinário.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-preto-macho",
+      "openGraph": {
+        "title": "Spitz Preto Macho — Lulu da Pomerânia",
+        "description": "Macho Preto de pelagem escura e brilhante, estrutura compacta. Registro oficial e acompanhamento veterinário.",
+        "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-preto-macho",
+        "image": "https://byimperiodog.com.br/filhotes/preto/preto-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "Product",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+filhote+Spitz+Preto+Macho+%28Preto%2C+Macho%29+no+site+e+quero+saber+disponibilidade+e+condi%C3%A7%C3%B5es.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-preto-macho"
+      ]
+    },
+    {
+      "path": "/galeria",
+      "status": 200,
+      "finalPath": "/galeria",
+      "durationMs": 45,
+      "title": "Galeria de Vídeos do Spitz Alemão Anão | By Império Dog",
+      "description": "Assista aos nossos Spitz Alemão Anão em movimento. Vídeos reais dos filhotes, ninhadas e do canil By Império Dog em Bragança Paulista, SP.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/galeria",
+      "openGraph": {
+        "title": "Galeria de Vídeos do Spitz Alemão Anão | By Império Dog",
+        "description": "Veja nossos Spitz Alemão Anão em movimento. Filhotes, ninhadas e muito mais.",
+        "url": "https://byimperiodog.com.br/galeria",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "VideoObject",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Apresenta%C3%A7%C3%A3o+do+Canil%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=canil",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Dupla+Creme%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=creme",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22F%C3%AAmea+Laranja+no+Jardim%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=laranja",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Macho+Laranja+no+Jardim%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=laranja",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Ninhada+Creme%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=ninhada",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Ninhada+Junho+2022+%E2%80%94+Vol.+1%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=ninhada",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Ninhada+Junho+2022+%E2%80%94+Vol.+2%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=ninhada",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Ninhada+Laranja%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=ninhada",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Spitz+Alem%C3%A3o+An%C3%A3o%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=ra%C3%A7a",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Spitz+Branco%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=branco",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Spitz+Creme%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=creme",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+v%C3%ADdeo+%22Spitz+Laranja+Macho%22+na+galeria+da+By+Imp%C3%A9rio+Dog+e+tenho+interesse+nesta+cor.&utm_source=galeria&utm_content=laranja"
+      ]
+    },
+    {
+      "path": "/guias",
+      "status": 200,
+      "finalPath": "/guias",
+      "durationMs": 40,
+      "title": "Guias sobre Spitz Alemão Anão | By Império Dog",
+      "description": "Guias completos sobre Spitz Alemão Anão: como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde 2013.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/guias",
+      "openGraph": {
+        "title": "Guias sobre Spitz Alemão Anão | By Império Dog",
+        "description": "Guias completos sobre Spitz Alemão Anão: como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde 2013.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/opengraph-image-1c1a04?f9ae1ce0da6669cd"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20os%20guias%20da%20By%20Imp%C3%A9rio%20Dog%20e%20quero%20saber%20sobre%20filhotes%20dispon%C3%ADveis.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/guias/como-escolher-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/guias/como-escolher-spitz-alemao-anao",
+      "durationMs": 40,
+      "title": "Como Escolher um Spitz Alemão Anão | By Império Dog",
+      "description": "Como escolher o Spitz Alemão Anão: macho x fêmea, diferenças entre cores, documentação e como reconhecer um criador confiável.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/guias/como-escolher-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Como Escolher um Spitz Alemão Anão: Guia Definitivo",
+        "description": "Como escolher o Spitz Alemão Anão: macho x fêmea, diferenças entre cores, documentação e como reconhecer um criador confiável.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Como+Escolher+um+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Definitivo%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+guia+%22Como+Escolher+um+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Definitivo%22+e+quero+saber+mais+sobre+filhotes+dispon%C3%ADveis.&utm_source=site&utm_medium=guide_page&utm_campaign=guia_leitura&utm_content=como-escolher-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/guias/cuidados-basicos-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/guias/cuidados-basicos-spitz-alemao-anao",
+      "durationMs": 40,
+      "title": "Cuidados Básicos com o Spitz Alemão Anão | By Império Dog",
+      "description": "Guia completo de cuidados básicos com o Spitz Alemão Anão: escovação, banho, unhas, saúde preventiva e atividade física.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/guias/cuidados-basicos-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Cuidados Básicos com o Spitz Alemão Anão: Do Banho ao Veterinário",
+        "description": "Guia completo de cuidados básicos com o Spitz Alemão Anão: escovação, banho, unhas, saúde preventiva e atividade física.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Cuidados+B%C3%A1sicos+com+o+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Do+Banho+ao+Veterin%C3%A1rio%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+guia+%22Cuidados+B%C3%A1sicos+com+o+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Do+Banho+ao+Veterin%C3%A1rio%22+e+quero+saber+mais+sobre+filhotes+dispon%C3%ADveis.&utm_source=site&utm_medium=guide_page&utm_campaign=guia_leitura&utm_content=cuidados-basicos-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/guias/preparando-chegada-filhote-spitz",
+      "status": 200,
+      "finalPath": "/guias/preparando-chegada-filhote-spitz",
+      "durationMs": 40,
+      "title": "Como Preparar a Chegada do Filhote de Spitz | By Império Dog",
+      "description": "Checklist para preparar a chegada do filhote de Spitz Alemão Anão: enxoval, ambiente, primeiros dias e socialização.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/guias/preparando-chegada-filhote-spitz",
+      "openGraph": {
+        "title": "Como Preparar a Chegada do Filhote de Spitz Alemão Anão",
+        "description": "Checklist para preparar a chegada do filhote de Spitz Alemão Anão: enxoval, ambiente, primeiros dias e socialização.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Como+Preparar+a+Chegada+do+Filhote+de+Spitz+Alem%C3%A3o+An%C3%A3o%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+guia+%22Como+Preparar+a+Chegada+do+Filhote+de+Spitz+Alem%C3%A3o+An%C3%A3o%22+e+quero+saber+mais+sobre+filhotes+dispon%C3%ADveis.&utm_source=site&utm_medium=guide_page&utm_campaign=guia_leitura&utm_content=preparando-chegada-filhote-spitz",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/guias/quanto-custa-ter-spitz-alemao-anao",
+      "status": 200,
+      "finalPath": "/guias/quanto-custa-ter-spitz-alemao-anao",
+      "durationMs": 41,
+      "title": "Quanto Custa Ter um Spitz Alemão Anão por Mês | By Império Dog",
+      "description": "Custo mensal real de um Spitz Alemão Anão: ração, veterinário, banho, vacinas e acessórios, com planilha para se preparar antes de comprar.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/guias/quanto-custa-ter-spitz-alemao-anao",
+      "openGraph": {
+        "title": "Quanto Custa Ter um Spitz Alemão Anão por Mês?",
+        "description": "Custo mensal real de um Spitz Alemão Anão: ração, veterinário, banho, vacinas e acessórios, com planilha para se preparar antes de comprar.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Quanto+Custa+Ter+um+Spitz+Alem%C3%A3o+An%C3%A3o+por+M%C3%AAs%3F%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+guia+%22Quanto+Custa+Ter+um+Spitz+Alem%C3%A3o+An%C3%A3o+por+M%C3%AAs%3F%22+e+quero+saber+mais+sobre+filhotes+dispon%C3%ADveis.&utm_source=site&utm_medium=guide_page&utm_campaign=guia_leitura&utm_content=quanto-custa-ter-spitz-alemao-anao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/guias/spitz-alemao-anao-alimentacao",
+      "status": 200,
+      "finalPath": "/guias/spitz-alemao-anao-alimentacao",
+      "durationMs": 41,
+      "title": "Alimentação do Spitz Alemão Anão | By Império Dog",
+      "description": "Tudo sobre a alimentação do Spitz Alemão Anão: ração por fase, quantidade por peso e idade, alimentos proibidos e suplementação.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/guias/spitz-alemao-anao-alimentacao",
+      "openGraph": {
+        "title": "Alimentação do Spitz Alemão Anão: Guia Completo",
+        "description": "Tudo sobre a alimentação do Spitz Alemão Anão: ração por fase, quantidade por peso e idade, alimentos proibidos e suplementação.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Alimenta%C3%A7%C3%A3o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+guia+%22Alimenta%C3%A7%C3%A3o+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+Guia+Completo%22+e+quero+saber+mais+sobre+filhotes+dispon%C3%ADveis.&utm_source=site&utm_medium=guide_page&utm_campaign=guia_leitura&utm_content=spitz-alemao-anao-alimentacao",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/guias/spitz-alemao-anao-vs-lulu-pomerania",
+      "status": 200,
+      "finalPath": "/guias/spitz-alemao-anao-vs-lulu-pomerania",
+      "durationMs": 40,
+      "title": "Spitz Alemão Anão x Lulu da Pomerânia | By Império Dog",
+      "description": "Entenda a diferença (ou não) entre Spitz Alemão Anão e Lulu da Pomerânia: nomenclatura oficial, padrão FCI e o que muda na hora de comprar.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/guias/spitz-alemao-anao-vs-lulu-pomerania",
+      "openGraph": {
+        "title": "Spitz Alemão Anão x Lulu da Pomerânia: São o Mesmo Cão?",
+        "description": "Entenda a diferença (ou não) entre Spitz Alemão Anão e Lulu da Pomerânia: nomenclatura oficial, padrão FCI e o que muda na hora de comprar.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Spitz+Alem%C3%A3o+An%C3%A3o+x+Lulu+da+Pomer%C3%A2nia%3A+S%C3%A3o+o+Mesmo+C%C3%A3o%3F%22+e+quero+saber+sobre+os+filhotes+dispon%C3%ADveis+agora.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+guia+%22Spitz+Alem%C3%A3o+An%C3%A3o+x+Lulu+da+Pomer%C3%A2nia%3A+S%C3%A3o+o+Mesmo+C%C3%A3o%3F%22+e+quero+saber+mais+sobre+filhotes+dispon%C3%ADveis.&utm_source=site&utm_medium=guide_page&utm_campaign=guia_leitura&utm_content=spitz-alemao-anao-vs-lulu-pomerania",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/lulu-da-pomerania",
+      "status": 200,
+      "finalPath": "/lulu-da-pomerania",
+      "durationMs": 41,
+      "title": "Lulu da Pomerânia — Guia da Raça e Preço | By Império Dog",
+      "description": "Guia do Lulu da Pomerânia (Spitz Alemão Anão): características, temperamento, preços, cuidados e cores. Criação responsável em Bragança Paulista, SP.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/lulu-da-pomerania",
+      "openGraph": {
+        "title": "Lulu da Pomerânia — Guia Completo da Raça | By Império Dog",
+        "description": "Características, preços, cuidados e onde comprar Lulu da Pomerânia com segurança.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/lulu-da-pomerania-braganca-paulista",
+      "status": 200,
+      "finalPath": "/lulu-da-pomerania-braganca-paulista",
+      "durationMs": 51,
+      "title": "Lulu da Pomerânia em Bragança Paulista SP | By Império Dog",
+      "description": "Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde 2013, com registro oficial e laudos veterinários.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/lulu-da-pomerania-braganca-paulista",
+      "openGraph": {
+        "title": "Lulu da Pomerânia em Bragança Paulista SP — By Império Dog",
+        "description": "Criação familiar de Spitz Alemão Anão desde 2013. Atende Bragança Paulista e todo o Brasil.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/ninhadas",
+      "status": 200,
+      "finalPath": "/ninhadas",
+      "durationMs": 50,
+      "title": "Agenda de Ninhadas de Spitz Alemão Anão | By Império Dog",
+      "description": "Agenda de ninhadas planejadas, próximas ninhadas e filhotes reserváveis. Veja quais cores e datas previstas e entre na lista de interesse.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/ninhadas",
+      "openGraph": {
+        "title": "Ninhadas — By Império Dog",
+        "description": "Agenda e disponibilidade de ninhadas de Spitz Alemão Anão.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/politica-de-privacidade",
+      "status": 200,
+      "finalPath": "/politica-de-privacidade",
+      "durationMs": 50,
+      "title": "Política de Privacidade | By Império Dog",
+      "description": "Como a By Império Dog trata os dados pessoais de quem entra em contato: coleta, finalidade, retenção, segurança e atendimento à LGPD.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/politica-de-privacidade",
+      "openGraph": {
+        "title": "Política de Privacidade",
+        "description": "Como a By Império Dog trata os dados pessoais de quem entra em contato: coleta, finalidade, retenção, segurança e atendimento à LGPD.",
+        "url": "https://byimperiodog.com.br/politica-de-privacidade",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/politica-editorial",
+      "status": 200,
+      "finalPath": "/politica-editorial",
+      "durationMs": 50,
+      "title": "Política Editorial e Metodologia | By Império Dog",
+      "description": "Nossa política editorial: quem escreve, como produzimos, revisão de fontes, correções e transparência sobre IA. Compromisso com conteúdo útil e confiável.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/politica-editorial",
+      "openGraph": {
+        "title": "Política Editorial e Metodologia",
+        "description": "Nossa política editorial: quem escreve, como produzimos, revisão de fontes, correções e transparência sobre IA. Compromisso com conteúdo útil e confiável.",
+        "url": "https://byimperiodog.com.br/politica-editorial",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "WebPage",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/pomeranian",
+      "status": 200,
+      "finalPath": "/pomeranian",
+      "durationMs": 51,
+      "title": "Pomeranian no Brasil — Raça, Preço e Filhotes | By Império Dog",
+      "description": "Tudo sobre o Pomeranian no Brasil: o que é a raça, preço, características e onde encontrar filhotes com registro oficial. Pomeranian = Lulu da Pomerânia.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/pomeranian",
+      "openGraph": {
+        "title": "Pomeranian no Brasil — Raça, Preço e Filhotes | By Império Dog",
+        "description": "O Pomeranian é o mesmo que Lulu da Pomerânia e Spitz Alemão Anão. Saiba preço, características e onde comprar com registro oficial no Brasil.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/preco-spitz-anao",
+      "status": 200,
+      "finalPath": "/preco-spitz-anao",
+      "durationMs": 51,
+      "title": "Preço do Spitz Alemão Anão por Cor e Sexo | By Império Dog",
+      "description": "Tabela de preços do Spitz Alemão Anão por cor e sexo: Laranja, Creme, Preto e Branco. Veja o que está incluso e por que o valor varia.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/preco-spitz-anao",
+      "openGraph": {
+        "title": "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
+        "description": "Machos de R$ 6.500 a R$ 8.500 e fêmeas de R$ 7.500 a R$ 9.500, conforme a cor — com registro oficial, contrato e mentoria pós-venda inclusos.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/reserve-seu-filhote",
+      "status": 200,
+      "finalPath": "/reserve-seu-filhote",
+      "durationMs": 51,
+      "title": "Reserve seu Filhote de Spitz Alemão Anão | By Império Dog",
+      "description": "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão, com registro oficial e suporte direto com a criadora.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/reserve-seu-filhote",
+      "openGraph": {
+        "title": "Reserve seu Filhote de Spitz Alemão Anão | By Império Dog",
+        "description": "Processo de reserva transparente: conversa inicial, sinal, acompanhamento até a entrega e suporte pós-venda.",
+        "url": "https://byimperiodog.com.br/reserve-seu-filhote",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "FAQPage",
+        "Organization",
+        "SiteNavigationElement",
+        "WebPage",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1!%20Quero%20reservar%20um%20filhote%20de%20Spitz%20Alem%C3%A3o%20An%C3%A3o%20e%20conhecer%20o%20processo%20completo.",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/sobre",
+      "status": 200,
+      "finalPath": "/sobre",
+      "durationMs": 52,
+      "title": "Sobre o canil — Lulu da Pomerânia desde 2013 | By Império Dog",
+      "description": "A história da By Império Dog: desde 2013 criando Spitz Alemão Anão em Bragança Paulista, SP, com criação familiar e registro oficial.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/sobre",
+      "openGraph": {
+        "title": "Sobre a By Império Dog — criando Spitz Alemão Anão desde 2013",
+        "description": "Desde 2013 criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda.",
+        "url": "https://byimperiodog.com.br/sobre",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebPage",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conhecer+mais+sobre+a+criadora+e+o+processo+da+By+Imp%C3%A9rio+Dog.&utm_source=sobre&utm_campaign=sobre-cta",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/spitz-alemao",
+      "status": 200,
+      "finalPath": "/spitz-alemao",
+      "durationMs": 46,
+      "title": "Spitz Alemão Anão — Raça, Preço e Cuidados | By Império Dog",
+      "description": "Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto, cuidados e preço. Criadora em Bragança Paulista, SP.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/spitz-alemao",
+      "openGraph": {
+        "title": "Spitz Alemão Anão — Tudo Sobre a Raça | By Império Dog",
+        "description": "Origem, características, temperamento, cores, cuidados e preços do Spitz Alemão Anão.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/spitz-alemao-baby-face",
+      "status": 200,
+      "finalPath": "/spitz-alemao-baby-face",
+      "durationMs": 46,
+      "title": "Spitz Alemão Baby Face — O que É e Preço | By Império Dog",
+      "description": "O Spitz Alemão Baby Face tem focinho curto e aparência infantil. O que é, se a FCI reconhece, preço, cuidados e como identificar um filhote legítimo.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/spitz-alemao-baby-face",
+      "openGraph": {
+        "title": "Spitz Alemão Baby Face — O que é e Como Identificar | By Império Dog",
+        "description": "O que é o Baby Face, por que não é reconhecido pela FCI, cuidados especiais e preço.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/spitz-alemao-branco",
+      "status": 200,
+      "finalPath": "/spitz-alemao-branco",
+      "durationMs": 45,
+      "title": "Spitz Alemão Anão Branco ou Creme | By Império Dog",
+      "description": "Entenda a diferença entre Spitz Alemão Anão Branco e creme claro, como comparar a pelagem e onde consultar filhotes, preços e disponibilidade.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/spitz-alemao-branco",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Branco: diferenças do creme claro",
+        "description": "Veja como comparar branco e creme claro e consulte o catálogo atualizado de filhotes da By Império Dog.",
+        "url": "https://byimperiodog.com.br/spitz-alemao-branco",
+        "image": "https://byimperiodog.com.br/filhotes/branco/branco-femea-jardim-01.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/spitz-alemao-preto",
+      "status": 200,
+      "finalPath": "/spitz-alemao-preto",
+      "durationMs": 45,
+      "title": "Spitz Alemão Anão Preto — Preço e Filhotes | By Império Dog",
+      "description": "O Spitz Alemão Anão Preto é a cor de menor disponibilidade nas ninhadas da By Império Dog. Veja preço, o que exigir do criador e o registro oficial.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/spitz-alemao-preto",
+      "openGraph": {
+        "title": "Spitz Alemão Anão Preto — Preço e Disponibilidade | By Império Dog",
+        "description": "Por que o Spitz Alemão preto é difícil de encontrar? Preço, disponibilidade e como garantir um filhote com registro oficial.",
+        "url": null,
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList",
+        "FAQPage",
+        "LocalBusiness",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    },
+    {
+      "path": "/termos-de-uso",
+      "status": 200,
+      "finalPath": "/termos-de-uso",
+      "durationMs": 44,
+      "title": "Termos de Uso | By Império Dog",
+      "description": "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão Anão.",
+      "robots": "index, follow",
+      "canonical": "https://byimperiodog.com.br/termos-de-uso",
+      "openGraph": {
+        "title": "Termos de Uso",
+        "description": "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão Anão.",
+        "url": "https://byimperiodog.com.br/termos-de-uso",
+        "image": "https://byimperiodog.com.br/og-default.jpg"
+      },
+      "twitterCard": "summary_large_image",
+      "h1Count": 1,
+      "jsonLdTypes": [
+        "BreadcrumbList",
+        "Organization",
+        "SiteNavigationElement",
+        "WebSite"
+      ],
+      "whatsappLinks": [
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+        "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta"
+      ]
+    }
+  ]
+}

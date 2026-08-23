@@ -1,10 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const CwvPanelLazy = dynamic(() => import("@/components/admin/CwvPanel"), { ssr: false });
-const GscPanelLazy = dynamic(() => import("@/components/admin/GscPanel"), { ssr: false });
-
 import {
   AlertCircle,
   ArrowRight,
@@ -25,7 +20,11 @@ import {
   X,
   Zap,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+const CwvPanelLazy = dynamic(() => import("@/components/admin/CwvPanel"), { ssr: false });
+const GscPanelLazy = dynamic(() => import("@/components/admin/GscPanel"), { ssr: false });
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

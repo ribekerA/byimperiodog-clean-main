@@ -9,12 +9,12 @@ import { cn } from '@/lib/cn';
 
 /**
  * Alert - Mensagem contextual para feedback visual
- * 
+ *
  * @example
  * <Alert variant="success" title="Sucesso!" dismissible>
  *   Filhote reservado com sucesso!
  * </Alert>
- * 
+ *
  * <Alert variant="error" title="Erro">
  *   Não foi possível processar sua solicitação.
  * </Alert>
@@ -52,27 +52,27 @@ const alertVariants = {
 };
 
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  function Alert({ 
-    className, 
-    variant = 'info', 
-    title, 
+  function Alert({
+    className,
+    variant = 'info',
+    title,
     dismissible = false,
     onDismiss,
     icon,
     children,
-    ...props 
+    ...props
   }, ref) {
     const [dismissed, setDismissed] = React.useState(false);
     const config = alertVariants[variant];
     const DefaultIcon = config.IconComponent;
-    
+
     const handleDismiss = () => {
       setDismissed(true);
       onDismiss?.();
     };
-    
+
     if (dismissed) return null;
-    
+
     return (
       <div
         ref={ref}
@@ -89,7 +89,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           <div className={cn('flex-shrink-0', config.icon)}>
             {icon || <DefaultIcon className="h-5 w-5" aria-hidden="true" />}
           </div>
-          
+
           {/* Conteúdo */}
           <div className="flex-1 space-y-1">
             {title && (
@@ -97,14 +97,14 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
                 {title}
               </h5>
             )}
-            
+
             {children && (
               <div className="text-sm leading-relaxed">
                 {children}
               </div>
             )}
           </div>
-          
+
           {/* Botão de fechar */}
           {dismissible && (
             <button

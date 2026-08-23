@@ -1,6 +1,6 @@
 /**
  * DESIGN TOKENS - By Império Dog
- * 
+ *
  * Tokens centralizados para consistência visual e manutenção facilitada.
  * Usar estes tokens ao invés de valores hardcoded.
  */
@@ -17,7 +17,7 @@ export const colors = {
     foreground: 'var(--brand-foreground)',
     contrast: 'var(--brand-contrast)',
   },
-  
+
   // Accent
   accent: {
     DEFAULT: 'var(--accent)',
@@ -25,18 +25,18 @@ export const colors = {
     foreground: 'var(--accent-foreground)',
     contrast: 'var(--accent-contrast)',
   },
-  
+
   // WhatsApp
   whatsapp: {
     DEFAULT: 'var(--whatsapp)',
     contrast: 'var(--whatsapp-contrast)',
   },
-  
+
   // Semantic
   success: 'var(--success)',
   warning: 'var(--warning)',
   error: 'var(--error)',
-  
+
   // Neutrals
   bg: 'var(--bg)',
   background: 'var(--background)',
@@ -64,7 +64,7 @@ export const typography = {
     '3xl': 'var(--font-size-3xl)',
     '4xl': 'var(--font-size-4xl)',
   },
-  
+
   // Line heights
   lineHeight: {
     tight: 'var(--line-tight)',      // 1.15 - headings
@@ -72,7 +72,7 @@ export const typography = {
     normal: 'var(--line-normal)',    // 1.45 - corpo
     relaxed: 'var(--line-relaxed)',  // 1.65 - leitura longa
   },
-  
+
   // Font weights
   fontWeight: {
     normal: '400',
@@ -140,7 +140,7 @@ export const transitions = {
     normal: '250ms',
     slow: '400ms',
   },
-  
+
   easing: {
     standard: 'var(--ease-standard)',  // cubic-bezier(.4,0,.2,1)
     enter: 'var(--ease-enter)',        // cubic-bezier(0,0,.2,1)
@@ -198,12 +198,12 @@ export function getToken<T extends Record<string, any>>(
 ): any {
   const keys = path.split('.');
   let value: any = tokens;
-  
+
   for (const key of keys) {
     value = value?.[key];
     if (value === undefined) return fallback;
   }
-  
+
   return value ?? fallback;
 }
 

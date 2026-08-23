@@ -178,13 +178,15 @@ export async function generateStaticParams() {
 
 export const revalidate = 300;
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await props.params;
   const post = await fetchPost(params.slug);
   if (!post) return {};
   return buildBlogMetadata(post as Post & { content_mdx?: string | null });
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   let post: Post | null = null;
   try {
     post = await fetchPost(params.slug);

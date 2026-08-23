@@ -5,7 +5,7 @@ import { batchEnsureEmbeddings } from "@/lib/embeddings.store.blog";
 import { internalGuard } from "@/lib/internalAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 // Gera embeddings para posts que não têm registro mdx em blog_post_embeddings
 export async function POST(req: Request){

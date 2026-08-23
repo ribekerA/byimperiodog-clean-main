@@ -46,6 +46,31 @@ const normalize = (value: string | null | undefined) => {
   return trimmed === "" ? null : trimmed;
 };
 
+const publicFallbackSettings = (): PublicTrackingSettings => ({
+  gtm_id: normalize(process.env.NEXT_PUBLIC_GTM_ID),
+  ga4_id: normalize(process.env.NEXT_PUBLIC_GA4_ID),
+  meta_pixel_id: normalize(process.env.NEXT_PUBLIC_META_PIXEL_ID),
+  tiktok_pixel_id: normalize(process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID),
+  google_ads_id: null,
+  google_ads_label: null,
+  pinterest_tag_id: normalize(process.env.NEXT_PUBLIC_PINTEREST_TAG_ID),
+  hotjar_id: normalize(process.env.NEXT_PUBLIC_HOTJAR_ID),
+  clarity_id: normalize(process.env.NEXT_PUBLIC_CLARITY_ID),
+  meta_domain_verify: null,
+  custom_pixels: null,
+});
+
+const publicResponse = (settings: PublicTrackingSettings) =>
+  NextResponse.json<TrackingAPIResponse>(
+    { settings },
+    {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+      },
+    }
+  );
+
 export async function GET() {
   try {
     const { data, error } = await supabaseAdmin()
@@ -56,36 +81,11 @@ export async function GET() {
 
     if (error) {
       console.error("[GET /api/settings/tracking] Erro ao buscar configurações:", error);
-      return NextResponse.json<TrackingAPIError>(
-        { error: "Erro ao carregar configurações de tracking" },
-        { status: 500 }
-      );
+      return publicResponse(publicFallbackSettings());
     }
 
     if (!data) {
-      const emptySettings: PublicTrackingSettings = {
-        gtm_id: null,
-        ga4_id: null,
-        meta_pixel_id: null,
-        tiktok_pixel_id: null,
-        google_ads_id: null,
-        google_ads_label: null,
-        pinterest_tag_id: null,
-        hotjar_id: null,
-        clarity_id: null,
-        meta_domain_verify: null,
-        custom_pixels: null,
-      };
-
-      return NextResponse.json<TrackingAPIResponse>(
-        { settings: emptySettings },
-        {
-          status: 200,
-          headers: {
-            "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-          },
-        }
-      );
+      return publicResponse(publicFallbackSettings());
     }
 
     const publicSettings: PublicTrackingSettings = {
@@ -102,21 +102,10 @@ export async function GET() {
       custom_pixels: data.custom_pixels || null,
     };
 
-    return NextResponse.json<TrackingAPIResponse>(
-      { settings: publicSettings },
-      {
-        status: 200,
-        headers: {
-          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
-        },
-      }
-    );
+    return publicResponse(publicSettings);
   } catch (err) {
     console.error("[GET /api/settings/tracking] Erro inesperado:", err);
-    return NextResponse.json<TrackingAPIError>(
-      { error: "Erro interno do servidor" },
-      { status: 500 }
-    );
+    return publicResponse(publicFallbackSettings());
   }
 }
 

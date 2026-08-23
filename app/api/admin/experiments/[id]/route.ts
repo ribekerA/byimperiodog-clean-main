@@ -26,10 +26,8 @@ const supabaseAdmin = (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPAB
     )
   : (null as any);
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const authError = requireAdmin(request);
     if (authError) {
@@ -63,10 +61,8 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const authError = requireAdmin(request);
     if (authError) {
@@ -131,10 +127,8 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const authError = requireAdmin(request);
     if (authError) {

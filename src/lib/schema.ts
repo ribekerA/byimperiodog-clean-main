@@ -1,110 +1,7 @@
+import { BRAND } from "@/domain/config";
 import { firstPubFor, lastmodFor } from "@/lib/_generated-lastmod";
 
 type JsonLd = Record<string, unknown>;
-
-const DEFAULT_SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br";
-
-export function organizationSchema(siteUrl: string = DEFAULT_SITE_URL): JsonLd {
-  const baseUrl = normalizeSiteUrl(siteUrl);
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${baseUrl}/#organization`,
-    name: "By Império Dog",
-    url: baseUrl,
-    logo: `${baseUrl}/byimperiologo.svg`,
-    sameAs: [
-      "https://www.instagram.com/byimperiodog",
-      "https://www.youtube.com/@byimperiodog",
-      "https://www.facebook.com/byimperiodog",
-      "https://www.tiktok.com/@byimperiodog",
-    ],
-    contactPoint: [
-      {
-        "@type": "ContactPoint",
-        telephone: "+55 11 96863-3239",
-        contactType: "customer service",
-        availableLanguage: ["pt-BR"],
-        areaServed: ["BR"],
-      },
-    ],
-  };
-}
-
-export function websiteSchema(siteUrl: string = DEFAULT_SITE_URL): JsonLd {
-  const baseUrl = normalizeSiteUrl(siteUrl);
-  return {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${baseUrl}/#website`,
-    name: "By Império Dog",
-    url: baseUrl,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${baseUrl}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
-  };
-}
-
-export function productSchema(
-  siteUrl: string,
-  puppy: {
-    id: string;
-    name: string;
-    price_cents?: number | null;
-    gender?: string | null;
-    color?: string | null;
-  }
-): JsonLd {
-  const baseUrl = normalizeSiteUrl(siteUrl);
-  const price =
-    typeof puppy.price_cents === "number"
-      ? (puppy.price_cents / 100).toFixed(2)
-      : undefined;
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${baseUrl}/filhotes/${puppy.id}#product`,
-    name: puppy.name,
-    description:
-      "Spitz Alemão Anão dentro do padrão FCI nº 97 — altura na cernelha de 21 cm ± 3 cm —, com acompanhamento pós-venda direto com a criadora.",
-    brand: {
-      "@type": "Brand",
-      name: "By Império Dog",
-    },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "BRL",
-      price,
-      availability: "https://schema.org/LimitedAvailability",
-      url: `${baseUrl}/filhotes`,
-    },
-    additionalProperty: [
-      puppy.gender
-        ? { "@type": "PropertyValue", name: "Sexo", value: puppy.gender }
-        : null,
-      puppy.color
-        ? { "@type": "PropertyValue", name: "Cor", value: puppy.color }
-        : null,
-    ].filter(Boolean),
-  };
-}
-
-export function faqSchema(
-  siteUrl: string,
-  faqs: Array<{ question: string; answer: string }>
-): JsonLd {
-  const baseUrl = normalizeSiteUrl(siteUrl);
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "@id": `${baseUrl}/faq#faq`,
-    mainEntity: buildFaqEntities(faqs),
-  };
-}
 
 export function faqPageSchema(
   faqs: Array<{ question: string; answer: string }>,
@@ -152,17 +49,10 @@ export function blogPostingSchema(
           url: post.author.url ?? undefined,
         }
       : {
-          "@type": "Organization",
-          name: "By Império Dog",
+          "@id": `${baseUrl}/#business`,
         },
     publisher: {
-      "@type": "Organization",
-      name: "By Império Dog",
-      url: baseUrl,
-      logo: {
-        "@type": "ImageObject",
-        url: `${baseUrl}/byimperiologo.svg`,
-      },
+      "@id": `${baseUrl}/#business`,
     },
     keywords: post.keywords && post.keywords.length > 0 ? post.keywords : undefined,
     articleSection: post.articleSection ?? undefined,
@@ -184,117 +74,6 @@ function buildFaqEntities(
       text: faq.answer,
     },
   }));
-}
-
-/** Product JSON-LD with richer details for individual puppy pages. */
-export function buildProductLD(opts: {
-  siteUrl: string;
-  id: string;
-  name: string;
-  description?: string;
-  image?: string;
-  priceCents?: number | null;
-  gender?: string | null;
-  color?: string | null;
-  birthDate?: string | null;
-  aggregateRating?: { ratingValue: number; reviewCount: number } | null;
-}): JsonLd {
-  const base = normalizeSiteUrl(opts.siteUrl);
-  const url = `${base}/filhotes/${opts.id}`;
-  const price =
-    typeof opts.priceCents === "number" && opts.priceCents > 0
-      ? (opts.priceCents / 100).toFixed(2)
-      : undefined;
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${url}#product`,
-    name: opts.name,
-    description:
-      opts.description ||
-      "Spitz Alemão Anão com acompanhamento pós-venda direto com a criadora da By Império Dog.",
-    image: opts.image ? [opts.image] : undefined,
-    brand: {
-      "@type": "Brand",
-      name: "By Império Dog",
-    },
-    offers: {
-      "@type": "Offer",
-      url,
-      priceCurrency: "BRL",
-      price,
-      availability: price
-        ? "https://schema.org/InStock"
-        : "https://schema.org/LimitedAvailability",
-      seller: {
-        "@type": "Organization",
-        name: "By Império Dog",
-      },
-    },
-    aggregateRating: opts.aggregateRating
-      ? {
-          "@type": "AggregateRating",
-          ratingValue: opts.aggregateRating.ratingValue,
-          reviewCount: opts.aggregateRating.reviewCount,
-        }
-      : undefined,
-    additionalProperty: [
-      opts.gender
-        ? { "@type": "PropertyValue", name: "Sexo", value: opts.gender }
-        : null,
-      opts.color
-        ? { "@type": "PropertyValue", name: "Cor", value: opts.color }
-        : null,
-      opts.birthDate
-        ? {
-            "@type": "PropertyValue",
-            name: "Data de nascimento",
-            value: opts.birthDate,
-          }
-        : null,
-    ].filter(Boolean),
-  };
-}
-
-/** OfferCatalog (ItemList of Offers) for listing pages like /filhotes. */
-export function buildOfferCatalogLD(opts: {
-  siteUrl: string;
-  puppies: Array<{
-    id: string;
-    name: string;
-    priceCents?: number | null;
-    image?: string | null;
-  }>;
-}): JsonLd {
-  const base = normalizeSiteUrl(opts.siteUrl);
-  return {
-    "@context": "https://schema.org",
-    "@type": "OfferCatalog",
-    "@id": `${base}/filhotes#offercatalog`,
-    name: "Filhotes de Spitz Alemão Anão disponíveis",
-    itemListElement: opts.puppies.map((puppy, idx) => {
-      const price =
-        typeof puppy.priceCents === "number" && puppy.priceCents > 0
-          ? (puppy.priceCents / 100).toFixed(2)
-          : undefined;
-      return {
-        "@type": "Offer",
-        position: idx + 1,
-        itemOffered: {
-          "@type": "Product",
-          name: puppy.name,
-          image: puppy.image ? [puppy.image] : undefined,
-        },
-        priceCurrency: "BRL",
-        price,
-        availability: price
-          ? "https://schema.org/InStock"
-          : "https://schema.org/LimitedAvailability",
-        url: `${base}/filhotes/${puppy.id}`,
-      };
-    }),
-  };
 }
 
 /**
@@ -390,10 +169,7 @@ export function buildArticleLD(opts: {
     ),
     image: opts.image,
     about: opts.about,
-    author: {
-      "@type": "Organization",
-      name: "By Império Dog",
-    },
+    author: { "@id": `${BRAND.urls.site}/#business` },
   };
 }
 

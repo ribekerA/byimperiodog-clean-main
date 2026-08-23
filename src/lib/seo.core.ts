@@ -2,42 +2,28 @@ import type { Metadata } from 'next';
 
 import { supabasePublic } from './supabasePublic';
 
-/**
- * URL base do site (canonical origin)
- * 
- * Prioridade de resolução:
- * 1. NEXT_PUBLIC_SITE_URL (variável de ambiente)
- * 2. NEXT_PUBLIC_CANONICAL_ORIGIN (domínio custom para canonical)
- * 3. Fallback: https://byimperiodog.com.br
- * 
- * Para usar domínio canilspitzalemao.com.br:
- * Defina NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.canilspitzalemao.com.br
- */
-export const SITE_ORIGIN = (
-  process.env.NEXT_PUBLIC_CANONICAL_ORIGIN ||
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  'https://byimperiodog.com.br'
-).replace(/\/$/, '');
-
-/**
- * Domínio alternativo (para redirects e alias)
- * Usado em redirect rules e validações de domínio
- */
-export const ALTERNATE_ORIGINS = [
-  'https://byimperiodog.com.br',
-  'https://www.canilspitzalemao.com.br',
-  'https://canilspitzalemao.com.br',
-].map(url => url.replace(/\/$/, ''));
+/** Origem canônica única do site público. */
+export const SITE_ORIGIN = 'https://byimperiodog.com.br';
 
 export function canonical(path: string) {
   if (!path) return SITE_ORIGIN;
   return `${SITE_ORIGIN}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
+function canonicalOnCurrentDomain(value: string | undefined, fallback: string): string {
+  if (!value) return fallback;
+  try {
+    const parsed = new URL(value, SITE_ORIGIN);
+    return canonical(parsed.pathname);
+  } catch {
+    return fallback;
+  }
+}
+
 /** Metadados base do site público (home / institucionais). */
 export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
   const title = overrides.title || { default: 'Spitz Alemão Anão | By Império Dog', template: '%s | By Império Dog' };
-  const description = overrides.description || 'Filhotes legítimos, entrega responsável e pós-venda acolhedor.';
+  const description = overrides.description || 'Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com consulta veterinária, hemograma completo e pedigree.';
   return {
     metadataBase: new URL(SITE_ORIGIN),
     title,
@@ -80,20 +66,20 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
 export function baseBlogMetadata(overrides: Partial<Metadata> = {}): Metadata {
   return {
   title: 'Blog',
-    description: 'Conteúdo especializado sobre Spitz Alemão, saúde, adestramento e bem-estar.',
+    description: 'Conteúdo sobre Spitz Alemão Anão (Lulu da Pomerânia), saúde, adestramento e bem-estar.',
     alternates: { canonical: canonical('/blog') },
     openGraph: {
       type: 'website',
       url: canonical('/blog'),
   siteName: 'By Império Dog',
   title: 'Blog | By Império Dog',
-      description: 'Conteúdo especializado sobre Spitz Alemão, saúde, adestramento e bem-estar.',
+      description: 'Conteúdo sobre Spitz Alemão Anão (Lulu da Pomerânia), saúde, adestramento e bem-estar.',
       ...overrides.openGraph,
     },
     twitter: {
       card: 'summary_large_image',
   title: 'Blog | By Império Dog',
-      description: 'Conteúdo sobre Spitz Alemão e bem-estar.',
+      description: 'Conteúdo sobre Spitz Alemão Anão e bem-estar.',
       ...(overrides.twitter || {}),
     },
     ...overrides,
@@ -149,7 +135,7 @@ export async function buildPostMetadata(slug: string): Promise<Metadata> {
   const title = override?.title ?? post?.title ?? 'Post | Blog';
   const description = override?.description ?? post?.excerpt ?? undefined;
   const image = override?.og_image_url ?? post?.og_image_url ?? post?.cover_url ?? undefined;
-  const canonicalFinal = override?.canonical ?? url;
+  const canonicalFinal = canonicalOnCurrentDomain(override?.canonical, url);
   const robots = override?.robots as string | undefined;
   const published = post?.published_at || undefined;
 
@@ -177,7 +163,7 @@ export function blogJsonLdOrg() {
     '@type': 'Blog',
   name: 'By Império Dog - Blog',
     url: canonical('/blog'),
-    description: 'Artigos sobre Spitz Alemão, cuidados, genética e qualidade de vida.'
+    description: 'Artigos sobre Spitz Alemão Anão, cuidados, rotina e qualidade de vida.'
   };
 }
 
@@ -200,17 +186,13 @@ export const adminNoIndexMetadata: Metadata = {
 
 /**
  * ⚠️ HREFLANG NÃO IMPLEMENTADO
- * 
+ *
  * Motivos:
  * 1. Não há multi-idioma/i18n configurado no projeto
  * 2. Páginas em outros idiomas (ex: húngaro) foram bloqueadas via redirects
  * 3. Incluir hreflang sem implementar i18n prejudica SEO (confunde crawlers)
- * 
+ *
  * SE IMPLEMENTAR I18N NO FUTURO:
  * - Adicionar hreflang tags para cada variação de idioma
  * - Incluir x-default para versão sem prefixo de idioma
- * - Exemplo:
- *   <link rel="alternate" hreflang="pt-BR" href="https://www.canilspitzalemao.com.br/..." />
- *   <link rel="alternate" hreflang="en-US" href="https://www.canilspitzalemao.com.br/en/..." />
- *   <link rel="alternate" hreflang="x-default" href="https://www.canilspitzalemao.com.br/..." />
  */

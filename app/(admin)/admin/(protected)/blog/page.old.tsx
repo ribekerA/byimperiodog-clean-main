@@ -108,10 +108,10 @@ export default function AdminBlogPage() {
       if (search) params.set("q", search);
 
       const url = `/api/admin/blog?${params.toString()}`;
-      
+
       const response = await adminFetch(url);
       const json = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(json?.error || "Nao foi possivel carregar os posts");
       }

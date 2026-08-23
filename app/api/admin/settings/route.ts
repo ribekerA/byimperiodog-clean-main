@@ -1,7 +1,9 @@
 export const dynamic = "force-dynamic";
-import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
+
 import { requireAdmin, logAdminAction } from "@/lib/adminAuth";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import {
   validateFacebookPixelId,
   validateGoogleAnalyticsId,

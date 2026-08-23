@@ -275,7 +275,7 @@ export default function PuppyStories(props: PuppyStoriesProps) {
           </div>
 
           {/* Top actions */}
-          <div className={clsx("absolute top-4 left-4 right-4 flex items-start justify-between gap-3 text-sm transition-opacity", uiVisible ? 'opacity-100' : 'opacity-0')}>            
+          <div className={clsx("absolute top-4 left-4 right-4 flex items-start justify-between gap-3 text-sm transition-opacity", uiVisible ? 'opacity-100' : 'opacity-0')}>
             <div className="space-y-1">
               <h3 className="text-base font-semibold leading-tight drop-shadow">{current?.nome || current?.name}</h3>
               <p className="text-xs text-zinc-200/90 leading-snug line-clamp-2">

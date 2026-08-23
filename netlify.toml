@@ -9,14 +9,14 @@
 # morre). Aumenta o limite disponível para essa etapa.
 [build.environment]
   NODE_OPTIONS = "--max-old-space-size=4096"
-  # package.json declara engines node ">=20 <21". Sem fixar aqui, a Netlify
+  # package.json declara engines node ">=24 <25". Sem fixar aqui, a Netlify
   # escolhe o padrao dela — e o padrao muda de major sozinho, o que quebra
   # build sem ninguem ter mexido em nada.
-  NODE_VERSION = "20"
+  NODE_VERSION = "24"
 
-# @netlify/plugin-nextjs handles SSR, API routes, ISR and asset routing for Next.js 13+
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+# O adaptador Next/OpenNext atual é detectado e aplicado automaticamente pela
+# Netlify. Não fixar @netlify/plugin-nextjs aqui evita voltar ao runtime legado
+# e mantém as correções do adaptador em Deploy Previews futuros.
 
 # ============================================================================
 # FUNCAO AGENDADA (CRON)
@@ -253,7 +253,7 @@
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 5️⃣ ROTEAMENTO NEXT.JS
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-# @netlify/plugin-nextjs (declarado acima) cria automaticamente as funções
+# O adaptador Next/OpenNext detectado automaticamente cria as funções
 # serverless necessárias para SSR, API routes e ISR.
 # Nenhum redirect manual para /.netlify/functions/server é necessário.
 

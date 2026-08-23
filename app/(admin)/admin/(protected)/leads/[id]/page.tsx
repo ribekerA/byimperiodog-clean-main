@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { AdminErrorState } from "@/components/admin/ui/AdminErrorState";
 import { buildLeadAdvisor } from "@/lib/ai/leadAdvisor";
 import { createLogger } from "@/lib/logger";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -8,14 +9,14 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { LeadDetailClient, type LeadDetailData, type LeadHistoryEntry } from "../LeadDetailClient";
 import type { LeadPuppyMatch } from "../queries";
 import { normalizeLeadStatus } from "../queries";
-import { AdminErrorState } from "@/components/admin/ui/AdminErrorState";
 
 export const metadata: Metadata = {
   title: "Lead | Admin",
   robots: { index: false, follow: false },
 };
 
-export default async function LeadDetailPage({ params }: { params: { id: string } }) {
+export default async function LeadDetailPage(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const logger = createLogger("admin:lead-detail");
   const sb = supabaseAdmin();
   let data: any = null;

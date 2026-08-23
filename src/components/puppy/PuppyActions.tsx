@@ -3,7 +3,7 @@
  * CTAs de ação (WhatsApp, agendar visita, mais fotos)
  * UX: Hierarquia clara de ações primárias e secundárias
  * A11y: Botões/links com labels descritivos
- * 
+ *
  * Migrado para usar componentes do Design System:
  * - Button para CTAs
  * - Card para blocos de informação

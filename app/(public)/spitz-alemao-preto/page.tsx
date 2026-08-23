@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { formatarPreco, precoDe, RESPOSTA_PRETO } from "@/domain/pricing";

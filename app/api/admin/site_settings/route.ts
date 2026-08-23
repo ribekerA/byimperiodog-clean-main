@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
-import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
+
 import { requireAdmin } from "@/lib/adminAuth";
 
 function supabaseSafe() {

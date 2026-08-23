@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 /**
  * API Admin - Testar Webhook
  * By Império Dog - Endpoint para testar entrega de webhook
- * 
+ *
  * POST /api/admin/webhooks/[id]/test - Envia evento de teste
  */
 
@@ -25,10 +25,8 @@ const supabaseAdmin = (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPAB
     )
   : (null as any);
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const authError = requireAdmin(request);
     if (authError) {
@@ -67,10 +65,10 @@ export async function POST(
 
     // Enviar webhook
     const startTime = Date.now();
-    
+
     try {
       const signature = generateSignature(JSON.stringify(payload), webhook.secret);
-      
+
       const response = await fetch(webhook.url, {
         method: 'POST',
         headers: {
@@ -119,8 +117,8 @@ export async function POST(
       const result: WebhookTestResult = {
         success: response.ok,
         status: response.status,
-        message: response.ok 
-          ? `Webhook testado com sucesso (${response.status})` 
+        message: response.ok
+          ? `Webhook testado com sucesso (${response.status})`
           : `Erro ao testar webhook: ${response.statusText}`,
         response_time_ms: responseTime,
       };

@@ -6,11 +6,6 @@
 import type { Puppy } from '@/domain/puppy';
 
 export function buildProductLD(puppy: Puppy, baseUrl: string = 'https://byimperiodog.com.br') {
-  const availability = 
-    puppy.status === 'available' ? 'https://schema.org/InStock' :
-    puppy.status === 'reserved' ? 'https://schema.org/PreOrder' :
-    'https://schema.org/OutOfStock';
-
   const condition = 'https://schema.org/NewCondition'; // Filhotes sempre "novos"
 
   return {
@@ -23,19 +18,20 @@ export function buildProductLD(puppy: Puppy, baseUrl: string = 'https://byimperi
       '@type': 'Brand',
       name: 'By Império Dog',
     },
-    offers: {
-      '@type': 'Offer',
-      url: `${baseUrl}/filhotes/${puppy.slug}`,
-      priceCurrency: 'BRL',
-      price: (puppy.priceCents / 100).toFixed(2),
-      priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 dias
-      availability,
-      itemCondition: condition,
-      seller: {
-        '@type': 'Organization',
-        name: 'By Império Dog',
-      },
-    },
+    ...(puppy.status === 'available'
+      ? {
+          offers: {
+            '@type': 'Offer',
+            url: `${baseUrl}/filhotes/${puppy.slug}`,
+            priceCurrency: 'BRL',
+            price: (puppy.priceCents / 100).toFixed(2),
+            priceValidUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 dias
+            availability: 'https://schema.org/InStock',
+            itemCondition: condition,
+            seller: { '@id': `${baseUrl.replace(/\/$/, '')}/#business` },
+          },
+        }
+      : {}),
     aggregateRating: puppy.reviewCount > 0 ? {
       '@type': 'AggregateRating',
       ratingValue: puppy.averageRating.toFixed(1),

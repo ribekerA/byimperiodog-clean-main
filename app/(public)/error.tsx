@@ -21,7 +21,7 @@ export default function PublicError({
   reset: () => void;
 }) {
   useEffect(() => {
-    // eslint-disable-next-line no-console
+
     console.error("[erro-publico]", error.digest ?? error.message);
   }, [error]);
 

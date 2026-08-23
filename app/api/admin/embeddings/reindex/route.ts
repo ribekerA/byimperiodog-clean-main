@@ -1,7 +1,10 @@
 export const dynamic = "force-dynamic";
-import { NextRequest, NextResponse } from 'next/server';
-import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
 import { createClient } from '@supabase/supabase-js';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
+
+import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
+
 
 // Minimal reindex endpoint: re-embeds latest N published posts using OpenAI if available
 export async function POST(req: NextRequest){

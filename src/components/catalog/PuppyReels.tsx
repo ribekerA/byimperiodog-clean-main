@@ -4,8 +4,8 @@ import { ChevronDown, Volume2, VolumeX } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import PuppyDetailsModal from "@/components/PuppyDetailsModal";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import PuppyDetailsModal from "@/components/PuppyDetailsModal";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 

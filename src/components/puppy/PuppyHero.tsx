@@ -3,7 +3,7 @@
  * Hero do produto: imagem principal, nome, badge de status, preço e CTA primário
  * UX: Clareza imediata sobre disponibilidade e próximo passo
  * A11y: h1 semântico, aria-labels, foco visível
- * 
+ *
  * Migrado para usar componentes do Design System:
  * - Button para CTAs
  * - StatusBadge para status

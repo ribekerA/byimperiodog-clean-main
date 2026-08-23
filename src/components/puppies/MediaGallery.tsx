@@ -92,9 +92,9 @@ export default function MediaGallery({ media, cover, onChange, onSelectCover, ma
 
         setProgress(p=>({...p,[f.name]:100}));
         newUrls.push(j.url);
-      } catch(err: unknown){ 
+      } catch(err: unknown){
         const msg = err instanceof Error ? err.message : 'Erro upload';
-        push({ type:'error', message: msg }); 
+        push({ type:'error', message: msg });
       }
     }
     if(newUrls.length){
@@ -126,13 +126,13 @@ export default function MediaGallery({ media, cover, onChange, onSelectCover, ma
     <div className={`grid gap-2 ${className}`}>
       <div className="flex items-center justify-between">
         <label className="font-medium" id="media-gallery-label">{label}</label>
-        <input 
-          aria-labelledby="media-gallery-label" 
-          type="file" 
-          accept="image/*,video/mp4,video/webm,video/quicktime" 
-          multiple 
-          onChange={handleFile} 
-          className="text-[11px]" 
+        <input
+          aria-labelledby="media-gallery-label"
+          type="file"
+          accept="image/*,video/mp4,video/webm,video/quicktime"
+          multiple
+          onChange={handleFile}
+          className="text-[11px]"
         />
       </div>
       <div ref={liveRef} aria-live="polite" className="sr-only" />

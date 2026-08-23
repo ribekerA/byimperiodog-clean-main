@@ -11,8 +11,8 @@
  *   onChange  — callback quando usuário seleciona nota
  */
 
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface Props {
   value:        number;

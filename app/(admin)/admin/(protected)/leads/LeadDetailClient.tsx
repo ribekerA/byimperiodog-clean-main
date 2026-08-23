@@ -1,11 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { Activity, AlertTriangle, BadgeCheck, Copy, Flame, Gauge, Loader2, MessageCircle, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
 
-import { useToast } from "@/components/ui/toast";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-
+import { useToast } from "@/components/ui/toast";
 import type { LeadAdvisorSnapshot, AdvisorMessageStyle } from "@/lib/ai/leadAdvisor";
 
 import type { LeadPuppyMatch, LeadStatus } from "./queries";

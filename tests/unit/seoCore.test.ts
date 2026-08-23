@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+
 import { canonical } from '../../src/lib/seo.core';
 
 describe('canonical()', () => {

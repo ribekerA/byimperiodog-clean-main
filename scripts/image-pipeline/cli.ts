@@ -5,9 +5,10 @@
 
 import fs from 'fs/promises';
 import path from 'path';
-import { analyzeImageQuality, formatQualityReport } from './quality-analyzer';
-import { processImage, cleanupOldImages } from './processor';
+
 import { IMAGE_CONFIG } from './config';
+import { processImage, cleanupOldImages } from './processor';
+import { analyzeImageQuality, formatQualityReport } from './quality-analyzer';
 
 interface ImageFile {
   path: string;
@@ -81,7 +82,7 @@ async function main() {
 
       if (result.success) {
         console.log(`\n✅ Sucesso! ${result.images.length} imagens geradas:`);
-        
+
         // Agrupar por tamanho
         const bySize = result.images.reduce((acc, img) => {
           if (!acc[img.size]) acc[img.size] = [];
@@ -92,7 +93,7 @@ async function main() {
         for (const [size, imgs] of Object.entries(bySize)) {
           const webp = imgs.find((i) => i.format === 'webp');
           const jpeg = imgs.find((i) => i.format === 'jpeg');
-          
+
           if (webp && jpeg) {
             const webpKB = (webp.fileSize / 1024).toFixed(1);
             const jpegKB = (jpeg.fileSize / 1024).toFixed(1);
@@ -143,7 +144,7 @@ async function scanImageFolders(inputDir: string): Promise<ImageFile[]> {
 
     for (const file of files) {
       const ext = path.extname(file).toLowerCase();
-      
+
       if (!['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
         continue;
       }

@@ -4,7 +4,7 @@
  * UX: Navegação clara, preview em miniaturas
  * A11y: Navegação por teclado, labels descritivos, status de seleção
  * Performance: Lazy loading para miniaturas
- * 
+ *
  * Migrado para usar componentes do Design System:
  * - Button para controles de navegação (customizado com icon-only)
  */

@@ -3,13 +3,14 @@ export const dynamic = "force-dynamic";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { generateContractPdf } from "@/lib/contractPdf";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createZapSignDocument, isConfigured } from "@/lib/zapsign";
 
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const guard = requireAdminApi(req);
   if (guard) return guard;
 

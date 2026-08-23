@@ -1,5 +1,7 @@
 export const dynamic = "force-dynamic";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
+
 import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
   const slugs = Array.isArray(body.slugs)
     ? body.slugs.filter((s: any) => typeof s === 'string' && s.trim())
     : [];
-  
+
   if (slugs.length === 0) return NextResponse.json({ counts: {} });
 
   return fetchAndCountLeads(slugs);

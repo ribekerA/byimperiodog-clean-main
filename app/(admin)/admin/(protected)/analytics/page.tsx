@@ -1,18 +1,19 @@
-import type { Metadata } from "next";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Metadata } from "next";
 
-import { MetricCard } from "./components/MetricCard";
-import { BarChartWrapper as BarChart } from "./components/BarChartWrapper";
-import { LineChartWrapper as LineChart } from "./components/LineChartWrapper";
-import { PieChartWrapper as PieChart } from "./components/PieChartWrapper";
+import { getCatalogAiMetrics } from "@/lib/ai/catalog-analytics";
 import { analyzeConversion } from "@/lib/ai/conversion-analyzer";
 import { generateDashboardNarrative } from "@/lib/ai/dashboard-narrative";
 import { generateDecisions } from "@/lib/ai/decision-engine";
+import { recalcDemandPredictions } from "@/lib/ai/demand-prediction";
 import { generateOperationalAlerts } from "@/lib/ai/operational-alerts";
 import { generatePriorityTasks } from "@/lib/ai/priority-engine";
-import { recalcDemandPredictions } from "@/lib/ai/demand-prediction";
-import { getCatalogAiMetrics } from "@/lib/ai/catalog-analytics";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+
+import { BarChartWrapper as BarChart } from "./components/BarChartWrapper";
+import { LineChartWrapper as LineChart } from "./components/LineChartWrapper";
+import { MetricCard } from "./components/MetricCard";
+import { PieChartWrapper as PieChart } from "./components/PieChartWrapper";
 
 export const metadata: Metadata = {
   title: "Analytics | Admin",
@@ -261,7 +262,8 @@ function buildSimulations(forecast: Forecast): Simulation[] {
   ];
 }
 
-export default async function AnalyticsPage({ searchParams }: { searchParams: { period?: string } }) {
+export default async function AnalyticsPage(props: { searchParams: Promise<{ period?: string }> }) {
+  const searchParams = await props.searchParams;
   const periodDays = Number(searchParams?.period) || 30;
   const sb = supabaseAdmin();
 

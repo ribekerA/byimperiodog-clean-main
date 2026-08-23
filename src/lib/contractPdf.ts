@@ -1,5 +1,7 @@
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
+import { BRAND } from "@/domain/config";
+
 type ContractPdfData = {
   code:              string;
   // Comprador
@@ -132,7 +134,7 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
   sectionTitle("Vendedor(a)");
   field("Razão Social", "BY IMPÉRIO DOG");
   field("CNPJ",         "22.587.478/0001-00");
-  field("E-mail",       "byimperiodog@gmail.com");
+  field("E-mail",       BRAND.contact.email);
   field("Instagram",    "@byimperiodog");
   y -= 6;
 

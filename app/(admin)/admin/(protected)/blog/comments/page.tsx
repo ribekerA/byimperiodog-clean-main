@@ -1,8 +1,9 @@
 "use client";
 // Página de moderação de comentários (mínima / placeholder)
 // TODO: Restaurar UI completa se existia anteriormente (filtros, threads, ações em massa).
-import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+
 import { BlogSubnav } from '@/components/admin/BlogSubnav';
 
 interface CommentRow { id:string; post_id:string; author?:string|null; content?:string|null; status?:string|null; created_at?:string; }

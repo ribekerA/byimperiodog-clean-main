@@ -103,7 +103,7 @@ function collectTocPlugin() {
 
 // Utilidade para avaliar código resultante em runtime (edge-safe se evitar eval global)
 export function evaluateMdx(code: string, components: Record<string, unknown> = {}) {
-  // eslint-disable-next-line no-new-func
+
   const fn = new Function(String(code));
   return fn({ ...runtime, components });
 }

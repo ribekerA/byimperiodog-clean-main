@@ -1,4 +1,5 @@
 import { generateDeepInsights } from "@/lib/ai/deep-insights";
+
 import type { AIInsightPayload } from "./AIInsightsPanel";
 
 export function mapDeepInsightsToPayload(data: any): AIInsightPayload {

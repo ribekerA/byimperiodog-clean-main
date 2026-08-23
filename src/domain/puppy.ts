@@ -1,7 +1,7 @@
 /**
  * @module domain/puppy
  * @description Entidade central do domínio: Filhote de Spitz Alemão (By Império Dog)
- * 
+ *
  * REGRA DE NEGÓCIO:
  * - Todos os filhotes são comercializados sob a marca "By Império Dog"
  * - A origem (própria ou externa) é APENAS para controle interno
@@ -34,11 +34,10 @@ export interface Puppy {
   color: Color; // Cor da pelagem
   sex: "male" | "female";
   birthDate: Date; // Data de nascimento
-  readyForAdoptionDate?: Date; // Data prevista de entrega, apos cumpridos os requisitos legais de comercializacao
-  
+
   // Medidas e porte
   currentWeight?: number; // Peso atual em kg
-  expectedAdultWeight?: number; // Peso adulto esperado (1.5 - 3.5 kg para Spitz Anão)
+  expectedAdultWeight?: number; // Estimativa individual; o padrão FCI exige peso proporcional ao tamanho
   currentHeight?: number; // Altura atual em cm
   expectedAdultHeight?: number; // Altura adulta esperada na cernelha (padrão FCI nº 97: 21 cm ± 3 cm)
   size: "toy" | "mini" | "standard"; // Classificação de porte
@@ -51,7 +50,7 @@ export interface Puppy {
   priceCents: number; // Preço em centavos (ex: 350000 = R$ 3.500,00)
   currency: "BRL"; // Moeda (sempre BRL)
   status: PuppyStatus; // Disponível, reservado, vendido, em breve
-  
+
   // Destaque e promoção
   isHighlighted: boolean; // Destaque no catálogo
   isFeatured: boolean; // Vitrine principal (homepage)
@@ -68,7 +67,7 @@ export interface Puppy {
   availableForShipping: boolean; // Aceita envio para outras cidades
   shippingCities?: City[]; // Cidades específicas que atende
   shippingNotes?: string; // Ex: "Entrega gratuita na Grande SP"
-  
+
   // ==========================================
   // MÍDIA E CONTEÚDO
   // ==========================================
@@ -89,17 +88,17 @@ export interface Puppy {
   hasPedigree: boolean; // Tem pedigree oficial
   pedigreeNumber?: string; // Número do pedigree oficial
   pedigreeUrl?: string; // URL do PDF do pedigree
-  
+
   vaccinationStatus: "up-to-date" | "partial" | "pending"; // Status de vacinação
   vaccinationDates?: Date[]; // Datas das vacinas aplicadas
   nextVaccinationDate?: Date; // Próxima vacina programada
-  
+
   hasMicrochip: boolean; // Tem microchip
   microchipId?: string; // ID do microchip
-  
+
   healthCertificateUrl?: string; // Atestado de saúde veterinário
   healthNotes?: string; // Observações de saúde (alergias, cuidados especiais)
-  
+
   // Linhagem
   parentsMale?: string; // Nome do pai
   parentsFemale?: string; // Nome da mãe
@@ -171,10 +170,6 @@ export class PuppyAge {
     return Math.floor(monthsDiff);
   }
 
-  isReadyForAdoption(minWeeks: number = 8): boolean {
-    return this.getWeeks() >= minWeeks;
-  }
-
   isPuppy(maxMonths: number = 12): boolean {
     return this.getMonths() <= maxMonths;
   }
@@ -189,11 +184,6 @@ export class PuppyAge {
     return weeks === 1 ? "1 semana" : `${weeks} semanas`;
   }
 
-  getReadyForAdoptionDate(minWeeks: number = 8): Date {
-    const readyDate = new Date(this.birthDate);
-    readyDate.setDate(readyDate.getDate() + minWeeks * 7);
-    return readyDate;
-  }
 }
 
 // ==========================================
@@ -277,142 +267,6 @@ export const PuppyHelpers = {
       .replace(/^-+|-+$/g, ""); // Remove hífens nas pontas
 
     return `${normalized}-spitz-alemao-${sexLabel}-${color}`;
-  },
-
-  /**
-   * Verifica se filhote está disponível para venda
-   */
-  isAvailable(puppy: Puppy): boolean {
-    if (puppy.status !== "available") return false;
-
-    // Verifica se reserva expirou
-    if (puppy.reservedAt && puppy.reservationExpiresAt) {
-      const now = new Date();
-      if (now > puppy.reservationExpiresAt) {
-        return true; // Reserva expirada, volta a ficar disponível
-      }
-      return false;
-    }
-
-    return true;
-  },
-
-  /**
-   * Calcula desconto ativo
-   */
-  calculateDiscount(puppy: Puppy): { hasDiscount: boolean; savedCents: number; savedReais: number } {
-    if (!puppy.discountPercentage || !puppy.originalPriceCents) {
-      return { hasDiscount: false, savedCents: 0, savedReais: 0 };
-    }
-
-    const savedCents = puppy.originalPriceCents - puppy.priceCents;
-    return {
-      hasDiscount: true,
-      savedCents,
-      savedReais: savedCents / 100,
-    };
-  },
-
-  /**
-   * Gera título SEO otimizado
-   */
-  generateSeoTitle(puppy: Puppy): string {
-    const sexLabel = puppy.sex === "male" ? "Macho" : "Fêmea";
-    const colorCapitalized = puppy.color.charAt(0).toUpperCase() + puppy.color.slice(1);
-
-    return `${puppy.name} • Spitz Alemão Anão ${sexLabel} ${colorCapitalized} | By Império Dog`;
-  },
-
-  /**
-   * Gera descrição SEO otimizada
-   */
-  generateSeoDescription(puppy: Puppy): string {
-    const sexLabel = puppy.sex === "male" ? "macho" : "fêmea";
-    const price = PuppyPrice.fromCents(puppy.priceCents).format();
-
-    return `Conheça ${puppy.name}, filhote de Spitz Alemão Anão ${puppy.color} ${sexLabel}. ${price}. Registro oficial, entrega segura e suporte pós-venda. By Império Dog.`;
-  },
-
-  /**
-   * Gera keywords SEO
-   */
-  generateSeoKeywords(puppy: Puppy): string[] {
-    const sexLabel = puppy.sex === "male" ? "macho" : "fêmea";
-
-    return [
-      `spitz alemão ${puppy.color}`,
-      `lulu da pomerânia ${sexLabel}`,
-      `filhote spitz ${puppy.city}`,
-      `spitz alemão anão ${puppy.color}`,
-      `comprar spitz alemão ${puppy.state.toLowerCase()}`,
-      `by império dog ${puppy.color}`,
-      `spitz ${sexLabel} registro oficial`,
-    ];
-  },
-
-  /**
-   * Identifica filhotes que precisam de atenção (marketing)
-   */
-  needsAttention(puppy: Puppy): { needsAttention: boolean; reasons: string[] } {
-    const reasons: string[] = [];
-    const age = PuppyAge.fromDate(puppy.birthDate);
-
-    // Mais de 6 meses sem vender
-    if (age.getMonths() > 6 && puppy.status === "available") {
-      reasons.push("Mais de 6 meses sem venda");
-    }
-
-    // Poucas visualizações
-    if (puppy.viewCount < 50) {
-      reasons.push("Poucas visualizações (< 50)");
-    }
-
-    // Sem imagens
-    if (!puppy.images || puppy.images.length === 0) {
-      reasons.push("Sem imagens");
-    }
-
-    // Preço muito alto comparado à média
-    const avgPrice = 350000; // R$ 3.500 (média)
-    if (puppy.priceCents > avgPrice * 1.5) {
-      reasons.push("Preço acima da média");
-    }
-
-    return {
-      needsAttention: reasons.length > 0,
-      reasons,
-    };
-  },
-
-  /**
-   * Formata data de nascimento para exibição
-   */
-  formatBirthDate(birthDate: Date, locale: string = "pt-BR"): string {
-    return new Intl.DateTimeFormat(locale, {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-    }).format(birthDate);
-  },
-
-  /**
-   * Calcula disponibilidade para adoção
-   */
-  getAdoptionAvailability(birthDate: Date): {
-    isReady: boolean;
-    readyDate: Date;
-    daysUntilReady: number;
-  } {
-    const age = PuppyAge.fromDate(birthDate);
-    const isReady = age.isReadyForAdoption(8);
-    const readyDate = age.getReadyForAdoptionDate(8);
-    const now = new Date();
-    const daysUntilReady = Math.max(
-      0,
-      Math.ceil((readyDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-    );
-
-    return { isReady, readyDate, daysUntilReady };
   },
 };
 

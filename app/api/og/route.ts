@@ -37,4 +37,4 @@ export async function GET(req: Request) {
 function escapeHtml(s: string) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
- 
+

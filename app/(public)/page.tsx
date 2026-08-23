@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import ColorGallery from "@/components/sections/ColorGallery";
+import {
+  ClientOnlyAiMatchmakerChat,
+  ClientOnlyTextTestimonials,
+  ClientOnlyTestimonials,
+} from "@/components/sections/HomeClientOnly";
 import HomeFAQ from "@/components/sections/HomeFAQ";
 import NinhadaAlert from "@/components/sections/NinhadaAlert";
 import PriceTransparency from "@/components/sections/PriceTransparency";
-import TextTestimonials from "@/components/sections/TextTestimonials";
 import VideoHero from "@/components/sections/VideoHero";
 import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
 import { puppiesPublicados } from "@/content/puppies-static";
@@ -19,17 +20,6 @@ import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildLocalBusinessLD, buildFAQLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
-
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  ssr: false,
-  loading: () => null,
-});
-
-// AI Matchmaker substitui o quiz estático (fallback para quiz se Groq indisponível)
-const AiMatchmakerChat = dynamic(() => import("@/components/sections/AiMatchmakerChat"), {
-  ssr: false,
-  loading: () => null,
-});
 
 export const metadata: Metadata = {
   // O `template: '%s | By Império Dog'` fica em baseSiteMetadata, no layout do
@@ -152,20 +142,16 @@ export default function HomePage() {
 
         {/* ── 2. SOCIAL PROOF BAR ────────────────────────────────────────────── */}
         <div className="border-b border-zinc-100 bg-white py-5 overflow-hidden">
-          <StaggerContainer
-            className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-10 gap-y-2 px-5 text-sm text-zinc-500"
-            stagger={0.07}
-            delay={0.1}
-          >
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-10 gap-y-2 px-5 text-sm text-zinc-500">
             {TRUST_SIGNALS.map((signal) => (
-              <StaggerItem key={signal}>
+              <div key={signal}>
                 <span className="flex items-center gap-1.5">
                   <span className="text-emerald-600" aria-hidden="true">✓</span>
                   {signal}
                 </span>
-              </StaggerItem>
+              </div>
             ))}
-          </StaggerContainer>
+          </div>
         </div>
 
         {/* ── 3. FILHOTES EM DESTAQUE ─────────────────────────────────────────── */}
@@ -173,7 +159,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-7xl">
 
             {/* Header da seção */}
-            <ScrollReveal className="mx-auto mb-8 max-w-xl px-5 text-center sm:mb-12 sm:px-8">
+            <div className="mx-auto mb-8 max-w-xl px-5 text-center sm:mb-12 sm:px-8">
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
                 Filhotes disponíveis
               </p>
@@ -183,7 +169,7 @@ export default function HomePage() {
               <p className="mt-3 text-sm text-zinc-600 sm:text-base">
                 Filhotes disponíveis pela By Império Dog, com acompanhamento veterinário e a documentação descrita em contrato.
               </p>
-            </ScrollReveal>
+            </div>
 
             {/* ── Lista de filhotes — UMA única instância no DOM ──────────────
                 Uma coluna no celular, um filhote por vez ocupando a largura
@@ -199,12 +185,8 @@ export default function HomePage() {
                 havia mais coisa à direita. Empilhado, o dedo faz o gesto que
                 já ia fazer e cada filhote chega em tamanho de vitrine. */}
             <div className="px-5 sm:px-8">
-              <StaggerContainer
-                className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4"
-                stagger={0.12}
-                delay={0.15}
-              >
-                {featured.map((puppy, i) => {
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+                {featured.map((puppy) => {
                   const corLabel = (puppy as any).cor ?? puppy.color ?? "";
                   const sexRaw = puppy.sex ?? (puppy as any).gender ?? "";
                   const sexLabel = sexRaw === "female" ? "Fêmea" : sexRaw === "male" ? "Macho" : "";
@@ -219,7 +201,7 @@ export default function HomePage() {
                     utmContent: puppy.id,
                   });
                   return (
-                    <StaggerItem key={puppy.id}>
+                    <div key={puppy.id}>
                       <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-900/5 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                         <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
                           {/* 4/5 em qualquer tela. O quadrado existia para
@@ -241,7 +223,6 @@ export default function HomePage() {
                                 className="object-cover transition duration-500 group-hover:scale-105"
                                 style={{ objectPosition: focoDaFoto(cover) }}
                                 sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 25vw"
-                                priority={i < 2}
                               />
                             )}
                             <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${isReserved ? "bg-amber-500" : "bg-emerald-500"}`}>
@@ -293,36 +274,38 @@ export default function HomePage() {
                           </Link>
                         </div>
                       </article>
-                    </StaggerItem>
+                    </div>
                   );
                 })}
-              </StaggerContainer>
+              </div>
 
               {/* Dizia "Ver todos os filhotes disponíveis" quando a seção
                   mostrava 4 de 7 — e continuar dizendo isso agora seria prometer
                   uma página que não tem nada de novo. O que /filhotes tem e a
                   home não tem é o filtro por cor, então é isso que o botão
                   oferece. */}
-              <ScrollReveal delay={0.2} className="mt-8 text-center sm:mt-12">
+              <div className="mt-8 text-center sm:mt-12">
                 <Link
                   href="/filhotes"
                   className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full border-2 border-zinc-200 px-8 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
                 >
                   Filtrar filhotes por cor →
                 </Link>
-              </ScrollReveal>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ── 4. GALERIA DE CORES ─────────────────────────────────────────────── */}
-        <ColorGallery />
+        <div className="home-deferred-section">
+          <ColorGallery />
+        </div>
 
         {/* ── 5. DIFERENCIAIS ─────────────────────────────────────────────────── */}
-        <section className="bg-white py-14 sm:py-28 overflow-hidden" aria-labelledby="diff-heading">
+        <section className="home-deferred-section bg-white py-14 sm:py-28 overflow-hidden" aria-labelledby="diff-heading">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
 
-            <ScrollReveal className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
+            <div className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável</p>
               <h2 id="diff-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
                 Por que a By Império Dog?
@@ -330,15 +313,11 @@ export default function HomePage() {
               <p className="mt-3 text-zinc-600 text-sm sm:text-base">
                 Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
               </p>
-            </ScrollReveal>
+            </div>
 
-            <StaggerContainer
-              className="grid gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3"
-              stagger={0.08}
-              delay={0.1}
-            >
+            <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {DIFFERENTIALS.map(({ emoji, title, body }) => (
-                <StaggerItem key={title}>
+                <div key={title}>
                   <div className="group flex h-full gap-3 sm:gap-4 rounded-2xl border border-zinc-100 bg-white p-4 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md">
                     <div
                       className="mt-0.5 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-lg sm:text-xl transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110"
@@ -354,46 +333,46 @@ export default function HomePage() {
                       <dd className="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-600">{body}</dd>
                     </dl>
                   </div>
-                </StaggerItem>
+                </div>
               ))}
-            </StaggerContainer>
+            </div>
           </div>
         </section>
 
         {/* ── 6. AI MATCHMAKER ────────────────────────────────────────────────── */}
-        <ScrollReveal variant="scaleIn" className="bg-[var(--bg)]">
-          <AiMatchmakerChat />
-        </ScrollReveal>
+        <div className="home-deferred-section bg-[var(--bg)]">
+          <ClientOnlyAiMatchmakerChat />
+        </div>
 
         {/* ── 7. PROVA SOCIAL ─────────────────────────────────────────────────── */}
-        <div className="bg-white overflow-hidden">
-          <ScrollReveal>
-            <TextTestimonials />
-          </ScrollReveal>
-          <ScrollReveal delay={0.1} className="border-t border-zinc-100 pb-4">
-            <Testimonials title="Álbum das famílias" />
-          </ScrollReveal>
+        <div className="home-deferred-section bg-white overflow-hidden">
+          <div>
+            <ClientOnlyTextTestimonials />
+          </div>
+          <div className="border-t border-zinc-100 pb-4">
+            <ClientOnlyTestimonials title="Álbum das famílias" />
+          </div>
         </div>
 
         {/* ── 8. TRANSPARÊNCIA DE PREÇO ───────────────────────────────────────── */}
-        <ScrollReveal className="bg-[var(--bg)]" variant="fadeUp">
+        <div className="home-deferred-section bg-[var(--bg)]">
           <PriceTransparency />
-        </ScrollReveal>
+        </div>
 
         {/* ── 9. ALERTA DE NINHADA ────────────────────────────────────────────── */}
-        <ScrollReveal variant="scaleIn" className="bg-[var(--bg)] px-4 py-16 sm:px-6 lg:px-10">
+        <div className="home-deferred-section bg-[var(--bg)] px-4 py-16 sm:px-6 lg:px-10">
           <div className="mx-auto max-w-5xl">
             <NinhadaAlert />
           </div>
-        </ScrollReveal>
+        </div>
 
         {/* ── 10. FAQ — SEO semântico, voice search, AI overviews ─────────────── */}
-        <ScrollReveal variant="fadeUp">
+        <div className="home-deferred-section">
           <HomeFAQ />
-        </ScrollReveal>
+        </div>
 
         {/* ── 10.5. RECURSOS SOBRE A RAÇA — PageRank distribution ─────────── */}
-        <ScrollReveal variant="fadeUp">
+        <div className="home-deferred-section">
           <section className="bg-zinc-50 border-t border-zinc-100 py-14 sm:py-20" aria-labelledby="recursos-heading">
             <div className="mx-auto max-w-5xl px-5 sm:px-8">
               <div className="mb-8 text-center">
@@ -421,10 +400,10 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-        </ScrollReveal>
+        </div>
 
         {/* ── 11. CTA DE GUIAS ────────────────────────────────────────────────── */}
-        <ScrollReveal className="border-t border-zinc-200 bg-white py-14" variant="fadeUp">
+        <div className="home-deferred-section border-t border-zinc-200 bg-white py-14">
           <div className="mx-auto max-w-3xl px-5 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Conteúdo educativo</p>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
@@ -440,7 +419,7 @@ export default function HomePage() {
               Ver todos os guias →
             </Link>
           </div>
-        </ScrollReveal>
+        </div>
       </div>
     </>
   );

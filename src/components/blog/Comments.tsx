@@ -59,7 +59,7 @@ export default function Comments({ postId }: CommentsProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.content.trim()) {
       pushToast({ message: 'Por favor, escreva seu comentário', type: 'error' });
       return;
@@ -85,9 +85,9 @@ export default function Comments({ postId }: CommentsProps) {
 
       if (!response.ok) throw new Error('Erro ao enviar comentário');
 
-      pushToast({ 
-        message: 'Comentário enviado! Aguarde aprovação da moderação.', 
-        type: 'success' 
+      pushToast({
+        message: 'Comentário enviado! Aguarde aprovação da moderação.',
+        type: 'success'
       });
 
       setFormData({ author_name: '', author_email: '', content: '' });

@@ -8,7 +8,7 @@ import { cn } from '@/lib/cn';
 
 /**
  * Spinner - Indicador de carregamento
- * 
+ *
  * @example
  * <Spinner size="sm" />
  * <Spinner size="lg" variant="brand" />

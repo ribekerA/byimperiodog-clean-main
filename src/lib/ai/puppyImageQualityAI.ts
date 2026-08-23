@@ -9,6 +9,8 @@ import { z } from "zod";
 import { createLogger } from "@/lib/logger";
 
 const logger = createLogger("ai:puppy-image-quality");
+type SharpImage = ReturnType<typeof sharp>;
+type SharpStats = Awaited<ReturnType<SharpImage["stats"]>>;
 
 export type PuppyImageAIResult = {
   score: number;
@@ -216,20 +218,20 @@ async function toBuffer(input: File | string | Buffer): Promise<Buffer> {
   throw new Error("Unsupported file input for analyzePuppyImage");
 }
 
-function calculateBrightness(stats: sharp.Stats): number {
+function calculateBrightness(stats: SharpStats): number {
   const rgb = stats.channels?.slice(0, 3) ?? [];
   if (!rgb.length) return 140;
   const avg = rgb.reduce((sum, ch) => sum + ch.mean, 0) / rgb.length;
   return avg;
 }
 
-function calculateNoise(stats: sharp.Stats): number {
+function calculateNoise(stats: SharpStats): number {
   const rgb = stats.channels?.slice(0, 3) ?? [];
   if (!rgb.length) return 0;
   return rgb.reduce((sum, ch) => sum + ch.stdev, 0) / rgb.length;
 }
 
-async function measureSharpness(image: sharp.Sharp): Promise<number> {
+async function measureSharpness(image: SharpImage): Promise<number> {
   try {
     const { data, info } = await image
       .clone()

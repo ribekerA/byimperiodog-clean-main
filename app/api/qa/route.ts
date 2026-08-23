@@ -9,7 +9,7 @@ interface QaRequestBody { q?: string }
 interface BlogPostRow { id: string; slug: string; title: string; content_mdx?: string | null; excerpt?: string | null }
 interface ChunkCandidate { id: string; slug: string; title: string; content: string; anchor?: string; offset: number; embedding?: number[] }
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 // Simple QA endpoint: retrieves candidate chunks (naive split) then ranks.
 // Simple in-memory embedding cache (query -> vector) ephemeral

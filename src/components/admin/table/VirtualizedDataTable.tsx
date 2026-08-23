@@ -110,7 +110,7 @@ export function VirtualizedDataTable<TData extends { id?: RowId }>(props: Virtua
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <div {...divProps} className={"rounded-2xl border border-[var(--brand-tint-100)] bg-white " + (className ?? "")}> 
+    <div {...divProps} className={"rounded-2xl border border-[var(--brand-tint-100)] bg-white " + (className ?? "")}>
       {/* Header */}
       <div role="rowgroup" className="sticky top-0 z-10 border-b border-[var(--brand-tint-100)] bg-white/95 backdrop-blur">
         <div role="row" className="grid grid-cols-[auto,repeat(var(--cols),minmax(0,1fr))] items-center gap-3 px-3 py-2 text-xs font-semibold text-zinc-600"

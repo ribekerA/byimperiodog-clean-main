@@ -21,8 +21,8 @@ export const FOUNDING_YEAR = 2013;
  * outro rótulo. Nenhuma planilha, CRM ou plataforma pública sustenta o valor.
  *
  * Prova social do canil hoje é o que se verifica: o ano de fundação daqui de
- * cima, o registro oficial, o contrato de compra e venda, os laudos e as fotos
- * das famílias que autorizaram a publicação. Se um dia houver contagem real e
+ * cima, o pedigree, o contrato de compra e venda, a consulta veterinária, o
+ * hemograma e as fotos das famílias que autorizaram a publicação. Se um dia houver contagem real e
  * auditável, ela entra aqui — como dado, com fonte, e não escrita à mão em
  * cada componente.
  */
@@ -39,7 +39,7 @@ export const BRAND = {
   name: "By Império Dog",
   legalName: "By Império Dog Criação de Spitz Alemão",
   slogan: "Criadora especializada em Spitz Alemão Anão (Lulu da Pomerânia)",
-  
+
   // Localização sede
   headquarters: {
     city: "Bragança Paulista",
@@ -54,17 +54,29 @@ export const BRAND = {
     email: "contato@byimperiodog.com.br",
   },
 
-  // Redes sociais
-  social: {
-    instagram: "@byimperiodog",
-    facebook: "byimperiodog",
-    youtube: "@byimperiodog",
-  },
-
   // URLs
   urls: {
     site: "https://byimperiodog.com.br",
     whatsappLink: "https://wa.me/5511968633239",
+  },
+
+  /**
+   * Fatos compartilhados pelos emissores de dados estruturados.
+   *
+   * `sameAs` inclui apenas perfil confirmado pelo canal publico vigente. As
+   * demais redes devem voltar somente depois da confirmacao das URLs oficiais.
+   */
+  schema: {
+    alternateNames: ["Canil By Império Dog", "Império Dog"],
+    description:
+      `By Império Dog, em Bragança Paulista, SP, com criação de Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Filhotes vacinados e vermifugados, com consulta veterinária, hemograma completo e pedigree.`,
+    knowsAbout: [
+      "Spitz Alemão Anão",
+      "Lulu da Pomerânia",
+      "Pomeranian",
+      "socialização de filhotes",
+    ],
+    sameAs: ["https://www.instagram.com/byimperiodog"],
   },
 } as const;
 
@@ -75,27 +87,14 @@ export const PRODUCT_CONFIG = {
   breed: {
     official: "Spitz Alemão Anão",
     alternative: "Lulu da Pomerânia",
-    variation: "Spitz Alemão Toy",
   },
 
-  // Especificações técnicas da raça
+  // Padrão oficial FCI nº 97 para Zwergspitz/Pomeranian.
   specs: {
-    adultHeightMin: 18, // cm
-    adultHeightMax: 22, // cm
-    adultWeightMin: 1.5, // kg
-    adultWeightMax: 3.5, // kg
+    officialAdultHeight: "21 cm ± 3 cm",
+    officialAdultWeight: "proporcional ao tamanho",
     lifeExpectancy: "12-16 anos",
     temperament: ["Alegre", "Inteligente", "Sociável", "Protetor", "Ativo"],
-  },
-
-  // Idades importantes
-  ages: {
-    // Referência de desenvolvimento, NAO requisito legal: a entrega depende do
-    // cumprimento dos requisitos sanitarios, de identificacao e documentais
-    // previstos na legislacao aplicavel (Lei Estadual SP 17.972/2024).
-    minWeeksForAdoption: 8,
-    idealWeeksForAdoption: 10, // 10 semanas (ideal)
-    maxMonthsForPuppy: 12, // Até 12 meses é considerado filhote
   },
 
   // Faixas de preço (em centavos).
@@ -109,155 +108,3 @@ export const PRODUCT_CONFIG = {
     averagePriceCents: FAIXA_PUBLICA.mediaCents,
   },
 } as const;
-
-/**
- * Regras de negócio para vendas
- */
-export const BUSINESS_RULES = {
-  // Reserva
-  reservation: {
-    durationDays: 7, // Reserva válida por 7 dias
-    depositPercentage: 30, // Sinal de 30%
-    requiresDeposit: true,
-  },
-
-  // Entrega
-  shipping: {
-    freeShippingCities: ["sao-paulo", "campinas", "braganca-paulista"] as const,
-    maxShippingDistanceKm: 500,
-    shippingPartners: ["Gollog", "Voe Pet", "Amigo Pet Express"],
-  },
-
-  // Garantias
-  warranties: {
-    healthGuaranteeDays: 90, // 90 dias de garantia de saúde
-    pedigreeIncluded: true,
-    lifetimeSupport: true, // Suporte pós-venda
-  },
-
-  // Documentação obrigatória
-  requiredDocuments: [
-    "Registro oficial",
-    "Carteira de vacinação",
-    "Atestado de saúde veterinário",
-    "Contrato de compra e venda",
-    "Termo de garantia",
-  ] as const,
-} as const;
-
-/**
- * Metas de negócio
- */
-export const BUSINESS_GOALS = {
-  daily: {
-    targetSales: 10, // Meta: 10 vendas/dia
-    minLeads: 50, // Mínimo 50 leads/dia
-    conversionRate: 0.2, // 20% de conversão lead → venda
-  },
-
-  monthly: {
-    targetRevenueCents: 10500000, // R$ 105.000/mês (10 vendas/dia * R$ 3.500 * 30 dias)
-    targetPuppiesListed: 100, // Manter 100 filhotes ativos
-  },
-
-  seo: {
-    targetKeywords: [
-      "comprar spitz alemão",
-      "lulu da pomerânia preço",
-      "spitz alemão anão filhote",
-      "criador de spitz alemão",
-    ],
-    targetCities: ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba"],
-    targetPositions: 3, // Top 3 no Google
-  },
-} as const;
-
-/**
- * Configurações de SEO e conteúdo
- */
-export const SEO_CONFIG = {
-  // Templates de título
-  titleTemplates: {
-    puppy: "{name} • {color} • {sex} | Spitz Alemão Anão | By Império Dog",
-    category: "Filhotes de Spitz Alemão Anão {category} | By Império Dog",
-    city: "Spitz Alemão Anão em {city} | Entrega Segura | By Império Dog",
-    color: "Spitz Alemão Anão {color} | Filhotes Disponíveis | By Império Dog",
-  },
-
-  // Descrições padrão
-  defaultDescriptions: {
-    puppy:
-      "Conheça {name}, filhote de Spitz Alemão Anão {color} {sex}. Registro oficial, suporte pós-venda e entrega segura. By Império Dog - criadora especializada.",
-    catalog:
-      "Filhotes de Spitz Alemão Anão com registro oficial, contrato e mentoria pós-venda. Entrega em todo Brasil. By Império Dog.",
-  },
-
-  // Schema.org types usados
-  schemaTypes: [
-    "Organization",
-    "LocalBusiness",
-    "Product",
-    "OfferCatalog",
-    "WebSite",
-    "BreadcrumbList",
-    "FAQPage",
-    "Article",
-  ] as const,
-} as const;
-
-/**
- * Helpers de configuração
- */
-export const ConfigHelpers = {
-  /**
-   * Verifica se uma cidade tem entrega gratuita
-   */
-  hasFreeShipping(city: string): boolean {
-    return (BUSINESS_RULES.shipping.freeShippingCities as readonly string[]).includes(city);
-  },
-
-  /**
-   * Calcula valor do sinal (30%)
-   */
-  calculateDeposit(priceCents: number): number {
-    return Math.round(priceCents * (BUSINESS_RULES.reservation.depositPercentage / 100));
-  },
-
-  /**
-   * Calcula data de expiração da reserva
-   */
-  calculateReservationExpiry(reservedAt: Date): Date {
-    const expiry = new Date(reservedAt);
-    expiry.setDate(expiry.getDate() + BUSINESS_RULES.reservation.durationDays);
-    return expiry;
-  },
-
-  /**
-   * Verifica se filhote está pronto para adoção (8+ semanas)
-   */
-  isReadyForAdoption(birthDate: Date): boolean {
-    const now = new Date();
-    const ageInDays = Math.floor((now.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24));
-    return ageInDays >= PRODUCT_CONFIG.ages.minWeeksForAdoption * 7;
-  },
-
-  /**
-   * Formata telefone para link WhatsApp
-   */
-  getWhatsAppLink(message?: string): string {
-    const phone = BRAND.contact.whatsapp.replace(/\D/g, "");
-    const encodedMessage = message ? `?text=${encodeURIComponent(message)}` : "";
-    return `https://wa.me/${phone}${encodedMessage}`;
-  },
-
-  /**
-   * Gera título SEO para filhote
-   */
-  generatePuppyTitle(data: { name: string; color: string; sex: "male" | "female" }): string {
-    const sexLabel = data.sex === "male" ? "Macho" : "Fêmea";
-    return SEO_CONFIG.titleTemplates.puppy
-      .replace("{name}", data.name)
-      .replace("{color}", data.color)
-      .replace("{sex}", sexLabel);
-  },
-};

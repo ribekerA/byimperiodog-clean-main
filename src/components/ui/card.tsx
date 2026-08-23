@@ -8,7 +8,7 @@ import { cn } from '@/lib/cn';
 
 /**
  * Card - Container reutilizável para agrupar conteúdo relacionado
- * 
+ *
  * Composição:
  * <Card>
  *   <CardHeader>
@@ -18,7 +18,7 @@ import { cn } from '@/lib/cn';
  *   <CardContent>Conteúdo principal</CardContent>
  *   <CardFooter>Ações</CardFooter>
  * </Card>
- * 
+ *
  * @example
  * <Card variant="elevated">
  *   <CardHeader>

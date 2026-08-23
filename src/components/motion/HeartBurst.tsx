@@ -14,6 +14,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useId, useState } from "react";
+
 import { isFavorited, toggleFavorite } from "@/lib/favorites";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────

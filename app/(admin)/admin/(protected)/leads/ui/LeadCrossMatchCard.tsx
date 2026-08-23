@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
 import { ArrowRight, Loader2, Shuffle } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
 
 import { useToast } from "@/components/ui/toast";
 

@@ -1,7 +1,8 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+
 import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 const customPixelSanitizer = (input: unknown) => {
   if (!Array.isArray(input)) return [] as Array<Record<string, unknown>>;

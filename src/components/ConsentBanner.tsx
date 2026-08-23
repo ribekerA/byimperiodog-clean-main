@@ -24,14 +24,14 @@ export default function ConsentBanner() {
   });
 
   useEffect(() => {
-    // Verifica se já tem consentimento salvo
-    if (!hasConsent()) {
-      setShow(true);
-    }
-    
-    // Carrega preferências atuais
-    const current = getCurrentConsent();
-    setPreferences(current);
+    const hydrationTimer = setTimeout(() => {
+      // A leitura acontece depois da hidratação para que o HTML do servidor não
+      // dependa do localStorage e permaneça igual ao primeiro render do cliente.
+      setShow(!hasConsent());
+      setPreferences(getCurrentConsent());
+    }, 0);
+
+    return () => clearTimeout(hydrationTimer);
   }, []);
 
   // Permite reabrir o painel a qualquer momento (link "Preferências de cookies"
@@ -66,7 +66,7 @@ export default function ConsentBanner() {
 
   const toggleCategory = (category: keyof ConsentPreferences) => {
     if (category === 'necessary') return; // Não pode desabilitar necessários
-    
+
     setPreferences((prev) => ({
       ...prev,
       [category]: !prev[category],
@@ -93,11 +93,12 @@ export default function ConsentBanner() {
                     🍪 Cookies e Privacidade
                   </h2>
                   <p id="consent-description" className="mt-1 text-sm text-gray-600 leading-relaxed">
-                    Usamos cookies essenciais e opcionais para melhorar sua experiência, 
-                    analisar nosso tráfego e personalizar conteúdo. Você pode escolher suas 
+                    Usamos cookies essenciais e opcionais para melhorar sua experiência,
+                    analisar nosso tráfego e personalizar conteúdo. Você pode escolher suas
                     preferências.{' '}
                     <Link
                       href="/politica-de-privacidade"
+                      prefetch={false}
                       className="underline hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 rounded"
                     >
                       Saiba mais
@@ -105,7 +106,7 @@ export default function ConsentBanner() {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <button
                   onClick={() => setShowSettings(true)}

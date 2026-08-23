@@ -1,5 +1,6 @@
-import React from 'react';
 import { notFound } from 'next/navigation';
+import React from 'react';
+
 import { BlogSubnav } from '@/components/admin/BlogSubnav';
 import { adminFetchSSR } from '@/lib/adminFetchSSR';
 
@@ -18,7 +19,8 @@ export async function generateMetadata(){
   return { robots: { index:false, follow:false }, title:'Preview Post' };
 }
 
-export default async function PreviewPage({ params }:{ params:{ id:string } }){
+export default async function PreviewPage(props:{ params: Promise<{ id:string }> }) {
+  const params = await props.params;
   const post = await fetchPost(params.id);
   if(!post) return notFound();
   const isDraft = post.status !== 'published';

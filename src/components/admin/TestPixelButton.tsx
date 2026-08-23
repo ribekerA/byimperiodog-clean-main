@@ -148,7 +148,7 @@ export function TestPixelButton({ pixelType, pixelId, className = '' }: TestPixe
     setTimeout(() => {
       const result = testPixel(pixelType, pixelId);
       setTesting(false);
-      
+
       if (result.success) {
         alert(`✅ ${result.message}`);
       } else {

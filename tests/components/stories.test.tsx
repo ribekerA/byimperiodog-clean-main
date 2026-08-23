@@ -1,6 +1,6 @@
-import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import React from "react";
 import { describe, expect, it, vi } from "vitest";
 
 // Ensure components compiled with the classic runtime find React on the global scope during tests.

@@ -8,7 +8,7 @@ import { cn } from '@/lib/cn';
 
 /**
  * Input - Campo de entrada de texto com validação e ícones
- * 
+ *
  * @example
  * <Input
  *   label="Nome"
@@ -27,26 +27,26 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  function Input({ 
-    className, 
-    label, 
-    helper, 
-    error, 
+  function Input({
+    className,
+    label,
+    helper,
+    error,
     leftIcon,
     rightIcon,
     type = 'text',
     id,
-    ...props 
+    ...props
   }, ref) {
     const generatedId = React.useId();
     const inputId = id || generatedId;
     const helperId = helper ? `${inputId}-helper` : undefined;
     const errorId = error ? `${inputId}-error` : undefined;
-    
+
     return (
       <div className="w-full space-y-2">
         {label && (
-          <label 
+          <label
             htmlFor={inputId}
             className="block text-sm font-medium text-[var(--text)]"
           >
@@ -54,15 +54,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {props.required && <span className="ml-1 text-[var(--error)]" aria-label="obrigatório">*</span>}
           </label>
         )}
-        
+
         <div className="relative">
           {leftIcon && (
             <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
               {leftIcon}
             </div>
           )}
-          
-          <input 
+
+          <input
             ref={ref}
             id={inputId}
             type={type}
@@ -73,29 +73,29 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'disabled:cursor-not-allowed disabled:opacity-50',
               !!leftIcon && 'pl-10',
               !!rightIcon && 'pr-10',
-              error 
-                ? 'border-[var(--error)] focus:ring-[var(--error)]' 
+              error
+                ? 'border-[var(--error)] focus:ring-[var(--error)]'
                 : 'border-[var(--border)]',
               className
-            )} 
+            )}
             aria-invalid={error ? 'true' : undefined}
             aria-describedby={cn(helperId, errorId)}
             {...props}
           />
-          
+
           {rightIcon && (
             <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">
               {rightIcon}
             </div>
           )}
         </div>
-        
+
         {helper && !error && (
           <p id={helperId} className="text-xs text-[var(--text-muted)]">
             {helper}
           </p>
         )}
-        
+
         {error && (
           <p id={errorId} className="text-xs text-[var(--error)]" role="alert">
             {error}

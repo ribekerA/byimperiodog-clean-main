@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
+
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // Endpoint ad-hoc para aplicar migration de seo_score se ainda não existir.

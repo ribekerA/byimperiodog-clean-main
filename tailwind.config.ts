@@ -1,5 +1,5 @@
-import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
+import type { Config } from "tailwindcss";
 
 export default {
   content: [
@@ -44,7 +44,7 @@ theme: {
       animation: {
         slideInDown: 'slideInDown 0.3s ease-out',
         fadeIn: 'fadeIn 0.4s ease forwards',
-             
+
       },
       keyframes: {
         slideInDown: {
@@ -83,5 +83,5 @@ theme: {
 
 
 
-  
+
 } satisfies Config;

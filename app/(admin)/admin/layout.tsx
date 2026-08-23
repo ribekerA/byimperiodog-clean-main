@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 
 import "../../globals.css";
 import "../../../design-system/tokens.css";
+
 import ToastContainer from "@/components/Toast";
-import { dmSans, inter } from "../../fonts";
+
+import { dmSans } from "../../fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +30,7 @@ export const revalidate = 0;
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable} ${inter.variable}`}>
+    <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable}`}>
       <head>
         <meta charSet="utf-8" />
       </head>
@@ -39,4 +41,3 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </html>
   );
 }
-

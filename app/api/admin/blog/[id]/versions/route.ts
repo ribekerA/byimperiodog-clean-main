@@ -5,12 +5,12 @@ import { blogRepo } from "@/lib/db";
 
 export async function GET(
   req: Request,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   const auth = requireAdmin(req);
   if (auth) return auth;
 
-  const postId = context.params.id;
+  const postId = (await context.params).id;
   if (!postId) {
     return NextResponse.json({ error: "missing_post_id" }, { status: 400 });
   }

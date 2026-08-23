@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
 import { AlertCircle, Dog, Loader2, Sparkles } from "lucide-react";
+import { useEffect, useState, useTransition } from "react";
 
 import { useToast } from "@/components/ui/toast";
 

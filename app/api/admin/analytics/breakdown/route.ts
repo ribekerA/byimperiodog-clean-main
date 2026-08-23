@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
-import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
 
 const supa = () => createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
 

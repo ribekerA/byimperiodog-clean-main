@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { recommendPuppiesForLead } from "@/lib/puppyRecommender";
 import { requireAdmin } from "@/lib/adminAuth";
+import { recommendPuppiesForLead } from "@/lib/puppyRecommender";
 
 export async function POST(req: Request) {
   const guard = requireAdmin(req);

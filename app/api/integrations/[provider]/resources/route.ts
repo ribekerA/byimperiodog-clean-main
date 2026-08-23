@@ -5,7 +5,8 @@ import { requireAdmin } from "@/lib/adminAuth";
 import type { ProviderKey } from "@/lib/tracking/providers/types";
 import { listResourcesByProvider } from "@/lib/tracking/resources";
 
-export async function GET(req: NextRequest, { params }: { params: { provider: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ provider: string }> }) {
+  const params = await props.params;
   const auth = requireAdmin(req);
   if (auth) return auth;
 

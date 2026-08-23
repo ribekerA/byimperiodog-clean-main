@@ -3,10 +3,8 @@ import { NextResponse } from "next/server";
 
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function DELETE(
-  _request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_request: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   try {
     const supabase = supabaseAdmin();
     const { id } = params;

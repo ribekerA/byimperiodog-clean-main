@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 
 import { getProvider } from "@/lib/tracking/providers/registry";
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { provider: string } }
-) {
+export async function GET(_req: Request, props: { params: Promise<{ provider: string }> }) {
+  const params = await props.params;
   const adapter = getProvider(params.provider);
   if (!adapter) {
     return NextResponse.json({ error: "unsupported_provider" }, { status: 400 });

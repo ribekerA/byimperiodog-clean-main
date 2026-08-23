@@ -23,7 +23,7 @@ export function ChartCard({ title, description, type, labels, datasets, loading,
     const last = primary?.data.at(-1);
     const max = Math.max(...primary.data);
     return `${title}: ${primary.label||'série principal'} último valor ${last}, pico ${max}. Total pontos ${primary.data.length}.`;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   },[isEmpty, datasets, title]);
   const descId = React.useId();
   const tipId = React.useId();

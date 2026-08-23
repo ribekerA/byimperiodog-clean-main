@@ -4,10 +4,11 @@
  * Script de diagnóstico para testar query de posts do blog
  * Verifica se os posts existem no banco e se estão sendo retornados corretamente
  */
-import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+
+import { createClient } from '@supabase/supabase-js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const envPath = join(__dirname, '..', '.env.local');

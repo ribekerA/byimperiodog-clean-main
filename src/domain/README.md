@@ -40,10 +40,9 @@ interface Puppy {
   color: Color; // Enum de cores (creme, branco, laranja, etc)
   sex: "male" | "female";
   birthDate: Date;
-  readyForAdoptionDate?: Date;
   
   currentWeight?: number; // kg
-  expectedAdultWeight?: number; // 1.5 - 3.5 kg
+  expectedAdultWeight?: number; // estimativa individual
   currentHeight?: number; // cm
   expectedAdultHeight?: number; // cernelha, padrão FCI nº 97: 21 cm ± 3 cm
   size: "toy" | "mini" | "standard";
@@ -158,13 +157,10 @@ age.getDays(); // 60
 age.getWeeks(); // 8
 age.getMonths(); // 2
 
-// Validações
-age.isReadyForAdoption(8); // true (mínimo 8 semanas)
 age.isPuppy(12); // true (até 12 meses é filhote)
 
 // Formatação
 age.formatAge(); // "2 meses"
-age.getReadyForAdoptionDate(8); // Data em que completa 8 semanas
 ```
 
 ---
@@ -226,32 +222,6 @@ const filters: PuppyFilters = {
 // Geração de slug
 PuppyHelpers.generateSlug("Thor", "laranja", "male");
 // → "thor-spitz-alemao-macho-laranja"
-
-// Verificação de disponibilidade
-PuppyHelpers.isAvailable(puppy);
-// → true (se status=available e reserva não expirou)
-
-// Desconto
-PuppyHelpers.calculateDiscount(puppy);
-// → { hasDiscount: true, savedCents: 35000, savedReais: 350 }
-
-// SEO
-PuppyHelpers.generateSeoTitle(puppy);
-// → "Thor • Spitz Alemão Anão Macho Laranja | By Império Dog"
-
-PuppyHelpers.generateSeoDescription(puppy);
-// → "Conheça Thor, filhote de Spitz Alemão Anão laranja macho. R$ 3.500,00. Pedigree oficial..."
-
-PuppyHelpers.generateSeoKeywords(puppy);
-// → ["spitz alemão laranja", "lulu da pomerânia macho", ...]
-
-// Alertas
-PuppyHelpers.needsAttention(puppy);
-// → { needsAttention: true, reasons: ["Mais de 6 meses sem venda", "Poucas visualizações"] }
-
-// Adoção
-PuppyHelpers.getAdoptionAvailability(birthDate);
-// → { isReady: true, readyDate: Date(...), daysUntilReady: 0 }
 ```
 
 ---
@@ -380,15 +350,14 @@ const BRAND = {
     email: "contato@byimperiodog.com.br",
   },
 
-  social: {
-    instagram: "@byimperiodog",
-    facebook: "byimperiodog",
-    youtube: "@byimperiodog",
+  urls: {
+    site: "https://byimperiodog.com.br",
+    whatsappLink: "https://wa.me/5511968633239",
   },
 
-  urls: {
-    site: "https://www.byimperiodog.com.br",
-    whatsappLink: "https://wa.me/5511968633239",
+  schema: {
+    alternateNames: ["Canil By Império Dog", "Império Dog"],
+    sameAs: ["https://www.instagram.com/byimperiodog"],
   },
 };
 ```
@@ -403,105 +372,14 @@ const PRODUCT_CONFIG = {
   },
 
   specs: {
-    adultHeightMin: 18, // cm
-    adultHeightMax: 22,
-    adultWeightMin: 1.5, // kg
-    adultWeightMax: 3.5,
+    officialAdultHeight: "21 cm ± 3 cm",
+    officialAdultWeight: "proporcional ao tamanho",
     lifeExpectancy: "12-16 anos",
     temperament: ["Alegre", "Inteligente", "Sociável", "Protetor", "Ativo"],
   },
 
-  ages: {
-    minWeeksForAdoption: 8, // Mínimo legal
-    idealWeeksForAdoption: 10,
-    maxMonthsForPuppy: 12,
-  },
-
-  pricing: {
-    minPriceCents: 200000, // R$ 2.000
-    maxPriceCents: 800000, // R$ 8.000
-    averagePriceCents: 350000, // R$ 3.500
-  },
+  pricing: { /* derivado de domain/pricing */ },
 };
-```
-
-### `BUSINESS_RULES`
-
-```typescript
-const BUSINESS_RULES = {
-  reservation: {
-    durationDays: 7,
-    depositPercentage: 30,
-    requiresDeposit: true,
-  },
-
-  shipping: {
-    freeShippingCities: ["sao-paulo", "campinas", "braganca-paulista"],
-    maxShippingDistanceKm: 500,
-    shippingPartners: ["Gollog", "Voe Pet", "Amigo Pet Express"],
-  },
-
-  warranties: {
-    healthGuaranteeDays: 90,
-    pedigreeIncluded: true,
-    lifetimeSupport: true,
-  },
-
-  requiredDocuments: [
-    "Pedigree oficial",
-    "Carteira de vacinação",
-    "Atestado de saúde veterinário",
-    "Contrato de compra e venda",
-    "Termo de garantia",
-  ],
-};
-```
-
-### `BUSINESS_GOALS`
-
-```typescript
-const BUSINESS_GOALS = {
-  daily: {
-    targetSales: 10, // 10 vendas/dia
-    minLeads: 50,
-    conversionRate: 0.2, // 20%
-  },
-
-  monthly: {
-    targetRevenueCents: 10500000, // R$ 105.000/mês
-    targetPuppiesListed: 100,
-  },
-
-  seo: {
-    targetKeywords: ["comprar spitz alemão", "lulu da pomerânia preço", ...],
-    targetCities: ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba"],
-    targetPositions: 3, // Top 3 no Google
-  },
-};
-```
-
-### `ConfigHelpers`
-
-```typescript
-// Entrega gratuita
-ConfigHelpers.hasFreeShipping("sao-paulo"); // true
-
-// Sinal (30%)
-ConfigHelpers.calculateDeposit(350000); // 105000 (R$ 1.050)
-
-// Expiração de reserva
-ConfigHelpers.calculateReservationExpiry(new Date()); // +7 dias
-
-// Pronto para adoção
-ConfigHelpers.isReadyForAdoption(new Date("2024-10-01")); // true (8+ semanas)
-
-// WhatsApp
-ConfigHelpers.getWhatsAppLink("Olá! Gostaria de informações sobre filhotes.");
-// → "https://wa.me/5511968633239?text=..."
-
-// SEO
-ConfigHelpers.generatePuppyTitle({ name: "Thor", color: "Laranja", sex: "male" });
-// → "Thor • Laranja • Macho | Spitz Alemão Anão | By Império Dog"
 ```
 
 ---
@@ -536,9 +414,6 @@ import {
   // Config
   BRAND,
   PRODUCT_CONFIG,
-  BUSINESS_RULES,
-  BUSINESS_GOALS,
-  ConfigHelpers,
 } from "@/domain";
 ```
 
@@ -553,7 +428,7 @@ const newPuppy: CreatePuppyDTO = {
   priceCents: 350000,
   city: "sao-paulo",
   state: "SP",
-  title: PuppyHelpers.generateSeoTitle({ name: "Thor", color: "laranja", sex: "male" }),
+  title: "Thor — Spitz Alemão Anão Macho Laranja",
   description: "...",
   images: ["url1"],
   source: "own-breeding",
@@ -578,18 +453,14 @@ const filters: PuppyFilters = {
 const sortBy: PuppySortBy = "price-asc";
 ```
 
-### Exemplo: Validações
+### Exemplo: Validação de preço
 
 ```typescript
-// Idade
-const age = PuppyAge.fromDate(puppy.birthDate);
-if (!age.isReadyForAdoption(8)) {
-  throw new Error("Filhote ainda não pode ser adotado (mínimo 8 semanas)");
-}
-
 // Preço
 const price = PuppyPrice.fromCents(puppy.priceCents);
-if (!price.isInRange(PRODUCT_CONFIG.pricing.minPriceCents, PRODUCT_CONFIG.pricing.maxPriceCents)) {
+const min = PuppyPrice.fromCents(PRODUCT_CONFIG.pricing.minPriceCents);
+const max = PuppyPrice.fromCents(PRODUCT_CONFIG.pricing.maxPriceCents);
+if (!price.isInRange(min, max)) {
   throw new Error("Preço fora da faixa permitida");
 }
 ```

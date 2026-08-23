@@ -51,7 +51,7 @@ export async function listPuppiesCatalog(
   } else {
     query = query.in("status", ["disponivel", "reservado"]);
   }
-  
+
   // Não filtra por sexo no servidor pois a coluna pode ser 'sexo' (PT-BR).
   // O filtro por sexo será aplicado client-side após normalização.
 

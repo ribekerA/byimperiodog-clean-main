@@ -119,14 +119,14 @@ export default function NewWebStoryPage() {
                   onChange={(e) => {
                     const newTitle = e.target.value;
                     const updates: { title: string; slug?: string } = { title: newTitle };
-                    
+
                     if (!formData.slug) {
                       updates.slug = newTitle
                         .toLowerCase()
                         .replace(/[^a-z0-9]+/g, "-")
                         .replace(/^-|-$/g, "");
                     }
-                    
+
                     setFormData({ ...formData, ...updates });
                   }}
                   placeholder="Ex: Filhote Spitz Alemão Branco"

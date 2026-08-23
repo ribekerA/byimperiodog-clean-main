@@ -9,6 +9,8 @@ import { z } from "zod";
 import { createLogger } from "@/lib/logger";
 
 const logger = createLogger("ai:puppy-vision");
+type SharpImage = ReturnType<typeof sharp>;
+type SharpStats = Awaited<ReturnType<SharpImage["stats"]>>;
 
 export type PuppyVisionDetections = {
   isSpitz: boolean;
@@ -249,19 +251,19 @@ function cleanupHashes() {
   }
 }
 
-function calculateBrightness(stats: sharp.Stats): number {
+function calculateBrightness(stats: SharpStats): number {
   const channels = stats.channels?.slice(0, 3) ?? [];
   if (!channels.length) return 140;
   return channels.reduce((sum, ch) => sum + ch.mean, 0) / channels.length;
 }
 
-function calculateNoise(stats: sharp.Stats): number {
+function calculateNoise(stats: SharpStats): number {
   const channels = stats.channels?.slice(0, 3) ?? [];
   if (!channels.length) return 0;
   return channels.reduce((sum, ch) => sum + ch.stdev, 0) / channels.length;
 }
 
-async function measureSharpness(image: sharp.Sharp, options: PuppyVisionOptions): Promise<number> {
+async function measureSharpness(image: SharpImage, options: PuppyVisionOptions): Promise<number> {
   try {
     const hints: string[] = [];
     if (options.puppyName) hints.push(`filhote ${options.puppyName}`);
@@ -318,7 +320,7 @@ Responda SOMENTE em JSON com os campos solicitados.`;
   }
 }
 
-async function detectBackgroundComplexity(image: sharp.Sharp) {
+async function detectBackgroundComplexity(image: SharpImage) {
   try {
     const { data, info } = await image
       .clone()

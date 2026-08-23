@@ -35,6 +35,7 @@ const makeUpsertChain = (data: any, error: any = null) => ({
 
 describe("/api/settings/tracking route", () => {
   beforeEach(() => {
+    vi.unstubAllEnvs();
     supabaseMock = { from: vi.fn() };
   });
 
@@ -45,6 +46,39 @@ describe("/api/settings/tracking route", () => {
     expect(response.status).toBe(200);
     expect(body.settings.meta_pixel_id ?? null).toBeNull();
     expect(body.settings.ga4_id ?? null).toBeNull();
+  });
+
+  it("GET com erro no banco retorna fallback público e mantém cache", async () => {
+    vi.stubEnv("NEXT_PUBLIC_GTM_ID", "GTM-LOCAL123");
+    vi.stubEnv("NEXT_PUBLIC_GA4_ID", "G-LOCAL12345");
+    vi.stubEnv("ADMIN_PASS", "segredo-que-nao-pode-vazar");
+    supabaseMock.from.mockReturnValue(makeSelectChain(null, { message: "offline" }));
+
+    const response = await GET();
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("cache-control")).toBe(
+      "public, s-maxage=300, stale-while-revalidate=600"
+    );
+    expect(body.settings.gtm_id).toBe("GTM-LOCAL123");
+    expect(body.settings.ga4_id).toBe("G-LOCAL12345");
+    expect(JSON.stringify(body)).not.toContain("segredo-que-nao-pode-vazar");
+    expect(body.settings).not.toHaveProperty("fb_capi_token");
+    expect(body.settings).not.toHaveProperty("tiktok_api_token");
+  });
+
+  it("GET com exceção inesperada retorna fallback público", async () => {
+    vi.stubEnv("NEXT_PUBLIC_META_PIXEL_ID", "1234567890");
+    supabaseMock.from.mockImplementation(() => {
+      throw new Error("Supabase indisponível");
+    });
+
+    const response = await GET();
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.settings.meta_pixel_id).toBe("1234567890");
   });
 
   // O ID de GA4 do fixture era "G-ABC123", que o validador recusa: ele exige de

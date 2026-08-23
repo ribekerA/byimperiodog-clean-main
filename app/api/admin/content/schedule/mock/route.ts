@@ -1,4 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest} from 'next/server';
+import { NextResponse } from 'next/server';
+
 import { requireAdmin } from '@/lib/adminAuth';
 
 // Endpoint mock: aceita POST { title, date } e responde 204. Sem persistência real.

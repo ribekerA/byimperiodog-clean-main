@@ -3,9 +3,11 @@
  * Upload automático de imagens processadas para Supabase Storage
  */
 
-import { createClient } from '@supabase/supabase-js';
 import fs from 'fs/promises';
 import path from 'path';
+
+import { createClient } from '@supabase/supabase-js';
+
 import { IMAGE_CONFIG } from './config';
 import type { ProcessedImage } from './processor';
 
@@ -137,14 +139,14 @@ export async function checkSupabaseConnection(): Promise<boolean> {
   try {
     // Tenta listar o bucket
     const { data, error } = await supabase.storage.listBuckets();
-    
+
     if (error) {
       console.warn('⚠️  Erro ao conectar com Supabase:', error.message);
       return false;
     }
 
     const bucket = data?.find((b) => b.name === IMAGE_CONFIG.supabase.bucket);
-    
+
     if (!bucket) {
       console.warn(`⚠️  Bucket '${IMAGE_CONFIG.supabase.bucket}' não encontrado`);
       return false;

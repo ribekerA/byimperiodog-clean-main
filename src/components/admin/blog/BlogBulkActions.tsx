@@ -47,7 +47,7 @@ export function BlogBulkActions({
 
   async function bulkPublish() {
     if (selectedIds.length === 0) return;
-    
+
     setLoading('publish');
     try {
       const now = new Date().toISOString();
@@ -96,7 +96,7 @@ export function BlogBulkActions({
 
   async function bulkArchive() {
     if (selectedIds.length === 0) return;
-    
+
     setLoading('archive');
     try {
       let successCount = 0;
@@ -142,7 +142,7 @@ export function BlogBulkActions({
 
   async function bulkDelete() {
     if (selectedIds.length === 0) return;
-    
+
     if (!window.confirm(`Excluir ${selectedIds.length} posts permanentemente?`)) {
       return;
     }
@@ -225,7 +225,7 @@ export function BlogBulkActions({
       <p className="font-medium text-amber-900 dark:text-amber-100">
         {selectedIds.length} {selectedIds.length === 1 ? 'post selecionado' : 'posts selecionados'}
       </p>
-      
+
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"

@@ -10,10 +10,10 @@ import { getCurrentConsent } from './consent';
  */
 export function trackWhatsAppClick(source: string, label?: string): void {
   if (typeof window === 'undefined') return;
-  
+
   const consent = getCurrentConsent();
   if (!consent.analytics && !consent.marketing) return;
-  
+
   // GA4
   if (consent.analytics) {
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
@@ -25,7 +25,7 @@ export function trackWhatsAppClick(source: string, label?: string): void {
       });
     }
   }
-  
+
   // Facebook Pixel
   if (consent.marketing) {
     const fbq = (window as { fbq?: (...args: unknown[]) => void }).fbq;
@@ -40,10 +40,10 @@ export function trackWhatsAppClick(source: string, label?: string): void {
  */
 export function trackNewsletterSubscribe(source: string): void {
   if (typeof window === 'undefined') return;
-  
+
   const consent = getCurrentConsent();
   if (!consent.analytics && !consent.marketing) return;
-  
+
   // GA4
   if (consent.analytics) {
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
@@ -55,7 +55,7 @@ export function trackNewsletterSubscribe(source: string): void {
       });
     }
   }
-  
+
   // Facebook Pixel
   if (consent.marketing) {
     const fbq = (window as { fbq?: (...args: unknown[]) => void }).fbq;
@@ -70,10 +70,10 @@ export function trackNewsletterSubscribe(source: string): void {
  */
 export function trackShare(platform: string, content: string): void {
   if (typeof window === 'undefined') return;
-  
+
   const consent = getCurrentConsent();
   if (!consent.analytics) return;
-  
+
   const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
   if (typeof gtag === 'function') {
     gtag('event', 'share', {
@@ -89,10 +89,10 @@ export function trackShare(platform: string, content: string): void {
  */
 export function trackLeadFormSubmit(formName: string): void {
   if (typeof window === 'undefined') return;
-  
+
   const consent = getCurrentConsent();
   if (!consent.analytics && !consent.marketing) return;
-  
+
   // GA4
   if (consent.analytics) {
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
@@ -104,7 +104,7 @@ export function trackLeadFormSubmit(formName: string): void {
       });
     }
   }
-  
+
   // Facebook Pixel
   if (consent.marketing) {
     const fbq = (window as { fbq?: (...args: unknown[]) => void }).fbq;
@@ -119,10 +119,10 @@ export function trackLeadFormSubmit(formName: string): void {
  */
 export function trackPuppyModalOpen(puppyId: string, puppyName: string): void {
   if (typeof window === 'undefined') return;
-  
+
   const consent = getCurrentConsent();
   if (!consent.analytics) return;
-  
+
   const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
   if (typeof gtag === 'function') {
     gtag('event', 'view_item', {
@@ -138,10 +138,10 @@ export function trackPuppyModalOpen(puppyId: string, puppyName: string): void {
  */
 export function trackCTAClick(ctaName: string, location: string): void {
   if (typeof window === 'undefined') return;
-  
+
   const consent = getCurrentConsent();
   if (!consent.analytics) return;
-  
+
   const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
   if (typeof gtag === 'function') {
     gtag('event', 'cta_click', {

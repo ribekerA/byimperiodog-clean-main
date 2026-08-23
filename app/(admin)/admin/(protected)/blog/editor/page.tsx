@@ -7,14 +7,15 @@ import { blogRepo } from "@/lib/db";
 import EditorWrapper from "./EditorWrapper";
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     id?: string;
-  };
+  }>;
 }
 
 export const dynamic = "force-dynamic";
 
-export default async function BlogEditorPage({ searchParams }: PageProps) {
+export default async function BlogEditorPage(props: PageProps) {
+  const searchParams = await props.searchParams;
   const postId = searchParams.id;
   const post = postId ? await blogRepo.getPostById(postId) : null;
 

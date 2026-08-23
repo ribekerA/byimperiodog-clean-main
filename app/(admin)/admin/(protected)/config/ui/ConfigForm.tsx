@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
+import { useState, useTransition } from "react";
 
 import type { GeneralSettings } from "@/lib/admin/generalConfig";
 

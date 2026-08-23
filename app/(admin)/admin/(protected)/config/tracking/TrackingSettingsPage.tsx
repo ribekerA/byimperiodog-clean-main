@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -18,6 +17,7 @@ import {
   Wifi,
   WifiOff,
 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
 import { useToast } from "@/components/ui/toast";
 import type { TrackingConfig } from "@/lib/tracking/getTrackingConfig";

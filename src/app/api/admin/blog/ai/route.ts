@@ -1,5 +1,5 @@
 // PATH: src/app/api/admin/blog/ai/route.ts
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 import type { EditorAIRequest, EditorAIResponse } from '@/lib/blog/types';
 

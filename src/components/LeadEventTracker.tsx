@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { sendGA4 } from "@/lib/track";
+
 import { getAttributionParams } from "@/lib/attribution";
+import { sendGA4 } from "@/lib/track";
 
 interface Props {
   eventName: string;

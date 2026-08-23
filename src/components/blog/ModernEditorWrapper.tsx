@@ -134,7 +134,7 @@ export default function ModernEditorWrapper({ post }: ModernEditorWrapperProps) 
       }
 
       const result = await response.json();
-      
+
       pushToast({
         message: post?.id ? "Post atualizado com sucesso" : "Post criado com sucesso",
         type: "success",
@@ -167,7 +167,7 @@ export default function ModernEditorWrapper({ post }: ModernEditorWrapperProps) 
             <option value="published">Publicado</option>
             <option value="scheduled">Agendado</option>
           </select>
-          
+
           <span className="text-sm text-text-secondary">
             {formState.isDirty ? "Alterações não salvas" : "Tudo salvo"}
           </span>

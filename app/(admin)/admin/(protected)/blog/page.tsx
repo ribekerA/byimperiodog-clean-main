@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { BlogSubnav } from "@/components/admin/BlogSubnav";
 import BlogPostsTable from "@/components/admin/blog/BlogPostsTable";
+import { BlogSubnav } from "@/components/admin/BlogSubnav";
 import { blogRepo } from "@/lib/db";
 
 export const dynamic = "force-dynamic";

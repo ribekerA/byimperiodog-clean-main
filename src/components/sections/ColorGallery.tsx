@@ -1,10 +1,6 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { aPartirDe, type CorDivulgada, formatarPreco } from "@/domain/pricing";
 
 // O card do Cinza-Lobo (Wolf Sable) saiu daqui: a cor deixou de ser divulgada.
@@ -55,18 +51,13 @@ const COLORS = [
   },
 ] as const satisfies readonly { cor: CorDivulgada; [k: string]: unknown }[];
 
-// Easing compartilhado — tipado como tupla para Framer Motion v12
-const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
-
 export default function ColorGallery() {
-  const reduced = useReducedMotion();
-
   return (
     <section className="bg-zinc-950 py-20 sm:py-28 overflow-hidden" aria-labelledby="colors-heading">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
 
         {/* Header */}
-        <ScrollReveal className="mx-auto mb-12 max-w-xl text-center">
+        <div className="mx-auto mb-12 max-w-xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-400">
             Cores disponíveis
           </p>
@@ -80,32 +71,18 @@ export default function ColorGallery() {
           <p className="mt-3 text-zinc-400">
             Cada cor tem disponibilidade e preço próprios. Clique para explorar.
           </p>
-        </ScrollReveal>
+        </div>
 
         {/* Grid de cores — cada card com delay individual */}
         {/* lg:grid-cols-4 acompanha as quatro cores divulgadas. Com cinco
             colunas e quatro cards a linha ficava com um vão à direita. */}
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {COLORS.map((cor, i) => (
-            <motion.li
-              key={cor.slug}
-              initial={reduced ? false : { opacity: 0, y: 48, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.65, delay: i * 0.14, ease: EASE }}
-            >
+          {COLORS.map((cor) => (
+            <li key={cor.slug}>
               <Link
                 href={`/filhotes/cor/${cor.slug}`}
                 className="group relative block overflow-hidden rounded-2xl bg-zinc-900 ring-1 ring-white/5 transition-all duration-300 hover:ring-emerald-500/60 hover:scale-[1.03]"
-                style={{
-                  boxShadow: "0 0 0 0 transparent",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 40px ${cor.glowColor}`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 0 transparent";
-                }}
+                style={{ boxShadow: `0 8px 40px ${cor.glowColor}` }}
               >
                 {/* Imagem */}
                 <div className="relative aspect-[3/4] overflow-hidden">
@@ -149,7 +126,7 @@ export default function ColorGallery() {
                   →
                 </div>
               </Link>
-            </motion.li>
+            </li>
           ))}
         </ul>
       </div>

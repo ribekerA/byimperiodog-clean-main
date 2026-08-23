@@ -11,7 +11,7 @@ import { Button, type ButtonProps } from './button';
 
 /**
  * EmptyState - Estado vazio com ícone, título, descrição e ação opcional
- * 
+ *
  * @example
  * <EmptyState
  *   variant="search"
@@ -64,7 +64,7 @@ const emptyStateVariants = {
 };
 
 export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
-  function EmptyState({ 
+  function EmptyState({
     className,
     variant = 'default',
     icon,
@@ -72,11 +72,11 @@ export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
     description,
     action,
     secondaryAction,
-    ...props 
+    ...props
   }, ref) {
     const config = emptyStateVariants[variant];
     const DefaultIcon = config.IconComponent;
-    
+
     return (
       <div
         ref={ref}
@@ -94,20 +94,20 @@ export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
         )}>
           {icon || <DefaultIcon className="h-8 w-8" aria-hidden="true" />}
         </div>
-        
+
         {/* Conteúdo */}
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-zinc-900">
             {title}
           </h3>
-          
+
           {description && (
             <p className="text-sm text-zinc-600 max-w-md">
               {description}
             </p>
           )}
         </div>
-        
+
         {/* Ações */}
         {(action || secondaryAction) && (
           <div className="flex flex-col sm:flex-row items-center gap-3">
@@ -120,7 +120,7 @@ export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
                 {action.label}
               </Button>
             )}
-            
+
             {secondaryAction && (
               <Button
                 onClick={secondaryAction.onClick}

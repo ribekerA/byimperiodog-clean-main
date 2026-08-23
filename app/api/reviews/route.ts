@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 // ─── GET — avaliações aprovadas ───────────────────────────────────────────────

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Loader2, TrendingDown, TrendingUp, Minus } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { adminFetch } from "@/lib/adminFetch";
 

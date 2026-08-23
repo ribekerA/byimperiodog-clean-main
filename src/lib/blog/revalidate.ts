@@ -18,9 +18,10 @@ export const TAG_LISTAGEM_BLOG = "blog-posts";
  * derruba o cache da rota renderizada; ele nao alcanca a entrada de
  * `unstable_cache` da consulta ao Supabase, que so responde a `revalidateTag`.
  *
- * Sem isso, o post publicado pelo admin levaria ate 5 minutos para aparecer na
- * listagem mesmo com a revalidacao tendo sido disparada de proposito.
+ * O perfil `max`, exigido no Next 16, marca a entrada como stale e atualiza em
+ * segundo plano na proxima visita. Route Handlers nao podem usar `updateTag`,
+ * que e exclusivo de Server Actions.
  */
 export function revalidarListagemBlog() {
-  revalidateTag(TAG_LISTAGEM_BLOG);
+  revalidateTag(TAG_LISTAGEM_BLOG, "max");
 }

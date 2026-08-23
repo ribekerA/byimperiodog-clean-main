@@ -107,7 +107,7 @@ export async function listPublishableSupabasePosts(): Promise<BlogPost[]> {
 
 export async function getPostBySlug(slug: string, opts?: { includeDraft?: boolean }): Promise<BlogPost | null> {
   const sb = supabaseAnon();
-  let query = sb
+  const query = sb
     .from("blog_posts")
     .select("id,slug,title,excerpt,content_mdx,cover_url,cover_alt,published_at,updated_at,status,category,tags,seo_title,seo_description")
     .eq("slug", slug)

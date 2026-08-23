@@ -1,8 +1,8 @@
 #!/usr/bin/env node
+import { spawnSync } from 'child_process';
 import { existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { spawnSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

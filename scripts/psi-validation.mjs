@@ -41,21 +41,21 @@ async function testPSI(url, strategy = "mobile") {
   apiUrl.searchParams.set("category", "performance");
   apiUrl.searchParams.set("category", "seo");
   apiUrl.searchParams.set("category", "accessibility");
-  
+
   if (PSI_API_KEY) {
     apiUrl.searchParams.set("key", PSI_API_KEY);
   }
 
   console.log(`🔍 Testing ${strategy}: ${url}`);
-  
+
   const response = await fetch(apiUrl.toString());
   if (!response.ok) {
     throw new Error(`PSI API error: ${response.status} ${response.statusText}`);
   }
-  
+
   const data = await response.json();
   const { lighthouseResult } = data;
-  
+
   return {
     performance: Math.round(lighthouseResult.categories.performance.score * 100),
     seo: Math.round(lighthouseResult.categories.seo.score * 100),
@@ -71,11 +71,11 @@ async function testPSI(url, strategy = "mobile") {
  */
 async function validateAdminHeaders(url) {
   console.log(`🔒 Validating headers: ${url}`);
-  
+
   try {
     const response = await fetch(url, { method: "HEAD" });
     const robotsTag = response.headers.get("x-robots-tag");
-    
+
     return {
       url,
       hasNoindex: robotsTag?.toLowerCase().includes("noindex"),
@@ -110,17 +110,17 @@ async function main() {
   console.log("📊 Testing Public URLs\n");
   for (const { name, path: urlPath } of URLS) {
     const fullUrl = `${DOMAIN}${urlPath}`;
-    
+
     try {
       const mobile = await testPSI(fullUrl, "mobile");
       const desktop = await testPSI(fullUrl, "desktop");
-      
+
       const passed =
         mobile.performance >= TARGETS.mobile.performance &&
         desktop.performance >= TARGETS.desktop.performance &&
         mobile.lcp <= TARGETS.lcp &&
         mobile.cls <= TARGETS.cls;
-      
+
       results.public.push({
         name,
         url: fullUrl,
@@ -128,7 +128,7 @@ async function main() {
         desktop,
         passed,
       });
-      
+
       if (passed) {
         results.summary.passed++;
         console.log(`✅ ${name}: PASSED`);
@@ -136,9 +136,9 @@ async function main() {
         results.summary.failed++;
         console.log(`❌ ${name}: FAILED`);
       }
-      
+
       console.log(`   Mobile: ${mobile.performance} | Desktop: ${desktop.performance} | LCP: ${Math.round(mobile.lcp)}ms | CLS: ${mobile.cls.toFixed(3)}\n`);
-      
+
       // Rate limit protection
       await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
@@ -151,11 +151,11 @@ async function main() {
   console.log("\n🔒 Validating Admin SEO Isolation\n");
   for (const { name, path: urlPath } of ADMIN_URLS) {
     const fullUrl = `${DOMAIN}${urlPath}`;
-    
+
     try {
       const headerCheck = await validateAdminHeaders(fullUrl);
       results.admin.push(headerCheck);
-      
+
       if (headerCheck.hasNoindex) {
         console.log(`✅ ${name}: noindex header confirmed`);
       } else {
@@ -171,9 +171,9 @@ async function main() {
   // Generate report
   const reportPath = path.join(process.cwd(), "reports", "psi-validation-latest.json");
   await writeFile(reportPath, JSON.stringify(results, null, 2), "utf-8");
-  
+
   console.log(`\n📄 Report saved: ${reportPath}`);
-  
+
   // Summary
   console.log("\n" + "=".repeat(60));
   console.log("📊 VALIDATION SUMMARY");
@@ -181,7 +181,7 @@ async function main() {
   console.log(`✅ Passed: ${results.summary.passed}/${URLS.length}`);
   console.log(`❌ Failed: ${results.summary.failed}/${URLS.length}`);
   console.log(`⚠️  Warnings: ${results.summary.warnings}`);
-  
+
   if (results.summary.failed === 0 && results.summary.warnings === 0) {
     console.log("\n🎉 ALL TESTS PASSED!");
     process.exit(0);

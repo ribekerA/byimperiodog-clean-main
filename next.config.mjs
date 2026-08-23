@@ -1,12 +1,3 @@
-import { join } from "path";
-
-const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIME || new Date().toISOString();
-
-// `next dev` roda com NODE_ENV=development; `next build` e `next start`, com
-// production. Usado só para não aplicar em dev um cabeçalho de cache que só
-// faz sentido com nome de arquivo versionado.
-const isDev = process.env.NODE_ENV !== "production";
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Por padrão continua sendo `.next` — a Netlify e o `npm run dev` não mudam.
@@ -16,25 +7,28 @@ const nextConfig = {
   // "Creating an optimized production build". Com NEXT_DIST_DIR=.next-build dá
   // para validar o build sem derrubar o servidor de desenvolvimento.
   distDir: process.env.NEXT_DIST_DIR || ".next",
-  // ESLint é executado separadamente (npm run lint) — não bloqueia o build de produção
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  env: {
-    NEXT_PUBLIC_BUILD_TIME: buildTimestamp,
-  },
+  // Há outro package-lock.json acima deste repositório. Mantém o tracing do
+  // servidor preso ao projeto certo e evita que o Next infira C:\\Users\\byimp.
+  outputFileTracingRoot: process.cwd(),
+  // O Next 16 gera AGENTS.md/CLAUDE.md automaticamente no primeiro `next dev`.
+  // As regras do repositorio sao mantidas fora desse mecanismo gerado.
+  agentRules: false,
+  // next-mdx-remote@6 ainda precisa ser transpilado explicitamente pelo
+  // Turbopack. O conteúdo continua compilado no servidor e a lista estática
+  // continua vindo de src/lib/_generated-posts.ts.
+  transpilePackages: ["next-mdx-remote"],
   // ============================================================================
   // PERFORMANCE: Bundle optimization & code splitting
   // ============================================================================
   compress: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
-  
+  typedRoutes: false,
+
   experimental: {
-    typedRoutes: false,
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-dialog"],
   },
-  
+
   // ============================================================================
   // PERFORMANCE: Images optimization (AVIF/WebP automático)
   // ============================================================================
@@ -61,7 +55,7 @@ const nextConfig = {
       { protocol: "https", hostname: "dummyimage.com" },
     ],
   },
-  
+
   // ============================================================================
   // PERFORMANCE: Headers (Cache-Control para assets estáticos + Segurança)
   // ============================================================================
@@ -121,45 +115,9 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            // Em producao os arquivos de /_next/static tem hash no nome: mudou o
-            // conteudo, mudou a URL, entao `immutable` e seguro e economiza
-            // revalidacao. Em desenvolvimento nao tem — `app/(public)/page.js`
-            // mantem o mesmo nome a cada recompilacao. Com `immutable` o
-            // navegador guardava aquele bundle por um ano e continuava servindo
-            // a versao antiga: bastava acrescentar um client component novo a
-            // uma pagina para o React pedir um modulo que nao existia no bundle
-            // em cache e a pagina inteira morrer com "Cannot read properties of
-            // undefined (reading 'call')" — sem erro nenhum no terminal, porque
-            // do lado do servidor estava tudo certo. Custa uma revalidacao por
-            // arquivo em dev e devolve o Fast Refresh confiavel.
-            value: isDev ? "no-store, must-revalidate" : "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/_next/image:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=604800, stale-while-revalidate=86400",
-          },
-        ],
-      },
     ];
   },
-  
-  webpack: (config) => {
-    config.resolve = config.resolve || {};
-    config.resolve.alias = config.resolve.alias || {};
-    config.resolve.alias["contentlayer/generated"] = join(process.cwd(), ".contentlayer/generated");
-    return config;
-  },
+
 };
 
 export default nextConfig;
-

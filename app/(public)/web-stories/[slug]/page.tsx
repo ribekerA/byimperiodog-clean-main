@@ -24,11 +24,12 @@ interface WebStory {
   status: string;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+export async function generateMetadata(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+): Promise<Metadata> {
+  const params = await props.params;
   const supabase = supabaseAdmin();
   const { data: story } = await supabase
     .from("web_stories")
@@ -68,11 +69,12 @@ async function getWebStory(slug: string): Promise<WebStory | null> {
   return data as WebStory;
 }
 
-export default async function WebStoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function WebStoryPage(
+  props: {
+    params: Promise<{ slug: string }>;
+  }
+) {
+  const params = await props.params;
   const story = await getWebStory(params.slug);
 
   if (!story) {

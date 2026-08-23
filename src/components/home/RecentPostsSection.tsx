@@ -1,4 +1,3 @@
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -7,13 +6,8 @@ import { cn } from '@/lib/cn';
 import { getAllPosts } from '@/lib/content';
 import { supabasePublic } from '@/lib/supabasePublic';
 
+import { RecentPostsListClientOnly } from './RecentPostsListClientOnly';
 import RecentPostsSkeleton from './RecentPostsSkeleton';
-
-// Deferir animações não-críticas para reduzir JS inicial
-const RecentPostsListAnimated = dynamic(() => import('./RecentPostsListAnimated'), {
-	ssr: false,
-	loading: () => null,
-});
 
 export async function RecentPostsSection() {
 	const supa = supabasePublic();
@@ -69,7 +63,7 @@ export async function RecentPostsSection() {
 				</div>
 			) : (
 				<>
-					<RecentPostsListAnimated posts={recentPosts as Array<{ id: string | number; slug: string; title: string; cover_url?: string | null; excerpt?: string | null; published_at?: string | null; reading_time?: number | null; }>} />
+					<RecentPostsListClientOnly posts={recentPosts as Array<{ id: string | number; slug: string; title: string; cover_url?: string | null; excerpt?: string | null; published_at?: string | null; reading_time?: number | null; }>} />
 					<script
 						type="application/ld+json"
 						dangerouslySetInnerHTML={{
@@ -93,7 +87,7 @@ export async function RecentPostsSection() {
 
 export function RecentPostsSectionSuspense() {
 	return (
-		<Suspense fallback={<RecentPostsSkeleton />}> 
+		<Suspense fallback={<RecentPostsSkeleton />}>
 			<RecentPostsSection />
 		</Suspense>
 	);

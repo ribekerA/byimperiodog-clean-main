@@ -12,7 +12,7 @@ import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
  * 3. Protege /api/admin/* com o mesmo cookie assinado ou header "x-admin-pass"
  * 4. Remove indexação SEO de /admin (X-Robots-Tag)
  */
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const url = req.nextUrl.clone();
 
@@ -21,7 +21,7 @@ export async function middleware(req: NextRequest) {
   // ============================================================================
   const targetBase = (process.env.NEXT_PUBLIC_SITE_URL || "").trim();
   const shouldForceWww = targetBase.startsWith("https://www.");
-  
+
   if (!pathname.startsWith("/api") && shouldForceWww) {
     const nakedHost = targetBase.replace(/^https?:\/\//, "").replace(/^www\./, "");
     if (url.hostname === nakedHost) {

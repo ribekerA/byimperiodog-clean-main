@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 /**
  * API Route: Analytics Dashboard
  * GET /api/admin/analytics
- * 
+ *
  * Retorna métricas agregadas para o dashboard
  * By Império Dog - Sistema de Analytics
  */
@@ -49,7 +49,7 @@ function getStartDate(period: AnalyticsPeriod, customStart?: string): Date {
   }
 
   const now = new Date();
-  
+
   switch (period) {
     case '24h':
       return new Date(now.getTime() - 24 * 60 * 60 * 1000);
@@ -124,10 +124,10 @@ function calculateMetrics(
   // Filtrar page views
   const pageViews = events.filter(e => e.event_type === 'pageview');
   const uniqueVisitors = new Set(events.map(e => e.user_id)).size;
-  
+
   // Calcular sessões (simplificado - agrupa por user_id com gap de 30min)
   const sessions = calculateSessions(events);
-  
+
   // Conversões
   const conversions = {
     leads: events.filter(e => e.event_type === 'lead').length,
@@ -194,16 +194,16 @@ function calculateMetrics(
 function calculateSessions(events: AnalyticsEvent[]): Session[] {
   // Simplificado - agrupa eventos por user_id com gap máximo de 30min
   const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutos
-  
+
   const sessions: Session[] = [];
-  const userEvents = events.sort((a, b) => 
+  const userEvents = events.sort((a, b) =>
     new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
   );
 
   let currentSession: Session | null = null;
 
   for (const event of userEvents) {
-    if (!currentSession || 
+    if (!currentSession ||
         new Date(event.timestamp).getTime() - new Date(currentSession.endTime).getTime() > SESSION_TIMEOUT) {
       // Nova sessão
       if (currentSession) sessions.push(currentSession);
@@ -257,16 +257,16 @@ function calculateTrafficSources(events: AnalyticsEvent[]): TrafficSource[] {
     const source = e.utm_source || 'direct';
     const medium = e.utm_medium || 'none';
     const key = `${source}|${medium}`;
-    
+
     if (!acc[key]) {
       acc[key] = { source, medium, sessions: 0, conversions: 0 };
     }
-    
+
     acc[key].sessions++;
     if (e.event_type === 'lead' || e.event_type === 'conversion') {
       acc[key].conversions++;
     }
-    
+
     return acc;
   }, {} as Record<string, TrafficSource>);
 

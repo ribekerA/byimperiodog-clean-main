@@ -1,10 +1,11 @@
 "use client";
-import { Header } from '@/components/dashboard/Header';
-import { Main } from '@/components/dashboard/Main';
 import * as React from 'react';
+
 import { QualityBar } from '@/components/admin/QualityBar';
 import { RelatedPicker } from '@/components/admin/RelatedPicker';
 import { ScheduleDrawer } from '@/components/admin/ScheduleDrawer';
+import { Header } from '@/components/dashboard/Header';
+import { Main } from '@/components/dashboard/Main';
 import { Button } from '@/components/ui/button';
 
 const STEPS = ['Brief','Outline','Draft MDX','SEO','Imagens','Review/Publish'] as const;

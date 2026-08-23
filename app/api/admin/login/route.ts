@@ -9,7 +9,8 @@ import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 export async function POST(req: Request) {
-  const ip = headers().get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const requestHeaders = await headers();
+  const ip = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rl = rateLimit(`admin-login:${ip}`, 10, 60_000);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Muitas tentativas. Aguarde um minuto e tente novamente." }, { status: 429 });
@@ -68,7 +69,8 @@ export async function POST(req: Request) {
   }
 
   const res = NextResponse.json({ ok: true });
-  cookies().set(ADMIN_SESSION_COOKIE, sessionToken, {
+  const cookieStore = await cookies();
+  cookieStore.set(ADMIN_SESSION_COOKIE, sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -76,35 +78,35 @@ export async function POST(req: Request) {
     maxAge: ADMIN_SESSION_MAX_AGE,
   });
 
-  cookies().set("admin_auth", "1", {
+  cookieStore.set("admin_auth", "1", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 8,
   });
-  cookies().set("adm", "true", {
+  cookieStore.set("adm", "true", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 8,
   });
-  cookies().set("admin_email", authData.user.email ?? email, {
+  cookieStore.set("admin_email", authData.user.email ?? email, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 8,
   });
-  cookies().set("admin_name", displayName, {
+  cookieStore.set("admin_name", displayName, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 8,
   });
-  cookies().set("admin_user_id", authData.user.id, {
+  cookieStore.set("admin_user_id", authData.user.id, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
@@ -112,6 +114,6 @@ export async function POST(req: Request) {
     maxAge: 60 * 60 * 8,
   });
   const roleCookie = serializeRoleCookie(role);
-  cookies().set(roleCookie.name, roleCookie.value, roleCookie.options);
+  cookieStore.set(roleCookie.name, roleCookie.value, roleCookie.options);
   return res;
 }

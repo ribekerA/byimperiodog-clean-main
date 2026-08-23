@@ -53,7 +53,7 @@ function emitLog(
   const method = CONSOLE_METHOD[level] ?? "log";
   // eslint-disable-next-line no-console
   const logFn = console[method] as (message: string) => void;
-  // eslint-disable-next-line no-console
+
   logFn(JSON.stringify(payload));
 }
 

@@ -1,10 +1,14 @@
+import { loadEnvConfig } from '@next/env';
 import { defineConfig, devices } from '@playwright/test';
+
+loadEnvConfig(process.cwd());
 
 export default defineConfig({
   testDir: './tests/e2e',
   timeout: 30_000,
   expect: { timeout: 5_000 },
   fullyParallel: true,
+  workers: process.env.CI ? undefined : 2,
   retries: process.env.CI ? 2 : 0,
   reporter: [['list'], process.env.CI ? ['github'] : ['html', { open: 'never' }]],
   use: {

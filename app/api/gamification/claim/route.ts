@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
+
 import { getOrCreateGamUser, awardXp, evaluateAndAwardBadges } from '@/lib/gamification.blog';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 // POST /api/gamification/claim { anonId, type }
 export async function POST(req: Request){

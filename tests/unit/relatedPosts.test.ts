@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
+
 import { getRelatedPosts, scoreRelatedPost } from '../../src/lib/relatedPosts';
 
 // Mock supabasePublic com cadeia de métodos eq/neq/order/limit/maybeSingle
