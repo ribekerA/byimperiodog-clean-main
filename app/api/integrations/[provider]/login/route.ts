@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { erroPublico } from "@/lib/apiErro";
+import { cookieDeState } from "@/lib/tracking/oauthState";
 import { getProvider } from "@/lib/tracking/providers/registry";
 
 export async function GET(_req: Request, props: { params: Promise<{ provider: string }> }) {
@@ -16,10 +18,12 @@ export async function GET(_req: Request, props: { params: Promise<{ provider: st
     const state = crypto.randomUUID();
     const { authUrl } = await adapter.buildAuthUrl({ redirectUri, state });
 
-    // Optionally store state in a cookie/session here for validation.
-
-    return NextResponse.redirect(authUrl);
+    // O mesmo state vai para o provedor e para um cookie HttpOnly. O callback
+    // só aceita o código se os dois baterem.
+    const resposta = NextResponse.redirect(authUrl);
+    resposta.headers.append("set-cookie", cookieDeState(adapter.id, state));
+    return resposta;
   } catch (error: any) {
-    return NextResponse.json({ error: error?.message || "login_failed" }, { status: 500 });
+    return erroPublico("api/integrations/login", error, 500, { code: "login_failed" });
   }
 }

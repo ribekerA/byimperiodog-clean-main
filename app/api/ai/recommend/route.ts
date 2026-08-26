@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
 
+import { MENSAGEM_ERRO_PUBLICA, registrarErro } from '@/lib/apiErro';
 import { supabasePublic } from '@/lib/supabasePublic';
 
 export const runtime = 'nodejs';
@@ -48,7 +49,8 @@ export async function POST(req:Request){
     const related = await compute(slug);
     return cacheJson({ ok:true, related });
   } catch(e:any){
-    return cacheJson({ ok:false, error:e?.message||'erro' },500);
+    registrarErro('api/ai/recommend', e);
+    return cacheJson({ ok:false, error: MENSAGEM_ERRO_PUBLICA },500);
   }
 }
 
@@ -60,6 +62,7 @@ export async function GET(req:Request){
     const related = await compute(slug);
     return cacheJson({ ok:true, related });
   } catch(e:any){
-    return cacheJson({ ok:false, error:e?.message||'erro' },500);
+    registrarErro('api/ai/recommend', e);
+    return cacheJson({ ok:false, error: MENSAGEM_ERRO_PUBLICA },500);
   }
 }

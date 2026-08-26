@@ -1,21 +1,41 @@
-// Internal lightweight auth (no env). Provides token verification for admin-like endpoints.
-// Accepts either the raw phrase or a precomputed SHA-256 hex of that phrase.
-// Implemented without Node 'crypto' to be Edge-compatible.
+// Guard das rotas internas de manutencao (reindex de busca, embeddings
+// faltantes, seed de badges). Nao sao rotas de UI: sao gatilhos operacionais
+// chamados a mao ou por script.
+//
+// O que estava errado ate esta rodada: a frase secreta e o SHA-256 dela viviam
+// escritos NESTE arquivo -- em um repositorio publico. Qualquer pessoa que
+// abrisse o GitHub lia `x-internal-token: <frase>` e disparava /api/qa/embed-missing
+// e /api/search/reindex a vontade, que sao justamente as duas rotas que gastam
+// credito de embedding da OpenAI. Um segredo versionado nao e segredo.
+//
+// Agora o valor vem de INTERNAL_API_TOKEN. Sem a variavel configurada o guard
+// devolve false: a rota responde 401 e nao roda. Falhar fechado e proposital --
+// o modo anterior (aceitar um valor padrao) e exatamente o defeito corrigido.
+//
+// Implementado sem `node:crypto` para continuar compativel com runtime de borda.
 
-// Fixed phrase (can be rotated manually). Avoid using a publicly obvious value.
-const PHRASE = 'byid-internal-v1-2025';
-// Precomputed: sha256(PHRASE) in hex. If you rotate PHRASE, update this too.
-// To compute locally (Node 18+):
-//  node -e "(async()=>{ const { webcrypto } = require('crypto'); const phrase='byid-internal-v1-2025'; const enc=new TextEncoder(); const buf=await webcrypto.subtle.digest('SHA-256', enc.encode(phrase)); const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join(''); console.log(hex); })()"
-const HASH = '8ffa8b33008ae698052eb58047d47a78f7b3db6228b22a76131db07b730a9215';
-
-export function verifyInternalToken(headerValue: string | null | undefined){
-  if(!headerValue) return false;
-  // Accept either the raw phrase or the precomputed hex hash of the phrase
-  return headerValue === PHRASE || headerValue.toLowerCase() === HASH;
+/** Comparacao de tempo constante para strings. `===` vaza pelo tempo o tamanho
+ *  do prefixo correto, o que permite adivinhar o token byte a byte. */
+function comparaConstante(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diferenca = 0;
+  for (let i = 0; i < a.length; i++) {
+    diferenca |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diferenca === 0;
 }
 
-export function internalGuard(req: Request){
-  const token = req.headers.get('x-internal-token');
-  return verifyInternalToken(token);
+export function verifyInternalToken(headerValue: string | null | undefined): boolean {
+  if (!headerValue) return false;
+
+  const esperado = process.env.INTERNAL_API_TOKEN;
+  // Sem segredo configurado, ninguem entra. Um token curto tambem nao serve:
+  // essas rotas gastam dinheiro, entao o minimo e 24 caracteres.
+  if (!esperado || esperado.length < 24) return false;
+
+  return comparaConstante(headerValue, esperado);
+}
+
+export function internalGuard(req: Request): boolean {
+  return verifyInternalToken(req.headers.get('x-internal-token'));
 }

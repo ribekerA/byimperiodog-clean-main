@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { MENSAGEM_ERRO_PUBLICA } from "@/lib/apiErro";
+
 export type AppErrorCode = "VALIDATION" | "AUTH" | "CONFLICT" | "RATE_LIMIT" | "UNKNOWN";
 
 const STATUS_BY_CODE: Record<AppErrorCode, number> = {
@@ -55,6 +57,19 @@ export function toAppError(error: unknown, fallbackMessage = "Erro interno inesp
 
 export function respondWithError(error: unknown) {
   const appError = toAppError(error);
+
+  // VALIDATION, AUTH, CONFLICT e RATE_LIMIT sao levantados por nos, com texto
+  // escrito para quem chamou: podem ir inteiros. UNKNOWN e o balde onde cai
+  // qualquer excecao -- inclusive erro do Postgres, com nome de tabela e de
+  // coluna dentro. Esse fica no log e vira frase generica na resposta.
+  if (appError.code === "UNKNOWN") {
+    console.error("[api]", `${appError.name}: ${appError.message}`);
+    return NextResponse.json(
+      { ok: false, error: MENSAGEM_ERRO_PUBLICA, code: appError.code, details: null },
+      { status: appError.status },
+    );
+  }
+
   return NextResponse.json(
     {
       ok: false,

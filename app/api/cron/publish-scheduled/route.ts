@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
+import { erroPublico } from "@/lib/apiErro";
 import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import { autorizarCron } from "@/lib/cron/auth";
 import { supabaseAdmin, hasServiceRoleKey } from "@/lib/supabaseAdmin";
@@ -37,7 +38,7 @@ export async function GET(req: Request) {
     .limit(50);
 
   if (error) {
-    return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
+    return erroPublico("api/cron/publish-scheduled", error);
   }
 
   const results: { id: string; ok: boolean; slug?: string; error?: string }[] = [];

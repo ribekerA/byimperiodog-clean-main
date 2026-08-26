@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 
 import { type NextRequest, NextResponse } from "next/server";
 
+import { erroPublico } from "@/lib/apiErro";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // ZapSign envia um POST a cada mudança de status no documento.
@@ -77,7 +78,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (e) {
-    console.error("[webhook/zapsign]", e);
-    return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
+    return erroPublico("api/webhooks/zapsign", e);
   }
 }

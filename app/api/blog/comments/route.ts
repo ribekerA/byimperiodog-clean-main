@@ -2,6 +2,8 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { erroPublico } from "@/lib/apiErro";
+import { corpoJson } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { supabasePublic } from "@/lib/supabasePublic";
 
@@ -74,8 +76,7 @@ export async function GET(req: Request) {
     }
     return NextResponse.json({ items, nextCursor });
   } catch (err: any) {
-    console.error(err?.message || err);
-    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 });
+    return erroPublico("api/blog/comments", err);
   }
 }
 
@@ -102,8 +103,11 @@ export async function POST(req: Request) {
         .or(z.literal("").transform(() => undefined)),
       body: z.string().trim().min(5, { message: "Comentário muito curto" }).max(2000, { message: "Comentário muito longo" }),
     });
-    const json = await req.json();
-    const parsed = schema.safeParse(json);
+    // O schema já limita cada campo, mas `req.json()` puro ainda
+    // desserializava o corpo inteiro antes de chegar nele.
+    const lido = await corpoJson<unknown>(req);
+    if (lido.resposta) return lido.resposta;
+    const parsed = schema.safeParse(lido.dados);
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.issues[0]?.message || "Dados inválidos" }, { status: 400 });
     }
@@ -131,7 +135,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ ok: true, comment: data }, { status: 201 });
   } catch (err: any) {
-    console.error(err?.message || err);
-    return NextResponse.json({ error: err?.message || String(err) }, { status: 500 });
+    return erroPublico("api/blog/comments", err);
   }
 }

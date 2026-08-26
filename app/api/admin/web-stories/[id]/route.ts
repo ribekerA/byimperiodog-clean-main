@@ -1,9 +1,13 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function DELETE(_request: Request, props: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: Request, props: { params: Promise<{ id: string }> }) {
+  const autorizacao = requireAdminApi(request);
+  if (autorizacao) return autorizacao;
+
   const params = await props.params;
   try {
     const supabase = supabaseAdmin();

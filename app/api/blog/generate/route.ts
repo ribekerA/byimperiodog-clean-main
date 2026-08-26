@@ -2,6 +2,8 @@ export const dynamic = "force-dynamic";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
+import { erroPublico } from "@/lib/apiErro";
+
 type GenerateBody = {
   topic?: string;
   outline?: string;
@@ -96,6 +98,6 @@ export async function POST(req: Request) {
     console.log("blog_post_generated", { id: data.id, slug: data.slug, status: data.status });
     return NextResponse.json({ ok: true, id: data.id, slug: data.slug, status: data.status });
   } catch (err: any) {
-    return NextResponse.json({ error: err?.message || "Erro" }, { status: 500 });
+    return erroPublico("api/blog/generate", err);
   }
 }

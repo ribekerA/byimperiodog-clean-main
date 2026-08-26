@@ -2,9 +2,13 @@ export const dynamic = "force-dynamic";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function GET() {
+export async function GET(req: Request) {
+  const autorizacao = requireAdminApi(req);
+  if (autorizacao) return autorizacao;
+
   try {
     const supabase = supabaseAdmin();
 
@@ -26,6 +30,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const autorizacao = requireAdminApi(request);
+  if (autorizacao) return autorizacao;
+
   try {
     const supabase = supabaseAdmin();
     const body = await request.json();

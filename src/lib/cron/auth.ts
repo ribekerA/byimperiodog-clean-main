@@ -15,10 +15,16 @@ const logger = createLogger("cron:auth");
  * `x-cron-secret` tambem serve, porque e mais simples de mandar num curl de
  * teste.
  *
- * Sem CRON_SECRET definido a rota continua aberta, do jeito que estava. E
- * proposital: trancar a porta antes de entregar a chave derrubaria o
- * agendamento no primeiro deploy. O aviso no log existe para essa configuracao
- * nao passar despercebida.
+ * Sem CRON_SECRET definido a rota RECUSA. A versao anterior deixava passar
+ * para nao derrubar o agendamento antes de a chave existir — a chave ja
+ * existe: producao responde 401 a um segredo errado, ou seja, a variavel esta
+ * configurada no Netlify e o agendador manda o header. A porta aberta agora so
+ * serviria para quem descobrisse a URL disparar publicacao e fila de vendas a
+ * vontade.
+ *
+ * Consequencia operacional: se alguem apagar CRON_SECRET do Netlify, o
+ * agendamento para de rodar e o log grita cron_sem_segredo. Parar e melhor que
+ * ficar aberto.
  *
  * Devolve null quando pode seguir, ou a resposta 401 quando nao pode.
  */
@@ -27,9 +33,9 @@ export function autorizarCron(req: Request): NextResponse | null {
 
   if (!esperado) {
     logger.warn("cron_sem_segredo", {
-      aviso: "CRON_SECRET nao definido — endpoint de cron respondendo sem autenticacao",
+      aviso: "CRON_SECRET nao definido — endpoint de cron recusando ate a variavel voltar",
     });
-    return null;
+    return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 
   const auth = req.headers.get("authorization") ?? "";

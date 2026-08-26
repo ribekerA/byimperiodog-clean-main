@@ -514,3 +514,276 @@ testada; o que falta é um dado que só o dono da conta tem.
 | 18 | `npm run build` passa? | Sim, exit 0. |
 | 19 | Houve regressão de SEO ou Core Web Vitals? | Não. CLS 0, LCP 184 ms na landing, 0 rotas quebradas, §43 conferido item a item. |
 | 20 | Houve somente UM deploy final? | Sim. Um único commit ao fim de tudo e um único `git push`, com todos os portões verdes antes. Ver §F. |
+
+---
+
+# SECURITY PRODUCTION GATE (DELTA de segurança, §27)
+
+Complemento de segurança. Não repete SEO, Google Ads nem conteúdo — só toca
+autenticação, exposição de dados, custo e resposta de erro. Nenhuma URL pública,
+canonical, H1, title, preço, catálogo, schema ou layout foi alterado. As únicas
+rotas que sumiram são de diagnóstico (§2), que nunca fizeram parte do site.
+
+## Inventário de `app/api/**` (§1)
+
+149 arquivos `route.ts`. Classificação **final**, depois das correções desta rodada:
+
+| Classificação | Rotas | Como são autenticadas |
+| --- | ---: | --- |
+| ADMIN | 117 | `proxy.ts` (sessão HMAC `admin_session` **ou** header `x-admin-pass` = `ADMIN_PASS`) + `requireAdminApi` no handler |
+| PÚBLICA | 21 | sem autenticação, por desenho (formulário, catálogo, busca, OG) |
+| WEBHOOK | 5 | assinatura do provedor |
+| CRON | 3 | `CRON_SECRET` |
+| INTERNAL | 3 | `INTERNAL_API_TOKEN` |
+
+Das 21 públicas, duas são o par login/logout do admin e duas são o fluxo OAuth
+das integrações — estas últimas passam pelo `proxy.ts` (`PREFIXOS_ADMIN`), não
+pelo handler, e por isso o classificador as conta como públicas.
+
+## Tabela do portão
+
+| Endpoint | Classificação | Auth | Service role | Rate limit | Risco antes | Ação | Status final |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `/api/debug-env` | DEBUG | nenhuma | — | não | Revelava `hasUrl`/`hasAnon`/`hasService` — mapa de configuração para quem sonda | **Removida** (`git rm`) | 404 |
+| `/api/debug-post` | DEBUG | nenhuma | sim | não | Eco de payload com chave de serviço no caminho | **Removida** | 404 |
+| `/api/debug/blog` | DEBUG | nenhuma | sim | não | Estado interno do blog | **Removida** | 404 |
+| `/api/debug/blog-posts` | DEBUG | nenhuma | sim | não | Dump de posts, inclusive rascunho | **Removida** | 404 |
+| `/api/diag/puppies` | DIAGNÓSTICO | nenhuma | sim | não | Diagnóstico do catálogo acessível anonimamente (§5) | **Removida** | 404 |
+| `/api/catalog/ranked` | PÚBLICA | nenhuma | anon | não | `select("*")` em `puppies` via service role, com `...row` no JSON: expunha `cost_cents`, `profit_margin_percentage`, `internal_notes`, `internal_source_id`, `source`, `customer_id`, `reserved_by`, `created_by`, `updated_by`, `health_notes`, `microchip`, `microchip_id`, `health_certificate_url`, `pedigree_number` | Allowlist explícita `CAMPOS_PUBLICOS_DO_CATALOGO` em `src/lib/ai/catalog-ranking.ts`; erro sanitizado | **Fechado** |
+| `/api/leads` | PÚBLICA | nenhuma | sim | 3/min (memória) **+ 5/min e 40/dia (banco)** | Corpo sem teto, campos sem `max()`, limite só em memória (§9/§10), uma sequência de IA paga por POST (§11), erro do Postgres devolvido ao visitante | Teto de 16 KB antes do parse; `max()` em todos os campos; segunda camada de limite contada no banco; IA disparando no máximo 1×/telefone a cada 30 min; `erroPublico` | **Fechado** |
+| `/api/matchmaker` | PÚBLICA | nenhuma | anon | **20/min** | Sem limite nenhum, fazia streaming de `llama-3.3-70b-versatile` a cada POST | Rate limit, corpo ≤ 64 KB, ≤ 40 turnos, 4 000 caracteres por turno | **Fechado** |
+| `/api/transcribe` | PÚBLICA | nenhuma | anon | **10/min** | Sem limite e sem teto de tamanho, chamava Whisper na Groq | Rate limit, `Content-Length` e tamanho real ≤ 8 MB (413), MIME conferido (415), erro sanitizado | **Fechado** |
+| `/api/qa` | PÚBLICA | nenhuma | anon | 8/min | Até 120 embeddings pagos por POST, em série — ~960 chamadas por rajada de um IP só | Teto de 24 embeddings não-cacheados por requisição + cache real por trecho (TTL 30 min, 500 entradas) | **Fechado** |
+| `/api/reviews` | PÚBLICA | nenhuma | anon | **5/min** | `req.json()` sem teto; comentário sem limite de tamanho | `corpoJson` (16 KB), teto por campo | **Fechado** |
+| `/api/rum` | PÚBLICA | nenhuma | sim | **60/min** | Escrita anônima com service role, sem teto | Rate limit, corpo ≤ 4 KB, valor numérico finito, campos truncados | **Fechado** |
+| `/api/catalog/ai/telemetry` | PÚBLICA | nenhuma | anon | **120/min** | Sem teto; devolvia `(e as Error).message` | Rate limit, corpo ≤ 4 KB, `erroPublico` | **Fechado** |
+| `/api/gamification/claim` | PÚBLICA | nenhuma | anon | **30/min** | Cada POST criava usuário e creditava XP, sem teto | Rate limit + corpo ≤ 4 KB | **Fechado** |
+| `/api/blog/comments` | PÚBLICA | nenhuma | sim | 5/min | `req.json()` sem teto antes do zod | `corpoJson` (16 KB) | **Fechado** |
+| `/api/media-likes/toggle` | PÚBLICA | `MEDIA_LIKE_SECRET` | anon | 30/janela | — (já estava correto: zod, fail-closed 503, IP não persistido) | Nenhuma | Mantido |
+| `/api/reviews` (GET), `/api/search`, `/api/search-index`, `/api/media-likes`, `/api/og` | PÚBLICA | nenhuma | anon | — | Verificado: allowlist explícita de colunas ou nenhum acesso direto a tabela | Nenhuma | Mantido |
+| `/api/settings/tracking` (GET) | PÚBLICA | nenhuma | — | — | Já usava `publicFields` e remapeava para um shape fixo (§5) | Nenhuma | Mantido |
+| `/api/integrations/[provider]/login` | ADMIN (proxy) | sessão | anon | não | `state` sorteado e jogado fora — comentário "optionally store state" | Grava `state` em cookie HttpOnly, `SameSite=Lax`, `Path=/api/integrations`, 10 min | **Fechado** |
+| `/api/integrations/[provider]/callback` | ADMIN (proxy) | sessão | sim | não | `// TODO: validate state (nonce)` — aceitava qualquer callback forjado e gravava `access_token` de provedor (§16, CSRF de OAuth) | Confere o nonce em tempo constante; 400 `invalid_state`; cookie expira no fim do fluxo | **Fechado** |
+| `/api/admin/analytics/breakdown` | ADMIN | proxy + `admin_auth=1` | sim | não | Conferência local por cookie **não assinada** — segurança de mentira | Trocada por `requireAdminApi` | **Fechado** |
+| `/api/admin/analytics/leads_export` | ADMIN | proxy + `admin_auth=1` | sim | não | Idem, e é a rota que **exporta leads em CSV** | Trocada por `requireAdminApi` | **Fechado** |
+| `/api/admin/{analytics/decision, analytics/deep-insights, catalog/ranking/recalc, leads/crossmatch, leads/fraud, migrations/apply-seo-score, reviews, reviews/[id], seo/autopilot, web-stories, web-stories/[id]}` | ADMIN | só proxy | 8 de 11 | não | Nenhum guard no handler — camada única. `migrations/apply-seo-score` até trazia um comentário assumindo proteção de middleware | `requireAdminApi` acrescentado nas 11 | **Fechado** |
+| `/api/ai/captions`, `/api/ai/seo`, `/api/tracking/select`, `/api/tracking/settings`, `/api/settings/tracking` (POST) | ADMIN | sessão | sim | não | **Bypass confirmado em produção**: `curl -H "Cookie: admin_auth=1"` respondia 200 | `requireAdminApi` deixou de aceitar cookie não assinada + `proxy.ts` passou a cobrir as rotas fora do prefixo | **Fechado** (rodada anterior) |
+| `/api/cron/publish-scheduled`, `/api/cron/autosales-due`, `/api/blog/publish-due` | CRON | `CRON_SECRET` | sim | não | Sem a variável definida, `autorizarCron` devolvia `null` e a rota respondia aberta | Passou a **falhar fechado**; erro sanitizado | **Fechado** |
+| `/api/whatsapp/webhook` | WEBHOOK | `X-Hub-Signature-256` | anon | não | Aceitava POST sem conferir assinatura | Assinatura obrigatória; sem `WA_APP_SECRET` recusa; telefone mascarado no log | **Fechado** (rodada anterior) |
+| `/api/webhooks/zapsign` | WEBHOOK | `ZAPSIGN_WEBHOOK_SECRET` | sim | não | Devolvia `String(e)` no corpo | `erroPublico`; recusa sem segredo | **Fechado** |
+| `/api/qa/embed-missing`, `/api/search/reindex`, `/api/gamification/seed-badges` | INTERNAL | `INTERNAL_API_TOKEN` | 1 de 3 | não | Frase e hash **fixos no código-fonte**, num repositório público | Trocados por `INTERNAL_API_TOKEN`, fail-closed | **Fechado** (rodada anterior) |
+
+## Rotas de debug removidas (§2, §3)
+
+Cinco, todas por remoção e não por proteção — a orientação era remover quando não
+há necessidade operacional real, e não havia: nenhuma tela do admin as chamava.
+
+`app/api/debug-env`, `app/api/debug-post`, `app/api/debug/blog`,
+`app/api/debug/blog-posts`, `app/api/diag/puppies`.
+
+Varredura final: nenhum diretório `*debug*`, `*diag*`, `*dev*` restante em
+`app/api`. O único `*test*` é `/api/admin/webhooks/[id]/test`, que dispara um
+webhook de teste a pedido do admin — funcionalidade, não diagnóstico, e está
+sob os dois guards.
+
+## Stack trace e mensagem de erro (§4)
+
+`src/lib/apiErro.ts` centraliza: `registrarErro(contexto, erro)` grava o detalhe
+no servidor e `erroPublico(...)` devolve sempre
+`{"error":"Não foi possível concluir a solicitação."}`.
+
+Aplicado em 20 rotas mais o `respondWithError` compartilhado. O que vazava antes,
+por categoria: texto de erro do Postgres (nome de tabela, de coluna e de
+constraint) em `/api/leads`; `(e as Error).message` em telemetria e catálogo;
+`String(e)` em webhook e cron; `err?.message` em blog, integrações e analytics.
+
+## Auditoria de service role (§6)
+
+`supabaseAdmin()` / `SUPABASE_SERVICE_ROLE_KEY` aparecem em rotas ADMIN, CRON,
+INTERNAL, WEBHOOK e em cinco públicas (`/api/leads`, `/api/newsletter`,
+`/api/contract`, `/api/blog/comments`, `/api/rum`) — todas de **escrita**, todas
+com rate limit, nenhuma devolvendo linha lida ao visitante.
+
+`select("*")` em rota pública: **zero**. O único caso vivia em
+`src/lib/ai/catalog-ranking.ts`, consumido por `/api/catalog/ranked`, e virou
+allowlist. Os `select("*")` restantes estão em `/api/admin/web-stories` e no
+callback de integrações — ambos atrás de autenticação.
+
+Nenhuma chave de serviço em HTML, JS de cliente ou JSON. `productionBrowserSourceMaps`
+está `false` e o build não gera nenhum `.js.map` em `.next/static`. A varredura do
+bundle por `SUPABASE_SERVICE_ROLE_KEY`, `service_role`, `ADMIN_SESSION_SECRET`,
+`CRON_SECRET`, `INTERNAL_API_TOKEN` e `GROQ_API_KEY` retorna **um** arquivo, e o
+que está lá é o *nome* da variável dentro de um aviso de tela do admin
+("Configure ... SUPABASE_SERVICE_ROLE_KEY"), não o valor. Nenhum prefixo de
+credencial (`eyJ`, `sb_`, `sk-`) aparece fora de `.env`.
+
+## Varredura de segredos (§7)
+
+Working tree: **NÃO ENCONTRADO**. Nenhum segredo real versionado; `.env.example`
+só tem nomes e valores vazios.
+
+Histórico do git: **ENCONTRADO — 2 ocorrências.**
+
+| Tipo | Onde | Entrou em | Saiu em |
+| --- | --- | --- | --- |
+| Chave de API da OpenAI (`sk-proj-`, 164 caracteres) | `scripts/generate-embeddings.mjs`, como fallback fixo no código | `23b2eae` (2026-05-25) | `cd6329d` (2026-08-20) |
+| Segredo compartilhado das rotas internas (frase + SHA-256 dela) | `src/lib/internalAuth.ts`, escrito como constante | `23b2eae` (2026-05-25) | **esta rodada** — antes disso, presente em todos os commits |
+
+Nenhum dos dois valores é reproduzido aqui nem em log algum. **O repositório é
+público**: os commits continuam acessíveis e as duas credenciais devem ser
+consideradas comprometidas desde 25/05/2026.
+
+A segunda é menos grave em consequência — não dá acesso a dado de cliente nem a
+conta paga de terceiro — mas era a chave que abria `/api/qa/embed-missing` e
+`/api/search/reindex`, as duas rotas que queimam crédito de embedding. Não há o
+que rotacionar num painel: o conserto é definir `INTERNAL_API_TOKEN` no Netlify
+com um valor novo, de pelo menos 24 caracteres. Enquanto a variável não existir,
+as três rotas internas respondem 401 — fechado é o estado seguro.
+
+> **ROTAÇÃO NECESSÁRIA — `OPENAI_API_KEY`.** Feita pelo titular da conta, no
+> painel da OpenAI. Não foi rotacionada automaticamente. É achado **distinto** da
+> rotação de chaves do Supabase, que está encerrada e não volta à pauta.
+
+## Allowlist de campos públicos (§8)
+
+`CAMPOS_PUBLICOS_DO_CATALOGO` lista nominalmente o que o catálogo pode publicar:
+identidade, nome, status, preço, cor, sexo, cidade/estado, nascimento, descrição,
+mídia, pedigree/microchip como **booleano**, avaliação, SEO e datas.
+
+Fora dela, e portanto nunca mais na resposta: custo de aquisição, margem, notas
+internas, fornecedor/origem, identificadores de cliente e de reserva, autoria de
+registro, notas de saúde, número de microchip, URL de certificado e número de
+pedigree.
+
+## Rate limiting fora da memória (§9)
+
+`src/lib/rateLimit.ts` conta em memória — em serverless cada instância tem o seu
+`Map`, e quem distribui as requisições ganha janela nova a cada cold start.
+
+`/api/leads`, que é a rota que alimenta o funil comercial, passou a ter uma
+segunda camada contada **no banco**: 5 por minuto e 40 por dia por `ip_address`,
+sobre `created_at`. Se a consulta falhar, ela registra o erro e cai para a camada
+em memória em vez de recusar — derrubar formulário porque o banco piscou custa
+mais caro que o risco que a regra cobre.
+
+As demais rotas públicas seguem só com a camada em memória, e isso está declarado
+no cabeçalho de `src/lib/limitePublico.ts`: é barreira contra script bobo e
+rajada de um IP só, não garantia distribuída.
+
+## Auditoria de dependências (§23)
+
+`npm audit --omit=dev` → **0 vulnerabilidades**. Nada bloqueante. Nenhum
+`npm audit fix --force`, nenhuma atualização de framework nesta rodada.
+
+## Cookies do admin (§17)
+
+`admin_session`, `admin_auth`, `adm`, `admin_email`, `admin_name`,
+`admin_user_id` e `admin_role`: todos `HttpOnly`, `Secure` quando
+`NODE_ENV === "production"`, `SameSite=Lax`, `Path=/`. Sessão expira em 8 horas;
+o cookie de papel dura 7 dias, mas sozinho não autoriza nada — `requireAdminApi`
+lê o papel do payload **assinado**, nunca do cookie de papel.
+
+## CSRF (§16)
+
+`SameSite=Lax` significa que o cookie de sessão não acompanha POST/PUT/DELETE
+vindo de outro site — o que cobre todas as rotas administrativas de escrita. O
+header `x-admin-pass` também não é forjável entre origens sem CORS, e não há
+`Access-Control-Allow-Origin: *` em lugar nenhum (§15; a única ocorrência no
+`netlify.toml` está comentada).
+
+Sobra o caso em que `Lax` **envia** o cookie: navegação de topo por GET. Varri as
+149 rotas atrás de handler `GET` que escreve no banco e achei três:
+
+- `/api/cron/publish-scheduled` — autenticada por segredo, não por cookie. Sem risco de CSRF.
+- `/api/integrations/[provider]/callback` — é o retorno do OAuth, GET por desenho. **Era** o caso real, e o nonce fechou.
+- `/api/admin/seo/audit` — grava uma linha de histórico em `seo_history`. Sem entrada do usuário, sem chamada externa, sem escrita destrutiva, e a resposta vai para a aba do próprio admin (nenhuma origem estranha consegue lê-la). Risco **baixo**, aceito e registrado; trocar para POST mudaria a tela do admin, fora do escopo deste delta.
+
+## CSP (§18) — plano, não instalação
+
+Nenhuma CSP foi instalada. Os headers que já existiam continuam de pé, conferidos
+em produção: `Strict-Transport-Security: max-age=31536000`, `X-Frame-Options: DENY`,
+`X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
+`Permissions-Policy: camera=(), microphone=(), geolocation=()`.
+
+Por que não instalar agora: o site carrega GTM, Google Ads/GA4, Meta Pixel,
+TikTok, Hotjar, Pinterest, AMP CDN, Mailchimp e Supabase — e o GTM injeta tags
+por configuração, ou seja, a lista de origens de script é aberta por natureza.
+Uma `script-src` com allowlist quebraria a primeira tag nova publicada pelo
+painel, e quebrar a medição de anúncios é pior que a falta da CSP.
+
+Caminho recomendado, para uma rodada própria e sem prazo apertado:
+
+1. `Content-Security-Policy-Report-Only` com `report-uri`, uma a duas semanas coletando violações reais.
+2. `script-src 'strict-dynamic' 'nonce-<nonce>'` com nonce por requisição gerado no `proxy.ts` — é a única forma que convive com o GTM injetando tags e com o bootstrap inline do Next.
+3. `img-src`, `connect-src`, `frame-src` e `media-src` derivados do relatório do passo 1, não da imaginação.
+4. Só então promover para modo bloqueante, e com o painel de Ads aberto ao lado.
+
+## Redirect aberto (§19) e SSRF (§20)
+
+**§19:** nenhum. Os únicos redirecionamentos são de destino fixo — `www` no
+`proxy.ts`, `/admin/login`, `/admin/dashboard` e `/admin/tracking`. Nenhuma rota
+redireciona para URL vinda de query, corpo ou header.
+
+**§20: NÃO APLICÁVEL.** Nenhuma rota busca URL fornecida pelo usuário. As
+chamadas externas existentes têm destino fixo em código ou variável de ambiente
+(OpenAI, Groq, Supabase, Meta, ZapSign).
+
+## Logs e PII (§21)
+
+Varredura por `console.*` e `logger.*` contendo telefone, e-mail, CPF, endereço,
+token, cookie, `authorization`, `gclid`, senha, segredo ou corpo de mensagem:
+**nada encontrado**. Os logs restantes carregam `error.message` de infraestrutura
+(Supabase, rede), não dado de titular. O webhook do WhatsApp já mascara o número
+com `mascararTelefone` nos dois pontos em que o registra. Nenhum `JSON.stringify`
+de corpo em log.
+
+## LGPD — o que o backend guarda × o que a política diz (§22)
+
+A política **não foi redesenhada**, conforme a instrução. O que segue é a
+comparação, para decisão do titular do tratamento.
+
+A política, em "Dados coletados › 1. Contato inicial e interesse", declara: nome,
+um canal de contato, cidade e estado, e as preferências informadas
+voluntariamente (cor, sexo, prazo, mensagem).
+
+O `INSERT` em `leads` grava, além disso, em toda submissão:
+
+| Campo | O que é |
+| --- | --- |
+| `ip_address` | endereço IP de quem enviou |
+| `user_agent` | navegador e dispositivo |
+| `referer` | página anterior |
+| `gclid`, `fbclid` | identificadores de clique de anúncio (Google e Meta) |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term` | origem da campanha |
+| `page`, `page_type`, `page_slug`, `page_color`, `page_city`, `page_intent` | contexto da página de origem |
+
+> **DIVERGÊNCIA — decisão do titular.** Esses dados de navegação e de publicidade
+> ficam ligados a uma pessoa identificada (nome + telefone na mesma linha) e a
+> política publicada não os menciona na etapa de interesse. Duas saídas possíveis:
+> declarar a coleta na política, com a base legal que **o titular** escolher, ou
+> parar de gravar os campos que não forem necessários (art. 6º, III). Nenhuma
+> base legal foi inventada aqui e nenhum texto da política foi alterado.
+
+Segundo ponto, menor: a política promete guardar os dados "durante o
+relacionamento ativo e pelo prazo necessário", e **não existe rotina de expurgo
+nem de anonimização** no código — a varredura por `delete`, `purge` ou
+`anonimiz` em `app/api/leads`, `app/api/cron` e nas migrations não retorna nada.
+Hoje o descarte depende de ação manual no painel.
+
+## Vulnerabilidades bloqueantes
+
+Nenhuma bloqueia o deploy. O que ficou fora do código, para o titular resolver:
+
+1. **`OPENAI_API_KEY` — rotação necessária** (§7). Chave exposta em repositório público desde 25/05/2026.
+2. **Divergência LGPD** (§22): declarar os campos de navegação/publicidade ou parar de gravá-los.
+3. **`INTERNAL_API_TOKEN` — definir um valor novo** (§7). O segredo antigo estava escrito no código, em repositório público. Sem a variável, as três rotas internas respondem 401.
+4. **Variáveis que precisam existir no Netlify**, senão as rotas ficam fechadas — que é o comportamento correto, mas é bom saber: `INTERNAL_API_TOKEN`, `WA_APP_SECRET`, `WA_VERIFY_TOKEN`. `CRON_SECRET` já está configurado (confirmado por sonda).
+
+## Resultado final
+
+Portão de segurança **aprovado**. Cinco rotas de diagnóstico removidas, um
+vazamento de campos internos do catálogo fechado, três vetores de custo de IA
+limitados, treze rotas administrativas com segunda camada de guard, nonce de
+OAuth implementado, cron falhando fechado, vinte rotas com erro sanitizado,
+`npm audit --omit=dev` limpo, e dois segredos históricos identificados e
+reportados para troca sem jamais serem impressos.

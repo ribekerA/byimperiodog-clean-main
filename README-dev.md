@@ -81,12 +81,12 @@ Se `/blog` ou `/blog/[slug]` não exibirem posts:
 	update blog_posts set status='published' where status in ('draft','review');
 	```
 4. Preview em desenvolvimento: adicione `?preview=1` à URL para enxergar `draft` e `review`.
-5. API de debug (local ou deploy):
-	- Defina `DEBUG_TOKEN="algum-segredo"`.
-	- Requisição:
-	  ```bash
-	  curl -H "x-debug-token: $DEBUG_TOKEN" http://localhost:3000/api/debug/blog
-	  ```
+5. Conferir os posts sem passar pelo site: as rotas `/api/debug/*`,
+	`/api/debug-env`, `/api/debug-post` e `/api/diag/puppies` foram **removidas**
+	do projeto. Elas respondiam em produção e diziam quais chaves existiam no
+	servidor (`hasService: true`), devolviam stack trace e liam a tabela de
+	filhotes inteira com a chave de serviço, sem sessão. Para inspecionar o banco,
+	use o painel do Supabase ou um script local com as chaves do `.env.local`.
 6. RLS (caso esqueceu migrations): execute `sql/blog.sql` para criar política:
 	- Política esperada: `blog_posts_public_read` (SELECT usando `status = 'published'`).
 

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+import { erroPublico } from "@/lib/apiErro";
+
 export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
@@ -30,7 +32,7 @@ export async function GET(req: Request) {
       headers: { 'Content-Type': 'image/svg+xml', 'Cache-Control': 'public, max-age=3600' },
     });
   } catch (err: any) {
-    return NextResponse.json({ error: String(err?.message || err) }, { status: 500 });
+    return erroPublico("api/og", err);
   }
 }
 

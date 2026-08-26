@@ -16,6 +16,7 @@ import OpenAI from "openai";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { formatPrice } from "@/lib/catalog-utils";
+import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 
 // ─── Catálogo ──────────────────────────────────────────────────────────────────
 // Gerado a partir de content/puppies-static.ts (mesma fonte do catálogo público)
@@ -185,15 +186,34 @@ Quando convidar para deixar contato (só UMA vez, só depois de pelo menos 1 tro
 
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
-export async function POST(req: NextRequest) {
-  let messages: Array<{ role: "user" | "assistant"; content: string }>;
+// Tetos do chat. O modelo cobra por token de entrada, e o histórico inteiro
+// vai junto em toda mensagem: sem limite, um POST com mil turnos de 50 KB era
+// uma fatura de uma requisição só. Uma conversa real de venda não passa de
+// algumas dezenas de turnos curtos.
+const MAX_TURNOS = 40;
+const MAX_CARACTERES_POR_TURNO = 4_000;
+const LIMITE_CORPO_CHAT = 64 * 1024;
 
-  try {
-    const body = await req.json();
-    messages = body.messages ?? [];
-  } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
-  }
+export async function POST(req: NextRequest) {
+  // Rota pública que fala com a Groq. Antes não tinha limite de taxa, teto de
+  // corpo nem teto de histórico: era o caminho mais barato para gastar a cota
+  // de IA do canil sem passar por autenticação nenhuma.
+  const bloqueio = limiteDeTaxa(req, "matchmaker", 20);
+  if (bloqueio) return bloqueio;
+
+  const lido = await corpoJson<{ messages?: unknown }>(req, LIMITE_CORPO_CHAT);
+  if (lido.resposta) return lido.resposta;
+
+  const brutas = Array.isArray(lido.dados?.messages) ? lido.dados.messages : [];
+  // Fica só com o fim da conversa: é o trecho que dá contexto à resposta.
+  const messages: Array<{ role: "user" | "assistant"; content: string }> = brutas
+    .slice(-MAX_TURNOS)
+    .filter((m): m is { role: "user" | "assistant"; content: string } =>
+      !!m && typeof m === "object" &&
+      ((m as { role?: unknown }).role === "user" || (m as { role?: unknown }).role === "assistant") &&
+      typeof (m as { content?: unknown }).content === "string",
+    )
+    .map((m) => ({ role: m.role, content: m.content.slice(0, MAX_CARACTERES_POR_TURNO) }));
 
   const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey || apiKey.includes("placeholder")) {

@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 // ─── GET — avaliações aprovadas ───────────────────────────────────────────────
@@ -52,12 +53,14 @@ interface ReviewBody {
 }
 
 export async function POST(req: NextRequest) {
-  let body: ReviewBody;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
-  }
+  // Avaliação é escrita pública anônima: sem teto, um script gravaria
+  // milhares de linhas pendentes na fila de moderação do canil.
+  const bloqueio = limiteDeTaxa(req, "reviews", 5);
+  if (bloqueio) return bloqueio;
+
+  const lido = await corpoJson<ReviewBody>(req);
+  if (lido.resposta) return lido.resposta;
+  const body = lido.dados;
 
   const { puppySlug, reviewerName, rating, comment, reviewerCity, photoUrl } = body;
 
@@ -73,6 +76,14 @@ export async function POST(req: NextRequest) {
   }
   if (reviewerName.length > 80) {
     return NextResponse.json({ error: "Nome muito longo" }, { status: 400 });
+  }
+  // Tetos por campo: o corpo já é limitado, mas sem isto um único POST
+  // ainda podia gravar 16 KB de comentário numa coluna de texto.
+  if (comment.length > 2000) {
+    return NextResponse.json({ error: "Comentário muito longo" }, { status: 400 });
+  }
+  if (puppySlug.length > 120 || (reviewerCity?.length ?? 0) > 80 || (photoUrl?.length ?? 0) > 500) {
+    return NextResponse.json({ error: "Campos fora do tamanho permitido" }, { status: 400 });
   }
 
   try {

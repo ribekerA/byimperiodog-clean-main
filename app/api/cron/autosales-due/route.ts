@@ -21,6 +21,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
 import { processAutoSalesQueue } from "@/lib/ai/autoSalesEngine";
+import { erroPublico } from "@/lib/apiErro";
 import { autorizarCron } from "@/lib/cron/auth";
 import { createLogger } from "@/lib/logger";
 import { hasServiceRoleKey } from "@/lib/supabaseAdmin";
@@ -46,7 +47,7 @@ async function executar(req: Request) {
     // A fila nao pode derrubar o agendador: o proximo ciclo tenta de novo, e as
     // sequencias com defeito ficam registradas no log de cada passo.
     logger.error("autosales_fila_falhou", { error: String(error) });
-    return NextResponse.json({ ok: false, error: String(error) }, { status: 500 });
+    return erroPublico("api/cron/autosales-due", error);
   }
 }
 

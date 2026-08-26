@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { requireAdmin } from "@/lib/adminAuth";
+import { erroPublico } from "@/lib/apiErro";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import type { ProviderKey } from "@/lib/tracking/providers/types";
 import { listResourcesByProvider } from "@/lib/tracking/resources";
@@ -61,6 +62,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ settings: data });
   } catch (error: any) {
-    return NextResponse.json({ error: error?.message || "save_failed" }, { status: 500 });
+    return erroPublico("api/tracking/select", error, 500, { code: "save_failed" });
   }
 }

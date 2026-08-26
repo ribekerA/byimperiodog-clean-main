@@ -14,6 +14,7 @@ export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
+import { erroPublico } from "@/lib/apiErro";
 import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import { autorizarCron } from "@/lib/cron/auth";
 import { supabaseAdmin, hasServiceRoleKey } from "@/lib/supabaseAdmin";
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
     .in("id", ids);
 
   if (error) {
-    return NextResponse.json({ message: "Falha ao publicar", error: String(error.message) }, { status: 500 });
+    return erroPublico("api/blog/publish-due", error, 500, { message: "Falha ao publicar" });
   }
 
   // Revalidate listing and each post

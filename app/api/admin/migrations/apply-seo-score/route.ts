@@ -1,11 +1,15 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
 
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 // Endpoint ad-hoc para aplicar migration de seo_score se ainda não existir.
 // Segurança: ideal proteger via auth admin; assumimos já estar sob /api/admin/* protegido por middleware existente.
-export async function POST(){
+export async function POST(req: Request){
+  const autorizacao = requireAdminApi(req);
+  if (autorizacao) return autorizacao;
+
   try {
     const sb = supabaseAdmin();
     // Verifica se coluna existe

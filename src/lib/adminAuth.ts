@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 import { ADMIN_SESSION_COOKIE, verifyAdminSession, type AdminSessionPayload } from "@/lib/adminSession";
+import { comparaConstante, lerCookieDeSessao, verifyAdminSessionSync } from "@/lib/adminSessionNode";
 import { createLogger } from "@/lib/logger";
 import {
   DEFAULT_ROLE,
@@ -74,36 +75,35 @@ export async function redirectIfAuthed() {
 }
 
 export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOptions = {}) {
-  // Nota: este guard e sincrono e nao verifica a assinatura do admin_session (isso exigiria
-  // async em ~90 call sites). A defesa real contra forjar cookies vive no middleware.ts,
-  // que verifica a assinatura HMAC antes de qualquer /api/admin/* chegar aqui. Este guard
-  // e uma segunda camada e, por isso, precisa falhar fechado quando nada bate.
-  const checkPermission = (): NextResponse | null => {
+  // Este guard verifica a assinatura HMAC do admin_session -- de forma sincrona,
+  // via node:crypto (ver src/lib/adminSessionNode.ts), porque os ~97 call sites
+  // sao sincronos.
+  //
+  // O que mudou e por que: antes bastava a cookie NAO assinada `admin_auth=1`
+  // (ou `adm=true`) para passar. Em /api/admin/* isso nao virava invasao porque
+  // o proxy conferia a assinatura antes. Mas cinco rotas administrativas nao
+  // moram sob /api/admin/*: /api/ai/captions, /api/ai/seo, /api/tracking/select,
+  // /api/settings/tracking (POST) e /api/integrations/[provider]/resources. Nelas
+  // o proxy nao olhava, e um `curl -H "Cookie: admin_auth=1"` respondia 200 em
+  // producao. As duas cookies legadas deixaram de ser aceitas aqui.
+  const checarPermissao = (papel: AdminRole): NextResponse | null => {
     if (!options.permission) return null;
-    const role = resolveRoleFromRequest(req);
-    if (!hasPermission(role, options.permission)) {
+    if (!hasPermission(papel, options.permission)) {
       return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
     }
     return null;
   };
 
-  try {
-    const nreq = req as NextRequest;
-    const cookieAuth =
-      (nreq.cookies?.get?.("admin_auth")?.value) === "1" ||
-      (nreq.cookies?.get?.("adm")?.value) === "true";
-    if (cookieAuth) {
-      return checkPermission();
-    }
-  } catch {
-    // ignore cookie access failures on generic Request
+  const sessao = verifyAdminSessionSync(lerCookieDeSessao(req, ADMIN_SESSION_COOKIE));
+  if (sessao) {
+    // O papel vem do payload assinado, nao da cookie de papel (gravada sem
+    // assinatura, e portanto trocavel por "owner" a mao).
+    return checarPermissao(sessao.role);
   }
 
   // Apenas ADMIN_PASS: NEXT_PUBLIC_* vai para o bundle do browser.
-  const expected = process.env.ADMIN_PASS;
-  const pass = req.headers.get("x-admin-pass");
-  if (expected && pass === expected) {
-    return checkPermission();
+  if (comparaConstante(process.env.ADMIN_PASS, req.headers.get("x-admin-pass"))) {
+    return checarPermissao(resolveRoleFromRequest(req));
   }
 
   return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });

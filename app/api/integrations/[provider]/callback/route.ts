@@ -2,7 +2,9 @@ export const dynamic = "force-dynamic";
 import type { NextRequest} from "next/server";
 import { NextResponse } from "next/server";
 
+import { erroPublico } from "@/lib/apiErro";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { cookieDeState, lerCookie, nomeDoCookieDeState, stateConfere } from "@/lib/tracking/oauthState";
 import { getProvider } from "@/lib/tracking/providers/registry";
 
 function getQuery(url: string): URLSearchParams {
@@ -23,10 +25,12 @@ export async function GET(req: NextRequest, props: { params: Promise<{ provider:
   if (!code) {
     return NextResponse.json({ ok: false, error: "missing_code" }, { status: 400 });
   }
-  // TODO: validate state (nonce) from session/cookie if stored during login.
-  if (!state) {
-    // proceed but warn; in production enforce strict state validation
-    console.warn("[oauth-callback] missing state for provider", providerKey);
+  // O state precisa bater com o cookie gravado no /login. Antes daqui havia um
+  // TODO e um console.warn: qualquer callback forjado era aceito.
+  const stateEsperado = lerCookie(req, nomeDoCookieDeState(providerKey));
+  if (!stateConfere(state, stateEsperado)) {
+    console.warn("[oauth-callback] state inválido para", providerKey);
+    return NextResponse.json({ ok: false, error: "invalid_state" }, { status: 400 });
   }
 
   try {
@@ -148,10 +152,12 @@ export async function GET(req: NextRequest, props: { params: Promise<{ provider:
     // Redirect to canonical admin tracking page
     const to = new URL(origin);
     to.pathname = "/admin/tracking";
-    return NextResponse.redirect(to);
+    const resposta = NextResponse.redirect(to);
+    // State é de uso único: expira junto com o redirect final.
+    resposta.headers.append("set-cookie", cookieDeState(providerKey, "", 0));
+    return resposta;
   } catch (err: any) {
-    const msg = err?.message || "callback_failed";
-    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
+    return erroPublico("api/integrations/callback", err, 500, { code: "callback_failed" });
   }
 }
 

@@ -7,23 +7,70 @@ export const dynamic = "force-dynamic";
  *
  * Variáveis de ambiente necessárias:
  *   WA_VERIFY_TOKEN       — token de verificação definido no painel Meta
+ *   WA_APP_SECRET         — App Secret do app Meta, usado para conferir a
+ *                           assinatura X-Hub-Signature-256 de cada POST
  *   WA_ACCESS_TOKEN       — token de acesso permanente (Meta System User)
  *   WA_PHONE_NUMBER_ID    — ID do número de telefone no Meta Business
+ *
+ * Sobre a assinatura: até esta rodada o POST era aberto. Quem soubesse a URL
+ * podia mandar um corpo no formato da Meta e fazer o site (a) rodar o agente
+ * de IA, que custa crédito por chamada, e (b) enviar mensagem de WhatsApp para
+ * o número que escolhesse, pela conta do canil. O POST agora exige a
+ * assinatura HMAC que a Meta manda em todo webhook, e recusa a requisição
+ * quando WA_APP_SECRET não estiver configurado — falhar fechado é proposital,
+ * porque o modo aberto é justamente o defeito corrigido.
  */
+
+import { createHmac, timingSafeEqual } from "node:crypto";
 
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { runAgent } from "@/lib/whatsapp/agent";
 
-const VERIFY_TOKEN = process.env.WA_VERIFY_TOKEN ?? "byimperiodog_verify";
+const VERIFY_TOKEN = process.env.WA_VERIFY_TOKEN ?? "";
+const APP_SECRET = process.env.WA_APP_SECRET ?? "";
 const ACCESS_TOKEN = process.env.WA_ACCESS_TOKEN ?? "";
 const PHONE_NUMBER_ID = process.env.WA_PHONE_NUMBER_ID ?? "";
 
 const META_GRAPH_URL = "https://graph.facebook.com/v19.0";
 
-// Deduplication cache (in-memory, resets on cold start)
+// Deduplication cache (in-memory, resets on cold start).
+//
+// Continua sendo por instância: em serverless não há memória compartilhada, e
+// isso está registrado no relatório. O que mudou é que o Set deixou de crescer
+// sem limite — um webhook movimentado (ou alguém repetindo ids diferentes)
+// fazia a instância acumular string até estourar.
 const processedIds = new Set<string>();
+const LIMITE_DEDUP = 5_000;
+
+function marcarProcessado(id: string) {
+  if (processedIds.size >= LIMITE_DEDUP) {
+    // Descarta o mais antigo. Set em JS preserva ordem de inserção.
+    const maisAntigo = processedIds.values().next().value;
+    if (maisAntigo !== undefined) processedIds.delete(maisAntigo);
+  }
+  processedIds.add(id);
+}
+
+/** Telefone em log vira 5511•••••3239: o suficiente para casar com o
+ *  atendimento, sem despejar o número inteiro do cliente no log da Netlify. */
+function mascararTelefone(telefone: string): string {
+  if (telefone.length <= 8) return "•".repeat(telefone.length);
+  return telefone.slice(0, 4) + "•".repeat(telefone.length - 8) + telefone.slice(-4);
+}
+
+/** Confere o X-Hub-Signature-256 que a Meta envia: HMAC-SHA256 do corpo cru,
+ *  com o App Secret, no formato sha256=<hex>. */
+function assinaturaConfere(corpoCru: string, cabecalho: string | null): boolean {
+  if (!APP_SECRET || !cabecalho) return false;
+
+  const esperada = "sha256=" + createHmac("sha256", APP_SECRET).update(corpoCru, "utf8").digest("hex");
+  const bufEsperada = Buffer.from(esperada, "utf8");
+  const bufRecebida = Buffer.from(cabecalho, "utf8");
+  if (bufEsperada.length !== bufRecebida.length) return false;
+  return timingSafeEqual(bufEsperada, bufRecebida);
+}
 
 // ─── GET — Verificação do webhook Meta ────────────────────────────────────────
 
@@ -32,6 +79,13 @@ export function GET(req: NextRequest) {
   const mode = searchParams.get("hub.mode");
   const token = searchParams.get("hub.verify_token");
   const challenge = searchParams.get("hub.challenge");
+
+  // Sem WA_VERIFY_TOKEN configurado ninguém verifica o webhook. Antes havia um
+  // valor padrão escrito aqui — em repositório público, o que é o mesmo que não
+  // ter verificação nenhuma.
+  if (!VERIFY_TOKEN) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
 
   if (mode === "subscribe" && token === VERIFY_TOKEN) {
     return new NextResponse(challenge, { status: 200 });
@@ -43,9 +97,25 @@ export function GET(req: NextRequest) {
 // ─── POST — Recebe e processa mensagens ───────────────────────────────────────
 
 export async function POST(req: NextRequest) {
+  if (!APP_SECRET) {
+    console.error("[WA Agent] WA_APP_SECRET não configurado — webhook recusado.");
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  // Corpo cru: a assinatura é sobre os bytes que chegaram, não sobre o objeto
+  // reserializado.
+  const corpoCru = await req.text();
+  if (corpoCru.length > 512 * 1024) {
+    return NextResponse.json({ error: "Payload too large" }, { status: 413 });
+  }
+
+  if (!assinaturaConfere(corpoCru, req.headers.get("x-hub-signature-256"))) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   let body: unknown;
   try {
-    body = await req.json();
+    body = JSON.parse(corpoCru);
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
@@ -68,7 +138,7 @@ export async function POST(req: NextRequest) {
 
         const messageId: string = message.id ?? "";
         if (messageId && processedIds.has(messageId)) continue; // dedup
-        if (messageId) processedIds.add(messageId);
+        if (messageId) marcarProcessado(messageId);
 
         const from: string = message.from ?? "";
         const text: string = message.text?.body ?? "";
@@ -111,7 +181,7 @@ async function processMessage({
 
   // Se escalou para humano, notifica internamente (log ou futura notificação push)
   if (escalate) {
-    console.info(`[WA Agent] 🚨 Escalonado para humano — ${phone} (${name ?? "sem nome"})`);
+    console.info(`[WA Agent] 🚨 Escalonado para humano — ${mascararTelefone(phone)}`);
   }
 }
 
@@ -149,6 +219,6 @@ async function sendWhatsAppMessage({
 
   if (!res.ok) {
     const err = await res.text();
-    console.error(`[WA Agent] Erro ao enviar para ${to}: ${err}`);
+    console.error(`[WA Agent] Erro ao enviar para ${mascararTelefone(to)}: ${err}`);
   }
 }

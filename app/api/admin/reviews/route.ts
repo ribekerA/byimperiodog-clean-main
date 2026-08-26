@@ -8,9 +8,13 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function GET(req: NextRequest) {
+  const autorizacao = requireAdminApi(req);
+  if (autorizacao) return autorizacao;
+
   const status = req.nextUrl.searchParams.get("status") ?? "pending";
   const limit  = Math.min(Number(req.nextUrl.searchParams.get("limit") ?? "2000"), 2000);
 

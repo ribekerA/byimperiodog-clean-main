@@ -134,6 +134,52 @@ const normalizeStatus = (value?: string | string[]) => {
     .filter((status): status is string => Boolean(status));
 };
 
+// Campos que podem sair pela API pública do catálogo.
+//
+// A consulta era `select("*")` e a rota espalhava a linha inteira no JSON.
+// A tabela `puppies` guarda cost_cents, profit_margin_percentage,
+// internal_notes, internal_source_id, source, customer_id, reserved_by e
+// created_by/updated_by: custo de aquisição, margem, anotação interna, origem
+// e id de pessoa, tudo servido a quem chamasse /api/catalog/ranked sem
+// autenticação nenhuma. A lista abaixo é a única coisa que sai daqui; para
+// acrescentar campo, acrescente com intenção.
+const CAMPOS_PUBLICOS_DO_CATALOGO = [
+  "id",
+  "slug",
+  "codigo",
+  "name",
+  "nome",
+  "status",
+  "price_cents",
+  "preco",
+  "color",
+  "cor",
+  "gender",
+  "sexo",
+  "city",
+  "cidade",
+  "state",
+  "estado",
+  "birth_date",
+  "nascimento",
+  "description",
+  "descricao",
+  "cover_url",
+  "image_url",
+  "images",
+  "gallery_images",
+  "video_url",
+  "has_pedigree",
+  "has_microchip",
+  "available_for_shipping",
+  "aggregate_rating",
+  "review_count",
+  "seo_title",
+  "seo_description",
+  "published_at",
+  "created_at",
+].join(",");
+
 export async function getRankedPuppies(filters?: {
   color?: string;
   gender?: string;
@@ -147,7 +193,7 @@ export async function getRankedPuppies(filters?: {
 
   let query = sb
     .from("puppies")
-    .select("*, catalog_ranking(score,flag,reason,rank_order)")
+    .select(`${CAMPOS_PUBLICOS_DO_CATALOGO}, catalog_ranking(score,flag,reason,rank_order)`)
     .order("rank_order", { referencedTable: "catalog_ranking", ascending: true })
     .order("score", { referencedTable: "catalog_ranking", ascending: false })
     .order("created_at", { ascending: false });

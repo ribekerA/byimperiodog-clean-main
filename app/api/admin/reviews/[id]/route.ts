@@ -8,9 +8,13 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const autorizacao = requireAdminApi(req);
+  if (autorizacao) return autorizacao;
+
   const params = await props.params;
   const { id } = params;
   if (!id) return NextResponse.json({ error: "id obrigatório" }, { status: 400 });

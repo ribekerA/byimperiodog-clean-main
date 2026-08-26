@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
+import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export const dynamic = "force-dynamic";
@@ -22,11 +23,20 @@ function rating(name: string, value: number): "good" | "needs-improvement" | "po
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const { name, value, id, page } = body;
+  // O navegador manda uma métrica por evento (LCP, INP, CLS, FCP, TTFB),
+  // então uma navegação normal gera poucas requisições. 60 por minuto por
+  // IP cobre com folga quem abre várias abas e ainda corta o script que
+  // tentar encher a tabela de vitals — que grava com service role.
+  const bloqueio = limiteDeTaxa(req, "rum", 60);
+  if (bloqueio) return bloqueio;
 
-    if (!VALID_METRICS.includes(name) || typeof value !== "number") {
+  const lido = await corpoJson<{ name?: string; value?: number; id?: string; page?: string }>(req, 4 * 1024);
+  if (lido.resposta) return lido.resposta;
+
+  try {
+    const { name, value, id, page } = lido.dados;
+
+    if (!name || !VALID_METRICS.includes(name) || typeof value !== "number" || !Number.isFinite(value)) {
       return NextResponse.json({ ok: false }, { status: 400 });
     }
 
@@ -36,8 +46,8 @@ export async function POST(req: NextRequest) {
         metric: name,
         value: Math.round(name === "CLS" ? value * 1000 : value),
         rating: rating(name, value),
-        metric_id: id ?? null,
-        page: page ?? null,
+        metric_id: id?.slice(0, 120) ?? null,
+        page: page?.slice(0, 300) ?? null,
         created_at: new Date().toISOString(),
       });
   } catch {

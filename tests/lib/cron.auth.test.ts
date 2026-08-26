@@ -53,13 +53,21 @@ describe("autorizarCron", () => {
     expect(autorizarCron(requisicao({ authorization: `Bearer ${SEGREDO.slice(0, 8)}` }))?.status).toBe(401);
   });
 
-  it("sem CRON_SECRET definido, deixa passar — o segredo e opcional ate ser criado", () => {
+  // Sem segredo a rota recusa. Producao ja tem CRON_SECRET configurado (um
+  // segredo errado volta 401 la), entao fechar aqui nao derruba agendamento
+  // nenhum — e impede que apagar a variavel por engano deixe publicacao e fila
+  // de vendas abertas para quem descobrir a URL.
+  it("sem CRON_SECRET definido, recusa", () => {
     delete process.env.CRON_SECRET;
-    expect(autorizarCron(requisicao())).toBeNull();
+    expect(autorizarCron(requisicao())?.status).toBe(401);
   });
 
-  it("CRON_SECRET so com espacos conta como ausente", () => {
+  it("CRON_SECRET so com espacos conta como ausente e tambem recusa", () => {
     process.env.CRON_SECRET = "   ";
-    expect(autorizarCron(requisicao())).toBeNull();
+    expect(autorizarCron(requisicao())?.status).toBe(401);
+  });
+
+  it("segredo certo continua passando mesmo com a porta fechada por padrao", () => {
+    expect(autorizarCron(requisicao({ "x-cron-secret": SEGREDO }))).toBeNull();
   });
 });

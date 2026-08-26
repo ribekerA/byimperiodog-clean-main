@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { NextResponse, type NextRequest } from 'next/server';
 
+import { erroPublico } from '@/lib/apiErro';
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
 
 
@@ -109,7 +110,7 @@ export async function POST(req: NextRequest) {
       if (process.env.NODE_ENV !== 'production') {
         return NextResponse.json({ skipped: 'dev_other_error', code, message: error?.message }, { status: 202 });
       }
-      return NextResponse.json({ error: error.message || 'insert_failed', code, offline: msg.includes('getaddrinfo') ? true : undefined }, { status: 500 });
+      return erroPublico('api/analytics', error, 500, { code });
     }
 
     // Outbox opcional (persistir payload bruto para processamento assíncrono) controlado via ANALYTICS_OUTBOX=1
@@ -134,7 +135,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true, id: insertedId });
   } catch (e: unknown) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : String(e) }, { status: 500 });
+    return erroPublico('api/analytics', e);
   }
 }
 
@@ -177,7 +178,7 @@ export async function GET(req: NextRequest) {
       if (code === '42P01') {
         return NextResponse.json({ ok: true, stub: true, events: [] });
       }
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return erroPublico('api/analytics', error);
     }
     const agg: Record<string, { count: number; sum: number | null; last_ts: string }> = {};
     interface Row { name: string; value: number | null; ts: string }
@@ -194,6 +195,6 @@ export async function GET(req: NextRequest) {
     events.sort((a, b) => b.count - a.count);
     return NextResponse.json({ ok: true, window_hours: hours, events });
   } catch (e: unknown) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : String(e) }, { status: 500 });
+    return erroPublico('api/analytics', e);
   }
 }

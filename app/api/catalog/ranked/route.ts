@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { getRankedPuppies } from "@/lib/ai/catalog-ranking";
+import { erroPublico } from "@/lib/apiErro";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -16,6 +17,6 @@ export async function GET(request: Request) {
     const data = await getRankedPuppies(filters);
     return NextResponse.json({ data });
   } catch (e) {
-    return NextResponse.json({ error: (e as Error).message }, { status: 500 });
+    return erroPublico("api/catalog/ranked", e);
   }
 }

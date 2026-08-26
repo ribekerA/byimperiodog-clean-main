@@ -42,9 +42,10 @@ export async function proxy(req: NextRequest) {
   const isAdminPath = pathname.startsWith("/admin");
   const isAdminApiPath = pathname.startsWith("/api/admin");
   const isAdminLogin = pathname === "/admin/login";
+  const isRotaAdminForaDoPrefixo = ehRotaAdministrativaForaDoPrefixo(pathname, req.method);
 
   let hasSession = false;
-  if (isAdminPath || isAdminApiPath) {
+  if (isAdminPath || isAdminApiPath || isRotaAdminForaDoPrefixo) {
     const sessionToken = req.cookies.get(ADMIN_SESSION_COOKIE)?.value;
     const verified = await verifyAdminSession(sessionToken);
     hasSession = verified !== null;
@@ -67,7 +68,7 @@ export async function proxy(req: NextRequest) {
   // ============================================================================
   // 4) REGRA: Proteção de /api/admin/* (cookie OU header "x-admin-pass")
   // ============================================================================
-  if (isAdminApiPath && pathname !== "/api/admin/login") {
+  if ((isAdminApiPath && pathname !== "/api/admin/login") || isRotaAdminForaDoPrefixo) {
     // Só ADMIN_PASS. NEXT_PUBLIC_* é inlinado no bundle do browser pelo Next,
     // então aceitar NEXT_PUBLIC_ADMIN_PASS aqui tornava possível autenticar com
     // uma senha que fica legível no JS público. Se precisar de acesso por
@@ -100,6 +101,35 @@ export async function proxy(req: NextRequest) {
   }
 
   return NextResponse.next({ request: { headers: requestHeaders } });
+}
+
+/**
+ * Rotas administrativas que NAO moram sob /admin nem sob /api/admin.
+ *
+ * Existiam cinco delas confiando so no guard sincrono `requireAdmin`, que ate
+ * esta rodada aceitava a cookie nao assinada `admin_auth=1`. O guard foi
+ * corrigido (src/lib/adminAuth.ts), mas o proxy passa a cobri-las tambem: e a
+ * mesma logica de defesa em profundidade que ja protege /api/admin/*, e vale
+ * para as rotas de integracao (`login` e `callback`), que nao tinham guard
+ * nenhum e gravam access_token de provedor com a chave de servico.
+ *
+ * /api/settings/tracking e o unico caso com metodo: o GET alimenta o site
+ * publico (hooks de tracking) e continua aberto; so a escrita exige sessao.
+ */
+const ROTAS_ADMIN_EXATAS = new Set([
+  "/api/ai/captions",
+  "/api/ai/seo",
+  "/api/tracking/select",
+  "/api/tracking/settings",
+]);
+
+const PREFIXOS_ADMIN = ["/api/integrations/"];
+
+function ehRotaAdministrativaForaDoPrefixo(pathname: string, metodo: string): boolean {
+  if (ROTAS_ADMIN_EXATAS.has(pathname)) return true;
+  if (PREFIXOS_ADMIN.some((prefixo) => pathname.startsWith(prefixo))) return true;
+  if (pathname === "/api/settings/tracking" && metodo !== "GET" && metodo !== "HEAD") return true;
+  return false;
 }
 
 export const config = {

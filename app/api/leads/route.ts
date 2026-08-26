@@ -3,42 +3,114 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { erroPublico, registrarErro } from "@/lib/apiErro";
 import { sendLeadAutoResponse } from "@/lib/email";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-// Schema de validação server-side alinhado com o funil de leads (contato + contexto + LGPD)
+// Schema de validação server-side alinhado com o funil de leads (contato + contexto + LGPD).
+//
+// Os `max()` entraram nesta rodada. Sem eles, `nome`, `telefone` e `mensagem`
+// aceitavam string de qualquer tamanho: dava para gravar megabytes por POST na
+// tabela de leads, e a tabela de leads é o que o canil abre todo dia.
 const leadSchema = z.object({
-  nome: z.string().min(2),
-  telefone: z.string().min(10),
+  nome: z.string().min(2).max(120),
+  telefone: z.string().min(10).max(24),
   // Cidade e estado eram obrigatórios aqui, mas são opcionais no formulário e
   // nulláveis na tabela — e o chat do matchmaker e a fila de espera nem chegam
   // a coletá-los. Na prática esses dois canais recebiam 400 e nenhum lead deles
   // era salvo. Continua aceitando o valor quando ele vem preenchido.
-  cidade: z.string().trim().min(2).nullish().or(z.literal("")),
+  cidade: z.string().trim().min(2).max(120).nullish().or(z.literal("")),
   estado: z.string().trim().length(2).toUpperCase().nullish().or(z.literal("")),
   sexo_preferido: z.enum(["macho", "femea", "tanto_faz"]).optional(),
-  cor_preferida: z.string().optional(),
+  cor_preferida: z.string().max(60).optional(),
   prazo_aquisicao: z.enum(["imediato", "1_mes", "2_3_meses", "3_mais"]).optional(),
-  mensagem: z.string().optional(),
+  mensagem: z.string().max(2000).optional(),
   // nullish e não optional: os clientes mandam getClickId(), que devolve null
   // quando a visita não veio de anúncio. Exigir string faria a validação
   // rejeitar o lead inteiro por causa de um campo de atribuição.
   gclid: z.string().trim().max(2048).nullish(),
   consent_lgpd: z.boolean(),
-  consent_version: z.string().default("1.0"),
-  consent_timestamp: z.string().optional(),
+  consent_version: z.string().max(20).default("1.0"),
+  consent_timestamp: z.string().max(40).optional(),
   // Contexto opcional de página
-  page_type: z.string().optional(),
-  page_slug: z.string().optional(),
-  page_color: z.string().optional(),
-  page_city: z.string().optional(),
-  page_intent: z.string().optional(),
+  page_type: z.string().max(60).optional(),
+  page_slug: z.string().max(200).optional(),
+  page_color: z.string().max(60).optional(),
+  page_city: z.string().max(120).optional(),
+  page_intent: z.string().max(60).optional(),
 });
 
-// Rate limiting simples (memória)
+// Corpo máximo aceito. O formulário mais cheio não passa de ~2 KB; 16 KB dá
+// folga para UTMs longas e ainda impede que alguém empurre um JSON de 10 MB
+// para dentro da função.
+const LIMITE_CORPO_BYTES = 16 * 1024;
+
+// Primeira camada: contagem em memória. É rápida e barata, mas em serverless
+// cada instância tem o seu Map — quem distribui as requisições ganha uma janela
+// nova a cada cold start. Por isso ela deixou de ser a única (ver
+// `excedeuLimitePersistido`).
 const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW = 60000; // 60 segundos
 const MAX_REQUESTS = 3;
+
+// Segunda camada: contagem no banco, que é global para todas as instâncias.
+// Os números são folgados de propósito — um casal decidindo junto pode mandar
+// dois ou três formulários da mesma casa, e perder lead legítimo custa mais
+// caro que aguentar alguns POSTs a mais.
+const JANELA_CURTA_MS = 60_000;
+const MAX_CURTO = 5;
+const JANELA_DIARIA_MS = 24 * 60 * 60 * 1000;
+const MAX_DIARIO = 40;
+
+// Janela de deduplicação da automação de IA. O insert continua acontecendo (um
+// reenvio pode trazer dado corrigido), mas a sequência de vendas com IA — que
+// custa crédito por lead — só dispara uma vez por telefone dentro dela.
+const JANELA_DEDUP_IA_MS = 30 * 60_000;
+
+function textoDoCorpo(valor: unknown): string | null {
+  return typeof valor === "string" && valor.length > 0 && valor.length <= 500 ? valor : null;
+}
+
+type ClienteSupabase = ReturnType<typeof supabaseAdmin>;
+
+async function contarLeads(sb: ClienteSupabase, coluna: string, valor: string, desdeMs: number) {
+  const desde = new Date(Date.now() - desdeMs).toISOString();
+  const { count, error } = await sb
+    .from("leads")
+    .select("id", { count: "exact", head: true })
+    .eq(coluna, valor)
+    .gte("created_at", desde);
+  if (error) throw error;
+  return count ?? 0;
+}
+
+/** Limite que não depende da memória da instância. Se a consulta falhar, cai
+ *  para a camada em memória (que já rodou) em vez de recusar o lead: derrubar
+ *  o formulário porque o banco piscou seria pior que o risco que ela cobre. */
+async function excedeuLimitePersistido(sb: ClienteSupabase, ip: string): Promise<boolean> {
+  if (!ip || ip === "unknown") return false;
+  try {
+    const [curto, diario] = await Promise.all([
+      contarLeads(sb, "ip_address", ip, JANELA_CURTA_MS),
+      contarLeads(sb, "ip_address", ip, JANELA_DIARIA_MS),
+    ]);
+    return curto >= MAX_CURTO || diario >= MAX_DIARIO;
+  } catch (erro) {
+    registrarErro("api/leads:limite-persistido", erro);
+    return false;
+  }
+}
+
+/** O lead recém-inserido já conta, então > 1 significa que este telefone já
+ *  tinha passado por aqui na última meia hora. */
+async function telefoneJaAtendidoRecentemente(sb: ClienteSupabase, telefone: string): Promise<boolean> {
+  try {
+    return (await contarLeads(sb, "telefone", telefone, JANELA_DEDUP_IA_MS)) > 1;
+  } catch (erro) {
+    registrarErro("api/leads:dedup-ia", erro);
+    return false;
+  }
+}
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
@@ -64,7 +136,25 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Muitas requisições. Aguarde 1 minuto e tente novamente." }, { status: 429 });
     }
 
-    const body = await req.json();
+    // Lê como texto para poder medir antes de desserializar: `req.json()` já
+    // teria alocado o objeto inteiro na memória da função.
+    const corpoCru = await req.text();
+    if (corpoCru.length > LIMITE_CORPO_BYTES) {
+      return NextResponse.json({ error: "Envio grande demais." }, { status: 413 });
+    }
+
+    let body: Record<string, unknown>;
+    try {
+      body = JSON.parse(corpoCru) as Record<string, unknown>;
+    } catch {
+      return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
+    }
+
+    const sb = supabaseAdmin();
+    if (await excedeuLimitePersistido(sb, ip)) {
+      return NextResponse.json({ error: "Muitas requisições. Aguarde 1 minuto e tente novamente." }, { status: 429 });
+    }
+
     const validation = leadSchema.safeParse(body);
     if (!validation.success) {
       return NextResponse.json({ error: "Dados inválidos", details: validation.error.errors }, { status: 400 });
@@ -73,14 +163,16 @@ export async function POST(req: NextRequest) {
     const data = validation.data;
     const url = new URL(req.url);
 
-    // UTM params (query tem precedência, fallback no body)
-    const utm_source = url.searchParams.get("utm_source") ?? body.utm_source ?? null;
-    const utm_medium = url.searchParams.get("utm_medium") ?? body.utm_medium ?? null;
-    const utm_campaign = url.searchParams.get("utm_campaign") ?? body.utm_campaign ?? null;
-    const utm_content = url.searchParams.get("utm_content") ?? body.utm_content ?? null;
-    const utm_term = url.searchParams.get("utm_term") ?? body.utm_term ?? null;
+    // UTM params (query tem precedência, fallback no body). `textoDoCorpo`
+    // existe porque o corpo agora é lido como Record<string, unknown>: só passa
+    // adiante o que de fato veio como string.
+    const utm_source = url.searchParams.get("utm_source") ?? textoDoCorpo(body.utm_source);
+    const utm_medium = url.searchParams.get("utm_medium") ?? textoDoCorpo(body.utm_medium);
+    const utm_campaign = url.searchParams.get("utm_campaign") ?? textoDoCorpo(body.utm_campaign);
+    const utm_content = url.searchParams.get("utm_content") ?? textoDoCorpo(body.utm_content);
+    const utm_term = url.searchParams.get("utm_term") ?? textoDoCorpo(body.utm_term);
 
-    const { data: inserted, error } = await supabaseAdmin()
+    const { data: inserted, error } = await sb
       .from("leads")
       .insert({
         nome: data.nome,
@@ -121,17 +213,22 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error) {
-      console.error("[API /leads] Supabase error:", error);
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      // O texto do Postgres chegava a quem enviava o formulario -- nome de
+      // tabela, nome de coluna e texto de constraint, de graca.
+      return erroPublico("api/leads", error, 400);
     }
 
     // ── Automação pós-captura (fire-and-forget, nunca bloqueia a resposta) ──
     if (inserted?.id) {
       const leadId = inserted.id;
 
-      // 1. Dispara sequência AutoSales (análise de IA + agendamento de follow-ups)
+      // 1. Dispara sequência AutoSales (análise de IA + agendamento de follow-ups).
+      //
+      // Só dispara uma vez por telefone a cada meia hora. Antes, cada POST
+      // aceito abria uma sequência nova: reenviar o mesmo formulário vinte
+      // vezes gerava vinte análises de IA, todas pagas.
       const isWaitlist = data.page_type === "notify_me";
-      if (!isWaitlist) {
+      if (!isWaitlist && !(await telefoneJaAtendidoRecentemente(sb, data.telefone))) {
         import("@/lib/ai/autoSalesEngine")
           .then(({ createAutoSalesSequence }) => createAutoSalesSequence(leadId))
           .catch((err) => console.error("[API /leads] autoSales:", err));
@@ -156,8 +253,6 @@ export async function POST(req: NextRequest) {
     // disparo repetido quando a mesma pessoa passa por mais de um caminho.
     return NextResponse.json({ ok: true, id: inserted?.id ?? null });
   } catch (e: unknown) {
-    const errorMessage = e instanceof Error ? e.message : "Erro desconhecido";
-    console.error("[API /leads] Unexpected error:", errorMessage);
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    return erroPublico("api/leads", e);
   }
 }
