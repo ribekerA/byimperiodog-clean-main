@@ -27,8 +27,12 @@
  * deixou de ser divulgada. As URLs dedicadas que já existiam continuam no ar e
  * intocadas — apagá-las ou redirecioná-las é decisão de quem responde pelo SEO,
  * não efeito colateral de uma mudança de tabela.
+ *
+ * O Particolor entrou na tabela e por isso entrou aqui: é a partir desta lista
+ * que o teste de regressão exige preço oficial para todo filhote publicado.
+ * Uma cor com filhote na vitrine e sem linha na tabela não tem valor a cobrar.
  */
-export const CORES_DIVULGADAS = ["laranja", "creme", "preto", "branco"] as const;
+export const CORES_DIVULGADAS = ["particolor", "laranja", "creme", "preto", "branco"] as const;
 
 export type CorDivulgada = (typeof CORES_DIVULGADAS)[number];
 export type Sexo = "macho" | "femea";
@@ -46,6 +50,7 @@ export type LinhaDaTabela = {
  * visitante (do mais acessível ao mais caro).
  */
 export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
+  particolor: { label: "Particolor", macho: 550000, femea: 650000 },
   laranja: { label: "Laranja", macho: 650000, femea: 750000 },
   creme: { label: "Creme", macho: 750000, femea: 850000 },
   preto: { label: "Preto", macho: 750000, femea: 850000 },
@@ -97,7 +102,7 @@ export const FAIXA_PUBLICA = {
   ),
 } as const;
 
-/** "R$ 6.500 a R$ 9.500" — a forma como a faixa é escrita em prosa. */
+/** "R$ 5.500 a R$ 9.500" — a forma como a faixa é escrita em prosa. */
 export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a ${formatarPreco(
   FAIXA_PUBLICA.maxCents
 )}`;
@@ -111,15 +116,33 @@ export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a $
  * não fala de documentação, de saúde nem de pós-venda, que têm perguntas
  * próprias.
  */
+/**
+ * "particolor R$ 5.500; laranja R$ 6.500; creme e preto R$ 7.500; branco
+ * R$ 8.500" — as cores de um sexo, agrupadas por valor e em ordem crescente.
+ *
+ * A versão anterior desta lista era escrita à mão dentro da resposta, uma cor
+ * de cada vez. Foi assim que entrar uma quinta cor na tabela virou trabalho de
+ * reescrever texto: o Particolor existiria na matriz e continuaria fora da
+ * frase. Agora o que a tabela ganha ou perde aparece aqui sozinho.
+ */
+function enumerarPorSexo(sexo: Sexo): string {
+  const porValor = new Map<number, string[]>();
+
+  for (const cor of CORES_DIVULGADAS) {
+    const valor = precoDe(cor, sexo);
+    porValor.set(valor, [...(porValor.get(valor) ?? []), TABELA_DE_PRECOS[cor].label.toLowerCase()]);
+  }
+
+  return [...porValor.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([valor, cores]) => `${cores.join(" e ")} ${formatarPreco(valor)}`)
+    .join("; ");
+}
+
 export const RESPOSTA_QUANTO_CUSTA =
-  "Os valores dos filhotes de Spitz Alemão Anão variam de " +
-  `${FAIXA_PUBLICA_TEXTO}, conforme sexo e cor. Machos: laranja ${formatarPreco(
-    TABELA_DE_PRECOS.laranja.macho
-  )}; creme e preto ${formatarPreco(TABELA_DE_PRECOS.creme.macho)}; branco ${formatarPreco(
-    TABELA_DE_PRECOS.branco.macho
-  )}. Fêmeas: laranja ${formatarPreco(TABELA_DE_PRECOS.laranja.femea)}; creme e preto ${formatarPreco(
-    TABELA_DE_PRECOS.creme.femea
-  )}; branco ${formatarPreco(TABELA_DE_PRECOS.branco.femea)}. ` +
+  `Os filhotes de Spitz Alemão Anão saem a partir de ${formatarPreco(FAIXA_PUBLICA.minCents)}, ` +
+  `chegando a ${formatarPreco(FAIXA_PUBLICA.maxCents)} conforme sexo e cor — cada valor abaixo é ` +
+  `o ponto de partida da combinação. Machos: ${enumerarPorSexo("macho")}. Fêmeas: ${enumerarPorSexo("femea")}. ` +
   "A disponibilidade é informada no atendimento.";
 
 /**

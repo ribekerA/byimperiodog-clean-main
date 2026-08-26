@@ -327,7 +327,11 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
+    // Capa: preto-00 é a foto mais recente e a única em que ele aparece
+    // inteiro, de frente e em foco. As antigas seguem na ordem em que já
+    // estavam — trocar a capa não reordena o resto do álbum.
     images: [
+      "/filhotes/preto/preto-00.jpeg",
       "/filhotes/preto/preto-01.jpg",
       "/filhotes/preto/preto-filhote-jardim-01.jpg",
       "/filhotes/preto/preto-filhote-flores-01.jpg",
@@ -480,6 +484,129 @@ export const staticPuppies = [
       "lulu da pomerânia macho bragança paulista",
       "filhote lulu da pomerânia branco disponível",
       "spitz alemão branco macho",
+    ],
+  },
+
+  // ─── LULU DA POMERÂNIA PARTICOLOR MACHO ─────────────────────────────────────
+  // Segue o mesmo pedido do branco acima: nome popular no anúncio, `color`
+  // ligado à tabela. O particolor entrou na tabela junto com este filhote — era
+  // a cor dele que faltava ter valor oficial, não o contrário.
+  {
+    id: "lulu-pomerania-particolor-macho-01",
+    name: "Lulu da Pomerânia Particolor Macho",
+    slug: "lulu-da-pomerania-particolor-macho",
+    title: "Lulu da Pomerânia Particolor Macho | By Império Dog",
+    color: "particolor",
+    cor: "Particolor",
+    sex: "male",
+    gender: "male",
+    status: "available",
+    breed: "Lulu da Pomerânia",
+    size: "mini",
+    city: "braganca-paulista",
+    state: "SP",
+    // Capa: a única foto em que ele aparece inteiro, de frente e em foco — é o
+    // enquadramento em que dá para ver como as manchas se distribuem, que é o
+    // que distingue um particolor de outro. As demais seguem por contexto.
+    images: [
+      "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
+      "/filhotes/particolor/particolor-macho-jardim-02.jpeg",
+      "/filhotes/particolor/particolor-macho-jardim-03.jpeg",
+      "/filhotes/particolor/particolor-macho-jardim-04.jpeg",
+      "/filhotes/particolor/particolor-macho-jardim-05.jpeg",
+      "/filhotes/particolor/particolor-macho-jardim-06.jpeg",
+    ],
+    // Macho Particolor — R$ 5.500, o menor valor da tabela.
+    // tests/pricing-guard.test.ts confere este número contra
+    // precoDe("particolor", "macho").
+    price_cents: 550000,
+    priceCents: 550000,
+    currency: "BRL",
+    description:
+      "Macho Particolor fotografado em luz natural no jardim. Pelagem de base branca com manchas definidas na cabeça, nas orelhas e no dorso; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    availableForShipping: true,
+    hasPedigree: true,
+    vaccinationStatus: "up-to-date",
+    hasMicrochip: false,
+    isHighlighted: true,
+    isFeatured: true,
+    isBestSeller: false,
+    isNewArrival: true,
+    reviewCount: 0,
+    averageRating: 0,
+    viewCount: 0,
+    favoriteCount: 0,
+    shareCount: 0,
+    inquiryCount: 0,
+    seoKeywords: [
+      "lulu da pomerânia particolor macho",
+      "spitz alemão particolor macho",
+      "filhote particolor bragança paulista",
+      "lulu da pomerânia malhado disponível",
+    ],
+  },
+
+  // ─── LULU DA POMERÂNIA LARANJA MACHO ────────────────────────────────────────
+  // Terceiro filhote do lote anunciado pelo nome popular. A cor de registro é
+  // laranja, confirmada pela responsável: nas fotos a pelagem aparece com
+  // sombreado escuro nas pontas, o que é a fase de filhote e não a cor adulta.
+  // A descrição diz isso em vez de prometer o laranja pleno das outras fotos.
+  {
+    id: "lulu-pomerania-laranja-macho-01",
+    name: "Lulu da Pomerânia Laranja Macho",
+    slug: "lulu-da-pomerania-laranja-macho",
+    title: "Lulu da Pomerânia Laranja Macho | By Império Dog",
+    color: "laranja",
+    cor: "Laranja",
+    sex: "male",
+    gender: "male",
+    status: "available",
+    breed: "Lulu da Pomerânia",
+    size: "mini",
+    city: "braganca-paulista",
+    state: "SP",
+    // Capa: a foto frontal em foco. O .mp4 fica no fim porque o componente
+    // separa foto de vídeo por extensão e usa photos[0] como pôster — a
+    // posição do vídeo no array não muda a capa.
+    images: [
+      "/filhotes/laranja/laranja-macho-gramado-01.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-02.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-03.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-04.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-05.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-06.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-07.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-08.jpeg",
+      "/filhotes/laranja/laranja-macho-gramado-09.jpeg",
+      "/filhotes/videos/laranja-macho-gramado.mp4",
+    ],
+    // Macho Laranja — R$ 6.500, o mesmo valor de qualquer macho laranja da
+    // tabela. tests/pricing-guard.test.ts confere este número contra
+    // precoDe("laranja", "macho").
+    price_cents: 650000,
+    priceCents: 650000,
+    currency: "BRL",
+    description:
+      "Macho Laranja fotografado e filmado em luz natural no gramado. A pelagem de filhote ainda traz sombreado escuro nas pontas, que costuma clarear até a cor adulta se firmar; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    availableForShipping: true,
+    hasPedigree: true,
+    vaccinationStatus: "up-to-date",
+    hasMicrochip: false,
+    isHighlighted: false,
+    isFeatured: true,
+    isBestSeller: false,
+    isNewArrival: true,
+    reviewCount: 0,
+    averageRating: 0,
+    viewCount: 0,
+    favoriteCount: 0,
+    shareCount: 0,
+    inquiryCount: 0,
+    seoKeywords: [
+      "lulu da pomerânia laranja macho",
+      "spitz alemão laranja macho",
+      "filhote lulu da pomerânia bragança paulista",
+      "lulu da pomerânia laranja disponível",
     ],
   },
 

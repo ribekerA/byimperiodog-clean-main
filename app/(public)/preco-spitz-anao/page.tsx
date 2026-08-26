@@ -5,7 +5,8 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import {
   type CorDivulgada,
-  FAIXA_PUBLICA_TEXTO,
+  FAIXA_PUBLICA,
+  formatarPreco,
   LINHAS_FORMATADAS,
   RESPOSTA_QUANTO_CUSTA,
 } from "@/domain/pricing";
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
   description:
     // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
     // varia", que é justamente a intenção de busca da página. Reescrita em 156.
-    "Tabela de preços do Spitz Alemão Anão por cor e sexo: Laranja, Creme, Preto e Branco. Veja o que está incluso e por que o valor varia.",
+    "Tabela do Spitz Alemão Anão por cor e sexo: Particolor, Laranja, Creme, Preto e Branco, a partir de R$ 5.500. Veja o que está incluso no valor.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     title: "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
     description:
-      "Machos de R$ 6.500 a R$ 8.500 e fêmeas de R$ 7.500 a R$ 9.500, conforme a cor — com registro oficial, contrato e mentoria pós-venda inclusos.",
+      "Machos a partir de R$ 5.500 e fêmeas a partir de R$ 6.500, conforme a cor — com registro oficial, contrato e mentoria pós-venda inclusos.",
     type: "article",
   },
 };
@@ -48,6 +49,7 @@ export const metadata: Metadata = {
 // home já dizia outra coisa — agora as duas colunas de valor saem de
 // domain/pricing e não têm como divergir.
 const NOTAS_DA_LINHA: Record<CorDivulgada, string> = {
+  particolor: "Menor valor da tabela atual",
   laranja: "A cor mais icônica da raça",
   creme: "Acima do laranja, junto com o preto",
   preto: "Acima do laranja, junto com o creme",
@@ -91,12 +93,12 @@ const PAGE_FAQS = [
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
     answer:
-      "Sim. Na tabela atual da By Império Dog, a fêmea custa R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco. Em relação ao macho da mesma cor, a diferença é de R$ 1.000. É a política comercial praticada hoje, e não uma regra da raça.",
+      "Sim. Na tabela atual da By Império Dog, a fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco. Em relação ao macho da mesma cor, a diferença é de R$ 1.000. É a política comercial praticada hoje, e não uma regra da raça.",
   },
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
     answer:
-      "O branco. Na tabela atual, o macho branco custa R$ 8.500 e a fêmea branca, R$ 9.500 — o maior valor nos dois sexos. Creme e preto ficam em R$ 7.500 para macho e R$ 8.500 para fêmea; o laranja é o menor da tabela, com R$ 6.500 para macho e R$ 7.500 para fêmea.",
+      "O branco. Na tabela atual, o macho branco parte de R$ 8.500 e a fêmea branca, de R$ 9.500 — o maior valor nos dois sexos. Creme e preto ficam em R$ 7.500 para macho e R$ 8.500 para fêmea, e o laranja em R$ 6.500 e R$ 7.500. Quem abre a tabela é o particolor, com R$ 5.500 para macho e R$ 6.500 para fêmea.",
   },
   {
     question: "O que está incluso no preço da By Império Dog?",
@@ -145,7 +147,7 @@ export default function PrecoSpitzPage() {
           Preço do Spitz Alemão Anão
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          De {FAIXA_PUBLICA_TEXTO}, conforme cor e sexo. Veja abaixo o que está incluso e por que o preço varia.
+          A partir de {formatarPreco(FAIXA_PUBLICA.minCents)}, chegando a {formatarPreco(FAIXA_PUBLICA.maxCents)} conforme cor e sexo. Veja abaixo o que está incluso e por que o preço varia.
         </p>
       </header>
 
@@ -155,7 +157,7 @@ export default function PrecoSpitzPage() {
           Tabela de preços por cor e sexo
         </h2>
         <p className="mb-6 text-sm text-zinc-600">
-          Os filhotes da By Império Dog são entregues com registro oficial, contrato e mentoria pós-venda inclusos no valor abaixo.
+          Cada linha traz o valor <strong className="font-semibold text-zinc-900">a partir de</strong> daquela combinação de cor e sexo — é o ponto de partida, e o valor de um filhote específico é confirmado no atendimento. Todos são entregues com registro oficial, contrato e mentoria pós-venda inclusos.
         </p>
         {/* A tabela tem min-w-[480px]: abaixo disso a caixa rola de lado e nao
             ha link nem botao dentro dela. Sem um ponto de foco, quem navega por
@@ -179,8 +181,8 @@ export default function PrecoSpitzPage() {
             <thead>
               <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500">
                 <th className="px-4 py-3">Cor</th>
-                <th className="px-4 py-3">Macho</th>
-                <th className="px-4 py-3">Fêmea</th>
+                <th className="px-4 py-3">Macho — a partir de</th>
+                <th className="px-4 py-3">Fêmea — a partir de</th>
                 <th className="hidden px-4 py-3 sm:table-cell">Observação</th>
               </tr>
             </thead>

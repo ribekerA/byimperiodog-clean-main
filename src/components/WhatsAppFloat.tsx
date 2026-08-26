@@ -29,6 +29,8 @@ function resolveMessage(pathname: string): string {
     return "Olá! Vi o Spitz Alemão Anão Preto no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/laranja"))
     return "Olá! Vi o Spitz Alemão Anão Laranja no site da By Império Dog e gostaria de saber disponibilidade.";
+  if (pathname.startsWith("/filhotes/cor/particolor"))
+    return "Olá! Vi o Spitz Alemão Anão Particolor no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/sexo/femea"))
     return "Olá! Tenho interesse em uma fêmea de Spitz Alemão Anão. Pode me informar disponibilidade?";
   if (pathname.startsWith("/filhotes/sexo/macho"))

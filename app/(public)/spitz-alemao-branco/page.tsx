@@ -65,7 +65,7 @@ const FAQS = [
   {
     question: "Qual é o preço do Spitz Alemão Anão Branco?",
     answer:
-      "A tabela atual traz R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as quatro cores divulgadas, nos dois sexos.",
+      "A tabela atual parte de R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as cinco cores divulgadas, nos dois sexos.",
   },
   {
     question: "A pelagem branca define temperamento ou saúde?",
@@ -188,7 +188,7 @@ export default function SpitzAlemaoBrancoPage() {
           Preço e disponibilidade do Spitz Branco
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-zinc-700">
-          A tabela atual traz R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as quatro cores divulgadas, nos dois sexos.
+          A tabela atual parte de R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as cinco cores divulgadas, nos dois sexos.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link href="/preco-spitz-anao" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-zinc-900 px-6 text-sm font-semibold text-white transition hover:bg-zinc-700">

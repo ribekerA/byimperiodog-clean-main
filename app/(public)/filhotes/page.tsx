@@ -16,12 +16,12 @@ const CATALOG_FAQS = [
   {
     question: "Quais são as cores de Spitz Alemão Anão disponíveis?",
     answer:
-      "A By Império Dog divulga quatro cores: Laranja, Creme, Preto e Branco. O laranja é o menor valor da tabela e o branco, o maior. A disponibilidade é informada no atendimento.",
+      "A By Império Dog divulga cinco cores: Particolor, Laranja, Creme, Preto e Branco. O particolor é o menor valor da tabela e o branco, o maior. A disponibilidade é informada no atendimento.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão Anão Fêmea e Macho?",
     answer:
-      "A fêmea custa R$ 1.000 a mais que o macho da mesma cor, por conta da maior procura. Fêmeas: R$ 7.500 no laranja, R$ 8.500 em creme e preto, R$ 9.500 no branco. Machos: R$ 6.500 no laranja, R$ 7.500 em creme e preto, R$ 8.500 no branco.",
+      "A fêmea custa R$ 1.000 a mais que o macho da mesma cor, por conta da maior procura. Cada valor é o ponto de partida da cor. Fêmeas: R$ 6.500 no particolor, R$ 7.500 no laranja, R$ 8.500 em creme e preto, R$ 9.500 no branco. Machos: R$ 5.500 no particolor, R$ 6.500 no laranja, R$ 7.500 em creme e preto, R$ 8.500 no branco.",
   },
   {
     question: "Os filhotes são entregues com quais documentos?",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   title:       "Filhotes de Spitz Alemão Anão Disponíveis",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
-  description: "Filhotes de Spitz Alemão Anão nas cores Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
+  description: "Filhotes de Spitz Alemão Anão nas cores Particolor, Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
   keywords: [
     "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
     "comprar Spitz Alemão creme", "filhote Pomeranian SP",

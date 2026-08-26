@@ -41,9 +41,11 @@ ${buildCatalogTable()}
 
 SOBRE AS CORES (aparência e disponibilidade — nunca temperamento):
 - A cor da pelagem não define temperamento, docilidade nem adaptação a crianças.
+- Todo valor da tabela é "a partir de": é o ponto de partida daquela cor e sexo.
 - Branco: pelagem de aparência branca e uniforme; é o topo da tabela.
 - Creme: pelagem cor de marfim; acima do laranja na tabela.
-- Laranja: a cor clássica da raça; é o menor valor da tabela.
+- Laranja: a cor clássica da raça; acima apenas do particolor.
+- Particolor: base branca com manchas definidas; é o menor valor da tabela.
 - Preto: disponibilidade menor em determinados períodos; mesmo valor do creme.
 
 FRETE/ENTREGA: entregamos em todo o Brasil com cuidado especializado

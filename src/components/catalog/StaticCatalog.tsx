@@ -47,8 +47,8 @@ const STATUS_OPTIONS = [
 ];
 
 // Rótulo amigável para cores cujo slug não serve como texto. Está vazio porque
-// as quatro cores divulgadas têm slug de uma palavra só — o `capitalize` do
-// fallback dá conta delas. A entrada do cinza-lobo saiu junto com a cor.
+// toda cor divulgada tem slug de uma palavra só — o `capitalize` do fallback dá
+// conta delas, particolor incluído. A entrada do cinza-lobo saiu com a cor.
 const COLOR_LABELS: Record<string, string> = {};
 
 export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {

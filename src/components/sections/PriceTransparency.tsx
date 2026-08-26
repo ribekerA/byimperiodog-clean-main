@@ -48,6 +48,7 @@ export default function PriceTransparency() {
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-zinc-600">
           Cada filhote sai daqui documentado, examinado e acompanhado. O valor inclui tudo — sem cobranças surpresa depois.
+          Os números da tabela são o ponto de partida de cada cor e sexo; o valor de um filhote específico é confirmado no atendimento.
         </p>
       </div>
 
@@ -87,7 +88,14 @@ export default function PriceTransparency() {
             )}
             <h3 className="text-lg font-bold text-zinc-900">{s.label}</h3>
             <p className="mt-1 text-sm text-zinc-500">{s.note}</p>
-            <ul className="mt-4 divide-y divide-zinc-100">
+            {/* Cabeçalho da coluna de valores. A tabela mostrava o número
+                sozinho e ele era lido como preço fechado; o que a tabela
+                declara é o piso de cada combinação de cor e sexo. Dizer isso
+                uma vez por card evita repetir "a partir de" dez vezes. */}
+            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-zinc-500">
+              Valores a partir de
+            </p>
+            <ul className="mt-2 divide-y divide-zinc-100">
               {s.colors.map((c) => (
                 <li key={c.cor} className="flex items-center justify-between py-2 text-sm">
                   <span className="font-medium text-zinc-700">{c.cor}</span>

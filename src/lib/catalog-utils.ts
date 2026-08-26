@@ -3,11 +3,22 @@ import { CORES_DIVULGADAS, RESPOSTA_PRETO } from "@/domain/pricing";
 
 export type CatalogItem = (typeof staticPuppies)[number];
 
-// ALL_COLORS continua com as cinco cores de propósito: é daqui que saem os
+// ALL_COLORS carrega o wolf-sable de propósito: é daqui que saem os
 // `generateStaticParams` de /filhotes/cor/[cor] e as entradas do sitemap. Tirar
 // o wolf-sable desta lista faria uma URL indexada devolver 404, que é
 // exatamente o que não se faz sem decisão de quem responde pelo SEO.
-export const ALL_COLORS = ["branco", "creme", "laranja", "preto", "wolf-sable"] as const;
+//
+// O particolor entrou pelo outro lado: ele é divulgado, então CORES_EXIBIDAS já
+// o coloca no seletor de cores. Sem a entrada aqui, esse link levaria a uma rota
+// que generateStaticParams não gera — link novo apontando para 404.
+export const ALL_COLORS = [
+  "branco",
+  "creme",
+  "laranja",
+  "particolor",
+  "preto",
+  "wolf-sable",
+] as const;
 export type PuppyColor = (typeof ALL_COLORS)[number];
 
 /**
@@ -92,7 +103,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Branco?",
         answer:
-          "A tabela atual traz R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as quatro cores, nos dois sexos. A disponibilidade é informada no atendimento.",
+          "A tabela atual parte de R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as cinco cores, nos dois sexos. A disponibilidade é informada no atendimento.",
       },
       {
         question: "A cor branca muda o temperamento ou a saúde do Spitz?",
@@ -161,7 +172,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Laranja?",
         answer:
-          "Na By Império Dog, o Macho Laranja é R$ 6.500 e a Fêmea Laranja é R$ 7.500 — o menor valor da tabela nos dois sexos. A disponibilidade é informada no atendimento.",
+          "Na By Império Dog, o Laranja parte de R$ 6.500 no macho e R$ 7.500 na fêmea — acima apenas do particolor, que abre a tabela. A disponibilidade é informada no atendimento.",
       },
       {
         question: "Spitz Laranja é dócil com crianças?",
@@ -177,6 +188,43 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
         question: "Com que frequência devo dar banho no Spitz Laranja?",
         answer:
           "O ideal é a cada 30 dias com escovação semanal para evitar nós. Em épocas de troca de pelo, a escovação pode ser aumentada para três vezes por semana.",
+      },
+    ],
+  },
+  particolor: {
+    seoTitle: "Spitz Alemão Anão Particolor — Filhotes",
+    metaDescription:
+      "Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas, a partir de R$ 5.500.",
+    h1: "Spitz Alemão Anão Particolor",
+    intro:
+      "O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. É a combinação que abre a tabela da By Império Dog: a partir de R$ 5.500 no macho.",
+    characteristics: [
+      "Base branca com manchas definidas de outra cor — o desenho é único em cada filhote",
+      "Coloração reconhecida pelo padrão FCI nº 97 da raça",
+      "Temperamento típico da raça — a cor não altera o comportamento",
+      "Tamanho dentro do padrão FCI nº 97 (21 cm ± 3 cm na cernelha (altura))",
+      "Menor valor da tabela atual, nos dois sexos",
+    ],
+    faqs: [
+      {
+        question: "Qual o preço do Spitz Alemão Anão Particolor?",
+        answer:
+          "Na By Império Dog, o Particolor parte de R$ 5.500 no macho e R$ 6.500 na fêmea — o menor valor da tabela nos dois sexos. A disponibilidade é informada no atendimento.",
+      },
+      {
+        question: "O que é um Spitz Particolor?",
+        answer:
+          "Particolor descreve a pelagem de base branca com manchas de outra cor bem delimitadas, e não uma mistura gradual de tons. O desenho das manchas muda de filhote para filhote — dois particolores da mesma ninhada nunca têm a mesma distribuição.",
+      },
+      {
+        question: "O Particolor é aceito pelo padrão da raça?",
+        answer:
+          "Sim. O particolor consta entre as colorações previstas no padrão FCI nº 97 do Spitz Alemão. O que o padrão pede é que as manchas sejam bem distribuídas sobre a base branca.",
+      },
+      {
+        question: "As manchas do Particolor mudam com o tempo?",
+        answer:
+          "O desenho das manchas se mantém, mas a intensidade da cor dentro delas pode clarear ou escurecer até a pelagem adulta se firmar, entre 6 e 12 meses. É o mesmo comportamento das demais cores da raça.",
       },
     ],
   },
@@ -239,7 +287,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "A By Império Dog trabalha com Cinza-Lobo?",
         answer:
-          "O Cinza-Lobo não faz parte das cores divulgadas pela By Império Dog. As cores oferecidas são Laranja, Creme, Preto e Branco, com a tabela de valores publicada na página de preços.",
+          "O Cinza-Lobo não faz parte das cores divulgadas pela By Império Dog. As cores oferecidas são Particolor, Laranja, Creme, Preto e Branco, com a tabela de valores publicada na página de preços.",
       },
       {
         question: "O Spitz Cinza-Lobo muda de cor com o tempo?",
@@ -290,7 +338,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Spitz Fêmea é mais cara que Macho?",
         answer:
-          "Sim. A fêmea custa R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco; o macho varia de R$ 6.500 a R$ 8.500 conforme a cor. Comparando a mesma cor, a diferença é de R$ 1.000.",
+          "Sim. A fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco; o macho vai de R$ 5.500 a R$ 8.500 conforme a cor. Comparando a mesma cor, a diferença é de R$ 1.000.",
       },
       {
         question: "Posso castrar a Spitz Fêmea?",

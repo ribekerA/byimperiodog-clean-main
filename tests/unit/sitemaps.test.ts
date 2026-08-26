@@ -208,8 +208,17 @@ describe("sitemap de vídeos", () => {
 });
 
 describe("regressão comercial", () => {
-  it("mantém exatamente as quatro cores divulgadas", () => {
-    expect([...CORES_DIVULGADAS]).toEqual(["laranja", "creme", "preto", "branco"]);
+  // A ordem importa: é a ordem em que a tabela de preços é apresentada, do
+  // valor mais acessível ao mais caro. O Particolor entrou na frente porque
+  // entrou por baixo do laranja, não por preferência editorial.
+  it("mantém exatamente as cinco cores divulgadas", () => {
+    expect([...CORES_DIVULGADAS]).toEqual([
+      "particolor",
+      "laranja",
+      "creme",
+      "preto",
+      "branco",
+    ]);
   });
 
   it("mantém o Cinza-Lobo fora das vitrines, sem quebrar a URL já indexada", () => {

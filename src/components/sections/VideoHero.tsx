@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -19,11 +18,6 @@ const waHero = buildWhatsAppLink({
 
 // Palavras do título — cada uma entra com stagger individual
 const HEADLINE_WORDS = ["Spitz", "Alemão", "Anão"];
-
-// Contagem ao vivo de filhotes disponíveis — atualiza quando puppies-static muda
-const AVAILABLE_COUNT = (puppiesPublicados as Array<{ status: string }>).filter(
-  (p) => p.status === "available"
-).length;
 
 export default function VideoHero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -182,23 +176,15 @@ export default function VideoHero() {
       <div className="relative z-10 w-full">
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-8 text-center sm:gap-7 sm:py-16 sm:px-8">
 
-          {/* Eyebrow — entra primeiro */}
+          {/* Eyebrow — entra primeiro.
+              A contagem ao vivo de filhotes disponíveis saiu daqui a pedido da
+              responsável: a vitrine logo abaixo já mostra quantos são, e um
+              número no topo da dobra vira promessa de estoque que o site tem
+              que sustentar a cada ninhada. */}
           <div className="flex flex-wrap items-center justify-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-sm">
               Criação especializada · Bragança Paulista, SP
             </span>
-            {AVAILABLE_COUNT > 0 && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/90 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-emerald-900/40 backdrop-blur-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-white opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-                </span>
-                {/* O plural de "disponível" troca o -l por -is; concatenar o
-                    sufixo ao singular gerava uma flexão inexistente. Palavra inteira
-                    em cada ramo evita reinventar a flexão. */}
-                {AVAILABLE_COUNT} {AVAILABLE_COUNT === 1 ? "filhote disponível" : "filhotes disponíveis"} agora
-              </span>
-            )}
           </div>
 
           {/* Headline — palavra por palavra */}

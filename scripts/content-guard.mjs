@@ -81,13 +81,17 @@ const frontmatterEnd = (source) => {
 // A tabela está repetida aqui de propósito: este script roda no prebuild, antes
 // do Next existir, e não resolve o alias "@/". A dupla é conferida pelo teste
 // tests/pricing-guard.test.ts, que quebra se as duas divergirem.
-const PRECOS_DA_TABELA = new Set([6500, 7500, 8500, 9500]);
+const PRECOS_DA_TABELA = new Set([5500, 6500, 7500, 8500, 9500]);
 
 // Faixa em que um número solto é, quase certamente, preço de filhote. Abaixo de
-// R$ 6.000 estão custo de manutenção, vacina e consulta; acima de R$ 20.000 não
+// R$ 5.500 estão custo de manutenção, vacina e consulta; acima de R$ 20.000 não
 // existe nada no site. Dentro da faixa, valor fora da tabela é erro — inclusive
 // os R$ 10.500 que sobraram da tabela antiga.
-const FAIXA_DE_PRECO_DE_FILHOTE = { min: 6000, max: 20000 };
+//
+// O piso desceu de 6.000 para 5.500 junto com a entrada do Particolor: o menor
+// valor da tabela precisa CABER na janela, senão o guard deixaria de inspecionar
+// justamente o preço novo. tests/pricing-guard.test.ts cobra essa relação.
+const FAIXA_DE_PRECO_DE_FILHOTE = { min: 5500, max: 20000 };
 
 // A única exceção real: o total do primeiro ano de manutenção, que o próprio
 // texto marca como "sem o filhote". Fica escrito aqui em vez de sair da faixa
@@ -180,7 +184,10 @@ for (const file of files) {
     if (precosLiberados?.has(valor)) continue;
     if (PRECOS_DA_TABELA.has(valor)) continue;
     violations.push(
-      `${file}: "${match[0]}" não existe na tabela comercial (R$ 6.500 / 7.500 / 8.500 / 9.500).`
+      `${file}: "${match[0]}" não existe na tabela comercial (${[...PRECOS_DA_TABELA]
+        .sort((a, b) => a - b)
+        .map((v) => `R$ ${v.toLocaleString("pt-BR")}`)
+        .join(" / ")}).`
     );
   }
 

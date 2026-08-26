@@ -4,30 +4,24 @@ import Link from "next/link";
 import { aPartirDe, type CorDivulgada, formatarPreco } from "@/domain/pricing";
 
 // O card do Cinza-Lobo (Wolf Sable) saiu daqui: a cor deixou de ser divulgada.
-// Sobraram as quatro cores da tabela comercial, e o `price` de cada uma passou a
-// vir de domain/pricing em vez de ser digitado — o branco anunciava "fêmea
-// R$ 9.500" enquanto as outras diziam "a partir de", comparando maçã com
-// laranja no mesmo grid.
+// Sobraram as cores da tabela comercial, e o `price` de cada uma passou a vir de
+// domain/pricing em vez de ser digitado — o branco anunciava "fêmea R$ 9.500"
+// enquanto as outras diziam "a partir de", comparando maçã com laranja no mesmo
+// grid.
+//
+// A ordem é a da tabela de preços, do valor mais acessível ao mais caro: quem
+// chega por esta seção lê os cards antes de abrir a tabela, e as duas listas
+// discordarem de ordem faz a mais barata parecer estar em lugares diferentes.
 const COLORS = [
   {
-    slug: "branco",
-    cor: "branco",
-    label: "Branco",
-    tagline: "Pelagem branca e uniforme",
-    image: "/filhotes/branco/branco-femea-jardim-01.jpg",
+    slug: "particolor",
+    cor: "particolor",
+    label: "Particolor",
+    tagline: "Base branca com manchas definidas",
+    image: "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
     badge: "Disponível",
-    badgeClass: "bg-zinc-100 text-zinc-800",
-    glowColor: "rgba(255,255,255,0.20)",
-  },
-  {
-    slug: "creme",
-    cor: "creme",
-    label: "Creme",
-    tagline: "Pelagem cor de marfim",
-    image: "/filhotes/creme/creme-femea-01.jpg",
-    badge: "Disponibilidade limitada",
-    badgeClass: "bg-[var(--accent)] text-[var(--accent-foreground)]",
-    glowColor: "rgba(243,181,98,0.18)",
+    badgeClass: "bg-emerald-700 text-white",
+    glowColor: "rgba(200,200,200,0.16)",
   },
   {
     slug: "laranja",
@@ -40,6 +34,16 @@ const COLORS = [
     glowColor: "rgba(249,115,22,0.18)",
   },
   {
+    slug: "creme",
+    cor: "creme",
+    label: "Creme",
+    tagline: "Pelagem cor de marfim",
+    image: "/filhotes/creme/creme-femea-01.jpg",
+    badge: "Disponibilidade limitada",
+    badgeClass: "bg-[var(--accent)] text-[var(--accent-foreground)]",
+    glowColor: "rgba(243,181,98,0.18)",
+  },
+  {
     slug: "preto",
     cor: "preto",
     label: "Preto",
@@ -48,6 +52,16 @@ const COLORS = [
     badge: "Ninhadas esporádicas",
     badgeClass: "bg-zinc-800 text-white",
     glowColor: "rgba(161,161,170,0.12)",
+  },
+  {
+    slug: "branco",
+    cor: "branco",
+    label: "Branco",
+    tagline: "Pelagem branca e uniforme",
+    image: "/filhotes/branco/branco-femea-jardim-01.jpg",
+    badge: "Disponível",
+    badgeClass: "bg-zinc-100 text-zinc-800",
+    glowColor: "rgba(255,255,255,0.20)",
   },
 ] as const satisfies readonly { cor: CorDivulgada; [k: string]: unknown }[];
 
@@ -74,9 +88,11 @@ export default function ColorGallery() {
         </div>
 
         {/* Grid de cores — cada card com delay individual */}
-        {/* lg:grid-cols-4 acompanha as quatro cores divulgadas. Com cinco
-            colunas e quatro cards a linha ficava com um vão à direita. */}
-        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {/* O número de colunas no desktop acompanha o número de cores
+            divulgadas: com uma coluna sobrando a linha fica com um vão à
+            direita, e com uma faltando a última cor cai sozinha na segunda
+            linha. Passou de 4 para 5 quando o particolor entrou na tabela. */}
+        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-5">
           {COLORS.map((cor) => (
             <li key={cor.slug}>
               <Link
@@ -90,7 +106,7 @@ export default function ColorGallery() {
                     src={cor.image}
                     alt={`Spitz Alemão Anão ${cor.label}`}
                     fill
-                    sizes="(max-width: 1024px) calc(50vw - 28px), 292px"
+                    sizes="(max-width: 1024px) calc(50vw - 28px), 231px"
                     className="object-cover transition duration-500 group-hover:scale-108"
                   />
                   {/* Gradiente */}
