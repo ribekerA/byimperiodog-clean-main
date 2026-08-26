@@ -72,6 +72,10 @@ export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   definir("apresentacao-canil", "Apresentação do Canil", "Vídeo de apresentação da By Império Dog.", "canil"),
   definir("creme-dupla", "Dupla Creme", "Dois Spitz creme juntos — pura fofura em dobro.", "creme"),
   definir("laranja-femea-jardim", "Fêmea Laranja no Jardim", "Spitz laranja fêmea explorando o jardim.", "laranja"),
+  // Entrou com o lote de 26/08/2026, junto das fotos de
+  // lulu-pomerania-laranja-macho-01. Data real de entrada no repositorio,
+  // conferida no git log do proprio .mp4 -- por isso nao usa VIDEO_UPLOAD_DATE.
+  definir("laranja-macho-gramado", "Macho Laranja no Gramado", "Spitz Alemão Anão laranja macho no gramado, filmado em luz natural.", "laranja", "2026-08-26"),
   definir("laranja-macho-jardim", "Macho Laranja no Jardim", "Spitz laranja macho brincando no espaço externo.", "laranja"),
   definir("ninhada-creme-01", "Ninhada Creme", "Uma ninhada inteira de Spitz creme.", "ninhada"),
   definir("ninhada-jun22-01", "Ninhada Junho 2022 — Vol. 1", "Ninhada de junho de 2022.", "ninhada"),

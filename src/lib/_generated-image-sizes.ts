@@ -104,6 +104,7 @@ const IMAGE_SIZES: Record<string, readonly [number, number]> = {
   "/filhotes/videos/posters/apresentacao-canil.webp": [720, 405],
   "/filhotes/videos/posters/creme-dupla.webp": [352, 640],
   "/filhotes/videos/posters/laranja-femea-jardim.webp": [352, 640],
+  "/filhotes/videos/posters/laranja-macho-gramado.webp": [394, 848],
   "/filhotes/videos/posters/laranja-macho-jardim.webp": [352, 640],
   "/filhotes/videos/posters/ninhada-creme-01.webp": [720, 1280],
   "/filhotes/videos/posters/ninhada-jun22-01.webp": [352, 640],

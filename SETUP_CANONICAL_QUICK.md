@@ -1,34 +1,45 @@
 # ⚡ Setup Rápido: Canonical Tags + SeoHead
 
+> ⚠️ **Documento histórico — leia isto antes de seguir os passos abaixo.**
+>
+> Ele foi escrito quando o site rodava em outro domínio. O domínio canônico
+> atual é `https://byimperiodog.com.br`, **sem `www`** — o `www` responde com
+> 301 para ele. As referências ao domínio antigo foram substituídas para que
+> ninguém cole um host morto em variável de ambiente, mas o restante do texto
+> **não foi reescrito**: confira contra o código antes de aplicar qualquer
+> configuração. Não existe ambiente de staging hoje — onde aparecer
+> `SUA-URL-DE-STAGING`, preencha com uma URL real ou ignore o trecho.
+
+
 **Tempo estimado:** 5 minutos
 
 ---
 
 ## 1️⃣ Definir Domínio Principal
 
-### Usar `www.byimperiodog.com.br` (Domínio Principal)
+### Usar `byimperiodog.com.br` (Domínio Principal)
 
 **Vercel Dashboard:**
 ```
 Settings → Environment Variables → Add New
 
-NEXT_PUBLIC_CANONICAL_ORIGIN  = https://www.byimperiodog.com.br
-NEXT_PUBLIC_SITE_URL          = https://www.byimperiodog.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN  = https://byimperiodog.com.br
+NEXT_PUBLIC_SITE_URL          = https://byimperiodog.com.br
 ```
 
 **Netlify:**
 ```
 Site Settings → Build & deploy → Environment → Add a single variable
 
-NEXT_PUBLIC_CANONICAL_ORIGIN = https://www.byimperiodog.com.br
-NEXT_PUBLIC_SITE_URL = https://www.byimperiodog.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN = https://byimperiodog.com.br
+NEXT_PUBLIC_SITE_URL = https://byimperiodog.com.br
 ```
 
 **Local Development:**
 ```bash
 # .env.local
-NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.byimperiodog.com.br
-NEXT_PUBLIC_SITE_URL=https://www.byimperiodog.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN=https://byimperiodog.com.br
+NEXT_PUBLIC_SITE_URL=https://byimperiodog.com.br
 ```
 
 ### Padrão (Sem Precisar Configurar)
@@ -36,7 +47,7 @@ NEXT_PUBLIC_SITE_URL=https://www.byimperiodog.com.br
 Sem mudar nada, o sistema usa automaticamente:
 ```typescript
 // Padrão em seo.core.ts
-https://www.byimperiodog.com.br
+https://byimperiodog.com.br
 ```
 
 ---
@@ -118,7 +129,7 @@ export default function DynamicPage() {
 
   useEffect(() => {
     // Calcular canonical baseado em state/props
-    setCanonical('https://www.canilspitzalemao.com.br/...');
+    setCanonical('https://byimperiodog.com.br/...');
   }, []);
 
   return (
@@ -152,10 +163,10 @@ npm run dev
 
 ```bash
 # Verificar canonical
-curl -s https://www.canilspitzalemao.com.br/filhotes | grep canonical
+curl -s https://byimperiodog.com.br/filhotes | grep canonical
 
 # Esperado:
-# <link rel="canonical" href="https://www.canilspitzalemao.com.br/filhotes" />
+# <link rel="canonical" href="https://byimperiodog.com.br/filhotes" />
 ```
 
 ### SEO Audit

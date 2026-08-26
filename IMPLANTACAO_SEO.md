@@ -1,5 +1,16 @@
 # ✅ IMPLEMENTAÇÃO COMPLETA: Canonical Tags + Sistema SEO
 
+> ⚠️ **Documento histórico — leia isto antes de seguir os passos abaixo.**
+>
+> Ele foi escrito quando o site rodava em outro domínio. O domínio canônico
+> atual é `https://byimperiodog.com.br`, **sem `www`** — o `www` responde com
+> 301 para ele. As referências ao domínio antigo foram substituídas para que
+> ninguém cole um host morto em variável de ambiente, mas o restante do texto
+> **não foi reescrito**: confira contra o código antes de aplicar qualquer
+> configuração. Não existe ambiente de staging hoje — onde aparecer
+> `SUA-URL-DE-STAGING`, preencha com uma URL real ou ignore o trecho.
+
+
 **Data:** 5 de fevereiro de 2026  
 **Status:** ✅ **PRONTO PARA PRODUÇÃO**
 
@@ -7,7 +18,7 @@
 
 ## 📋 RESUMO EXECUTIVO
 
-Foram implementadas **canonical tags automáticas** em todas as páginas públicas do site, com suporte a domínio customizável (`canilspitzalemao.com.br` ou outro).
+Foram implementadas **canonical tags automáticas** em todas as páginas públicas do site, com suporte a domínio customizável (`byimperiodog.com.br` ou outro).
 
 ### ✅ O Que Foi Feito
 
@@ -29,7 +40,7 @@ Foram implementadas **canonical tags automáticas** em todas as páginas públic
 
 ```html
 <!-- Toda página pública tem isto automaticamente -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/seu/caminho" />
+<link rel="canonical" href="https://byimperiodog.com.br/seu/caminho" />
 ```
 
 ### Prioridade de Domínio
@@ -39,18 +50,18 @@ NEXT_PUBLIC_CANONICAL_ORIGIN (novo)
   ↓ (se não existir)
 NEXT_PUBLIC_SITE_URL (existente)
   ↓ (se não existir)
-Fallback: https://www.byimperiodog.com.br
+Fallback: https://byimperiodog.com.br
 ```
 
 ### Exemplos de Páginas Cobertas
 
 | Página | Canonical |
 |--------|-----------|
-| / | https://www.canilspitzalemao.com.br/ |
-| /filhotes | https://www.canilspitzalemao.com.br/filhotes |
-| /blog/meu-artigo | https://www.canilspitzalemao.com.br/blog/meu-artigo |
-| /sobre | https://www.canilspitzalemao.com.br/sobre |
-| /comprar-spitz-anao | https://www.canilspitzalemao.com.br/comprar-spitz-anao |
+| / | https://byimperiodog.com.br/ |
+| /filhotes | https://byimperiodog.com.br/filhotes |
+| /blog/meu-artigo | https://byimperiodog.com.br/blog/meu-artigo |
+| /sobre | https://byimperiodog.com.br/sobre |
+| /comprar-spitz-anao | https://byimperiodog.com.br/comprar-spitz-anao |
 | /admin/* | ❌ (Omitida - noindex) |
 
 ---
@@ -69,7 +80,7 @@ export default function Page() {
   return (
     <>
       <SeoHead
-        canonical="https://www.canilspitzalemao.com.br/minha-pagina"
+        canonical="https://byimperiodog.com.br/minha-pagina"
         title="Meu Título | By Imperio Dog"
         description="Descrição curta"
         ogImage="/og-image.jpg"
@@ -142,7 +153,7 @@ export default async function RootLayout({ children }) {
 export const SITE_ORIGIN = (
   process.env.NEXT_PUBLIC_CANONICAL_ORIGIN ||
   process.env.NEXT_PUBLIC_SITE_URL ||
-  'https://www.byimperiodog.com.br'
+  'https://byimperiodog.com.br'
 ).replace(/\/$/, '');
 ```
 
@@ -152,20 +163,20 @@ export const SITE_ORIGIN = (
 ```
 Settings → Environment Variables
 
-NEXT_PUBLIC_CANONICAL_ORIGIN = https://www.canilspitzalemao.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN = https://byimperiodog.com.br
 ```
 
 **Option 2: Netlify**
 ```toml
 # netlify.toml
 [build.environment]
-  NEXT_PUBLIC_CANONICAL_ORIGIN = "https://www.canilspitzalemao.com.br"
+  NEXT_PUBLIC_CANONICAL_ORIGIN = "https://byimperiodog.com.br"
 ```
 
 **Option 3: Local**
 ```bash
 # .env.local
-NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.canilspitzalemao.com.br
+NEXT_PUBLIC_CANONICAL_ORIGIN=https://byimperiodog.com.br
 ```
 
 ---
@@ -202,13 +213,13 @@ npm run dev
 
 ```bash
 # Verificar canonical em /
-curl -s https://www.canilspitzalemao.com.br/ | grep canonical
+curl -s https://byimperiodog.com.br/ | grep canonical
 
 # Verificar em /filhotes
-curl -s https://www.canilspitzalemao.com.br/filhotes | grep canonical
+curl -s https://byimperiodog.com.br/filhotes | grep canonical
 
 # Esperado:
-# <link rel="canonical" href="https://www.canilspitzalemao.com.br/..." />
+# <link rel="canonical" href="https://byimperiodog.com.br/..." />
 ```
 
 ### 3️⃣ Google Search Console
@@ -331,14 +342,14 @@ export async function generateMetadata({ params }) {
 ### Antes
 ```html
 <!-- Algumas páginas tinham canonical, outras não -->
-<link rel="canonical" href="https://www.byimperiodog.com.br/..." />
+<link rel="canonical" href="https://byimperiodog.com.br/..." />
 <!-- Mas /admin tinha noindex sem canonical (correto) -->
 ```
 
 ### Depois
 ```html
 <!-- ✅ TODAS as páginas públicas têm canonical -->
-<link rel="canonical" href="https://www.canilspitzalemao.com.br/..." />
+<link rel="canonical" href="https://byimperiodog.com.br/..." />
 
 <!-- ✅ Admin SEM canonical + noindex (correto) -->
 <!-- <meta name="robots" content="noindex, nofollow" /> -->
@@ -358,7 +369,7 @@ export async function generateMetadata({ params }) {
 Sim, sempre use https. Google redireciona http automaticamente.
 
 **P: Posso deixar com www?**  
-Sim, use `https://www.canilspitzalemao.com.br`. Sempre com www se o site usa.
+Sim, use `https://byimperiodog.com.br`. Sempre com www se o site usa.
 
 **P: Como mudar domínio depois?**  
 Atualize `NEXT_PUBLIC_CANONICAL_ORIGIN` em env vars → redeploy.

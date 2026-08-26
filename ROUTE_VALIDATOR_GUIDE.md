@@ -1,5 +1,16 @@
 # 🔍 Route Validator - Guia Completo
 
+> ⚠️ **Documento histórico — leia isto antes de seguir os passos abaixo.**
+>
+> Ele foi escrito quando o site rodava em outro domínio. O domínio canônico
+> atual é `https://byimperiodog.com.br`, **sem `www`** — o `www` responde com
+> 301 para ele. As referências ao domínio antigo foram substituídas para que
+> ninguém cole um host morto em variável de ambiente, mas o restante do texto
+> **não foi reescrito**: confira contra o código antes de aplicar qualquer
+> configuração. Não existe ambiente de staging hoje — onde aparecer
+> `SUA-URL-DE-STAGING`, preencha com uma URL real ou ignore o trecho.
+
+
 **Data:** 5 de fevereiro de 2026  
 **Status:** ✅ Implementado  
 **Script:** `scripts/route-validator.ts`  
@@ -62,13 +73,13 @@ pnpm route:validate
 yarn route:validate
 ```
 
-#### **Produção (https://www.canilspitzalemao.com.br)**
+#### **Produção (https://byimperiodog.com.br)**
 
 ```bash
 npm run route:validate:prod
 ```
 
-#### **Staging (https://staging.canilspitzalemao.com.br)**
+#### **Staging (https://SUA-URL-DE-STAGING)**
 
 ```bash
 npm run route:validate:staging
@@ -321,7 +332,7 @@ curl -X POST https://api.vercel.com/v1/deployments \
   -d '{
     "name": "by-imperio-dog",
     "project": "by-imperio-dog",
-    "env": ["ROUTE_VALIDATOR_URL=https://www.canilspitzalemao.com.br"]
+    "env": ["ROUTE_VALIDATOR_URL=https://byimperiodog.com.br"]
   }' \
   && npm run route:validate:prod
 ```

@@ -133,10 +133,10 @@ daqui**, sem maquiar.
   categories, puppies), como manda §26.
 - **robots.txt** 200, com `Host:` e `Sitemap:` no domínio canônico.
 - **llms.txt** 200 e coerente com os fatos confirmados: 2013, Bragança
-  Paulista/SP, 4 cores, R$ 6.500–9.500, e as inclusões que o canil sustenta
+  Paulista/SP, 5 cores, R$ 5.500–9.500, e as inclusões que o canil sustenta
   (vacinado, vermifugado, consulta veterinária, hemograma completo, pedigree).
 - **Schema:** `LocalBusiness` com `foundingDate` 2013, endereço de Bragança
-  Paulista/SP, telefone e e-mail corretos, `priceRange` "R$ 6.500 – R$ 9.500",
+  Paulista/SP, telefone e e-mail corretos, `priceRange` "R$ 5.500 – R$ 9.500",
   **sem `aggregateRating`** (nenhuma nota inventada). `WebSite` enxuto, sem
   `SearchAction` e sem `speakable`.
 - **Offer:** emitida **somente** quando `status === "available"`. Filhote
@@ -310,6 +310,15 @@ como dívida consciente, não como item silenciado.
 ## E. Bloqueios humanos
 
 Nada abaixo foi inventado ou contornado.
+
+> **Atualização de 26/08/2026 (segunda rodada).** Os itens **6** e **7** foram
+> **decididos pela responsável** e já estão em produção no commit `ddd446d`:
+> a cor de registro do filhote das fotos `macho-laranja0..8` é **laranja**, e
+> **particolor** entrou na tabela central como quinta cor divulgada, com
+> **macho R$ 5.500 e fêmea R$ 6.500**. Os dois deixaram de ser bloqueio; o
+> texto original fica abaixo como registro de por que estavam parados. Os
+> demais itens **seguem abertos**. Ver "Rodada de 26/08/2026" no fim deste
+> documento.
 
 1. **Label real da conversão "Clique WhatsApp" do Google Ads.**
    `googleAdsWhatsAppLabel` está ligado de ponta a ponta, **sem fallback
@@ -787,3 +796,173 @@ limitados, treze rotas administrativas com segunda camada de guard, nonce de
 OAuth implementado, cron falhando fechado, vinte rotas com erro sanitizado,
 `npm audit --omit=dev` limpo, e dois segredos históricos identificados e
 reportados para troca sem jamais serem impressos.
+
+---
+
+# Rodada de 26/08/2026 — fechamento
+
+Segunda passada do mesmo prompt mestre (§§0–46), executada sobre a árvore já
+entregue na rodada de 25/08. Regra aplicada: **§0, itens 5, 6 e 7** — não
+implementar duas vezes, não reverter correção nova porque `main` tem a antiga,
+e usar o código atual como verdade. O que já estava correto foi **conferido e
+preservado**, não reescrito.
+
+## Divergência entre o prompt e o código — reportada, não "corrigida"
+
+O prompt desta rodada lista **quatro cores** (laranja, creme, preto, branco) e
+faixa **R$ 6.500–9.500**, inclusive no §43, que é justamente o teste de
+regressão. **Esse recorte está vencido.**
+
+Entre as duas rodadas, a responsável determinou por escrito a entrada do
+**particolor** como quinta cor divulgada — macho **R$ 5.500**, fêmea
+**R$ 6.500** — implementada e publicada no commit `ddd446d`. Pelas regras 6 e 7
+do próprio §0, **o particolor foi preservado**: a faixa pública correta hoje é
+**R$ 5.500 – R$ 9.500**, com **cinco** cores. Reverter para quatro seria
+desfazer uma decisão comercial mais nova do que o prompt que pede a reversão.
+
+`tests/unit/sitemaps.test.ts` trava o número: `CORES_DIVULGADAS` tem de ser
+exatamente `["particolor","laranja","creme","preto","branco"]`.
+
+## Por que a rodada anterior não gerou drift de SEO
+
+Preço e cor não estão escritos à mão em lugar nenhum. `src/domain/pricing.ts`
+alimenta `priceRange` (`src/lib/structured-data.ts`), `PRODUCT_CONFIG.pricing`
+(`src/domain/config.ts`) e o texto de `app/llms.txt/route.ts`, que conta as
+cores por `CORES_EXIBIDAS.length` e formata a faixa por `FAIXA_PUBLICA`.
+Resultado conferido: os três passaram sozinhos a dizer cinco cores e
+R$ 5.500–9.500. **Nada precisou ser reeditado** — só verificado.
+
+## Tabela de itens (§45)
+
+| Item | Status antes | Ação | Arquivos | Teste | Status final |
+| --- | --- | --- | --- | --- | --- |
+| §11 Config sem invenção | Correto | Conferido, preservado | `src/domain/config.ts` | typecheck + testes | ✅ |
+| §13/§14 `areaServed`, `priceRange` | Correto e derivado | Conferido; faixa recalculada sozinha | `src/lib/structured-data.ts` | build + JSON-LD | ✅ |
+| §16 Offer só quando `available` | Correto | Conferido (`status === "available"`) | `src/lib/structured-data.ts:56` | leitura + build | ✅ |
+| §17 `WebSite` enxuto | Correto | Conferido, sem `SearchAction`/`speakable` | `src/lib/tracking.ts` | build | ✅ |
+| §6 Sufixo `[ref: XXXX]` | Já removido | Conferido: só resta o comentário que registra a remoção | `src/hooks/useWhatsAppLink.ts` | grep + testes | ✅ |
+| §18 Domínio antigo no runtime | Ausente | Conferido: 0 ocorrência em código executável | — | grep global | ✅ |
+| §18 Domínio antigo nos docs | **49 ocorrências** em 5 `.md` | **Substituído** + aviso de documento histórico | `Sistema_SEO_CANONICAL.md`, `IMPLANTACAO_SEO.md`, `ROUTE_VALIDATOR_*.md`, `SETUP_CANONICAL_QUICK.md` | grep: 0 restantes | ✅ |
+| §18 Docs mandando usar `www` | **Errado** — instruíam `NEXT_PUBLIC_CANONICAL_ORIGIN=https://www.…` | Corrigido para o canônico real, sem `www` | os 5 `.md` acima | grep no código: 0 uso de `www.` | ✅ |
+| §20 `llms.txt` | Correto e derivado | Conferido | `app/llms.txt/route.ts` | leitura | ✅ |
+| §23/§25 Vídeo `laranja-macho-gramado` | **Ausente do registro** | **Registrado + pôster gerado** | `src/domain/gallery-videos.ts`, `video-medidas.json`, `_generated-image-sizes.ts`, `posters/laranja-macho-gramado.webp` | sitemap servido: 13 vídeos | ✅ |
+| §E.6 Cor do filhote laranja | Bloqueio humano | **Fechado pela responsável** | `content/puppies-static.ts` | pricing-guard | ✅ |
+| §E.7 Preço do particolor | Bloqueio humano | **Fechado pela responsável** | `src/domain/pricing.ts` | pricing-guard + sitemaps | ✅ |
+| §12 Copy "laudo de saúde" | Fechado em 25/08 | **Reaberto para confirmação** (ver §E) | ~30 arquivos | — | ⚠️ humano |
+
+## A. Google Ads
+
+**Não foi tocado nesta rodada, e nada o tocou desde a anterior.** Conferência
+feita pelo diff real do commit `ddd446d`: ele não altera `src/lib/conversions.ts`,
+`src/lib/events.ts`, `src/components/PixelsByConsent.tsx`,
+`src/components/tracking/WhatsAppClickTracker.tsx`, `src/lib/gclid.ts` nem
+`src/hooks/useWhatsAppLink.ts`.
+
+Dos arquivos que `ddd446d` mexeu, dois pareciam poder afetar medição e foram
+lidos linha a linha:
+
+- `src/components/WhatsAppFloat.tsx` — ganhou **duas linhas**: uma mensagem
+  pré-preenchida para `/filhotes/cor/particolor`. Nenhum atributo de
+  rastreamento, nenhum `placement` novo, nenhum ouvinte. O CTA continua sendo
+  capturado pelo mesmo ouvinte delegado.
+- `src/components/sections/VideoHero.tsx` — **perdeu** o contador "8 filhotes
+  disponíveis agora", a pedido da responsável. O player (`videoRef`,
+  `videoState`) não foi tocado, então §37 continua valendo como estava.
+
+Conclusão: a instrumentação de §§1–8 permanece como auditada em 25/08, e o
+que falta continua sendo **o label da conversão (§E.1)** — dado que só o dono
+da conta tem.
+
+## B. SEO
+
+- **Canonical real, confirmado no código:** `https://byimperiodog.com.br`,
+  **sem `www`** — em `src/domain/config.ts:59` e como *fallback* de
+  `NEXT_PUBLIC_SITE_URL` em todas as rotas que montam URL absoluta.
+  **Zero** ocorrência de `https://www.byimperiodog` em código.
+- **Defeito corrigido nos docs:** `SETUP_CANONICAL_QUICK.md` e
+  `IMPLANTACAO_SEO.md` mandavam configurar
+  `NEXT_PUBLIC_CANONICAL_ORIGIN = https://www.byimperiodog.com.br`. Isso é o
+  host que responde **301**. Quem seguisse a instrução colocaria o canonical
+  brigando com o próprio redirect. Corrigido nos cinco documentos, todos com
+  aviso no topo de que são **históricos** e devem ser conferidos contra o
+  código antes de qualquer aplicação.
+- **`route:validate` com servidor de pé** (a ferramenta sai 0 sem servidor —
+  defeito pré-existente já documentado): **18 rotas, 0 erros, 0 avisos**,
+  com `/admin` e `/admin/dashboard` respondendo **307** e `/admin/login` 200.
+
+## C. Mídia
+
+- **`laranja-macho-gramado.mp4` estava servido publicamente e fora de todo
+  registro.** É o vídeo do filhote `lulu-pomerania-laranja-macho-01`, que está
+  `available` e publicado. Sem registro ele não tinha pôster, não gerava
+  `VideoObject` e não entrava em `/sitemaps/videos.xml`. Não era um defeito
+  visível — `PuppyCinematicGallery` usa `photos[0]` como pôster, então não
+  havia 404 nem schema inválido — mas era **omissão** diante de §23 e §25.
+- **Registrado** com `uploadDate` **2026-08-26**, que é a data real de entrada
+  no repositório, conferida em `git log` do próprio `.mp4`. Não foi usada a
+  constante `VIDEO_UPLOAD_DATE` (maio), que seria data falsa.
+- **Pôster gerado** por `npm run gen:video-posters` (Playwright + sharp; não há
+  ffmpeg nesta máquina): `394×848`, duração `PT7S`, medidas reais lidas do
+  arquivo. Os outros 12 pôsteres foram regerados **byte a byte idênticos** —
+  o gerador é determinístico.
+- **Verificado servindo de verdade**, contra `next start`:
+  `/sitemaps/videos.xml` → **13 `<video:video>`, 13 thumbnails distintas**;
+  `/galeria` → **13 `VideoObject`**; o `.mp4`, o `.webp` e a página do filhote
+  respondem **200**.
+- `wolf-sable-jardim.mp4` **continua deliberadamente fora do registro**,
+  coerente com §43: cinza-lobo não volta à comunicação comercial ativa.
+
+## D. Performance e acessibilidade
+
+**Não reaberta.** As cinco correções WCAG de 25/08 estão intactas: `ddd446d`
+não tocou em `PuppyCinematicGallery.tsx`, `TextTestimonials.tsx`,
+`MDXContent.tsx`, `app/(public)/filhotes/[slug]/page.tsx` nem
+`preco-spitz-anao/page.tsx`. Os alvos de toque abaixo de 44px seguem como
+dívida consciente, já registrada.
+
+## E. Bloqueios humanos — o que continua parado
+
+Fechados nesta rodada: **6** (cor) e **7** (preço do particolor).
+Seguem abertos, sem contorno: **1** (label da conversão WhatsApp),
+**2** (`GOOGLE_ADS_ID`), **3**, **4**, **5**, e **8** (o arquivo
+`spitz-femea-branco.mp4`, que precisa ser reenviado — a linha de registro está
+escrita em comentário dentro de `src/domain/gallery-videos.ts`).
+
+**Novo ponto para decisão da responsável — §12, copy de saúde.** A rodada de
+25/08 fechou §12 como "dentro do que o canil sustenta". Ao reconferir, ficou
+uma divergência que é comercial, não técnica, e por isso **não foi alterada**:
+o site diz **"laudo de saúde"** como item próprio em cerca de 30 lugares
+(home, `/sobre`, `/comprar-spitz-anao`, `/criador-spitz-confiavel`, páginas de
+cor), enquanto a lista de inclusões confirmada e publicada no `llms.txt` é
+**consulta veterinária + hemograma completo**. Se o veterinário emite e assina
+um laudo, o texto está certo e nada muda. Se o que existe é a consulta e o
+hemograma, a palavra precisa sair dos ~30 pontos. **Inventar a resposta é
+proibido pelo §0**, e trocar copy comercial em massa sem confirmação seria pior
+do que deixar apontado. `scripts/check-banned-words.mjs` não reprova o termo.
+
+## F. Deploy
+
+Um único commit, conforme §44. Nenhum deploy intermediário.
+
+## Portões desta rodada (§42)
+
+| Portão | Resultado |
+| --- | --- |
+| `npm run typecheck` | ✅ limpo |
+| `npm run test` | ✅ **382 passaram**, 3 pulados, **0 falhas** (50 arquivos) |
+| `npm run check:encoding` | ✅ nenhum mojibake |
+| `npm run check:banned-words` | ✅ nenhuma palavra banida |
+| `npm run build` | ✅ exit 0, incluindo todo o `prebuild` (content-guard, quality-gate `--strict`, geradores) |
+| `route:validate` (com servidor) | ✅ 18 rotas, 0 erros, 0 avisos |
+| `npm run lint` | ✅ **0 erros**, 1148 avisos (mesmo número da rodada anterior — sem regressão) |
+
+Nenhum portão foi mascarado com `|| true`, e nenhum resultado acima foi
+estimado: todos vêm de execução nesta máquina.
+
+## Confirmação exigida
+
+**Nenhuma URL pública mudou, nenhum canonical mudou, nenhuma arquitetura de SEO
+foi alterada nesta rodada.** A única entrada nova em conteúdo público é um
+vídeo que já estava sendo servido e que passou a ter pôster próprio, entrada de
+sitemap e `VideoObject`. As demais mudanças são documentação interna e arquivos
+gerados.

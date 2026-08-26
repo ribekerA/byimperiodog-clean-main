@@ -1,5 +1,16 @@
 # ✅ IMPLEMENTAÇÃO COMPLETA: Route Validator Script
 
+> ⚠️ **Documento histórico — leia isto antes de seguir os passos abaixo.**
+>
+> Ele foi escrito quando o site rodava em outro domínio. O domínio canônico
+> atual é `https://byimperiodog.com.br`, **sem `www`** — o `www` responde com
+> 301 para ele. As referências ao domínio antigo foram substituídas para que
+> ninguém cole um host morto em variável de ambiente, mas o restante do texto
+> **não foi reescrito**: confira contra o código antes de aplicar qualquer
+> configuração. Não existe ambiente de staging hoje — onde aparecer
+> `SUA-URL-DE-STAGING`, preencha com uma URL real ou ignore o trecho.
+
+
 **Data:** 5 de fevereiro de 2026  
 **Status:** ✅ **PRONTO PARA USAR**
 
@@ -83,10 +94,10 @@ cat reports/route-validation.json
 # Local (http://localhost:3000)
 npm run route:validate
 
-# Produção (https://www.canilspitzalemao.com.br)
+# Produção (https://byimperiodog.com.br)
 npm run route:validate:prod
 
-# Staging (https://staging.canilspitzalemao.com.br)
+# Staging (https://SUA-URL-DE-STAGING)
 npm run route:validate:staging
 
 # Custom
@@ -200,8 +211,8 @@ Adicionados em `package.json`:
 {
   "scripts": {
     "route:validate": "tsx scripts/route-validator.ts",
-    "route:validate:prod": "ROUTE_VALIDATOR_URL=https://www.canilspitzalemao.com.br tsx scripts/route-validator.ts",
-    "route:validate:staging": "ROUTE_VALIDATOR_URL=https://staging.canilspitzalemao.com.br tsx scripts/route-validator.ts"
+    "route:validate:prod": "ROUTE_VALIDATOR_URL=https://byimperiodog.com.br tsx scripts/route-validator.ts",
+    "route:validate:staging": "ROUTE_VALIDATOR_URL=https://SUA-URL-DE-STAGING tsx scripts/route-validator.ts"
   }
 }
 ```
