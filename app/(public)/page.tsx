@@ -18,7 +18,7 @@ import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildLocalBusinessLD, buildFAQLD } from "@/lib/structured-data";
+import { buildFAQLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -111,7 +111,6 @@ const TRUST_SIGNALS = [
 // não é gratuito, então a propriedade foi removida em vez de migrada.
 
 export default function HomePage() {
-  const businessLd = buildLocalBusinessLD();
   const faqLd      = buildFAQLD(HOME_FAQ_ITEMS);
 
   // Todos os filhotes à venda, sem corte. Antes eram os 4 primeiros, e a home
@@ -124,11 +123,6 @@ export default function HomePage() {
 
   return (
     <>
-      <script
-        id="ld-business"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }}
-      />
       <script
         id="ld-faq"
         type="application/ld+json"
@@ -146,7 +140,7 @@ export default function HomePage() {
             {TRUST_SIGNALS.map((signal) => (
               <div key={signal}>
                 <span className="flex items-center gap-1.5">
-                  <span className="text-emerald-600" aria-hidden="true">✓</span>
+                  <span className="text-emerald-700" aria-hidden="true">✓</span>
                   {signal}
                 </span>
               </div>
@@ -155,12 +149,12 @@ export default function HomePage() {
         </div>
 
         {/* ── 3. FILHOTES EM DESTAQUE ─────────────────────────────────────────── */}
-        <section className="bg-[var(--bg)] py-14 sm:py-28 overflow-hidden" aria-labelledby="featured-heading">
+        <section className="home-deferred-section bg-[var(--bg)] py-14 sm:py-28 overflow-hidden" aria-labelledby="featured-heading">
           <div className="mx-auto max-w-7xl">
 
             {/* Header da seção */}
             <div className="mx-auto mb-8 max-w-xl px-5 text-center sm:mb-12 sm:px-8">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">
                 Filhotes disponíveis
               </p>
               <h2 id="featured-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
@@ -225,7 +219,7 @@ export default function HomePage() {
                                 sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 25vw"
                               />
                             )}
-                            <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${isReserved ? "bg-amber-500" : "bg-emerald-500"}`}>
+                            <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${isReserved ? "bg-amber-700" : "bg-emerald-700"}`}>
                               {isReserved ? "Reservado" : "Disponível"}
                             </span>
                             {sexLabel && (
@@ -237,7 +231,7 @@ export default function HomePage() {
                         </Link>
                         <div className="flex flex-1 flex-col gap-3 p-4">
                           <div>
-                            <Link href={`/filhotes/cor/${puppy.color}`} className="text-xs font-semibold uppercase tracking-widest text-zinc-400 hover:text-emerald-600">
+                            <Link href={`/filhotes/cor/${puppy.color}`} className="text-xs font-semibold uppercase tracking-widest text-zinc-500 hover:text-emerald-700">
                               {corLabel}
                             </Link>
                             <Link href={`/filhotes/${puppy.slug}`}>
@@ -248,9 +242,9 @@ export default function HomePage() {
                           </div>
                           <div className="mt-auto">
                             {price > 0 && (
-                              <p className="text-xl font-extrabold text-[var(--accent)]">{formatPrice(price)}</p>
+                              <p className="text-xl font-extrabold text-[var(--accent-ink)]">{formatPrice(price)}</p>
                             )}
-                            <p className="text-[10px] text-zinc-400">registro oficial incluso</p>
+                            <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
                           </div>
                           <a
                             href={waLink}
@@ -260,7 +254,7 @@ export default function HomePage() {
                                conversa diferente. Sem rotulo proprio, o leitor de tela le
                                uma fila de links iguais apontando para destinos distintos. */
                             aria-label={`Tenho interesse no ${puppy.name} — falar pelo WhatsApp`}
-                            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98]"
+                            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white transition hover:bg-emerald-800 hover:scale-[1.02] active:scale-[0.98]"
                           >
                             <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
                             Tenho interesse
@@ -268,7 +262,7 @@ export default function HomePage() {
                           <Link
                             href={`/filhotes/${puppy.slug}`}
                             aria-label={`Ver galeria de ${puppy.name}`}
-                            className="text-center text-xs font-medium text-zinc-400 hover:text-emerald-600 hover:underline"
+                            className="text-center text-xs font-medium text-zinc-500 hover:text-emerald-700 hover:underline"
                           >
                             Ver galeria →
                           </Link>
@@ -306,7 +300,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
 
             <div className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável</p>
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Criação responsável</p>
               <h2 id="diff-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
                 Por que a By Império Dog?
               </h2>
@@ -376,7 +370,7 @@ export default function HomePage() {
           <section className="bg-zinc-50 border-t border-zinc-100 py-14 sm:py-20" aria-labelledby="recursos-heading">
             <div className="mx-auto max-w-5xl px-5 sm:px-8">
               <div className="mb-8 text-center">
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Tudo sobre a raça</p>
+                <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Tudo sobre a raça</p>
                 <h2 id="recursos-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
                   Guias e recursos para novos tutores
                 </h2>
@@ -405,7 +399,7 @@ export default function HomePage() {
         {/* ── 11. CTA DE GUIAS ────────────────────────────────────────────────── */}
         <div className="home-deferred-section border-t border-zinc-200 bg-white py-14">
           <div className="mx-auto max-w-3xl px-5 text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Conteúdo educativo</p>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Conteúdo educativo</p>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
               Prepare-se para receber seu filhote
             </h2>

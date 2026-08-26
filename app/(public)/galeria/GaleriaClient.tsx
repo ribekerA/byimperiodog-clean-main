@@ -17,12 +17,14 @@ import { Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { MediaLikeButton } from "@/components/media/MediaLikeButton";
 import { VideoLightbox } from "@/components/media/VideoLightbox";
 import { VideoReelsPlayer, type ReelItem } from "@/components/media/VideoReelsPlayer";
+import type { GalleryVideo } from "@/domain/gallery-videos";
+import { useMediaLikes, type Curtidas } from "@/hooks/useMediaLikes";
 import { useWhatsAppLink, useWhatsAppLinks } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
-import type { GalleryVideo } from "./page";
 
 type Props = {
   videos: GalleryVideo[];
@@ -54,7 +56,17 @@ function waFor(video: GalleryVideo) {
   });
 }
 
-function VideoCard({ video, index, onPlay }: { video: GalleryVideo; index: number; onPlay: () => void }) {
+function VideoCard({
+  video,
+  index,
+  onPlay,
+  curtidas,
+}: {
+  video: GalleryVideo;
+  index: number;
+  onPlay: () => void;
+  curtidas: Curtidas;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const cardRef = useRef<HTMLElement>(null);
   const [hovered, setHovered] = useState(false);
@@ -116,12 +128,16 @@ function VideoCard({ video, index, onPlay }: { video: GalleryVideo; index: numbe
         {near && (
           <video
             ref={videoRef}
-            // O `#t=0.5` faz o navegador parar no meio segundo: é o quadro que
-            // serve de capa. Não há imagem de capa gerada para estes arquivos.
-            src={`${video.src}#t=0.5`}
+            src={video.src}
+            // Cada vídeo tem capa própria agora (scripts/gen-video-posters.mts
+            // extrai um quadro real de cada arquivo). Antes o card carregava os
+            // metadados do MP4 só para parar em `#t=0.5` e usar aquele quadro
+            // como capa — doze downloads para mostrar doze imagens estáticas.
+            // Com o poster pronto, o arquivo só é buscado quando alguém pede.
+            poster={video.poster}
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             className={`absolute inset-0 h-full w-full object-cover transition-transform duration-300 ${hovered ? "scale-105" : "scale-100"}`}
             aria-hidden
             tabIndex={-1}
@@ -156,6 +172,25 @@ function VideoCard({ video, index, onPlay }: { video: GalleryVideo; index: numbe
         </span>
       </button>
 
+      {/* Curtida — IRMÃ do botão de reproduzir, nunca filha: <button> dentro de
+          <button> é HTML inválido e o navegador desmancha a árvore, o que
+          derrubaria o próprio clique de abrir o vídeo.
+
+          Trilho da direita, logo abaixo do número: no rodapé ela bateria no
+          título, que no celular ocupa a largura toda do card. */}
+      <div className="absolute right-1.5 top-9 z-10 sm:right-2.5 sm:top-10">
+        <MediaLikeButton
+          curtidas={curtidas}
+          alvo={{
+            mediaId: video.id,
+            mediaType: "video",
+            contextType: "gallery",
+            contextId: video.slug,
+          }}
+          rotulo={`o vídeo ${video.title}`}
+        />
+      </div>
+
       {/* Corpo do card — desktop */}
       <div className="hidden flex-1 flex-col gap-2 p-4 sm:flex">
         <h2 className="text-sm font-semibold leading-snug text-white transition group-hover:text-emerald-400">
@@ -176,6 +211,7 @@ function VideoCard({ video, index, onPlay }: { video: GalleryVideo; index: numbe
           </button>
           <a
             href={waLink}
+            data-wa-placement="gallery"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1.5 rounded-full bg-emerald-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-emerald-500"
@@ -216,7 +252,7 @@ export default function GaleriaClient({ videos }: Props) {
     else setReelsIndex(index);
   }
 
-  const videoItems = videos.map((v) => ({ src: v.src, title: v.title, description: v.description }));
+  const videoItems = videos.map((v) => ({ src: v.src, title: v.title, description: v.description, poster: v.poster }));
 
   const reelWaLinks = useWhatsAppLinks(videos.map(waFor));
   const reelItems: ReelItem[] = videos.map((v, index) => ({
@@ -225,7 +261,16 @@ export default function GaleriaClient({ videos }: Props) {
     description: v.description,
     badge: CATEGORY_LABELS[v.category] ?? v.category,
     waLink: reelWaLinks[index],
+    poster: v.poster,
+    mediaId: v.id,
+    contextType: "gallery",
+    contextId: v.slug,
   }));
+
+  // Uma única leitura de contagens para a página inteira — os mesmos ids servem
+  // à grade e ao player, porque o card e o slide são o mesmo arquivo. Quem
+  // curtiu na grade abre o feed com o coração já aceso.
+  const curtidas = useMediaLikes(videos.map((v) => v.id));
 
   return (
     <>
@@ -251,7 +296,13 @@ export default function GaleriaClient({ videos }: Props) {
           passaria de 700px de altura no desktop. */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-5">
         {videos.map((video, index) => (
-          <VideoCard key={video.src} video={video} index={index} onPlay={() => open(index)} />
+          <VideoCard
+            key={video.src}
+            video={video}
+            index={index}
+            onPlay={() => open(index)}
+            curtidas={curtidas}
+          />
         ))}
       </div>
 
@@ -270,6 +321,7 @@ export default function GaleriaClient({ videos }: Props) {
           onClose={() => setReelsIndex(null)}
           backLabel="Ver grade"
           ariaLabel="Vídeos da By Império Dog"
+          curtidas={curtidas}
         />
       )}
     </>

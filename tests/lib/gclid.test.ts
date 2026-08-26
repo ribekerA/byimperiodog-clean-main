@@ -1,13 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { appendClickIdToWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { acceptAllConsent, rejectAllConsent } from "@/lib/consent";
 import { captureClickId, getClickId } from "@/lib/gclid";
 
 const STORAGE_KEY = "bid_click_id";
+const SESSION_KEY = "bid_click_id_sessao";
 
 describe("click id de mídia paga", () => {
   beforeEach(() => {
     localStorage.clear();
+    sessionStorage.clear();
     window.history.replaceState({}, "", "/");
     vi.restoreAllMocks();
   });
@@ -57,13 +59,44 @@ describe("click id de mídia paga", () => {
     expect(getClickId()).toBeNull();
   });
 
-  it("acrescenta apenas os últimos oito caracteres à mensagem", () => {
-    const result = appendClickIdToWhatsAppLink(
-      "https://wa.me/5511999999999?text=Ol%C3%A1",
-      "prefixo-12345678",
-    );
+  // O gclid identifica um clique de anúncio: guardá-lo por 90 dias é
+  // armazenamento de publicidade e depende de escolha. Sem consentimento ele
+  // vale só para esta visita — o suficiente para o formulário enviado agora
+  // registrar de onde a pessoa veio, sem deixar rastro de 90 dias.
+  it("sem consentimento de marketing, não persiste por 90 dias", () => {
+    rejectAllConsent();
+    window.history.replaceState({}, "", "/?gclid=sem-consentimento");
 
-    const url = new URL(result);
-    expect(url.searchParams.get("text")).toBe("Olá\n\n[ref: 12345678]");
+    captureClickId();
+
+    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+    expect(sessionStorage.getItem(SESSION_KEY)).toBe("sem-consentimento");
+    expect(getClickId()).toBe("sem-consentimento");
+  });
+
+  it("com consentimento de marketing, persiste por 90 dias", () => {
+    acceptAllConsent();
+    window.history.replaceState({}, "", "/?gclid=com-consentimento");
+
+    captureClickId();
+
+    const guardado = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
+    expect(guardado?.id).toBe("com-consentimento");
+    expect(getClickId()).toBe("com-consentimento");
+  });
+
+  it("promove o identificador da sessão quando o consentimento vem depois", () => {
+    rejectAllConsent();
+    window.history.replaceState({}, "", "/?gclid=aceito-depois");
+    captureClickId();
+    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+
+    // O visitante navegou para outra página e só então aceitou os cookies.
+    window.history.replaceState({}, "", "/filhotes");
+    acceptAllConsent();
+    captureClickId();
+
+    const guardado = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
+    expect(guardado?.id).toBe("aceito-depois");
   });
 });

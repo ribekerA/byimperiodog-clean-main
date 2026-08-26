@@ -6,7 +6,6 @@ import PageViewPing from "@/components/PageViewPing";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -115,7 +114,6 @@ export default function ComprarSpitzPage() {
     { name: "Início",          url: `${SITE_URL}/` },
     { name: "Comprar Spitz Anão", url: PAGE_URL },
   ]);
-  const businessLd   = buildLocalBusinessLD();
 
   return (
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
@@ -123,7 +121,6 @@ export default function ComprarSpitzPage() {
       <script id="ld-comprar-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script id="ld-comprar-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-comprar-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-comprar-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── HERO ── */}
       <header className="space-y-4">
@@ -196,7 +193,11 @@ export default function ComprarSpitzPage() {
         <h2 id="faq-comprar-heading" className="mb-6 text-2xl font-bold text-zinc-900">
           Perguntas frequentes sobre como comprar
         </h2>
-        <dl className="divide-y divide-zinc-100">
+        {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
+            de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
+            definition-list do axe e o leitor de tela anunciava uma lista que
+            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+        <div className="divide-y divide-zinc-100">
           {PAGE_FAQS.map((item, i) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4" open={i === 0}>
@@ -217,7 +218,7 @@ export default function ComprarSpitzPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       {/* ── CTA ── */}
@@ -256,7 +257,7 @@ export default function ComprarSpitzPage() {
       ]} />
 
       <nav aria-label="Navegação estrutural">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
           <li className="font-medium text-zinc-600" aria-current="page">Comprar Spitz Anão</li>

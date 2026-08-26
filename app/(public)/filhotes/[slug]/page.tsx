@@ -17,7 +17,7 @@ import { staticPuppies } from "@/content/puppies-static";
 import { formatPrice, getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildLocalBusinessLD, buildPuppyProductLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD, buildPuppyProductLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // UrgencyCountdown, PuppyViewerCount e VisitorActivityToast foram removidos.
@@ -174,7 +174,6 @@ export default async function PuppyPage(props: Props) {
     { name: "Filhotes",  url: `${SITE_URL}/filhotes` },
     { name: puppy.name,  url: `${SITE_URL}/filhotes/${puppy.slug}` },
   ]);
-  const businessLd = buildLocalBusinessLD();
 
   const related = staticPuppies
     .filter((p) => p.slug !== puppy.slug && p.color === puppy.color && p.status !== "sold")
@@ -191,7 +190,6 @@ export default async function PuppyPage(props: Props) {
       {/* JSON-LD */}
       <script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       {/* GA4: lead_filhote — disparado quando visitante visualiza a página do filhote */}
       <LeadEventTracker eventName="lead_filhote" params={{ puppy_slug: puppy.slug, puppy_color: colorSlug, puppy_sex: sexSlug }} />
 
@@ -273,8 +271,14 @@ export default async function PuppyPage(props: Props) {
                   const glowColor = COLOR_GLOW[relCorKey] ?? DEFAULT_GLOW;
 
                   return (
-                    <StaggerItem key={rel.slug}>
-                      <li>
+                    // O <li> vem POR FORA do StaggerItem, que renderiza uma
+                    // <div>. Invertido, a <ul> passava a conter <div> direto e
+                    // o <li> ficava dentro dela: o leitor de tela deixava de
+                    // anunciar "lista de N itens" e o cascateamento continua
+                    // igual, porque o framer-motion propaga variante por
+                    // contexto de React, nao por vizinhanca no DOM.
+                    <li key={rel.slug}>
+                      <StaggerItem>
                         <TiltCard glowColor={glowColor} maxTilt={7}>
                           <Link
                             href={`/filhotes/${rel.slug}`}
@@ -323,8 +327,8 @@ export default async function PuppyPage(props: Props) {
                             </div>
                           </Link>
                         </TiltCard>
-                      </li>
-                    </StaggerItem>
+                      </StaggerItem>
+                    </li>
                   );
                 })}
               </ul>

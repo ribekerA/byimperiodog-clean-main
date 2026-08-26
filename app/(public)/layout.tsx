@@ -13,6 +13,7 @@ import {
   ClientOnlyAttributionTracker,
   ClientOnlyConsentBanner,
   ClientOnlyTrackingScripts,
+  ClientOnlyWhatsAppClickTracker,
   ClientOnlyWhatsAppFloat,
 } from "@/components/PublicClientOnly";
 import ToastContainer from "@/components/Toast";
@@ -20,9 +21,9 @@ import { getSiteSettings } from "@/lib/getSettings";
 import { getPixelsSettings, resolveActiveEnvironment } from "@/lib/pixels";
 import { resolveRobots } from "@/lib/seo";
 import { baseSiteMetadata } from "@/lib/seo.core";
+import { buildLocalBusinessLD } from "@/lib/structured-data";
 import {
   resolveTracking,
-  buildOrganizationLD,
   buildWebsiteLD,
   buildSiteNavigationLD,
 } from "@/lib/tracking";
@@ -61,10 +62,11 @@ export default async function PublicLayout({ children }: { children: React.React
   let organizationLd: Record<string, unknown> | null = null;
   let websiteLd: Record<string, unknown> | null = null;
   let siteNavigationLd: Record<string, unknown> | null = null;
-  // Sem LocalBusiness aqui: cada página já emite o nó canônico de
-  // src/lib/structured-data.ts. Emitir os dois duplicava a empresa no grafo.
+  // O nó da empresa é emitido aqui, uma vez, em toda página pública. Antes
+  // saía daqui um Organization e, em quinze páginas, um LocalBusiness — ambos
+  // com @id #business e fatos diferentes.
   if (ids.siteUrl) {
-    organizationLd = buildOrganizationLD(ids.siteUrl);
+    organizationLd = buildLocalBusinessLD();
     websiteLd = buildWebsiteLD(ids.siteUrl);
     siteNavigationLd = buildSiteNavigationLD(ids.siteUrl);
   }
@@ -158,6 +160,10 @@ export default async function PublicLayout({ children }: { children: React.React
         <ClientOnlyTrackingScripts />
         {/* Captura UTM params para atribuição first/last touch */}
         <ClientOnlyAttributionTracker />
+        {/* ÚNICO ouvinte de clique em WhatsApp do site. Não adicione onClick de
+            medição nos CTAs: dois caminhos para o mesmo clique é exatamente o
+            que faz uma conversão virar duas no Google Ads. */}
+        <ClientOnlyWhatsAppClickTracker />
 
         <div className="flex min-h-screen flex-col">
           <Header />

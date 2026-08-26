@@ -6,7 +6,8 @@
  * • Visível nas páginas públicas, exceto /admin e /filhotes* (que já têm CTA próprio)
  * • Aparece após 3 s para não prejudicar CLS
  * • Mensagem automática personalizada conforme a rota atual
- * • Evento GA4/GTM disparado no clique ("wa_float_click")
+ * • NÃO mede nada por conta própria: quem registra o clique é o ouvinte
+ *   delegado <WhatsAppClickTracker />, como `whatsapp_click` (ver abaixo)
  * • Some ao sobrepor elementos marcados com [data-wa-safe-zone]
  * • Respeita prefers-reduced-motion
  * • Touch target mínimo 48×48 px (WCAG 2.5.5)
@@ -50,24 +51,22 @@ function resolveMessage(pathname: string): string {
   return "Olá! Vim pelo site da By Império Dog e gostaria de informações sobre o Spitz Alemão Anão.";
 }
 
-function fireEvent(eventName: string, params: Record<string, string>) {
-  try {
-    // GA4 / GTM dataLayer
-    const w = window as any;
-    if (typeof w.gtag === "function") {
-      w.gtag("event", eventName, params);
-    }
-    if (Array.isArray(w.dataLayer)) {
-      w.dataLayer.push({ event: eventName, ...params });
-    }
-    // Meta Pixel
-    if (typeof w.fbq === "function") {
-      w.fbq("trackCustom", eventName, params);
-    }
-  } catch {
-    // silently ignore
-  }
-}
+/**
+ * Este botão NÃO mede nada por conta própria.
+ *
+ * Existia aqui um `fireEvent("lead_whatsapp", …)` que mandava GA4, dataLayer e
+ * Meta. Quando o <WhatsAppClickTracker /> passou a reconhecer este botão pelo
+ * `data-wa-cta`, o mesmo toque virou dois eventos com nomes diferentes:
+ * `whatsapp_click` (do ouvinte delegado) e `lead_whatsapp` (daqui) — e, no
+ * Meta, `Contact` e `lead_whatsapp` juntos. Quem marcasse os dois como
+ * conversão contaria uma pessoa como duas.
+ *
+ * O nome antigo também dizia o que não aconteceu: tocar no botão é clique,
+ * não lead qualificado. `whatsapp_click` carrega mais informação (placement,
+ * contexto de campanha, slug do filhote) e é o nome único do site inteiro.
+ *
+ * Não reintroduza medição neste arquivo.
+ */
 
 // Páginas de /filhotes já têm CTA de WhatsApp dedicado por card/detalhe
 // (StaticPuppyCard "Tenho interesse", PuppyStickyFloatingCTA no mobile) —
@@ -148,10 +147,24 @@ export function WhatsAppFloat() {
       requestAnimationFrame(checkOverlap);
     };
 
-    checkOverlap();
+    // A primeira medicao roda fora do caminho critico: sincrona aqui ela
+    // forcava layout durante a hidratacao (31,6 ms + 29,8 ms no trace do
+    // Lighthouse, os dois antes da primeira pintura). O botao so aparece
+    // depois de rolar, entao medir alguns quadros mais tarde nao muda nada
+    // do que a pessoa ve.
+    const ocioso: (cb: () => void) => number =
+      typeof window.requestIdleCallback === "function"
+        ? (cb) => window.requestIdleCallback(cb, { timeout: 1000 })
+        : (cb) => window.setTimeout(cb, 200);
+    const cancelaOcioso: (id: number) => void =
+      typeof window.cancelIdleCallback === "function"
+        ? (id) => window.cancelIdleCallback(id)
+        : (id) => window.clearTimeout(id);
+    const idPrimeiraMedida = ocioso(checkOverlap);
     window.addEventListener("scroll", onScrollOrResize, { passive: true });
     window.addEventListener("resize", onScrollOrResize);
     return () => {
+      cancelaOcioso(idPrimeiraMedida);
       window.removeEventListener("scroll", onScrollOrResize);
       window.removeEventListener("resize", onScrollOrResize);
     };
@@ -169,14 +182,13 @@ export function WhatsAppFloat() {
   }, [visible]);
 
   const handleClick = useCallback(() => {
-    // Evento legado (compatibilidade com dashboards existentes)
-    fireEvent("wa_float_click", { page_path: pathname, wa_phone: WA_PHONE });
-    // Evento padrão de conversão GA4
-    fireEvent("lead_whatsapp", { page_path: pathname, source: "float_button" });
+    // Um toque, um evento — e o evento sai do <WhatsAppClickTracker />, que
+    // reconhece este botão pelo `data-wa-cta`. Ver o comentário sobre medição
+    // no topo do arquivo antes de acrescentar qualquer disparo aqui.
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
     // Solicita review 5s após o clique — growth loop: visita → WhatsApp → review → mais visibilidade
     setTimeout(() => setShowReview(true), 5000);
-  }, [pathname, whatsappUrl]);
+  }, [whatsappUrl]);
 
   if (!visible || hasOwnWhatsAppCta(pathname)) return null;
 
@@ -185,10 +197,16 @@ export function WhatsAppFloat() {
   return (
     <>
     {showReview && <ReviewRequestPrompt trigger="whatsapp" />}
+    {/* Único CTA de WhatsApp que não é <a href>: abre por window.open, então
+        não tem href para o ouvinte delegado casar. data-wa-cta é o que o
+        coloca no mesmo caminho de medição dos outros — sem onClick de
+        tracking aqui, que seria o segundo caminho para o mesmo clique. */}
     <button
       type="button"
       onClick={handleClick}
       aria-label="Falar no WhatsApp com a criadora"
+      data-wa-cta="true"
+      data-wa-placement="floating_button"
       className={[
         // Position — bottom-safe usa env(safe-area-inset-bottom) para Dynamic Island / home bar do iOS
         "fixed bottom-safe right-5 z-[9998]",

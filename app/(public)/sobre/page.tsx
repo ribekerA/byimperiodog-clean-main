@@ -12,7 +12,6 @@ import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import TextTestimonials from "@/components/sections/TextTestimonials";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -186,13 +185,11 @@ export default function SobrePage() {
     isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Império Dog" },
   };
 
-  const businessLd = buildLocalBusinessLD();
 
   return (
     <div>
       <script id="ld-breadcrumb-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-webpage-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
-      <script id="ld-business-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── Hero pessoal ─────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">
@@ -290,7 +287,7 @@ export default function SobrePage() {
                 <value.icon className="h-7 w-7" aria-hidden />
                 <div>
                   <h3 className="font-bold text-base">{value.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed opacity-80">{value.description}</p>
+                  <p className="mt-2 text-sm leading-relaxed">{value.description}</p>
                 </div>
               </article>
             ))}
@@ -322,7 +319,7 @@ export default function SobrePage() {
             <div className="hidden grid-cols-[1.5fr,1fr,1fr] bg-zinc-50 text-xs font-bold uppercase tracking-wider text-zinc-500 sm:grid">
               <div className="px-5 py-3">Critério</div>
               <div className="px-5 py-3 text-emerald-700">By Império Dog</div>
-              <div className="px-5 py-3 text-zinc-400">O que confirmar em qualquer criador</div>
+              <div className="px-5 py-3 text-zinc-500">O que confirmar em qualquer criador</div>
             </div>
 
             {DIFERENCIAIS.map((row, i) => (
@@ -352,10 +349,10 @@ export default function SobrePage() {
                     →
                   </span>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-400 sm:hidden">
+                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 sm:hidden">
                       O que confirmar
                     </p>
-                    <p className="text-sm text-zinc-400">{row.check}</p>
+                    <p className="text-sm text-zinc-500">{row.check}</p>
                   </div>
                 </div>
               </article>

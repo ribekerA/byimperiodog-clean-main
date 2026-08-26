@@ -36,7 +36,7 @@ const COLORS = [
     tagline: "A cor icônica da raça",
     image: "/filhotes/laranja/laranja-femea-01.jpg",
     badge: "Disponível",
-    badgeClass: "bg-emerald-500 text-white",
+    badgeClass: "bg-emerald-700 text-white",
     glowColor: "rgba(249,115,22,0.18)",
   },
   {

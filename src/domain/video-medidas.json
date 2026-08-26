@@ -1,0 +1,62 @@
+{
+  "apresentacao-canil": {
+    "width": 3840,
+    "height": 2160,
+    "duration": "PT9S"
+  },
+  "creme-dupla": {
+    "width": 352,
+    "height": 640,
+    "duration": "PT57S"
+  },
+  "laranja-femea-jardim": {
+    "width": 352,
+    "height": 640,
+    "duration": "PT24S"
+  },
+  "laranja-macho-jardim": {
+    "width": 352,
+    "height": 640,
+    "duration": "PT26S"
+  },
+  "ninhada-creme-01": {
+    "width": 720,
+    "height": 1280,
+    "duration": "PT15S"
+  },
+  "ninhada-jun22-01": {
+    "width": 352,
+    "height": 640,
+    "duration": "PT24S"
+  },
+  "ninhada-jun22-02": {
+    "width": 352,
+    "height": 640,
+    "duration": "PT19S"
+  },
+  "ninhada-laranja-01": {
+    "width": 352,
+    "height": 640,
+    "duration": "PT29S"
+  },
+  "spitz-anao": {
+    "width": 720,
+    "height": 1280,
+    "duration": "PT15S"
+  },
+  "spitz-branco": {
+    "width": 720,
+    "height": 1280,
+    "duration": "PT15S"
+  },
+  "spitz-creme": {
+    "width": 360,
+    "height": 640,
+    "duration": "PT60S"
+  },
+  "spitz-laranja-macho": {
+    "width": 720,
+    "height": 1280,
+    "duration": "PT15S"
+  }
+}

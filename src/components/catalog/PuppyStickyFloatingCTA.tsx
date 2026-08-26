@@ -54,6 +54,23 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /**
+   * A barra é `fixed bottom-0`: ela flutua sobre o fim da página, e no fim da
+   * rolagem não sobra scroll para revelar o que ficou embaixo. No mobile isso
+   * escondia por completo a última linha do rodapé — texto que o visitante
+   * nunca conseguia ler nesta página.
+   *
+   * A reserva de espaço mora aqui, junto de quem cria a sobreposição, e não no
+   * rodapé: o rodapé é global e não tem como saber que ESTA página tem barra.
+   * Entra na montagem, não em `visible`, porque crescer a página no instante
+   * em que a barra aparece seria mudar o chão debaixo de quem está rolando.
+   */
+  useEffect(() => {
+    if (isSold) return;
+    document.body.classList.add("tem-cta-fixo");
+    return () => document.body.classList.remove("tem-cta-fixo");
+  }, [isSold]);
+
   if (isSold) return null;
 
   const price = formatPrice(priceCents);
@@ -72,6 +89,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
           >
             <PawConfettiButton
               href={trackedWaLink}
+              data-wa-placement="floating_button"
               rel="noreferrer"
               target="_blank"
               className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-base font-semibold text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
@@ -120,14 +138,15 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
               {/* Preço */}
               {price && (
                 <div className="mb-3 flex items-center justify-between">
-                  <p className="text-xl font-extrabold text-[var(--accent)]">{price}</p>
-                  <p className="text-xs text-zinc-400">Documentação inclusa</p>
+                  <p className="text-xl font-extrabold text-[var(--accent-ink)]">{price}</p>
+                  <p className="text-xs text-zinc-500">Documentação inclusa</p>
                 </div>
               )}
 
               {/* CTA */}
               <PawConfettiButton
                 href={trackedWaLink}
+                data-wa-placement="floating_button"
                 rel="noreferrer"
                 target="_blank"
                 className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white shadow hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"

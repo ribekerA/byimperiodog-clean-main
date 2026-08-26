@@ -48,7 +48,7 @@ const STATUS_CONFIG = {
     label: "Disponível",
     bg:    "bg-emerald-50",
     text:  "text-emerald-800",
-    dot:   "bg-emerald-500",
+    dot:   "bg-emerald-600",
     ring:  "ring-emerald-200",
   },
   reserved: {
@@ -172,7 +172,7 @@ export default function PuppyDetailPanel({
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.26 }}
         >
           <div>
-            <p className="text-3xl font-extrabold text-[var(--accent)]" aria-label={`Preço: ${price}`}>{price}</p>
+            <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
             <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, laudos e mentoria inclusos</p>
           </div>
 
@@ -207,6 +207,7 @@ export default function PuppyDetailPanel({
         >
           <PawConfettiButton
             href={trackedWaLink}
+            data-wa-placement="puppy_page"
             rel="noreferrer"
             target="_blank"
             // O <span> do rótulo é `truncate` (white-space: nowrap). Como item
@@ -248,7 +249,7 @@ export default function PuppyDetailPanel({
       {/* ── Incluído no valor ────────────────────────────────────────────── */}
       <ScrollReveal variant="fadeUp" delay={0.05}>
         <div>
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-zinc-400">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-zinc-500">
             Incluído no valor
           </p>
 

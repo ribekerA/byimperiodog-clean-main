@@ -90,7 +90,7 @@ export default function ReviewRequestPrompt({ immediate = false, trigger = "what
         <button
           onClick={handleDismiss}
           aria-label="Fechar"
-          className="shrink-0 rounded-lg p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+          className="shrink-0 rounded-lg p-1 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
         >
           <svg width={14} height={14} viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
             <line x1="1" y1="1" x2="13" y2="13" />

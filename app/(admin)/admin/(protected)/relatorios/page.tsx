@@ -146,7 +146,10 @@ export default async function RelatoriosPage() {
           Leads captados via formulário nos últimos 12 meses, agrupados por{" "}
           <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs font-mono">utm_source</code>.
           Cliques em WhatsApp aparecem no GA4 como evento{" "}
-          <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs font-mono">lead_whatsapp</code>.
+          <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs font-mono">whatsapp_click</code>,
+          com o parâmetro <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs font-mono">placement</code>{" "}
+          dizendo de qual botão veio. É um nome só para o site inteiro: clique é
+          clique, e vira lead quando a conversa acontece.
         </p>
       </div>
 

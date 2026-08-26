@@ -5,7 +5,7 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 import { CARDS_POR_FAIXA, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania`;
@@ -79,7 +79,6 @@ export default function LuluDaPomeraniaPage() {
     { name: "Lulu da Pomerânia", url: PAGE_URL },
   ]);
   const faqLd      = buildFAQLD(FAQS);
-  const businessLd = buildLocalBusinessLD();
   // Mesmo caso de /spitz-alemao: o no de sinonimos era um segundo Article sem
   // headline nem data. Passa a ser o `about` do Article de verdade.
   const articleLd  = buildArticleLD({
@@ -99,7 +98,6 @@ export default function LuluDaPomeraniaPage() {
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <script id="ld-lulu-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-lulu-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script id="ld-lulu-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <script id="ld-lulu-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       {/* HERO */}
@@ -164,19 +162,23 @@ export default function LuluDaPomeraniaPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           {CARDS_POR_FAIXA.map((p) => (
             <div key={p.rotulo} className="rounded-xl bg-white border border-zinc-200 p-4">
-              <p className="text-xs text-zinc-400 uppercase tracking-wide">valor da tabela</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-wide">valor da tabela</p>
               <p className="text-xl font-bold text-emerald-700">{p.valor}</p>
               <p className="text-sm text-zinc-600">{p.rotulo}</p>
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-400">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
+        <p className="text-xs text-zinc-500">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
       </section>
 
       {/* FAQ */}
       <section aria-labelledby="faq-lulu-heading" itemScope itemType="https://schema.org/FAQPage">
         <h2 id="faq-lulu-heading" className="mb-6 text-2xl font-bold text-zinc-900">Perguntas frequentes sobre o Lulu da Pomerânia</h2>
-        <dl className="divide-y divide-zinc-100">
+        {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
+            de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
+            definition-list do axe e o leitor de tela anunciava uma lista que
+            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+        <div className="divide-y divide-zinc-100">
           {FAQS.map((item, i) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4" open={i === 0}>
@@ -192,7 +194,7 @@ export default function LuluDaPomeraniaPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       {/* CTA */}
@@ -218,7 +220,7 @@ export default function LuluDaPomeraniaPage() {
       ]} />
 
       <nav aria-label="Navegação estrutural">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
           <li className="font-medium text-zinc-600" aria-current="page">Lulu da Pomerânia</li>

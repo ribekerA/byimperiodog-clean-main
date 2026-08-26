@@ -5,7 +5,8 @@ import {
   buildLocalBusinessLD,
   buildPuppyProductLD,
 } from "@/lib/structured-data";
-import { buildOrganizationLD, buildWebsiteLD } from "@/lib/tracking";
+import * as tracking from "@/lib/tracking";
+import { buildWebsiteLD } from "@/lib/tracking";
 
 const puppyBase = {
   slug: "luna",
@@ -29,12 +30,16 @@ describe("delta de consistência interna", () => {
 
   it("mantém uma entidade canônica e fatos geográficos mínimos", () => {
     const business = buildLocalBusinessLD();
-    const organization = buildOrganizationLD("https://dominio-antigo.invalid");
 
     expect(BUSINESS_ID).toBe("https://byimperiodog.com.br/#business");
-    expect(organization["@id"]).toBe(BUSINESS_ID);
-    expect(organization.description).toBe(business.description);
-    expect(organization.sameAs).toEqual(business.sameAs);
+    expect(business["@id"]).toBe(BUSINESS_ID);
+
+    // Havia dois nós declarando o MESMO @id com fatos diferentes: este e um
+    // buildOrganizationLD() em src/lib/tracking.ts. Nó com @id igual e campo
+    // divergente não funde — vira aviso de campo duplicado no Search Console.
+    // Se alguém recriar aquela função, este teste cai.
+    expect(tracking).not.toHaveProperty("buildOrganizationLD");
+
     expect(business.areaServed).toEqual([{ "@type": "Country", name: "Brasil" }]);
     expect(business).not.toHaveProperty("serviceArea");
     expect(business.address).toEqual({

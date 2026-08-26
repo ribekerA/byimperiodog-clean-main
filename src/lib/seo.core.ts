@@ -5,9 +5,21 @@ import { supabasePublic } from './supabasePublic';
 /** Origem canônica única do site público. */
 export const SITE_ORIGIN = 'https://byimperiodog.com.br';
 
+/**
+ * URL canônica de um caminho.
+ *
+ * Query string e âncora saem fora sempre. Quem chega pelo anúncio chega com
+ * `?gclid=...` na barra de endereço, e um canonical que carregasse esse
+ * parâmetro faria o Google enxergar uma URL nova a cada clique pago — a mesma
+ * página indexada dezenas de vezes, com o rastro do clique junto. Hoje nenhuma
+ * página monta o canonical a partir da URL da requisição, então isto é
+ * proteção contra o dia em que alguma passar a montar.
+ */
 export function canonical(path: string) {
   if (!path) return SITE_ORIGIN;
-  return `${SITE_ORIGIN}${path.startsWith('/') ? path : `/${path}`}`;
+  const semParametros = path.split('?')[0].split('#')[0];
+  if (!semParametros) return SITE_ORIGIN;
+  return `${SITE_ORIGIN}${semParametros.startsWith('/') ? semParametros : `/${semParametros}`}`;
 }
 
 function canonicalOnCurrentDomain(value: string | undefined, fallback: string): string {

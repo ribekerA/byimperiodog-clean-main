@@ -407,7 +407,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
               {process.env.NEXT_PUBLIC_WA_PHONE && (
                 <div className="pt-3">
                   <a
-                    className="inline-flex min-h-[44px] items-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground shadow-soft transition hover:bg-brand-600 focus-ring"
+                    className="inline-flex min-h-[44px] items-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-on-brand shadow-soft transition hover:brightness-110 focus-ring"
                     target="_blank"
                     rel="noreferrer noopener"
                     href={whatsappLeadUrl(process.env.NEXT_PUBLIC_WA_PHONE.replace(/\D/g, ""), { pageType: "blog", url: `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}` })}

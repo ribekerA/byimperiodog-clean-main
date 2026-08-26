@@ -30,7 +30,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
       >
         Ver filhotes disponíveis →
       </Link>
-      <p className="mt-3 text-center text-[10px] text-zinc-400">
+      <p className="mt-3 text-center text-[10px] text-zinc-500">
         Registro oficial · Contrato digital
       </p>
     </div>

@@ -170,9 +170,10 @@ function ReelSlide({
         <div className="flex gap-3">
           <a
             href={waLink}
+            data-wa-placement="reels"
             target="_blank"
             rel="noreferrer"
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 py-3 text-sm font-bold text-white shadow-lg active:scale-95"
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-700 px-4 py-3 text-sm font-bold text-white shadow-lg active:scale-95"
           >
             <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
             Falar no WhatsApp

@@ -39,10 +39,10 @@ type StaticPuppyCardProps = {
 // ─── Mapas de cor ─────────────────────────────────────────────────────────────
 
 const STATUS_CONFIG: Record<string, { label: string; icon: string; bg: string }> = {
-  available:  { label: "Disponível", icon: "✓", bg: "bg-emerald-500" },
-  disponivel: { label: "Disponível", icon: "✓", bg: "bg-emerald-500" },
-  reserved:   { label: "Reservado",  icon: "⏳", bg: "bg-amber-500"  },
-  reservado:  { label: "Reservado",  icon: "⏳", bg: "bg-amber-500"  },
+  available:  { label: "Disponível", icon: "✓", bg: "bg-emerald-700" },
+  disponivel: { label: "Disponível", icon: "✓", bg: "bg-emerald-700" },
+  reserved:   { label: "Reservado",  icon: "⏳", bg: "bg-amber-700"  },
+  reservado:  { label: "Reservado",  icon: "⏳", bg: "bg-amber-700"  },
   sold:       { label: "Vendido",    icon: "✕", bg: "bg-zinc-500"   },
   vendido:    { label: "Vendido",    icon: "✕", bg: "bg-zinc-500"   },
 };
@@ -211,7 +211,7 @@ export default function StaticPuppyCard({
             {corLabel && (
               <Link
                 href={`/filhotes/cor/${corKey}`}
-                className="text-xs font-semibold uppercase tracking-widest text-zinc-400 transition hover:text-emerald-600"
+                className="text-xs font-semibold uppercase tracking-widest text-zinc-500 transition hover:text-emerald-700"
               >
                 {corLabel}
               </Link>
@@ -228,10 +228,10 @@ export default function StaticPuppyCard({
 
           {/* Preço */}
           <div className="mt-auto flex flex-col gap-0.5">
-            <span className="text-xl font-extrabold text-[var(--accent)]">
+            <span className="text-xl font-extrabold text-[var(--accent-ink)]">
               {formatPrice(price)}
             </span>
-            <span className="text-[10px] font-medium text-zinc-400">Documentação inclusa</span>
+            <span className="text-[10px] font-medium text-zinc-500">Documentação inclusa</span>
           </div>
 
           {/* CTA: WhatsApp (disponível) | NotifyMe (reservado/vendido) */}
@@ -239,10 +239,12 @@ export default function StaticPuppyCard({
             <div className="flex items-center gap-2">
               <PawConfettiButton
                 href={waLink}
+                data-wa-placement="puppy_card"
+                data-wa-puppy={slug}
                 rel="noreferrer"
                 target="_blank"
                 wrapperClassName="flex-1"
-                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white shadow-sm"
+                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white shadow-sm"
                 emojis="paw"
                 count={14}
                 aria-label={`Entrar em contato sobre ${name} via WhatsApp`}
@@ -259,7 +261,7 @@ export default function StaticPuppyCard({
           <Link
             href={`/filhotes/${slug}`}
             aria-label={`Ver galeria e detalhes de ${name}`}
-            className="text-center text-xs font-medium text-zinc-400 transition hover:text-emerald-600 hover:underline"
+            className="text-center text-xs font-medium text-zinc-500 transition hover:text-emerald-700 hover:underline"
           >
             Ver galeria e detalhes →
           </Link>

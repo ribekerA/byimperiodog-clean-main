@@ -14,7 +14,7 @@ type FileState = { file: File } | null;
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const inputCls =
-  "w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-400 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400/30";
+  "w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-800 placeholder:text-zinc-500 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-400/30";
 
 function FileInput({ label, hint, name, value, onChange }: {
   label: string; hint: string; name: string;
@@ -23,14 +23,14 @@ function FileInput({ label, hint, name, value, onChange }: {
   return (
     <div>
       <p className="mb-1 text-xs font-semibold text-zinc-600">{label}</p>
-      <p className="mb-2 text-[10px] text-zinc-400">{hint}</p>
+      <p className="mb-2 text-[10px] text-zinc-500">{hint}</p>
       <label className="flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-500 hover:border-emerald-400 hover:bg-emerald-50/50 transition">
         <input type="file" name={name} accept=".pdf,image/*" className="sr-only"
           onChange={(e) => onChange(e.target.files?.[0] ?? null)} />
         {value ? (
           <><Paperclip className="h-4 w-4 text-emerald-600 flex-shrink-0" />
             <span className="flex-1 truncate font-medium text-emerald-700">{value.file.name}</span>
-            <span className="flex-shrink-0 text-[10px] text-zinc-400">{(value.file.size / 1024).toFixed(0)} KB</span></>
+            <span className="flex-shrink-0 text-[10px] text-zinc-500">{(value.file.size / 1024).toFixed(0)} KB</span></>
         ) : (
           <><Upload className="h-4 w-4 flex-shrink-0" /><span>Selecionar arquivo</span></>
         )}
@@ -134,7 +134,7 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
 
       {/* ── Dados do comprador ──────────────────────────────────────── */}
       <section className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Dados do comprador</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-500">Dados do comprador</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label htmlFor="nome" className="mb-1 block text-xs font-semibold text-zinc-600">Nome completo *</label>
@@ -169,7 +169,7 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
 
       {/* ── Dados do filhote ────────────────────────────────────────── */}
       <section className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Dados do filhote</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-500">Dados do filhote</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
             <label htmlFor="nome_filhote" className="mb-1 block text-xs font-semibold text-zinc-600">Nome do filhote</label>
@@ -197,8 +197,8 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
       {/* ── Documentos da entrega ───────────────────────────────────── */}
       <section className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
         <div>
-          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Documentos do filhote</h2>
-          <p className="mt-1 text-[11px] text-zinc-400">PDF, JPG ou PNG — máx. 10 MB cada.</p>
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-500">Documentos do filhote</h2>
+          <p className="mt-1 text-[11px] text-zinc-500">PDF, JPG ou PNG — máx. 10 MB cada.</p>
         </div>
         <FileInput label="Hemograma completo" hint="Exame de sangue emitido pelo veterinário (CRMV)"
           name="hemograma" value={hemograma} onChange={(f) => setHemograma(f ? { file: f } : null)} />
@@ -209,8 +209,8 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
       {/* ── Assinatura digital ──────────────────────────────────────── */}
       <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm space-y-4">
         <div>
-          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400">Assinatura digital</h2>
-          <p className="mt-1 text-[11px] text-zinc-400">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-500">Assinatura digital</h2>
+          <p className="mt-1 text-[11px] text-zinc-500">
             Ao assinar, você confirma que leu e concorda com todos os termos do contrato.
             A assinatura digital tem validade jurídica conforme a MP 2.200-2/2001 e a Lei 14.063/2020.
           </p>
@@ -225,7 +225,7 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
           : <><FileText className="h-4 w-4" /> Assinar e confirmar contrato</>}
       </button>
 
-      <p className="text-center text-xs text-zinc-400">
+      <p className="text-center text-xs text-zinc-500">
         Dados protegidos (LGPD) · Código: <span className="font-mono font-semibold">{code}</span>
       </p>
     </form>

@@ -30,7 +30,7 @@ export default function Breadcrumbs({
                   {it.label}
                 </span>
               )}
-              {!isLast && <span className="text-zinc-400">/</span>}
+              {!isLast && <span className="text-zinc-500">/</span>}
             </li>
           );
         })}

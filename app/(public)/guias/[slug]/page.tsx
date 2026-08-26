@@ -6,7 +6,7 @@ import BlogPuppyBanner from "@/components/blog/BlogPuppyBanner";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { guides, getGuideBySlug } from "@/content/guides";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildArticleLD, buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
+import { buildArticleLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -50,7 +50,6 @@ export default async function GuidePage(props: Props) {
     { name: guide.title, url: `${SITE_URL}/guias/${guide.slug}` },
   ]);
   const faqLd = buildFAQLD(guide.faqs);
-  const businessLd = buildLocalBusinessLD();
 
   const waLink = buildWhatsAppLink({
     message: `Olá! Li o guia "${guide.title}" e quero saber mais sobre filhotes disponíveis.`,
@@ -67,7 +66,6 @@ export default async function GuidePage(props: Props) {
       <script id="ld-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script id="ld-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
@@ -87,7 +85,7 @@ export default async function GuidePage(props: Props) {
             {guide.title}
           </h1>
           <p className="mt-4 text-lg text-zinc-600 leading-relaxed">{guide.excerpt}</p>
-          <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-zinc-400">
+          <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-zinc-500">
             <time dateTime={guide.updatedAt ?? guide.publishedAt}>
               Atualizado em{" "}
               {new Date(guide.updatedAt ?? guide.publishedAt).toLocaleDateString("pt-BR", {
@@ -170,7 +168,7 @@ export default async function GuidePage(props: Props) {
                     className="group flex items-center justify-between rounded-xl border border-zinc-100 bg-white p-4 transition hover:border-emerald-200 hover:shadow-sm"
                   >
                     <span className="font-medium text-zinc-800 group-hover:text-emerald-700 transition">{g.title}</span>
-                    <span className="ml-4 flex-shrink-0 text-xs text-zinc-400">{g.readingMinutes} min</span>
+                    <span className="ml-4 flex-shrink-0 text-xs text-zinc-500">{g.readingMinutes} min</span>
                   </Link>
                 </li>
               ))}

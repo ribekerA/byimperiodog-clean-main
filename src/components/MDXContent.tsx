@@ -79,14 +79,19 @@ export const mdxComponents = {
   // teclado (WCAG 2.1.1).
   /* eslint-disable jsx-a11y/no-noninteractive-tabindex --
      A regra so aceita `tabpanel` na lista de roles que podem receber foco, mas
-     area rolavel com `role="region"` + rotulo e o padrao que a WAI recomenda
-     para satisfazer o criterio 2.1.1: sem `tabIndex` quem navega por teclado
-     nao consegue rolar a tabela. Falso positivo — o markup fica. */
+     area rolavel com rotulo e o padrao que a WAI recomenda para satisfazer o
+     criterio 2.1.1: sem `tabIndex` quem navega por teclado nao consegue rolar
+     a tabela. Falso positivo — o markup fica. */
+  // `group` e nao `region`: `region` e um marco de navegacao da pagina, e como
+  // o rotulo aqui e sempre o mesmo, um artigo com duas tabelas passava a ter
+  // dois marcos indistinguiveis — quem navega por marcos ouvia a mesma frase
+  // duas vezes sem saber qual era qual. Uma caixa de rolagem em volta de uma
+  // tabela nao e marco da pagina. `group` mantem o rotulo e o foco.
   table: (props: any) => (
     <div
       className="my-8 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0"
       tabIndex={0}
-      role="region"
+      role="group"
       aria-label="Tabela — role para os lados para ver todas as colunas"
     >
       <table {...props} className={`my-0 ${props.className || ""}`} />

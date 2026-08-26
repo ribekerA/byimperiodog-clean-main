@@ -3,7 +3,15 @@ import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { CORES_DIVULGADAS, FAIXA_PUBLICA, TABELA_DE_PRECOS } from "../src/domain/pricing";
+import { staticPuppies, puppiesPublicados } from "../content/puppies-static";
+import {
+  CORES_DIVULGADAS,
+  FAIXA_PUBLICA,
+  TABELA_DE_PRECOS,
+  precoDe,
+  type CorDivulgada,
+  type Sexo,
+} from "../src/domain/pricing";
 
 /**
  * scripts/content-guard.mjs roda no prebuild, antes de o Next existir, e por
@@ -69,6 +77,55 @@ describe("tabela de precos x content-guard", () => {
   it("a femea custa mais que o macho em todas as cores divulgadas", () => {
     for (const cor of CORES_DIVULGADAS) {
       expect(TABELA_DE_PRECOS[cor].femea).toBeGreaterThan(TABELA_DE_PRECOS[cor].macho);
+    }
+  });
+});
+
+/**
+ * O preco que o visitante ve na pagina do filhote nao sai da tabela: sai do
+ * `priceCents` gravado no catalogo. Sao duas fontes, e ate aqui ninguem
+ * conferia uma contra a outra.
+ *
+ * O cabecalho de content/puppies-static.ts dizia que o content-guard fazia
+ * essa conferencia no prebuild. Nao fazia: o arquivo esta na lista de SKIP do
+ * guard, e o padrao que o guard procura e o preco em prosa ("R$ 9.500"), nunca
+ * os centavos que o catalogo guarda. A conferencia estava documentada e
+ * ausente — a pior das combinacoes, porque quem lesse o comentario confiaria
+ * nela.
+ *
+ * O estrago que isto barra e silencioso: trocar um `priceCents` para um valor
+ * fora da tabela faz a pagina do filhote anunciar um preco que /preco-spitz-anao
+ * contradiz, e o build passa inteiro. A femea branca do anuncio do Google Ads
+ * e justamente uma dessas paginas.
+ */
+describe("tabela de precos x catalogo de filhotes", () => {
+  it("todo filhote publicado cobra exatamente o valor da tabela para a sua cor e sexo", () => {
+    // Um catalogo vazio faria o laco abaixo passar sem conferir nada.
+    expect(puppiesPublicados.length).toBeGreaterThan(0);
+
+    for (const filhote of puppiesPublicados) {
+      const cor = filhote.color as CorDivulgada;
+      const sexo: Sexo = filhote.sex === "female" ? "femea" : "macho";
+
+      // Cor fora da tabela numa vitrine publica e o outro lado do mesmo
+      // problema: nao ha preco oficial para cobrar.
+      expect(CORES_DIVULGADAS).toContain(cor);
+      expect({ slug: filhote.slug, preco: filhote.priceCents }).toEqual({
+        slug: filhote.slug,
+        preco: precoDe(cor, sexo),
+      });
+    }
+  });
+
+  it("os dois campos de preco do mesmo filhote nao divergem", () => {
+    // O catalogo guarda `price_cents` e `priceCents` lado a lado, para os dois
+    // formatos que o projeto ja consumiu. Editar so um deles deixaria card e
+    // pagina cobrando valores diferentes pelo mesmo filhote.
+    for (const filhote of staticPuppies) {
+      expect({ slug: filhote.slug, snake: filhote.price_cents }).toEqual({
+        slug: filhote.slug,
+        snake: filhote.priceCents,
+      });
     }
   });
 });

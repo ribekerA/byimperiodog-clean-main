@@ -75,3 +75,23 @@ TEMP_*
 # nenhuma pagina referencia. Saem do repositorio mas CONTINUAM NO DISCO, aqui.
 # Para recuperar a versao antiga: git checkout 47cef43 -- public/filhotes
 midia-original/
+
+# Diretorio de trabalho local: scripts de patch de uso unico e textos de
+# especificacao usados durante uma rodada. Nao e codigo do site.
+scratchpad/
+
+# Evidencia bruta de Lighthouse desta rodada: traces e relatorios HTML gerados
+# localmente. Sao 18 MB regeraveis com `npx lighthouse`, e o numero que importa
+# ja esta escrito em FINAL_CONSOLIDATED_AUDIT.md.
+reports/lh-*.json
+localhost_*.report.html
+
+# Lockfile de Deno criado por ferramenta avulsa. O projeto e npm + Node 24;
+# nada em package.json ou netlify.toml usa Deno.
+deno.lock
+
+# Midia recebida que ainda NAO pode ser publicada porque depende de decisao
+# comercial (cor anunciada e preco). Fica no disco, fora de public/ — dentro de
+# public/ o gerador de medidas a indexava e um `git add -A` a publicaria com a
+# cor errada. Ver "E. Bloqueios humanos" em FINAL_CONSOLIDATED_AUDIT.md.
+midia-aguardando-definicao/

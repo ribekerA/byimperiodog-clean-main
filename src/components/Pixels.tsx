@@ -31,6 +31,7 @@ export async function Pixels({ isAdminRoute, settings }: PixelsProps) {
       CLARITY_ID={config.clarityId ?? undefined}
       ADS_ID={config.googleAdsId ?? undefined}
       ADS_LABEL={config.googleAdsConversionLabel ?? undefined}
+      ADS_WHATSAPP_LABEL={config.googleAdsWhatsAppLabel ?? undefined}
     />
   );
 }

@@ -101,6 +101,7 @@ export default function Navbar() {
 
           <a
                 href={whatsappLink}
+                data-wa-placement="header"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-emerald-700 hover:shadow-md min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
@@ -174,6 +175,7 @@ export default function Navbar() {
                     <div className="px-4 pt-6">
                       <a
                             href={whatsappLink}
+                            data-wa-placement="header"
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={close}

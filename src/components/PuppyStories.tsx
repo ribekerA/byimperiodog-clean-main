@@ -316,9 +316,10 @@ export default function PuppyStories(props: PuppyStoriesProps) {
                 </button>
                 <a
                   href={currentWaLink}
+                  data-wa-placement="puppy_card"
+                  data-wa-puppy={current.id}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => track.event?.('whatsapp_click', { placement: 'stories', action: 'info', puppy_id: current.id })}
                   className="flex items-center justify-center gap-1 rounded-full bg-emerald-600 px-4 py-3 text-xs sm:text-sm font-medium text-white shadow hover:bg-emerald-700 transition min-h-[48px] min-w-[120px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-600"
                 >
                   <Phone className="h-4 w-4 sm:h-5 sm:w-5" /> WhatsApp

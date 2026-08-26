@@ -27,7 +27,18 @@
   --accent-foreground: #3b2715;
   --accent-contrast: #3b2715;
 
-  --whatsapp: #1f8a5c;
+  /* Ouro para TEXTO sobre fundo claro.
+     O --accent (#f3b562) e a cor da marca e continua valendo para
+     preenchimento, borda e fundo escuro. Como texto sobre branco ele mede
+     1,81:1 — e era com ele que o preco do filhote era escrito no card, a
+     informacao que mais gente procura ali. Mesmo matiz (33 graus),
+     escurecido ate 4,89:1. Medido no PageSpeed Insights de 23/08/2026, que
+     reprovou justamente esse elemento. */
+  --accent-ink: #a06318;
+
+  /* Texto branco sobre este verde media 4,33:1 -- reprovava por pouco.
+     #1b7d53 e o mesmo verde levemente mais escuro, agora em 5,12:1. */
+  --whatsapp: #1b7d53;
   --whatsapp-contrast: #ffffff;
 
   --success: #2f855a;
@@ -66,6 +77,20 @@ body.admin-shell [data-site-shell="navbar"],
 body.admin-shell [data-site-shell="footer"],
 body.admin-shell [data-site-shell="cta"] {
   display: none !important;
+}
+
+/* A barra fixa do CTA de filhote ocupa os últimos ~77px da tela no mobile, e
+   no fim da rolagem não sobra scroll para revelar o que ela cobre: a última
+   linha do rodapé ficava impossível de ler. A reserva é do tamanho da barra
+   (52px de botão + py-3 + folga) e quem a liga é o próprio componente que
+   cria a sobreposição, na montagem — não quando a barra aparece —, para a
+   altura da página não mudar no meio da leitura.
+
+   Só no mobile: no desktop o CTA é um card no canto, não uma faixa. */
+@media (max-width: 1023px) {
+  body.tem-cta-fixo {
+    padding-bottom: 84px;
+  }
 }
 
 @layer components {

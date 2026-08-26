@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { guides } from "@/content/guides";
+import { ULTIMO_VIDEO_UPLOAD_DATE } from "@/domain/gallery-videos";
 import { LASTMOD, maxLastmod } from "@/lib/_generated-lastmod";
 import { generatedPosts } from "@/lib/_generated-posts";
 
@@ -37,6 +38,12 @@ export async function GET() {
   const sitemaps: Array<{ loc: string; lastmod?: string }> = [
     { loc: `${site}/sitemap.xml`, lastmod: lastmodDoSitemapPrincipal() },
     { loc: `${site}/sitemaps/posts.xml`, lastmod: lastmodDosPosts() },
+    // Fotos dos filhotes e capas dos vídeos, cada uma amarrada à página em que
+    // aparece. Sem <lastmod>: não há data confiável para "quando esta lista de
+    // imagens mudou", e data chutada é pior do que campo ausente.
+    { loc: `${site}/sitemaps/images.xml` },
+    // <lastmod> aqui é a data real de entrada dos vídeos no site.
+    { loc: `${site}/sitemaps/videos.xml`, lastmod: ULTIMO_VIDEO_UPLOAD_DATE },
   ];
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps

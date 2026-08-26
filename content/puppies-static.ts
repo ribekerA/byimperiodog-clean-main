@@ -3,9 +3,13 @@
 // Para atualizar disponibilidade: status → "available" | "reserved" | "sold"
 //
 // Preço: a tabela vive em src/domain/pricing.ts. Os `priceCents` daqui são a
-// aplicação dela a cada filhote, e o content-guard confere um contra o outro no
-// prebuild — o resumo de hierarquia que ficava nesta linha era mais uma cópia
-// para divergir, e divergiu.
+// aplicação dela a cada filhote, e tests/pricing-guard.test.ts confere um
+// contra o outro — o resumo de hierarquia que ficava nesta linha era mais uma
+// cópia para divergir, e divergiu.
+//
+// Esta linha já creditou a conferência ao content-guard do prebuild, que não a
+// fazia: este arquivo está na lista de SKIP do guard, e o que ele procura é o
+// preço em prosa ("R$ 9.500"), nunca os centavos guardados aqui.
 //
 // `divulgar: false` tira o filhote das vitrines públicas sem apagar a sua
 // página: o Cinza-Lobo saiu da comunicação, mas as URLs que já estavam
@@ -29,6 +33,8 @@ export const staticPuppies = [
     state: "SP",
     // images[0] é a capa do card e do modal. A responsável escolheu a foto da
     // dupla no gramado como capa; as outras seguem a ordem em que ela enviou.
+    // O .mp4 fica no fim: o componente separa foto de vídeo por extensão e usa
+    // photos[0] como pôster, então a posição do vídeo no array não muda a capa.
     images: [
       "/filhotes/branco/branco-femea-dupla-jardim-01.jpg",
       "/filhotes/branco/branco-femea-jardim-01.jpg",
@@ -38,6 +44,7 @@ export const staticPuppies = [
       "/filhotes/branco/branco-femea-jardim-04.jpg",
       "/filhotes/branco/branco-femea-jardim-05.jpg",
       "/filhotes/branco/branco-femea-jardim-06.jpg",
+      "/filhotes/branco/branco-femea-jardim-07.jpeg",
     ],
     // Fêmea Branca — única cor fora do valor comum das fêmeas: R$ 9.500.
     price_cents: 950000,
@@ -414,6 +421,65 @@ export const staticPuppies = [
       "lulu pomerânia macho laranja",
       "spitz laranja macho bragança paulista",
       "filhote spitz laranja macho disponível",
+    ],
+  },
+
+  // ─── LULU DA POMERÂNIA BRANCO MACHO ─────────────────────────────────────────
+  // Mesma raça dos demais: "Lulu da Pomerânia" é o nome popular do Spitz
+  // Alemão Anão. A responsável pediu que ESTE filhote — e só ele, entre os já
+  // cadastrados — fosse anunciado pelo nome popular. O `color` continua
+  // "branco" porque é ele que liga o filhote à tabela de preços; o rótulo
+  // muda, o valor cobrado não.
+  {
+    id: "lulu-pomerania-branco-macho-01",
+    name: "Lulu da Pomerânia Branco Macho",
+    slug: "lulu-da-pomerania-branco-macho",
+    title: "Lulu da Pomerânia Branco Macho | By Império Dog",
+    color: "branco",
+    cor: "Branco",
+    sex: "male",
+    gender: "male",
+    status: "available",
+    breed: "Lulu da Pomerânia",
+    size: "mini",
+    city: "braganca-paulista",
+    state: "SP",
+    // Capa: a foto em que ele aparece inteiro, de frente e em foco. As outras
+    // seguem na ordem em que dão contexto — sentado, em pé no trevo, e a do
+    // gramado aberto por último.
+    images: [
+      "/filhotes/branco/branco-macho-jardim-01.jpeg",
+      "/filhotes/branco/branco-macho-jardim-02.jpeg",
+      "/filhotes/branco/branco-macho-jardim-03.jpeg",
+      "/filhotes/branco/branco-macho-jardim-04.jpeg",
+    ],
+    // Macho Branco — R$ 8.500, o mesmo valor de qualquer macho branco da
+    // tabela. tests/pricing-guard.test.ts confere este número contra
+    // precoDe("branco", "macho").
+    price_cents: 850000,
+    priceCents: 850000,
+    currency: "BRL",
+    description:
+      "Macho Branco fotografado em luz natural no gramado. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    availableForShipping: true,
+    hasPedigree: true,
+    vaccinationStatus: "up-to-date",
+    hasMicrochip: false,
+    isHighlighted: false,
+    isFeatured: true,
+    isBestSeller: false,
+    isNewArrival: true,
+    reviewCount: 0,
+    averageRating: 0,
+    viewCount: 0,
+    favoriteCount: 0,
+    shareCount: 0,
+    inquiryCount: 0,
+    seoKeywords: [
+      "lulu da pomerânia branco macho",
+      "lulu da pomerânia macho bragança paulista",
+      "filhote lulu da pomerânia branco disponível",
+      "spitz alemão branco macho",
     ],
   },
 

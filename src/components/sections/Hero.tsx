@@ -115,6 +115,7 @@ export default function HeroSection() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href={trackedPrimaryWhatsApp}
+              data-wa-placement="hero"
                 className={cn(
                 buttonVariants({ size: "lg" }),
                 "min-h-[52px] w-full sm:w-auto sm:px-8 bg-emerald-600 text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2",
@@ -184,6 +185,7 @@ export default function HeroSection() {
               </div>
               <a
                 href={trackedSecondaryWhatsApp}
+                data-wa-placement="hero"
                   className="inline-flex min-h-[48px] items-center gap-2 text-sm font-semibold text-emerald-800 transition-colors hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />

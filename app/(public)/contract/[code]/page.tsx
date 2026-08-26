@@ -120,7 +120,7 @@ export default async function ContractPage(props: { params: Promise<{ code: stri
       )}
 
       {/* Rodapé de confiança */}
-      <div className="mt-8 flex flex-wrap justify-center gap-4 text-xs text-zinc-400">
+      <div className="mt-8 flex flex-wrap justify-center gap-4 text-xs text-zinc-500">
         <span>🔒 Dados protegidos (LGPD)</span>
         <span>📄 Contrato digital</span>
         <span>🩺 Garantia de saúde</span>

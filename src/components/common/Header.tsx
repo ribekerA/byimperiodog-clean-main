@@ -145,7 +145,7 @@ export default function Header() {
                       }`}
                     >
                       <span className="text-sm font-semibold text-zinc-900">{link.label}</span>
-                      <span className="text-xs text-zinc-400">{link.desc}</span>
+                      <span className="text-xs text-zinc-500">{link.desc}</span>
                     </Link>
                   ))}
                 </div>
@@ -173,6 +173,7 @@ export default function Header() {
           <div className="hidden items-center gap-3 lg:flex">
             <a
               href={whatsappLink}
+              data-wa-placement="header"
               className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
             >
               <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
@@ -270,6 +271,7 @@ export default function Header() {
                 <div className="mt-5">
                   <a
                     href={whatsappLink}
+                    data-wa-placement="header"
                     onClick={() => setMobileOpen(false)}
                     className="inline-flex w-full min-h-[52px] items-center justify-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
                   >

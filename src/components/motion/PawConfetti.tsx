@@ -49,6 +49,13 @@ interface PawConfettiButtonProps {
   rel?: string;
   target?: string;
   "aria-label"?: string;
+  /**
+   * Anotacoes lidas pelo <WhatsAppClickTracker />. Precisam chegar ao <a> real:
+   * o ouvinte delegado procura o atributo subindo o DOM a partir do alvo do
+   * clique, e este componente nao repassa props soltas.
+   */
+  "data-wa-placement"?: string;
+  "data-wa-puppy"?: string;
 }
 
 // ─── Paleta e configuração ────────────────────────────────────────────────────
@@ -109,6 +116,8 @@ export function PawConfettiButton({
   rel,
   target,
   "aria-label": ariaLabel,
+  "data-wa-placement": waPlacement,
+  "data-wa-puppy": waPuppy,
 }: PawConfettiButtonProps) {
   const [particles, setParticles] = useState<Particle[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -139,6 +148,8 @@ export function PawConfettiButton({
             target={target ?? "_blank"}
             aria-label={ariaLabel}
             className={className}
+            data-wa-placement={waPlacement}
+            data-wa-puppy={waPuppy}
             onClick={burst}
             {...(interactive ? { whileHover: springHover, whileTap: springTap } : {})}
           >
@@ -150,6 +161,8 @@ export function PawConfettiButton({
             disabled={disabled}
             aria-label={ariaLabel}
             className={className}
+            data-wa-placement={waPlacement}
+            data-wa-puppy={waPuppy}
             onClick={burst}
             {...(interactive ? { whileHover: springHover, whileTap: springTap } : {})}
           >

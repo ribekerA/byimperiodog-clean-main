@@ -22,6 +22,7 @@ export interface PixelsProps {
   CLARITY_ID?: string;
   ADS_ID?: string;
   ADS_LABEL?: string;
+  ADS_WHATSAPP_LABEL?: string;
 }
 
 const SERVER_CONSENT = JSON.stringify(DEFAULT_CONSENT);
@@ -57,8 +58,17 @@ export default function PixelsByConsent(props: PixelsProps) {
     // montado em toda página pública, ele é o ponto natural para publicá-los
     // ao helper de conversão — assim um clique em qualquer lugar do site
     // consegue disparar sem que cada página precise repassar as configurações.
-    registerAdsAccount({ adsId: props.ADS_ID, leadLabel: props.ADS_LABEL });
-  }, [isAdminRoute, props.ADS_ID, props.ADS_LABEL]);
+    registerAdsAccount({
+      adsId: props.ADS_ID,
+      leadLabel: props.ADS_LABEL,
+      whatsappLabel: props.ADS_WHATSAPP_LABEL,
+      // Decide a rota de envio da conversao: com container do GTM o gtag do Ads
+      // nem chega a ser carregado aqui embaixo, entao quem envia e a tag de
+      // dentro do container. E a mesma variavel que governa o carregamento dos
+      // scripts, para as duas decisoes nunca discordarem.
+      useGTM: props.useGTM,
+    });
+  }, [isAdminRoute, props.ADS_ID, props.ADS_LABEL, props.ADS_WHATSAPP_LABEL, props.useGTM]);
 
   if (isAdminRoute) return null;
 

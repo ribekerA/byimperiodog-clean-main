@@ -215,7 +215,7 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           <span
             className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${
-              isAvailable ? "bg-emerald-500" : "bg-amber-500"
+              isAvailable ? "bg-emerald-700" : "bg-amber-700"
             }`}
           >
             {isAvailable ? "Disponível" : "Reservado"}
@@ -230,7 +230,7 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
         <div>
           <Link
             href={`/filhotes/cor/${puppy.color}`}
-            className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-emerald-600 transition"
+            className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-emerald-600 transition"
           >
             {corLabel}
           </Link>
@@ -244,14 +244,16 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
         <div className="mt-auto space-y-3">
           {priceCents > 0 && (
             <div>
-              <p className="text-xl font-extrabold text-[var(--accent,#059669)]">
+              <p className="text-xl font-extrabold text-[var(--accent-ink)]">
                 {formatPrice(priceCents)}
               </p>
-              <p className="text-[10px] text-zinc-400">registro oficial incluso</p>
+              <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
             </div>
           )}
           <PawConfettiButton
             href={waLink}
+            data-wa-placement="puppy_card"
+            data-wa-puppy={puppy.slug}
             rel="noreferrer"
             target="_blank"
             className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow transition hover:bg-emerald-700 hover:scale-[1.02]"
@@ -263,7 +265,7 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
           </PawConfettiButton>
           <Link
             href={`/filhotes/${puppy.slug}`}
-            className="block text-center text-xs font-medium text-zinc-400 hover:text-emerald-600 transition"
+            className="block text-center text-xs font-medium text-zinc-500 hover:text-emerald-600 transition"
           >
             Ver galeria completa →
           </Link>
@@ -420,7 +422,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 <span key={href} className="flex items-center gap-1.5">
                   <Link
                     href={href}
-                    className={`transition hover:underline ${heroDark ? "text-zinc-400 hover:text-zinc-200" : "text-zinc-400 hover:text-zinc-700"}`}
+                    className={`transition hover:underline ${heroDark ? "text-zinc-400 hover:text-zinc-200" : "text-zinc-500 hover:text-zinc-700"}`}
                   >
                     {label}
                   </Link>
@@ -738,7 +740,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
       {/* ── 4. COLOR NAV ──────────────────────────────────────────────────────── */}
       <section className="bg-zinc-50 py-14" aria-label="Navegar por cor">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
-          <p className="mb-6 text-center text-xs font-bold uppercase tracking-[0.3em] text-zinc-400">
+          <p className="mb-6 text-center text-xs font-bold uppercase tracking-[0.3em] text-zinc-500">
             Explorar outras cores
           </p>
           <ColorNav active={color} />

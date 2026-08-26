@@ -91,7 +91,7 @@ export default function PriceTransparency() {
               {s.colors.map((c) => (
                 <li key={c.cor} className="flex items-center justify-between py-2 text-sm">
                   <span className="font-medium text-zinc-700">{c.cor}</span>
-                  <span className={`font-bold ${s.highlight ? "text-[var(--accent)] text-base" : "text-emerald-700"}`}>{c.valor}</span>
+                  <span className={`font-bold ${s.highlight ? "text-[var(--accent-ink)] text-base" : "text-emerald-700"}`}>{c.valor}</span>
                 </li>
               ))}
             </ul>
@@ -110,7 +110,7 @@ export default function PriceTransparency() {
           <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
           Conhecer os filhotes disponíveis
         </a>
-        <p className="mt-3 text-xs text-zinc-400">Atendimento todos os dias, 8h–22h.</p>
+        <p className="mt-3 text-xs text-zinc-500">Atendimento todos os dias, 8h–22h.</p>
       </div>
     </section>
   );

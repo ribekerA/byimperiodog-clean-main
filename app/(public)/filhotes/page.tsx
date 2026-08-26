@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { buildLocalBusinessLD, buildItemListLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildItemListLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
@@ -51,7 +51,6 @@ export const metadata: Metadata = {
 };
 
 export default function FilhotesPage() {
-  const businessLd   = buildLocalBusinessLD();
   const itemListLd   = buildItemListLD(puppiesPublicados as any);
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",   url: `${SITE_URL}/` },
@@ -61,7 +60,6 @@ export default function FilhotesPage() {
 
   return (
     <>
-      <script id="ld-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
@@ -110,7 +108,11 @@ export default function FilhotesPage() {
         >
           Perguntas frequentes sobre os filhotes
         </h2>
-        <dl className="divide-y divide-zinc-100">
+        {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
+            de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
+            definition-list do axe e o leitor de tela anunciava uma lista que
+            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+        <div className="divide-y divide-zinc-100">
           {CATALOG_FAQS.map((item) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4">
@@ -131,11 +133,11 @@ export default function FilhotesPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
 
         {/* Breadcrumb navegacional */}
         <nav aria-label="Navegação estrutural" className="mt-8">
-          <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
+          <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
             <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
             <li aria-hidden="true">/</li>
             <li className="font-medium text-zinc-600" aria-current="page">Filhotes</li>

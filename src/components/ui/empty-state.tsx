@@ -43,12 +43,12 @@ export interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
 const emptyStateVariants = {
   default: {
     container: 'border-zinc-200 bg-zinc-50/50',
-    icon: 'bg-zinc-100 text-zinc-400',
+    icon: 'bg-zinc-100 text-zinc-500',
     IconComponent: Package,
   },
   search: {
     container: 'border-zinc-200 bg-zinc-50/50',
-    icon: 'bg-zinc-100 text-zinc-400',
+    icon: 'bg-zinc-100 text-zinc-500',
     IconComponent: Search,
   },
   error: {
@@ -58,7 +58,7 @@ const emptyStateVariants = {
   },
   empty: {
     container: 'border-zinc-200 bg-zinc-50/50',
-    icon: 'bg-zinc-100 text-zinc-400',
+    icon: 'bg-zinc-100 text-zinc-500',
     IconComponent: FileQuestion,
   },
 };

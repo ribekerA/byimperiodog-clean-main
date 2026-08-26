@@ -13,9 +13,12 @@
  */
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { MediaLikeButton } from "@/components/media/MediaLikeButton";
 import { VideoReelsPlayer, type ReelItem } from "@/components/media/VideoReelsPlayer";
+import { mediaIdDeArquivo } from "@/domain/media-registry";
+import { useMediaLikes } from "@/hooks/useMediaLikes";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyGalleryImage, optimizePuppyThumb } from "@/lib/optimize-image";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -102,6 +105,15 @@ export default function PuppyCinematicGallery({
   const reduced = useReducedMotion();
   const VARS    = slideVariants(!!reduced);
 
+  // Um pedido só de contagens para a galeria inteira — fotos e vídeos juntos,
+  // em lote, e não um por mídia. O id sai do caminho do arquivo, então
+  // reordenar as fotos no admin não move a curtida de uma foto para outra.
+  const idsDaMidia = useMemo(
+    () => images.map(mediaIdDeArquivo).filter((id): id is string => Boolean(id)),
+    [images]
+  );
+  const curtidas = useMediaLikes(idsDaMidia);
+
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [direction,   setDirection]   = useState(0);
   const [showVideo,   setShowVideo]   = useState(false);
@@ -166,7 +178,16 @@ export default function PuppyCinematicGallery({
     description: `Spitz Alemão Anão · ${puppyColor} · ${puppySex}`,
     waLink,
     poster: photos[0] ? optimizePuppyGalleryImage(photos[0]) || photos[0] : undefined,
+    mediaId: mediaIdDeArquivo(v) ?? undefined,
+    contextType: "puppy" as const,
+    contextId: puppyId,
   }));
+
+  // Mídia que está na moldura principal agora: no desktop o vídeo toca ali
+  // mesmo, então o coração precisa seguir o que está à vista — senão curtiria
+  // a foto enquanto o vídeo roda.
+  const midiaAtual = showVideo ? videos[videoIdx] : photos[selectedIdx];
+  const idDaMidiaAtual = midiaAtual ? mediaIdDeArquivo(midiaAtual) : null;
 
   // Oculta hint de swipe após 2.5s ou na primeira navegação
   useEffect(() => {
@@ -250,10 +271,6 @@ export default function PuppyCinematicGallery({
         // imagem inteira — o fundo escuro faz a sobra parecer proposital.
         className="group relative aspect-[4/5] cursor-zoom-in overflow-hidden rounded-2xl bg-zinc-900 shadow-xl ring-1 ring-zinc-900/8 sm:aspect-square"
         onClick={onClickGallery}
-        role="button"
-        tabIndex={0}
-        aria-label="Ampliar foto"
-        onKeyDown={(e) => e.key === "Enter" && !showVideo && setLightbox(true)}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -335,6 +352,29 @@ export default function PuppyCinematicGallery({
           </div>
         )}
 
+        {/* Curtida da mídia em exibição. Canto de baixo à esquerda: o contador
+            ocupa a direita, o aviso de zoom o alto à esquerda e o atalho de
+            vídeo o alto à direita. O botão para o clique nele mesmo, então
+            curtir não abre o lightbox nem troca de foto. */}
+        {idDaMidiaAtual && (
+          <div className="absolute bottom-3 left-3 z-10">
+            <MediaLikeButton
+              curtidas={curtidas}
+              alvo={{
+                mediaId: idDaMidiaAtual,
+                mediaType: showVideo ? "video" : "image",
+                contextType: "puppy",
+                contextId: puppyId,
+              }}
+              rotulo={
+                showVideo
+                  ? `o vídeo de ${puppyName}`
+                  : `a foto ${selectedIdx + 1} de ${puppyName}`
+              }
+            />
+          </div>
+        )}
+
         {/* Bolinhas — só no mobile. Uma por foto: o corte antigo em 8 deixava
             a nona foto sem indicador e sem nenhuma bolinha acesa nela. */}
         {photos.length > 1 && photos.length <= MAX_DOTS && !showVideo && (
@@ -360,20 +400,29 @@ export default function PuppyCinematicGallery({
           </div>
         )}
 
-        {/* Zoom hint */}
+        {/* Zoom hint — e tambem o controle de teclado para ampliar.
+            Antes o quadro inteiro era um `role="button"` com tabIndex, mas ele
+            contem botoes de verdade (setas, bolinhas, curtida, atalho de
+            video): controle interativo dentro de controle interativo. O leitor
+            de tela anunciava um botao so e engolia os de dentro. Agora o quadro
+            volta a ser uma <div> comum — o clique de mouse continua ampliando —
+            e quem carrega o papel de botao e este aviso, que ja estava na tela
+            escrito "Ampliar". Zero mudanca visual. */}
         {!showVideo && (
-          <div
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); setLightbox(true); }}
             // Celular nao tem hover: preso em `opacity-0 group-hover` este
             // aviso nunca aparecia justamente para quem so pode tocar.
-            className="pointer-events-none absolute left-3 top-3 flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-medium text-white/90 opacity-100 backdrop-blur-sm transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100"
-            aria-hidden="true"
+            className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-medium text-white/90 opacity-100 backdrop-blur-sm transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
+            aria-label="Ampliar foto"
           >
             <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
               <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
               <line x1="11" y1="8" x2="11" y2="14" /><line x1="8" y1="11" x2="14" y2="11" />
             </svg>
             Ampliar
-          </div>
+          </button>
         )}
 
         {/* Atalho para o vídeo. Antes ele só existia na tira de miniaturas,
@@ -612,6 +661,23 @@ export default function PuppyCinematicGallery({
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-3 py-1 text-sm font-medium text-white backdrop-blur-sm">
               {selectedIdx + 1} / {photos.length}
             </div>
+
+            {/* A mesma foto, a mesma contagem: quem curtiu na moldura abre o
+                lightbox com o coração já aceso. */}
+            {photos[selectedIdx] && mediaIdDeArquivo(photos[selectedIdx]) && (
+              <div className="absolute bottom-6 left-6">
+                <MediaLikeButton
+                  curtidas={curtidas}
+                  alvo={{
+                    mediaId: mediaIdDeArquivo(photos[selectedIdx]) as string,
+                    mediaType: "image",
+                    contextType: "puppy",
+                    contextId: puppyId,
+                  }}
+                  rotulo={`a foto ${selectedIdx + 1} de ${puppyName}`}
+                />
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -625,6 +691,7 @@ export default function PuppyCinematicGallery({
           backLabel="Ver fotos"
           ctaLabel="Falar no WhatsApp"
           ariaLabel={`Vídeos de ${puppyName}`}
+          curtidas={curtidas}
         />
       )}
     </div>

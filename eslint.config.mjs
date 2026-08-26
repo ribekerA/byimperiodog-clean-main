@@ -67,6 +67,10 @@ export default defineConfig([
     },
   },
   globalIgnores([
+    // Diretorio de trabalho: scripts de patch de uso unico e textos de
+    // especificacao. Nada aqui e codigo do site, e nada aqui vai para o git
+    // (ver .gitignore) — sem esta linha o gate fica vermelho por rascunho.
+    "scratchpad/**",
     ".next*/**",
     ".netlify/**",
     ".contentlayer/**",

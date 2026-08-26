@@ -54,7 +54,8 @@
     "route:validate": "tsx scripts/route-validator.ts",
     "route:validate:prod": "ROUTE_VALIDATOR_URL=https://byimperiodog.com.br tsx scripts/route-validator.ts",
     "postinstall": "echo \"Ready.\"",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build",
+    "gen:video-posters": "tsx scripts/gen-video-posters.mts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

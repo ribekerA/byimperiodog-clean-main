@@ -121,7 +121,7 @@ export function FeaturedBlogCard({ post }: { post: BlogCardPost }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 text-xs text-zinc-400">
+          <div className="flex items-center gap-2 text-xs text-zinc-500">
             {published && <span>{published}</span>}
             {minutes   && <><span aria-hidden>·</span><span>{minutes} min</span></>}
           </div>
@@ -210,7 +210,7 @@ export default function BlogCard({ post }: { post: BlogCardPost }) {
       {/* Content */}
       <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
         {/* Date + reading time */}
-        <div className="flex items-center gap-2 text-[11px] text-zinc-400">
+        <div className="flex items-center gap-2 text-[11px] text-zinc-500">
           {published && <span>{published}</span>}
           {minutes   && <><span aria-hidden>·</span><span>{minutes} min de leitura</span></>}
         </div>

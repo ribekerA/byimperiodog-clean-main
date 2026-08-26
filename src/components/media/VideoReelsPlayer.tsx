@@ -23,6 +23,9 @@ import { ChevronDown, Play, Volume2, VolumeX, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { MediaLikeButton } from "@/components/media/MediaLikeButton";
+import type { MediaContextoTipo } from "@/domain/media-registry";
+import type { Curtidas } from "@/hooks/useMediaLikes";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 export type ReelItem = {
@@ -35,6 +38,17 @@ export type ReelItem = {
   waLink: string;
   /** Capa mostrada antes do arquivo carregar. Sem ela o slide fica preto. */
   poster?: string;
+  /**
+   * Id estável da mídia (src/domain/media-registry.ts). Com ele preenchido e o
+   * player recebendo `curtidas`, o slide mostra o coração.
+   *
+   * É o MESMO id do card da grade — o vídeo da /galeria e o vídeo do slide são
+   * o mesmo arquivo. Então quem curtiu na grade abre o Reel com o coração já
+   * aceso, e o contrário também.
+   */
+  mediaId?: string;
+  contextType?: MediaContextoTipo;
+  contextId?: string;
 };
 
 type Props = {
@@ -46,6 +60,8 @@ type Props = {
   /** Texto do botão de WhatsApp. */
   ctaLabel?: string;
   ariaLabel?: string;
+  /** Estado das curtidas, vindo do `useMediaLikes` de quem abriu o player. */
+  curtidas?: Curtidas;
 };
 
 // ─── Um slide ────────────────────────────────────────────────────────────────
@@ -59,6 +75,7 @@ function ReelSlide({
   onClose,
   backLabel,
   ctaLabel,
+  curtidas,
 }: {
   item: ReelItem;
   index: number;
@@ -69,6 +86,7 @@ function ReelSlide({
   onClose: () => void;
   backLabel: string;
   ctaLabel: string;
+  curtidas?: Curtidas;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [paused, setPaused] = useState(true);
@@ -186,6 +204,7 @@ function ReelSlide({
         <button
           type="button"
           onClick={onClose}
+          data-reels-close
           className="flex h-11 w-11 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           aria-label="Fechar vídeos"
         >
@@ -211,6 +230,28 @@ function ReelSlide({
         </button>
       </div>
 
+      {/* Curtida — trilho da direita, onde ela vive em qualquer feed vertical.
+          Fica ACIMA do rodapé para não disputar espaço com o CTA de WhatsApp, e
+          o `stopPropagation` do próprio botão impede que o toque no coração
+          pause o vídeo (o botão de pausa cobre a tela inteira, em z-10). */}
+      {item.mediaId && curtidas && (
+        <div
+          className="absolute right-3 z-30"
+          style={{ bottom: "max(14rem, calc(env(safe-area-inset-bottom) + 13.5rem))" }}
+        >
+          <MediaLikeButton
+            curtidas={curtidas}
+            alvo={{
+              mediaId: item.mediaId,
+              mediaType: "video",
+              contextType: item.contextType,
+              contextId: item.contextId,
+            }}
+            rotulo={`o vídeo ${item.title}`}
+          />
+        </div>
+      )}
+
       {/* Rodapé: contexto + CTA */}
       <div
         className="absolute inset-x-0 bottom-0 z-30 space-y-3 px-4"
@@ -231,9 +272,10 @@ function ReelSlide({
         <div className="flex gap-2">
           <a
             href={trackedWaLink}
+            data-wa-placement="reels"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-4 text-sm font-bold text-white shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="flex min-h-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-emerald-700 px-4 text-sm font-bold text-white shadow-lg active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
           >
             <WhatsAppIcon size={18} aria-hidden />
             {ctaLabel}
@@ -266,8 +308,10 @@ export function VideoReelsPlayer({
   backLabel = "Ver lista",
   ctaLabel = "Tenho interesse",
   ariaLabel = "Vídeos",
+  curtidas,
 }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const dialogoRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const reduced = useReducedMotion();
 
@@ -277,9 +321,75 @@ export function VideoReelsPlayer({
     if (el) el.scrollTop = initialIndex * el.clientHeight;
   }, [initialIndex]);
 
+  /**
+   * O foco entra, fica preso e volta.
+   *
+   * O player já era `role="dialog"` com `aria-modal` e Escape, mas o foco
+   * continuava lá fora, no botão da página atrás. Quem navega por teclado abria
+   * a tela cheia e o primeiro Tab ia parar num link do rodapé invisível.
+   *
+   * Três coisas, nesta ordem: o foco entra no botão de fechar do slide que foi
+   * aberto (a saída é sempre o primeiro alvo), o Tab circula só dentro do
+   * player, e ao fechar o foco volta para o elemento que abriu — a miniatura de
+   * onde a pessoa veio, não o topo da página.
+   *
+   * Sem `inert` no fundo de propósito: o player é renderizado dentro da própria
+   * página, não em portal, então marcar os irmãos de `document.body` como
+   * inertes marcaria também o ancestral do próprio diálogo. A armadilha de foco
+   * abaixo é o que impede a navegação por trás, e `aria-modal` cobre o leitor
+   * de tela.
+   */
+  useEffect(() => {
+    const abridor = document.activeElement as HTMLElement | null;
+
+    // Em timeout de zero: o slide inicial precisa existir no DOM para ter
+    // botão de fechar a focar.
+    const focarSaida = window.setTimeout(() => {
+      const caixa = dialogoRef.current;
+      if (!caixa) return;
+      const fechar = caixa.querySelectorAll<HTMLElement>("[data-reels-close]");
+      (fechar[initialIndex] ?? fechar[0])?.focus();
+    }, 0);
+
+    return () => {
+      window.clearTimeout(focarSaida);
+      // `isConnected`: se a página trocou de rota com o player aberto, o
+      // elemento de origem não existe mais e focar nele lançaria.
+      if (abridor?.isConnected) abridor.focus();
+    };
+  }, [initialIndex]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      const caixa = dialogoRef.current;
+      if (!caixa) return;
+      const focaveis = Array.from(
+        caixa.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null || el === document.activeElement);
+      if (focaveis.length === 0) return;
+
+      const primeiro = focaveis[0];
+      const ultimo = focaveis[focaveis.length - 1];
+      const atual = document.activeElement;
+
+      if (!caixa.contains(atual)) {
+        e.preventDefault();
+        primeiro.focus();
+      } else if (e.shiftKey && atual === primeiro) {
+        e.preventDefault();
+        ultimo.focus();
+      } else if (!e.shiftKey && atual === ultimo) {
+        e.preventDefault();
+        primeiro.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -299,6 +409,7 @@ export function VideoReelsPlayer({
     <AnimatePresence>
       <motion.div
         key="reels"
+        ref={dialogoRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -329,6 +440,7 @@ export function VideoReelsPlayer({
               onClose={onClose}
               backLabel={backLabel}
               ctaLabel={ctaLabel}
+              curtidas={curtidas}
             />
           ))}
         </div>

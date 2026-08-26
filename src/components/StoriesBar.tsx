@@ -69,7 +69,7 @@ export default function StoriesBar({ stories, className, ariaLabel = "Stories do
                   priority={index < 4}
                 />
               ) : (
-                <span className="grid h-full w-full place-items-center bg-zinc-100 text-xs text-zinc-400">Sem foto</span>
+                <span className="grid h-full w-full place-items-center bg-zinc-100 text-xs text-zinc-500">Sem foto</span>
               )}
             </span>
             <span className="max-w-[5.5rem] truncate text-center text-xs font-medium text-zinc-600 transition group-hover:text-emerald-600">

@@ -96,7 +96,7 @@ export default function PuppiesFilterBar({
         <div className="grid grid-cols-1 gap-3 md:grid-cols-6">
           <label className="relative col-span-1 md:col-span-2" htmlFor="filtro-busca">
             <span className="sr-only">Buscar por nome ou cor</span>
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" aria-hidden />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" aria-hidden />
             <input
               id="filtro-busca"
               value={qLocal}

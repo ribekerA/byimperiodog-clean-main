@@ -40,7 +40,7 @@ export const EXPERIMENTS: Experiment[] = [
     hypothesis:
       "Mudar 'Falar com a criadora' para 'Ver filhotes disponíveis agora' aumentará o CTR do hero porque" +
       " evidencia o catálogo (intenção de browse) em vez de compromisso de contato direto.",
-    metric: "lead_whatsapp (hero) — cliques rastreados no GA4",
+    metric: "whatsapp_click com placement=hero — cliques rastreados no GA4",
     minSamplePerVariant: 500,
     active: false,
     startedAt: "2026-05-31",

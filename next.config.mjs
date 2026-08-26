@@ -34,6 +34,11 @@ const nextConfig = {
   // ============================================================================
   images: {
     formats: ["image/avif", "image/webp"],
+    // A partir do Next 16 so passa pelo otimizador o `quality` declarado
+    // aqui. 75 e o padrao usado por todas as fotos do site; 45 existe para
+    // um caso unico -- o poster do hero, que fica atras de um gradiente
+    // preto de 52% a 92% e some assim que o video carrega.
+    qualities: [45, 75],
     // Cada largura desta lista vira uma transformacao cobrada, e ainda
     // multiplicada pelos dois formatos acima. Eram 7 + 10 = 17 larguras, ou ate
     // 34 variantes por foto. A escada abaixo tem 5 + 4 = 9.

@@ -177,8 +177,17 @@ export default function TextTestimonials() {
           público. Agora é a mesma lista: carrossel com snap no mobile e grid
           de 2/4 colunas a partir de sm, alternado somente por CSS. */}
       <ul
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:pb-0 lg:grid-cols-4"
+        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:pb-0 lg:grid-cols-4"
         aria-label="Depoimentos de clientes"
+        // No mobile esta lista rola de lado e nenhum cartao tem link ou botao
+        // dentro: sem um ponto de foco, quem navega por teclado nao alcancava
+        // do segundo depoimento em diante — a regiao existia mas era
+        // inacessivel. Com tabIndex a propria lista recebe foco e as setas
+        // rolam. A partir de sm ela vira grade e nao rola mais.
+        // A regra abaixo so conhece a lista de roles interativas e nao enxerga
+        // rolagem; area rolavel precisa de foco por teclado (WCAG 2.1.1).
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
       >
         {TESTIMONIALS.map((t) => (
           <li
@@ -207,13 +216,13 @@ export default function TextTestimonials() {
                 {t.name ? (
                   <>
                     <p className="text-sm font-semibold text-zinc-900">{t.name}</p>
-                    <p className="text-xs text-zinc-400">{t.city}</p>
+                    <p className="text-xs text-zinc-500">{t.city}</p>
                     <p className="text-xs font-medium text-emerald-600">{t.puppy}</p>
                   </>
                 ) : (
                   <>
                     <p className="text-sm font-semibold text-zinc-900">Família atendida</p>
-                    <p className="text-xs text-zinc-400">Depoimento enviado ao canil</p>
+                    <p className="text-xs text-zinc-500">Depoimento enviado ao canil</p>
                   </>
                 )}
               </div>

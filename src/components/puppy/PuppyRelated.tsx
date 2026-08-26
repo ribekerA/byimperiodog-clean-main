@@ -54,7 +54,7 @@ export function PuppyRelated({ puppies }: Props) {
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center text-sm text-zinc-400">
+                      <div className="flex h-full w-full items-center justify-center text-sm text-zinc-500">
                         Sem imagem
                       </div>
                     )}

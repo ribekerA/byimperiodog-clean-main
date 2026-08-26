@@ -17,6 +17,11 @@ export const ClientOnlyAttributionTracker = dynamic(
   { ssr: false },
 );
 
+export const ClientOnlyWhatsAppClickTracker = dynamic(
+  () => import("@/components/tracking/WhatsAppClickTracker"),
+  { ssr: false },
+);
+
 export const ClientOnlyWhatsAppFloat = dynamic(
   () => import("@/components/WhatsAppFloat").then((module) => module.WhatsAppFloat),
   { ssr: false },

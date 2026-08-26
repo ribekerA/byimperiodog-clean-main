@@ -11,7 +11,6 @@ import {
 } from "@/domain/pricing";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -131,7 +130,6 @@ export default function PrecoSpitzPage() {
     { name: "Início",           url: `${SITE_URL}/` },
     { name: "Preço Spitz Anão", url: PAGE_URL },
   ]);
-  const businessLd  = buildLocalBusinessLD();
 
   return (
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
@@ -139,7 +137,6 @@ export default function PrecoSpitzPage() {
       <script id="ld-preco-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script id="ld-preco-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-preco-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-preco-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── HERO ── */}
       <header className="space-y-4">
@@ -160,7 +157,24 @@ export default function PrecoSpitzPage() {
         <p className="mb-6 text-sm text-zinc-600">
           Os filhotes da By Império Dog são entregues com registro oficial, contrato e mentoria pós-venda inclusos no valor abaixo.
         </p>
-        <div className="overflow-x-auto rounded-2xl border border-zinc-200 shadow-sm">
+        {/* A tabela tem min-w-[480px]: abaixo disso a caixa rola de lado e nao
+            ha link nem botao dentro dela. Sem um ponto de foco, quem navega por
+            teclado nao chegava as colunas da direita — as duas colunas de preco
+            no celular. Com tabIndex a propria caixa recebe foco e as setas
+            rolam; role+aria-label fazem o leitor de tela anunciar a regiao e
+            avisar que ela rola. O rotulo e proprio, e nao um aria-labelledby
+            apontando para o h2 da secao: dois landmarks com o mesmo nome
+            acessivel dentro da mesma pagina viram um so na lista de regioes.
+            Mesma solucao aplicada ao carrossel de depoimentos. */}
+        <div
+          className="overflow-x-auto rounded-2xl border border-zinc-200 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+          // A regra abaixo so conhece a lista de roles interativas e nao enxerga
+          // rolagem; area rolavel precisa de foco por teclado (WCAG 2.1.1).
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+          tabIndex={0}
+          role="region"
+          aria-label="Tabela de preços — role para o lado para ver todas as colunas"
+        >
           <table className="w-full min-w-[480px] text-sm">
             <thead>
               <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500">
@@ -176,13 +190,13 @@ export default function PrecoSpitzPage() {
                   <td className="px-4 py-3 font-semibold text-zinc-900">{row.color}</td>
                   <td className="px-4 py-3 text-zinc-700">{row.male}</td>
                   <td className="px-4 py-3 font-medium text-emerald-700">{row.female}</td>
-                  <td className="hidden px-4 py-3 text-xs text-zinc-400 sm:table-cell">{row.note}</td>
+                  <td className="hidden px-4 py-3 text-xs text-zinc-500 sm:table-cell">{row.note}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs text-zinc-400">
+        <p className="mt-3 text-xs text-zinc-500">
           * Valores sujeitos a alteração conforme disponibilidade. Consulte filhotes disponíveis no catálogo.
         </p>
       </section>
@@ -237,7 +251,11 @@ export default function PrecoSpitzPage() {
         <h2 id="faq-preco-heading" className="mb-6 text-2xl font-bold text-zinc-900">
           Perguntas frequentes sobre preço
         </h2>
-        <dl className="divide-y divide-zinc-100">
+        {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
+            de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
+            definition-list do axe e o leitor de tela anunciava uma lista que
+            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+        <div className="divide-y divide-zinc-100">
           {PAGE_FAQS.map((item, i) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4" open={i === 0}>
@@ -258,7 +276,7 @@ export default function PrecoSpitzPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       {/* ── CTA ── */}
@@ -297,7 +315,7 @@ export default function PrecoSpitzPage() {
       ]} />
 
       <nav aria-label="Navegação estrutural">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
           <li className="font-medium text-zinc-600" aria-current="page">Preço Spitz Anão</li>

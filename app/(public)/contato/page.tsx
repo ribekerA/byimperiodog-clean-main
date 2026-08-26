@@ -280,20 +280,20 @@ export default function ContatoPage() {
               >
                 <div className="flex items-center gap-3">
                   <Clock
-                    className={`h-4 w-4 ${item.open ? "text-emerald-500" : "text-zinc-300"}`}
+                    className={`h-4 w-4 ${item.open ? "text-emerald-500" : "text-zinc-500"}`}
                     aria-hidden
                   />
-                  <span className={`text-sm font-semibold ${item.open ? "text-zinc-800" : "text-zinc-400"}`}>
+                  <span className={`text-sm font-semibold ${item.open ? "text-zinc-800" : "text-zinc-500"}`}>
                     {item.day}
                   </span>
                 </div>
                 <span
-                  className={`text-sm ${item.open ? "text-zinc-600" : "text-zinc-300"}`}
+                  className={`text-sm ${item.open ? "text-zinc-600" : "text-zinc-500"}`}
                 >
                   {item.hours}
                 </span>
                 <span
-                  className={`hidden sm:inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${item.open ? "bg-emerald-50 text-emerald-700" : "bg-zinc-100 text-zinc-400"}`}
+                  className={`hidden sm:inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${item.open ? "bg-emerald-50 text-emerald-700" : "bg-zinc-100 text-zinc-500"}`}
                 >
                   {item.open ? "Aberto" : "Fechado"}
                 </span>
@@ -354,7 +354,7 @@ export default function ContatoPage() {
               <p className="text-sm text-zinc-600">
                 Bragança Paulista, SP<br />
                 Região Bragantina · Interior de São Paulo<br />
-                <span className="text-zinc-400">Visitas combinadas caso a caso com a criadora</span>
+                <span className="text-zinc-500">Visitas combinadas caso a caso com a criadora</span>
               </p>
               <a
                 href="https://maps.google.com/?q=Bragança+Paulista+SP"
@@ -388,7 +388,7 @@ export default function ContatoPage() {
               >
                 <summary className="flex cursor-pointer items-center justify-between gap-4 text-sm font-semibold text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40 marker:hidden list-none">
                   <span>{item.q}</span>
-                  <span className="shrink-0 rounded-full border border-zinc-200 p-1 text-zinc-400 group-open:border-emerald-300 group-open:text-emerald-600 transition">
+                  <span className="shrink-0 rounded-full border border-zinc-200 p-1 text-zinc-500 group-open:border-emerald-300 group-open:text-emerald-600 transition">
                     <svg className="h-3.5 w-3.5 group-open:rotate-45 transition-transform duration-200" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
                       <path d="M7 1v12M1 7h12" strokeLinecap="round" />
                     </svg>

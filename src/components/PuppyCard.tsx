@@ -405,9 +405,10 @@ export default function PuppyCard({ p, cover, onOpen, priority = false, rankingF
         <div className="mt-auto space-y-3">
           <a
             href={whatsappLink}
+            data-wa-placement="puppy_card"
+            data-wa-puppy={p.slug ?? p.id}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => track.event?.("whatsapp_click", { placement: "card", action: "info", puppy_id: p.id })}
             className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-base font-semibold text-white shadow-lg transition duration-200 hover:bg-emerald-500 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
             data-evt="share_click"
             data-id={`wa_info_${p.id}`}

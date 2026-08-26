@@ -57,7 +57,7 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
       <button
         onClick={dismiss}
         aria-label="Fechar"
-        className="absolute right-2 top-2 rounded-full p-1 text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-600"
+        className="absolute right-2 top-2 rounded-full p-1 text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-600"
       >
         <X className="h-3.5 w-3.5" aria-hidden />
       </button>
@@ -71,6 +71,7 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
 
       <a
         href={trackedWhatsappUrl}
+        data-wa-placement="floating_button"
         target="_blank"
         rel="noopener noreferrer"
         onClick={dismiss}
@@ -81,7 +82,7 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
         Conversar no WhatsApp
       </a>
 
-      <p className="mt-2 text-center text-[10px] text-zinc-400">
+      <p className="mt-2 text-center text-[10px] text-zinc-500">
         ⚡ Atendimento das 8h às 22h · Sem compromisso
       </p>
     </div>

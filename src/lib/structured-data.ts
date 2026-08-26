@@ -166,6 +166,21 @@ export function buildArticleLD(opts: {
  * criador, Pinterest) foi incorporado ao buildLocalBusinessLD abaixo, que agora
  * é a única descrição da empresa no grafo.
  */
+/**
+ * O nó único da empresa no grafo — não existe outro.
+ *
+ * Havia dois. Este, e um buildOrganizationLD() em src/lib/tracking.ts que o
+ * layout emitia em toda página pública. Os dois declaravam o mesmo
+ * `@id` (#business) com fatos diferentes: `@type` ["Organization","LocalBusiness"]
+ * contra "LocalBusiness", `image` string contra array, `logo` string contra
+ * ImageObject, e priceRange/makesOffer só aqui. Nó com mesmo @id e campo
+ * divergente não funde: vira aviso de campo duplicado no Search Console, e a
+ * empresa aparecia descrita de um jeito nas quinze páginas que chamavam esta
+ * função e de outro nas demais.
+ *
+ * Agora o layout público emite este nó, uma vez, em toda página. As chamadas
+ * página a página saíram.
+ */
 export function buildLocalBusinessLD() {
   return {
     "@context": "https://schema.org",
@@ -209,6 +224,17 @@ export function buildLocalBusinessLD() {
       addressCountry: "BR",
     },
     areaServed: SERVED_AREAS,
+    // Vinham do buildOrganizationLD que este nó substituiu.
+    publishingPrinciples: `${SITE_URL}/politica-editorial`,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: BRAND.contact.phone,
+        contactType: "customer service",
+        areaServed: "BR",
+        availableLanguage: ["pt-BR"],
+      },
+    ],
     // Sem `aggregateRating`: a nota 5.0 com reviewCount 180 era fixa no código,
     // não vinha de nenhuma plataforma de avaliações verificadas. Marcação de
     // review sem avaliação real viola a política de dados estruturados do

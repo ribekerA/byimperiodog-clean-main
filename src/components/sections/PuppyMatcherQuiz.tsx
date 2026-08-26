@@ -164,7 +164,7 @@ export default function PuppyMatcherQuiz() {
               </button>
             ))}
           </div>
-          <button type="button" onClick={() => setStep(0)} className="mt-4 text-sm text-zinc-400 hover:text-zinc-600">
+          <button type="button" onClick={() => setStep(0)} className="mt-4 text-sm text-zinc-500 hover:text-zinc-600">
             ← Voltar
           </button>
         </fieldset>
@@ -194,7 +194,7 @@ export default function PuppyMatcherQuiz() {
               </button>
             ))}
           </div>
-          <button type="button" onClick={() => setStep(1)} className="mt-4 text-sm text-zinc-400 hover:text-zinc-600">
+          <button type="button" onClick={() => setStep(1)} className="mt-4 text-sm text-zinc-500 hover:text-zinc-600">
             ← Voltar
           </button>
         </fieldset>
@@ -228,14 +228,14 @@ export default function PuppyMatcherQuiz() {
               {/* Info */}
               <div className="flex flex-1 flex-col gap-3">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400">{match.cor ?? match.color}</p>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{match.cor ?? match.color}</p>
                   <h3 className="mt-0.5 text-xl font-bold text-zinc-900">{match.name}</h3>
                   <p className="mt-1 text-sm text-zinc-600">
                     {match.sex === "female" ? "Fêmea" : "Macho"} · Spitz Alemão Anão · Bragança Paulista, SP
                   </p>
                 </div>
                 {matchPrice > 0 && (
-                  <p className="text-2xl font-extrabold text-[var(--accent)]">
+                  <p className="text-2xl font-extrabold text-[var(--accent-ink)]">
                     {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(matchPrice / 100)}
                   </p>
                 )}
@@ -251,7 +251,7 @@ export default function PuppyMatcherQuiz() {
                   </a>
                   <Link
                     href={`/filhotes/${match.slug}`}
-                    className="text-center text-xs font-medium text-zinc-400 hover:text-emerald-600 hover:underline"
+                    className="text-center text-xs font-medium text-zinc-500 hover:text-emerald-600 hover:underline"
                   >
                     Ver galeria completa →
                   </Link>
@@ -279,7 +279,7 @@ export default function PuppyMatcherQuiz() {
           <button
             type="button"
             onClick={() => { setStep(0); setParaQuem(""); setCor(""); setSexo(""); }}
-            className="mt-5 w-full text-center text-xs text-zinc-400 hover:text-zinc-600"
+            className="mt-5 w-full text-center text-xs text-zinc-500 hover:text-zinc-600"
           >
             ↺ Refazer o quiz
           </button>

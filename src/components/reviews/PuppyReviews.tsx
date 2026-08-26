@@ -86,12 +86,12 @@ function ReviewCard({ review, index }: { review: Review; index: number }) {
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
             <p className="font-semibold text-zinc-900 truncate">{review.reviewer_name}</p>
             {review.reviewer_city && (
-              <p className="text-xs text-zinc-400">{review.reviewer_city}</p>
+              <p className="text-xs text-zinc-500">{review.reviewer_city}</p>
             )}
           </div>
           <div className="mt-0.5 flex items-center gap-2">
             <StarRating value={review.rating} size="sm" />
-            <span className="text-xs text-zinc-400">{formatDate(review.created_at)}</span>
+            <span className="text-xs text-zinc-500">{formatDate(review.created_at)}</span>
           </div>
         </div>
       </div>
@@ -153,7 +153,7 @@ function RatingSummary({ reviews }: { reviews: Review[] }) {
                 transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: (5 - stars) * 0.07 }}
               />
             </div>
-            <span className="w-8 shrink-0 text-right text-xs text-zinc-400 tabular-nums">{count}</span>
+            <span className="w-8 shrink-0 text-right text-xs text-zinc-500 tabular-nums">{count}</span>
           </div>
         ))}
       </div>
@@ -266,12 +266,12 @@ function ReviewForm({
             placeholder="Ex: Ana Carolina"
             maxLength={80}
             required
-            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
+            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
           />
         </div>
         <div>
           <label htmlFor="rv-city" className="mb-1.5 block text-sm font-medium text-zinc-700">
-            Cidade <span className="text-zinc-400">(opcional)</span>
+            Cidade <span className="text-zinc-500">(opcional)</span>
           </label>
           <input
             id="rv-city"
@@ -280,7 +280,7 @@ function ReviewForm({
             onChange={(e) => setCity(e.target.value)}
             placeholder="Ex: São Paulo, SP"
             maxLength={60}
-            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
+            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-500 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
           />
         </div>
       </div>
@@ -289,7 +289,7 @@ function ReviewForm({
       <div>
         <label htmlFor="rv-comment" className="mb-1.5 block text-sm font-medium text-zinc-700">
           Seu depoimento *
-          <span className="ml-1 text-xs font-normal text-zinc-400">(mín. 10 caracteres)</span>
+          <span className="ml-1 text-xs font-normal text-zinc-500">(mín. 10 caracteres)</span>
         </label>
         <textarea
           id="rv-comment"
@@ -300,9 +300,9 @@ function ReviewForm({
           minLength={10}
           maxLength={600}
           required
-          className="w-full resize-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
+          className="w-full resize-none rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-500 focus:border-emerald-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
         />
-        <p className="mt-1 text-right text-xs text-zinc-400">{comment.length}/600</p>
+        <p className="mt-1 text-right text-xs text-zinc-500">{comment.length}/600</p>
       </div>
 
       {/* Error */}
@@ -321,7 +321,7 @@ function ReviewForm({
       >
         {loading ? "Enviando..." : "Enviar avaliação"}
       </motion.button>
-      <p className="text-center text-xs text-zinc-400">
+      <p className="text-center text-xs text-zinc-500">
         Sua avaliação será publicada após revisão da equipe.
       </p>
     </motion.form>
@@ -423,7 +423,7 @@ export default function PuppyReviews({ puppySlug, puppyName }: Props) {
 
       {/* Loading */}
       {loading && (
-        <div className="flex items-center gap-3 py-8 text-sm text-zinc-400">
+        <div className="flex items-center gap-3 py-8 text-sm text-zinc-500">
           <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="40" strokeLinecap="round" />
           </svg>

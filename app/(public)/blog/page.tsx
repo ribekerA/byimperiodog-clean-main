@@ -181,7 +181,7 @@ function FeaturedPost({ post }: { post: PublicPost }) {
           )}
         </div>
         <div className="flex flex-wrap items-center gap-4">
-          <div className="flex items-center gap-3 text-xs text-zinc-400">
+          <div className="flex items-center gap-3 text-xs text-zinc-500">
             {formattedDate && <span>{formattedDate}</span>}
             {minutes ? (
               <span className="rounded-full bg-zinc-100 px-3 py-1 font-semibold text-zinc-600">

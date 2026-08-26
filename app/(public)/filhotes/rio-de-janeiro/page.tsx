@@ -167,7 +167,7 @@ export default function FilhotesRioDeJaneiroPage() {
             Filhotes de Spitz Alemão Anão
             <span className="block text-[var(--brand)]">no Rio de Janeiro (RJ)</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-secondary)]">
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
             Compre seu Spitz Alemão Anão (Lulu da Pomerânia) com segurança e entrega em toda a capital, Niterói, região
             metropolitana e interior do RJ. Criadora especializada com suporte pós-venda.
           </p>
@@ -213,7 +213,7 @@ export default function FilhotesRioDeJaneiroPage() {
                 <Truck className="h-8 w-8 text-[var(--brand)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
-              <p className="text-sm text-[var(--text-secondary)]">
+              <p className="text-sm text-[var(--text-muted)]">
                 Transporte especializado para filhotes em todo RJ
               </p>
             </div>
@@ -222,21 +222,21 @@ export default function FilhotesRioDeJaneiroPage() {
                 <Shield className="h-8 w-8 text-[var(--brand)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Registro oficial</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Todos os filhotes com registro oficial</p>
+              <p className="text-sm text-[var(--text-muted)]">Todos os filhotes com registro oficial</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Star className="h-8 w-8 text-[var(--brand)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Criadora de Referência</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Anos de experiência e tutores satisfeitos no RJ</p>
+              <p className="text-sm text-[var(--text-muted)]">Anos de experiência e tutores satisfeitos no RJ</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Phone className="h-8 w-8 text-[var(--brand)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
-              <p className="text-sm text-[var(--text-secondary)]">Acompanhamento permanente após a compra</p>
+              <p className="text-sm text-[var(--text-muted)]">Acompanhamento permanente após a compra</p>
             </div>
           </div>
         </section>
@@ -267,7 +267,7 @@ export default function FilhotesRioDeJaneiroPage() {
                   <span>{item.question}</span>
                   <span className="flex-shrink-0 text-[var(--brand)] transition-transform group-open:rotate-180">▼</span>
                 </summary>
-                <p className="mt-4 text-[var(--text-secondary)]">{item.answer}</p>
+                <p className="mt-4 text-[var(--text-muted)]">{item.answer}</p>
               </details>
             ))}
           </div>
@@ -277,7 +277,7 @@ export default function FilhotesRioDeJaneiroPage() {
         <section className="mx-auto mt-20 max-w-4xl px-5 text-center">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
             <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão no Rio de Janeiro?</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-secondary)]">
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-muted)]">
               Fale agora com nossa equipe e garanta seu filhote com entrega segura em todo o RJ
             </p>
             <a

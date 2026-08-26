@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { buttonVariants } from "@/components/ui/button";
-import { appendClickIdToWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { cn } from "@/lib/cn";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
@@ -88,8 +87,10 @@ export default function LeadForm({ context, className }: Props) {
   );
 
   useEffect(() => {
-    // O valor completo vai ao banco; apenas a referência curta segue na
-    // mensagem do WhatsApp para não expor um identificador longo ao cliente.
+    // O gclid vai para o banco junto com o lead — é ali que a origem do
+    // contato fica registrada. Ele NÃO entra na mensagem do WhatsApp: nada do
+    // outro lado lê esse código, e o cliente não precisa ver identificador de
+    // anúncio dentro da própria mensagem.
     setValue("gclid", getClickId() ?? "");
   }, [setValue]);
 
@@ -149,10 +150,7 @@ export default function LeadForm({ context, className }: Props) {
           message: mensagemWhatsApp,
           ...whatsappUTMs,
         });
-        window.open(
-          appendClickIdToWhatsAppLink(whatsappURL, getClickId()),
-          "_blank",
-        );
+        window.open(whatsappURL, "_blank");
       }, 1200);
     } catch (error) {
       setStatus("error");

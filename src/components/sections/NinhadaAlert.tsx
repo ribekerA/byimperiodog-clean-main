@@ -62,7 +62,7 @@ export default function NinhadaAlert() {
               placeholder="Ex: Maria"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3.5 text-white placeholder-zinc-500 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
+              className="w-full rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-3.5 text-white placeholder-zinc-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/30"
               autoComplete="given-name"
             />
           </div>
@@ -109,7 +109,7 @@ export default function NinhadaAlert() {
           )}
         </form>
 
-        <p className="mt-4 text-xs text-zinc-500">Sem spam. Apenas um aviso quando houver disponibilidade.</p>
+        <p className="mt-4 text-xs text-zinc-400">Sem spam. Apenas um aviso quando houver disponibilidade.</p>
       </div>
     </section>
   );

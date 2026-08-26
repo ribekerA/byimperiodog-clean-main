@@ -144,45 +144,10 @@ export function resolveTracking(
   };
 }
 
-/**
- * Organização e negócio local compartilham o mesmo @id e os mesmos fatos.
- */
-export function buildOrganizationLD(_siteUrl: string) {
-  const base = BRAND.urls.site;
-  return {
-    "@context": "https://schema.org",
-    "@type": ["Organization", "LocalBusiness"],
-    "@id": `${base}/#business`,
-    name: BRAND.name,
-    alternateName: BRAND.schema.alternateNames,
-    description: BRAND.schema.description,
-    url: `${base}/`,
-    logo: `${base}/byimperiologo.png`,
-    image: `${base}/spitz-hero-desktop.webp`,
-    telephone: BRAND.contact.phone,
-    email: BRAND.contact.email,
-    publishingPrinciples: `${base}/politica-editorial`,
-    knowsAbout: BRAND.schema.knowsAbout,
-    contactPoint: [
-      {
-        "@type": "ContactPoint",
-        telephone: BRAND.contact.phone,
-        contactType: "customer service",
-        areaServed: "BR",
-        availableLanguage: ["pt-BR"],
-      },
-    ],
-    sameAs: BRAND.schema.sameAs,
-    foundingDate: String(FOUNDING_YEAR),
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: BRAND.headquarters.city,
-      addressRegion: BRAND.headquarters.state,
-      addressCountry: BRAND.headquarters.country,
-    },
-    areaServed: { "@type": "Country", name: "Brasil" },
-  };
-}
+// buildOrganizationLD() morava aqui. Ele emitia um segundo nó com o @id
+// #business — o mesmo do LocalBusiness — mas com @type, image, logo e
+// areaServed diferentes. Quem descreve a empresa agora é
+// buildLocalBusinessLD(), em src/lib/structured-data.ts, e só ele.
 
 export function buildWebsiteLD(_siteUrl: string) {
   const clean = BRAND.urls.site;
@@ -197,20 +162,13 @@ export function buildWebsiteLD(_siteUrl: string) {
     url: `${clean}/`,
     inLanguage: "pt-BR",
     publisher: { "@id": `${clean}/#business` },
-    // /search existe (app/(public)/search/page.tsx). O alvo anterior era
-    // /blog?q=, que não é o buscador do site.
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${clean}/search?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
-    speakable: {
-      "@type": "SpeakableSpecification",
-      cssSelector: ["#hero-heading", "#featured-heading", "#diff-heading", "#faq-heading"],
-    },
+    // Sem potentialAction nem speakable.
+    //
+    // A caixa de busca por sitelink que o SearchAction pedia foi descontinuada
+    // pelo Google — a marcação não gera mais nada e só engorda o nó. O
+    // speakable apontava para quatro cssSelector da home (#hero-heading,
+    // #featured-heading, #diff-heading, #faq-heading) num nó WebSite que vale
+    // para o site inteiro: nas outras páginas os seletores nem existem.
   };
 }
 

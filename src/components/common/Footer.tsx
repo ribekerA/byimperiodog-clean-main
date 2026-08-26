@@ -117,7 +117,7 @@ export default function Footer() {
 
           {/* Navegação */}
           <nav aria-label="Navegação" className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Navegação</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">Navegação</h3>
             <ul className="space-y-1">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
@@ -134,7 +134,7 @@ export default function Footer() {
 
           {/* Raça */}
           <nav aria-label="Sobre a raça" className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">A raça</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">A raça</h3>
             <ul className="space-y-1">
               {RACA_ITEMS.map((item) => (
                 <li key={item.href}>
@@ -151,7 +151,7 @@ export default function Footer() {
 
           {/* Suporte */}
           <nav aria-label="Suporte" className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Suporte</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">Suporte</h3>
             <ul className="space-y-1">
               {SUPPORT_ITEMS.map((item) => (
                 <li key={item.href}>
@@ -177,7 +177,7 @@ export default function Footer() {
 
           {/* Sobre */}
           <div className="space-y-3">
-            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-500">Criação responsável</h3>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">Criação responsável</h3>
             <ul className="space-y-2 text-sm text-zinc-400">
               {["Registro oficial incluso", "Laudos de saúde", "Mentoria pós-venda", `Criando desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
                 <li key={item} className="flex items-center gap-2">
@@ -191,7 +191,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-zinc-800 py-4">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 text-xs text-zinc-600 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 text-xs text-zinc-400 sm:flex-row sm:items-center sm:justify-between sm:px-8">
             <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados.</p>
             <p>Spitz Alemão Anão — acompanhamento veterinário e suporte direto com a criadora.</p>
           </div>

@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { getCurrentConsent } from "@/lib/consent";
 import {
+  ADS_CONVERSION_DATALAYER_EVENT,
   clearPendingLeadConversion,
   readPendingLeadConversion,
   registerAdsAccount,
@@ -9,6 +10,7 @@ import {
   trackAdsConversion,
   trackGenerateLead,
   trackLeadAdsConversion,
+  trackWhatsAppAdsConversion,
 } from "@/lib/conversions";
 import { safePushToDataLayer } from "@/lib/tracking";
 
@@ -31,7 +33,12 @@ describe("conversões de lead", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(getCurrentConsent).mockReturnValue(consent(true));
-    registerAdsAccount({ adsId: "AW-123456789", leadLabel: null });
+    registerAdsAccount({
+      adsId: "AW-123456789",
+      leadLabel: null,
+      whatsappLabel: null,
+      useGTM: false,
+    });
   });
 
   afterEach(() => {
@@ -66,7 +73,15 @@ describe("conversões de lead", () => {
       transaction_id: "lead-42",
     };
     expect(gtag).toHaveBeenCalledWith("event", "conversion", payload);
-    expect(safePushToDataLayer).toHaveBeenCalledWith("conversion", payload);
+    // O evento do dataLayer NÃO se chama "conversion": esse é o nome que o
+    // modelo de tag do Ads no GTM traz sugerido como gatilho, e um container
+    // montado no padrão reenviaria a mesma conversão que o gtag acabou de
+    // mandar — dobrando o número no relatório.
+    expect(safePushToDataLayer).toHaveBeenCalledWith(
+      ADS_CONVERSION_DATALAYER_EVENT,
+      payload,
+    );
+    expect(ADS_CONVERSION_DATALAYER_EVENT).not.toBe("conversion");
   });
 
   it("publica generate_lead mesmo sem label do Ads configurado", () => {
@@ -98,6 +113,63 @@ describe("conversões de lead", () => {
 
     expect(trackLeadAdsConversion({ transactionId: "lead-7" })).toBe(false);
     expect(gtag).not.toHaveBeenCalled();
+  });
+});
+
+describe("conversão de clique no WhatsApp", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.mocked(getCurrentConsent).mockReturnValue(consent(true));
+    registerAdsAccount({
+      adsId: "AW-123456789",
+      leadLabel: "label-de-lead",
+      whatsappLabel: null,
+      useGTM: false,
+    });
+  });
+
+  afterEach(() => {
+    delete (window as unknown as { gtag?: unknown }).gtag;
+  });
+
+  it("não dispara — nem reaproveita o label de lead — sem label próprio", () => {
+    const gtag = vi.fn();
+    (window as unknown as { gtag: typeof gtag }).gtag = gtag;
+
+    expect(trackWhatsAppAdsConversion()).toBe(false);
+    expect(gtag).not.toHaveBeenCalled();
+    expect(safePushToDataLayer).not.toHaveBeenCalled();
+  });
+
+  it("dispara uma única vez, sem valor monetário — clique é lead, não venda", () => {
+    const gtag = vi.fn();
+    (window as unknown as { gtag: typeof gtag }).gtag = gtag;
+    registerAdsAccount({ whatsappLabel: "label-do-whatsapp" });
+
+    expect(trackWhatsAppAdsConversion()).toBe(true);
+
+    const payload = { send_to: "AW-123456789/label-do-whatsapp" };
+    expect(gtag).toHaveBeenCalledTimes(1);
+    expect(gtag).toHaveBeenCalledWith("event", "conversion", payload);
+    expect(safePushToDataLayer).toHaveBeenCalledTimes(1);
+    expect(safePushToDataLayer).toHaveBeenCalledWith(
+      ADS_CONVERSION_DATALAYER_EVENT,
+      payload,
+    );
+    expect(payload).not.toHaveProperty("value");
+  });
+
+  // Rota única de envio: com container do GTM quem manda a conversão é a tag de
+  // dentro do container. Chamar o gtag daqui TAMBÉM faria o mesmo clique virar
+  // duas conversões — é o modo clássico de o Ads relatar o dobro.
+  it("com GTM, publica no dataLayer e não chama o gtag do Ads", () => {
+    const gtag = vi.fn();
+    (window as unknown as { gtag: typeof gtag }).gtag = gtag;
+    registerAdsAccount({ whatsappLabel: "label-do-whatsapp", useGTM: true });
+
+    expect(trackWhatsAppAdsConversion()).toBe(true);
+    expect(gtag).not.toHaveBeenCalled();
+    expect(safePushToDataLayer).toHaveBeenCalledTimes(1);
   });
 });
 

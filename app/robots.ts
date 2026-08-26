@@ -77,7 +77,8 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "DotBot",             disallow: "/" },
       { userAgent: "MJ12bot",            disallow: "/" },
     ],
-    // Índice de sitemaps (aponta para /sitemap.xml e /sitemaps/posts.xml).
+    // Índice de sitemaps (aponta para /sitemap.xml, /sitemaps/posts.xml,
+    // /sitemaps/images.xml e /sitemaps/videos.xml).
     sitemap: [`${base}/sitemap-index.xml`, `${base}/sitemap.xml`],
     host: base,
   };

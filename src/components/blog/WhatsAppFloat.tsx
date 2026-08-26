@@ -53,7 +53,7 @@ export default function WhatsAppFloat() {
         <div className="fixed bottom-24 right-6 z-50 w-80 animate-in slide-in-from-bottom-5 fade-in">
           <div className="rounded-3xl border border-border bg-surface p-6 shadow-elevated">
             <div className="mb-4 flex items-start gap-3">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand text-on-brand">
                 <MessageCircle className="h-6 w-6" aria-hidden />
               </div>
               <div className="space-y-1">
@@ -70,9 +70,10 @@ export default function WhatsAppFloat() {
 
             <a
               href={whatsappUrl}
+              data-wa-placement="floating_button"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-pill bg-brand px-4 py-3 text-sm font-semibold text-brand-foreground shadow-soft transition hover:bg-brand-600 focus-ring"
+              className="flex w-full items-center justify-center gap-2 rounded-pill bg-brand px-4 py-3 text-sm font-semibold text-on-brand shadow-soft transition hover:brightness-110 focus-ring"
               onClick={() => setOpen(false)}
               data-track-event="blog_whatsapp_float"
             >

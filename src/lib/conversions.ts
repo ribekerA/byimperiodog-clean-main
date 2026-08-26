@@ -23,6 +23,12 @@ type GtagFn = (...args: unknown[]) => void;
 export const GOOGLE_ADS_READY_EVENT = "byimperiodog:google-ads-ready";
 
 /**
+ * Nome do evento publicado no dataLayer a cada conversão enviada.
+ * Deliberadamente NÃO é "conversion" — ver o comentário em trackAdsConversion.
+ */
+export const ADS_CONVERSION_DATALAYER_EVENT = "ads_conversion_sent";
+
+/**
  * O ID da conta e o label vivem no servidor (pixels_settings, editável no
  * admin). O padrão do projeto é o servidor passar esses valores como prop para
  * um componente client — e o <PixelsByConsent> já recebe os dois. Ele registra
@@ -35,6 +41,8 @@ export const GOOGLE_ADS_READY_EVENT = "byimperiodog:google-ads-ready";
  */
 let adsId: string | null = null;
 let leadLabel: string | null = null;
+let whatsappLabel: string | null = null;
+let usaGTM = false;
 
 function limpar(valor: string | null | undefined): string | null {
   const texto = (valor ?? "").trim();
@@ -44,9 +52,13 @@ function limpar(valor: string | null | undefined): string | null {
 export function registerAdsAccount(config: {
   adsId?: string | null;
   leadLabel?: string | null;
+  whatsappLabel?: string | null;
+  useGTM?: boolean;
 }): void {
   if (config.adsId !== undefined) adsId = limpar(config.adsId);
   if (config.leadLabel !== undefined) leadLabel = limpar(config.leadLabel);
+  if (config.whatsappLabel !== undefined) whatsappLabel = limpar(config.whatsappLabel);
+  if (config.useGTM !== undefined) usaGTM = config.useGTM === true;
 }
 
 export function getAdsAccountId(): string | null {
@@ -55,6 +67,15 @@ export function getAdsAccountId(): string | null {
 
 export function getAdsLeadLabel(): string | null {
   return leadLabel;
+}
+
+/**
+ * Label da conversao "Clique WhatsApp". Devolve null enquanto ninguem tiver
+ * cadastrado o label real gerado no Google Ads — e null aqui significa
+ * "nao dispara", nunca "usa o label de lead no lugar".
+ */
+export function getAdsWhatsAppLabel(): string | null {
+  return whatsappLabel;
 }
 
 /**
@@ -85,9 +106,6 @@ export function trackAdsConversion(
   }
   if (!permitido) return false;
 
-  const gtag = (window as unknown as { gtag?: GtagFn }).gtag;
-  if (typeof gtag !== "function") return false;
-
   const payload: Record<string, unknown> = { send_to: `${adsId}/${alvo}` };
   // `value` sem `currency` faz o Ads assumir a moeda da conta; sendo um canil
   // brasileiro, deixar implícito é pedir para o número ser lido errado.
@@ -101,16 +119,48 @@ export function trackAdsConversion(
   const transacao = limpar(transactionId);
   if (transacao) payload.transaction_id = transacao;
 
-  try {
-    gtag("event", "conversion", payload);
-  } catch {
-    return false;
+  // ROTA ÚNICA DE ENVIO — gtag XOR GTM.
+  //
+  // Quando existe container do GTM (usaGTM), o <PixelsByConsent> NÃO carrega o
+  // gtag do Ads: quem envia é a tag configurada dentro do container, acionada
+  // pelo evento `ads_conversion_sent` no dataLayer. Quando não existe container,
+  // o gtag do Ads está carregado e é ele quem envia; o push no dataLayer segue
+  // acontecendo, mas só como trilha de auditoria.
+  //
+  // O evento NÃO se chama mais "conversion". Esse é justamente o nome que o
+  // modelo de tag "Google Ads Conversion Tracking" do GTM traz sugerido como
+  // gatilho de evento personalizado: um container montado no padrão passaria a
+  // reenviar a mesma conversão que o gtag daqui acabou de mandar, dobrando o
+  // número. `ads_conversion_sent` é um nome que ninguém aciona por acidente.
+  if (!usaGTM) {
+    const gtag = (window as unknown as { gtag?: GtagFn }).gtag;
+    if (typeof gtag !== "function") return false;
+    try {
+      gtag("event", "conversion", payload);
+    } catch {
+      return false;
+    }
   }
 
-  // O espelho no dataLayer permite que o mesmo disparo seja auditado no GTM e
-  // mantém todos os destinos no helper central de tracking do projeto.
-  safePushToDataLayer("conversion", payload);
+  safePushToDataLayer(ADS_CONVERSION_DATALAYER_EVENT, payload);
   return true;
+}
+
+/**
+ * Conversão de "Clique WhatsApp".
+ *
+ * Só existe quando o label próprio foi cadastrado. Sem ele a função devolve
+ * false e o clique continua sendo medido no GA4 (whatsapp_click) — o que se
+ * perde é a conversão no Ads, não a leitura do que aconteceu.
+ *
+ * Um clique em WhatsApp é LEAD, não venda: nunca receba `value` de preço de
+ * filhote aqui. O valor de venda só entra quando a venda é confirmada de fato.
+ */
+export function trackWhatsAppAdsConversion(options?: {
+  transactionId?: string;
+}): boolean {
+  if (!whatsappLabel) return false;
+  return trackAdsConversion(whatsappLabel, undefined, options?.transactionId);
 }
 
 /**

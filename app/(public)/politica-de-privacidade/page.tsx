@@ -163,6 +163,15 @@ export default function PoliticaDePrivacidadePage() {
           <li>Analíticos: medem comportamento de navegação para otimizar experiência.</li>
           <li>Marketing: somente quando o tutor aceita compartilhar preferências com nossos canais de relacionamento.</li>
         </ul>
+        <p className="text-zinc-600">
+          <strong className="font-semibold text-zinc-900">Curtidas em fotos e vídeos.</strong> Se você curtir uma foto de filhote
+          ou um vídeo da galeria, gravamos um cookie próprio chamado <code className="rounded bg-zinc-100 px-1 py-0.5 text-sm">bid_visitante</code>,
+          com validade de 180 dias. Ele guarda apenas um código aleatório, sem qualquer relação com seu nome, telefone, e-mail ou
+          endereço de IP, e existe por um motivo específico: reconhecer que aquela curtida é sua, para que a mesma foto não seja
+          contada duas vezes e para que você possa desfazer a curtida depois. Em nossos servidores esse código é guardado apenas
+          de forma cifrada, sem possibilidade de leitura reversa. O cookie só é criado no momento em que você curte alguma coisa —
+          navegar pelo site sem curtir não cria nada — e é lido apenas pelo servidor, nunca por scripts da página.
+        </p>
         {/* Esta frase era falsa ate esta revisao: o GTM subia em producao sem
             nenhuma checagem de consentimento. O texto so volta a ser verdadeiro
             porque o Consent Mode v2 passou a entrar em "denied" por padrao,

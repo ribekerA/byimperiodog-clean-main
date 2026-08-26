@@ -13,7 +13,7 @@ export interface RelatedLink {
 export function RelatedPages({ links }: { links: RelatedLink[] }) {
   return (
     <section aria-label="Artigos relacionados" className="border-t border-zinc-100 pt-8">
-      <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-zinc-400">Veja também</p>
+      <p className="mb-4 text-xs font-bold uppercase tracking-[0.25em] text-zinc-500">Veja também</p>
       <div className="grid gap-3 sm:grid-cols-3">
         {links.map((l) => (
           <Link

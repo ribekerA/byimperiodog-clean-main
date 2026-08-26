@@ -99,7 +99,7 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
         <button
           type="button"
           onClick={() => setStep("idle")}
-          className="text-xs text-zinc-400 hover:text-zinc-600"
+          className="text-xs text-zinc-500 hover:text-zinc-600"
         >
           Cancelar
         </button>

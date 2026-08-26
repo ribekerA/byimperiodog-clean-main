@@ -113,7 +113,7 @@ export function HeartBurstButton({
         className={`relative flex items-center justify-center rounded-full p-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400
           ${liked
             ? "text-pink-500 bg-pink-50 hover:bg-pink-100"
-            : "text-zinc-400 bg-transparent hover:bg-zinc-100 hover:text-pink-400"
+            : "text-zinc-500 bg-transparent hover:bg-zinc-100 hover:text-pink-400"
           } ${className}`}
         whileTap={{ scale: 0.82, transition: { type: "spring", stiffness: 500, damping: 16 } }}
         whileHover={{ scale: 1.12 }}

@@ -5,7 +5,7 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 import { formatarPreco, precoDe, RESPOSTA_PRETO } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
@@ -76,14 +76,12 @@ export default function SpitzAlemaoPretoPage() {
     { name: "Spitz Alemão Preto", url: PAGE_URL },
   ]);
   const faqLd      = buildFAQLD(FAQS);
-  const businessLd = buildLocalBusinessLD();
   const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
 
   return (
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <script id="ld-preto-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-preto-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script id="ld-preto-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <script id="ld-preto-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
@@ -118,11 +116,11 @@ export default function SpitzAlemaoPretoPage() {
         <h2 id="preco-preto-heading" className="text-xl font-bold text-zinc-900">Preço do Spitz Alemão Anão Preto — By Império Dog</h2>
         <div className="flex flex-wrap gap-4">
           <div className="rounded-2xl bg-white border border-zinc-200 p-5 min-w-[160px] text-center shadow-sm">
-            <p className="text-xs text-zinc-400 uppercase">Macho</p>
+            <p className="text-xs text-zinc-500 uppercase">Macho</p>
             <p className="text-2xl font-bold text-zinc-900">{formatarPreco(precoDe("preto", "macho"))}</p>
           </div>
           <div className="rounded-2xl bg-white border border-zinc-200 p-5 min-w-[160px] text-center shadow-sm">
-            <p className="text-xs text-zinc-400 uppercase">Fêmea</p>
+            <p className="text-xs text-zinc-500 uppercase">Fêmea</p>
             <p className="text-2xl font-bold text-zinc-900">{formatarPreco(precoDe("preto", "femea"))}</p>
           </div>
         </div>
@@ -136,7 +134,11 @@ export default function SpitzAlemaoPretoPage() {
       {/* FAQ */}
       <section aria-labelledby="faq-preto-heading" itemScope itemType="https://schema.org/FAQPage">
         <h2 id="faq-preto-heading" className="mb-6 text-2xl font-bold text-zinc-900">Perguntas frequentes</h2>
-        <dl className="divide-y divide-zinc-100">
+        {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
+            de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
+            definition-list do axe e o leitor de tela anunciava uma lista que
+            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+        <div className="divide-y divide-zinc-100">
           {FAQS.map((item, i) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4" open={i === 0}>
@@ -152,7 +154,7 @@ export default function SpitzAlemaoPretoPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       {/* CTA */}
@@ -178,7 +180,7 @@ export default function SpitzAlemaoPretoPage() {
       ]} />
 
       <nav aria-label="Navegação estrutural">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
           <li><Link href="/filhotes" className="hover:text-emerald-700">Filhotes</Link></li>

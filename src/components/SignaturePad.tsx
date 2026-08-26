@@ -81,7 +81,7 @@ export default function SignaturePad({ onChange, label = "Assinatura digital" }:
         <p className="text-sm font-semibold text-zinc-700">{label}</p>
         {!isEmpty && (
           <button type="button" onClick={clear}
-            className="inline-flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-700 transition">
+            className="inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-zinc-700 transition">
             <RefreshCcw className="h-3 w-3" /> Limpar
           </button>
         )}
@@ -105,7 +105,7 @@ export default function SignaturePad({ onChange, label = "Assinatura digital" }:
         />
         {isEmpty && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <p className="text-sm text-zinc-300 select-none">Assine aqui com o mouse ou dedo</p>
+            <p className="text-sm text-zinc-500 select-none">Assine aqui com o mouse ou dedo</p>
           </div>
         )}
       </div>

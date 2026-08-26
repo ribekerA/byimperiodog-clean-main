@@ -12,6 +12,7 @@ import {
   FileText,
   FlaskConical,
   Globe,
+  Heart,
   Home,
   Image,
   LogOut,
@@ -69,6 +70,7 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Analytics",       href: "/admin/analytics",     icon: BarChart3 },
       { label: "Relatórios",      href: "/admin/relatorios",    icon: ScrollText },
       { label: "Experimentos",    href: "/admin/experiments",   icon: FlaskConical },
+      { label: "Engajamento",     href: "/admin/media-engagement", icon: Heart },
     ],
   },
   {

@@ -5,7 +5,7 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/ninhadas`;
@@ -32,7 +32,6 @@ export default function NinhadasPage() {
     { name: "Ninhadas", url: PAGE_URL },
   ]);
   const faqLd = buildFAQLD(FAQS);
-  const businessLd = buildLocalBusinessLD();
   // Era `datePublished: new Date().toISOString()`: a cada build o schema dizia
   // que a página tinha acabado de ser publicada. Data de publicação não muda.
   // Depois virou "2026-08-06" fixo, escrito à mão a partir do primeiro commit —
@@ -44,7 +43,6 @@ export default function NinhadasPage() {
     <div className="mx-auto max-w-4xl px-5 py-14">
       <script id="ld-ninhadas-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-ninhadas-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script id="ld-ninhadas-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <script id="ld-ninhadas-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">

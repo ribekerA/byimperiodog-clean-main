@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { GALLERY_VIDEOS, medidaDoVideo } from "@/domain/gallery-videos";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 import GaleriaClient from "./GaleriaClient";
@@ -29,100 +30,37 @@ export const metadata: Metadata = {
   },
 };
 
-// Curated videos with humanized titles and descriptions
-const GALLERY_VIDEOS = [
-  {
-    src: "/filhotes/videos/apresentacao-canil.mp4",
-    title: "Apresentação do Canil",
-    // A legenda anterior anunciava "maternidade, area de socializacao" — nao
-    // existe estrutura nenhuma desse tipo. Fica so o que o video e de fato.
-    description: "Vídeo de apresentação da By Império Dog.",
-    category: "canil",
-  },
-  {
-    src: "/filhotes/videos/creme-dupla.mp4",
-    title: "Dupla Creme",
-    description: "Dois Spitz creme juntos — pura fofura em dobro.",
-    category: "creme",
-  },
-  {
-    src: "/filhotes/videos/laranja-femea-jardim.mp4",
-    title: "Fêmea Laranja no Jardim",
-    description: "Nossa Spitz laranja explorando o jardim com toda a energia da raça.",
-    category: "laranja",
-  },
-  {
-    src: "/filhotes/videos/laranja-macho-jardim.mp4",
-    title: "Macho Laranja no Jardim",
-    description: "Spitz laranja macho brincando livremente no espaço externo.",
-    category: "laranja",
-  },
-  {
-    src: "/filhotes/videos/ninhada-creme-01.mp4",
-    title: "Ninhada Creme",
-    description: "Uma ninhada inteira de Spitz creme — veja como são criados desde os primeiros dias.",
-    category: "ninhada",
-  },
-  {
-    src: "/filhotes/videos/ninhada-jun22-01.mp4",
-    title: "Ninhada Junho 2022 — Vol. 1",
-    description: "Ninhada especial de junho de 2022, cheia de personalidade e saúde.",
-    category: "ninhada",
-  },
-  {
-    src: "/filhotes/videos/ninhada-jun22-02.mp4",
-    title: "Ninhada Junho 2022 — Vol. 2",
-    description: "Continuação da ninhada de junho — momentos únicos de crescimento.",
-    category: "ninhada",
-  },
-  {
-    src: "/filhotes/videos/ninhada-laranja-01.mp4",
-    title: "Ninhada Laranja",
-    description: "Ninhada com filhotes laranja — uma das cores mais cobiçadas da raça.",
-    category: "ninhada",
-  },
-  {
-    src: "/filhotes/videos/spitz-anao.mp4",
-    title: "Spitz Alemão Anão",
-    description: "O Spitz Alemão Anão em todo o seu esplendor — temperamento alegre e pelagem densa.",
-    category: "raça",
-  },
-  {
-    src: "/filhotes/videos/spitz-branco.mp4",
-    title: "Spitz Branco",
-    description: "Beleza e elegância do Spitz branco — pelagem imponente e olhar expressivo.",
-    category: "branco",
-  },
-  {
-    src: "/filhotes/videos/spitz-creme.mp4",
-    title: "Spitz Creme",
-    description: "O creme é uma das tonalidades mais queridas pelos tutores. Veja a diferença.",
-    category: "creme",
-  },
-  {
-    src: "/filhotes/videos/spitz-laranja-macho.mp4",
-    title: "Spitz Laranja Macho",
-    description: "Macho laranja com toda a vivacidade típica do Spitz Alemão Anão.",
-    category: "laranja",
-  },
-] as const;
-
-export type GalleryVideo = (typeof GALLERY_VIDEOS)[number];
-
-// JSON-LD VideoObject for SEO
-const videoObjectLd = GALLERY_VIDEOS.map((v) => ({
-  "@type": "VideoObject",
-  name: v.title,
-  description: v.description,
-  contentUrl: `${SITE_URL}${v.src}`,
-  thumbnailUrl: `${SITE_URL}/og-image.jpg`,
-  uploadDate: "2024-01-01",
-  publisher: {
-    "@type": "Organization",
-    name: "By Império Dog",
-    url: SITE_URL,
-  },
-}));
+// JSON-LD VideoObject.
+//
+// Cada VideoObject apontava para `${SITE_URL}/og-image.jpg` — arquivo que não
+// existe em public/ — e declarava `uploadDate: "2024-01-01"` nos doze. Miniatura
+// 404 e data igual para tudo é metadado que o Google descarta.
+//
+// Agora a capa é a do próprio vídeo, a data é a de cada um (quando aquele
+// arquivo passou a ser servido pelo site) e largura/altura/duração são
+// medidas do arquivo, não digitadas.
+const videoObjectLd = GALLERY_VIDEOS.map((v) => {
+  const medida = medidaDoVideo(v.slug);
+  return {
+    "@type": "VideoObject",
+    "@id": `${SITE_URL}/galeria#${v.slug}`,
+    name: v.title,
+    description: v.description,
+    contentUrl: `${SITE_URL}${v.src}`,
+    thumbnailUrl: `${SITE_URL}${v.poster}`,
+    uploadDate: v.uploadDate,
+    // Omitidos enquanto o poster do vídeo não tiver sido gerado: campo ausente
+    // é melhor do que campo chutado.
+    ...(medida ? { duration: medida.duration, width: medida.width, height: medida.height } : {}),
+    isFamilyFriendly: true,
+    inLanguage: "pt-BR",
+    publisher: {
+      "@type": "Organization",
+      name: "By Império Dog",
+      url: SITE_URL,
+    },
+  };
+});
 
 const breadcrumbLd = {
   "@context": "https://schema.org",
@@ -188,7 +126,7 @@ export default function GaleriaPage() {
 
         {/* Video grid */}
         <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <GaleriaClient videos={GALLERY_VIDEOS as unknown as GalleryVideo[]} />
+          <GaleriaClient videos={[...GALLERY_VIDEOS]} />
         </section>
 
         {/* Sticky bottom CTA — `data-wa-safe-zone` faz o botão flutuante de

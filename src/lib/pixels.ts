@@ -9,7 +9,19 @@ export type PixelEnvironmentConfig = {
   metaPixelId: string | null;
   tiktokPixelId: string | null;
   googleAdsId: string | null;
+  /**
+   * Label da conversao de LEAD (formulario enviado). O nome antigo foi mantido
+   * porque a coluna ja existe no banco com esse nome; renomear invalidaria a
+   * configuracao que ja esta gravada em pixels_settings.
+   */
   googleAdsConversionLabel: string | null;
+  /**
+   * Label da conversao "Clique WhatsApp". E OUTRA conversao, com outro label
+   * gerado no Google Ads. NUNCA reaproveitar o label de lead aqui: os dois
+   * disparos cairiam na mesma conversao e o Ads perderia a distincao entre
+   * "mandou mensagem" e "preencheu formulario".
+   */
+  googleAdsWhatsAppLabel: string | null;
   pinterestId: string | null;
   hotjarId: string | null;
   clarityId: string | null;
@@ -32,6 +44,7 @@ const DEFAULT_ENVIRONMENT: PixelEnvironmentConfig = {
   tiktokPixelId: null,
   googleAdsId: null,
   googleAdsConversionLabel: null,
+  googleAdsWhatsAppLabel: null,
   pinterestId: null,
   hotjarId: null,
   clarityId: null,
@@ -70,6 +83,10 @@ function normalizeEnvironment(raw: Record<string, unknown> | null | undefined): 
     googleAdsId: make<string | null>(raw?.googleAdsId ?? raw?.google_ads_id, null),
     googleAdsConversionLabel: make<string | null>(
       raw?.googleAdsConversionLabel ?? raw?.google_ads_label,
+      null
+    ),
+    googleAdsWhatsAppLabel: make<string | null>(
+      raw?.googleAdsWhatsAppLabel ?? raw?.google_ads_whatsapp_label,
       null
     ),
     pinterestId: make<string | null>(raw?.pinterestId ?? raw?.pinterest_tag_id, null),
@@ -147,6 +164,7 @@ export function resolveActiveEnvironment(
   const storedConfig = name === "production" ? settings.production : settings.staging;
   const envAdsId = env.GOOGLE_ADS_ID?.trim() || null;
   const envLeadLabel = env.GOOGLE_ADS_CONVERSION_LABEL?.trim() || null;
+  const envWhatsAppLabel = env.GOOGLE_ADS_WHATSAPP_LABEL?.trim() || null;
 
   return {
     name,
@@ -157,6 +175,12 @@ export function resolveActiveEnvironment(
       googleAdsId: storedConfig.googleAdsId ?? envAdsId,
       googleAdsConversionLabel:
         storedConfig.googleAdsConversionLabel ?? envLeadLabel,
+      // Sem fallback para o label de lead de proposito: um label ausente faz o
+      // clique de WhatsApp nao virar conversao no Ads (e ficar visivel no GA4
+      // mesmo assim); reaproveitar o de lead faria o Ads contar duas coisas
+      // diferentes como se fossem a mesma.
+      googleAdsWhatsAppLabel:
+        storedConfig.googleAdsWhatsAppLabel ?? envWhatsAppLabel,
     },
   };
 }

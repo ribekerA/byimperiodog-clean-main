@@ -6,7 +6,6 @@ import PageViewPing from "@/components/PageViewPing";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildLocalBusinessLD } from "@/lib/structured-data";
 import { whatsappLeadUrl } from "@/lib/utm";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -125,7 +124,6 @@ export default function CriadorConfiavelPage() {
     { name: "Início",           url: `${SITE_URL}/` },
     { name: "Criador Confiável", url: PAGE_URL },
   ]);
-  const businessLd   = buildLocalBusinessLD();
 
   return (
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
@@ -133,7 +131,6 @@ export default function CriadorConfiavelPage() {
       <script id="ld-criador-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
       <script id="ld-criador-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-criador-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-criador-business"   type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
 
       {/* ── HERO ── */}
       <header className="space-y-4">
@@ -154,7 +151,7 @@ export default function CriadorConfiavelPage() {
             <div key={c.label} className="rounded-2xl border border-zinc-200 bg-white p-4 text-center shadow-sm">
               <p className="text-2xl font-bold text-emerald-600">{c.value}</p>
               <p className="mt-0.5 text-xs font-semibold text-zinc-700">{c.label}</p>
-              <p className="mt-1 text-xs text-zinc-400">{c.note}</p>
+              <p className="mt-1 text-xs text-zinc-500">{c.note}</p>
             </div>
           ))}
         </div>
@@ -224,7 +221,11 @@ export default function CriadorConfiavelPage() {
         <h2 id="faq-criador-heading" className="mb-6 text-2xl font-bold text-zinc-900">
           Perguntas frequentes sobre criadores confiáveis
         </h2>
-        <dl className="divide-y divide-zinc-100">
+        {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
+            de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
+            definition-list do axe e o leitor de tela anunciava uma lista que
+            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+        <div className="divide-y divide-zinc-100">
           {PAGE_FAQS.map((item, i) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4" open={i === 0}>
@@ -245,7 +246,7 @@ export default function CriadorConfiavelPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       {/* ── CTA ── */}
@@ -284,7 +285,7 @@ export default function CriadorConfiavelPage() {
       ]} />
 
       <nav aria-label="Navegação estrutural">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
           <li className="font-medium text-zinc-600" aria-current="page">Criador Confiável</li>

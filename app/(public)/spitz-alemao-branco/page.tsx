@@ -5,7 +5,7 @@ import Link from "next/link";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { buildArticleLD } from "@/lib/schema";
-import { buildBreadcrumbLD, buildFAQLD, buildLocalBusinessLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/spitz-alemao-branco`;
@@ -97,7 +97,6 @@ export default function SpitzAlemaoBrancoPage() {
     { name: "Spitz Alemão Branco", url: PAGE_URL },
   ]);
   const faqLd = buildFAQLD([...FAQS]);
-  const businessLd = buildLocalBusinessLD();
   const articleLd = buildArticleLD({
     url: PAGE_URL,
     title: metadata.title as string,
@@ -110,7 +109,6 @@ export default function SpitzAlemaoBrancoPage() {
       <PageViewPing pageType="intent" intent="spitz-alemao-branco" />
       <script id="ld-branco-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-branco-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <script id="ld-branco-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessLd) }} />
       <script id="ld-branco-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="grid items-center gap-8 sm:grid-cols-[1fr_280px]">
@@ -206,7 +204,11 @@ export default function SpitzAlemaoBrancoPage() {
         <h2 id="faq-branco-heading" className="mb-6 text-2xl font-bold text-zinc-900">
           Perguntas frequentes
         </h2>
-        <dl className="divide-y divide-zinc-100">
+        {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
+            de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
+            definition-list do axe e o leitor de tela anunciava uma lista que
+            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+        <div className="divide-y divide-zinc-100">
           {FAQS.map((item, index) => (
             <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
               <details className="group py-4" open={index === 0}>
@@ -224,7 +226,7 @@ export default function SpitzAlemaoBrancoPage() {
               </details>
             </div>
           ))}
-        </dl>
+        </div>
       </section>
 
       <section className="rounded-3xl border border-emerald-100 bg-emerald-50 p-6 text-center sm:p-10">
@@ -246,7 +248,7 @@ export default function SpitzAlemaoBrancoPage() {
       ]} />
 
       <nav aria-label="Navegação estrutural">
-        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-400">
+        <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden="true">/</li>
           <li><Link href="/filhotes" className="hover:text-emerald-700">Filhotes</Link></li>

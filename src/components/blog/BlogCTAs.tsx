@@ -81,7 +81,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
             />
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-brand-foreground shadow-soft transition hover:bg-brand-600 focus-ring whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-on-brand shadow-soft transition hover:brightness-110 focus-ring whitespace-nowrap"
             >
               Quero receber
             </button>
@@ -92,7 +92,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
       {/* WhatsApp CTA principal */}
       <div className="rounded-3xl border border-border bg-surface-subtle p-8 shadow-soft">
         <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:text-left">
-          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground shadow-soft">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-on-brand shadow-soft">
             <MessageCircle className="h-8 w-8" aria-hidden />
           </div>
           <div className="flex-1 space-y-2">
@@ -107,7 +107,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-pill bg-brand px-6 py-3 text-sm font-semibold text-brand-foreground shadow-soft transition hover:bg-brand-600 focus-ring min-h-[48px]"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-pill bg-brand px-6 py-3 text-sm font-semibold text-on-brand shadow-soft transition hover:brightness-110 focus-ring min-h-[48px]"
             data-track-event="blog_whatsapp_cta"
           >
             <Phone className="h-5 w-5" aria-hidden />

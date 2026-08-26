@@ -88,7 +88,10 @@ export async function GET() {
     linha("Como comprar", "/comprar-spitz-anao", "passo a passo da reserva até a entrega"),
     linha("Reservar", "/reserve-seu-filhote", "formulário de reserva"),
     linha("Ninhadas", "/ninhadas", "ninhadas atuais e previstas"),
-    linha("Galeria", "/galeria", "fotos dos filhotes e dos adultos do plantel"),
+    // A galeria é de vídeo, não de foto: arquivos MP4 dos filhotes e das
+    // ninhadas. Descrever como "fotos" mandava o leitor automático procurar o
+    // que não está lá.
+    linha("Galeria", "/galeria", "vídeos dos filhotes e das ninhadas"),
     "",
     "## Filhotes por cor",
     "",
@@ -146,6 +149,8 @@ export async function GET() {
     "",
     linha("Sitemap", "/sitemap.xml"),
     linha("Sitemap do blog", "/sitemaps/posts.xml"),
+    linha("Sitemap de imagens", "/sitemaps/images.xml"),
+    linha("Sitemap de vídeos", "/sitemaps/videos.xml"),
     linha("robots.txt", "/robots.txt"),
     "",
   ].join("\n");

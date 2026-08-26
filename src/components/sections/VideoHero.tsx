@@ -129,9 +129,9 @@ export default function VideoHero() {
             src="/filhotes/creme/creme-femea-01.jpg"
             alt=""
             fill
-            preload
+            priority
             fetchPriority="high"
-            quality={75}
+            quality={45}
             sizes="100vw"
             className="object-cover object-center"
             aria-hidden="true"
@@ -249,9 +249,10 @@ export default function VideoHero() {
           <div className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center">
             <a
               href={trackedWaHero}
+              data-wa-placement="hero"
               rel="noreferrer"
               target="_blank"
-              className="group inline-flex min-h-[54px] items-center justify-center gap-2.5 rounded-full bg-emerald-500 px-8 text-base font-bold text-white shadow-xl shadow-emerald-900/40 hover:bg-emerald-400 hover:shadow-emerald-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="group inline-flex min-h-[54px] items-center justify-center gap-2.5 rounded-full bg-emerald-700 px-8 text-base font-bold text-white shadow-xl shadow-emerald-900/40 hover:bg-emerald-600 hover:shadow-emerald-500/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               aria-label="Falar com a criadora via WhatsApp"
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />

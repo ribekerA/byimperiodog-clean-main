@@ -163,7 +163,7 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
           {sending ? "Enviando..." : "Quero ser contactada pela criadora"}
         </button>
       </div>
-      <p className="mt-2 text-center text-[10px] text-zinc-400">
+      <p className="mt-2 text-center text-[10px] text-zinc-500">
         Seus dados são protegidos. Atendemos todos os dias, das 8h às 22h.
       </p>
     </motion.form>
@@ -268,7 +268,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
           superior para aquela família. A faixa continua onde estava, dizendo o
           que de fato é: uma sugestão de quem atende. */}
       {isPrimary && (
-        <div className="absolute left-0 right-0 top-0 z-10 bg-emerald-500 py-1 text-center text-[10px] font-bold uppercase tracking-widest text-white">
+        <div className="absolute left-0 right-0 top-0 z-10 bg-emerald-700 py-1 text-center text-[10px] font-bold uppercase tracking-widest text-white">
           ✨ Sugestão da equipe
         </div>
       )}
@@ -302,7 +302,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
 
       <div className="flex flex-1 flex-col gap-2 p-3">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{corLabel}</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{corLabel}</p>
           <Link href={`/filhotes/${puppy.slug}`}>
             <h3 className="mt-0.5 text-sm font-bold text-zinc-900 hover:text-emerald-700 transition">
               {puppy.name}
@@ -313,10 +313,12 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
         {priceCents > 0 && (
           <p className="text-lg font-extrabold text-emerald-700">{formatPrice(priceCents)}</p>
         )}
-        <p className="text-[9px] text-zinc-400 -mt-1">registro oficial incluso</p>
+        <p className="text-[9px] text-zinc-500 -mt-1">registro oficial incluso</p>
 
         <PawConfettiButton
           href={waLink}
+          data-wa-placement="puppy_card"
+          data-wa-puppy={puppy.slug}
           rel="noreferrer"
           target="_blank"
           className="mt-auto flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-xs font-bold text-white shadow hover:bg-emerald-700"
@@ -330,7 +332,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
 
         <Link
           href={`/filhotes/${puppy.slug}`}
-          className="text-center text-[10px] font-medium text-zinc-400 hover:text-emerald-600"
+          className="text-center text-[10px] font-medium text-zinc-500 hover:text-emerald-600"
         >
           Ver galeria →
         </Link>
@@ -720,7 +722,7 @@ export default function AiMatchmakerChat() {
               <p className="text-[11px] text-zinc-500">Chat automatizado</p>
             </div>
           </div>
-          <div className="ml-auto text-[11px] text-zinc-400">Bragança Paulista, SP</div>
+          <div className="ml-auto text-[11px] text-zinc-500">Bragança Paulista, SP</div>
         </div>
 
         {voiceAlert && (
@@ -841,7 +843,7 @@ export default function AiMatchmakerChat() {
               }
               disabled={streaming || transcribing}
               aria-label="Sua mensagem"
-              className={`min-h-[44px] flex-1 rounded-xl border bg-zinc-50 px-4 text-sm text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:outline-none focus:ring-2 disabled:opacity-60 transition-colors ${
+              className={`min-h-[44px] flex-1 rounded-xl border bg-zinc-50 px-4 text-sm text-zinc-900 placeholder:text-zinc-500 focus:bg-white focus:outline-none focus:ring-2 disabled:opacity-60 transition-colors ${
                 listening
                   ? "border-emerald-400 bg-emerald-50 focus:border-emerald-400 focus:ring-emerald-300/40 ring-2 ring-emerald-200"
                   : "border-zinc-200 focus:border-emerald-400 focus:ring-emerald-300/40"
@@ -948,7 +950,7 @@ export default function AiMatchmakerChat() {
                 setInput("");
                 setTimeout(() => inputRef.current?.focus(), 100);
               }}
-              className={`text-xs transition ${confirmReset ? "font-semibold text-rose-600" : "text-zinc-400 hover:text-emerald-600"}`}
+              className={`text-xs transition ${confirmReset ? "font-semibold text-rose-600" : "text-zinc-500 hover:text-emerald-600"}`}
             >
               {confirmReset ? "Clique de novo para confirmar" : "↺ Recomeçar"}
             </button>
@@ -957,7 +959,7 @@ export default function AiMatchmakerChat() {
       </div>
 
       {/* Fallback manual */}
-      <p className="mt-3 text-center text-xs text-zinc-400">
+      <p className="mt-3 text-center text-xs text-zinc-500">
         Prefere escolher direto?{" "}
         <button
           type="button"
