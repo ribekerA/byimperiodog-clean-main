@@ -3,17 +3,12 @@ import { firstPubFor, lastmodFor } from "@/lib/_generated-lastmod";
 
 type JsonLd = Record<string, unknown>;
 
-export function faqPageSchema(
-  faqs: Array<{ question: string; answer: string }>,
-  canonicalUrl: string
-): JsonLd {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    url: canonicalUrl,
-    mainEntity: buildFaqEntities(faqs),
-  };
-}
+// FAQPage saiu do projeto em 26/08/2026. O Google encerrou o rich result de
+// FAQ em 07/05/2026 para todos os sites: o markup continuava valido, mas nao
+// produzia mais nenhum resultado na busca. Manter um gerador de JSON-LD que
+// ninguem consome so convida a religa-lo por engano. As FAQ visiveis ficaram
+// como estavam -- elas existem para o leitor.
+
 
 export function blogPostingSchema(
   siteUrl: string,
@@ -61,19 +56,6 @@ export function blogPostingSchema(
 
 function normalizeSiteUrl(siteUrl: string) {
   return siteUrl.replace(/\/$/, "");
-}
-
-function buildFaqEntities(
-  faqs: Array<{ question: string; answer: string }>
-) {
-  return faqs.map((faq) => ({
-    "@type": "Question",
-    name: faq.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: faq.answer,
-    },
-  }));
 }
 
 /**
@@ -170,24 +152,6 @@ export function buildArticleLD(opts: {
     image: opts.image,
     about: opts.about,
     author: { "@id": `${BRAND.urls.site}/#business` },
-  };
-}
-
-/**
- * Build FAQ Page JSON-LD schema
- */
-export function buildFAQPageLD(items: Array<{ question: string; answer: string }>) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: items.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
   };
 }
 

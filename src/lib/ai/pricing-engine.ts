@@ -2,6 +2,7 @@
  * PricingAIEngine
  * Heurística inicial + placeholders para regressão futura.
  */
+import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type PuppyRow = {
@@ -62,7 +63,7 @@ export async function recalcPricingForPuppy(puppyId: string): Promise<PricingRes
   const { data: sales } = await sb
     .from("puppies")
     .select("price_cents,color,sex,status,birth_date")
-    .eq("status", "sold")
+    .or(statusOrFilter(["sold"]))
     .limit(200);
 
   const basePrice = puppy.price_cents ?? 600000; // fallback 6k
@@ -166,7 +167,7 @@ export async function recalcPricingBulk() {
   const { data: puppies } = await sb
     .from("puppies")
     .select("id")
-    .or("status.is.null,status.eq.available,status.eq.coming_soon")
+    .or(statusOrFilter(["available", "coming_soon"], { incluirNulo: true }))
     .limit(200);
   if (!puppies) return [];
   const results: Record<string, any> = {};

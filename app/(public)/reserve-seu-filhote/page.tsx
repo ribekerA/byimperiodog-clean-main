@@ -9,6 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildWebPageLD } from "@/lib/structured-data";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
 
@@ -33,7 +34,7 @@ const benefits = [
   {
     icon: Shield,
     title: "Saúde Documentada",
-    description: "Laudos veterinários e protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
+    description: "Consulta veterinária, hemograma completo e protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
   },
   {
     icon: HeartHandshake,
@@ -122,35 +123,18 @@ export default function ReserveSeuFilhotePage() {
     ],
   };
 
-  const webPageLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${SITE_URL}/reserve-seu-filhote#webpage`,
-    url: `${SITE_URL}/reserve-seu-filhote`,
+  const webPageLd = buildWebPageLD({
+    path: "/reserve-seu-filhote",
     name: "Reserve seu Filhote de Spitz Alemão Anão",
     description:
       "Prioridade de escolha entre os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis, com processo transparente e suporte pós-venda.",
-    isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Império Dog" },
-  };
+  });
 
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqEntries.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
 
   return (
     <div className="bg-[var(--bg)] text-[var(--text)]">
       <script id="ld-breadcrumb-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-webpage-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
-      <script id="ld-faq-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       {/* Hero */}
       <section className="mx-auto max-w-6xl space-y-6 px-5 py-16 text-center sm:text-left">

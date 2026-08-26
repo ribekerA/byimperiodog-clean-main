@@ -50,7 +50,7 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
             )}
           </p>
           <p className="mt-0.5 text-sm text-zinc-600">
-            Filhotes disponíveis pela By Império Dog · registro oficial, laudos e mentoria pós-venda inclusos.
+            Filhotes disponíveis pela By Império Dog · registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda inclusos.
           </p>
         </div>
 

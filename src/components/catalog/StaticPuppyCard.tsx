@@ -9,10 +9,20 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { TiltCard } from "@/components/motion/TiltCard";
 import NotifyMeButton from "@/components/NotifyMeButton";
 import { staticPuppies } from "@/content/puppies-static";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { getBadgesForPuppy, type CatalogBadge } from "@/lib/ai/catalog-badges";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+
+// Formatacao de preco vem do dominio, nao daqui.
+//
+// Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
+// Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
+// resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
+// tela e diferentes como texto: a pagina do filhote publicava o preco com
+// U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -61,11 +71,7 @@ const DEFAULT_GLOW = "rgba(52,211,153,0.30)";
 
 function formatPrice(cents?: number) {
   if (!cents) return "Sob consulta";
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(cents / 100);
+  return formatarPreco(cents);
 }
 
 // ─── Componente ───────────────────────────────────────────────────────────────

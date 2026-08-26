@@ -90,7 +90,7 @@ export default function HeroSection() {
             </h1>
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">{greeting}</p>
             <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">
-              Filhotes criados dentro de casa, entregues com registro oficial, laudo de saúde e
+              Filhotes criados dentro de casa, entregues com registro oficial, consulta veterinária e
               carteira de vacinação — e com a criadora disponível pelo WhatsApp depois da entrega.
             </p>
           </header>

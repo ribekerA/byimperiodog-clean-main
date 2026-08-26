@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { buildItemListLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildItemListLD, buildBreadcrumbLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
@@ -11,7 +11,7 @@ const CATALOG_FAQS = [
   {
     question: "Como funciona o processo de reserva de um filhote de Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os laudos do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (registro oficial, carteira de vacinação e laudo de saúde; identificação do animal conforme a legislação aplicável).",
+      "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os exames do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (registro oficial, carteira de vacinação, consulta veterinária e hemograma completo; identificação do animal conforme a legislação aplicável).",
   },
   {
     question: "Quais são as cores de Spitz Alemão Anão disponíveis?",
@@ -26,7 +26,7 @@ const CATALOG_FAQS = [
   {
     question: "Os filhotes são entregues com quais documentos?",
     answer:
-      "Todos os filhotes saem com registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, hemograma, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda direto com a criadora.",
+      "Todos os filhotes saem com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda direto com a criadora.",
   },
 ];
 
@@ -44,9 +44,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/filhotes" },
   openGraph: {
     title:       "Filhotes de Spitz Alemão Anão — By Império Dog",
-    description: "Catálogo de filhotes com registro oficial, laudos veterinários e mentoria pós-venda. Bragança Paulista, SP.",
+    description: "Catálogo de filhotes com registro oficial, consulta veterinária e hemograma completo. Bragança Paulista, SP.",
     type:        "website",
-    images:      [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630, alt: "Filhotes Spitz Alemão Anão disponíveis — By Império Dog" }],
+    images:      [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933, alt: "Filhotes Spitz Alemão Anão disponíveis — By Império Dog" }],
   },
 };
 
@@ -56,13 +56,11 @@ export default function FilhotesPage() {
     { name: "Início",   url: `${SITE_URL}/` },
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
   ]);
-  const faqLd = buildFAQLD(CATALOG_FAQS);
 
   return (
     <>
       <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <StaticCatalog puppies={puppiesPublicados as any[]} />
 
@@ -100,7 +98,7 @@ export default function FilhotesPage() {
       <section
         className="mx-auto max-w-3xl px-5 pb-16 sm:px-8"
         aria-labelledby="catalog-faq-heading"
-        itemScope itemType="https://schema.org/FAQPage"
+       
       >
         <h2
           id="catalog-faq-heading"
@@ -111,14 +109,16 @@ export default function FilhotesPage() {
         {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
             de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
             definition-list do axe e o leitor de tela anunciava uma lista que
-            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+            nao existe. A marcacao schema.org da FAQ foi removida em 26/08/2026: o
+            Google encerrou o rich result de FAQ em 07/05/2026 e o markup
+            deixou de render qualquer resultado na busca. A FAQ visivel
+            continua igual — ela e para o leitor, nao para o SERP. */}
         <div className="divide-y divide-zinc-100">
           {CATALOG_FAQS.map((item) => (
-            <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <div key={item.question}>
               <details className="group py-4">
                 <summary
                   className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm"
-                  itemProp="name"
                 >
                   <span className="text-sm font-semibold text-zinc-900">{item.question}</span>
                   <span className="mt-0.5 shrink-0 text-zinc-400 transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
@@ -127,8 +127,8 @@ export default function FilhotesPage() {
                     </svg>
                   </span>
                 </summary>
-                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="mt-3 pr-7">
-                  <p itemProp="text" className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
+                <div className="mt-3 pr-7">
+                  <p className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
                 </div>
               </details>
             </div>

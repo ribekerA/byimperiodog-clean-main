@@ -8,6 +8,8 @@
  * - NUNCA expor "criador parceiro" ao cliente final
  */
 
+import { formatarPreco } from "@/domain/pricing";
+
 import type { City, Color, PuppyStatus } from "./taxonomies";
 
 /**
@@ -339,11 +341,9 @@ export class PuppyPrice {
     return this.cents / 100;
   }
 
-  format(locale = "pt-BR", currency = "BRL"): string {
-    return new Intl.NumberFormat(locale, {
-      style: "currency",
-      currency,
-    }).format(this.toReais());
+  /** Delega ao formatador do dominio: um unico texto de preco no projeto. */
+  format(): string {
+    return formatarPreco(this.cents);
   }
 
   isInRange(min: PuppyPrice, max: PuppyPrice): boolean {

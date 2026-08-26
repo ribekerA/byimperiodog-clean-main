@@ -139,12 +139,20 @@ export default async function PublicLayout({ children }: { children: React.React
           />
         )}
         {/**
-          * O LocalBusiness do layout e o DogBreeder foram removidos daqui.
-          * Ambos usavam o mesmo @id do LocalBusiness que cada página já emite,
-          * com name/url/description/priceRange diferentes — era essa colisão que
-          * o Search Console reportava como "campo duplicado". As propriedades
+          * O nó da empresa sai de `organizationLd` acima — buildLocalBusinessLD(),
+          * emitido uma vez por página. Aqui existiram um Organization e um
+          * DogBreeder concorrentes, com o mesmo @id #business e
+          * name/url/description/priceRange diferentes: era essa colisão que o
+          * Search Console reportava como "campo duplicado". As propriedades
           * exclusivas do DogBreeder (makesOffer, knowsAbout de raça) foram
           * incorporadas ao nó canônico em src/lib/structured-data.ts.
+          *
+          * Em 26/08/2026 saíram também os últimos nós secundários: o
+          * LocalBusiness próprio de cada página de estado (/filhotes/sao-paulo,
+          * /minas-gerais, /rio-de-janeiro), que descrevia três negócios com o
+          * mesmo endereço, e a microdata LocalBusiness de
+          * /criador-spitz-confiavel e /lulu-da-pomerania-braganca-paulista.
+          * Uma empresa, um nó.
           */}
 
         {/** Pixels custom HTML removidos por seguranca. Apenas modelos oficiais via <Pixels />. */}

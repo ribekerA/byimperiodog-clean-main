@@ -17,7 +17,7 @@ export function PuppyBenefits() {
     {
       icon: Stethoscope,
       title: "Acompanhamento veterinário completo",
-      description: "Laudo de saúde, hemograma e protocolo vacinal conforme a idade, com a documentação entregue junto ao filhote.",
+      description: "Consulta veterinária, hemograma completo e protocolo vacinal conforme a idade, com a documentação entregue junto ao filhote.",
     },
     {
       icon: Heart,

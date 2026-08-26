@@ -45,9 +45,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          # Fixado em 20 por causa de "engines": ">=20 <21" no package.json.
-          # CI que roda em outra versao nao prova nada sobre o deploy.
-          node-version: 20
+          # Le a versao de .nvmrc em vez de repetir o numero aqui.
+          #
+          # O CI ficou preso no Node 20 depois que o projeto migrou para o 24:
+          # package.json passou a exigir "engines": ">=24 <25", netlify.toml
+          # passou a NODE_VERSION = "24", e o workflow continuou em 20. Um CI
+          # verde em runtime diferente do deploy nao prova nada sobre o deploy
+          # -- e o jeito de isso nao voltar a acontecer e nao ter um segundo
+          # lugar onde escrever a versao.
+          node-version-file: .nvmrc
           cache: npm
 
       - name: Instalar dependencias
@@ -65,20 +71,26 @@ jobs:
       - name: Palavras banidas
         run: npm run check:banned-words
 
-      # NAO bloqueante, e isso e deliberado.
+      # Catalogo: slug duplicado, imagem que nao existe em public/, status fora
+      # do vocabulario, cor publicada fora da tabela de precos. Roda aqui alem
+      # de no prebuild para dar log proprio -- encadeado no build, a falha
+      # aparece no meio de 200 linhas de compilacao.
+      - name: Catalogo
+        run: npm run catalog:audit
+
+      # Portao de verdade desde 26/08/2026.
       #
-      # O repositorio tem hoje ~590 erros de lint em ~300 arquivos, quase todos
-      # mecanicos (import/order, no-empty, no-unused-vars, no-useless-escape) e
-      # todos anteriores a este workflow. Se o lint reprovasse o job, o CI
-      # nasceria vermelho e voltaria a ser ignorado -- exatamente o defeito dos
-      # quatro workflows que este arquivo substituiu.
+      # Este passo nasceu com `continue-on-error: true` porque o repositorio
+      # tinha ~590 erros de lint herdados e um CI que nasce vermelho volta a ser
+      # ignorado. A fila de erros foi zerada; o que restou sao avisos, e aviso
+      # nao reprova o eslint. Entao o `continue-on-error` saiu: a partir daqui,
+      # erro de lint reprova o job.
       #
-      # O passo continua rodando porque o log e util: da para ver se um commit
-      # aumentou a divida. Quando a fila estiver zerada, tire o
-      # `continue-on-error` e o lint vira portao de verdade.
-      - name: Lint (informativo)
+      # Os ~1.160 avisos continuam no log de proposito. Eles medem a divida sem
+      # travar ninguem, e o dia em que virarem erro sera uma decisao explicita,
+      # nao um efeito colateral.
+      - name: Lint
         run: npm run lint
-        continue-on-error: true
 
       # Sem etapa separada de contentlayer: o "prebuild" do package.json ja roda
       # content-guard, as fotos de cliente, o wrapper do contentlayer e o
@@ -90,3 +102,24 @@ jobs:
           # estoura o heap padrao do Node e o build morre com
           # "Ineffective mark-compacts near heap limit" -- reproduzido local.
           NODE_OPTIONS: --max-old-space-size=4096
+
+      # Smoke do site publico, contra a saida de producao que acabou de ser
+      # construida -- nao contra o dev server.
+      #
+      # Cobre o que teste unitario nao alcanca: preco que chega ao HTML,
+      # JSON-LD realmente servido, rota que responde 200, CTA apontando para o
+      # numero do canil. Foi este passo que encontrou a pagina do filhote
+      # publicando o preco com espaco sem quebra enquanto a tabela publicava o
+      # mesmo preco com espaco comum -- identicos na tela, diferentes como
+      # texto, e por isso invisiveis para qualquer checagem escrita.
+      #
+      # Regra de seguranca, repetida dentro do proprio spec: o smoke NAO clica
+      # em CTA de WhatsApp, NAO envia formulario e NAO toca em pagamento. Um
+      # clique gravaria conversao de verdade na conta de Google Ads do canil.
+      - name: Navegador do Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Smoke publico
+        run: npx playwright test tests/e2e/smoke.spec.ts --project=chromium
+        env:
+          PLAYWRIGHT_WEB_SERVER: npm run start

@@ -3,6 +3,7 @@
  * Respeita preferências de consentimento LGPD
  */
 
+import { getAttributionParams } from './attribution';
 import { getCurrentConsent } from './consent';
 import { trackWhatsAppAdsConversion } from './conversions';
 
@@ -275,4 +276,126 @@ export function trackMediaLike(params: {
   if (params.contextId) payload.context_id = params.contextId;
 
   gtag('event', params.curtiu ? 'media_like' : 'media_unlike', payload);
+}
+
+/* ------------------------------------------------------------------------- *
+ * VISUALIZAÇÃO NÃO É LEAD
+ *
+ * A página do filhote disparava `lead_filhote` e a de contato `lead_contato`,
+ * ambos no mount do componente — ou seja, no simples carregamento da página.
+ * Quem abrisse a URL e fechasse no segundo seguinte entrava no relatório como
+ * lead. Se um desses eventos fosse marcado como conversão no GA4 ou importado
+ * para o Google Ads, o Lances Inteligentes passaria a enxergar praticamente
+ * 100% dos cliques como convertidos e perderia todo critério para separar
+ * clique bom de clique ruim — o mesmo defeito que já foi corrigido em
+ * PixelsByConsent e que está documentado lá.
+ *
+ * Lead nesta operação é o clique em WhatsApp (`whatsapp_click`) e o envio de
+ * formulário (`generate_lead`). Visualizar é `view_item` / `view_contact_page`,
+ * que descrevem interesse, não contato.
+ *
+ * O segundo defeito era de entrega. O gtag.js é carregado com `lazyOnload`;
+ * no instante do mount `window.gtag` quase nunca existe ainda, então a chamada
+ * caía num `if (typeof gtag === 'function')` falso e o evento sumia sem erro.
+ * Por isso a view espera o script aparecer, com teto de tempo, em vez de
+ * disparar uma vez no vazio.
+ * ------------------------------------------------------------------------- */
+
+/** Teto da espera pelo gtag: além disso o script foi bloqueado, não atrasado. */
+const ESPERA_MAXIMA_GTAG_MS = 10_000;
+const INTERVALO_ESPERA_GTAG_MS = 300;
+
+/**
+ * Executa `acao` assim que o gtag existir, ou desiste em silêncio.
+ *
+ * Nada aqui segura a navegação: é um timer, não um await no caminho do
+ * visitante. Se o navegador bloqueou o script de analytics, o site funciona
+ * igual e o evento simplesmente não é medido.
+ */
+function comGtag(acao: (gtag: (...args: unknown[]) => void) => void): void {
+  if (typeof window === 'undefined') return;
+
+  const agora = (window as { gtag?: (...args: unknown[]) => void }).gtag;
+  if (typeof agora === 'function') {
+    acao(agora);
+    return;
+  }
+
+  const inicio = Date.now();
+  const timer = window.setInterval(() => {
+    const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
+    if (typeof gtag === 'function') {
+      window.clearInterval(timer);
+      acao(gtag);
+      return;
+    }
+    if (Date.now() - inicio >= ESPERA_MAXIMA_GTAG_MS) window.clearInterval(timer);
+  }, INTERVALO_ESPERA_GTAG_MS);
+}
+
+/**
+ * Publica a view nas duas rotas possíveis de medição.
+ *
+ * PixelsByConsent carrega GTM **ou** o gtag do GA4, nunca os dois (o bloco do
+ * GA4 é condicionado a `!useGTM`). Por isso publicar nos dois formatos não
+ * duplica nada: o `dataLayer.push({ event })` só é lido pelo container do GTM,
+ * e o `gtag('event')` só é lido pelo gtag.js. Cada configuração enxerga
+ * exatamente um evento.
+ */
+function publicarView(nome: string, payload: Record<string, unknown>): void {
+  if (typeof window === 'undefined') return;
+
+  const consent = getCurrentConsent();
+  if (!consent.analytics) return;
+
+  // Atribuição de origem (first/last touch) já vinha junto no tracker antigo e
+  // continua: são utm_source/medium/campaign, que descrevem a CAMPANHA e nunca
+  // a pessoa. É o que liga a view à origem paga no relatório.
+  const completo = { ...getAttributionParams(), ...payload };
+
+  try {
+    const w = window as { dataLayer?: unknown[] };
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ event: nome, ...completo });
+  } catch {
+    // Pixel bloqueado pelo navegador não pode quebrar a página.
+  }
+
+  comGtag((gtag) => gtag('event', nome, completo));
+}
+
+/**
+ * Visualização da página de um filhote.
+ *
+ * `view_item` é o nome padrão do GA4 para visualização de item, o mesmo que
+ * PuppyCard já usa na grade (`placement: 'grid'`) e que trackPuppyModalOpen usa
+ * no modal. Aqui entra com `placement: 'puppy_page'`, então os três pontos
+ * ficam no mesmo relatório e separáveis pelo parâmetro.
+ *
+ * Nenhum dado pessoal: slug, cor e sexo descrevem o ANIMAL, não o visitante.
+ */
+export function trackPuppyPageView(params: {
+  puppySlug: string;
+  puppyColor?: string | null;
+  puppySex?: string | null;
+}): void {
+  if (typeof window === 'undefined') return;
+
+  const payload: Record<string, unknown> = {
+    placement: 'puppy_page',
+    item_id: params.puppySlug,
+    puppy_slug: params.puppySlug,
+    page_path: window.location.pathname,
+  };
+  if (params.puppyColor) payload.puppy_color = params.puppyColor;
+  if (params.puppySex) payload.puppy_sex = params.puppySex;
+
+  publicarView('view_item', payload);
+}
+
+/** Visualização da página de contato. Abrir a página não é pedir contato. */
+export function trackContactPageView(): void {
+  if (typeof window === 'undefined') return;
+
+  publicarView('view_contact_page', { page_path: window.location.pathname });
 }

@@ -4,6 +4,7 @@
  */
 
 import type { Puppy } from '@/domain/puppy';
+import { isAvailable } from '@/domain/puppy-status';
 
 export function buildProductLD(puppy: Puppy, baseUrl: string = 'https://byimperiodog.com.br') {
   const condition = 'https://schema.org/NewCondition'; // Filhotes sempre "novos"
@@ -18,7 +19,7 @@ export function buildProductLD(puppy: Puppy, baseUrl: string = 'https://byimperi
       '@type': 'Brand',
       name: 'By Império Dog',
     },
-    ...(puppy.status === 'available'
+    ...(isAvailable(puppy.status)
       ? {
           offers: {
             '@type': 'Offer',

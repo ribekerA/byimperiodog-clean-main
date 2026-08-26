@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { guides } from "@/content/guides";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/cuidados`;
@@ -29,13 +29,11 @@ export default function CuidadosPage() {
     { name: "Guias", url: `${SITE_URL}/guias` },
     { name: "Cuidados", url: PAGE_URL },
   ]);
-  const faqLd = buildFAQLD(FAQS);
   const articleLd = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string, datePublished: guide.publishedAt });
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-14">
       <script id="ld-cuidados-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-cuidados-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-cuidados-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-3">

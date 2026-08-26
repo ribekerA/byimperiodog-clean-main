@@ -1,5 +1,6 @@
 import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
+import { isAvailable } from "@/domain/puppy-status";
 import { lastmodFor } from "@/lib/_generated-lastmod";
 import type { CatalogItem } from "@/lib/catalog-utils";
 
@@ -19,6 +20,53 @@ export const BUSINESS_ID = `${SITE_URL}/#business`;
 
 /** Área efetivamente atendida, sem cidades escolhidas por volume de busca. */
 export const SERVED_AREAS = [{ "@type": "Country", name: "Brasil" }] as const;
+
+/**
+ * No `WebPage` de uma pagina institucional ou de destino.
+ *
+ * O que ele resolve e `primaryImageOfPage`: nenhuma pagina do site declarava
+ * qual imagem a representa, entao o Google escolhia sozinho entre tudo que
+ * estivesse no HTML — logo, icone, foto de rodape — e o resultado da busca
+ * as vezes vinha com uma imagem que nao era a da pagina. Aqui a escolha e
+ * declarada, e por padrao ela e a mesma do og:image, para que o cartao no
+ * WhatsApp e o resultado no Google mostrem a mesma foto.
+ *
+ * `about` aponta para o no unico da empresa em vez de repetir os dados dela.
+ */
+export function buildWebPageLD(input: {
+  path: string;
+  name: string;
+  description?: string;
+  /** Caminho relativo ou URL absoluta. Padrao: a mesma imagem do og:image. */
+  image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+}) {
+  const caminho = input.path.startsWith("/") ? input.path : `/${input.path}`;
+  const url = `${SITE_URL}${caminho === "/" ? "" : caminho}`;
+  const imagem = input.image ?? "/og-default.jpg";
+  const largura = input.imageWidth ?? (input.image ? undefined : 1200);
+  const altura = input.imageHeight ?? (input.image ? undefined : 630);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: input.name,
+    ...(input.description ? { description: input.description } : {}),
+    inLanguage: "pt-BR",
+    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.name },
+    about: { "@id": BUSINESS_ID },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      "@id": `${url}#primaryimage`,
+      url: imagem.startsWith("http") ? imagem : `${SITE_URL}${imagem}`,
+      ...(largura ? { width: largura } : {}),
+      ...(altura ? { height: altura } : {}),
+    },
+  };
+}
 
 export function buildPuppyProductLD(
   puppy: CatalogItem,
@@ -53,7 +101,7 @@ export function buildPuppyProductLD(
           },
         }
       : {}),
-    ...(puppy.status === "available"
+    ...(isAvailable(puppy.status)
       ? {
           offers: {
             "@type": "Offer",
@@ -102,17 +150,11 @@ export function buildBreadcrumbLD(items: { name: string; url: string }[]) {
   };
 }
 
-export function buildFAQLD(faqs: { question: string; answer: string }[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: { "@type": "Answer", text: faq.answer },
-    })),
-  };
-}
+// FAQPage saiu do projeto em 26/08/2026. O Google encerrou o rich result de
+// FAQ em 07/05/2026 para todos os sites: o markup continuava valido, mas nao
+// produzia mais nenhum resultado na busca. Manter um gerador de JSON-LD que
+// ninguem consome so convida a religa-lo por engano. As FAQ visiveis ficaram
+// como estavam -- elas existem para o leitor.
 
 /**
  * `dateModified` valia `updatedAt ?? publishedAt`. Como quase nenhuma página

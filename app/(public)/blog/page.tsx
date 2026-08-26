@@ -296,7 +296,7 @@ function BlogFooterSection() {
       <section className="rounded-3xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-8 text-center text-white sm:p-10">
         <h2 className="text-2xl font-bold">Pronto para conhecer um filhote?</h2>
         <p className="mt-3 text-emerald-100">
-          Criamos Spitz Alemão Anão desde {FOUNDING_YEAR}, com registro oficial, laudo de saúde e mentoria pós-venda.
+          Criamos Spitz Alemão Anão desde {FOUNDING_YEAR}, com registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link

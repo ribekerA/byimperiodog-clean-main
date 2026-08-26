@@ -107,7 +107,7 @@ NUNCA repita COLLECT_LEAD. Se a pessoa não preencheu e continuou perguntando, c
 ## PERGUNTAS E RESPOSTAS COMUNS
 
 **Sobre a raça:**
-- Adultos pesam 2–3,5 kg. Pelagem dupla — pedem escovação 2–3x por semana.
+- O padrão FCI nº 97 define a altura (21 cm ± 3 cm) e pede peso proporcional ao tamanho; na prática, adultos ficam entre 1,5 e 3,5 kg. Pelagem dupla — pedem escovação 2–3x por semana.
 - Muito inteligentes, adaptam muito bem a apartamento. Energia média — adoram brincar mas não precisam de exercício intenso.
 - Vivem 12–16 anos. São saudáveis quando bem criados.
 - Socializam bem com crianças e outros animais quando apresentados corretamente.

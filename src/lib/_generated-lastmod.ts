@@ -20,7 +20,7 @@ export const LASTMOD: Record<string, string> = {
   "/filhotes/minas-gerais": "2026-08-26T10:10:51.000Z",
   "/filhotes/rio-de-janeiro": "2026-08-26T10:10:51.000Z",
   "/filhotes/sao-paulo": "2026-08-26T10:10:51.000Z",
-  "/galeria": "2026-08-26T10:10:51.000Z",
+  "/galeria": "2026-08-26T12:54:11.000Z",
   "/guias": "2026-08-26T10:10:51.000Z",
   "/lulu-da-pomerania": "2026-08-26T10:10:51.000Z",
   "/lulu-da-pomerania-braganca-paulista": "2026-08-26T03:45:34.000Z",

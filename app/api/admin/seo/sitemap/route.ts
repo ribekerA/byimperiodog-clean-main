@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isAvailable } from "@/domain/puppy-status";
 import { requireAdmin } from "@/lib/adminAuth";
 import { blogRepo } from "@/lib/db";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -28,11 +29,13 @@ export async function GET(req: Request) {
   let puppies: Array<{ slug?: string | null; updated_at?: string | null }> = [];
   try {
     const sb = supabaseAdmin();
-    const { data } = await sb
-      .from("puppies")
-      .select("slug,updated_at")
-      .eq("status", "available");
-    puppies = data || [];
+    // Filtra em codigo, nao no `.eq`. A consulta era `.eq("status","available")`
+    // numa tabela onde o admin so grava "disponivel" (ver domain/puppy-status):
+    // devolvia zero linha sempre, e o sitemap do painel saia sem nenhum filhote
+    // sem nunca acusar erro.
+    const { data } = await sb.from("puppies").select("slug,updated_at,status");
+    const rows = (data || []) as Array<{ slug?: string | null; updated_at?: string | null; status?: string | null }>;
+    puppies = rows.filter((row) => isAvailable(row.status));
   } catch {}
 
   const postUrls = posts

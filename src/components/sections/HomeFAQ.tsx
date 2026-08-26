@@ -7,7 +7,9 @@
  *  • Google Featured Snippets (conteúdo visível, não bloqueado por JS)
  *  • AI Overviews (Google SGE) — perguntas conversacionais e naturais
  *  • Voice Search (Alexa, Siri, Google Assistant) — respostas curtas e diretas
- *  • Schema.org FAQPage injetado pelo page.tsx pai
+ *  • Leitura direta — sem Schema.org FAQPage: o Google encerrou o rich
+ *    result de FAQ em 07/05/2026 e o markup deixou de produzir qualquer
+ *    resultado na busca. O conteudo visivel continua sendo o produto.
  *
  * Accordion nativo com <details>/<summary> — funciona sem JS e é indexável.
  *
@@ -27,8 +29,6 @@ export default function HomeFAQ() {
     <section
       className="bg-white py-14 sm:py-20 overflow-hidden"
       aria-labelledby="faq-heading"
-      itemScope
-      itemType="https://schema.org/FAQPage"
     >
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
 
@@ -51,16 +51,10 @@ export default function HomeFAQ() {
         {/* FAQ accordion — usa <details>/<summary> nativo para SSR e indexabilidade */}
         <div className="divide-y divide-zinc-100">
           {HOME_FAQ_ITEMS.map((item, i) => (
-            <div
-              key={i}
-              itemScope
-              itemProp="mainEntity"
-              itemType="https://schema.org/Question"
-            >
+            <div key={i}>
               <details className="group py-4" open={i === 0}>
                 <summary
                   className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-sm"
-                  itemProp="name"
                 >
                   <span className="text-sm font-semibold text-zinc-900 sm:text-base leading-snug">
                     {item.question}
@@ -76,16 +70,8 @@ export default function HomeFAQ() {
                   </span>
                 </summary>
 
-                <div
-                  itemScope
-                  itemProp="acceptedAnswer"
-                  itemType="https://schema.org/Answer"
-                  className="mt-3 pr-7"
-                >
-                  <p
-                    itemProp="text"
-                    className="text-sm leading-relaxed text-zinc-600"
-                  >
+                <div className="mt-3 pr-7">
+                  <p className="text-sm leading-relaxed text-zinc-600">
                     {item.answer}
                   </p>
                 </div>

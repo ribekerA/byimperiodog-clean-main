@@ -14,8 +14,18 @@ import { useEffect, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
+
+// Formatacao de preco vem do dominio, nao daqui.
+//
+// Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
+// Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
+// resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
+// tela e diferentes como texto: a pagina do filhote publicava o preco com
+// U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -31,11 +41,7 @@ interface Props {
 
 function formatPrice(cents?: number) {
   if (!cents) return null;
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(cents / 100);
+  return formatarPreco(cents);
 }
 
 // ─── Componente ───────────────────────────────────────────────────────────────

@@ -11,9 +11,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
-import LeadEventTracker from "@/components/LeadEventTracker";
 import LeadForm from "@/components/LeadForm";
 import TrustBar from "@/components/TrustBar";
+import ViewEventTracker from "@/components/ViewEventTracker";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -120,7 +120,7 @@ export default function ContatoPage() {
     <div>
       <script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       <script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <LeadEventTracker eventName="lead_contato" />
+      <ViewEventTracker tipo="contato" />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">

@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
 
 import { MENSAGEM_ERRO_PUBLICA, registrarErro } from '@/lib/apiErro';
+import { corpoJson, limiteDeTaxa } from '@/lib/limitePublico';
 import { supabasePublic } from '@/lib/supabasePublic';
 
 export const runtime = 'nodejs';
@@ -42,9 +43,19 @@ async function compute(slug:string){
   }));
 }
 
+// Apesar do caminho, esta rota nao chama modelo de linguagem: ela pontua
+// posts publicados com duas consultas ao Supabase. O custo por chamada nao e
+// de IA, mas nao e zero -- a segunda consulta traz ate 140 linhas. Sem teto,
+// um laco de POST vira carga de banco de graca.
 export async function POST(req:Request){
+  const bloqueio = limiteDeTaxa(req, 'ai-recommend', 30);
+  if (bloqueio) return bloqueio;
+
+  const lido = await corpoJson<{ slug?: unknown }>(req, 2 * 1024);
+  if (lido.resposta) return lido.resposta;
+
   try {
-    const { slug } = await req.json().catch(()=>({}));
+    const slug = typeof lido.dados.slug === 'string' ? lido.dados.slug.trim() : '';
     if(!slug) return cacheJson({ ok:false, error:'slug required' },400);
     const related = await compute(slug);
     return cacheJson({ ok:true, related });

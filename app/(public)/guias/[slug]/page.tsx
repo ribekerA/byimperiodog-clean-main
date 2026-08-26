@@ -6,7 +6,7 @@ import BlogPuppyBanner from "@/components/blog/BlogPuppyBanner";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { guides, getGuideBySlug } from "@/content/guides";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildArticleLD, buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildArticleLD, buildBreadcrumbLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -48,8 +48,7 @@ export default async function GuidePage(props: Props) {
     { name: "Início", url: `${SITE_URL}/` },
     { name: "Guias", url: `${SITE_URL}/guias` },
     { name: guide.title, url: `${SITE_URL}/guias/${guide.slug}` },
-  ]);
-  const faqLd = buildFAQLD(guide.faqs);
+  ]);
 
   const waLink = buildWhatsAppLink({
     message: `Olá! Li o guia "${guide.title}" e quero saber mais sobre filhotes disponíveis.`,
@@ -64,8 +63,7 @@ export default async function GuidePage(props: Props) {
   return (
     <>
       <script id="ld-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Breadcrumb */}

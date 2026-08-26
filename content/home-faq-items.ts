@@ -56,7 +56,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quais documentos acompanham o filhote?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, hemograma, histórico de vermifugação e contrato de responsabilidade compartilhada. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda diretamente com a criadora via WhatsApp.",
+      "Todo filhote da By Império Dog sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), consulta veterinária antes da entrega, hemograma completo, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, histórico de vermifugação e contrato de responsabilidade compartilhada. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda diretamente com a criadora via WhatsApp.",
   },
   {
     question: "Por quanto tempo tenho suporte após receber o filhote?",

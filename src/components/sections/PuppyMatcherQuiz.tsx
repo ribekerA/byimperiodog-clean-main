@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { puppiesPublicados } from "@/content/puppies-static";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -236,7 +237,7 @@ export default function PuppyMatcherQuiz() {
                 </div>
                 {matchPrice > 0 && (
                   <p className="text-2xl font-extrabold text-[var(--accent-ink)]">
-                    {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(matchPrice / 100)}
+                    {formatarPreco(matchPrice)}
                   </p>
                 )}
                 <div className="flex flex-col gap-2">

@@ -31,7 +31,7 @@ import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { estimateReadingTime } from "@/lib/blog/reading-time";
 import { getRelatedUnified } from "@/lib/blog/related";
-import { buildBlogMetadata, buildArticleJsonLd, extractFaqFromMdx } from "@/lib/blog/seo";
+import { buildBlogMetadata, buildArticleJsonLd } from "@/lib/blog/seo";
 import { parseSources } from "@/lib/blog/sources";
 import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
@@ -206,13 +206,10 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   }
   const minutes = compiled?.readingTimeMinutes || estimateReadingTime(post.content_mdx || "");
   const related = (await getRelatedUnified(post.slug, 6)) as RelatedAny[];
-  // Só do corpo do artigo: `blog_posts` não tem coluna `faq`, então o fallback
-  // que lia post.faq era código morto — nunca chegou a valer nada.
-  const faqItems = extractFaqFromMdx(post.content_mdx ?? "");
-  const { article, breadcrumb, faqBlock } = buildArticleJsonLd(
+  const { article, breadcrumb } = buildArticleJsonLd(
     post as Post & { content_mdx?: string | null },
     author,
-    { toc: compiled?.toc, faq: faqItems.length > 0 ? faqItems : undefined }
+    { toc: compiled?.toc }
   );
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br";
@@ -223,7 +220,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   // entidades concorrentes para a mesma página. Ficou o `Article`, que é o mais
   // completo (articleBody/about/wordCount/inLanguage) e usa o logo PNG, formato
   // que o Google aceita para `publisher.logo` (SVG não entra).
-  const structuredData = [article, breadcrumb, faqBlock].filter(Boolean);
+  const structuredData = [article, breadcrumb].filter(Boolean);
 
   const waPhone = (process.env.NEXT_PUBLIC_WA_PHONE || "").replace(/\D/g, "");
   const postUrl = `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`;

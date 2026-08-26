@@ -9,10 +9,10 @@ import {
   ClientOnlyPuppyStickyFloatingCTA,
 } from "@/components/catalog/PuppyClientOnly";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
-import LeadEventTracker from "@/components/LeadEventTracker";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { TiltCard } from "@/components/motion/TiltCard";
+import ViewEventTracker from "@/components/ViewEventTracker";
 import { staticPuppies } from "@/content/puppies-static";
 import { formatPrice, getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
@@ -190,8 +190,9 @@ export default async function PuppyPage(props: Props) {
       {/* JSON-LD */}
       <script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      {/* GA4: lead_filhote — disparado quando visitante visualiza a página do filhote */}
-      <LeadEventTracker eventName="lead_filhote" params={{ puppy_slug: puppy.slug, puppy_color: colorSlug, puppy_sex: sexSlug }} />
+      {/* GA4: view_item — visualizacao da pagina. Nao e lead: lead e o clique
+          em WhatsApp (whatsapp_click) ou o envio de formulario. */}
+      <ViewEventTracker tipo="filhote" puppySlug={puppy.slug} puppyColor={colorSlug} puppySex={sexSlug} />
 
       <div className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 sm:py-8 lg:px-10 lg:pb-16">
 

@@ -79,7 +79,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "saúde vacinação laudo exame",
-    a: "Todos os filhotes têm protocolo vacinal em dia conforme a idade, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes, laudo de saúde e acompanhamento veterinário. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    a: "Todos os filhotes têm protocolo vacinal em dia conforme a idade, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes, consulta veterinária e hemograma completo antes da entrega. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     q: "localização onde fica endereço",

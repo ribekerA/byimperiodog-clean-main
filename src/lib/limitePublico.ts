@@ -26,6 +26,30 @@ export function ipDoCliente(req: Request): string {
 }
 
 /**
+ * IP sem o ultimo octeto (IPv4) ou sem os ultimos blocos (IPv6).
+ *
+ * `analytics_events` guardava o IP inteiro de quem visitava. Ninguem lia
+ * esse campo: o agregador da propria rota seleciona `name,value,ts`, e a
+ * replicacao para `analytics_events_outbox` ja removia o IP de proposito.
+ * Guardado sem finalidade, ele faz de cada linha um dado pessoal sob a LGPD.
+ * Truncar preserva o que a metrica usa -- regiao aproximada e deduplicacao
+ * grosseira -- e tira a capacidade de singularizar uma pessoa.
+ */
+export function ipAnonimo(ip: string | null | undefined): string | null {
+  if (!ip) return null;
+  const limpo = ip.trim();
+  if (!limpo) return null;
+  if (limpo.includes(":")) {
+    const blocos = limpo.split(":").filter(Boolean);
+    return blocos.slice(0, 3).join(":") + "::";
+  }
+  const octetos = limpo.split(".");
+  if (octetos.length !== 4) return null;
+  octetos[3] = "0";
+  return octetos.join(".");
+}
+
+/**
  * Limite de taxa por IP em janela fixa. Devolve a resposta 429 pronta quando
  * estourou, ou `null` quando pode seguir.
  */

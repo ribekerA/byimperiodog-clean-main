@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse, type NextRequest } from 'next/server';
 
 import { erroPublico } from '@/lib/apiErro';
+import { corpoJson, ipAnonimo, ipDoCliente, limiteDeTaxa } from '@/lib/limitePublico';
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
 
 
@@ -15,12 +16,18 @@ export async function POST(req: NextRequest) {
   if (process.env.DISABLE_ANALYTICS === '1') {
     return NextResponse.json({ disabled: true }, { status: 202 });
   }
-  let body: unknown = null;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ error: 'invalid json' }, { status: 400 });
-  }
+
+  // Beacon publico e sem sessao: qualquer pessoa que saiba a URL pode gravar
+  // linha nesta tabela. Antes desta rodada nao havia teto de tamanho nem de
+  // frequencia -- um laco de curl enchia `analytics_events` de graca. 120 por
+  // minuto cobre com folga uma pagina que dispara todas as Web Vitals mais os
+  // eventos proprios, em varias abas.
+  const bloqueio = limiteDeTaxa(req, 'analytics', 120);
+  if (bloqueio) return bloqueio;
+
+  const lido = await corpoJson<Record<string, unknown>>(req, 8 * 1024);
+  if (lido.resposta) return lido.resposta;
+  const body: unknown = lido.dados;
 
   interface BodyShape { name?: unknown; value?: unknown; id?: unknown; label?: unknown; meta?: unknown; path?: unknown; ts?: unknown }
   const b = (body && typeof body === 'object' ? body : {}) as BodyShape;
@@ -36,9 +43,9 @@ export async function POST(req: NextRequest) {
   }
 
   const ua = req.headers.get('user-agent') || null;
-  const forwarded = req.headers.get('x-forwarded-for');
-  // Casting mínimo seguro: request ip não é tipada oficialmente
-  const ip = forwarded?.split(',')[0]?.trim() || (req as unknown as { ip?: string }).ip || null;
+  // IP truncado, nunca inteiro. Ver ipAnonimo em src/lib/limitePublico.ts:
+  // o campo nao era lido por ninguem e continuava sendo dado pessoal.
+  const ip = ipAnonimo(ipDoCliente(req));
 
   // Monta payload (campos opcionais normalizados)
   interface AnalyticsInsertPayload {

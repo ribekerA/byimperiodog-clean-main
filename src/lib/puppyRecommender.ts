@@ -1,3 +1,4 @@
+import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type LeadRecord = {
@@ -110,7 +111,7 @@ export async function recommendPuppiesForLead(leadId: string): Promise<PuppyReco
   const { data: puppies } = await sb
     .from("puppies")
     .select("id,name,color,sex,price_cents,city,state,status")
-    .or("status.is.null,status.eq.available")
+    .or(statusOrFilter(["available"], { incluirNulo: true }))
     .limit(100);
 
   const scored =

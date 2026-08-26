@@ -1,5 +1,6 @@
 import "server-only";
 
+import { isAvailable } from "@/domain/puppy-status";
 import { analyzeLead, type LeadIntelResult, type LeadRecord } from "@/lib/leadIntel";
 import { createLogger } from "@/lib/logger";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -60,7 +61,11 @@ const OBJECTION_RESPONSES: Record<string, string> = {
   price: "Detalho o investimento completo, incluindo acompanhamento pós-venda e preparo exclusivo.",
   trust: "Enviamos contrato, referências e todo o histórico de cuidado para segurança total.",
   time: "Organizo agenda premium no melhor horário para você e mantenho você atualizada em tempo real.",
-  logistics: "Coordenamos transporte com motorista parceiro e checklist de conforto para o filhote.",
+  // "motorista parceiro" saiu daqui: o canil nao tem parceiro nenhum, e esta
+  // frase ia por WhatsApp para o lead como se tivesse. As tres formas abaixo
+  // sao as que o proprio site publica em /blog/spitz-alemao-anao-entrega-brasil.
+  logistics:
+    "Combino a entrega caso a caso: retirada aqui no canil, viagem acompanhada na cabine ou entrega pessoal. Explico o que cada uma envolve antes de voce decidir.",
   health: "Compartilho exames, vacinas e cronograma veterinário para eliminar qualquer dúvida de saúde.",
 };
 
@@ -94,11 +99,19 @@ export async function createAutoSalesSequence(
   if (leadError) throw leadError;
   if (!lead) throw new Error("Lead nao encontrado");
 
-  const { data: puppies } = await sb
+  // Filtra em codigo, nao no `.or`. A consulta era
+  // `.or("status.eq.available,status.is.null")` numa tabela onde o admin so
+  // grava "disponivel" (ver src/domain/puppy-status.ts): so voltava filhote com
+  // status NULL, e o AutoSales oferecia ao lead um estoque que nao era o do
+  // site. Mesmo defeito que ja tinha sido corrigido em
+  // app/api/admin/seo/sitemap/route.ts.
+  const { data: puppiesBrutos } = await sb
     .from("puppies")
     .select("id,name,color,sex,price_cents,status")
-    .or("status.eq.available,status.is.null")
-    .limit(25);
+    .limit(200);
+  const puppies = ((puppiesBrutos ?? []) as PuppyRow[])
+    .filter((linha) => isAvailable(linha.status))
+    .slice(0, 25);
 
   const intel = await analyzeLead(lead as LeadRecord, { puppies: (puppies ?? []) as PuppyRow[] });
   const strategy = buildStrategy(lead as LeadRecord, intel);

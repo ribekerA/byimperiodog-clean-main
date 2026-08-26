@@ -6,7 +6,7 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { ALL_SEXES, formatPrice, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ sexo: string }> };
@@ -46,7 +46,6 @@ export default async function SexLandingPage(props: Props) {
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
     { name: seo.h1, url: `${SITE_URL}/filhotes/sexo/${params.sexo}` },
   ]);
-  const faqLd = buildFAQLD(seo.faqs);
 
   const waLink = buildWhatsAppLink({
     message: `Olá! Tenho interesse em ${seo.h1} Spitz Alemão Anão. Pode me informar disponibilidade e valores?`,
@@ -61,7 +60,6 @@ export default async function SexLandingPage(props: Props) {
   return (
     <>
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
         {/* Breadcrumb */}

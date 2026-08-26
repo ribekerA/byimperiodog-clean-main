@@ -4,7 +4,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const INCLUDED = [
   { icon: "📋", title: "Registro oficial", desc: "Documento oficial reconhecido internacionalmente" },
-  { icon: "❤️", title: "Laudo de saúde", desc: "Exame veterinário completo antes da entrega" },
+  { icon: "❤️", title: "Consulta veterinária", desc: "Consulta e hemograma completo antes da entrega" },
   { icon: "💉", title: "Protocolo vacinal", desc: "Em dia conforme a idade do filhote, carteira assinada pelo médico-veterinário" },
   { icon: "🔖", title: "Identificação do animal", desc: "Identificação individual e rastreável, conforme os requisitos da legislação aplicável" },
   { icon: "🌿", title: "Vermifugação", desc: "Tratamento preventivo incluso" },

@@ -5,6 +5,7 @@
  */
 
 import type { Puppy, PuppyFilters, PuppySearchResult, PuppySortBy } from "@/domain/puppy";
+import { statusOrFilter } from "@/domain/puppy-status";
 import type { City, Color, PuppyStatus } from "@/domain/taxonomies";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
@@ -318,7 +319,7 @@ export async function getAvailableColors(): Promise<string[]> {
     const { data, error } = await sb
       .from('puppies')
       .select('color')
-      .eq('status', 'available');
+      .or(statusOrFilter(["available"]));
 
     if (error || !data) {
       return [];

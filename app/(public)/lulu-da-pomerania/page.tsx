@@ -5,7 +5,7 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 import { CARDS_POR_FAIXA, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania`;
@@ -78,7 +78,6 @@ export default function LuluDaPomeraniaPage() {
     { name: "Início", url: `${SITE_URL}/` },
     { name: "Lulu da Pomerânia", url: PAGE_URL },
   ]);
-  const faqLd      = buildFAQLD(FAQS);
   // Mesmo caso de /spitz-alemao: o no de sinonimos era um segundo Article sem
   // headline nem data. Passa a ser o `about` do Article de verdade.
   const articleLd  = buildArticleLD({
@@ -97,7 +96,6 @@ export default function LuluDaPomeraniaPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <script id="ld-lulu-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-lulu-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-lulu-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       {/* HERO */}
@@ -168,28 +166,31 @@ export default function LuluDaPomeraniaPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-zinc-500">Inclui registro oficial, laudos, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
+        <p className="text-xs text-zinc-500">Inclui registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
       </section>
 
       {/* FAQ */}
-      <section aria-labelledby="faq-lulu-heading" itemScope itemType="https://schema.org/FAQPage">
+      <section aria-labelledby="faq-lulu-heading">
         <h2 id="faq-lulu-heading" className="mb-6 text-2xl font-bold text-zinc-900">Perguntas frequentes sobre o Lulu da Pomerânia</h2>
         {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
             de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
             definition-list do axe e o leitor de tela anunciava uma lista que
-            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+            nao existe. A marcacao schema.org da FAQ foi removida em 26/08/2026: o
+            Google encerrou o rich result de FAQ em 07/05/2026 e o markup
+            deixou de render qualquer resultado na busca. A FAQ visivel
+            continua igual — ela e para o leitor, nao para o SERP. */}
         <div className="divide-y divide-zinc-100">
           {FAQS.map((item, i) => (
-            <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <div key={item.question}>
               <details className="group py-4" open={i === 0}>
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm" itemProp="name">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm">
                   <span className="text-sm font-semibold text-zinc-900 sm:text-base leading-snug">{item.question}</span>
                   <span className="mt-0.5 shrink-0 text-zinc-400 transition-transform duration-200 group-open:rotate-180" aria-hidden>
                     <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
                   </span>
                 </summary>
-                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="mt-3 pr-7">
-                  <p itemProp="text" className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
+                <div className="mt-3 pr-7">
+                  <p className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
                 </div>
               </details>
             </div>

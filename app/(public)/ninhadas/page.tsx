@@ -5,7 +5,7 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/ninhadas`;
@@ -31,7 +31,6 @@ export default function NinhadasPage() {
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
     { name: "Ninhadas", url: PAGE_URL },
   ]);
-  const faqLd = buildFAQLD(FAQS);
   // Era `datePublished: new Date().toISOString()`: a cada build o schema dizia
   // que a página tinha acabado de ser publicada. Data de publicação não muda.
   // Depois virou "2026-08-06" fixo, escrito à mão a partir do primeiro commit —
@@ -42,7 +41,6 @@ export default function NinhadasPage() {
   return (
     <div className="mx-auto max-w-4xl px-5 py-14">
       <script id="ld-ninhadas-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-ninhadas-faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-ninhadas-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
@@ -58,7 +56,13 @@ export default function NinhadasPage() {
             {puppies.map((p) => (
               <li key={p.slug} className="rounded-lg border p-4">
                 <h3 className="font-semibold">{p.title}</h3>
-                <p className="text-sm text-zinc-600">Cidade: {p.city} — Nascimento previsto: {p.birth_date ?? 'A confirmar'}</p>
+                {/* "Nascimento previsto" saiu daqui junto com os birth_date de
+                    placeholder do catalogo: os que existiam eram "2024-08-01" e
+                    "2025-04-01", datas no passado publicadas como previsao de
+                    ninhada futura. Data de nascimento nao se estima nem se
+                    deriva de created_at -- quando houver a data real de cada
+                    ninhada, ela volta como campo proprio. */}
+                <p className="text-sm text-zinc-600">Cidade: {p.city}</p>
                 <p className="mt-2 text-sm text-zinc-700">Cor esperada: {p.cor ?? '—'}</p>
                 <div className="mt-3">
                   <Link href={`/filhotes/${p.slug}`} className="text-emerald-700 underline">Ver detalhes da ninhada</Link>

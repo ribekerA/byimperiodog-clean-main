@@ -1,3 +1,4 @@
+import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type PuppyRow = {
@@ -44,7 +45,7 @@ export async function recalcCatalogRanking() {
     sb
       .from("puppies")
       .select("id,slug,name,status,price_cents,created_at,color,gender,city,state")
-      .or("status.eq.available,status.eq.reserved"),
+      .or(statusOrFilter(["available", "reserved"])),
     sb
       .from("leads")
       .select("page_slug, count:page_slug", { head: false, group: "page_slug" }),

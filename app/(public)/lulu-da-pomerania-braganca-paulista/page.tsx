@@ -5,7 +5,7 @@ import { RelatedPages } from "@/components/common/RelatedPages";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania-braganca-paulista`;
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     // 222 caracteres, com "Bragança Paulista" duas vezes. Reescrita em 144, e o
     // ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
-    `Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde ${FOUNDING_YEAR}, com registro oficial e laudos veterinários.`,
+    `Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo.`,
   keywords: [
     "Lulu da Pomerânia Bragança Paulista",
     "Spitz Alemão Anão Bragança Paulista",
@@ -58,7 +58,7 @@ const FAQS = [
   {
     question: "Bragança Paulista tem outros canis de Spitz Alemão?",
     answer:
-      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e mentoria pós-venda pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
+      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e mentoria pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
   },
 ];
 
@@ -72,13 +72,11 @@ export default function LuluBragancaPage() {
     { name: "Início", url: `${SITE_URL}/` },
     { name: "Lulu da Pomerânia — Bragança Paulista", url: PAGE_URL },
   ]);
-  const faqLd      = buildFAQLD(FAQS);
   const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
 
   return (
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <script id="ld-bp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-bp-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-bp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
@@ -92,13 +90,14 @@ export default function LuluBragancaPage() {
       </header>
 
       {/* Mapa de info local */}
-      <section aria-labelledby="local-heading" className="rounded-3xl border border-emerald-100 bg-emerald-50/40 p-6 sm:p-8 space-y-5"
-        itemScope itemType="https://schema.org/LocalBusiness">
+      {/* Sem microdata de LocalBusiness: era um segundo no para a mesma
+          empresa, sem @id, concorrendo com o no canonico emitido pelo layout.
+          A tabela de informacoes continua igual para quem le. */}
+      <section aria-labelledby="local-heading" className="rounded-3xl border border-emerald-100 bg-emerald-50/40 p-6 sm:p-8 space-y-5">
         <h2 id="local-heading" className="text-xl font-bold text-zinc-900">Informações do canil</h2>
-        <meta itemProp="name" content="By Império Dog" />
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { label: "Cidade", value: "Bragança Paulista, SP", itemprop: "addressLocality" },
+            { label: "Cidade", value: "Bragança Paulista, SP" },
             { label: "Atendimento", value: "Todos os dias, 8h–22h" },
             { label: "Distância de SP Capital", value: "≈ 100 km / 1h30" },
             { label: "Visitas", value: "Por agendamento (WhatsApp)" },
@@ -107,31 +106,34 @@ export default function LuluBragancaPage() {
           ].map((info) => (
             <div key={info.label} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">{info.label}</p>
-              <p className="mt-1 text-sm font-medium text-zinc-900" {...(info.itemprop ? { itemProp: info.itemprop } : {})}>{info.value}</p>
+              <p className="mt-1 text-sm font-medium text-zinc-900">{info.value}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* FAQ */}
-      <section aria-labelledby="faq-bp-heading" itemScope itemType="https://schema.org/FAQPage">
+      <section aria-labelledby="faq-bp-heading">
         <h2 id="faq-bp-heading" className="mb-6 text-2xl font-bold text-zinc-900">Perguntas frequentes</h2>
         {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
             de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
             definition-list do axe e o leitor de tela anunciava uma lista que
-            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+            nao existe. A marcacao schema.org da FAQ foi removida em 26/08/2026: o
+            Google encerrou o rich result de FAQ em 07/05/2026 e o markup
+            deixou de render qualquer resultado na busca. A FAQ visivel
+            continua igual — ela e para o leitor, nao para o SERP. */}
         <div className="divide-y divide-zinc-100">
           {FAQS.map((item, i) => (
-            <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <div key={item.question}>
               <details className="group py-4" open={i === 0}>
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm" itemProp="name">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm">
                   <span className="text-sm font-semibold text-zinc-900 sm:text-base leading-snug">{item.question}</span>
                   <span className="mt-0.5 shrink-0 text-zinc-400 transition-transform duration-200 group-open:rotate-180" aria-hidden>
                     <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
                   </span>
                 </summary>
-                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="mt-3 pr-7">
-                  <p itemProp="text" className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
+                <div className="mt-3 pr-7">
+                  <p className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
                 </div>
               </details>
             </div>

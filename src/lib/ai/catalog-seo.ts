@@ -4,6 +4,11 @@
  * Tom premium e seguro, reforçando Spitz Alemão Anão.
  */
 
+// Mesma razao dos componentes do catalogo: o preco sai de formatarPreco, nao de
+// um Intl.NumberFormat local. O texto gerado aqui alimenta card e meta, entao
+// ele tem de ser byte a byte o mesmo preco que a tabela publica.
+import { formatarPreco } from "@/domain/pricing";
+
 type Sex = "male" | "female" | string;
 type Status = "available" | "reserved" | "sold" | string;
 
@@ -63,11 +68,7 @@ function normalizeSex(sex?: Sex): "macho" | "femea" | null {
 
 function formatPrice(priceCents?: number): string | null {
   if (!priceCents || priceCents <= 0) return null;
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(priceCents / 100);
+  return formatarPreco(priceCents);
 }
 
 function buildKeywords(input: CatalogSeoInput): string[] {

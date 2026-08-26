@@ -103,7 +103,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
           Filhotes disponíveis
         </HeroHeading>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
-          Cada filhote sai com registro oficial, laudos veterinários e mentoria pós-venda. Saúde documentada, sem surpresas.
+          Cada filhote sai com registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda. Saúde documentada, sem surpresas.
         </p>
       </div>
 

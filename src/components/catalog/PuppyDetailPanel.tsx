@@ -22,7 +22,17 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+
+// Formatacao de preco vem do dominio, nao daqui.
+//
+// Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
+// Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
+// resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
+// tela e diferentes como texto: a pagina do filhote publicava o preco com
+// U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -79,11 +89,7 @@ const INCLUDED = [
 
 function formatPrice(cents?: number) {
   if (!cents) return null;
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-    maximumFractionDigits: 0,
-  }).format(cents / 100);
+  return formatarPreco(cents);
 }
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
@@ -173,7 +179,7 @@ export default function PuppyDetailPanel({
         >
           <div>
             <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
-            <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, laudos e mentoria inclusos</p>
+            <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, consulta veterinária e mentoria inclusos</p>
           </div>
 
           {/* Badge de escassez pulsante */}

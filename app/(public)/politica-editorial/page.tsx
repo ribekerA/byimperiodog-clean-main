@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { pageMetadata } from "@/lib/seo";
+import { buildWebPageLD } from "@/lib/structured-data";
 
 const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PATH = "/politica-editorial";
@@ -28,15 +29,12 @@ export default function PoliticaEditorialPage() {
     ],
   } as const;
 
-  const webPage = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
+  const webPage = buildWebPageLD({
+    path: PATH,
     name: "Política Editorial e Metodologia",
-    url,
     description:
       "Nossa política editorial: quem escreve, como produzimos e revisamos, política de correções e transparência sobre uso de IA.",
-    isPartOf: { "@type": "WebSite", name: "By Império Dog", url: `${SITE}/` },
-  } as const;
+  });
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 text-[var(--text)]">

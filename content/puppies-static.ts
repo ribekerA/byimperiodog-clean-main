@@ -109,8 +109,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Creme de pelagem clara e uniforme. Registro oficial, protocolo vacinal em dia conforme a idade e mentoria pós-venda inclusos. Consulte a disponibilidade e as condições da reserva.",
-    birth_date: "2024-08-01",
-    nascimento: "2024-08-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
@@ -165,8 +163,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Preta de pelagem escura e brilhante, estrutura compacta. Registro oficial, consulta veterinária e hemograma completo. Consulte a disponibilidade e as condições da reserva.",
-    birth_date: "2024-08-01",
-    nascimento: "2024-08-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
@@ -230,8 +226,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Laranja de coloração viva, dentro do padrão FCI nº 97. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
-    birth_date: "2024-08-01",
-    nascimento: "2024-08-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
@@ -288,8 +282,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Creme com estrutura compacta dentro do padrão FCI nº 97 (altura na cernelha de 21 cm ± 3 cm). Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
-    birth_date: "2024-08-01",
-    nascimento: "2024-08-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
@@ -347,8 +339,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Preto de pelagem escura e brilhante, estrutura compacta. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
-    birth_date: "2025-04-01",
-    nascimento: "2025-04-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
@@ -404,8 +394,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
-    birth_date: "2024-08-01",
-    nascimento: "2024-08-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
@@ -644,8 +632,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Cinza-Lobo (Wolf Sable) — coloração bicolor com máscara cinza sobre base laranja, reconhecida pela FCI. Cor não divulgada pela By Império Dog.",
-    birth_date: "2024-08-01",
-    nascimento: "2024-08-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
@@ -702,8 +688,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Cinza-Lobo (Wolf Sable) — coloração bicolor cinza e laranja, padrão reconhecido pela FCI. Cor não divulgada pela By Império Dog.",
-    birth_date: "2024-08-01",
-    nascimento: "2024-08-01",
     availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",

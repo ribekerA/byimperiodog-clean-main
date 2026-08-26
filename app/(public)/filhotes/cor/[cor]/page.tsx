@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import ColorPageContent from "@/components/color-page/ColorPageContent";
 import { ALL_COLORS, COLOR_SEO, getPuppiesByColor } from "@/lib/catalog-utils";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildFAQLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ cor: string }> };
@@ -59,8 +59,7 @@ export default async function ColorLandingPage(props: Props) {
     { name: "Início",   url: `${SITE_URL}/` },
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
     { name: seo.h1,     url: `${SITE_URL}/filhotes/cor/${params.cor}` },
-  ]);
-  const faqLd       = buildFAQLD(seo.faqs);
+  ]);
 
   const waLink = buildWhatsAppLink({
     message:     `Olá! Tenho interesse em filhotes Spitz Alemão Anão ${seo.h1}. Pode me informar disponibilidade?`,
@@ -72,8 +71,7 @@ export default async function ColorLandingPage(props: Props) {
 
   return (
     <>
-      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      <script id="ld-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       <div>
         <ColorPageContent

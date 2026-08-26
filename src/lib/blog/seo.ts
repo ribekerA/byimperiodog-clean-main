@@ -54,8 +54,11 @@ function stripMarkdown(src: string): string {
     .trim();
 }
 
-// Extrai pares Q&A do MDX para o FAQ Schema do Google
-export function extractFaqFromMdx(mdx: string): { q: string; a: string }[] {
+// Sobrou de quando o artigo emitia FAQPage. O schema saiu em 26/08/2026
+// (rich result encerrado pelo Google em 07/05/2026); a funcao ficou porque
+// nao ha outro consumidor previsto e reescrever o parser depois custaria mais
+// do que mante-lo. Nenhuma pagina a chama hoje.
+function extractFaqFromMdx(mdx: string): { q: string; a: string }[] {
   if (!mdx) return [];
   const results: { q: string; a: string }[] = [];
 
@@ -117,7 +120,7 @@ export function buildBlogMetadata(post: BasePost & { content_mdx?: string | null
   };
 }
 
-interface JsonLdExtras { toc?: TocItem[]; faq?: { q: string; a: string }[] }
+interface JsonLdExtras { toc?: TocItem[] }
 
 export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | null; sources?: string[] | null }, author: AuthorLike | null, extras: JsonLdExtras = {}) {
   const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br').replace(/\/$/, '');
@@ -170,18 +173,8 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
     ]
   };
 
-  let faqBlock: Record<string, unknown> | undefined;
-  if (extras.faq && extras.faq.length) {
-    faqBlock = {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: extras.faq.map(f => ({
-        '@type': 'Question',
-        name: f.q,
-        acceptedAnswer: { '@type': 'Answer', text: f.a }
-      }))
-    };
-  }
-
-  return { article, breadcrumb, faqBlock };
+  // O bloco FAQPage saiu daqui em 26/08/2026: o Google encerrou o rich
+  // result de FAQ em 07/05/2026. O artigo continua descrito por Article +
+  // BreadcrumbList, e as perguntas seguem no corpo do texto.
+  return { article, breadcrumb };
 }

@@ -120,7 +120,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   creme: {
     seoTitle: "Spitz Alemão Anão Creme — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, laudos veterinários e mentoria pós-venda inclusa.",
+      "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda inclusa.",
     h1: "Spitz Alemão Anão Creme",
     intro:
       "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. Na tabela atual da By Império Dog, o macho creme fica acima do laranja, junto com o preto. Disponibilidade limitada — consulte a agenda de ninhadas.",
@@ -157,7 +157,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   laranja: {
     seoTitle: "Spitz Alemão Anão Laranja — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, laudos veterinários e mentoria pós-venda.",
+      "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda.",
     h1: "Spitz Alemão Anão Laranja",
     intro:
       "O Spitz Laranja é a cor mais icônica e reconhecida da raça no mundo. Sua pelagem vibrante está dentro do padrão FCI. Ideal para famílias que amam um cão com personalidade marcante e presença visual.",
@@ -231,7 +231,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   preto: {
     seoTitle: "Spitz Alemão Anão Preto — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Disponibilidade limitada. Registro oficial, laudos veterinários e mentoria pós-venda inclusa.",
+      "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Disponibilidade limitada. Registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda inclusa.",
     h1: "Spitz Alemão Anão Preto",
     intro:
       "O Spitz Preto tem pelagem preta brilhante, estrutura compacta e expressão marcante. Nas ninhadas da By Império Dog é a cor que aparece com menos frequência — a agenda abre esporadicamente.",
@@ -318,7 +318,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
   femea: {
     seoTitle: "Spitz Alemão Anão Fêmea — Filhotes",
     metaDescription:
-      "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos.",
+      "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda inclusos.",
     h1: "Spitz Alemão Anão Fêmea",
     intro:
       "A Spitz Fêmea tem pelagem densa e porte compacto dentro do padrão FCI. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",
@@ -355,7 +355,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
   macho: {
     seoTitle: "Spitz Alemão Anão Macho — Filhotes",
     metaDescription:
-      "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos.",
+      "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda inclusos.",
     h1: "Spitz Alemão Anão Macho",
     intro:
       "O Spitz Macho tem porte compacto dentro do padrão FCI e pelagem densa, e é a opção com o melhor custo-benefício dentro da raça. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",

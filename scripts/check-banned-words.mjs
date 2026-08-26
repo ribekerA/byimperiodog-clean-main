@@ -48,12 +48,70 @@ const BANNED_WORDS = [
 ];
 
 // ============================================================================
+// Regras com escopo: proibido na promessa comercial, permitido no educativo
+// ============================================================================
+
+/**
+ * "Laudo" e "atestado" nomeiam documentos veterinarios especificos, assinados e
+ * emitidos com essa finalidade. O que a By Imperio Dog entrega de fato e
+ * **consulta veterinaria antes da entrega** e **hemograma completo** -- que nao
+ * sao a mesma coisa. Chamar um hemograma de laudo, ou uma consulta de atestado,
+ * promete ao comprador um papel que nao vai existir.
+ *
+ * A palavra nao esta banida do site: ela e tecnicamente necessaria no texto
+ * educativo (o que exigir de qualquer criador), na clausula de contrato, no
+ * campo de upload do painel e no atestado de voo, que e exigencia real do
+ * transporte aereo. Por isso a regra e por arquivo, com allowlist nomeada -- um
+ * ban global obrigaria a mentir para o leitor justamente nas paginas que
+ * explicam a diferenca entre os documentos.
+ *
+ * Ao liberar um arquivo novo aqui, escreva o motivo na linha. Se o motivo for
+ * "a pagina promete laudo", a correcao e o texto, nao a allowlist.
+ */
+const REGRAS_CONTEXTUAIS = [
+  {
+    palavras: ["laudo", "laudos", "atestado", "atestados"],
+    sugestao:
+      "Trocar por 'consulta veterinária antes da entrega' e/ou 'hemograma completo' — o que o canil entrega de fato",
+    permitidos: [
+      // Texto juridico: a clausula 3.2 fala de laudo apresentado PELO COMPRADOR.
+      "app/(public)/contract/[code]/documento/page.tsx",
+      // LGPD: descreve com quem os dados sao compartilhados, nao promete documento.
+      "app/(public)/politica-de-privacidade/page.tsx",
+      // Educativo: o que exigir de um criador qualquer, concorrentes inclusive.
+      "app/(public)/criador-spitz-confiavel/page.tsx",
+      "app/(public)/spitz-alemao-baby-face/page.tsx",
+      "app/(public)/filhote-de-spitz-alemao/page.tsx",
+      "content/guides/index.ts",
+      "content/posts/como-escolher-canil-spitz-alemao.mdx",
+      "content/posts/documentacao-registro-spitz-alemao.mdx",
+      "content/posts/spitz-alemao-anao-filhote-primeiros-dias.mdx",
+      "content/posts/vacinas-spitz-alemao-anao-filhote.mdx",
+      // Atestado de voo: exigencia real do transporte aereo, validade de 10 dias.
+      "content/posts/spitz-alemao-anao-entrega-brasil.mdx",
+      // Painel e formulario de contrato: nome do campo de upload, nao copy de venda.
+      "app/(admin)/admin/(protected)/contracts/page.tsx",
+      "app/api/contract/route.ts",
+      "src/components/ContractForm.tsx",
+      // Palavra que o CLIENTE digita no WhatsApp: e gatilho de busca, nao promessa.
+      "src/lib/whatsapp/agent.ts",
+      // Depoimento de cliente: reescrever a fala de alguem seria falsificacao.
+      "src/components/sections/TextTestimonials.tsx",
+    ],
+  },
+];
+
+// ============================================================================
 // Padrões de Arquivos para Verificar
 // ============================================================================
 
 const PATTERNS_TO_CHECK = [
   // Conteúdo
-  /\.mdx?$/i,
+  // So .mdx: o conteudo publicado mora em content/posts/*.mdx. Os .md deste
+  // repositorio sao documentacao interna (auditorias, planos, historico) e
+  // citam o proprio texto do site para discuti-lo -- varre-los fazia o
+  // relatorio acusar o documento que cataloga os termos a corrigir.
+  /\.mdx$/i,
   /\.txt$/i,
 
   // Componentes e Páginas (evitar hardcoded copy)
@@ -76,6 +134,8 @@ const PATTERNS_TO_IGNORE = [
   // Relatorios de ferramentas repetem mensagens e trechos do codigo-fonte;
   // nao sao conteudo entregue ao visitante.
   /reports/,
+  // Prompts e anotacoes locais desta maquina; nao versionado, nao servido.
+  /scratchpad/,
   /playwright-report/,
   /test-results/,
   /.contentlayer/,
@@ -206,6 +266,21 @@ function stripComments(src) {
 
 const EH_CODIGO = /\.(tsx?|jsx?|mjs|cjs)$/i;
 
+/** Termos que valem para este arquivo: os globais mais as regras de escopo. */
+function termosPara(relativePath) {
+  const termos = BANNED_WORDS.map((word) => ({ word, sugestao: null }));
+
+  for (const regra of REGRAS_CONTEXTUAIS) {
+    const liberado = regra.permitidos.some(
+      (permitido) => permitido.split("/").join(sep) === relativePath
+    );
+    if (liberado) continue;
+    for (const word of regra.palavras) termos.push({ word, sugestao: regra.sugestao });
+  }
+
+  return termos;
+}
+
 function checkFileForBannedWords(filePath) {
   try {
     const original = readFileSync(filePath, "utf-8");
@@ -215,13 +290,14 @@ function checkFileForBannedWords(filePath) {
     const linhasOriginais = original.split("\n");
     const violations = [];
 
-    for (const word of BANNED_WORDS) {
+    for (const { word, sugestao } of termosPara(relative(rootDir, filePath))) {
       const regex = new RegExp(`\\b${word.toLowerCase()}\\b`, "gi");
 
       linhas.forEach((linha, idx) => {
         for (const match of linha.matchAll(regex)) {
           violations.push({
             word,
+            sugestao,
             line: idx + 1,
             column: match.index + 1,
             // Contexto sai do arquivo real, nao da versao sem comentarios.
@@ -282,6 +358,8 @@ function main() {
       );
 
       console.error(`   Contexto: ${violation.context}`);
+
+      if (violation.sugestao) console.error(`   -> ${violation.sugestao}`);
     }
   }
 
@@ -294,7 +372,13 @@ function main() {
 
   console.error("   - Substitua 'boutique/pet shop' por 'banho e tosa profissional'");
 
-  console.error("   - Evite termos que violem as diretrizes da marca\n");
+  console.error("   - Evite termos que violem as diretrizes da marca");
+
+  console.error(
+    "   - 'laudo'/'atestado': arquivo educativo ou juridico se libera em\n" +
+      "     REGRAS_CONTEXTUAIS, com o motivo escrito na linha. Promessa de venda\n" +
+      "     se corrige no texto: o canil entrega consulta veterinaria e hemograma.\n"
+  );
 
   process.exit(1);
 }

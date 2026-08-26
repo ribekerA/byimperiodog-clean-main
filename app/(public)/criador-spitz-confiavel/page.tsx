@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
+import { buildArticleLD, buildBreadcrumbLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { whatsappLeadUrl } from "@/lib/utm";
 
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     title: "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
     description:
-      `Criação responsável desde ${FOUNDING_YEAR}, com registro oficial, laudo de saúde e mentoria pós-venda. Saiba como identificar um criador confiável.`,
+      `Criação responsável desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo. Saiba como identificar um criador confiável.`,
     type: "article",
   },
 };
@@ -59,7 +59,7 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Transparência na documentação",
-    body: "Todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    body: "Todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
     title: "Suporte real depois da entrega",
@@ -83,7 +83,7 @@ const PAGE_FAQS = [
   {
     question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão desde ${FOUNDING_YEAR} e entrega registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria pós-venda. Peça essa mesma lista a qualquer criador antes de decidir.`,
+      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão desde ${FOUNDING_YEAR} e entrega registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria pós-venda. Peça essa mesma lista a qualquer criador antes de decidir.`,
   },
   {
     question: "Como saber se um criador de Spitz Alemão Anão é confiável?",
@@ -119,7 +119,6 @@ export default function CriadorConfiavelPage() {
     : "#";
 
   const articleLd    = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
-  const faqLd        = buildFAQPageLD([...PAGE_FAQS]);
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",           url: `${SITE_URL}/` },
     { name: "Criador Confiável", url: PAGE_URL },
@@ -129,7 +128,6 @@ export default function CriadorConfiavelPage() {
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="criador-spitz-confiavel" />
       <script id="ld-criador-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <script id="ld-criador-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-criador-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       {/* ── HERO ── */}
@@ -179,13 +177,11 @@ export default function CriadorConfiavelPage() {
       <section
         aria-labelledby="byid-heading"
         className="rounded-3xl border border-emerald-100 bg-emerald-50/40 p-6 sm:p-8 space-y-4"
-        itemScope
-        itemType="https://schema.org/LocalBusiness"
       >
-        <h2 id="byid-heading" className="text-2xl font-bold text-zinc-900" itemProp="name">
+        <h2 id="byid-heading" className="text-2xl font-bold text-zinc-900">
           By Império Dog — criação familiar em Bragança Paulista, SP
         </h2>
-        <p className="text-sm text-zinc-700 sm:text-base" itemProp="description">
+        <p className="text-sm text-zinc-700 sm:text-base">
           Fundada em {FOUNDING_YEAR} pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Os filhotes disponíveis pela By Império Dog são acompanhados por médico-veterinário e entregues com a documentação descrita em contrato. O atendimento é individual, direto com a criadora.
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">
@@ -195,11 +191,10 @@ export default function CriadorConfiavelPage() {
             // e groomer parceiros" (nao existem parceiros). No lugar entrou o
             // que a entrega comprova: exame, contrato e atendimento direto.
             `Criação especializada desde ${FOUNDING_YEAR}`,
-            "Laudos de saúde antes de cada cruzamento",
             "Hemograma e acompanhamento veterinário antes da entrega",
             "Socialização com crianças, sons e rotina doméstica",
             "Contrato assinado antes da entrega, com as condições por escrito",
-            "Mentoria pós-venda e pós-venda para todos os tutores",
+            "Mentoria pós-venda para todos os tutores",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-zinc-800">
               <span className="mt-0.5 text-emerald-600" aria-hidden>✓</span>
@@ -207,16 +202,15 @@ export default function CriadorConfiavelPage() {
             </li>
           ))}
         </ul>
-        <meta itemProp="address" content="Bragança Paulista, SP, Brasil" />
-        <meta itemProp="telephone" content="+55-11-96863-3239" />
-        <meta itemProp="foundingDate" content={String(FOUNDING_YEAR)} />
+        {/* Os <meta itemProp> daqui descreviam um segundo LocalBusiness, sem
+            @id, com endereco e telefone repetidos do no canonico do layout.
+            Dois nos para a mesma empresa nao se fundem: viram aviso de campo
+            duplicado no Search Console. Sairam; o texto visivel ficou. */}
       </section>
 
       {/* ── FAQ ── */}
       <section
         aria-labelledby="faq-criador-heading"
-        itemScope
-        itemType="https://schema.org/FAQPage"
       >
         <h2 id="faq-criador-heading" className="mb-6 text-2xl font-bold text-zinc-900">
           Perguntas frequentes sobre criadores confiáveis
@@ -224,14 +218,16 @@ export default function CriadorConfiavelPage() {
         {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
             de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
             definition-list do axe e o leitor de tela anunciava uma lista que
-            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+            nao existe. A marcacao schema.org da FAQ foi removida em 26/08/2026: o
+            Google encerrou o rich result de FAQ em 07/05/2026 e o markup
+            deixou de render qualquer resultado na busca. A FAQ visivel
+            continua igual — ela e para o leitor, nao para o SERP. */}
         <div className="divide-y divide-zinc-100">
           {PAGE_FAQS.map((item, i) => (
-            <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <div key={item.question}>
               <details className="group py-4" open={i === 0}>
                 <summary
                   className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm"
-                  itemProp="name"
                 >
                   <span className="text-sm font-semibold text-zinc-900 sm:text-base leading-snug">{item.question}</span>
                   <span className="mt-0.5 shrink-0 text-zinc-400 transition-transform duration-200 group-open:rotate-180" aria-hidden>
@@ -240,8 +236,8 @@ export default function CriadorConfiavelPage() {
                     </svg>
                   </span>
                 </summary>
-                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="mt-3 pr-7">
-                  <p itemProp="text" className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
+                <div className="mt-3 pr-7">
+                  <p className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
                 </div>
               </details>
             </div>

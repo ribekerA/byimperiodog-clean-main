@@ -49,13 +49,54 @@ export const OG_DEFAULT_IMAGE: Required<OgImage> = {
 
 const DEFAULT_IMAGE = OG_DEFAULT_IMAGE;
 
-export function resolveRobots(overrides?: Metadata["robots"]) {
-  if (overrides) return overrides;
+/**
+ * Diretivas de exibicao para toda pagina indexavel.
+ *
+ * Sem elas o Google aplica os limites conservadores do padrao: miniatura
+ * pequena (as vezes nenhuma) ao lado do resultado e trecho de texto cortado no
+ * comprimento antigo. Num site cujo produto e a foto do filhote, isso e o
+ * resultado da busca competindo de mao amarrada com quem declarou o contrario.
+ *
+ * "max-snippet: -1" e "max-video-preview: -1" nao sao pedidos de trecho
+ * infinito: sao a ausencia de limite imposto por nos, deixando o Google
+ * escolher o tamanho. E o mesmo que a maioria dos sites de conteudo declara.
+ *
+ * Nao vao para pagina com noindex — nao ha o que exibir de uma pagina que nao
+ * entra no indice, e declarar preferencia de exibicao ali so confunde a
+ * leitura da regra.
+ */
+const DIRETIVAS_DE_EXIBICAO = {
+  "max-image-preview": "large",
+  "max-snippet": -1,
+  "max-video-preview": -1,
+} as const;
+
+/**
+ * Robots de uma pagina.
+ *
+ * Ordem importa. A checagem de ambiente vinha DEPOIS do `if (overrides)`, o
+ * que significava que qualquer pagina passando robots proprio escapava do
+ * noindex de preview e podia ser indexada a partir de um deploy de teste.
+ * Agora preview vem primeiro e ninguem passa por cima dele.
+ */
+export function resolveRobots(overrides?: Metadata["robots"]): Metadata["robots"] {
   const env = process.env.VERCEL_ENV || process.env.NODE_ENV || "";
   if (PREVIEW_ENVS.has(env)) {
     return { index: false, follow: false };
   }
-  return { index: true, follow: true };
+
+  // Forma string ("noindex, nofollow") vai como veio: quem escreveu a
+  // diretiva crua sabia o que queria, e misturar objeto com string produz
+  // metatag invalida.
+  if (typeof overrides === "string") return overrides;
+
+  if (overrides) {
+    // noindex tem de sobreviver intacto — e a razao de a pagina ter override.
+    if (overrides.index === false) return overrides;
+    return { index: true, follow: true, ...DIRETIVAS_DE_EXIBICAO, ...overrides };
+  }
+
+  return { index: true, follow: true, ...DIRETIVAS_DE_EXIBICAO };
 }
 
 export function buildCanonical(path: string) {

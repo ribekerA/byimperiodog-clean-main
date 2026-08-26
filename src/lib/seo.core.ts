@@ -66,7 +66,7 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
     openGraph: {
       type: 'website',
       siteName: 'By Império Dog',
-      images: [{ url: '/spitz-hero-desktop.webp', width: 1200, height: 630, alt: 'Spitz Alemão Anão — By Império Dog' }],
+      images: [{ url: '/spitz-hero-desktop.webp', width: 1400, height: 933, alt: 'Spitz Alemão Anão — By Império Dog' }],
       ...overrides.openGraph,
     },
     twitter: { card: 'summary_large_image', ...(overrides.twitter || {}) },
@@ -110,7 +110,10 @@ export function buildBlogPostMetadata({ slug, title, description, image, publish
       url,
       title,
       description: description || undefined,
-      images: image ? [{ url: image, width: 1200, height: 630, alt: title }] : undefined,
+      // Sem width/height: a capa do post e arbitraria (upload do painel oferece
+      // 16:9, 4:3 e 1:1) e declarar 1200x630 para todas era uma medida falsa.
+      // og:image sem dimensao e valido; og:image com dimensao errada nao.
+      images: image ? [{ url: image, alt: title }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
@@ -161,7 +164,8 @@ export async function buildPostMetadata(slug: string): Promise<Metadata> {
       url: canonicalFinal,
       title,
       description,
-      images: image ? [{ url: image as string, width: 1200, height: 630 }] : undefined,
+      // Mesma razao do builder acima: dimensao desconhecida nao se inventa.
+      images: image ? [{ url: image as string }] : undefined,
     },
     twitter: image ? { card: 'summary_large_image', images: [image as string] } : undefined,
     other: published ? { 'article:published_time': published } : undefined,

@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { LastUpdated } from "@/components/common/LastUpdated";
 import { TOC } from "@/components/common/TOC";
-import { faqPageSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";
+import { buildWebPageLD } from "@/lib/structured-data";
 
 const path = "/faq-do-tutor";
 const lastUpdated = "2026-08-06T09:00:00.000Z";
@@ -21,7 +21,7 @@ const faqItems = [
       // "laudos veterinários com curva de peso" prometia um documento que não
       // existe: a entrega tem carteira de vacinação, histórico de vermifugação,
       // laudo de saúde e hemograma, como já diz a resposta sobre exames.
-      "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão. Buscamos estrutura saudável, pelagem densa e equilíbrio entre energia e docilidade na escolha dos reprodutores. Na entrega compartilhamos o laudo de saúde e o hemograma do filhote e orientamos os ajustes de alimentação para cada fase.",
+      "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão. Buscamos estrutura saudável, pelagem densa e equilíbrio entre energia e docilidade na escolha dos reprodutores. Na entrega compartilhamos a consulta veterinária e o hemograma completo do filhote e orientamos os ajustes de alimentação para cada fase.",
   },
   {
     question: "Quais cuidados manter nas primeiras 48 horas em casa?",
@@ -39,7 +39,7 @@ const faqItems = [
   {
     question: "Quais exames acompanham o Spitz Alemão Anão?",
     answer:
-      "Entregamos a carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, o histórico de vermifugação, o laudo de saúde e o hemograma. Também emitimos contrato de responsabilidade compartilhada, com mentoria pós-venda junto à criadora.",
+      "Entregamos a carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, o histórico de vermifugação, a consulta veterinária antes da entrega e o hemograma completo. Também emitimos contrato de responsabilidade compartilhada, com mentoria pós-venda junto à criadora.",
   },
 ];
 
@@ -68,7 +68,10 @@ export function generateMetadata(): Metadata {
 
 export default function FaqDoTutorPage() {
   const siteBase = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
-  const jsonLd = faqPageSchema(faqItems, `${siteBase}${path}`);
+  // Sem FAQPage: o rich result de FAQ foi encerrado pelo Google em
+  // 07/05/2026 e o markup deixou de produzir resultado na busca. A pagina
+  // continua descrita por WebPage + BreadcrumbList, e as perguntas seguem
+  // visiveis no HTML -- que e o que os sistemas de busca e de IA leem hoje.
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -77,16 +80,12 @@ export default function FaqDoTutorPage() {
       { "@type": "ListItem", position: 2, name: "FAQ do Tutor", item: `${siteBase}${path}` },
     ],
   };
-  const webPageLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${siteBase}${path}#webpage`,
-    url: `${siteBase}${path}`,
+  const webPageLd = buildWebPageLD({
+    path,
     name: "FAQ do Tutor",
     description:
       "Perguntas frequentes sobre preparo, saúde, socialização e suporte pós-venda para o Spitz Alemão Anão.",
-    isPartOf: { "@type": "WebSite", url: siteBase, name: "By Império Dog" },
-  };
+  });
 
   return (
     <div className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
@@ -197,7 +196,6 @@ export default function FaqDoTutorPage() {
 
       <LastUpdated contentTime={lastUpdated} />
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
     </div>

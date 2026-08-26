@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { buildArticleLD, buildBreadcrumbLD, buildFAQPageLD } from "@/lib/schema";
+import { buildArticleLD, buildBreadcrumbLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { whatsappLeadUrl } from "@/lib/utm";
 
@@ -61,7 +61,7 @@ const STEPS = [
   { num: "02", title: "Peça a documentação do filhote", body: "Confira o registro oficial, a carteira de vacinação e o histórico veterinário do filhote antes de qualquer pagamento. Um criador responsável apresenta o que tem sem hesitar." },
   { num: "03", title: "Verifique antes de decidir", body: "Peça a documentação do filhote e combine com a criadora, pelo WhatsApp, o formato de verificação possível." },
   { num: "04", title: "Confirme reserva com contrato", body: "A reserva é formalizada com contrato de compra e venda e sinal. Leia as condições antes de assinar: o contrato descreve prazos, obrigações e responsabilidades de ambas as partes." },
-  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, laudo de saúde, hemograma, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso à mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável." },
+  { num: "05", title: "Receba o filhote com toda a documentação", body: "Na entrega, o filhote vem com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, contrato e acesso à mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável." },
 ] as const;
 
 const PAGE_FAQS = [
@@ -73,7 +73,7 @@ const PAGE_FAQS = [
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão?",
     answer:
-      "Os documentos essenciais são: registro oficial, laudo de saúde, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, histórico de vermifugação, nota fiscal e contrato de compra e venda. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme com o criador o que consta no contrato. Peça para conferir todos esses itens antes de fechar a compra.",
+      "Os documentos essenciais são: registro oficial, comprovação da consulta veterinária e do hemograma, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, histórico de vermifugação, nota fiscal e contrato de compra e venda. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme com o criador o que consta no contrato. Peça para conferir todos esses itens antes de fechar a compra.",
   },
   {
     question: "Como funciona a entrega do filhote em outro estado?",
@@ -109,7 +109,6 @@ export default function ComprarSpitzPage() {
     : "#";
 
   const articleLd    = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
-  const faqLd        = buildFAQPageLD([...PAGE_FAQS]);
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",          url: `${SITE_URL}/` },
     { name: "Comprar Spitz Anão", url: PAGE_URL },
@@ -119,7 +118,6 @@ export default function ComprarSpitzPage() {
     <div className="mx-auto max-w-4xl space-y-14 px-5 py-14 text-zinc-800 sm:px-8">
       <PageViewPing pageType="intent" intent="comprar-spitz-anao" />
       <script id="ld-comprar-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <script id="ld-comprar-faq"        type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <script id="ld-comprar-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       {/* ── HERO ── */}
@@ -187,8 +185,6 @@ export default function ComprarSpitzPage() {
       {/* ── FAQ ── */}
       <section
         aria-labelledby="faq-comprar-heading"
-        itemScope
-        itemType="https://schema.org/FAQPage"
       >
         <h2 id="faq-comprar-heading" className="mb-6 text-2xl font-bold text-zinc-900">
           Perguntas frequentes sobre como comprar
@@ -196,14 +192,16 @@ export default function ComprarSpitzPage() {
         {/* <div> e nao <dl>: esta secao e um acordeao de <details>, nao uma lista
             de descricao. Sem <dt>/<dd> dentro, o <dl> reprovava a regra
             definition-list do axe e o leitor de tela anunciava uma lista que
-            nao existe. A marcacao schema.org da FAQ continua nos filhos. */}
+            nao existe. A marcacao schema.org da FAQ foi removida em 26/08/2026: o
+            Google encerrou o rich result de FAQ em 07/05/2026 e o markup
+            deixou de render qualquer resultado na busca. A FAQ visivel
+            continua igual — ela e para o leitor, nao para o SERP. */}
         <div className="divide-y divide-zinc-100">
           {PAGE_FAQS.map((item, i) => (
-            <div key={item.question} itemScope itemProp="mainEntity" itemType="https://schema.org/Question">
+            <div key={item.question}>
               <details className="group py-4" open={i === 0}>
                 <summary
                   className="flex cursor-pointer list-none items-start justify-between gap-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-sm"
-                  itemProp="name"
                 >
                   <span className="text-sm font-semibold text-zinc-900 sm:text-base leading-snug">{item.question}</span>
                   <span className="mt-0.5 shrink-0 text-zinc-400 transition-transform duration-200 group-open:rotate-180" aria-hidden>
@@ -212,8 +210,8 @@ export default function ComprarSpitzPage() {
                     </svg>
                   </span>
                 </summary>
-                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer" className="mt-3 pr-7">
-                  <p itemProp="text" className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
+                <div className="mt-3 pr-7">
+                  <p className="text-sm leading-relaxed text-zinc-600">{item.answer}</p>
                 </div>
               </details>
             </div>

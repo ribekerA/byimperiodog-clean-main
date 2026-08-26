@@ -3,6 +3,8 @@
  * Mantem compatibilidade com chamadas existentes que passam apenas a mensagem.
  */
 
+import { formatarPreco } from "@/domain/pricing";
+
 export const WHATSAPP_NUMBER = "5511968633239";
 
 export const WHATSAPP_LINK =
@@ -134,8 +136,7 @@ function describePuppy(puppy?: PuppyForMessage) {
 
 function formatPrice(price_cents?: number | null) {
   if (typeof price_cents !== "number" || Number.isNaN(price_cents)) return null;
-  const value = price_cents / 100;
-  return `R$ ${value.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+  return formatarPreco(price_cents);
 }
 
 export function generateWhatsAppMessage(

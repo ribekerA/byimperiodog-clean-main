@@ -12,6 +12,7 @@ import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import TextTestimonials from "@/components/sections/TextTestimonials";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildWebPageLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -90,7 +91,7 @@ const VALUES = [
     icon: Shield,
     title: "Transparência absoluta",
     description:
-      "Registro oficial, laudos de saúde, contratos claros e nada de surpresas. Você sabe o que está levando para casa.",
+      "Registro oficial, consulta veterinária, hemograma completo, contratos claros e nada de surpresas. Você sabe o que está levando para casa.",
     color: "bg-emerald-50 text-emerald-700 border-emerald-100",
   },
   {
@@ -139,7 +140,7 @@ const DIFERENCIAIS = [
   },
   {
     label: "Saúde documentada",
-    us: "Laudo de saúde, hemograma e carteira de vacinação assinada pelo médico-veterinário",
+    us: "Consulta veterinária, hemograma completo e carteira de vacinação assinada pelo médico-veterinário",
     check: "Confira quais exames foram feitos e quem assinou cada documento",
   },
   {
@@ -174,16 +175,11 @@ export default function SobrePage() {
       { "@type": "ListItem", position: 2, name: "Sobre", item: `${SITE_URL}/sobre` },
     ],
   };
-  const webPageLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "@id": `${SITE_URL}/sobre#webpage`,
-    url: `${SITE_URL}/sobre`,
+  const webPageLd = buildWebPageLD({
+    path: "/sobre",
     name: "Sobre a By Império Dog",
-    description:
-      `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda em Bragança Paulista.`,
-    isPartOf: { "@type": "WebSite", url: SITE_URL, name: "By Império Dog" },
-  };
+    description: `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda em Bragança Paulista.`,
+  });
 
 
   return (

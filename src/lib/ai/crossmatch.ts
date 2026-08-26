@@ -1,3 +1,4 @@
+import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type LeadRow = {
@@ -67,7 +68,7 @@ export async function runCrossMatch(leadId: string): Promise<CrossMatchSuggestio
   const { data: puppies } = await sb
     .from("puppies")
     .select("id,name,color,gender,status,price_cents,slug")
-    .or("status.eq.available,status.eq.reserved")
+    .or(statusOrFilter(["available", "reserved"]))
     .order("created_at", { ascending: false });
 
   if (!puppies || puppies.length === 0) {

@@ -43,7 +43,7 @@ export const guides: Guide[] = [
         paragraphs: [
           "O que muda de fato entre macho e fêmea é o preço e o ciclo reprodutivo. Na tabela atual da By Império Dog a fêmea custa R$ 1.000 a mais que o macho da mesma cor. A fêmea não castrada entra no cio cerca de duas vezes por ano, o que exige cuidados extras nesse período.",
           "Temperamento não vem do sexo. O comportamento é o típico da raça e depende de genética, socialização e da rotina que a família oferece — há macho tranquilo e fêmea agitada, e o contrário também.",
-          "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem os mesmos laudos, registro oficial e acompanhamento na By Império Dog.",
+          "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem a mesma consulta veterinária, o mesmo hemograma completo, registro oficial e acompanhamento na By Império Dog.",
         ],
       },
       {
@@ -64,7 +64,7 @@ export const guides: Guide[] = [
       {
         heading: "Documentação obrigatória",
         paragraphs: [
-          "O mínimo exigível ao receber seu filhote: registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, orientação por escrito das doses seguintes e laudo de saúde veterinário. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme no contrato o que está previsto antes de fechar.",
+          "O mínimo exigível ao receber seu filhote: registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, orientação por escrito das doses seguintes e comprovação dos exames feitos antes da entrega. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme no contrato o que está previsto antes de fechar.",
           "Na By Império Dog, o registro oficial é incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. Os demais documentos são apresentados antes da reserva.",
         ],
       },

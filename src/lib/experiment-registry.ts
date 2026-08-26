@@ -69,7 +69,7 @@ export const EXPERIMENTS: Experiment[] = [
     hypothesis:
       "Mostrar 'X filhotes disponíveis agora' no hero aumentará a taxa de clique em filhotes" +
       " porque cria FOMO e urgência baseada em dados reais.",
-    metric: "lead_filhote — visualizações de página de filhote",
+    metric: "view_item com placement=puppy_page — visualizações de página de filhote",
     minSamplePerVariant: 1000,
     active: true,
     startedAt: "2026-05-31",

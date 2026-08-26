@@ -261,6 +261,22 @@
 # HEADERS - Segurança e SEO
 # ============================================================================
 
+# HSTS: o navegador passa a exigir HTTPS neste host por conta propria.
+#
+# Sem isto, a primeira visita digitada como "byimperiodog.com.br" sai em HTTP
+# e depende do 301 -- e e nesse salto que um intermediario consegue se meter.
+# Um ano e o valor que os navegadores exigem para considerar o host elegivel a
+# lista de preload.
+#
+# Sem `includeSubDomains` e sem `preload` DE PROPOSITO. Os dois sao dificeis de
+# desfazer: `includeSubDomains` derruba qualquer subdominio que ainda responda
+# em HTTP, e `preload` so sai da lista por pedido formal, com meses de espera.
+# Ligar depois e barato; desligar depois, nao.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000"
+
 # Headers para /admin/* - Bloqueio de indexação e proteção
 [[headers]]
   for = "/admin/*"
@@ -296,6 +312,27 @@
 # aparece na hora -- so a substituicao no mesmo nome e afetada.
 [[headers]]
   for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
+
+# As fotos que sustentam a venda NAO estao em /images.
+#
+# O catalogo aponta 108 vezes para /filhotes/, e a pasta tem 138 arquivos --
+# contra 17 em /images. A regra acima, escrita para "as fotos do site", nunca
+# tocou nas fotos dos filhotes: elas sairam esse tempo todo com o padrao da
+# Netlify para arquivo nao versionado, que e revalidar a cada visita. Como o
+# trafego e quase todo de celular, isso e banda paga de novo a cada retorno.
+#
+# Mesma politica e mesma ressalva de /images: foto trocada NO MESMO caminho
+# pode demorar ate 30 dias para chegar a quem ja visitou. Arquivo novo aparece
+# na hora.
+[[headers]]
+  for = "/filhotes/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/clientes/*"
   [headers.values]
     Cache-Control = "public, max-age=2592000, stale-while-revalidate=604800"
 

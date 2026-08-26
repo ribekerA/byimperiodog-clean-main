@@ -6,9 +6,9 @@ import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
+import { buildWebPageLD } from "@/lib/structured-data";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
 const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "5511968633239";
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     url: canonical("/filhotes/rio-de-janeiro"),
     title: "Filhotes de Spitz Alemão Anão no Rio de Janeiro",
     description: "Compre Spitz Alemão Anão com entrega em todo RJ. Criadora especializada.",
-    images: [{ url: "/spitz-hero-desktop.webp", width: 1200, height: 630 }],
+    images: [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933 }],
   },
 };
 
@@ -65,7 +65,7 @@ const faqRJ = [
   {
     question: "O filhote vem com documentação e vacinas?",
     answer:
-      "Sim. Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, atestado veterinário e contrato.",
+      "Sim. Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, consulta veterinária antes da entrega, hemograma completo e contrato.",
   },
   {
     question: "Spitz Alemão Anão se adapta bem ao clima do Rio?",
@@ -79,53 +79,22 @@ export default function FilhotesRioDeJaneiroPage() {
     "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão disponíveis no Rio de Janeiro.";
   const waLink = `${WA_LINK}?text=${encodeURIComponent(waText)}`;
 
-  // Local Business JSON-LD específico para RJ
-  const localBusinessLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": `${SITE_URL}/filhotes/rio-de-janeiro#localbusiness`,
-    name: "By Império Dog",
-    url: `${SITE_URL}/filhotes/rio-de-janeiro`,
-    image: `${SITE_URL}/spitz-hero-desktop.webp`,
-    telephone: "+55 11 96863-3239",
-    // O endereço declarava Rio de Janeiro/RJ como localidade do negócio. Não
-    // existe unidade no RJ: o canil fica em Bragança Paulista/SP e entrega no
-    // estado. Endereço é onde a empresa está; onde ela atende é o areaServed
-    // logo abaixo. Declarar o Rio aqui é endereço inventado para o Google.
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Bragança Paulista",
-      addressRegion: "SP",
-      addressCountry: "BR",
-    },
-    areaServed: {
-      "@type": "State",
-      name: "Rio de Janeiro",
-      containsPlace: rjCities.map((city) => ({
-        "@type": "City",
-        name: city,
-      })),
-    },
-    // Mesma faixa do LocalBusiness principal, derivada da tabela. As tres
-    // paginas de estado publicavam "$$" enquanto o resto do site anunciava
-    // a faixa em reais: um mesmo negocio descrito de duas formas em paginas
-    // indexadas lado a lado.
-    priceRange: `${formatarPreco(FAIXA_PUBLICA.minCents)} – ${formatarPreco(FAIXA_PUBLICA.maxCents)}`,
-  };
+  // Uma empresa so no grafo. Cada pagina de estado emitia um LocalBusiness
+  // proprio, com @id proprio: para o Google eram tres negocios distintos,
+  // todos declarando o mesmo telefone e o mesmo endereco em Braganca
+  // Paulista. O canil e um so e ja esta descrito por buildLocalBusinessLD(),
+  // emitido uma vez no layout publico. Aqui a pagina se descreve como
+  // pagina e aponta para aquele no, em vez de inventar uma filial.
+  const webPageLd = buildWebPageLD({
+    path: "/filhotes/rio-de-janeiro",
+    name: "Filhotes de Spitz Alemão Anão no Rio de Janeiro",
+    // Mesma imagem do og:image desta pagina: primaryImageOfPage e og:image
+    // apontando para arquivos diferentes e um sinal contraditorio.
+    image: "/spitz-hero-desktop.webp",
+    imageWidth: 1400,
+    imageHeight: 933,
+  });
 
-  // FAQ Schema
-  const faqLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqRJ.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
 
   // Breadcrumb
   const breadcrumbLd = {
@@ -141,14 +110,9 @@ export default function FilhotesRioDeJaneiroPage() {
   return (
     <>
       <script
-        id="localbusiness-rj-ld"
+        id="webpage-rj-ld"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
-      />
-      <script
-        id="faq-rj-ld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }}
       />
       <script
         id="breadcrumb-rj-ld"
@@ -228,15 +192,15 @@ export default function FilhotesRioDeJaneiroPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Star className="h-8 w-8 text-[var(--brand)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Criadora de Referência</h3>
-              <p className="text-sm text-[var(--text-muted)]">Anos de experiência e tutores satisfeitos no RJ</p>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Criação Especializada</h3>
+              <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão como única raça, em Bragança Paulista (SP)</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Phone className="h-8 w-8 text-[var(--brand)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
-              <p className="text-sm text-[var(--text-muted)]">Acompanhamento permanente após a compra</p>
+              <p className="text-sm text-[var(--text-muted)]">Contato direto com a criadora pelo WhatsApp</p>
             </div>
           </div>
         </section>

@@ -16,9 +16,9 @@ import VideoHero from "@/components/sections/VideoHero";
 import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { formatarPreco } from "@/domain/pricing";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildFAQLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   // para caber inteira, mantendo "Lulu da Pomerânia" — que sai do título por
   // falta de espaço, mas é o nome pelo qual a raça é de fato pesquisada.
   description:
-    "Canil de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudo de saúde e mentoria pós-venda. Enviamos para todo o Brasil.",
+    "Canil de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo. Enviamos para todo o Brasil.",
   keywords: [
     "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
     "filhote Spitz Alemão", "canil Bragança Paulista",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     url: "/",
     title: "By Império Dog | Spitz Alemão Anão — Bragança Paulista, SP",
     description:
-      `Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, laudos veterinários e mentoria pós-venda inclusos. Criação desde ${FOUNDING_YEAR}, com registro oficial e contrato.`,
+      `Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos. Criação desde ${FOUNDING_YEAR}, com contrato.`,
     // `/og/home.jpg` nunca existiu: a pasta public/og/ não existe no repositório
     // e o arquivo respondia 404. Toda pré-visualização de link da home saía sem
     // imagem. Agora aponta para o arquivo real de 1200x630.
@@ -59,13 +59,21 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "By Império Dog | Spitz Alemão Anão",
-    description: "Criação responsável em Bragança Paulista, SP. Registro oficial, laudos e mentoria pós-venda inclusos.",
+    description: "Criação responsável em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos.",
     images: [OG_DEFAULT_IMAGE.url],
   },
 };
 
+// Formatacao de preco vem do dominio, nao daqui.
+//
+// Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
+// Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
+// resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
+// tela e diferentes como texto: a pagina do filhote publicava o preco com
+// U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 function formatPrice(cents: number) {
-  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(cents / 100);
+  return formatarPreco(cents);
 }
 
 // Links estratégicos — PageRank distribution para landing pages
@@ -79,14 +87,14 @@ const RACE_LINKS = [
   { emoji: "💰", label: "Tabela de Preços",                                   href: "/preco-spitz-anao",          desc: "Valores por cor e sexo — sem surpresas" },
   { emoji: "🛡️", label: "Como Comprar com Segurança", href: "/comprar-spitz-anao",         desc: "Guia passo a passo para não cair em golpes" },
   { emoji: "🍼", label: "Filhote de Spitz Alemão",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
-  { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, laudos e red flags para evitar" },
+  { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, exames e red flags para evitar" },
   { emoji: "📍", label: "Canil no Interior de SP",    href: "/canil-spitz-alemao-interior-sp", desc: "Cidades atendidas — Bragança Paulista e região" },
 ] as const;
 
 // Diferenciais — definidos fora para evitar recriação a cada render
 const DIFFERENTIALS = [
   { emoji: "🏅", title: "Registro oficial incluso", body: "Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato." },
-  { emoji: "🩺", title: "Saúde documentada", body: "Laudo de saúde, hemograma e protocolo vacinal em dia conforme a idade do filhote, com carteira assinada pelo médico-veterinário." },
+  { emoji: "🩺", title: "Saúde documentada", body: "Consulta veterinária e hemograma completo antes da entrega, com protocolo vacinal em dia conforme a idade do filhote e carteira assinada pelo médico-veterinário." },
   { emoji: "🏡", title: "Socialização guiada", body: "Convivência com pessoas, sons e rotinas domésticas, com orientação de ambientação para a chegada na nova casa." },
   { emoji: "💬", title: "Mentoria pós-venda", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
   { emoji: "🚗", title: "Transporte orientado", body: "Orientação sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },
@@ -96,7 +104,7 @@ const DIFFERENTIALS = [
 // Prova social — barra de trust signals
 const TRUST_SIGNALS = [
   "Registro oficial",
-  "Laudos de saúde",
+  "Consulta veterinária e hemograma",
   "Mentoria pós-venda inclusa",
   `Criação desde ${FOUNDING_YEAR}`,
   "Envio para todo o Brasil",
@@ -111,7 +119,6 @@ const TRUST_SIGNALS = [
 // não é gratuito, então a propriedade foi removida em vez de migrada.
 
 export default function HomePage() {
-  const faqLd      = buildFAQLD(HOME_FAQ_ITEMS);
 
   // Todos os filhotes à venda, sem corte. Antes eram os 4 primeiros, e a home
   // se contradizia sozinha: o hero anuncia "N filhotes disponíveis agora" e a
@@ -123,11 +130,6 @@ export default function HomePage() {
 
   return (
     <>
-      <script
-        id="ld-faq"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
-      />
 
       <div className="relative flex flex-col">
 

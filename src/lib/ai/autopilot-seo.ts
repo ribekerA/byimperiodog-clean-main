@@ -1,6 +1,5 @@
 import { buildArticleLD } from "@/lib/schemas/article";
 import { buildBreadcrumbLD } from "@/lib/schemas/breadcrumb";
-import { buildFAQPageLD } from "@/lib/schemas/faq";
 import { buildProductLD } from "@/lib/schemas/product";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -65,7 +64,10 @@ export type AutopilotSeoResult = {
   suggestedPosts: { title: string; description: string; keywords: string[] }[];
   actions: string[];
   manualRecommendations: string[];
-  jsonld: { slug: string; kind: "article" | "product" | "breadcrumb" | "faq"; payload: Record<string, unknown> }[];
+  // "faq" saiu da lista: o Google encerrou o rich result de FAQ em
+  // 07/05/2026, entao sugerir FAQPage no painel seria propor markup que nao
+  // rende nada na busca.
+  jsonld: { slug: string; kind: "article" | "product" | "breadcrumb"; payload: Record<string, unknown> }[];
 };
 
 async function safeSelect<T>(table: string, columns: string) {
@@ -245,11 +247,6 @@ export async function runAutopilotSeo(): Promise<AutopilotSeoResult> {
         { name: "Filhotes", href: "/filhotes" },
         { name: label, href: `/filhotes/${slug}` },
       ]) || {},
-    });
-    jsonld.push({
-      slug,
-      kind: "faq",
-      payload: buildFAQPageLD(faqs.map((f) => ({ question: f.question, answer: f.answer }))) || {},
     });
   });
 

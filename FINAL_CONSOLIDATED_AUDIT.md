@@ -966,3 +966,339 @@ foi alterada nesta rodada.** A única entrada nova em conteúdo público é um
 vídeo que já estava sendo servido e que passou a ter pôster próprio, entrada de
 sitemap e `VideoObject`. As demais mudanças são documentação interna e arquivos
 gerados.
+
+---
+
+# POST-DEPLOY GAP CLOSURE
+
+Rodada de 26/08/2026, sobre o `ddd446d` já publicado. As vinte perguntas do §21
+do DELTA PÓS-DEPLOY, respondidas na ordem em que foram feitas. Onde a resposta
+é "não", ela está escrita como "não".
+
+## 1. Qual é agora a fonte canônica do catálogo?
+
+`content/puppies-static.ts`. `app/(public)/filhotes/page.tsx` lê
+`puppiesPublicados`; `app/(public)/filhotes/[slug]/page.tsx` lê `staticPuppies`
+e gera as rotas por `generateStaticParams()`.
+
+A escolha foi deliberada e o motivo é o §1 do próprio delta: **o HTML precisa
+chegar pronto ao Google.** Trocar a vitrine por busca no Supabase no cliente
+transformaria `/filhotes` numa página em branco para o rastreador. A tabela
+`puppies` do Supabase continua existindo e continua sendo o que o painel
+administra — ela é a fonte do **admin**, não do site público.
+
+## 2. Admin e site usam o mesmo status?
+
+Usam o mesmo vocabulário canônico, definido em `src/domain/puppy-status.ts`:
+inglês na lógica (`available`), português no que fica gravado (`disponivel`).
+`normalizePuppyStatus` lê, `toDbStatus` escreve, `statusOrFilter` consulta.
+
+`statusOrFilter` é novo desta rodada e nasceu de um defeito que voltou pela
+terceira vez — ver a pergunta 3.
+
+## 3. AutoSales enxerga exatamente o mesmo estoque?
+
+**Não, e isso não é um detalhe.**
+
+O AutoSales lê a tabela `puppies` do Supabase (`src/lib/ai/autoSalesEngine.ts`);
+o site público lê `content/puppies-static.ts`. São duas listas. Enquanto o
+painel e o arquivo estático não forem reconciliados, o AutoSales pode oferecer
+por WhatsApp um filhote que não está na vitrine, ou deixar de oferecer um que
+está. **Fica registrado como gap arquitetural em aberto**, não como resolvido.
+
+O que foi corrigido agora é pior do que a divergência e estava escondido dentro
+dela: a consulta do AutoSales era
+
+```
+.or("status.eq.available,status.is.null")
+```
+
+numa tabela onde o admin **só grava "disponivel"**. Ou seja: o AutoSales não
+enxergava nem o estoque do Supabase — só as linhas com status nulo. A consulta
+é sintaticamente válida, não gera erro e não gera log; simplesmente devolve
+menos linhas do que deveria.
+
+O mesmo defeito estava em mais cinco lugares, todos corrigidos nesta rodada:
+
+| Arquivo | O que a consulta errada fazia |
+| --- | --- |
+| `src/lib/ai/autoSalesEngine.ts` | oferecia ao lead um estoque que não era o do site |
+| `src/lib/ai/crossmatch.ts` | cruzava lead com filhote sobre lista vazia |
+| `src/lib/ai/catalog-ranking.ts` | ranqueava catálogo sobre lista vazia |
+| `src/lib/ai/pricing-engine.ts` | recalculava preço sem nenhuma venda de comparação (`.eq("status","sold")`) |
+| `src/lib/puppyRecommender.ts` | só recomendava filhote com status nulo |
+| `src/lib/catalog/service.ts` | `getAvailableColors()` devolvia lista vazia |
+
+Todos passaram a usar `statusOrFilter`, que deriva as formas aceitas da mesma
+tabela de aliases usada na leitura. `tests/unit/consulta-de-status.test.ts`
+impede a sétima ocorrência — e ele **foi visto falhando**: encontrou sozinho o
+`.eq("status", "sold")` do `pricing-engine`, que eu não tinha visto.
+
+## 4. Ainda existe campo duplicado?
+
+Sim, no catálogo estático: `color`/`cor`, `sex`/`gender`,
+`price_cents`/`priceCents`, `isHighlighted`/`isFeatured`. São herança da
+migração português/inglês e diferentes componentes leem lados diferentes.
+
+Remover os pares exigiria varrer todos os consumidores — trabalho que não cabia
+nesta rodada sem risco. O que **não** pode acontecer é os dois lados
+divergirem, porque aí a página se desmente. `scripts/catalog-audit.mts` já
+reprovava divergência de `sex`/`gender`; nesta rodada passou a reprovar também
+divergência de `price_cents`/`priceCents` — o campo com pior consequência, já
+que o comprador chega ao WhatsApp com o número na cabeça. A checagem foi vista
+reprovando um valor divergente antes de ser aceita.
+
+`color`/`cor` ficou de fora da checagem de propósito: são vocabulários
+diferentes (slug de rota × rótulo humano) e o projeto não tem um mapa canônico
+entre os dois. Inventar um aqui seria criar uma terceira verdade.
+
+## 5. Ainda existe nascimento placeholder?
+
+Não. As seis linhas `birth_date: "2024-08-01"` / `nascimento: "2024-08-01"` —
+a mesma data repetida em três filhotes — saíram do catálogo. Não foram
+substituídas por estimativa nem por `created_at`: idade de filhote é informação
+de decisão de compra, e errar por um mês é errar de verdade.
+`scripts/catalog-audit.mts` reprova data sentinela (`0000-…`, `1970-01-01`).
+
+## 6. Ainda existe "laudo de saúde" como promessa comercial?
+
+Não. `scripts/check-banned-words.mjs` tem regra com escopo para
+`laudo`/`atestado`: proibido na promessa comercial, liberado por arquivo
+nomeado no texto educativo, na cláusula de contrato, no campo de upload do
+painel e no atestado de voo — que é exigência real do transporte aéreo.
+
+Uma frase escapou da allowlist por ser de arquivo liberado e foi corrigida
+nesta rodada: o FAQ de `content/posts/spitz-alemao-anao-entrega-brasil.mdx`
+dizia *"O filhote viaja com documentação completa e atestado de saúde."* — uma
+promessa em nome do canil por um documento que não está na lista de entrega. O
+texto passou a nomear o que existe de fato (vacinação, vermifugação, consulta
+veterinária antes da entrega, hemograma completo, registro oficial, contrato) e
+a explicar que o atestado de voo é documento à parte, emitido perto da viagem
+por ter validade de 10 dias.
+
+## 7. As páginas SP/MG/RJ continuam indexáveis? Por quê?
+
+Sim, continuam. Nenhuma tem `noindex`, nenhuma foi redirecionada, nenhuma foi
+apagada.
+
+O motivo é o que o próprio delta manda: **essa decisão não se toma sem dado do
+Search Console.** Apagar ou desindexar página que traz busca é perda real e
+irreversível na prática; a suspeita de *doorway* não é prova de que ela não
+serve. Os critérios de decisão já estão escritos — e escritos **antes** de ver
+o número, para o dado não ser lido conforme a conveniência — em
+`SEO_OPPORTUNITIES_PLAN.md`, seção 3.1.
+
+O que foi corrigido nelas independentemente do dado, porque erro factual não
+espera credencial: cada uma emitia um `LocalBusiness` próprio, com endereço em
+Bragança Paulista, como se houvesse uma unidade por estado. Saíram.
+
+## 8. Existe apenas um LocalBusiness?
+
+Sim. Um único, emitido por `buildLocalBusinessLD()` a partir de
+`app/(public)/layout.tsx`. As três páginas de estado e
+`/criador-spitz-confiavel` deixaram de emitir o seu.
+
+## 9. FAQPage foi removido?
+
+Sim, de todo o projeto. Nenhum arquivo emite `FAQPage` — restam apenas os
+comentários que registram a data e o motivo (o Google encerrou o rich result de
+FAQ em 07/05/2026). **As perguntas continuam visíveis na página**, que é o que
+serve ao leitor; o que saiu foi a marcação que não gera mais nada. O
+`autopilot-seo` também parou de sugerir FAQPage no painel.
+
+`tests/e2e/smoke.spec.ts` verifica no HTML servido que nenhuma página pública
+publica FAQPage.
+
+## 10. `max-image-preview: large` está presente?
+
+Sim, em `src/lib/seo.ts`, junto de `max-snippet: -1` e `max-video-preview: -1`.
+Não vão para página com `noindex` — declarar preferência de exibição de uma
+página que não entra no índice só confunde a leitura da regra.
+
+## 11. CI usa Node 24?
+
+Sim. O workflow lê `node-version-file: .nvmrc`, e `.nvmrc` está em `24.19.0`,
+dentro do `engines: ">=24 <25"` do `package.json`. Antes o CI fixava Node 20
+enquanto o runtime era 24 — o CI aprovava num Node que a produção não usa.
+
+## 12. Lint é bloqueante?
+
+Sim. O `continue-on-error: true` saiu do passo de lint.
+
+Isso custou trabalho nesta rodada, o que é justamente o argumento a favor: o
+lint acusou **15 erros de `import/order`** introduzidos pelas inserções
+automáticas de import desta sessão. Todos corrigidos. `npm run lint` agora
+termina com **0 erros** (1159 avisos, nenhum bloqueante).
+
+## 13. E2E é bloqueante?
+
+Sim. Passo novo no CI, sem `continue-on-error`, rodando
+`tests/e2e/smoke.spec.ts` contra o **build de produção**
+(`PLAYWRIGHT_WEB_SERVER=npm run start`), não contra `npm run dev`.
+
+O smoke respeita o §16: **não clica em CTA de WhatsApp, não envia formulário,
+não gera lead, não toca em pagamento.** Ele confere o `href` do CTA sem clicar.
+
+Esse passo já se pagou: foi ele que encontrou o defeito de preço com U+00A0
+descrito na pergunta 19.
+
+## 14. `catalog:audit` passa?
+
+Passa. 12 entradas, 10 publicadas, 2 fora da vitrine, nenhuma falha crítica. O
+script sai com código diferente de zero em falha crítica e roda dentro do
+`prebuild`, então build quebrado por catálogo não vira deploy.
+
+## 15. Google Ads ID/label estão configurados ou continuam bloqueados?
+
+**BLOQUEADO — ação humana, no painel do Google Ads.**
+
+A medição está inteira e pronta:
+
+- evento GA4 `whatsapp_click` com `page_path`, `page_title`, `placement`,
+  `puppy_slug` e `campaign_context`, **sem nenhum dado pessoal** — nome,
+  telefone, e-mail, texto da mensagem, IP e gclid completo estão fora por regra;
+- **um único ouvinte delegado** em `document`, montado uma vez
+  (`WhatsAppClickTracker.tsx`), justamente para que um clique físico vire
+  exatamente um evento — os links de WhatsApp aparecem em 59 arquivos, e
+  `onClick` espalhado somaria pai e filho;
+- nunca chama `preventDefault`, e a chamada de medição vive dentro de
+  `try/catch`: **medição não pode ficar na frente do atendimento**;
+- `gclid`/`gbraid`/`wbraid` e UTMs preservados, com o identificador de anúncio
+  em `sessionStorage` sempre e em `localStorage` por 90 dias **só com
+  consentimento de marketing**.
+
+O que falta é uma coisa só: o **rótulo de conversão "Clique WhatsApp"** não
+existe em lugar nenhum do projeto. `getAdsWhatsAppLabel()` devolve `null`, e
+`null` ali significa **"não dispara"** — nunca "usa o rótulo de lead no lugar".
+Inventar um `AW-…/…` é proibido e seria pior do que não medir: gravaria
+conversão na conta errada.
+
+Para destravar, a pessoa responsável cria a conversão no Google Ads e cadastra
+`GOOGLE_ADS_ID` e `GOOGLE_ADS_WHATSAPP_LABEL` no Netlify. Nenhuma dessas
+variáveis é digitada por mim.
+
+Vale registrar o que isso significa para a pergunta comercial que abriu o
+delta — *"quando o Ads mostrar 5 cliques, quantos chegaram ao WhatsApp?"*: a
+partir deste deploy, o **GA4 já responde** (evento `whatsapp_click` com
+`campaign_context: google_ads`). O que continua sem responder é o Ads, que
+precisa do rótulo para atribuir a conversão à campanha.
+
+## 16. Secrets históricos foram rotacionados?
+
+Sim — confirmado pela pessoa responsável em 20/08/2026. Item encerrado; não
+volta a esta lista.
+
+A varredura desta rodada reporta **NOT FOUND** para chave de serviço ou token
+versionado no repositório. Os dois arquivos `.env*` que existem na máquina
+estão no `.gitignore`, incluindo o `.env.local.local` avulso.
+
+## 17. Media Likes está realmente ativo ou fail-closed?
+
+**Fail-closed, por construção.** `MEDIA_LIKE_SECRET` não tem valor padrão
+embutido: um segredo no código tornaria o hash de visitante reproduzível por
+qualquer pessoa que leia o repositório — e o repositório é público. Sem a
+variável, `POST /api/media-likes/toggle` responde **503**, não uma curtida
+falsa.
+
+A variável não está configurada nesta máquina (só documentada em
+`.env.example`). Se ela está no Netlify eu não tenho como ver daqui, então a
+resposta honesta é: **ativo se e somente se a variável existir em produção**.
+A leitura de contagem funciona sem cookie e sem identidade; e banco fora do ar
+devolve 503, nunca `{ count: 0 }` — "ninguém curtiu" e "não deu para saber"
+não são a mesma frase.
+
+## 18. Search Console Opportunities foi implementado ou bloqueado por credencial?
+
+**BLOQUEADO POR CREDENCIAL** — e o bloqueio **não impede o deploy**.
+
+O código está pronto e protegido (`src/lib/gsc.ts`,
+`app/api/admin/seo/gsc/route.ts`, ambos atrás de `requireAdminApi`).
+`GOOGLE_SERVICE_ACCOUNT_KEY` e `GOOGLE_SEARCH_CONSOLE_SITE_URL` não estão
+configuradas, então `isGscConfigured()` devolve `false` e a rota responde
+`GSC_NOT_CONFIGURED` — comportamento correto, não defeito.
+
+`SEO_OPPORTUNITIES_PLAN.md` foi escrito nesta rodada com: como obter a
+credencial (permissão de **leitura** basta), o que roda no minuto seguinte, e
+as três decisões que estão paradas esperando dado — as páginas regionais, o
+inventário dos 30 artigos do blog, e os termos em posição 8–20.
+
+## 19. Todos os testes passaram?
+
+| Portão | Resultado |
+| --- | --- |
+| `npm run typecheck` | ✅ exit 0 |
+| `npm run test` | ✅ **408 passaram**, 3 pulados, **0 falhas** (55 arquivos) |
+| `npm run check:encoding` | ✅ nenhum mojibake |
+| `npm run check:banned-words` | ✅ nenhuma palavra banida |
+| `npm run catalog:audit` | ✅ 12 entradas, 0 falhas críticas |
+| `npm run lint` | ✅ **0 erros**, 1159 avisos |
+| `npm run build` | ✅ exit 0, `prebuild` completo |
+| `playwright smoke` (build de produção) | ✅ **8/8** chromium |
+| `npm audit --omit=dev` | ✅ **0 vulnerabilidades** |
+
+Nenhum portão foi mascarado com `|| true`. Nenhum número acima foi estimado.
+
+Três defeitos reais desta rodada merecem registro porque nenhum deles aparecia
+como erro:
+
+**O preço com U+00A0.** `/filhotes/spitz-alemao-anao-branco-femea` publicava
+`R$ 9.500` com espaço sem quebra, e `/preco-spitz-anao` publicava o mesmo valor
+com espaço comum. Idênticos na tela, strings diferentes no HTML — nenhuma
+checagem de texto conseguia ligar os dois. A causa eram sete componentes, cada
+um com seu `formatPrice` privado usando `Intl` com `style: "currency"`. Catorze
+arquivos passaram a delegar a `formatarPreco`, três módulos de formatação sem
+nenhum importador foram apagados, e
+`tests/unit/price-format-guard.test.ts` impede o oitavo.
+
+**A consulta de status.** Descrita na pergunta 3. Seis arquivos.
+
+**O cache de mídia.** O cabeçalho de 30 dias do Netlify cobria `/images/*` —
+17 arquivos — enquanto as fotos do catálogo moram em `/filhotes/` (138
+arquivos, 108 referências) e `/clientes/` (37 arquivos), servidas com
+revalidação a cada visita. Em tráfego que é praticamente todo de celular, isso
+é peso pago de novo a cada acesso. Corrigido.
+
+Também nesta rodada: `Strict-Transport-Security` passou a ser enviado
+deliberadamente **sem** `includeSubDomains` e **sem** `preload` — os dois são
+difíceis de desfazer, e nenhum dos dois é decisão para se tomar sozinho. **CSP
+não foi instalada**, conforme o aviso explícito do §20 do delta de segurança:
+uma política estrita instalada às cegas quebraria GTM, GA4, Ads e Supabase de
+uma vez.
+
+## 20. Qual commit foi publicado?
+
+Branch `chore/next16-react19-node24`, commit cujo assunto começa com
+`fix: fechar as lacunas pos-deploy`. O hash aparece no `git log` do repositório
+e no painel do Netlify quando o branch entrar em `main`.
+
+Ele não está escrito aqui de propósito: um commit não pode conter o próprio
+hash. O hash é calculado a partir do conteúdo, e este arquivo faz parte do
+conteúdo — escrever o número exigiria refazer o commit, o que geraria outro
+número. Registrar um hash já vencido seria pior do que não registrar nenhum. O
+par assunto + branch identifica o commit sem ambiguidade.
+
+Um único commit, um único deploy, conforme o §22. Nenhum deploy intermediário
+foi feito em nenhum momento desta rodada.
+
+## Bloqueios que continuam parados (nenhum é técnico)
+
+1. **Garantia — as três regras se contradizem.** O site fala em 90 dias, a
+   cláusula do contrato fala em 72 horas, e há menção a cobertura hereditária
+   vitalícia. Não escolhi nenhuma: qual vale é decisão comercial e jurídica.
+2. **Cláusula 3.2 do contrato.** Fala de laudo apresentado *pelo comprador*.
+   Auditada, reportada, não alterada — texto de contrato não se reescreve por
+   conta própria.
+3. **`TextTestimonials.tsx:80`.** A fala de um cliente menciona um documento
+   fora da lista de entrega. Reescrever a fala de alguém seria falsificação;
+   quem pode corrigir é quem falou.
+4. **Rótulo de conversão do Google Ads** (pergunta 15).
+5. **Credencial do Search Console** (pergunta 18).
+6. **`MEDIA_LIKE_SECRET` no Netlify** (pergunta 17), se a intenção é ter
+   curtidas ativas.
+
+## Confirmação exigida
+
+**Nenhuma URL pública mudou. Nenhum canonical mudou. Nenhuma arquitetura de SEO
+foi alterada nesta rodada.** As páginas regionais continuam existindo e
+indexáveis. O que mudou em conteúdo público foi uma frase de FAQ que prometia
+um documento inexistente, e o preço passou a ser escrito de uma forma só.
