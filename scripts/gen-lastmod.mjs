@@ -88,13 +88,23 @@ function dependenciasDeConteudo(arquivoDaPagina) {
   return [...deps];
 }
 
+/**
+ * Data em que o conteudo mudou de verdade.
+ *
+ * `%aI` (data do AUTOR) e nao `%cI` (data do COMMITTER) de proposito. As duas
+ * nascem iguais e passam a divergir em rebase, amend e cherry-pick: o
+ * committer vira "agora", o autor continua sendo quando o texto foi escrito.
+ * Com `%cI`, um `git commit --amend` no ultimo commit reescrevia o lastmod de
+ * 30 rotas que ninguem tinha tocado -- e lastmod que anda sem conteudo novo e
+ * exatamente o sinal que o Google aprende a ignorar.
+ */
 function ultimoCommitISO(arquivos) {
   const rel = arquivos
     .filter((f) => fs.existsSync(f))
     .map((f) => path.relative(ROOT, f).split(path.sep).join("/"));
   if (!rel.length) return null;
   try {
-    const out = execFileSync("git", ["log", "-1", "--format=%cI", "--", ...rel], {
+    const out = execFileSync("git", ["log", "-1", "--format=%aI", "--", ...rel], {
       cwd: ROOT,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"],
@@ -124,7 +134,7 @@ function primeiroCommitISO(arquivo) {
   try {
     const out = execFileSync(
       "git",
-      ["log", "--diff-filter=A", "--follow", "--format=%cI", "--", rel],
+      ["log", "--diff-filter=A", "--follow", "--format=%aI", "--", rel],
       { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }
     ).trim();
     if (!out) return null;
