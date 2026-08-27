@@ -79,6 +79,15 @@ export function getAdsWhatsAppLabel(): string | null {
 }
 
 /**
+ * Informa aos helpers de evento qual é a rota ativa de entrega.
+ * Quando true, o código publica apenas o evento canônico no dataLayer e as
+ * tags do contêiner cuidam de GA4 e Ads.
+ */
+export function isGoogleTagManagerEnabled(): boolean {
+  return usaGTM;
+}
+
+/**
  * Dispara uma conversão do Google Ads.
  *
  * Devolve `true` somente quando o evento saiu de fato — assim quem chama

@@ -5,7 +5,7 @@
  *
  * Features:
  *  • Taxonomia (cor e sexo) com link para as páginas editoriais
- *  • Preço "a partir de" com entrada animada (scale + fade)
+ *  • Preço com entrada animada (scale + fade)
  *  • Descrição com ScrollReveal
  *  • "Incluído no valor" com stagger por item
  *  • CTA principal com PawConfetti
@@ -35,7 +35,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { textoAPartirDe } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 // Formatacao de preco vem do dominio, nao daqui.
@@ -45,8 +45,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
-// textoAPartirDe e ela mais o prefixo que a vitrine exige.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -76,7 +75,7 @@ const INCLUDED = [
 
 function formatPrice(cents?: number) {
   if (!cents) return null;
-  return textoAPartirDe(cents);
+  return formatarPreco(cents);
 }
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];

@@ -28,6 +28,14 @@ function eventos(nome: string) {
   return chamadasGtag.filter((c) => c.nome === nome);
 }
 
+function eventosDataLayer(nome: string): Array<Record<string, unknown>> {
+  const dataLayer = (window as unknown as { dataLayer?: unknown[] }).dataLayer ?? [];
+  return dataLayer.filter(
+    (item): item is Record<string, unknown> =>
+      typeof item === "object" && item !== null && (item as Record<string, unknown>).event === nome,
+  );
+}
+
 function impedirNavegacao(evento: Event) {
   evento.preventDefault();
 }
@@ -36,6 +44,7 @@ beforeEach(() => {
   localStorage.clear();
   sessionStorage.clear();
   chamadasGtag = [];
+  (window as unknown as { dataLayer: unknown[] }).dataLayer = [];
 
   (window as unknown as { gtag: (...args: unknown[]) => void }).gtag = (
     ...args: unknown[]
@@ -64,6 +73,7 @@ afterEach(() => {
   document.removeEventListener("click", impedirNavegacao);
   cleanup();
   delete (window as unknown as { gtag?: unknown }).gtag;
+  delete (window as unknown as { dataLayer?: unknown }).dataLayer;
   registerAdsAccount({ adsId: null, leadLabel: null, whatsappLabel: null, useGTM: false });
 });
 
@@ -96,9 +106,10 @@ describe("medição de clique em WhatsApp", () => {
     expect(eventos("whatsapp_click")).toHaveLength(1);
     expect(eventos("conversion")).toHaveLength(1);
     expect(eventos("whatsapp_click")[0].params).toMatchObject({
-      placement: "hero",
+      channel: "whatsapp",
+      cta_location: "hero",
       page_path: "/",
-      campaign_context: "direct",
+      content_type: "home",
     });
     expect(eventos("conversion")[0].params).toEqual({
       send_to: "AW-123456789/label-do-whatsapp",
@@ -118,7 +129,7 @@ describe("medição de clique em WhatsApp", () => {
     getByTestId("icone").click();
 
     expect(eventos("whatsapp_click")).toHaveLength(1);
-    expect(eventos("whatsapp_click")[0].params).toMatchObject({ placement: "footer" });
+    expect(eventos("whatsapp_click")[0].params).toMatchObject({ cta_location: "footer" });
   });
 
   // Vários cards de filhote chamam stopPropagation para o clique no botão não
@@ -144,8 +155,8 @@ describe("medição de clique em WhatsApp", () => {
 
     expect(eventos("whatsapp_click")).toHaveLength(1);
     expect(eventos("whatsapp_click")[0].params).toMatchObject({
-      placement: "puppy_card",
-      puppy_slug: "spitz-alemao-anao-branco-femea",
+      cta_location: "catalog_card",
+      item_id: "spitz-alemao-anao-branco-femea",
     });
   });
 
@@ -200,7 +211,7 @@ describe("medição de clique em WhatsApp", () => {
     expect(chamadasGtag).toHaveLength(0);
   });
 
-  it("H — reconhece a origem de campanha sem carregar o gclid", () => {
+  it("H — não carrega o gclid nos parâmetros do evento", () => {
     window.history.replaceState({}, "", "/?gclid=EAIaIQobChMI-exemplo");
 
     const { getByText } = render(
@@ -216,8 +227,8 @@ describe("medição de clique em WhatsApp", () => {
     window.history.replaceState({}, "", "/");
 
     const [evento] = eventos("whatsapp_click");
-    expect(evento.params.campaign_context).toBe("google_ads");
     expect(JSON.stringify(evento.params)).not.toContain("EAIaIQobChMI");
+    expect(evento.params).not.toHaveProperty("gclid");
   });
 
   it("I — nenhum parâmetro carrega dado pessoal", () => {
@@ -234,11 +245,59 @@ describe("medição de clique em WhatsApp", () => {
 
     const chaves = Object.keys(eventos("whatsapp_click")[0].params).sort();
     expect(chaves).toEqual([
-      "campaign_context",
+      "channel",
+      "content_type",
+      "cta_location",
       "page_path",
-      "page_title",
-      "placement",
     ]);
+  });
+
+  it("J — com GTM, um clique publica um único whatsapp_click no dataLayer", () => {
+    registerAdsAccount({
+      adsId: "AW-123456789",
+      whatsappLabel: "label-do-whatsapp",
+      useGTM: true,
+    });
+
+    const { getByText } = render(
+      <>
+        <WhatsAppClickTracker />
+        <a href={LINK_DO_CANIL} data-wa-placement="hero">
+          Fale pelo WhatsApp
+        </a>
+      </>,
+    );
+
+    const link = getByText("Fale pelo WhatsApp");
+    expect(link).toHaveAttribute("data-analytics", "whatsapp-click");
+    link.click();
+
+    expect(eventosDataLayer("whatsapp_click")).toEqual([
+      {
+        event: "whatsapp_click",
+        channel: "whatsapp",
+        cta_location: "hero",
+        page_path: "/",
+        content_type: "home",
+      },
+    ]);
+    expect(eventosDataLayer("ads_conversion_sent")).toHaveLength(0);
+    expect(chamadasGtag).toHaveLength(0);
+  });
+
+  it("K — reconhece o protocolo whatsapp:// somente para o número do canil", () => {
+    const { getByText } = render(
+      <>
+        <WhatsAppClickTracker />
+        <a href={`whatsapp://send?phone=${WHATSAPP_NUMBER}`}>Abrir aplicativo</a>
+        <a href="whatsapp://send?phone=5511000000000">Outro número</a>
+      </>,
+    );
+
+    getByText("Abrir aplicativo").click();
+    getByText("Outro número").click();
+
+    expect(eventos("whatsapp_click")).toHaveLength(1);
   });
 });
 
@@ -280,7 +339,7 @@ describe("botão flutuante real — um toque, um evento", () => {
     // Um toque = um evento de GA4 + uma conversão do Ads. Nada além disso:
     // qualquer terceiro evento aqui é o mesmo toque contado de novo.
     expect(eventos("whatsapp_click")).toHaveLength(1);
-    expect(eventos("whatsapp_click")[0].params.placement).toBe("floating_button");
+    expect(eventos("whatsapp_click")[0].params.cta_location).toBe("floating_button");
     expect(eventos("conversion")).toHaveLength(1);
     expect(chamadasGtag).toHaveLength(2);
 

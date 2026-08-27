@@ -19,7 +19,6 @@ import { useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { textoAPartirDe } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { COLOR_SEO, CORES_EXIBIDAS, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
@@ -269,7 +268,7 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
           {priceCents > 0 && (
             <div>
               <p className="text-lg font-extrabold leading-snug text-[var(--accent-ink)]">
-                {textoAPartirDe(priceCents)}
+                {formatPrice(priceCents)}
               </p>
               <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
             </div>
@@ -505,7 +504,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             >
               {[
                 priceMin > 0
-                  ? { value: formatPrice(priceMin), label: "a partir de" }
+                  ? { value: formatPrice(priceMin), label: "" }
                   : null,
                 { value: "Fotos reais", label: "de cada filhote" },
                 { value: "Registro oficial", label: "incluso" },
@@ -521,13 +520,15 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                     >
                       {item!.value}
                     </p>
-                    <p
-                      className={`mt-0.5 text-[11px] ${
-                        heroDark ? "text-zinc-400" : "text-zinc-500"
-                      }`}
-                    >
-                      {item!.label}
-                    </p>
+                    {item!.label && (
+                      <p
+                        className={`mt-0.5 text-[11px] ${
+                          heroDark ? "text-zinc-400" : "text-zinc-500"
+                        }`}
+                      >
+                        {item!.label}
+                      </p>
+                    )}
                   </div>
                 ))}
             </div>

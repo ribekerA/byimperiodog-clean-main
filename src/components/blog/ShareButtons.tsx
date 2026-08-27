@@ -91,6 +91,8 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       <button
         type="button"
         onClick={shareOnWhatsApp}
+        data-wa-cta="true"
+        data-wa-placement="blog"
         className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-whatsapp text-whatsapp-contrast shadow-soft transition hover:scale-110 focus-ring"
         aria-label="Compartilhar no WhatsApp"
         data-track-event="share_whatsapp"

@@ -36,14 +36,23 @@ const PLACEMENTS_VALIDOS = new Set<string>([
   "hero",
   "header",
   "floating_button",
-  "puppy_card",
-  "puppy_page",
+  "catalog_card",
+  "product_detail",
+  "reservation",
+  "contact",
+  "blog",
   "gallery",
-  "reels",
   "footer",
-  "contact_section",
+  "content",
   "other",
 ]);
+
+const PLACEMENTS_LEGADOS: Record<string, WhatsAppPlacement> = {
+  puppy_card: "catalog_card",
+  puppy_page: "product_detail",
+  reels: "gallery",
+  contact_section: "contact",
+};
 
 /**
  * Link de contato x link de compartilhamento.
@@ -70,6 +79,10 @@ function ehLinkDeContato(href: string): boolean {
     const numero = numeroNoCaminho || numeroNaQuery;
     return numero.length > 0 && numero.endsWith(DIGITOS_DO_CANIL.slice(-11));
   }
+  if (url.protocol === "whatsapp:") {
+    const numero = (url.searchParams.get("phone") ?? "").replace(/\D/g, "");
+    return numero.length > 0 && numero.endsWith(DIGITOS_DO_CANIL.slice(-11));
+  }
   return false;
 }
 
@@ -77,15 +90,22 @@ function lerPlacement(elemento: Element): WhatsAppPlacement {
   const anotado = elemento.closest<HTMLElement>("[data-wa-placement]");
   const valor = anotado?.dataset.waPlacement?.trim();
   if (valor && PLACEMENTS_VALIDOS.has(valor)) return valor as WhatsAppPlacement;
+  if (valor && PLACEMENTS_LEGADOS[valor]) return PLACEMENTS_LEGADOS[valor];
 
   // Sem anotação, deduz do que a página já diz sobre o elemento — melhor um
   // palpite estrutural verificável do que jogar tudo em "other".
   if (elemento.closest("footer")) return "footer";
   const fixo = elemento.closest<HTMLElement>("[class*='fixed'],[class*='sticky']");
   if (fixo) return "floating_button";
-  if (elemento.closest("[data-puppy-slug],article[data-puppy]")) return "puppy_card";
-  if (/^\/filhotes\/[^/]+$/.test(window.location.pathname)) return "puppy_page";
-  return "other";
+  if (elemento.closest("[data-puppy-slug],article[data-puppy]")) return "catalog_card";
+
+  const path = window.location.pathname;
+  if (/^\/filhotes\/[^/]+$/.test(path)) return "product_detail";
+  if (path === "/reserve-seu-filhote") return "reservation";
+  if (path === "/contato") return "contact";
+  if (path === "/blog" || path.startsWith("/blog/")) return "blog";
+  if (path === "/galeria") return "gallery";
+  return "content";
 }
 
 function lerPuppySlug(elemento: Element): string | null {
@@ -100,6 +120,38 @@ function lerPuppySlug(elemento: Element): string | null {
 
 export default function WhatsAppClickTracker() {
   useEffect(() => {
+    function anotarGatilho(gatilho: HTMLElement) {
+      const ehAncora = gatilho instanceof HTMLAnchorElement;
+      const ehContato = ehAncora
+        ? ehLinkDeContato(gatilho.getAttribute("href") ?? "")
+        : gatilho.dataset.waCta === "true";
+      if (ehContato && !gatilho.dataset.analytics) {
+        gatilho.dataset.analytics = "whatsapp-click";
+      }
+    }
+
+    function anotarArvore(raiz: ParentNode) {
+      if (raiz instanceof HTMLElement && raiz.matches('a[href],[data-wa-cta="true"]')) {
+        anotarGatilho(raiz);
+      }
+      raiz
+        .querySelectorAll<HTMLElement>('a[href],[data-wa-cta="true"]')
+        .forEach(anotarGatilho);
+    }
+
+    // O atributo deixa todos os CTAs verificáveis por testes e DevTools sem
+    // espalhar handlers de medição por dezenas de componentes. O observer só
+    // anota elementos; o disparo continua pertencendo ao único listener abaixo.
+    anotarArvore(document);
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        mutation.addedNodes.forEach((node) => {
+          if (node instanceof HTMLElement) anotarArvore(node);
+        });
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
     function aoClicar(evento: MouseEvent) {
       const alvo = evento.target;
       if (!(alvo instanceof Element)) return;
@@ -112,6 +164,7 @@ export default function WhatsAppClickTracker() {
       const ehAncora = gatilho instanceof HTMLAnchorElement;
       if (ehAncora && !ehLinkDeContato(gatilho.getAttribute("href") ?? "")) return;
       if (!ehAncora && gatilho.dataset.waCta !== "true") return;
+      anotarGatilho(gatilho);
 
       try {
         trackWhatsAppClick({
@@ -124,7 +177,10 @@ export default function WhatsAppClickTracker() {
     }
 
     document.addEventListener("click", aoClicar, true);
-    return () => document.removeEventListener("click", aoClicar, true);
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("click", aoClicar, true);
+    };
   }, []);
 
   return null;

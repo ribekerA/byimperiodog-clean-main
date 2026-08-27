@@ -25,6 +25,7 @@ import {
   LINHAS_FORMATADAS,
   TABELA_DE_PRECOS,
   formatarPreco,
+  precoDoFilhote,
 } from "../../src/domain/pricing";
 
 const WA_NUMERO = "5511968633239";
@@ -137,6 +138,25 @@ test.describe("Smoke publico", () => {
     }
   });
 
+  test("o catalogo ordena os filhotes pelo menor valor e mostra o valor sem prefixo", async ({
+    page,
+  }) => {
+    await page.goto("/filhotes");
+    const cards = await page.locator("article").evaluateAll((items) =>
+      items.map((item) => {
+        const texto = item.textContent ?? "";
+        const valor = texto.match(/R\$\s*([\d.]+)/)?.[1] ?? "0";
+        return { texto, cents: Number(valor.replace(/\./g, "")) * 100 };
+      }),
+    );
+
+    expect(cards).toHaveLength(puppiesPublicados.length);
+    expect(cards.map((card) => card.cents)).toEqual(
+      [...cards.map((card) => card.cents)].sort((a, b) => a - b),
+    );
+    for (const card of cards) expect(card.texto).not.toMatch(/A partir de R\$/i);
+  });
+
   test("o preco na tela e o preco da tabela, e nenhuma pagina publica Offer", async ({
     page,
   }) => {
@@ -178,7 +198,17 @@ test.describe("Smoke publico", () => {
         `${filhote.slug} voltou a declarar disponibilidade em dado estruturado`,
       ).not.toMatch(/InStock|OutOfStock|LimitedAvailability|SoldOut/);
 
-      const daTabela = TABELA_DE_PRECOS[cor][sexo];
+      const linksWhatsApp = await page
+        .locator('a[href*="wa.me"], a[href*="api.whatsapp.com"]')
+        .evaluateAll((links) => links.map((link) => link.getAttribute("href") ?? ""));
+      for (const href of linksWhatsApp) {
+        expect(
+          decodeURIComponent(href),
+          `${filhote.slug}: CTA do WhatsApp ainda inclui referencia interna`,
+        ).not.toMatch(/\[ref:/i);
+      }
+
+      const daTabela = precoDoFilhote(cor, sexo, filhote.slug);
       const corpo = await page.locator("body").innerText();
       expect(corpo, `${filhote.slug} nao mostra ${formatarPreco(daTabela)}`).toContain(
         formatarPreco(daTabela),
@@ -220,12 +250,15 @@ test.describe("Smoke publico", () => {
         200,
       );
       const corpo = await page.locator("body").innerText();
-      // A vitrine de cor precisa mostrar o "a partir de" da propria cor, e ele
-      // sai do dominio ja formatado -- recalcular aqui criaria uma segunda
-      // formatacao para o mesmo numero.
-      expect(corpo, `/filhotes/cor/${linha.cor} nao mostra ${linha.aPartirDe}`).toContain(
-        linha.aPartirDe,
-      );
+      // A vitrine de cor mostra o menor valor real entre os filhotes publicados
+      // daquela cor. Um filhote pode ter preco proprio por slug, portanto a
+      // antiga linha generica da tabela nao e a fonte correta para este card.
+      const filhotesDaCor = puppiesPublicados.filter((filhote) => filhote.color === linha.cor);
+      expect(filhotesDaCor, `/filhotes/cor/${linha.cor} sem filhotes publicados`).not.toHaveLength(0);
+      const menorValor = Math.min(...filhotesDaCor.map((filhote) => filhote.priceCents));
+      const esperado = formatarPreco(menorValor);
+      expect(corpo, `/filhotes/cor/${linha.cor} nao mostra ${esperado}`).toContain(esperado);
+      expect(corpo).not.toContain(`A partir de ${esperado}`);
     }
 
     const inexistente = await page.goto("/filhotes/este-filhote-nunca-existiu");
@@ -255,8 +288,9 @@ test.describe("Portao das superficies criticas", () => {
   /** Vitrines citadas pelo nome, com a linha da tabela que cada uma deve exibir. */
   const VITRINES = [
     { slug: "spitz-alemao-anao-branco-femea", cor: "branco", sexo: "femea" },
+    { slug: "lulu-da-pomerania-branco-macho", cor: "branco", sexo: "macho" },
     { slug: "lulu-da-pomerania-particolor-macho", cor: "particolor", sexo: "macho" },
-    { slug: "spitz-alemao-anao-laranja-macho", cor: "laranja", sexo: "macho" },
+    { slug: "lulu-da-pomerania-laranja-macho", cor: "laranja", sexo: "macho" },
   ] as const;
 
   for (const vitrine of VITRINES) {
@@ -270,9 +304,13 @@ test.describe("Portao das superficies criticas", () => {
         `${vitrine.slug} e uma galeria visual: sem imagem ela nao tem funcao`,
       ).toBeVisible();
 
-      const esperado = formatarPreco(TABELA_DE_PRECOS[vitrine.cor][vitrine.sexo]);
+      const esperado = formatarPreco(precoDoFilhote(vitrine.cor, vitrine.sexo, vitrine.slug));
       const corpo = await page.locator("body").innerText();
       expect(corpo, `${vitrine.slug} nao mostra ${esperado}`).toContain(esperado);
+      expect(
+        corpo,
+        `${vitrine.slug} ainda adiciona "A partir de" ao valor do filhote`,
+      ).not.toContain(`A partir de ${esperado}`);
     });
   }
 

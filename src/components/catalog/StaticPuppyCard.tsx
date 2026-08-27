@@ -7,7 +7,7 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { TiltCard } from "@/components/motion/TiltCard";
-import { textoAPartirDe } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -19,8 +19,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
-// textoAPartirDe e ela mais o prefixo que a vitrine exige.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 
 // O card nao anuncia estoque.
 //
@@ -173,7 +172,7 @@ export default function StaticPuppyCard({
           {/* Preço — ponto de partida da combinação, não etiqueta do animal da foto */}
           <div className="mt-auto flex flex-col gap-0.5">
             <span className="text-xl font-extrabold text-[var(--accent-ink)]">
-              {price ? textoAPartirDe(price) : "Sob consulta"}
+              {price ? formatarPreco(price) : "Sob consulta"}
             </span>
             <span className="text-[10px] font-medium text-zinc-500">Documentação inclusa</span>
           </div>

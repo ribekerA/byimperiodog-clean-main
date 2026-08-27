@@ -40,5 +40,4 @@ Componentes relevantes
 - Post: `app/(site)/blog/[slug]/page.tsx` (MDX + extração de FAQ para schema).
 - MDX map: `src/components/MDXContent.tsx`.
 - SEO por post: `src/components/SeoArticle.tsx`.
-- Pixels/Tracking: `app/layout.tsx`, `src/components/MarketingPixels.tsx`, `src/lib/track.ts`.
-
+- Pixels/Tracking: `app/(public)/layout.tsx`, `src/components/PixelsByConsent.tsx`, `src/components/tracking/WhatsAppClickTracker.tsx`.

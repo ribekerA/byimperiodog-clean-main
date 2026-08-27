@@ -7,8 +7,9 @@ import { staticPuppies, puppiesPublicados } from "../content/puppies-static";
 import {
   CORES_DIVULGADAS,
   FAIXA_PUBLICA,
+  PRECO_POR_SLUG,
   TABELA_DE_PRECOS,
-  precoDe,
+  precoDoFilhote,
   type CorDivulgada,
   type Sexo,
 } from "../src/domain/pricing";
@@ -98,8 +99,8 @@ describe("tabela de precos x content-guard", () => {
  * contradiz, e o build passa inteiro. A femea branca do anuncio do Google Ads
  * e justamente uma dessas paginas.
  */
-describe("tabela de precos x catalogo de filhotes", () => {
-  it("todo filhote publicado cobra exatamente o valor da tabela para a sua cor e sexo", () => {
+describe("regras de preco x catalogo de filhotes", () => {
+  it("todo filhote publicado cobra exatamente o valor definido para a sua pagina", () => {
     // Um catalogo vazio faria o laco abaixo passar sem conferir nada.
     expect(puppiesPublicados.length).toBeGreaterThan(0);
 
@@ -112,9 +113,23 @@ describe("tabela de precos x catalogo de filhotes", () => {
       expect(CORES_DIVULGADAS).toContain(cor);
       expect({ slug: filhote.slug, preco: filhote.priceCents }).toEqual({
         slug: filhote.slug,
-        preco: precoDe(cor, sexo),
+        preco: precoDoFilhote(cor, sexo, filhote.slug),
       });
     }
+  });
+
+  it("mantem os valores definidos para as paginas com preco especifico", () => {
+    expect(PRECO_POR_SLUG).toEqual({
+      "spitz-alemao-anao-branco-femea": 750000,
+      "lulu-da-pomerania-branco-macho": 650000,
+      "lulu-da-pomerania-particolor-macho": 550000,
+      "lulu-da-pomerania-laranja-macho": 550000,
+    });
+  });
+
+  it("publica o catalogo do menor preco para o maior", () => {
+    const precos = puppiesPublicados.map((filhote) => filhote.priceCents);
+    expect(precos).toEqual([...precos].sort((a, b) => a - b));
   });
 
   it("os dois campos de preco do mesmo filhote nao divergem", () => {

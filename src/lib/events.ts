@@ -5,7 +5,8 @@
 
 import { getAttributionParams } from './attribution';
 import { getCurrentConsent } from './consent';
-import { trackWhatsAppAdsConversion } from './conversions';
+import { isGoogleTagManagerEnabled, trackWhatsAppAdsConversion } from './conversions';
+import { safePushToDataLayer } from './tracking';
 
 /**
  * Onde, na página, o visitante clicou para falar no WhatsApp.
@@ -18,53 +19,40 @@ export type WhatsAppPlacement =
   | 'hero'
   | 'header'
   | 'floating_button'
-  | 'puppy_card'
-  | 'puppy_page'
+  | 'catalog_card'
+  | 'product_detail'
+  | 'reservation'
+  | 'contact'
+  | 'blog'
   | 'gallery'
-  | 'reels'
   | 'footer'
-  | 'contact_section'
+  | 'content'
   | 'other';
 
 export const WHATSAPP_PLACEMENTS: readonly WhatsAppPlacement[] = [
   'hero',
   'header',
   'floating_button',
-  'puppy_card',
-  'puppy_page',
+  'catalog_card',
+  'product_detail',
+  'reservation',
+  'contact',
+  'blog',
   'gallery',
-  'reels',
   'footer',
-  'contact_section',
+  'content',
   'other',
 ] as const;
 
-/**
- * De onde veio a visita, em termos de campanha — sem carregar o identificador.
- *
- * O gclid/gbraid/wbraid inteiro NUNCA entra aqui: ele identifica um clique de
- * anúncio específico, e o próprio Google proíbe mandá-lo de volta como
- * parâmetro de evento. O que interessa para a leitura é a origem, e para isso
- * `google_ads` já basta. A atribuição de verdade quem faz é o auto-tagging.
- */
-function detectarContextoDeCampanha(): string {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('gclid') || params.get('gbraid') || params.get('wbraid')) {
-      return 'google_ads';
-    }
-    const source = params.get('utm_source')?.trim();
-    if (source) {
-      const medium = params.get('utm_medium')?.trim();
-      const rotulo = medium ? `${source}/${medium}` : source;
-      // Corta em 60 para não transformar parâmetro de campanha colado à mão
-      // num valor gigante dentro do GA4.
-      return rotulo.slice(0, 60);
-    }
-  } catch {
-    // URL malformada não pode impedir a medição do clique.
-  }
-  return 'direct';
+function detectarTipoDeConteudo(pathname: string): string {
+  if (/^\/filhotes\/[^/]+$/.test(pathname)) return 'puppy_detail';
+  if (pathname === '/filhotes' || pathname.startsWith('/filhotes/')) return 'puppy_catalog';
+  if (pathname === '/reserve-seu-filhote') return 'reservation';
+  if (pathname === '/contato') return 'contact';
+  if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'blog';
+  if (pathname === '/galeria') return 'gallery';
+  if (pathname === '/') return 'home';
+  return 'content';
 }
 
 /**
@@ -81,24 +69,30 @@ function detectarContextoDeCampanha(): string {
 export function trackWhatsAppClick(params: {
   placement: WhatsAppPlacement;
   puppySlug?: string | null;
-  campaignContext?: string | null;
 }): void {
   if (typeof window === 'undefined') return;
 
   const consent = getCurrentConsent();
   if (!consent.analytics && !consent.marketing) return;
+  const useGTM = isGoogleTagManagerEnabled();
 
   const payload: Record<string, unknown> = {
+    channel: 'whatsapp',
+    cta_location: params.placement,
     page_path: window.location.pathname,
-    page_title: document.title,
-    placement: params.placement,
-    campaign_context: params.campaignContext ?? detectarContextoDeCampanha(),
+    content_type: detectarTipoDeConteudo(window.location.pathname),
   };
   const slug = params.puppySlug?.trim();
-  if (slug) payload.puppy_slug = slug;
+  if (slug) payload.item_id = slug;
 
-  // GA4
-  if (consent.analytics) {
+  if (useGTM) {
+    // Fonte canônica quando existe GTM: um único Custom Event alimenta a tag
+    // GA4 e a tag direta do Google Ads dentro do contêiner. Não chame gtag nem
+    // trackWhatsAppAdsConversion neste ramo, pois isso criaria uma segunda rota
+    // para o mesmo clique.
+    safePushToDataLayer('whatsapp_click', payload, { mirrorPixels: false });
+  } else if (consent.analytics) {
+    // Fallback para instalações sem GTM: o GA4 direto precisa do comando gtag.
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
     if (typeof gtag === 'function') {
       gtag('event', 'whatsapp_click', payload);
@@ -106,19 +100,20 @@ export function trackWhatsAppClick(params: {
   }
 
   // Facebook Pixel
-  if (consent.marketing) {
+  if (consent.marketing && !useGTM) {
     const fbq = (window as { fbq?: (...args: unknown[]) => void }).fbq;
     if (typeof fbq === 'function') {
       fbq('track', 'Contact', {
-        placement: params.placement,
+        cta_location: params.placement,
         page_path: payload.page_path,
       });
     }
   }
 
-  // Google Ads — conversão "Clique WhatsApp". Sem valor monetário: clicar para
-  // falar é lead, não venda. Só dispara se o label próprio estiver cadastrado.
-  trackWhatsAppAdsConversion();
+  // Sem GTM, o fallback direto do Ads é a única rota disponível. Com GTM, a
+  // conversão direta é responsabilidade exclusiva da tag acionada pelo evento
+  // canônico `whatsapp_click` acima.
+  if (!useGTM) trackWhatsAppAdsConversion();
 }
 
 /**

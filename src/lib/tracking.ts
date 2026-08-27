@@ -17,7 +17,11 @@ export function isAdminRoute(pathname?: string): boolean {
  * caminho dos demais eventos, em vez de reescrever o push e os try/catch de
  * fbq/ttq. Continua sendo o único lugar do projeto que fala com o dataLayer.
  */
-export function safePushToDataLayer(event: string, payload: Record<string, any> = {}) {
+export function safePushToDataLayer(
+  event: string,
+  payload: Record<string, unknown> = {},
+  options: { mirrorPixels?: boolean } = {},
+) {
   if (typeof window === "undefined") return;
 
   try {
@@ -27,6 +31,7 @@ export function safePushToDataLayer(event: string, payload: Record<string, any> 
   } catch {
     // Pixels podem estar bloqueados pelo navegador sem impedir a navegação.
   }
+  if (options.mirrorPixels === false) return;
   try {
     // Facebook Pixel
     if ((window as any).fbq) {
@@ -45,7 +50,7 @@ export function safePushToDataLayer(event: string, payload: Record<string, any> 
   }
 }
 
-export function track(event: TrackingEvent, payload: Record<string, any> = {}) {
+export function track(event: TrackingEvent, payload: Record<string, unknown> = {}) {
   safePushToDataLayer(event, payload);
 }
 

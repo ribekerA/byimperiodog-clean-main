@@ -22,10 +22,10 @@
 // `InStock` no schema e cálculo de escassez ("Último desta cor") em cima de um
 // dado que ninguém atualizava a cada venda.
 //
-// Preço: a tabela vive em src/domain/pricing.ts. Os `priceCents` daqui são a
-// aplicação dela a cada combinação, e tests/pricing-guard.test.ts confere um
-// contra o outro. O valor é publicado como "a partir de" — é o ponto de
-// partida da cor, não a etiqueta do animal da foto.
+// Preço: a tabela-base e os valores definidos para páginas específicas vivem
+// em src/domain/pricing.ts. Os `priceCents` daqui aplicam uma dessas regras, e
+// tests/pricing-guard.test.ts confere um contra o outro. Nos cards e nas
+// páginas de filhote, o valor é publicado sem o prefixo "a partir de".
 //
 // Esta linha já creditou a conferência ao content-guard do prebuild, que não a
 // fazia: este arquivo está na lista de SKIP do guard, e o que ele procura é o
@@ -65,9 +65,9 @@ export const staticPuppies = [
       "/filhotes/branco/branco-femea-jardim-06.jpg",
       "/filhotes/branco/branco-femea-jardim-07.jpeg",
     ],
-    // Fêmea Branca — única cor fora do valor comum das fêmeas: R$ 9.500.
-    price_cents: 950000,
-    priceCents: 950000,
+    // Valor definido para esta página em PRECO_POR_SLUG.
+    price_cents: 750000,
+    priceCents: 750000,
     currency: "BRL",
     description:
       "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -352,11 +352,9 @@ export const staticPuppies = [
       "/filhotes/branco/branco-macho-jardim-03.jpeg",
       "/filhotes/branco/branco-macho-jardim-04.jpeg",
     ],
-    // Macho Branco — R$ 8.500, o mesmo valor de qualquer macho branco da
-    // tabela. tests/pricing-guard.test.ts confere este número contra
-    // precoDe("branco", "macho").
-    price_cents: 850000,
-    priceCents: 850000,
+    // Valor definido para esta página em PRECO_POR_SLUG.
+    price_cents: 650000,
+    priceCents: 650000,
     currency: "BRL",
     description:
       "Macho Branco fotografado em luz natural no gramado. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -395,9 +393,7 @@ export const staticPuppies = [
       "/filhotes/particolor/particolor-macho-jardim-05.jpeg",
       "/filhotes/particolor/particolor-macho-jardim-06.jpeg",
     ],
-    // Macho Particolor — R$ 5.500, o menor valor da tabela.
-    // tests/pricing-guard.test.ts confere este número contra
-    // precoDe("particolor", "macho").
+    // Valor definido para esta página em PRECO_POR_SLUG.
     price_cents: 550000,
     priceCents: 550000,
     currency: "BRL",
@@ -443,11 +439,9 @@ export const staticPuppies = [
       "/filhotes/laranja/laranja-macho-gramado-09.jpeg",
       "/filhotes/videos/laranja-macho-gramado.mp4",
     ],
-    // Macho Laranja — R$ 6.500, o mesmo valor de qualquer macho laranja da
-    // tabela. tests/pricing-guard.test.ts confere este número contra
-    // precoDe("laranja", "macho").
-    price_cents: 650000,
-    priceCents: 650000,
+    // Valor definido para esta página em PRECO_POR_SLUG.
+    price_cents: 550000,
+    priceCents: 550000,
     currency: "BRL",
     description:
       "Macho Laranja fotografado e filmado em luz natural no gramado. A pelagem de filhote ainda traz sombreado escuro nas pontas, que costuma clarear até a cor adulta se firmar; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -548,6 +542,10 @@ export const staticPuppies = [
  * a página da cor, o sitemap) continua lendo `staticPuppies` direto, senão uma
  * página indexada passaria a devolver 404 ou a abrir vazia.
  */
-export const puppiesPublicados = staticPuppies.filter(
-  (p) => (p as { divulgar?: boolean }).divulgar !== false,
-);
+export const puppiesPublicados = staticPuppies
+  .filter((p) => (p as { divulgar?: boolean }).divulgar !== false)
+  .sort((a, b) => {
+    const precoA = a.priceCents ?? a.price_cents ?? Number.MAX_SAFE_INTEGER;
+    const precoB = b.priceCents ?? b.price_cents ?? Number.MAX_SAFE_INTEGER;
+    return precoA - precoB;
+  });

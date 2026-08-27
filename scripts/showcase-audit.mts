@@ -27,7 +27,12 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 
 import { staticPuppies } from "@/content/puppies-static";
-import { CORES_DIVULGADAS, TABELA_DE_PRECOS, formatarPreco } from "@/domain/pricing";
+import {
+  CORES_DIVULGADAS,
+  TABELA_DE_PRECOS,
+  formatarPreco,
+  precoDoFilhote,
+} from "@/domain/pricing";
 
 type Registro = Record<string, unknown>;
 
@@ -82,13 +87,15 @@ for (const p of puppies) {
     continue;
   }
 
+  const esperado = precoDoFilhote(cor as (typeof CORES_DIVULGADAS)[number], sexo, slug);
+
   for (const campo of ["price_cents", "priceCents"] as const) {
     const valor = p[campo];
     if (typeof valor !== "number") continue;
-    if (valor !== daTabela) {
+    if (valor !== esperado) {
       critica(
         slug,
-        `${campo}=${formatarPreco(valor)} diverge da tabela (${cor}/${sexo} = ${formatarPreco(daTabela)})`,
+        `${campo}=${formatarPreco(valor)} diverge da regra comercial (${formatarPreco(esperado)})`,
       );
     }
   }

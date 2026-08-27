@@ -16,7 +16,7 @@ import VideoHero from "@/components/sections/VideoHero";
 import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { textoAPartirDe } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -71,15 +71,9 @@ export const metadata: Metadata = {
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
-// textoAPartirDe e ela mais o prefixo que a vitrine exige.
-//
-// O card publicava "R$ 6.500" seco, como se aquele numero fosse o preco daquele
-// animal especifico. A tabela do dominio e uma tabela de partida por cor e sexo:
-// o valor final depende da combinacao, e quem fecha e o atendimento. "A partir
-// de" e a unica forma honesta de publicar isso numa vitrine permanente.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 function formatPrice(cents: number) {
-  return textoAPartirDe(cents);
+  return formatarPreco(cents);
 }
 
 // Links estratégicos — PageRank distribution para landing pages

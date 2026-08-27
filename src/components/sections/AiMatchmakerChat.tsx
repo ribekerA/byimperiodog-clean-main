@@ -21,7 +21,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import PuppyMatcherQuiz from "@/components/sections/PuppyMatcherQuiz";
 import type { staticPuppies } from "@/content/puppies-static";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { textoAPartirDe } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
@@ -78,11 +78,9 @@ function stripMatches(text: string): string {
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
-// textoAPartirDe e ela mais o prefixo que a vitrine exige — o valor da tabela
-// e ponto de partida da cor e do sexo, nao o preco daquele animal.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 function formatPrice(cents: number) {
-  return textoAPartirDe(cents);
+  return formatarPreco(cents);
 }
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];

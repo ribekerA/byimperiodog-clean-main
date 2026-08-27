@@ -75,6 +75,25 @@ export function precoDe(cor: CorDivulgada, sexo: Sexo): number {
 }
 
 /**
+ * Valores definidos para páginas específicas da vitrine.
+ *
+ * A tabela por cor/sexo continua sendo o padrão. Quando a responsável define
+ * um valor próprio para um filhote, o slug passa a ser a chave comercial para
+ * que card, página e validações usem exatamente o mesmo número.
+ */
+export const PRECO_POR_SLUG = {
+  "spitz-alemao-anao-branco-femea": 750000,
+  "lulu-da-pomerania-branco-macho": 650000,
+  "lulu-da-pomerania-particolor-macho": 550000,
+  "lulu-da-pomerania-laranja-macho": 550000,
+} as const satisfies Record<string, number>;
+
+/** Preço anunciado para o filhote, com fallback para a tabela por cor/sexo. */
+export function precoDoFilhote(cor: CorDivulgada, sexo: Sexo, slug: string): number {
+  return PRECO_POR_SLUG[slug as keyof typeof PRECO_POR_SLUG] ?? precoDe(cor, sexo);
+}
+
+/**
  * Menor valor real da cor — o que pode ser anunciado como "a partir de".
  *
  * Card genérico de cor, sem sexo definido, usa este número.

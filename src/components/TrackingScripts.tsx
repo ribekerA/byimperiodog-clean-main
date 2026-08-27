@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import { initWebVitals, logEvent } from "@/lib/analytics";
 import { getCurrentConsent, type ConsentPreferences } from "@/lib/consent";
+import { isGoogleTagManagerEnabled } from "@/lib/conversions";
 import { isAdminRoute } from "@/lib/tracking";
 
 export default function TrackingScripts() {
@@ -44,9 +45,15 @@ export default function TrackingScripts() {
         return;
       }
 
-      // GA4 / Ads (gtag)
+      // Sem GTM, o gtag direto continua cuidando das navegações SPA. Com
+      // GTM, o acionador History Change é a fonte única do page_view; chamar
+      // gtag aqui também duplicaria especialmente as navegações voltar/avançar.
       const gtag = (window as any).gtag;
-      if (consent.analytics && typeof gtag === "function") {
+      if (
+        consent.analytics &&
+        !isGoogleTagManagerEnabled() &&
+        typeof gtag === "function"
+      ) {
         gtag("event", "page_view", {
           page_location: url,
           page_path: pathname + (search ? `?${search}` : ""),

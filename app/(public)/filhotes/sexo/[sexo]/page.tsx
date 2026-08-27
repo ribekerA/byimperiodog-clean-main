@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { textoAPartirDe } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { ALL_SEXES, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
@@ -154,7 +154,7 @@ export default async function SexLandingPage(props: Props) {
                         <p className="font-semibold text-zinc-900">{puppy.name}</p>
                         <p className="mt-0.5 text-sm text-zinc-500">{sexLabel}</p>
                         {(puppy as any).priceCents > 0 && (
-                          <p className="mt-1 text-sm font-bold leading-snug text-emerald-700">{textoAPartirDe((puppy as any).priceCents)}</p>
+                          <p className="mt-1 text-sm font-bold leading-snug text-emerald-700">{formatarPreco((puppy as any).priceCents)}</p>
                         )}
                       </div>
                     </Link>

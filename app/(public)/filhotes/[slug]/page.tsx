@@ -13,7 +13,7 @@ import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContai
 import { TiltCard } from "@/components/motion/TiltCard";
 import ViewEventTracker from "@/components/ViewEventTracker";
 import { staticPuppies } from "@/content/puppies-static";
-import { textoAPartirDe } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
@@ -299,7 +299,7 @@ export default async function PuppyPage(props: Props) {
                               <p className="text-sm text-zinc-500">{relCor} · {relSex}</p>
                               {(rel as any).priceCents > 0 && (
                                 <p className="mt-1 text-sm font-bold text-emerald-700">
-                                  {textoAPartirDe((rel as any).priceCents)}
+                                  {formatarPreco((rel as any).priceCents)}
                                 </p>
                               )}
                             </div>

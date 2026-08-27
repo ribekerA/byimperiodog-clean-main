@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
-import { textoAPartirDe } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 
@@ -25,8 +25,7 @@ import { optimizePuppyCardImage } from "@/lib/optimize-image";
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
-// textoAPartirDe e ela mais o prefixo que a vitrine exige.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 
 // O CTA nao desaparece mais.
 //
@@ -51,7 +50,7 @@ interface Props {
 
 function formatPrice(cents?: number) {
   if (!cents) return null;
-  return textoAPartirDe(cents);
+  return formatarPreco(cents);
 }
 
 // ─── Componente ───────────────────────────────────────────────────────────────

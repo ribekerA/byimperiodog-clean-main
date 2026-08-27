@@ -162,6 +162,7 @@ export function resolveActiveEnvironment(
   const vercelEnv = env.VERCEL_ENV || env.NODE_ENV || "development";
   const name = vercelEnv === "production" ? "production" : "staging";
   const storedConfig = name === "production" ? settings.production : settings.staging;
+  const envGtmId = sanitizePixelId(env.GTM_ID ?? env.NEXT_PUBLIC_GTM_ID);
   const envAdsId = env.GOOGLE_ADS_ID?.trim() || null;
   const envLeadLabel = env.GOOGLE_ADS_CONVERSION_LABEL?.trim() || null;
   const envWhatsAppLabel = env.GOOGLE_ADS_WHATSAPP_LABEL?.trim() || null;
@@ -170,6 +171,7 @@ export function resolveActiveEnvironment(
     name,
     config: {
       ...storedConfig,
+      gtmId: storedConfig.gtmId ?? envGtmId,
       // O admin continua sendo a fonte principal. As variáveis são fallback
       // para ambientes sem pixels_settings, sem expor o label no bundle.
       googleAdsId: storedConfig.googleAdsId ?? envAdsId,
