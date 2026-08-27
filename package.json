@@ -72,7 +72,7 @@
     "@supabase/supabase-js": "2.112.3",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "0.5.20",
-    "@tanstack/react-table": "^8.10.8",
+    "@tanstack/react-table": "^9.1.2",
     "@tanstack/react-virtual": "^3.10.6",
     "@tiptap/extension-image": "^3.8.0",
     "@tiptap/extension-link": "^3.8.0",
