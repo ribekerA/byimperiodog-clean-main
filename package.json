@@ -5,7 +5,7 @@
   "packageManager": "npm@11.17.0",
   "scripts": {
     "predev": "node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs && node scripts/gen-image-sizes.mjs",
-    "prebuild": "tsx scripts/catalog-audit.mts && tsx scripts/showcase-audit.mts && node scripts/content-guard.mjs && node scripts/quality-gate.mjs --strict && node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs && node scripts/gen-image-sizes.mjs && node scripts/gen-lastmod.mjs",
+    "prebuild": "tsx scripts/catalog-audit.mts && tsx scripts/showcase-audit.mts && node scripts/content-guard.mjs && tsx scripts/public-truth-guard.mts && node scripts/quality-gate.mjs --strict && node scripts/run-gen-client-photos.mjs && node scripts/gen-contentlayer.mjs && node scripts/gen-image-sizes.mjs && node scripts/gen-lastmod.mjs",
     "gen:lastmod": "node scripts/gen-lastmod.mjs",
     "gate": "node scripts/quality-gate.mjs",
     "gate:strict": "node scripts/quality-gate.mjs --strict-novos",
@@ -40,7 +40,7 @@
     "test:unit": "vitest --run",
     "test:e2e": "playwright test",
     "test:e2e:chromium": "playwright test --project=chromium",
-    "check:all": "npm run typecheck && npm run test && npm run check:encoding && npm run check:banned-words && npm run catalog:audit && npm run showcase:audit && npm run lint",
+    "check:all": "npm run typecheck && npm run test && npm run check:encoding && npm run check:banned-words && npm run catalog:audit && npm run showcase:audit && npm run truth:guard && npm run lint",
     "check:encoding": "node scripts/check-encoding.mjs",
     "psi:validate": "node scripts/psi-validation.mjs",
     "supabase:start": "supabase start",
@@ -59,7 +59,8 @@
     "vercel-build": "npm run build",
     "gen:video-posters": "tsx scripts/gen-video-posters.mts",
     "catalog:audit": "tsx scripts/catalog-audit.mts",
-    "showcase:audit": "tsx scripts/showcase-audit.mts"
+    "showcase:audit": "tsx scripts/showcase-audit.mts",
+    "truth:guard": "tsx scripts/public-truth-guard.mts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

@@ -78,6 +78,24 @@ jobs:
       - name: Catalogo
         run: npm run catalog:audit
 
+      # Verdade publica: o que o canil afirma que entrega, faz ou possui.
+      #
+      # O content-guard.mjs pula `/^src\//` inteiro -- as secoes da home, os
+      # textos por cor e os templates do agente de WhatsApp nunca passaram por
+      # checagem nenhuma. Foi la que estavam "Entregamos em ${cidade} sem
+      # burocracia" e "Entrega humanizada", num repositorio onde o canil nao
+      # opera transporte.
+      #
+      # A regra e de frase, nao de palavra: um artigo pode explicar o que e
+      # luxacao de patela; o que nao passa e a By Imperio Dog dizer que faz o
+      # exame. A matriz vive em src/domain/public-truth.ts e tem teste nos dois
+      # sentidos (tests/public-truth.test.ts) -- guard que acusa texto correto
+      # e desligado na primeira pressa.
+      #
+      # Falha fechada: zero arquivo verificado sai com exit 1, nao com aprovado.
+      - name: Verdade publica
+        run: npm run truth:guard
+
       # Portao de verdade desde 26/08/2026.
       #
       # Este passo nasceu com `continue-on-error: true` porque o repositorio
