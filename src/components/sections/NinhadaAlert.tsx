@@ -6,10 +6,14 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
+// Particolor faltava aqui. É uma das cinco cores divulgadas e tem tabela de
+// preço própria em src/domain/pricing.ts; quem procurava particolor não tinha
+// como dizer isso neste formulário e caía em "Qualquer cor".
 const CORES = [
   { value: "branco", label: "Branco" },
   { value: "creme", label: "Creme" },
   { value: "laranja", label: "Laranja" },
+  { value: "particolor", label: "Particolor" },
   { value: "preto", label: "Preto" },
   { value: "qualquer", label: "Qualquer cor" },
 ];
@@ -21,7 +25,11 @@ export default function NinhadaAlert() {
   const baseWaLink =
     name.trim() && cor
       ? buildWhatsAppLink({
-          message: `Olá! Sou ${name.trim()} e quero entrar na lista de espera para filhotes ${cor === "qualquer" ? "de qualquer cor" : `da cor ${CORES.find((c) => c.value === cor)?.label ?? cor}`}. Me avisem quando houver disponibilidade!`,
+          // Era "quero entrar na lista de espera... me avisem quando houver
+          // disponibilidade". Lista de espera é uma fila sobre estoque, e o
+          // aviso era uma promessa de que alguém avisaria. O que a pessoa faz
+          // aqui é contar o que procura; o retorno acontece na conversa.
+          message: `Olá! Sou ${name.trim()} e procuro um Spitz Alemão Anão ${cor === "qualquer" ? "de qualquer cor" : `da cor ${CORES.find((c) => c.value === cor)?.label ?? cor}`}. Gostaria de conhecer as opções atuais.`,
           utmSource: "site",
           utmMedium: "ninhada_alert",
           utmCampaign: "lista_espera",
@@ -39,18 +47,25 @@ export default function NinhadaAlert() {
       <div className="pointer-events-none absolute -top-20 -right-20 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-400">Lista de interesse</p>
+        {/* O título era "Seja o primeiro a saber da próxima ninhada" e o texto
+            dizia que "a disponibilidade pode mudar rapidamente conforme as
+            reservas". As duas frases vendiam pressa: uma prometia prioridade
+            numa fila que não existe, a outra insinuava concorrência por um
+            estoque que o site não publica. O que este bloco realmente faz é
+            abrir uma conversa a partir da cor que a pessoa procura. */}
+        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-400">Preferências</p>
         <h2 id="ninhada-heading" className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Seja o primeiro a saber da próxima ninhada
+          Conte o que você procura
         </h2>
         <p className="mt-4 text-zinc-400">
-          A disponibilidade pode mudar rapidamente conforme as reservas. Entre na lista e receba um aviso direto no WhatsApp antes de qualquer anúncio.
+          Diga a cor que você tem em mente e fale com a equipe pelo WhatsApp. É no atendimento
+          que você conhece as opções atuais e tira dúvidas sobre valores e documentação.
         </p>
 
         <form
           className="mt-8 space-y-3"
           onSubmit={(e) => e.preventDefault()}
-          aria-label="Formulário de lista de interesse"
+          aria-label="Formulário de preferências de cor"
         >
           <div>
             <label htmlFor="ninhada-name" className="mb-1.5 block text-left text-sm font-medium text-zinc-300">
@@ -95,7 +110,7 @@ export default function NinhadaAlert() {
               className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-base font-semibold text-white shadow-lg transition hover:bg-emerald-700"
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-              Quero ser avisado — WhatsApp
+              Falar pelo WhatsApp
             </a>
           ) : (
             <button
@@ -109,7 +124,12 @@ export default function NinhadaAlert() {
           )}
         </form>
 
-        <p className="mt-4 text-xs text-zinc-400">Sem spam. Apenas um aviso quando houver disponibilidade.</p>
+        {/* Prometia "apenas um aviso quando houver disponibilidade" — um SLA de
+            retorno que ninguém garantiu. O formulário não cadastra nada: ele
+            monta a primeira mensagem da conversa e abre o WhatsApp. */}
+        <p className="mt-4 text-xs text-zinc-400">
+          Nada é cadastrado aqui: o botão abre o WhatsApp com a sua mensagem já escrita.
+        </p>
       </div>
     </section>
   );

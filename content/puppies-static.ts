@@ -1,17 +1,37 @@
 // content/puppies-static.ts
-// Catálogo estático — By Império Dog
-// Para atualizar disponibilidade: status → "available" | "reserved" | "sold"
+// Vitrine — By Império Dog
+//
+// ESTE ARQUIVO NÃO É ESTOQUE. Cada entrada é uma referência visual permanente
+// de uma combinação de cor e sexo: fotos reais, preço-base da combinação e
+// texto editorial. A URL, as fotos e a página continuam no ar depois que o
+// animal fotografado sai — quem informa o que existe hoje é o atendimento,
+// pelo WhatsApp, e só ele.
+//
+// A consequência prática de tratar isto como estoque já custou caro: a foto
+// saía do ar quando o filhote saía, a URL indexada virava 404 e o ranking
+// acumulado por aquela página ia junto. Uma venda não pode derrubar um ativo
+// orgânico. Por isso saíram daqui, em 26/08/2026:
+//
+//   status, isBestSeller, isNewArrival, availableForShipping, reviewCount,
+//   averageRating, viewCount, favoriteCount, shareCount, inquiryCount,
+//   seoKeywords
+//
+// Os quatro contadores estavam zerados em todas as entradas e alimentavam
+// prova social que nunca existiu; `seoKeywords` não tinha nenhum leitor no
+// código público. `status` era o pior: virava selo "Disponível" no card,
+// `InStock` no schema e cálculo de escassez ("Último desta cor") em cima de um
+// dado que ninguém atualizava a cada venda.
 //
 // Preço: a tabela vive em src/domain/pricing.ts. Os `priceCents` daqui são a
-// aplicação dela a cada filhote, e tests/pricing-guard.test.ts confere um
-// contra o outro — o resumo de hierarquia que ficava nesta linha era mais uma
-// cópia para divergir, e divergiu.
+// aplicação dela a cada combinação, e tests/pricing-guard.test.ts confere um
+// contra o outro. O valor é publicado como "a partir de" — é o ponto de
+// partida da cor, não a etiqueta do animal da foto.
 //
 // Esta linha já creditou a conferência ao content-guard do prebuild, que não a
 // fazia: este arquivo está na lista de SKIP do guard, e o que ele procura é o
 // preço em prosa ("R$ 9.500"), nunca os centavos guardados aqui.
 //
-// `divulgar: false` tira o filhote das vitrines públicas sem apagar a sua
+// `divulgar: false` tira a entrada das vitrines públicas sem apagar a sua
 // página: o Cinza-Lobo saiu da comunicação, mas as URLs que já estavam
 // indexadas continuam respondendo até que se decida o que fazer com elas.
 
@@ -26,7 +46,6 @@ export const staticPuppies = [
     cor: "Branco",
     sex: "female",
     gender: "female",
-    status: "available",
     breed: "Spitz Alemão Anão",
     size: "mini",
     city: "braganca-paulista",
@@ -52,26 +71,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: true,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão branco fêmea",
-      "lulu da pomerânia branco fêmea",
-      "filhote spitz branco braganca paulista",
-      "spitz anão branco fêmea disponível",
-    ],
   },
 
   // ─── SPITZ CREME FÊMEA ──────────────────────────────────────────────────────
@@ -84,7 +88,6 @@ export const staticPuppies = [
     cor: "Creme",
     sex: "female",
     gender: "female",
-    status: "available",
     breed: "Spitz Alemão Anão",
     size: "mini",
     city: "braganca-paulista",
@@ -109,26 +112,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Creme de pelagem clara e uniforme. Registro oficial, protocolo vacinal em dia conforme a idade e mentoria pós-venda inclusos. Consulte a disponibilidade e as condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: false,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão creme fêmea",
-      "lulu pomerânia creme femea sp",
-      "filhote spitz creme bragança paulista",
-      "spitz anão creme disponível",
-    ],
   },
 
   // ─── SPITZ PRETO FÊMEA ──────────────────────────────────────────────────────
@@ -141,7 +129,6 @@ export const staticPuppies = [
     cor: "Preto",
     sex: "female",
     gender: "female",
-    status: "available",
     breed: "Spitz Alemão Anão",
     size: "mini",
     city: "braganca-paulista",
@@ -163,26 +150,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Preta de pelagem escura e brilhante, estrutura compacta. Registro oficial, consulta veterinária e hemograma completo. Consulte a disponibilidade e as condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: false,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão preto fêmea",
-      "lulu pomerânia preto femea sp",
-      "spitz anão preto fêmea bragança paulista",
-      "filhote spitz preto fêmea disponível",
-    ],
   },
 
   // ─── SPITZ LARANJA FÊMEA ────────────────────────────────────────────────────
@@ -195,7 +167,6 @@ export const staticPuppies = [
     cor: "Laranja",
     sex: "female",
     gender: "female",
-    status: "available",
     breed: "Spitz Alemão Anão",
     size: "mini",
     city: "braganca-paulista",
@@ -226,26 +197,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Laranja de coloração viva, dentro do padrão FCI nº 97. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: false,
-    isBestSeller: false,
-    isNewArrival: false,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão laranja fêmea",
-      "lulu pomerânia laranja femea sp",
-      "filhote spitz laranja disponível",
-      "spitz anão laranja fêmea",
-    ],
   },
 
   // ─── SPITZ CREME MACHO ──────────────────────────────────────────────────────
@@ -258,7 +214,6 @@ export const staticPuppies = [
     cor: "Creme",
     sex: "male",
     gender: "male",
-    status: "available",
     breed: "Spitz Alemão Anão",
     size: "mini",
     city: "braganca-paulista",
@@ -282,26 +237,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Creme com estrutura compacta dentro do padrão FCI nº 97 (altura na cernelha de 21 cm ± 3 cm). Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: false,
     isFeatured: true,
-    isBestSeller: true,
-    isNewArrival: false,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão creme macho",
-      "lulu pomerânia macho creme sp",
-      "spitz anão macho bragança paulista",
-      "filhote spitz macho disponível",
-    ],
   },
 
   // ─── SPITZ PRETO MACHO ──────────────────────────────────────────────────────
@@ -314,7 +254,6 @@ export const staticPuppies = [
     cor: "Preto",
     sex: "male",
     gender: "male",
-    status: "available",
     breed: "Spitz Alemão Anão",
     size: "mini",
     city: "braganca-paulista",
@@ -339,26 +278,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Preto de pelagem escura e brilhante, estrutura compacta. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: false,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: true,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão preto macho",
-      "lulu pomerânia preto macho sp",
-      "spitz anão preto bragança paulista",
-      "filhote spitz preto disponível",
-    ],
   },
 
   // ─── SPITZ LARANJA MACHO ────────────────────────────────────────────────────
@@ -371,7 +295,6 @@ export const staticPuppies = [
     cor: "Laranja",
     sex: "male",
     gender: "male",
-    status: "available",
     breed: "Spitz Alemão Anão",
     size: "mini",
     city: "braganca-paulista",
@@ -394,26 +317,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: false,
     isFeatured: true,
-    isBestSeller: true,
-    isNewArrival: false,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão laranja macho",
-      "lulu pomerânia macho laranja",
-      "spitz laranja macho bragança paulista",
-      "filhote spitz laranja macho disponível",
-    ],
   },
 
   // ─── LULU DA POMERÂNIA BRANCO MACHO ─────────────────────────────────────────
@@ -431,7 +339,6 @@ export const staticPuppies = [
     cor: "Branco",
     sex: "male",
     gender: "male",
-    status: "available",
     breed: "Lulu da Pomerânia",
     size: "mini",
     city: "braganca-paulista",
@@ -453,26 +360,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Branco fotografado em luz natural no gramado. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: false,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: true,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "lulu da pomerânia branco macho",
-      "lulu da pomerânia macho bragança paulista",
-      "filhote lulu da pomerânia branco disponível",
-      "spitz alemão branco macho",
-    ],
   },
 
   // ─── LULU DA POMERÂNIA PARTICOLOR MACHO ─────────────────────────────────────
@@ -488,7 +380,6 @@ export const staticPuppies = [
     cor: "Particolor",
     sex: "male",
     gender: "male",
-    status: "available",
     breed: "Lulu da Pomerânia",
     size: "mini",
     city: "braganca-paulista",
@@ -512,26 +403,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Particolor fotografado em luz natural no jardim. Pelagem de base branca com manchas definidas na cabeça, nas orelhas e no dorso; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: true,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "lulu da pomerânia particolor macho",
-      "spitz alemão particolor macho",
-      "filhote particolor bragança paulista",
-      "lulu da pomerânia malhado disponível",
-    ],
   },
 
   // ─── LULU DA POMERÂNIA LARANJA MACHO ────────────────────────────────────────
@@ -548,7 +424,6 @@ export const staticPuppies = [
     cor: "Laranja",
     sex: "male",
     gender: "male",
-    status: "available",
     breed: "Lulu da Pomerânia",
     size: "mini",
     city: "braganca-paulista",
@@ -576,26 +451,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Laranja fotografado e filmado em luz natural no gramado. A pelagem de filhote ainda traz sombreado escuro nas pontas, que costuma clarear até a cor adulta se firmar; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: false,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: true,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "lulu da pomerânia laranja macho",
-      "spitz alemão laranja macho",
-      "filhote lulu da pomerânia bragança paulista",
-      "lulu da pomerânia laranja disponível",
-    ],
   },
 
   // ─── SPITZ WOLF SABLE FÊMEA ─────────────────────────────────────────────────
@@ -608,7 +468,6 @@ export const staticPuppies = [
     cor: "Cinza-Lobo",
     sex: "female",
     gender: "female",
-    status: "available",
     divulgar: false,
     breed: "Spitz Alemão Anão",
     size: "mini",
@@ -632,26 +491,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Fêmea Cinza-Lobo (Wolf Sable) — coloração bicolor com máscara cinza sobre base laranja, reconhecida pela FCI. Cor não divulgada pela By Império Dog.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
-    isBestSeller: false,
-    isNewArrival: false,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão wolf sable fêmea",
-      "lulu pomerânia wolf sable sp",
-      "spitz sable cinza laranja femea",
-      "filhote spitz wolf sable disponível",
-    ],
   },
 
   // ─── SPITZ WOLF SABLE MACHO ─────────────────────────────────────────────────
@@ -664,7 +508,6 @@ export const staticPuppies = [
     cor: "Cinza-Lobo",
     sex: "male",
     gender: "male",
-    status: "available",
     divulgar: false,
     breed: "Spitz Alemão Anão",
     size: "mini",
@@ -688,26 +531,11 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Cinza-Lobo (Wolf Sable) — coloração bicolor cinza e laranja, padrão reconhecido pela FCI. Cor não divulgada pela By Império Dog.",
-    availableForShipping: true,
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: false,
     isFeatured: false,
-    isBestSeller: false,
-    isNewArrival: false,
-    reviewCount: 0,
-    averageRating: 0,
-    viewCount: 0,
-    favoriteCount: 0,
-    shareCount: 0,
-    inquiryCount: 0,
-    seoKeywords: [
-      "spitz alemão wolf sable macho",
-      "lulu pomerânia sable macho sp",
-      "spitz bicolor cinza laranja macho",
-      "filhote spitz sable disponível",
-    ],
   },
 ];
 

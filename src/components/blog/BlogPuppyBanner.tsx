@@ -7,19 +7,19 @@ interface Props {
   postTitle?: string;
 }
 
+// Este banner era um contador de estoque no meio do artigo: "8 filhotes
+// disponíveis agora · 5 fêmeas", somado a partir do status de cada filhote e
+// escondido inteiro quando a conta dava zero. O status saiu do modelo público em
+// 26/08/2026 — o filtro aqui já não filtrava mais nada — e o contador foi junto.
+// O banner agora convida para a vitrine, que é o que ele sempre linkou.
 export default function BlogPuppyBanner({ postTitle }: Props) {
-  const available = (puppiesPublicados as any[]).filter(
-    (p) => p.status !== "sold" && p.status !== "vendido" && p.status !== "reserved" && p.status !== "reservado"
-  );
-  const count = available.length;
-  const females = available.filter((p) => p.sex === "female" || p.sex === "femea").length;
-
-  if (count === 0) return null;
+  // Sem foto publicada não há vitrine para oferecer; o banner some.
+  if ((puppiesPublicados as any[]).length === 0) return null;
 
   const waLink = buildWhatsAppLink({
     message: postTitle
-      ? `Olá! Estava lendo o artigo "${postTitle}" e quero saber sobre os filhotes disponíveis agora.`
-      : "Olá! Vi que há filhotes disponíveis e quero saber mais.",
+      ? `Olá! Estava lendo o artigo "${postTitle}" no site e gostaria de conhecer as opções atuais de Spitz Alemão Anão.`
+      : "Olá! Vi o site da By Império Dog e gostaria de conhecer as opções atuais de Spitz Alemão Anão.",
     utmSource: "blog",
     utmMedium: "inline_banner",
     utmCampaign: "blog_puppy_cta",
@@ -27,7 +27,7 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
 
   return (
     <aside
-      aria-label="Filhotes disponíveis agora"
+      aria-label="Vitrine de filhotes da By Império Dog"
       className="not-prose my-8 overflow-hidden rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/8"
       style={{ background: "rgba(243, 181, 98, 0.08)" }}
     >
@@ -40,17 +40,11 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
         {/* Texto */}
         <div className="flex-1">
           <p className="font-bold text-zinc-900">
-            {count === 1
-              ? "1 filhote disponível agora"
-              : `${count} filhotes disponíveis agora`}
-            {females > 0 && (
-              <span className="ml-2 rounded-full bg-[var(--accent)] px-2 py-0.5 text-[11px] font-bold text-[var(--accent-foreground)]">
-                {females} fêmea{females > 1 ? "s" : ""}
-              </span>
-            )}
+            Conheça a vitrine de filhotes da By Império Dog
           </p>
           <p className="mt-0.5 text-sm text-zinc-600">
-            Filhotes disponíveis pela By Império Dog · registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda inclusos.
+            Fotos reais por cor e sexo · registro oficial, consulta veterinária, hemograma completo e contrato inclusos.{" "}
+            <span className="font-medium text-zinc-800">Consulte as opções atuais pelo WhatsApp.</span>
           </p>
         </div>
 
@@ -71,7 +65,7 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
             href="/filhotes"
             className="inline-flex min-h-[44px] items-center justify-center rounded-xl border-2 border-zinc-200 px-4 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700"
           >
-            Ver catálogo →
+            Ver a vitrine →
           </Link>
         </div>
       </div>

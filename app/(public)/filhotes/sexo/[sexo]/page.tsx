@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { ALL_SEXES, formatPrice, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
+import { textoAPartirDe } from "@/domain/pricing";
+import { ALL_SEXES, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
@@ -27,11 +28,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
-const STATUS_CONFIG = {
-  available: { label: "Disponível", className: "bg-emerald-100 text-emerald-800" },
-  reserved: { label: "Reservado", className: "bg-amber-100 text-amber-800" },
-  sold: { label: "Vendido", className: "bg-zinc-100 text-zinc-600" },
-} as const;
+// O STATUS_CONFIG com "Disponível" / "Reservado" / "Vendido" saiu daqui em
+// 26/08/2026, junto com o selo que ele pintava em cada card. A página de sexo é
+// uma referência visual permanente de macho e de fêmea: as fotos continuam no
+// ar depois que aquele animal sai, e o selo passava a mentir no dia seguinte.
+// Quem sabe o que existe hoje é o atendimento.
 
 export default async function SexLandingPage(props: Props) {
   const params = await props.params;
@@ -48,7 +49,7 @@ export default async function SexLandingPage(props: Props) {
   ]);
 
   const waLink = buildWhatsAppLink({
-    message: `Olá! Tenho interesse em ${seo.h1} Spitz Alemão Anão. Pode me informar disponibilidade e valores?`,
+    message: `Olá! Vi a vitrine de ${seo.h1} Spitz Alemão Anão no site e gostaria de conhecer as opções atuais e os valores.`,
     utmSource: "site",
     utmMedium: "sex_page",
     utmCampaign: "filhote_sexo",
@@ -85,7 +86,7 @@ export default async function SexLandingPage(props: Props) {
             className="mt-6 inline-flex min-h-[52px] items-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-base font-semibold text-white shadow-lg transition hover:bg-emerald-700"
           >
             <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-            Ver disponibilidade — WhatsApp
+            Consultar opções atuais
           </a>
         </header>
 
@@ -104,9 +105,20 @@ export default async function SexLandingPage(props: Props) {
 
         {/* Puppies grid */}
         <section className="mt-14" aria-labelledby="puppies-heading">
-          <h2 id="puppies-heading" className="mb-6 text-2xl font-bold text-zinc-900">
-            {puppies.length > 0 ? `${seo.h1} disponíveis (${puppies.length})` : "Lista de interesse"}
+          {/* Era `${seo.h1} disponíveis (${puppies.length})` — contador de
+              estoque no título da seção, lido de um arquivo que só muda em
+              deploy. O título nomeia o recorte da vitrine; o número saiu. */}
+          <h2 id="puppies-heading" className="mb-2 text-2xl font-bold text-zinc-900">
+            {puppies.length > 0 ? seo.h1 : "Fale com a equipe"}
           </h2>
+          {puppies.length > 0 && (
+            <p className="mb-6 text-sm text-zinc-500">
+              Fotos reais de {seo.h1.toLowerCase()} criados pela By Império Dog.{" "}
+              <span className="font-medium text-zinc-700">
+                Consulte as opções atuais pelo WhatsApp.
+              </span>
+            </p>
+          )}
 
           {puppies.length > 0 ? (
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -114,7 +126,6 @@ export default async function SexLandingPage(props: Props) {
                 const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
                 const corLabel = (puppy as any).cor ?? puppy.color ?? "";
                 const img = puppy.images?.find((i: string) => !i.endsWith(".mp4"));
-                const status = (puppy.status ?? "available") as keyof typeof STATUS_CONFIG;
                 return (
                   <li key={puppy.slug}>
                     <Link
@@ -138,15 +149,12 @@ export default async function SexLandingPage(props: Props) {
                       </div>
                       <div className="p-4">
                         <div className="mb-1 flex items-center gap-2">
-                          <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_CONFIG[status]?.className ?? ""}`}>
-                            {STATUS_CONFIG[status]?.label ?? ""}
-                          </span>
-                          <span className="text-xs text-zinc-500">{corLabel}</span>
+                          <span className="text-xs uppercase tracking-widest text-zinc-500">{corLabel}</span>
                         </div>
                         <p className="font-semibold text-zinc-900">{puppy.name}</p>
                         <p className="mt-0.5 text-sm text-zinc-500">{sexLabel}</p>
                         {(puppy as any).priceCents > 0 && (
-                          <p className="mt-1 text-sm font-bold text-emerald-700">{formatPrice((puppy as any).priceCents)}</p>
+                          <p className="mt-1 text-sm font-bold leading-snug text-emerald-700">{textoAPartirDe((puppy as any).priceCents)}</p>
                         )}
                       </div>
                     </Link>
@@ -156,8 +164,12 @@ export default async function SexLandingPage(props: Props) {
             </ul>
           ) : (
             <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-8 text-center">
-              <p className="text-zinc-700">No momento não há {seo.h1} disponíveis.</p>
-              <p className="mt-2 text-sm text-zinc-500">Entre em contato e seja avisado quando houver disponibilidade.</p>
+              {/* Dizia "No momento não há X disponíveis" — afirmação sobre
+                  estoque vinda de uma página que não tem essa informação. Este
+                  bloco só aparece quando a vitrine ainda não tem foto
+                  publicada deste recorte. */}
+              <p className="text-zinc-700">Ainda sem fotos publicadas neste recorte da vitrine.</p>
+              <p className="mt-2 text-sm text-zinc-500">Fale com a equipe para conhecer as opções atuais no atendimento.</p>
               <a
                 href={waLink}
                 target="_blank"
@@ -165,7 +177,7 @@ export default async function SexLandingPage(props: Props) {
                 className="mt-5 inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700"
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                Entrar na lista de interesse
+                Falar pelo WhatsApp
               </a>
             </div>
           )}
@@ -188,7 +200,7 @@ export default async function SexLandingPage(props: Props) {
         {otherSex && (
           <section className="mt-12" aria-labelledby="other-sex-heading">
             <h2 id="other-sex-heading" className="mb-3 text-sm font-semibold uppercase tracking-widest text-zinc-500">
-              Também disponível
+              Ver também
             </h2>
             <Link
               href={`/filhotes/sexo/${otherSex}`}

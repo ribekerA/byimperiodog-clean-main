@@ -169,6 +169,17 @@ duplicados("title", "title");
 duplicados("description", "description");
 duplicados("targetQuery", "target_query (canibalizacao direta)");
 
+// ─── Corpus vazio ────────────────────────────────────────────────────────────
+// Zero artigo analisado nao e corpus impecavel: e o gate nao tendo lido nada.
+// Pasta renomeada, glob quebrado, checkout parcial -- em qualquer um desses
+// casos o script imprimia "ERROS: nenhum" e saia 0, aprovando um blog que
+// tinha deixado de existir. Reprova em todos os modos, inclusive relatorio.
+if (posts.length === 0) {
+  console.error(`quality-gate: nenhum artigo encontrado em ${POSTS}.`);
+  console.error("Isto e falha do portao, nao aprovacao do conteudo.");
+  process.exit(1);
+}
+
 // ─── Relatorio ───────────────────────────────────────────────────────────────
 console.log(`quality-gate: ${posts.length} artigos analisados (modo ${strictNovos ? "--strict-novos" : strict ? "--strict" : "relatorio"})`);
 console.log("");

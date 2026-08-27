@@ -56,8 +56,20 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
 );
 
 // ============================================================================
-// STATUS BADGE (Especialização para filhotes)
+// STATUS BADGE (Especialização para filhotes) — USO INTERNO, ADMIN APENAS
 // ============================================================================
+//
+// Este selo NÃO pode aparecer em página pública. "Disponível", "Reservado" e
+// "Vendido" são estado operacional do canil: eles vivem no painel, onde quem
+// administra precisa enxergar a situação de cada filhote. Na vitrine, a mesma
+// palavra vira promessa de estoque em cima de uma foto que continua no ar
+// depois que o filhote encontra a família dele — e o site não tem como manter
+// essa promessa verdadeira sem um deploy por venda.
+//
+// O último consumidor público foi src/components/puppy/PuppyHero.tsx, que
+// carimbava o selo sobre a foto principal da ficha. Aquela pasta inteira estava
+// órfã (nenhuma rota a importava) e foi removida em 26/08/2026. Se este
+// componente voltar a ser importado por algo em app/(public), é regressão.
 
 export interface StatusBadgeProps extends Omit<BadgeProps, 'variant'> {
   status: 'disponivel' | 'available' | 'reservado' | 'reserved' | 'vendido' | 'sold' | 'em-breve' | 'coming-soon';

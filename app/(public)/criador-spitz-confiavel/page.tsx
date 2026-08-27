@@ -182,7 +182,7 @@ export default function CriadorConfiavelPage() {
           By Império Dog — criação familiar em Bragança Paulista, SP
         </h2>
         <p className="text-sm text-zinc-700 sm:text-base">
-          Fundada em {FOUNDING_YEAR} pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Os filhotes disponíveis pela By Império Dog são acompanhados por médico-veterinário e entregues com a documentação descrita em contrato. O atendimento é individual, direto com a criadora.
+          Fundada em {FOUNDING_YEAR} pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Os filhotes da By Império Dog são acompanhados por médico-veterinário e entregues com a documentação descrita em contrato. O atendimento é individual, direto com a criadora.
         </p>
         <ul className="grid gap-2 sm:grid-cols-2">
           {[
@@ -258,7 +258,7 @@ export default function CriadorConfiavelPage() {
             href="/filhotes"
             className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700"
           >
-            Ver filhotes disponíveis
+            Ver a vitrine de filhotes
           </Link>
           {phone && (
             <a

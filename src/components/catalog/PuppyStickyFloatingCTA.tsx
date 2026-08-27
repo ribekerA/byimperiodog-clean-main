@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDe } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 
@@ -25,7 +25,18 @@ import { optimizePuppyCardImage } from "@/lib/optimize-image";
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
+// textoAPartirDe e ela mais o prefixo que a vitrine exige.
+
+// O CTA nao desaparece mais.
+//
+// Havia aqui um `status` que, valendo "sold" ou "vendido", devolvia null: a
+// pagina daquele filhote perdia o CTA flutuante inteiro. Era o pior lugar
+// possivel para desligar a conversao — sao paginas que continuam recebendo
+// visita organica anos depois, e a visita chegava numa pagina sem porta de
+// saida. A pagina e uma referencia visual permanente da combinacao de cor e
+// sexo; o CTA existe justamente para levar essa visita ao atendimento, que e
+// quem sabe o que existe hoje.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -34,24 +45,21 @@ interface Props {
   coverImage?: string;
   priceCents?: number;
   waLink: string;
-  status: string;
 }
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 
 function formatPrice(cents?: number) {
   if (!cents) return null;
-  return formatarPreco(cents);
+  return textoAPartirDe(cents);
 }
 
 // ─── Componente ───────────────────────────────────────────────────────────────
 
-export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, waLink, status }: Props) {
+export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, waLink }: Props) {
   const [visible, setVisible] = useState(false);
   const reduced = useReducedMotion();
   const trackedWaLink = useWhatsAppLink(waLink);
-
-  const isSold = status === "sold" || status === "vendido";
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 380);
@@ -72,12 +80,9 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
    * em que a barra aparece seria mudar o chão debaixo de quem está rolando.
    */
   useEffect(() => {
-    if (isSold) return;
     document.body.classList.add("tem-cta-fixo");
     return () => document.body.classList.remove("tem-cta-fixo");
-  }, [isSold]);
-
-  if (isSold) return null;
+  }, []);
 
   const price = formatPrice(priceCents);
 
@@ -101,10 +106,10 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
               className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-base font-semibold text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
               emojis="paw"
               count={12}
-              aria-label={`Entrar em contato sobre ${name} via WhatsApp`}
+              aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${name}`}
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-              Tenho interesse em {name}
+              Consultar opções atuais
             </PawConfettiButton>
           </motion.div>
 
@@ -158,10 +163,10 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
                 className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white shadow hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 emojis="mixed"
                 count={14}
-                aria-label={`Entrar em contato sobre ${name} via WhatsApp`}
+                aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${name}`}
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                Falar sobre este filhote
+                Consultar opções atuais
               </PawConfettiButton>
             </div>
           </motion.div>

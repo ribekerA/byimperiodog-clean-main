@@ -21,7 +21,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import PuppyMatcherQuiz from "@/components/sections/PuppyMatcherQuiz";
 import type { staticPuppies } from "@/content/puppies-static";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDe } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
@@ -78,9 +78,11 @@ function stripMatches(text: string): string {
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
+// textoAPartirDe e ela mais o prefixo que a vitrine exige — o valor da tabela
+// e ponto de partida da cor e do sexo, nao o preco daquele animal.
 function formatPrice(cents: number) {
-  return formatarPreco(cents);
+  return textoAPartirDe(cents);
 }
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
@@ -250,7 +252,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
   const priceCents = (puppy as { priceCents?: number }).priceCents ?? (puppy as { price_cents?: number }).price_cents ?? 0;
 
   const baseWaLink = buildWhatsAppLink({
-    message:      `Olá! Vi o filhote ${puppy.name} pelo chat do site. Quero saber mais sobre a disponibilidade.`,
+    message:      `Olá! Vi ${puppy.name} pelo chat do site e gostaria de conhecer as opções atuais dessa combinação de cor e sexo.`,
     utmSource:    "site",
     utmMedium:    "ai_matchmaker",
     utmCampaign:  "match_recommendation",
@@ -292,13 +294,11 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
             style={{ objectPosition: focoDaFoto(coverImg) }}
             loading="lazy"
           />
-          <span
-            className={`absolute left-2 bottom-2 rounded-full px-2.5 py-0.5 text-[10px] font-bold text-white shadow ${
-              puppy.status === "available" ? "bg-emerald-500" : "bg-amber-500"
-            }`}
-          >
-            {puppy.status === "available" ? "Disponível" : "Reservado"}
-          </span>
+          {/* O selo "Disponível" / "Reservado" saiu daqui. Era o pior lugar do
+              site para publicar estado comercial: o chat acabara de conversar
+              com a pessoa e entregava um card afirmando que aquele animal
+              estava livre, lendo um campo estático que só mudava em deploy.
+              Sexo continua, porque sexo é taxonomia da foto. (26/08/2026) */}
           <span className="absolute right-2 bottom-2 rounded-full bg-black/50 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur-sm">
             {sexLabel}
           </span>
@@ -329,10 +329,10 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
           className="mt-auto flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-xs font-bold text-white shadow hover:bg-emerald-700"
           emojis="mixed"
           count={12}
-          aria-label={`Entrar em contato sobre ${puppy.name}`}
+          aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${puppy.name}`}
         >
-          <WhatsAppIcon className="h-3.5 w-3.5" aria-hidden="true" />
-          Tenho interesse!
+          <WhatsAppIcon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+          <span className="text-center">Consultar opções atuais</span>
         </PawConfettiButton>
 
         <Link
@@ -354,11 +354,13 @@ function MatchGrid({ puppies }: { puppies: Puppy[] }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* "Seu match perfeito" prometia o que nenhum questionário entrega. O
-          rótulo agora conta o que a lista é: filhote disponível dentro do que
-          a pessoa descreveu. */}
+      {/* "Seu match perfeito" prometia o que nenhum questionário entrega, e
+          "N opções disponíveis" que veio depois prometia estoque: era uma
+          contagem pública de filhotes livres, tirada de um campo estático. O
+          rótulo agora conta o que a lista realmente é — referências da vitrine
+          dentro do que a pessoa descreveu. */}
       <p className="mb-2 text-center text-[11px] font-semibold uppercase tracking-widest text-emerald-700">
-        {puppies.length === 1 ? "Opção disponível" : `${puppies.length} opções disponíveis`}
+        {puppies.length === 1 ? "Referência na vitrine" : "Referências na vitrine"}
       </p>
 
       {/* Mobile: scroll horizontal snap quando 3 cards */}
@@ -699,10 +701,13 @@ export default function AiMatchmakerChat() {
         </h2>
         {/* "a nossa equipe indica o filhote ideal" saiu: dizia que o canil
             determina qual animal é o certo para uma pessoa. Ninguém determina
-            isso — o que existe é preferência declarada e filhote disponível. */}
+            isso — o que existe é preferência declarada. "entre os filhotes
+            disponíveis" saiu junto: o chat não sabe o que está disponível, e
+            afirmar que sabe é publicar estoque no lugar mais convincente
+            possível. Ele ajuda a pessoa a nomear a cor e o sexo que procura. */}
         <p className="mt-2 text-sm text-zinc-500 sm:text-base">
-          Spitz Alemão Anão. Conte um pouco sobre suas
-          preferências para ajudarmos na escolha entre os filhotes disponíveis.
+          Spitz Alemão Anão. Conte um pouco sobre suas preferências de cor e sexo — a equipe
+          confirma pelo WhatsApp o que existe no atendimento.
         </p>
       </div>
 

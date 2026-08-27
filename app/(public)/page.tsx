@@ -16,7 +16,7 @@ import VideoHero from "@/components/sections/VideoHero";
 import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDe } from "@/domain/pricing";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -71,9 +71,15 @@ export const metadata: Metadata = {
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
+// textoAPartirDe e ela mais o prefixo que a vitrine exige.
+//
+// O card publicava "R$ 6.500" seco, como se aquele numero fosse o preco daquele
+// animal especifico. A tabela do dominio e uma tabela de partida por cor e sexo:
+// o valor final depende da combinacao, e quem fecha e o atendimento. "A partir
+// de" e a unica forma honesta de publicar isso numa vitrine permanente.
 function formatPrice(cents: number) {
-  return formatarPreco(cents);
+  return textoAPartirDe(cents);
 }
 
 // Links estratégicos — PageRank distribution para landing pages
@@ -120,13 +126,16 @@ const TRUST_SIGNALS = [
 
 export default function HomePage() {
 
-  // Todos os filhotes à venda, sem corte. Antes eram os 4 primeiros, e a home
-  // se contradizia sozinha: o hero anuncia "N filhotes disponíveis agora" e a
-  // seção logo abaixo mostrava 4. Quem contava percebia. Quem não contava saía
-  // achando que o canil tinha metade do plantel que tem.
-  const featured = puppiesPublicados.filter(
-    (p) => p.status !== "sold" && p.status !== "vendido",
-  );
+  // A vitrine inteira, sem corte e sem filtro de estoque.
+  //
+  // Aqui havia um `.filter(p => p.status !== "sold" && p.status !== "vendido")`.
+  // Ele fazia a foto sumir da home no dia em que aquele animal específico saía —
+  // e essa foto é justamente o que a home tem de mais forte: referência visual
+  // real de uma cor e de um sexo, indexada, compartilhada e trabalhando para o
+  // domínio muito depois de o animal ter ido embora. Nenhum filhote sai da
+  // vitrine por ter sido vendido. Quem sabe o que existe hoje é o atendimento.
+  // (26/08/2026)
+  const featured = puppiesPublicados;
 
   return (
     <>
@@ -157,13 +166,17 @@ export default function HomePage() {
             {/* Header da seção */}
             <div className="mx-auto mb-8 max-w-xl px-5 text-center sm:mb-12 sm:px-8">
               <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">
-                Filhotes disponíveis
+                Vitrine
               </p>
               <h2 id="featured-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
                 Conheça os filhotes
               </h2>
               <p className="mt-3 text-sm text-zinc-600 sm:text-base">
-                Filhotes disponíveis pela By Império Dog, com acompanhamento veterinário e a documentação descrita em contrato.
+                Fotos reais das cores e dos sexos de Spitz Alemão Anão com que a By Império Dog
+                trabalha, com acompanhamento veterinário e a documentação descrita em contrato.{" "}
+                <span className="font-medium text-zinc-700">
+                  Consulte as opções atuais pelo WhatsApp.
+                </span>
               </p>
             </div>
 
@@ -188,9 +201,12 @@ export default function HomePage() {
                   const sexLabel = sexRaw === "female" ? "Fêmea" : sexRaw === "male" ? "Macho" : "";
                   const cover = puppy.images.find((img: string) => !img.endsWith(".mp4")) ?? puppy.images[0];
                   const price = (puppy as any).priceCents ?? (puppy as any).price_cents;
-                  const isReserved = puppy.status === "reserved" || puppy.status === "reservado";
                   const waLink = buildWhatsAppLink({
-                    message: `Olá! Vi o ${puppy.name} (${corLabel} ${sexLabel}) no site e quero saber mais informações.`,
+                    // A conversa começa pela combinação de cor e sexo, não por
+                    // "quero exatamente o cachorro da foto": a foto é referência
+                    // visual permanente, e quem confirma o que existe hoje é o
+                    // atendimento.
+                    message: `Olá! Vi ${puppy.name} (${corLabel} ${sexLabel}) na vitrine do site e gostaria de conhecer as opções atuais dessa combinação.`,
                     utmSource: "site",
                     utmMedium: "featured_home",
                     utmCampaign: "filhotes",
@@ -221,9 +237,14 @@ export default function HomePage() {
                                 sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 25vw"
                               />
                             )}
-                            <span className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${isReserved ? "bg-amber-700" : "bg-emerald-700"}`}>
-                              {isReserved ? "Reservado" : "Disponível"}
-                            </span>
+                            {/* O selo verde "Disponível" / âmbar "Reservado"
+                                saiu daqui. Ele lia um campo do arquivo estático
+                                que só mudava em deploy, então anunciava como
+                                disponível o filhote que já tinha saído — e
+                                anunciava estoque público numa vitrine que é
+                                referência visual, não inventário. O selo de sexo
+                                fica: sexo é taxonomia da foto, não estado
+                                comercial. (26/08/2026) */}
                             {sexLabel && (
                               <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
                                 {sexLabel}
@@ -244,7 +265,7 @@ export default function HomePage() {
                           </div>
                           <div className="mt-auto">
                             {price > 0 && (
-                              <p className="text-xl font-extrabold text-[var(--accent-ink)]">{formatPrice(price)}</p>
+                              <p className="text-lg font-extrabold leading-snug text-[var(--accent-ink)]">{formatPrice(price)}</p>
                             )}
                             <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
                           </div>
@@ -252,14 +273,14 @@ export default function HomePage() {
                             href={waLink}
                             target="_blank"
                             rel="noreferrer"
-                            /* Todos os cards repetem "Tenho interesse" e cada um abre uma
+                            /* Todos os cards repetem o mesmo rotulo e cada um abre uma
                                conversa diferente. Sem rotulo proprio, o leitor de tela le
                                uma fila de links iguais apontando para destinos distintos. */
-                            aria-label={`Tenho interesse no ${puppy.name} — falar pelo WhatsApp`}
+                            aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${puppy.name}`}
                             className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white transition hover:bg-emerald-800 hover:scale-[1.02] active:scale-[0.98]"
                           >
-                            <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                            Tenho interesse
+                            <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                            <span className="text-center">Consultar opções atuais</span>
                           </a>
                           <Link
                             href={`/filhotes/${puppy.slug}`}
@@ -277,9 +298,10 @@ export default function HomePage() {
 
               {/* Dizia "Ver todos os filhotes disponíveis" quando a seção
                   mostrava 4 de 7 — e continuar dizendo isso agora seria prometer
-                  uma página que não tem nada de novo. O que /filhotes tem e a
-                  home não tem é o filtro por cor, então é isso que o botão
-                  oferece. */}
+                  uma página que não tem nada de novo, além de anunciar
+                  disponibilidade que esta página não tem como saber. O que
+                  /filhotes tem e a home não tem é o filtro por cor, então é isso
+                  que o botão oferece. */}
               <div className="mt-8 text-center sm:mt-12">
                 <Link
                   href="/filhotes"

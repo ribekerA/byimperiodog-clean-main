@@ -65,7 +65,7 @@ const FAQS = [
 export default function LuluBragancaPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi o canil em Bragança Paulista e gostaria de saber sobre os filhotes disponíveis.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi o canil em Bragança Paulista e gostaria de saber sobre as opções atuais.")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
@@ -143,7 +143,7 @@ export default function LuluBragancaPage() {
 
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
-        <h2 className="text-xl font-bold text-zinc-900">Ver filhotes disponíveis ou agendar visita</h2>
+        <h2 className="text-xl font-bold text-zinc-900">Ver a vitrine de filhotes ou agendar visita</h2>
         <p className="mt-2 text-sm text-zinc-600">Catálogo atualizado ou contato direto com a criadora em Bragança Paulista.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
@@ -160,7 +160,7 @@ export default function LuluBragancaPage() {
       <RelatedPages links={[
         { label: "Canil — Interior de SP",      href: "/canil-spitz-alemao-interior-sp", desc: "Cidades atendidas no interior paulista" },
         { label: "Spitz Alemão Anão — A Raça",  href: "/spitz-alemao",                   desc: "Características, cores e temperamento" },
-        { label: "Ver Filhotes Disponíveis",    href: "/filhotes",                        desc: "Catálogo atualizado com fotos e valores" },
+        { label: "Ver a Vitrine de Filhotes",   href: "/filhotes",                        desc: "Fotos reais por cor e sexo, com o valor de partida" },
       ]} />
 
       <nav aria-label="Navegação estrutural">

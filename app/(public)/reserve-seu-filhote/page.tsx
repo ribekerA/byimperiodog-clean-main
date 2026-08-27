@@ -44,7 +44,7 @@ const benefits = [
   {
     icon: Clock,
     title: "Prioridade de Escolha",
-    description: "A reserva antecipada define a ordem de escolha entre os filhotes disponíveis.",
+    description: "A reserva antecipada define a ordem de escolha entre as opções atuais.",
   },
   {
     icon: CheckCircle,
@@ -167,7 +167,7 @@ export default function ReserveSeuFilhotePage() {
               "h-12 rounded-full border-[var(--brand)] px-6 text-[var(--brand)] hover:bg-[var(--surface-2)]"
             )}
           >
-            Ver filhotes disponíveis
+            Ver a vitrine de filhotes
           </Link>
         </div>
       </section>
@@ -207,7 +207,7 @@ export default function ReserveSeuFilhotePage() {
         <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-8 shadow-sm">
           <h2 className="text-2xl font-semibold text-[var(--text)]">Inicie sua reserva</h2>
           <p className="mt-2 text-sm text-[var(--text-muted)]">
-            Preencha o formulário abaixo e entraremos em contato no horário de atendimento (todos os dias, das 8h às 22h) para falar sobre os filhotes disponíveis.
+            Preencha o formulário abaixo e entraremos em contato no horário de atendimento (todos os dias, das 8h às 22h) para falar sobre as opções atuais.
           </p>
           <TrustBar className="mt-4" />
           <div className="mt-6">

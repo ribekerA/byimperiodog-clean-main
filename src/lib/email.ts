@@ -30,7 +30,7 @@ function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
     <div style="padding:28px 24px;">
       <p style="margin:0 0 12px;font-size:16px;color:#1a1a1a;">Olá, <strong>${firstName}</strong>! 👋</p>
       <p style="margin:0 0 16px;font-size:14px;color:#444;line-height:1.6;">
-        Recebemos seu interesse${desired ? ` em um Spitz <strong>${desired}</strong>` : ""}. Nossa criadora vai entrar em contato em breve para te mostrar os filhotes disponíveis, vídeos ao vivo e tirar todas as suas dúvidas.
+        Recebemos seu interesse${desired ? ` em um Spitz <strong>${desired}</strong>` : ""}. Nossa criadora vai entrar em contato em breve para te mostrar as opções atuais, vídeos ao vivo e tirar todas as suas dúvidas.
       </p>
 
       ${p.city ? `<p style="margin:0 0 16px;font-size:13px;color:#666;">📍 ${p.city}</p>` : ""}

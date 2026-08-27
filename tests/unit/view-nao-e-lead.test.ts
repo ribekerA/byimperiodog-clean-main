@@ -47,11 +47,11 @@ afterEach(() => {
 });
 
 describe("view de página de filhote", () => {
-  it("sai como view_item, nunca como lead", () => {
+  it("sai como view_puppy_reference, nunca como lead", () => {
     trackPuppyPageView({ puppySlug: "spitz-branco-femea", puppyColor: "branco", puppySex: "femea" });
 
-    expect(eventos("view_item")).toHaveLength(1);
-    expect(eventos("view_item")[0].params).toMatchObject({
+    expect(eventos("view_puppy_reference")).toHaveLength(1);
+    expect(eventos("view_puppy_reference")[0].params).toMatchObject({
       placement: "puppy_page",
       item_id: "spitz-branco-femea",
       puppy_color: "branco",
@@ -67,16 +67,16 @@ describe("view de página de filhote", () => {
   it("um mount é exatamente um evento por rota de medição", () => {
     trackPuppyPageView({ puppySlug: "spitz-branco-femea" });
 
-    expect(eventos("view_item")).toHaveLength(1);
+    expect(eventos("view_puppy_reference")).toHaveLength(1);
     const doDataLayer = ((window as unknown as { dataLayer: Array<Record<string, unknown>> }).dataLayer)
-      .filter((entrada) => entrada && entrada.event === "view_item");
+      .filter((entrada) => entrada && entrada.event === "view_puppy_reference");
     expect(doDataLayer).toHaveLength(1);
   });
 
   it("não carrega dado pessoal", () => {
     trackPuppyPageView({ puppySlug: "spitz-branco-femea", puppyColor: "branco", puppySex: "femea" });
 
-    const chaves = Object.keys(eventos("view_item")[0].params);
+    const chaves = Object.keys(eventos("view_puppy_reference")[0].params);
     const proibidas = ["email", "phone", "telefone", "nome", "name", "cpf", "whatsapp", "ip", "user_id"];
     expect(chaves.filter((k) => proibidas.some((p) => k.toLowerCase().includes(p)))).toEqual([]);
   });
@@ -103,7 +103,7 @@ describe("view de página de filhote", () => {
     };
     vi.advanceTimersByTime(1000);
 
-    expect(eventos("view_item")).toHaveLength(1);
+    expect(eventos("view_puppy_reference")).toHaveLength(1);
   });
 
   it("desiste depois do teto de espera, sem ficar tentando para sempre", () => {

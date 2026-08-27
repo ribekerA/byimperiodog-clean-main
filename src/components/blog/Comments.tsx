@@ -1,7 +1,7 @@
 'use client';
 
 import { MessageCircle, Send, ThumbsUp, Loader2 } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,6 +32,20 @@ export default function Comments({ postId }: CommentsProps) {
     author_email: '',
     content: '',
   });
+
+  // Duas medidas anti-robô, ambas conferidas no servidor.
+  //
+  // A isca é um campo que só existe para robô achar: fica fora da tela, sem
+  // rótulo visível, fora da ordem de tabulação e com autocomplete desligado.
+  // Ninguém que esteja lendo a página consegue preenchê-la sem querer; script
+  // que despeja texto em todo <input> preenche.
+  //
+  // O relógio mede quanto tempo passou entre a página abrir e o envio. Pessoa
+  // escrevendo um comentário leva mais que alguns segundos; robô envia no
+  // primeiro instante. Nenhuma das duas é barreira criptográfica — quem quiser
+  // forjar, forja. Elas encarecem o abuso preguiçoso, que é a maior parte dele.
+  const [isca, setIsca] = useState('');
+  const abertoEm = useRef(Date.now());
 
   const fetchComments = useCallback(async () => {
     // Trava de segurança, além da checagem em /blog/[slug]: a rota exige uuid
@@ -80,6 +94,8 @@ export default function Comments({ postId }: CommentsProps) {
           author_name: formData.author_name.trim(),
           author_email: formData.author_email.trim() || undefined,
           body: formData.content.trim(),
+          isca,
+          aberto_ha_ms: Date.now() - abertoEm.current,
         }),
       });
 
@@ -128,6 +144,21 @@ export default function Comments({ postId }: CommentsProps) {
           Deixe seu comentário
         </h3>
         <form onSubmit={(e) => handleSubmit(e)} className="space-y-4">
+          {/* Isca anti-robô. Ver o comentário junto de `isca`, no topo do
+              arquivo. Fica fora da tela em vez de display:none porque alguns
+              robôs ignoram campo escondido por display. */}
+          <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+            <label htmlFor="apelido_do_canil">Não preencha este campo</label>
+            <input
+              id="apelido_do_canil"
+              name="apelido_do_canil"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={isca}
+              onChange={(e) => setIsca(e.target.value)}
+            />
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="author_name" className="mb-2 block text-sm font-medium text-[var(--text)]">

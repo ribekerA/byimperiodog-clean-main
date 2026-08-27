@@ -100,7 +100,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
               Pronto para uma conversa sob consulta?
             </h3>
             <p className="text-sm text-text-muted">
-              Atendimento humano, todos os dias das 8h às 22h, para tirar dúvidas sobre os filhotes disponíveis.
+              Atendimento humano, todos os dias das 8h às 22h, para tirar dúvidas sobre as opções atuais.
             </p>
           </div>
           <a

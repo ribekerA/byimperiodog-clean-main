@@ -222,7 +222,7 @@ export default function ComprarSpitzPage() {
       {/* ── CTA ── */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">
-          Pronto para conhecer os filhotes disponíveis?
+          Pronto para conhecer a vitrine de filhotes?
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
           Acesse nosso catálogo atualizado ou fale diretamente com a criadora para tirar dúvidas e iniciar o processo.
@@ -232,7 +232,7 @@ export default function ComprarSpitzPage() {
             href="/filhotes"
             className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700"
           >
-            Ver filhotes disponíveis
+            Ver a vitrine de filhotes
           </Link>
           {phone && (
             <a

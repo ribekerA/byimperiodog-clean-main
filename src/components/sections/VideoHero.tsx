@@ -10,7 +10,10 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const waHero = buildWhatsAppLink({
-  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão disponíveis. Pode me contar mais sobre disponibilidade e valores?",
+  // Dizia "...filhotes de Spitz Alemão Anão disponíveis". O site não sabe o que
+  // está disponível — quem sabe é o atendimento, e é exatamente isso que a
+  // mensagem passou a perguntar.
+  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão. Pode me contar quais são as opções atuais e os valores?",
   utmSource: "site",
   utmMedium: "video_hero",
   utmCampaign: "hero_cta",
@@ -177,10 +180,10 @@ export default function VideoHero() {
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-8 text-center sm:gap-7 sm:py-16 sm:px-8">
 
           {/* Eyebrow — entra primeiro.
-              A contagem ao vivo de filhotes disponíveis saiu daqui a pedido da
-              responsável: a vitrine logo abaixo já mostra quantos são, e um
-              número no topo da dobra vira promessa de estoque que o site tem
-              que sustentar a cada ninhada. */}
+              A contagem ao vivo de filhotes saiu daqui a pedido da
+              responsável, e com a vitrine evergreen ela nao volta: numero no topo
+              da dobra vira promessa de estoque que o site teria que sustentar a
+              cada ninhada. Disponibilidade se confirma no atendimento. */}
           <div className="flex flex-wrap items-center justify-center gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-1.5 text-xs font-bold uppercase tracking-[0.25em] text-white backdrop-blur-sm">
               Criação especializada · Bragança Paulista, SP
@@ -250,7 +253,7 @@ export default function VideoHero() {
               prefetch={false}
               className="inline-flex min-h-[54px] items-center justify-center gap-2 rounded-full border border-white/35 bg-white/10 px-8 text-base font-semibold text-white backdrop-blur-sm hover:border-white/55 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              Ver filhotes disponíveis
+              Ver a vitrine de filhotes
             </Link>
           </div>
 

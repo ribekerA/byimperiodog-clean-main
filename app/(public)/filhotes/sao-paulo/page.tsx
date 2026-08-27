@@ -144,8 +144,8 @@ export default function FilhotesSaoPauloPage() {
               <WhatsAppIcon className="h-5 w-5" />
               Falar com a Criadora
             </a>
-            <Link href="#filhotes-disponiveis" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
-              Ver Filhotes Disponíveis
+            <Link href="#vitrine" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
+              Ver a Vitrine de Filhotes
             </Link>
           </div>
         </section>
@@ -204,9 +204,16 @@ export default function FilhotesSaoPauloPage() {
           </div>
         </section>
 
-        {/* Filhotes Disponíveis */}
-        <section id="filhotes-disponiveis" className="mx-auto mt-20 max-w-7xl px-5">
-          <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">Filhotes Disponíveis</h2>
+        {/* Vitrine de filhotes */}
+        <section id="vitrine" className="mx-auto mt-20 max-w-7xl px-5">
+          {/* Era "Filhotes Disponíveis" — a página anunciava estoque em cima
+              de uma vitrine de fotos permanentes, que continuam no ar depois
+              que aquele filhote encontra a família dele. */}
+          <h2 className="mb-4 text-center text-3xl font-bold text-[var(--text)]">Vitrine de filhotes</h2>
+          <p className="mb-8 text-center text-sm text-[var(--text-muted)]">
+            Fotos reais das cores e dos sexos com que a By Império Dog trabalha.{" "}
+            <span className="font-medium text-[var(--text)]">Consulte as opções atuais pelo WhatsApp.</span>
+          </p>
           {/* PuppiesGrid busca o catálogo no Supabase pelo navegador, então o
               HTML servido nestas três páginas saía sem filhote nenhum: o Google
               indexava uma seção vazia e o visitante via a página em branco até o

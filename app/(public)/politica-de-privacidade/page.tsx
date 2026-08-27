@@ -68,8 +68,8 @@ export default function PoliticaDePrivacidadePage() {
         </p>
         <h3 className="pt-2 text-lg font-semibold text-zinc-900">1. Contato inicial e interesse</h3>
         <p className="text-zinc-600">
-          No formulário do site e no atendimento por WhatsApp, pedimos somente o suficiente para responder e apresentar os
-          filhotes disponíveis:
+          No formulário do site e no atendimento por WhatsApp, pedimos somente o suficiente para responder e apresentar as
+          opções atuais:
         </p>
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
           <li>Nome e um canal de contato (WhatsApp, telefone ou e-mail).</li>

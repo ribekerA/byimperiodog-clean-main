@@ -137,15 +137,23 @@ test.describe("Smoke publico", () => {
     }
   });
 
-  test("o preco publicado no schema e o preco da tabela", async ({ page }) => {
+  test("o preco na tela e o preco da tabela, e nenhuma pagina publica Offer", async ({
+    page,
+  }) => {
     // Contra a TABELA, nao contra o catalogo.
     //
     // A primeira versao deste teste comparava o schema da pagina com o campo
     // price_cents do proprio filhote. Os dois saem do mesmo arquivo, entao ele
     // nunca poderia falhar: mudei o preco no catalogo de proposito e o teste
     // passou. Comparar com src/domain/pricing.ts e o que torna a checagem
-    // capaz de reprovar -- ela liga o que o Google le ao que a responsavel
+    // capaz de reprovar -- ela liga o que o visitante le ao que a responsavel
     // decidiu cobrar.
+    //
+    // A segunda versao lia o preco de `offers.price` no JSON-LD. Esse nó saiu
+    // do site: pagina de vitrine nao e ficha de produto, e Offer com estoque
+    // declarado sobre uma foto permanente e motivo de acao manual. Entao o
+    // teste passou a ler o preco do HTML visivel -- que e onde ele tem de
+    // estar -- e a reprovar se qualquer Product/Offer/InStock voltar.
     const SEXO: Record<string, "macho" | "femea"> = { male: "macho", female: "femea" };
 
     for (const filhote of puppiesPublicados) {
@@ -155,39 +163,28 @@ test.describe("Smoke publico", () => {
       expect(sexo, `${filhote.slug}: sexo "${filhote.sex}" fora do vocabulario`).toBeTruthy();
 
       await page.goto(`/filhotes/${filhote.slug}`);
-      const produto = (await jsonLd(page)).find((b) => b["@type"] === "Product");
-      if (!produto) continue;
 
-      const offer = produto.offers as Record<string, unknown> | undefined;
-      if (!offer) {
-        // Sem Offer so e legitimo para quem nao esta a venda.
+      const blocos = await jsonLd(page);
+      expect(blocos.length, `${filhote.slug} nao publica JSON-LD nenhum`).toBeGreaterThan(0);
+      for (const bloco of blocos) {
         expect(
-          filhote.status,
-          `${filhote.slug} esta disponivel e nao publica Offer`,
-        ).not.toBe("available");
-        continue;
+          bloco["@type"],
+          `${filhote.slug} voltou a publicar Product`,
+        ).not.toBe("Product");
+        expect(bloco, `${filhote.slug} voltou a publicar Offer`).not.toHaveProperty("offers");
       }
-
-      // Offer so existe para quem esta a venda: reservado e vendido publicam
-      // Product sem oferta -- pagina util, promessa nenhuma.
-      expect(filhote.status, `${filhote.slug} publica Offer sem estar disponivel`).toBe(
-        "available",
-      );
+      expect(
+        JSON.stringify(blocos),
+        `${filhote.slug} voltou a declarar disponibilidade em dado estruturado`,
+      ).not.toMatch(/InStock|OutOfStock|LimitedAvailability|SoldOut/);
 
       const daTabela = TABELA_DE_PRECOS[cor][sexo];
-      expect(
-        Number(offer.price) * 100,
-        `${filhote.slug}: o schema anuncia ${offer.price} e a tabela diz ${daTabela / 100}`,
-      ).toBe(daTabela);
-
-      // E o mesmo numero tem de estar na tela, nao so no JSON-LD.
       const corpo = await page.locator("body").innerText();
       expect(corpo, `${filhote.slug} nao mostra ${formatarPreco(daTabela)}`).toContain(
         formatarPreco(daTabela),
       );
     }
   });
-
   test("o CTA de WhatsApp aponta para o numero do canil -- conferido sem clicar", async ({
     page,
   }) => {
@@ -239,5 +236,125 @@ test.describe("Smoke publico", () => {
     await page.goto("/contato");
     await expect(page.locator("form").first()).toBeVisible();
     // Nenhum submit aqui de proposito: ver o cabecalho deste arquivo.
+  });
+});
+
+/**
+ * As superficies nomeadas no portao.
+ *
+ * Os testes acima varrem o catalogo inteiro por iteracao, o que cobre estas
+ * paginas por tabela. O bloco abaixo as nomeia uma a uma de proposito: se um
+ * dia a lista de publicados encolher por engano -- filtro trocado, entrada
+ * marcada `divulgar: false` sem querer --, o teste por iteracao passa com o que
+ * sobrou, e ninguem fica sabendo. Nomear e o que faz sumir doer.
+ *
+ * Alem das tres vitrines comerciais, entram aqui as duas rotas que o Google le
+ * antes de qualquer pagina (robots e o indice de sitemaps) e a porta do painel.
+ */
+test.describe("Portao das superficies criticas", () => {
+  /** Vitrines citadas pelo nome, com a linha da tabela que cada uma deve exibir. */
+  const VITRINES = [
+    { slug: "spitz-alemao-anao-branco-femea", cor: "branco", sexo: "femea" },
+    { slug: "lulu-da-pomerania-particolor-macho", cor: "particolor", sexo: "macho" },
+    { slug: "spitz-alemao-anao-laranja-macho", cor: "laranja", sexo: "macho" },
+  ] as const;
+
+  for (const vitrine of VITRINES) {
+    test(`/filhotes/${vitrine.slug} responde e mostra o preco da tabela`, async ({ page }) => {
+      const resposta = await page.goto(`/filhotes/${vitrine.slug}`);
+      expect(resposta!.status(), `${vitrine.slug} respondeu ${resposta!.status()}`).toBe(200);
+
+      await expect(page.locator("h1").first()).toBeVisible();
+      await expect(
+        page.locator("img").first(),
+        `${vitrine.slug} e uma galeria visual: sem imagem ela nao tem funcao`,
+      ).toBeVisible();
+
+      const esperado = formatarPreco(TABELA_DE_PRECOS[vitrine.cor][vitrine.sexo]);
+      const corpo = await page.locator("body").innerText();
+      expect(corpo, `${vitrine.slug} nao mostra ${esperado}`).toContain(esperado);
+    });
+  }
+
+  test("/blog lista artigos", async ({ page }) => {
+    const resposta = await page.goto("/blog");
+    expect(resposta!.status()).toBe(200);
+    const artigos = page.locator('a[href^="/blog/"]');
+    expect(await artigos.count(), "o blog respondeu 200 sem nenhum artigo").toBeGreaterThan(0);
+  });
+
+  test("robots.txt libera a vitrine, fecha o painel e aponta o sitemap", async ({ request }) => {
+    const resposta = await request.get("/robots.txt");
+    expect(resposta.status()).toBe(200);
+    const texto = await resposta.text();
+
+    // "Disallow: /" sozinho tira do indice tudo o que aquele grupo alcanca --
+    // mas so aquele grupo. A checagem anterior procurava a linha no arquivo
+    // inteiro e reprovava um robots.txt correto: AhrefsBot, SemrushBot, DotBot
+    // e MJ12bot sao bloqueados de proposito, e "Disallow: /" e exatamente como
+    // se bloqueia um raspador. Lida solta, a linha nao distingue "o site saiu
+    // do indice" de "um raspador de backlink levou porta na cara".
+    //
+    // A regra passou a ser por grupo, com lista nomeada: quem pode ter
+    // "Disallow: /" e so quem esta escrito abaixo. A mesma linha sob Googlebot,
+    // sob um bot de IA ou sob "*" continua reprovando -- que era a intencao
+    // desde o comeco, e agora e o que o teste realmente mede.
+    const RASPADORES_BLOQUEADOS = ["ahrefsbot", "semrushbot", "dotbot", "mj12bot"];
+
+    type Grupo = { agentes: string[]; regras: string[] };
+    const grupos: Grupo[] = [];
+    let atual: Grupo | null = null;
+    for (const bruta of texto.split(/\r?\n/)) {
+      const linha = bruta.trim();
+      const ua = /^user-agent:\s*(.+)$/i.exec(linha);
+      if (ua) {
+        // User-Agent seguidos compartilham o mesmo grupo (RFC 9309).
+        if (!atual || atual.regras.length > 0) {
+          atual = { agentes: [], regras: [] };
+          grupos.push(atual);
+        }
+        atual.agentes.push(ua[1].trim().toLowerCase());
+        continue;
+      }
+      if (atual && /^(dis)?allow:/i.test(linha)) atual.regras.push(linha);
+    }
+
+    expect(grupos.length, "robots.txt sem nenhum grupo User-Agent").toBeGreaterThan(0);
+
+    for (const grupo of grupos) {
+      if (!grupo.regras.some((r) => /^disallow:\s*\/\s*$/i.test(r))) continue;
+      for (const agente of grupo.agentes) {
+        expect(
+          RASPADORES_BLOQUEADOS,
+          `"Disallow: /" sob User-Agent: ${agente} tira o site do indice`,
+        ).toContain(agente);
+      }
+    }
+
+    const coringa = grupos.find((g) => g.agentes.includes("*"));
+    expect(coringa, "robots.txt sem grupo User-Agent: *").toBeTruthy();
+    expect(
+      coringa!.regras.some((r) => /^allow:\s*\/\s*$/i.test(r)),
+      "o grupo * nao libera a vitrine",
+    ).toBe(true);
+
+    expect(texto, "robots.txt nao aponta nenhum sitemap").toMatch(/Sitemap:\s*https?:\/\//i);
+    expect(texto, "o painel precisa ficar fora do indice").toMatch(/Disallow:\s*\/admin/i);
+  });
+
+  test("o indice de sitemaps responde XML e lista sitemaps", async ({ request }) => {
+    const resposta = await request.get("/sitemap-index.xml");
+    expect(resposta.status()).toBe(200);
+    const xml = await resposta.text();
+    expect(xml, "a resposta nao e um indice de sitemaps").toContain("<sitemapindex");
+    const locs = xml.match(/<loc>/g) ?? [];
+    expect(locs.length, "indice de sitemaps sem nenhum <loc>").toBeGreaterThan(0);
+  });
+
+  test("o painel nao abre sem sessao", async ({ page }) => {
+    await page.goto("/admin/dashboard");
+    // O proxy manda para o login. O que nao pode acontecer e a pagina do painel
+    // renderizar para quem chegou sem cookie assinada.
+    await expect(page).toHaveURL(/\/admin\/login/);
   });
 });

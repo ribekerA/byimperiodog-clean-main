@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 
 import PuppyCinematicGallery from "@/components/catalog/PuppyCinematicGallery";
 import {
-  ClientOnlyNotifyMeButton,
   ClientOnlyPuppyReviews,
   ClientOnlyPuppyStickyFloatingCTA,
 } from "@/components/catalog/PuppyClientOnly";
@@ -14,10 +13,11 @@ import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContai
 import { TiltCard } from "@/components/motion/TiltCard";
 import ViewEventTracker from "@/components/ViewEventTracker";
 import { staticPuppies } from "@/content/puppies-static";
-import { formatPrice, getPuppyBySlug } from "@/lib/catalog-utils";
+import { textoAPartirDe } from "@/domain/pricing";
+import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildPuppyProductLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD, buildVitrinePageLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // UrgencyCountdown, PuppyViewerCount e VisitorActivityToast foram removidos.
@@ -29,6 +29,13 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 //  • VisitorActivityToast sorteava nome e cidade de listas fixas para anunciar
 //    "Fulana de Campinas favoritou este filhote".
 // Anuncio de escassez e de demanda so pode sair de dado real e verificavel.
+//
+// Esta pagina e permanente (26/08/2026). Ela nao remove foto, nao muda URL,
+// nao vira 404 e nao muda de canonical quando o animal fotografado sai: ela
+// representa a combinacao de cor e sexo, e o que existe hoje se confirma no
+// atendimento. Por isso sairam daqui o rotulo de status, o ramo "vendido", o
+// filtro que escondia relacionados vendidos, a contagem de disponiveis por cor
+// e o NotifyMeButton que substituia o CTA.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -131,15 +138,6 @@ const COLOR_GLOW: Record<string, string> = {
 };
 const DEFAULT_GLOW = "rgba(52,211,153,0.30)";
 
-const STATUS_LABEL: Record<string, string> = {
-  available:  "Disponível",
-  disponivel: "Disponível",
-  reserved:   "Reservado",
-  reservado:  "Reservado",
-  sold:       "Vendido",
-  vendido:    "Vendido",
-};
-
 // ─── Página ────────────────────────────────────────────────────────────────────
 
 export default async function PuppyPage(props: Props) {
@@ -155,11 +153,8 @@ export default async function PuppyPage(props: Props) {
     (puppy as any).description ??
     `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
 
-  const status = ((puppy.status ?? "available") as string) as "available" | "reserved" | "sold";
-  const isSold = status === "sold" || status === "vendido" as string;
-
   const waLink = buildWhatsAppLink({
-    message: `Olá! Vi o filhote ${puppy.name} (${corLabel}, ${sexLabel}) no site e quero saber disponibilidade e condições.`,
+    message: `Olá! Vi ${puppy.name} (${corLabel}, ${sexLabel}) na vitrine do site e gostaria de conhecer as opções atuais dessa combinação.`,
     utmSource: "site",
     utmMedium: "puppy_page",
     utmCampaign: "filhote_detalhe",
@@ -168,7 +163,7 @@ export default async function PuppyPage(props: Props) {
 
   const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
-  const productLd    = buildPuppyProductLD(puppy as any);
+  const pageLd       = buildVitrinePageLD(puppy as any);
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",    url: `${SITE_URL}/` },
     { name: "Filhotes",  url: `${SITE_URL}/filhotes` },
@@ -176,22 +171,19 @@ export default async function PuppyPage(props: Props) {
   ]);
 
   const related = staticPuppies
-    .filter((p) => p.slug !== puppy.slug && p.color === puppy.color && p.status !== "sold")
+    .filter((p) => p.slug !== puppy.slug && p.color === puppy.color)
     .slice(0, 3);
-
-  const availableOfSameColor = staticPuppies.filter(
-    (p) => p.color === puppy.color && p.status !== "sold" && p.status !== "vendido"
-  ).length;
 
   const coverImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
   return (
     <>
       {/* JSON-LD */}
-      <script id="ld-product"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }} />
+      <script id="ld-webpage"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
-      {/* GA4: view_item — visualizacao da pagina. Nao e lead: lead e o clique
-          em WhatsApp (whatsapp_click) ou o envio de formulario. */}
+      {/* GA4: view_puppy_reference — visualizacao da pagina de referencia.
+          Nao e lead: lead e o clique em WhatsApp (whatsapp_click) ou o envio
+          de formulario. */}
       <ViewEventTracker tipo="filhote" puppySlug={puppy.slug} puppyColor={colorSlug} puppySex={sexSlug} />
 
       <div className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 sm:py-8 lg:px-10 lg:pb-16">
@@ -231,18 +223,11 @@ export default async function PuppyPage(props: Props) {
               colorSlug={colorSlug}
               sexLabel={sexLabel}
               sexSlug={sexSlug}
-              status={status}
               priceCents={(puppy as any).priceCents ?? (puppy as any).price_cents}
               description={description}
-              availableOfSameColor={availableOfSameColor}
               waLink={waLink}
               slug={puppy.slug}
             />
-
-            {/* Hooked loop: filhote vendido/reservado → usuário deixa WhatsApp para ser notificado */}
-            {isSold && (
-              <ClientOnlyNotifyMeButton color={colorSlug} colorLabel={corLabel} />
-            )}
           </div>
         </div>
 
@@ -257,7 +242,7 @@ export default async function PuppyPage(props: Props) {
                 id="related-heading"
                 className="mb-6 text-xl font-bold text-zinc-900"
               >
-                Outros filhotes {corLabel} disponíveis
+                Outros {corLabel} na vitrine
               </h2>
             </ScrollReveal>
 
@@ -268,7 +253,6 @@ export default async function PuppyPage(props: Props) {
                   const relCor    = (rel as any).cor ?? rel.color ?? "";
                   const relCorKey = (rel.color ?? relCor).toLowerCase();
                   const relImg    = rel.images?.find((img: string) => !img.endsWith(".mp4"));
-                  const relStatus = rel.status ?? "available";
                   const glowColor = COLOR_GLOW[relCorKey] ?? DEFAULT_GLOW;
 
                   return (
@@ -312,17 +296,10 @@ export default async function PuppyPage(props: Props) {
                               </span>
                             </div>
                             <div className="p-3">
-                              <span className={`mb-1 inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${
-                                relStatus === "available" || relStatus === "disponivel"
-                                  ? "bg-emerald-50 text-emerald-800"
-                                  : "bg-amber-50 text-amber-800"
-                              }`}>
-                                {STATUS_LABEL[relStatus] ?? "Disponível"}
-                              </span>
-                              <p className="mt-1 text-sm text-zinc-500">{relCor} · {relSex}</p>
+                              <p className="text-sm text-zinc-500">{relCor} · {relSex}</p>
                               {(rel as any).priceCents > 0 && (
                                 <p className="mt-1 text-sm font-bold text-emerald-700">
-                                  {formatPrice((rel as any).priceCents)}
+                                  {textoAPartirDe((rel as any).priceCents)}
                                 </p>
                               )}
                             </div>
@@ -343,7 +320,7 @@ export default async function PuppyPage(props: Props) {
             href="/filhotes"
             className="inline-flex items-center gap-2 rounded-full border-2 border-zinc-200 px-6 py-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700"
           >
-            ← Ver todos os filhotes disponíveis
+            ← Ver toda a vitrine de filhotes
           </Link>
         </div>
       </div>
@@ -354,7 +331,6 @@ export default async function PuppyPage(props: Props) {
         coverImage={coverImage}
         priceCents={(puppy as any).priceCents ?? (puppy as any).price_cents}
         waLink={waLink}
-        status={puppy.status ?? "available"}
       />
     </>
   );

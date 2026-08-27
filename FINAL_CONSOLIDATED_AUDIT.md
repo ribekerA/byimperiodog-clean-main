@@ -1302,3 +1302,1067 @@ foi feito em nenhum momento desta rodada.
 foi alterada nesta rodada.** As páginas regionais continuam existindo e
 indexáveis. O que mudou em conteúdo público foi uma frase de FAQ que prometia
 um documento inexistente, e o preço passou a ser escrito de uma forma só.
+
+
+---
+
+# MASTER 3.0 — 48 PERGUNTAS (§117)
+
+Rodada única sobre o HEAD de `main`, branch `chore/next16-react19-node24`.
+Data: 27/08/2026. **Nenhum deploy intermediário foi feito.**
+
+As respostas abaixo foram verificadas contra o **HTML realmente servido** por um
+`npm run start` do build desta rodada, e — onde a pergunta é sobre o site no ar —
+contra `https://byimperiodog.com.br`. Onde a verificação não foi possível daqui,
+está escrito que não foi, e por quê. Nenhuma resposta foi marcada como verde por
+ausência de evidência.
+
+## 1. O site publica estoque público?
+
+Não. Nenhuma página pública informa quantos filhotes existem, quais estão livres
+ou quais saíram. Verificado sobre o HTML servido em `/`, `/filhotes`, uma ficha
+de cor e `/preco-spitz-anao`: **`availability` aparece 0 vez** em qualquer
+JSON-LD, e nenhum texto visível declara estado de unidade.
+
+A vitrine é permanente por **cor + sexo**. Disponibilidade real se confirma
+apenas no atendimento.
+
+## 2. Algum card diz "disponível", "reservado" ou "vendido"?
+
+Não. A varredura desta rodada trocou o vocabulário de estoque em todo texto que
+vira HTML — `app/`, `src/` e `content/`, poupando comentários de código, que
+documentam justamente o que foi removido antes.
+
+Dois resíduos escaparam da varredura automática e foram corrigidos à mão:
+
+- `app/(public)/preco-spitz-anao/page.tsx:200` — a nota de rodapé em JSX começa
+  com `*`, e o filtro de comentário do script tratou a linha como comentário. O
+  texto dizia "Consulte filhotes disponíveis no catálogo"; hoje diz "Cada valor
+  é o ponto de partida daquela combinação de cor e sexo. Consulte as opções
+  atuais pelo WhatsApp."
+- `src/components/ui/card.tsx:25` — exemplo de JSDoc com `<CardTitle>Filhote
+  Disponível</CardTitle>`. Não vira HTML, mas é o trecho que a próxima pessoa
+  copia. Trocado por `Spitz Alemão Anão laranja`.
+
+`npm run check:banned-words` e `npm run seo:audit` fecham em 0 erro.
+
+## 3. O site informa quantidade disponível?
+
+Não. Nem contador, nem "restam X", nem "X de X filhotes", nem lista de espera
+baseada em estoque, nem contador de visitantes. Nenhum desses termos existe em
+texto público.
+
+## 4. A foto é removida quando o animal sai?
+
+Não, e isso é decisão de arquitetura, não descuido. A foto é **galeria e
+referência visual real** do que o canil produz. Removê-la jogaria fora
+indexação, autoridade de página, presença no Google Imagens e histórico de
+compartilhamento — para ganhar o quê? A disponibilidade não é publicada, então
+não há nada a corrigir quando um animal sai.
+
+O corolário: **nenhuma URL muda quando um animal sai, e nenhum deploy é
+necessário para alterar disponibilidade** — porque disponibilidade não está
+publicada em lugar nenhum.
+
+## 5. As páginas são evergreen?
+
+Sim. `/filhotes/spitz-alemao-anao-<cor>-<sexo>` é uma página de **combinação**,
+não de indivíduo. Ela existe enquanto o canil trabalhar aquela cor, o que a
+torna acumuladora de autoridade em vez de descartável.
+
+## 6. Qual é a fonte canônica das fotos?
+
+`content/puppies-static.ts` para o mapeamento, e os arquivos em
+`public/filhotes/` para o conteúdo. Tudo versionado no Git. O Supabase **não** é
+fonte canônica de foto de vitrine — a instrução antiga que dizia o contrário foi
+cancelada pelo §2 do Master 3.0.
+
+Consequência prática: banco fora do ar não derruba a vitrine. Está registrado em
+`DISASTER_RECOVERY.md` como propriedade de arquitetura, não como sorte.
+
+## 7. Qual é a fonte canônica de preço?
+
+`src/domain/pricing.ts`. A formatação é centralizada em `formatarPreco`, e
+`tests/unit/price-format-guard.test.ts` impede que um oitavo componente volte a
+escrever o seu próprio `Intl.NumberFormat`. Antes desta consolidação, sete
+componentes formatavam sozinhos e produziam strings diferentes para o mesmo
+valor — idênticas na tela, distintas no HTML.
+
+## 8. O "a partir de" está correto?
+
+Sim, para as cinco cores divulgadas:
+
+| Cor | Macho | Fêmea |
+|---|---|---|
+| Particolor | R$ 5.500 | R$ 6.500 |
+| Laranja | R$ 6.500 | R$ 7.500 |
+| Creme | R$ 7.500 | R$ 8.500 |
+| Preto | R$ 7.500 | R$ 8.500 |
+| Branco | R$ 8.500 | R$ 9.500 |
+
+Cinza-lobo permanece com `divulgar: false` e fora da tabela, por decisão
+comercial. As páginas evergreen de referência da cor continuam existindo e
+auditadas — elas descrevem a cor, não anunciam preço.
+
+"A partir de" é a formulação honesta: o valor é o piso daquela combinação, não
+uma promessa de que todo animal sai por ele.
+
+## 9. `Product` / `Offer` / `InStock` permanecem em página evergreen?
+
+`Product`: **0**. `InStock`: **0**. `availability`: **0**. Contados sobre o HTML
+servido nas quatro URLs de amostra.
+
+Permanece **um** nó `Offer`, dentro de `makesOffer` do `LocalBusiness`:
+
+```json
+{"@type":"Offer","name":"Filhote de Spitz Alemão Anão — Lulu da Pomerânia",
+ "description":"...vacinado e vermifugado, com consulta veterinária, hemograma
+ completo e pedigree...","priceCurrency":"BRL",
+ "url":"https://byimperiodog.com.br/filhotes",
+ "areaServed":{"@type":"Country","name":"Brasil"}}
+```
+
+Sem `price`. Sem `availability`. Sem `Product` em volta.
+
+## 10. Por quê?
+
+Porque `makesOffer` num `LocalBusiness` responde "o que este negócio faz", e a
+resposta — *cria e vende filhote de Spitz Alemão Anão, no Brasil* — é verdadeira
+e permanente. `Product` + `Offer` + `availability` responderiam "esta unidade
+está à venda agora", que é exatamente a afirmação que o site não faz e não pode
+manter atualizada sem virar sistema de estoque.
+
+Nesta rodada foi removida a função `schemaAvailability()` de
+`src/domain/puppy-status.ts`, que traduzia status interno para `InStock`,
+`PreOrder` ou `SoldOut`. Ela estava sem **nenhum** chamador desde que o
+`Product` saiu das vitrines. Uma função pronta que ainda sabe escrever `InStock`
+é um convite a reintroduzir o problema no próximo componente de catálogo — por
+isso foi apagada, e não apenas deixada de lado. O status continua no admin
+(`STATUS_LABEL`), que é onde ele sempre pertenceu: decisão de atendimento.
+
+Também nesta rodada, `hasOfferCatalog.name` perdeu a palavra "disponíveis". O
+nó fixo do grafo dizia "Filhotes de Spitz Alemão Anão **disponíveis**" em toda
+página do site — uma afirmação de estoque dentro do JSON-LD que ninguém
+atualizava. Nenhuma regex de texto do auditor pegava, porque havia palavras
+entre "filhotes" e "disponíveis". Encontrado por leitura, não por ferramenta.
+
+## 11. Algum pageview é chamado de lead?
+
+Não. `tests/unit/view-nao-e-lead.test.ts` existe justamente para travar isso, e
+passa. Os eventos declarados no código público são `page_view`, `view_form`,
+`submit_start`, `submit_success` e `submit_error` — a distinção entre "abriu o
+formulário" e "enviou o formulário" é explícita e testada.
+
+## 12. Existe evento de visualização de galeria?
+
+Sim, e ele é de **engajamento**, não de conversão: `gallery_swipe` e
+`gallery_images`. Nenhum deles alimenta conversão do Ads nem entra na contagem
+de leads. Ver galeria é sinal de interesse, e é assim que está classificado.
+
+## 13. Um clique físico no WhatsApp gera exatamente uma conversão?
+
+Sim. `tests/components/whatsappClickTracker.test.tsx` cobre isso com 10 testes,
+incluindo o caso do botão flutuante real — "um toque, um evento" — e a
+verificação de que o componente **não** emite evento próprio além do
+`whatsapp_click` do ouvinte. Era esse duplo disparo que inflava conversão.
+
+Nenhum clique de CTA foi disparado contra o site em produção durante esta
+auditoria: isso gravaria conversão real na conta de Google Ads do canil. A
+verificação em produção foi feita só com leitura (`curl`).
+
+## 14. O UTM respeita o consentimento?
+
+Sim. `src/lib/consent.ts` implementa consentimento LGPD com as categorias do
+Google Consent Mode v2 — `necessary`, `analytics`, `marketing`, `functional` —
+e expõe `OPEN_CONSENT_EVENT` para revogação. `src/lib/attribution.ts` captura
+`utm_source`, `utm_medium` e `landing_page` dentro desse regime.
+
+## 15. Sobrou "laudo" como promessa comercial?
+
+Não em conteúdo do canil. A varredura desta rodada trocou seis ocorrências em
+cinco arquivos, sempre pelo que o canil entrega de fato — **consulta veterinária
+antes da entrega** e **hemograma completo**, não um documento genérico:
+
+| Arquivo | Antes | Depois |
+|---|---|---|
+| `content/guides/index.ts:37` | "apresentam laudo de medição junto ao registro" | "é honesto sobre o limite: altura de adulto não se mede em filhote" |
+| `content/guides/index.ts:59` | "laudo de saúde, exames genéticos" | "carteira de vacinação assinada, histórico de vermifugação e o resultado dos exames feitos antes da entrega" |
+| `content/posts/documentacao-registro-spitz-alemao.mdx:73` | "Laudo de saúde veterinário" | "Resultado dos exames feitos antes da entrega — consulta veterinária e hemograma completo, por escrito" |
+| `content/posts/spitz-alemao-anao-filhote-primeiros-dias.mdx:96` | "Laudo de saúde (se o criador forneceu)" | "Resultado dos exames feitos antes da entrega, se o criador forneceu" |
+| `content/posts/vacinas-spitz-alemao-anao-filhote.mdx:83` | "Laudo de saúde" | "Consulta veterinária antes da entrega, com hemograma completo" |
+| `content/posts/como-escolher-canil-spitz-alemao.mdx:52` | "Laudo veterinário de saúde" | "Resultado dos exames feitos antes da entrega (consulta veterinária e hemograma completo)" |
+
+Duas exceções continuam de pé, **de propósito**:
+
+1. `src/components/sections/TextTestimonials.tsx` — está na allowlist de
+   `check-banned-words.mjs` com a razão escrita no próprio arquivo: reescrever a
+   fala de um cliente seria falsificação. Quem pode corrigir é quem falou.
+2. Cláusula 3.2 do contrato — fala de laudo apresentado *pelo comprador*.
+   Auditada e reportada em `CONTRACT_LEGAL_BLOCKERS.md`, não alterada. Texto de
+   contrato não se reescreve por conta própria.
+
+## 16. Sobrou claim de estoque?
+
+Não. Zero ocorrência de: *Disponível, Reservado, Vendido, Em estoque, InStock,
+Último desta cor, Restam X, X disponíveis, X de X filhotes, Disponibilidade
+limitada, Ninhadas esporádicas, Alta procura, Mais procurado, Estoque baixo*.
+Nem lista de espera por estoque, nem contador de reserva, nem contador de
+visualização, nem urgência fabricada.
+
+O texto padrão passou a ser: *"Consulte as opções atuais pelo WhatsApp."* e
+*"Fale com a equipe para conhecer os filhotes disponíveis no atendimento."*
+
+## 17. Sobrou claim falso sobre criação ou origem?
+
+Não. Os fatos publicados são os confirmados: fundação em **2013**, base em
+**Bragança Paulista, SP**, CNPJ 22.587.478/0001-00. O site não afirma estrutura
+física que não existe, não inventa parceiros, não cita filial e não publica
+endereço residencial.
+
+Sobre identificação do animal, o site diz apenas que *"a identificação do animal
+segue os requisitos exigidos pela legislação aplicável"* — porque microchip é
+opcional e afirmar o contrário seria promessa que o canil não fez.
+
+Padrão da raça: **21 cm ± 3 cm** de cernelha, peso proporcional ao tamanho. O
+site **não** publica "1,5–3,5 kg" como faixa oficial da FCI, porque não é.
+
+## 18. `FAQPage` foi removido?
+
+Sim. **0** ocorrência no HTML servido em qualquer das URLs de amostra. O
+conteúdo de FAQ continua na página, para quem lê; o que saiu foi a marcação que
+disputava um rich result que o Google aposentou.
+
+## 19. Quantas schema factories existem?
+
+**Seis**, e não mais sete. A contagem por importadores:
+
+| Módulo | Importadores |
+|---|---|
+| `src/lib/structured-data.ts` | 29 |
+| `src/lib/schema.ts` | 16 |
+| `src/lib/seo.core.ts` | 5 |
+| `src/lib/schemas/article.ts` | 1 |
+| `src/lib/schemas/breadcrumb.ts` | 1 |
+| `src/lib/blog/seo.ts` | 1 |
+| ~~`src/lib/blog.breadcrumbs.ts`~~ | **0 — removido nesta rodada** |
+
+`blog.breadcrumbs.ts` eram 11 linhas duplicando `schemas/breadcrumb.ts`, sem uma
+única referência em `src`, `app`, `tests` ou `scripts`. Removido pelo mesmo
+motivo da `schemaAvailability()`: código morto que ainda sabe gerar JSON-LD é
+uma segunda fonte da verdade esperando alguém importar.
+
+Seis não é um número bonito, mas é honesto: `structured-data.ts` é o grafo do
+site, `schema.ts` e `seo.core.ts` cobrem metadados de página, e os três de blog
+são específicos de artigo. Consolidar os seis num só é refactor de risco não
+trivial, e o §145 é explícito: **não transformar a busca pelo site perfeito numa
+sequência infinita de refactors**. Fica registrado como candidato futuro, não
+como pendência desta rodada.
+
+## 20. Existe apenas um `LocalBusiness`?
+
+Sim — **uma** entidade, `@id: https://byimperiodog.com.br/#business`.
+
+O `grep` bruto conta 2 ocorrências por página, e isso não é duplicação: o
+Next.js emite o mesmo `<script type="application/ld+json">` uma vez no HTML e
+uma vez dentro do payload RSC. Contando `"@type":"LocalBusiness"` sobre o
+documento inteiro, o resultado é **1**.
+
+## 21. `Google-Extended` está documentado?
+
+Sim, em `app/robots.ts`, com o motivo escrito ao lado de cada agente. Estão
+explicitamente **liberados**: `PerplexityBot`, `GPTBot`, `Google-Extended`
+(Gemini e grounding do AI Overviews), `ClaudeBot`, `anthropic-ai`, `CCBot` e
+`Applebot-Extended`.
+
+A decisão é deliberada e está comentada no arquivo: um canil que quer aparecer
+em resposta gerada por IA não bloqueia o rastreador que alimenta essa resposta.
+
+## 22. `max-image-preview:large` está presente?
+
+Sim, nas quatro URLs de amostra. Verificado sobre o HTML servido, não sobre a
+configuração.
+
+## 23. `primaryImageOfPage` é coerente?
+
+Sim, onde faz sentido. Presente em `/filhotes` e nas fichas de cor — as páginas
+em que existe **uma** imagem que representa a página. Ausente em `/`,
+`/preco-spitz-anao` e `/blog`, que não têm imagem principal única; declarar uma
+ali seria escolher arbitrariamente e chamar isso de dado estruturado.
+
+## 24. O sitemap de imagens é válido?
+
+Sim. `https://byimperiodog.com.br/sitemaps/images.xml` responde 200 com
+`application/xml`, namespace `sitemap-image/1.1`, e cada `<image:image>` está
+amarrada à `<loc>` da página em que a foto realmente aparece.
+
+Sem `<lastmod>` — de propósito. Não existe data confiável para "quando esta
+lista de imagens mudou", e data chutada é pior do que campo ausente, porque
+ensina o Google a desconfiar do arquivo inteiro.
+
+## 25. O sitemap de vídeos é válido?
+
+Sim. `sitemaps/videos.xml`, namespace `sitemap-video/1.1`, com
+`video:thumbnail_loc`, `video:title` e `video:description` preenchidos, apontando
+para `/galeria`. O `<lastmod>` aqui é `ULTIMO_VIDEO_UPLOAD_DATE` — data real de
+entrada do vídeo, não o horário do build.
+
+**Sobre o índice:** `sitemap-index.xml` lista quatro filhos —
+`sitemap.xml`, `posts.xml`, `images.xml`, `videos.xml`. Existem sete arquivos em
+`app/sitemaps/`; `tags`, `authors`, `categories` e `puppies` ficaram **fora do
+índice de propósito**, com o motivo escrito no `route.ts`: eles apontavam para
+rotas inexistentes (`/blog/tag`, `/autores`, `/categorias`, `/filhote/{id}`), e
+mandar o Google para 404 é pior do que não mandar.
+
+## 26. O vídeo suporta `Range`?
+
+Sim, e foi verificado dos dois lados:
+
+- Local: `HTTP/1.1 206 Partial Content`, `Accept-Ranges: bytes`,
+  `Content-Range: bytes 0-1023/5057516`.
+- Produção: mesmo 206, com
+  `Cache-Control: public,max-age=2592000,stale-while-revalidate=604800`.
+
+## 27. A mídia de `/filhotes` tem cache adequado?
+
+Em produção, sim: 30 dias com `stale-while-revalidate`, confirmado por header.
+`npm run cache:verify` fecha em 0 erro com 12 mídias coerentes.
+
+Os 3 avisos que sobram são de `max-age=0` em vídeo **no servidor local**. Isso é
+artefato do `next start`, não defeito de produção — o header real do site no ar
+é o de 30 dias, medido acima. O aviso fica porque um auditor que esconde a
+diferença entre local e produção não serve para nada.
+
+## 28. `seo:audit` é auditoria real?
+
+Sim. Ele busca as URLs por HTTP e lê o HTML servido; não inspeciona código-fonte
+nem configuração. O resultado desta rodada:
+
+```
+URLs coletadas : 85
+URLs auditadas : 85
+Responderam    : 85
+Inacessíveis   : 0
+Erros          : 0
+Avisos         : 29
+✅ Auditoria aprovada com 29 aviso(s).
+```
+
+Antes das correções desta rodada ele saía com **66 erros** — 62 de linguagem de
+estoque e 4 de `claim:laudo`. Um auditor que já reprovou o próprio site é a
+única prova que vale de que ele não é decorativo.
+
+## 29. Ele falha com o servidor offline?
+
+Sim. Executado contra a porta morta 3999, `seo:audit` sai com **exit 1** e diz
+explicitamente que aquilo **não é aprovação do site**. Zero URL verificada é
+erro, nunca verde.
+
+## 30. O route validator falha offline?
+
+Sim, mesmo comportamento: exit 1 contra porta morta. O mesmo vale para
+`production:seo-watch`.
+
+Contra o servidor vivo desta rodada: `route:validate` → 18 rotas, 0 erro.
+
+## 31. O CI usa Node 24?
+
+Sim. `.github/workflows/ci.yml` usa `node-version-file: .nvmrc`, e o `.nvmrc`
+está em `24.19.0`. O `package.json` declara `engines: >=24 <25`. A versão do CI
+não pode divergir da local sem que o arquivo mude.
+
+## 32. O lint é bloqueante?
+
+Sim. O `continue-on-error` foi removido em 26/08/2026. O passo "Lint" do job
+`Qualidade e build` derruba o CI.
+
+Prova desta rodada: o lint **reprovou** com 1 erro de `import/order` em
+`src/components/color-page/ColorPageContent.tsx:23`, e o commit só avançou
+depois da correção. Hoje: **0 erro, 1149 avisos**. Os avisos são
+majoritariamente `setState` síncrono em efeito, dentro do painel admin — dívida
+conhecida, sem efeito sobre o site público, e não é assunto desta rodada.
+
+## 33. O Playwright é bloqueante?
+
+Sim. O passo "Smoke público" roda
+`npx playwright test tests/e2e/smoke.spec.ts --project=chromium` com
+`PLAYWRIGHT_WEB_SERVER: npm run start`, e derruba o CI.
+
+Prova desta rodada: o smoke **falhou** — 1 de 15 — e a falha era do **teste**,
+não do site. A asserção antiga varria o `robots.txt` inteiro procurando
+`Disallow: /` e reprovava um arquivo correto, porque não distinguia "o site foi
+desindexado" de "um raspador de backlink foi bloqueado".
+
+O teste foi reescrito para fazer parsing **por grupo `User-Agent`** (RFC 9309),
+com allowlist nomeada de raspadores (`ahrefsbot`, `semrushbot`, `dotbot`,
+`mj12bot`), e passou a exigir também que o grupo `*` libere a vitrine e que o
+`/admin` fique fora do índice. **O portão ficou mais rigoroso, não mais frouxo**
+— para Googlebot, para os bots de IA e para o `*`. Depois: 15 passaram.
+
+## 34. `showcase:audit` e `catalog:audit` são bloqueantes?
+
+Sim, os dois — via `prebuild`, o que significa que `npm run build` não começa se
+eles reprovarem. É também por isso que **`next build` puro nunca deve ser
+usado** neste projeto: ele pularia a cadeia inteira de portões.
+
+Resultado desta rodada: `showcase:audit` → "Nenhuma falha crítica";
+`catalog:audit` → aprovado.
+
+## 35. As páginas regionais correm risco de doorway?
+
+Não, e a razão é substância, não declaração. `/filhotes/sao-paulo`,
+`/filhotes/minas-gerais` e `/filhotes/rio-de-janeiro` têm conteúdo próprio sobre
+entrega e logística para cada região, não são o mesmo texto com o nome do estado
+trocado, e são **três**, não trinta.
+
+O portão de qualidade do §quality-gates dispara aviso a partir de 30 páginas de
+localidade e trava em 50. Três estados, em que o canil de fato atende, não é
+página-porta — é informação que a pessoa daquele estado precisa.
+
+**Nenhuma página de cidade em massa foi criada, e nenhuma será por conta
+própria.**
+
+## 36. Alguma decisão destrutiva foi tomada sobre URL?
+
+Nenhuma. **Nenhuma URL pública mudou nesta rodada. Nenhum canonical mudou.**
+Nenhuma página foi despublicada, redirecionada ou renomeada. As páginas
+regionais continuam existindo e indexáveis.
+
+O que mudou foi texto dentro de páginas que continuam nos mesmos endereços.
+
+## 37. Existe canibalização identificada?
+
+Há sobreposição conhecida e deliberada entre `/spitz-alemao`, `/pomeranian`,
+`/lulu-da-pomerania` e `/filhotes`. Não é acidente: são os quatro nomes pelos
+quais a mesma raça é buscada no Brasil, e cada página trata do termo por que a
+pessoa chegou.
+
+O que impede a canibalização virar problema é a diferença de intenção —
+`/filhotes` é a vitrine, as outras três são páginas de raça — e o `canonical`
+próprio de cada uma, verificado. **Não foi resolvida por consolidação nesta
+rodada**, e essa é uma escolha, não um esquecimento: fundir páginas de raça é
+decisão de arquitetura com risco real de perda de posição, e o §145 manda não
+atrasar a estabilização por isso.
+
+## 38. O blog cita fontes concorrentes?
+
+Não. As fontes declaradas nos 30 posts são exclusivamente institucionais:
+
+| Fonte | Citações |
+|---|---|
+| `wsava.org` | 21 |
+| `avsab.org` | 19 |
+| `fci.be` | 16 |
+| `cbkc.org` | 11 |
+| `ofa.org` | 7 |
+| `akc.org` | 1 |
+
+Zero canil concorrente, zero marketplace, zero blog de terceiro. E **zero link
+externo no corpo dos artigos** — as fontes são declaradas como referência, não
+como link que exporta autoridade.
+
+## 39. A autoria visual bate com o JSON-LD?
+
+Sim, por não haver autoria humana declarada em nenhum dos dois. O JSON-LD dos
+posts traz `"author": {"@id": ".../#business"}` — a autoria é do canil.
+
+Não existe byline "Por Fulano" na página, e é assim que deve ser: inventar um
+autor pessoa para enfeitar E-E-A-T é exatamente o **fake author** proibido pelo
+§101. O que existe é uma página de **política editorial** pública, que é a forma
+honesta de responder "quem escreveu isto e com base em quê".
+
+## 40. Recomendação veterinária insegura está bloqueada?
+
+Não há recomendação insegura publicada. A varredura por dosagem, posologia e
+nome de medicamento (`mg/kg`, `dose de`, `dosagem`, `administre`, `ivermectina`,
+`dipirona`, `antibiótico`) devolve **uma** ocorrência em 30 posts, e ela remete
+ao profissional: *"Consiga com seu veterinário a dosagem correta para o peso do
+seu cão."* É a resposta certa.
+
+**Mas não existe portão automático para isso**, e não vou marcar como verde o
+que só foi verificado à mão hoje: `check-banned-words.mjs` cobre "laudo" e
+"atestado", não cobre posologia. Fica registrado como lacuna real —
+**P2, pós-deploy**. Um `grep` que reprove dosagem em conteúdo é barato de
+escrever; o que não é barato é descobrir tarde que alguém publicou uma dose.
+
+## 41. Search Generative AI está disponível?
+
+**BLOQUEADO POR HUMANO.** É recurso do Search Console, e o Search Console deste
+site não tem credencial configurada aqui (`GSC_NOT_CONFIGURED`). Não dá para
+responder de fora do painel, e não vou inventar o estado de um relatório que não
+consigo abrir.
+
+## 42. As Platform Properties estão documentadas?
+
+**BLOQUEADO POR HUMANO**, mesma razão da 41.
+
+O que **está** feito e é o pré-requisito delas: os agentes de IA estão
+explicitamente liberados no `robots.txt` (pergunta 21), o conteúdo é citável, e
+`/llms.txt` existe.
+
+## 43. Preferred Sources está disponível?
+
+**BLOQUEADO POR HUMANO**, mesma razão. Além disso, Preferred Sources depende de
+elegibilidade que o Google concede — não é chave que se ative.
+
+## 44. Que credencial humana continua pendente?
+
+Nenhuma delas é técnica. Todas exigem alguém logado num painel:
+
+1. **`GOOGLE_ADS_ID` e `GOOGLE_ADS_WHATSAPP_LABEL`** — o código lê os dois; sem
+   eles a conversão de WhatsApp não chega ao Ads. **Não invento ID nem label.**
+2. **`GOOGLE_SEARCH_CONSOLE_SITE_URL` e `GOOGLE_SERVICE_ACCOUNT_KEY`** — sem
+   isso, perguntas 41 a 43 ficam sem resposta e o Indexing API fica inerte.
+3. **`MEDIA_LIKE_SECRET`** — sem ele as curtidas ficam *fail-closed*, que é o
+   comportamento correto para um segredo ausente.
+4. **Secret scanning, push protection e Dependabot alerts** — o repositório é
+   **público**; ligar isso é um clique e está descrito em
+   `GITHUB_SECURITY_SETUP.md`.
+5. **Proteção do branch `main`** — documentada, não configurada. **Não invento
+   token de API para mexer em configuração de repositório.**
+6. **Garantia: 90 dias × 72 horas × cobertura hereditária vitalícia** — três
+   regras que se contradizem entre site e contrato. Decisão comercial e
+   jurídica, não minha.
+7. **Retenção de backup e PITR do Supabase** — precisa ser lido no painel;
+   `DISASTER_RECOVERY.md` tem a linha esperando o número.
+
+## 45. Algum secret histórico precisa de rotação?
+
+Não. A rotação foi **concluída pelo usuário em 20/08/2026** e está encerrada.
+Nenhum valor de segredo aparece neste documento, em nenhum arquivo do
+repositório, nem em log — só nomes de variável.
+
+## 46. A produção corresponde ao HEAD?
+
+**Neste momento, não** — e é assim que tem de ser. O site no ar ainda serve o
+commit anterior (`c72cb69`, *"fechar as lacunas pós-deploy"*), porque o §120
+manda **um commit e um deploy**, no fim, e esta rodada ainda não publicou.
+
+Depois do deploy único desta rodada, a correspondência passa a valer e é
+verificável por `npm run production:seo-watch` mais o smoke de produção dos
+§§110–113. **Não marco como verde antes de a publicação existir.**
+
+## 47. Todos os testes passaram?
+
+Sim, depois de três reprovações reais que valem mais do que o verde final:
+
+| Portão | Resultado |
+|---|---|
+| `typecheck` | ✅ |
+| `test` (vitest) | ✅ 408 testes, 3 pulados |
+| `check:encoding` | ✅ |
+| `check:banned-words` | ✅ |
+| `catalog:audit` | ✅ |
+| `showcase:audit` | ✅ Nenhuma falha crítica |
+| `lint` | ✅ 0 erro, 1149 avisos |
+| `build` | ✅ exit 0 |
+| `seo:audit` | ✅ 85/85, 0 erro, 29 avisos |
+| `route:validate` | ✅ 18 rotas, 0 erro |
+| `cache:verify` | ✅ 12 mídias, 3 avisos locais |
+| Playwright smoke | ✅ 15/15 |
+| Falha-fechada (porta morta) | ✅ exit 1 nos três auditores |
+
+As três reprovações do caminho:
+
+1. **`tests/unit/rotas-de-escrita.test.ts`** acusou
+   `app/api/blog/comments/route.ts` como rota de escrita sem controle. A rota
+   **tem** controle; o que quebrou foi o teste. A lista de guardas casava com a
+   string `in-memory rate limiter`, que era um **comentário** — e a
+   documentação de antiabuso do §134 reescreveu esse comentário em português.
+   Corrigido na causa certa: a lista passou a casar `checkRate\(`, identificador
+   de código. Comentário não é guarda, e uma lista que aprova rota pelo texto
+   que alguém escreveu nela aprovaria também uma rota aberta com o comentário
+   colado.
+2. **Lint** com 1 erro de ordem de import (pergunta 32).
+3. **`tests/e2e/home.spec.ts` no projeto `mobile-chrome`.** A asserção exigia
+   `<nav aria-label="Navegação principal">` **visível** em qualquer largura, mas
+   esse nav é `hidden` abaixo de `lg` (1024px) — no Pixel 5 a navegação é o
+   botão que abre o menu. Era markup de desktop cobrado de um celular: o teste
+   reprovava sem que nada estivesse quebrado e, ao mesmo tempo, não encostava no
+   caminho que o visitante de celular usa de verdade. Agora cada largura é
+   verificada pelo que existe nela, e no mobile o menu é **aberto**, com o
+   primeiro link conferido. Se o botão parar de abrir o menu, isso passa a
+   reprovar — o portão ficou mais rigoroso.
+
+## 48. Qual commit foi publicado?
+
+Branch `chore/next16-react19-node24`, commit único desta rodada, com o assunto
+`feat: vitrine evergreen, portoes reais de auditoria e blindagem do repositorio`.
+
+O hash não está escrito aqui pelo mesmo motivo registrado na rodada anterior: um
+commit não pode conter o próprio hash, porque o hash é calculado a partir do
+conteúdo e este arquivo faz parte do conteúdo. Registrar um número já vencido
+seria pior do que não registrar nenhum. O par **assunto + branch** identifica o
+commit sem ambiguidade, e o hash aparece no `git log` e no painel do Netlify.
+
+**Um único commit, um único deploy. Nenhum deploy intermediário em nenhum
+momento desta rodada.**
+
+---
+
+# MASTER 3.1 — COMPOUNDING & PROTECTION (§144)
+
+Complemento do Master 3.0, na mesma rodada e no mesmo commit. **Nenhum deploy
+adicional foi feito por causa deste bloco.**
+
+A ordem do §145 foi seguida à risca: **primeiro estabilidade, depois coleta de
+dados, depois otimização.** O que entrou agora é o que é simples e sem risco —
+monitor, Dependabot, CodeQL, documentação. O que depende de painel externo, de
+migração no banco de produção ou de decisão comercial está marcado como
+pendência **com o motivo**, e não foi improvisado só para o relatório fechar
+verde.
+
+## 1. Existe monitor contínuo de produção?
+
+Sim: `npm run production:seo-watch` (`scripts/seo-watch.ts`), agendado por
+`.github/workflows/seo-watch.yml` para rodar **uma vez por dia**, às 09:10 UTC
+(06:10 em Brasília) — depois de um deploy da noite anterior ter estabilizado, e
+cedo o bastante para dar o dia inteiro de margem antes do próximo rastreamento.
+Tem também botão manual (`workflow_dispatch`).
+
+Ele lê uma **lista curta e versionada** de URLs críticas
+(`URLS_CRITICAS` em `scripts/lib/seo-checks.ts`, 13 endereços: home, vitrine,
+três fichas de cor, página de preço, blog, dois artigos, sobre, contato,
+`robots.txt` e `sitemap-index.xml`) com as **mesmas regras** do
+`npm run seo:audit`. Não constrói, não publica, não altera nada. Rodada boa não
+gera e-mail, não gera issue, não gera notificação.
+
+## 2. Ele falha quando o site está inacessível?
+
+Sim, e essa é a propriedade central. Verificado nesta rodada contra uma porta
+morta: `production:seo-watch` sai com **exit 1**.
+
+Zero URL verificada é **erro**, nunca aprovação. Um monitor que devolve verde
+porque não conseguiu falar com o servidor é pior do que monitor nenhum: ele
+transforma silêncio em garantia. Está escrito no cabeçalho do workflow com
+essas palavras.
+
+## 3. Ele alerta sobre `canonical` ou `noindex` inesperado?
+
+Sim. O `seo-watch` chama `auditarPagina()` com `noSitemap: true` — o nome é
+português ("**no** sitemap" = "**neste** sitemap"), e o efeito é que um
+`noindex` numa URL crítica vira **erro**, não aviso. Canonical apontando para
+host diferente do canônico também reprova, via `hostCanonico`.
+
+São exatamente as duas falhas silenciosas que mais custam tráfego: um `noindex`
+que sobrou de um teste e um canonical apontando para outro domínio. Nenhuma das
+duas aparece no log de deploy — aparece na queda de impressões três semanas
+depois.
+
+## 4. O Dependabot está configurado?
+
+Sim, `.github/dependabot.yml`, com freio de mão puxado:
+
+- **npm** e **github-actions**, ambos **semanais** (segunda, 09:00
+  America/Sao_Paulo). Diário vira ruído e passa a ser fechado sem ler.
+- Limite de **5** PRs abertos para npm e **3** para actions. Fila curta é fila
+  que alguém termina.
+- **Major ignorado** para `next`, `react`, `react-dom`, `eslint-config-next`,
+  `@types/node` e `tailwindcss`. Este projeto acabou de migrar para Next 16 /
+  React 19 / Node 24 à mão, com ajuste de `proxy.ts`, de tipagem e de build.
+  Isso é trabalho de rodada planejada, não de merge de bot.
+- **Nenhum auto-merge configurado, em lugar nenhum.** Todo PR daqui é lido por
+  uma pessoa.
+
+## 5. Secret scanning e push protection estão ativos?
+
+**BLOQUEADO POR HUMANO.** Os dois se ligam no painel do GitHub, não em arquivo
+versionado — não existe jeito de configurá-los por commit.
+
+O que existe é `GITHUB_SECURITY_SETUP.md`, com o passo a passo: secret scanning,
+push protection, Dependabot alerts, CodeQL e proteção de branch. **Nenhum valor
+de segredo aparece nesse documento** — só nome de variável e onde ela mora.
+
+Isso importa mais aqui do que na média: **o repositório é público**. Push
+protection é a diferença entre uma chave colada por engano ser barrada no push e
+ser barrada depois de já estar no histórico de um repositório que qualquer um
+clona.
+
+## 6. O CodeQL está disponível e ativo?
+
+Sim: `.github/workflows/codeql.yml`, rodando em `push` e `pull_request` para
+`main` e numa varredura semanal (segunda, junto do ritmo do Dependabot).
+
+Ele é gratuito **porque o repositório é público**. O arquivo registra a
+consequência disso: se um dia o repositório virar privado sem plano que inclua
+Advanced Security, o job passa a falhar por falta de licença, e a decisão certa
+nesse cenário é **remover o arquivo**, não deixar um job vermelho permanente.
+Portão que vive vermelho deixa de ser lido — e o §127 é explícito: um recurso
+pago indisponível não pode virar refém do site.
+
+O que o CodeQL pega e o ESLint não pega é **caminho de dado**: um valor que
+entra por `request` e vai parar numa query, num `eval` ou num redirect. É a
+família de defeito que mais importa neste projeto, que tem rota pública gravando
+no banco (comentário de blog), rota montando URL de WhatsApp com texto vindo da
+página, e um painel atrás de cookie assinada.
+
+## 7. A `main` está protegida?
+
+**BLOQUEADO POR HUMANO — documentação apenas.** Está descrito em
+`GITHUB_SECURITY_SETUP.md`: exigir PR, exigir o check `Qualidade e build` verde,
+bloquear force-push.
+
+**Não inventei token de API para configurar isso.** Proteção de branch se muda
+com credencial de administrador do repositório, e fabricar uma para fechar um
+item de checklist seria o oposto do que o item existe para garantir.
+
+## 8. Dá para medir receita por landing orgânica?
+
+**Não hoje, e não vou fingir que sim.**
+
+O que existe: `leads` tem `utm_source`, `utm_medium` e `source` (preenchido com
+`utm_source` ou `site_org`), com índice em `utm_source`.
+`src/lib/attribution.ts` captura first-touch e last-touch —
+`utm_source/medium/campaign/content/term` mais `landing_page` — em
+`localStorage`, e envia junto aos eventos GA4.
+
+O que falta, e por que ficou de fora:
+
+1. **`landing_page` não existe como coluna em `leads`.** Ligá-la exige migração
+   no banco de produção, e o §120 manda migração **somente se necessária**. Não
+   é necessária para publicar esta rodada.
+2. **Receita exige venda real.** O §129 é categórico: *venda só depois de venda
+   real*. O site não sabe quando um filhote foi vendido — quem sabe é o
+   atendimento. Sem alguém registrando a venda, qualquer número de "receita por
+   landing" seria invenção com aparência de dashboard.
+
+Fica como **P2, pós-deploy**, na ordem certa: primeiro a coluna e o registro
+manual da venda, depois o relatório. Relatório antes do dado é gráfico bonito
+sobre nada.
+
+## 9. Dá para distinguir orgânico, CPC e GBP?
+
+Sim, na origem: `utm_source` e `utm_medium` chegam e são gravados, e o
+`source` cai em `site_org` quando não há UTM — que é a assinatura do tráfego
+orgânico direto.
+
+Verificado em produção que os parâmetros **chegam à landing**:
+`/filhotes?utm_source=google&utm_medium=cpc&gclid=TESTE123` responde **200**, sem
+redirect, sem perder a query.
+
+E verificado que eles **não vazam para o índice** (§132, §141): o `canonical`
+dessa mesma URL é `https://byimperiodog.com.br/filhotes`, limpo. Nenhum
+`<loc>` de nenhum dos cinco sitemaps contém `?`, `utm_` ou `gclid` — contagem
+zero nos cinco. UTM de GBP não cria página duplicada indexável.
+
+O que falta para virar **relatório** é o mesmo da pergunta 8.
+
+## 10. Existe processo legítimo de solicitação de avaliações?
+
+**Não existe documento, e este é o item que eu deliberadamente não improvisei.**
+
+O §133 lista o que é proibido — desconto, brinde, dinheiro, prêmio, pedir 5
+estrelas, pedir conteúdo específico, abordar só cliente satisfeito, bloquear
+avaliação negativa, negociar remoção. É uma lista de coisas que um texto
+apressado faz sem perceber, e escrever um processo de avaliação sem falar com
+quem atende o cliente é a forma mais provável de produzir exatamente uma delas.
+
+**P2, pós-deploy.** Duas garantias que já valem, independentemente do documento:
+
+- **Nenhuma avaliação foi gerada, preenchida ou fabricada** nesta rodada nem em
+  nenhuma anterior. Não há `Review` nem `AggregateRating` inventado em JSON-LD.
+- Curtida no site **não** é convertida em avaliação. São coisas diferentes e
+  continuam diferentes.
+
+## 11. O GBP está documentado conforme o tipo de negócio?
+
+**Não existe documento — P2, pós-deploy.** E há uma restrição que vale desde já,
+documento ou não:
+
+**Nunca publicar endereço residencial.** O canil opera com base em Bragança
+Paulista, SP, e o site publica a cidade, não a rua. Não existe `streetAddress`,
+`postalCode` nem `geo` inventados em nenhum JSON-LD — verificado. **Nenhuma
+filial virtual, nenhuma presença local fabricada.**
+
+Um negócio que atende por agendamento não é o mesmo tipo de ficha que uma loja
+com vitrine na rua, e tratar um como o outro é o caminho mais rápido para uma
+suspensão de perfil. Por isso o documento precisa ser escrito com quem conhece a
+operação, não deduzido daqui.
+
+## 12. Os comentários têm proteção antiabuso adequada?
+
+Sim, em camadas, e o arquivo é **honesto sobre o que cada camada vale**
+(`app/api/blog/comments/route.ts`):
+
+1. **Moderação humana** — nasce `approved: false`, e o `GET` só devolve
+   aprovado. É a defesa real: nada que chegue ali aparece no site sem alguém
+   ler.
+2. **Texto escapado** — o corpo é renderizado como texto em JSX, nunca com
+   `dangerouslySetInnerHTML`.
+3. **Limite de corpo** — `corpoJson` corta antes de desserializar.
+4. **Isca e relógio** — campo fora da tela que só robô preenche, e tempo mínimo
+   entre abrir a página e enviar. Barram o robô preguiçoso, que é a maioria.
+5. **Enxurrada por artigo** — contagem **no banco**, 20 comentários em 10
+   minutos no mesmo post. É a única contagem durável do arquivo, então vale
+   igual em qualquer instância serverless.
+
+E o que **não** vale, escrito no próprio arquivo em vez de escondido: o `Map` em
+memória do processo. Na Netlify cada instância tem o seu, instâncias nascem e
+morrem por requisição, e uma rajada distribuída cai em processos diferentes que
+não se enxergam. **Ele não é limite global, e quem for calcular risco não pode
+contá-lo como se fosse.** Fica porque numa instância quente ainda corta
+repetição boba — não porque protege.
+
+O limite global por IP exigiria guardar IP (ou hash) com carimbo de tempo:
+coluna nova ou tabela nova, ou seja, migração em produção. Está registrado como
+pendência em `GITHUB_SECURITY_SETUP.md` e **não entra numa rodada que não deve
+mexer no schema**.
+
+`tests/unit/rotas-de-escrita.test.ts` varre as 111 rotas de escrita de
+`app/api` e reprova qualquer `POST`/`PUT`/`PATCH`/`DELETE` sem nenhum controle.
+Nesta rodada ele **reprovou** — e a história está na pergunta 47 do §117: a
+falha era do teste, que casava com um **comentário** em vez de com código.
+Corrigido na causa. Comentário não é guarda.
+
+## 13. Um comentário pode gerar backlink?
+
+**Não, e não por configuração — por estrutura.**
+
+`src/components/blog/Comments.tsx` renderiza `{comment.body}` como nó de texto
+React. Não há `dangerouslySetInnerHTML`, não há campo de URL do autor, não há
+`<a>` em lugar nenhum do card, e o texto **não é auto-linkado**. Um link colado
+num comentário aparece como texto escrito.
+
+Por isso **não** foi adicionado `rel="ugc"`: não existe link ao qual aplicar o
+atributo. Adicionar o atributo a links inexistentes seria maquiar o relatório —
+e, pior, sugeriria que o mecanismo de defesa é o `rel`, quando o mecanismo real
+é não haver link. Se um dia o comentário passar a renderizar link, `rel="ugc"`
+entra junto, no mesmo commit.
+
+**Este site não é fábrica de backlink**, nem para fora nem para dentro: os 30
+artigos não têm um único link externo no corpo (§117, pergunta 38).
+
+## 14. Os direitos das imagens principais são conhecidos?
+
+**BLOQUEADO POR HUMANO.** As fotos e vídeos de `public/filhotes/` e
+`public/clientes/` são, pelo que se sabe, produção do próprio canil — mas
+"pelo que se sabe" não é procedência documentada, e não existe registro escrito
+dizendo quem fotografou o quê e sob qual autorização.
+
+Isso importa em dois pontos concretos: as fotos de clientes envolvem pessoas
+reais, e o §136 exige registro de direitos **comprovado**, não presumido.
+
+Quem pode preencher isso é quem contratou ou tirou as fotos. **P2, pós-deploy.**
+
+## 15. Os metadados de direitos de imagem só aparecem quando comprovados?
+
+Sim — e a forma como isso é verdade hoje é a mais simples possível:
+**`ImageObject` com `license`, `acquireLicensePage`, `creditText` ou
+`copyrightNotice` não é emitido em lugar nenhum.**
+
+Existem nós `ImageObject` no grafo, mas eles carregam URL e dimensão, não
+declaração de licença. É o comportamento correto enquanto a pergunta 14 estiver
+aberta: **inventar uma licença ou um fotógrafo em dado estruturado é declarar
+falsamente a titularidade de uma obra**, e o Google trata metadado de direitos
+como afirmação, não como enfeite. Campo ausente é honesto; campo preenchido no
+chute não é.
+
+## 16. Existe plano próprio de histórico do Search Console?
+
+**Não, e é o item de menor urgência do bloco inteiro.**
+
+O Search Console guarda 16 meses. Um armazém próprio serve para comparar
+ano contra ano depois que esses 16 meses viram limite — o que só passa a doer
+mais adiante. Enquanto isso, montar um pipeline de dados exige a credencial do
+GSC, que é a mesma pendência das perguntas 41 a 43 do §117.
+
+Duas regras já ficam registradas para quando for feito:
+
+- **Nunca armazenar PII** no armazém. Consulta de busca e URL, não pessoa.
+- **Dado histórico não serve para gerar página automaticamente** (§139). Ver que
+  "spitz preto preço" cresceu é insumo para alguém escrever melhor, não gatilho
+  para uma página nascer sozinha — esse é o caminho direto para conteúdo em
+  massa e página-porta, proibidos pelo §101.
+
+O §145 é explícito: **não atrasar a rodada por BigQuery ou armazém.** **P3.**
+
+## 17. Os filtros podem gerar espaço de rastreamento infinito?
+
+Não. Foi o item que exigiu mais verificação, e o resultado é bom por
+construção:
+
+- **A vitrine `/filhotes` não usa `useSearchParams` nem escreve na URL.**
+  Nenhum arquivo de `app/(public)` importa `useSearchParams`. O filtro do
+  catálogo é estado de UI, exatamente o que o §140 recomenda.
+- **O blog aceita `?q=`, `?categoria=` e `?sort=`, mas só por `replaceState`** —
+  reescrita de barra de endereço, que não cria link para o Googlebot seguir. As
+  URLs continuam compartilháveis e, sem JavaScript, abrem a listagem completa em
+  vez de erro.
+- **O canonical mata a combinação de qualquer jeito**: verificado em produção,
+  `/blog?q=spitz&categoria=saude` declara canonical
+  `https://byimperiodog.com.br/blog`.
+- **Nenhum sitemap contém URL com query.** Contagem zero de `?` dentro de
+  `<loc>` nos cinco arquivos.
+
+Não há, portanto, como a combinação de filtros virar espaço de rastreamento:
+elas não são linkadas, não são declaradas e não são canônicas.
+
+## 18. Existe plano de recuperação de desastre?
+
+Sim: `DISASTER_RECOVERY.md`, escrito para ser lido **durante** o problema —
+passo numerado, na ordem, sem procurar nada. Cobre rollback de deploy pelo
+Netlify (que repõe uma saída pronta, sem gastar crédito de build), restauração
+do banco na ordem certa (**parar a escrita antes**), procedimento de migração
+destrutiva e verificação depois de restaurar.
+
+Três coisas que ele registra e que valem repetir:
+
+- **Nenhum backup de dado entra no Git.** `supabase/migrations/` guarda
+  estrutura: 13 arquivos, **zero** `INSERT` e zero `COPY`, e é para continuar
+  assim. Dump de `leads`, `contracts` ou `blog_comments` num repositório
+  **público** é vazamento, mesmo em branch antiga, mesmo apagado depois.
+- **Backup manual imediatamente antes de qualquer migração destrutiva.** Backup
+  de ontem não serve: o que se perde é o que entrou hoje.
+- **`supabase db reset` nunca é apontado para produção** — nem "para testar",
+  nem "só para ver se as migrações estão certas".
+
+Duas pendências humanas ficaram marcadas dentro do próprio arquivo, com a linha
+esperando o dado: a **retenção de backup e o PITR** precisam ser lidos no painel
+do Supabase, e o **ensaio de restauração** precisa acontecer pelo menos uma vez.
+
+Sobre o ensaio (§143): o procedimento escrito manda criar um **segundo projeto
+Supabase**, restaurar nele, testar com o site rodando localmente e **apagar o
+projeto de teste no fim** — porque um projeto esquecido com dado pessoal real
+restaurado é o mesmo problema de segurança, só que sem ninguém olhando.
+**Restauração destrutiva em produção "para testar" não é opção**, e a tabela de
+ensaios está honesta: *nunca executado*.
+
+## 19. Algum relatório contém segredo ou PII?
+
+Não. Nem este documento, nem `GITHUB_SECURITY_SETUP.md`, nem
+`DISASTER_RECOVERY.md`, nem qualquer log gerado nesta rodada.
+
+O que aparece são **nomes de variável** (`GOOGLE_ADS_ID`,
+`MEDIA_LIKE_SECRET`, `SUPABASE_SERVICE_ROLE_KEY`) e identificadores públicos de
+projeto — nunca valores. Nenhum nome, e-mail, telefone ou endereço de cliente
+foi escrito em nenhum arquivo do repositório.
+
+A rotação de chaves foi **concluída pelo usuário em 20/08/2026** e está
+encerrada. Nenhuma escrita chegou ao banco de produção em nenhum momento desta
+auditoria.
+
+## 20. Algum item foi inventado para dar verde?
+
+Não. E a evidência de que a resposta é confiável não é esta frase — são as
+reprovações que ficaram registradas em vez de serem contornadas:
+
+| O que reprovou | O que **não** foi feito | O que foi feito |
+|---|---|---|
+| `seo:audit` com 66 erros | afrouxar a regra | corrigir 62 textos de estoque e 4 de `claim:laudo` |
+| Playwright, `robots.txt` | relaxar a asserção | reescrever por grupo `User-Agent`, ficando **mais** rigoroso |
+| `rotas-de-escrita.test.ts` | adicionar exceção para a rota | corrigir a lista de guardas, que casava com um comentário |
+| Lint, 1 erro de `import/order` | voltar o `continue-on-error` | reordenar o import |
+
+E o que ficou explicitamente **sem** verde, porque não dá para verificar daqui
+ou porque não é decisão minha: perguntas 5, 7, 8, 10, 11, 14 e 16 deste bloco, e
+41 a 44 do §117.
+
+Itens que **não** foram implementados e o motivo, na ordem do §145:
+
+| Item | Estado | Por quê |
+|---|---|---|
+| §130 `/admin/organic-revenue` | não existe | depende do §129, que depende de venda real registrada |
+| §131 documento de GBP | não existe | precisa de quem conhece a operação; risco de presença local fabricada |
+| §133 processo de avaliações | não existe | lista longa de proibições; improvisar produz exatamente uma delas |
+| §136/§137 registro de direitos de imagem | não existe | licença não se presume |
+| §138 armazém do GSC | não existe | precisa da credencial do GSC; §145 manda não atrasar por isso |
+| Portão automático de posologia | não existe | lacuna real, registrada como P2 |
+
+**Nenhum deles foi marcado como pronto. Nenhum deles atrasou a rodada.** É essa
+a ordem que o §145 pede — primeiro estabilidade, depois coleta de dados, depois
+otimização — e é o motivo de esta lista existir em vez de sumir.
+
+---
+
+# Reverificação final — build novo, servidor novo, auditorias refeitas
+
+As três últimas alterações de código desta rodada (o teste de rotas de escrita,
+a ordem de import em `ColorPageContent.tsx` e a remoção de
+`src/lib/blog.breadcrumbs.ts`) entraram **depois** da última bateria verde.
+Resultado medido sobre HTML de um build antigo não vale, então tudo foi refeito
+do zero: `npm run build`, servidor de produção local reiniciado e auditores
+apontados para ele.
+
+| Portão | Resultado sobre o build novo |
+|---|---|
+| `npm run build` (com todo o `prebuild`) | ✅ exit 0 |
+| `seo:audit` | ✅ 85 URLs coletadas, 85 auditadas, 85 responderam, **0 erro**, 29 avisos |
+| `route:validate` | ✅ 18 de 18 rotas responderam, 0 erro, 0 aviso |
+| `cache:verify` | ✅ 12 mídias coerentes |
+| `showcase:audit` | ✅ 12 entradas, 103 mídias, 405 arquivos — nenhuma falha crítica |
+| `catalog:audit` | ✅ nenhuma falha crítica |
+| Playwright — portão do CI | ✅ 15/15 (`smoke.spec.ts --project=chromium`) |
+| Playwright — suíte local completa | ✅ 66/66 (chromium + mobile-chrome) |
+| `production:seo-watch` contra o servidor vivo | ✅ 13/13 URLs críticas |
+| `production:seo-watch` contra porta morta | ✅ **exit 1** — zero URL verificada é erro |
+
+Conferido de novo sobre o HTML novo, não sobre configuração:
+
+- `Product` **0**, `InStock` **0**, `FAQPage` **0**, `LocalBusiness` **1** em `/`,
+  `/filhotes`, `/filhotes/spitz-alemao-anao-preto-macho`, `/preco-spitz-anao` e
+  `/blog`.
+- Canonical continua limpando parâmetro: `/blog?q=spitz&categoria=saude` →
+  `https://byimperiodog.com.br/blog`; `/filhotes?utm_source=google&utm_medium=cpc&gclid=TESTE123`
+  → `https://byimperiodog.com.br/filhotes`, com a landing respondendo **200 sem
+  redirect**.
+- Os cinco sitemaps somam 129 `<loc>` e **zero** com query, `utm_` ou `gclid`.
+
+## Limite conhecido do ambiente — Firefox e WebKit
+
+`playwright.config.ts` declara quatro projetos (chromium, firefox, webkit,
+mobile-chrome), mas **os binários do Firefox e do WebKit não estão instalados
+nesta máquina**. Rodar a suíte inteira aqui devolve exit 1 com
+`browserType.launch: Executable doesn't exist` — falha de ambiente, não de
+código: nenhum `expect` chegou a ser avaliado nesses dois.
+
+Isso não afeta o portão: o CI roda
+`npx playwright test tests/e2e/smoke.spec.ts --project=chromium`, e só esse
+passo bloqueia o merge. O que dá para rodar aqui — chromium e mobile-chrome —
+está **66/66**.
+
+Registrado em vez de silenciado porque "73 passaram" com exit 1 é exatamente o
+tipo de resultado que alguém lê rápido e arquiva como verde.
+
+## Achado aberto — páginas evergreen sem imagem renderizada (P2)
+
+Dos 29 avisos do `seo:audit`, **26 são `imagem:ausente`**: a página não tem
+`<img>` nem `<source srcset>` no HTML servido. Vale separar em três grupos,
+porque só um deles é problema:
+
+1. **Páginas de texto** — `/politica-de-privacidade`, `/termos-de-uso`,
+   `/politica-editorial`, `/contato`, `/faq-do-tutor`. Não precisam de foto.
+   Aviso correto e sem ação.
+2. **`/galeria`** — é galeria de **vídeo**: 4 `<video>` com `poster`. A imagem
+   existe (é a capa do vídeo), só não é `<img>`. Falso positivo da regra, que
+   procura `<img>` e `<source srcset>`. Não mexi no auditor: alargar a regra
+   agora deixaria o portão mais permissivo para ganhar um verde cosmético, e a
+   regra hoje erra para o lado seguro.
+3. **As 20 páginas evergreen de captação e conteúdo** — `/spitz-alemao`,
+   `/spitz-alemao-preto`, `/spitz-alemao-baby-face`, `/lulu-da-pomerania`,
+   `/pomeranian`, `/filhote-de-spitz-alemao`, `/comprar-spitz-anao`,
+   `/criador-spitz-confiavel`, `/canil-spitz-alemao-interior-sp`,
+   `/lulu-da-pomerania-braganca-paulista`, `/preco-spitz-anao`,
+   `/reserve-seu-filhote`, `/ninhadas`, `/guias` e os seis guias.
+   **Nenhuma delas importa `next/image`. São 100% texto.**
+
+O grupo 3 é o achado de verdade, e ele contradiz em parte a tese do §121: um
+site que quer ser **biblioteca visual** tem hoje suas páginas de maior intenção
+comercial sem uma única foto no HTML. As consequências são concretas:
+
+- Essas URLs não têm superfície no Google Imagens, que para "spitz alemão anão
+  preto" é um caminho de entrada tão real quanto a busca por texto.
+- `primaryImageOfPage` não tem o que apontar ali (pergunta 23), e por isso está
+  corretamente ausente — o dado estruturado está honesto, o que falta é a foto.
+- `/filhotes` (10 `<img>`) e a home (16) mostram que o padrão visual existe no
+  projeto; ele só não chegou nessas páginas.
+
+**Não corrigi nesta rodada, de propósito.** Escolher qual foto representa cada
+uma dessas 20 páginas é decisão de conteúdo, não de refactor, e o §145 é
+explícito: antes deste deploy, só o que é simples e sem risco. Espalhar imagens
+por 20 páginas mexe em layout, em LCP e em peso de página — é rodada própria,
+com medição de Core Web Vitals antes e depois.
+
+Fica como **P2, pós-deploy**, e com uma regra que já vale: as fotos usadas têm
+de sair da mesma biblioteca real do canil que abastece `/filhotes`. Nada de
+banco de imagens, nada de foto de outro canil, nada de imagem gerada — o §101
+proíbe fonte falsa, e uma foto de spitz que não é um spitz daqui é exatamente
+isso.

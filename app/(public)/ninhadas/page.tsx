@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
-import { puppiesPublicados } from "@/content/puppies-static";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
@@ -11,11 +10,14 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/ninhadas`;
 
 export const metadata: Metadata = {
-  title: "Agenda de Ninhadas de Spitz Alemão Anão",
-  description: "Agenda de ninhadas planejadas, próximas ninhadas e filhotes reserváveis. Veja quais cores e datas previstas e entre na lista de interesse.",
-  keywords: ["ninhadas", "próximas ninhadas", "filhotes spitz alemão", "lulu da pomerania ninhadas"],
+  // A descrição prometia "quais cores e datas previstas" numa página que nunca
+  // mostrou data nem cor prevista, e "filhotes reserváveis" numa que não lista
+  // filhote. `keywords` saiu junto: o Google ignora a meta keywords desde 2009,
+  // e nenhuma busca interna deste site lê esse campo.
+  title: "Ninhadas de Spitz Alemão Anão — lista de interesse",
+  description: "Entre na lista de interesse para ser avisado sobre as próximas ninhadas de Spitz Alemão Anão em Bragança Paulista, SP. Conte qual cor e qual sexo você procura.",
   alternates: { canonical: "/ninhadas" },
-  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Agenda e disponibilidade de ninhadas de Spitz Alemão Anão." },
+  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Lista de interesse para as próximas ninhadas de Spitz Alemão Anão." },
 };
 
 const FAQS = [
@@ -23,9 +25,16 @@ const FAQS = [
   { question: "Posso entrar em lista de espera?", answer: "Sim — colocamos interessados em lista e avisamos quando houver confirmação de cobertura e nascimento." },
 ];
 
-export default function NinhadasPage() {
-  const puppies = puppiesPublicados.filter((p) => p.status === "planned" || p.status === "pregnant" || p.status === "born");
+// Esta página não lista ninhada nenhuma, e nunca listou.
+//
+// O corpo dela filtrava a vitrine por `status` igual a "planned", "pregnant" ou
+// "born" — três valores que nenhuma entrada do arquivo jamais teve. O ramo do
+// `map` era código morto desde o primeiro dia: o que o visitante sempre viu foi
+// o texto da lista de interesse, e é ele que fica. Agenda de ninhada só volta a
+// aparecer aqui quando existir um registro real de ninhada, com data real, e
+// não derivada de um campo de estoque. (26/08/2026)
 
+export default function NinhadasPage() {
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
@@ -44,37 +53,27 @@ export default function NinhadasPage() {
       <script id="ld-ninhadas-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       <header className="space-y-4">
-        <h1 className="text-3xl font-bold">Ninhadas e Agenda de Filhotes</h1>
-        <p className="text-zinc-600">Acompanhe as próximas ninhadas, cores previstas e disponibilidade. Entre na lista de interesse para receber aviso por WhatsApp.</p>
+        <h1 className="text-3xl font-bold">Ninhadas e lista de interesse</h1>
+        <p className="text-zinc-600">Entre na lista de interesse para receber aviso por WhatsApp sobre as próximas ninhadas.</p>
       </header>
 
       <section className="mt-8 space-y-6">
-        {puppies.length === 0 ? (
-          <p className="text-zinc-600">Nenhuma ninhada agendada no momento. Entre em contato para ser incluído na lista de interesse.</p>
-        ) : (
-          <ul className="grid gap-4 sm:grid-cols-2">
-            {puppies.map((p) => (
-              <li key={p.slug} className="rounded-lg border p-4">
-                <h3 className="font-semibold">{p.title}</h3>
-                {/* "Nascimento previsto" saiu daqui junto com os birth_date de
-                    placeholder do catalogo: os que existiam eram "2024-08-01" e
-                    "2025-04-01", datas no passado publicadas como previsao de
-                    ninhada futura. Data de nascimento nao se estima nem se
-                    deriva de created_at -- quando houver a data real de cada
-                    ninhada, ela volta como campo proprio. */}
-                <p className="text-sm text-zinc-600">Cidade: {p.city}</p>
-                <p className="mt-2 text-sm text-zinc-700">Cor esperada: {p.cor ?? '—'}</p>
-                <div className="mt-3">
-                  <Link href={`/filhotes/${p.slug}`} className="text-emerald-700 underline">Ver detalhes da ninhada</Link>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+        <p className="text-zinc-600">
+          As ninhadas são comunicadas diretamente a quem está na lista de interesse.
+          Fale com a equipe pelo WhatsApp para entrar na lista e contar qual cor e
+          qual sexo você procura.
+        </p>
+        <p className="text-zinc-600">
+          Enquanto isso, a{" "}
+          <Link href="/filhotes" className="text-emerald-700 underline">
+            vitrine de filhotes
+          </Link>{" "}
+          mostra fotos reais de cada combinação de cor e sexo com que trabalhamos.
+        </p>
       </section>
 
       <RelatedPages links={[
-        { label: 'Filhotes disponíveis', href: '/filhotes', desc: 'Lista completa de filhotes e status' },
+        { label: 'Vitrine de filhotes', href: '/filhotes', desc: 'Fotos reais de cada cor e sexo' },
         { label: 'Como escolher um filhote', href: '/guias/como-escolher-spitz-alemao-anao', desc: 'Guia completo para escolher seu filhote' },
       ]} />
     </div>

@@ -1,0 +1,60 @@
+# Analise estatica de seguranca (CodeQL).
+#
+# O que ela pega que o eslint nao pega: caminho de dado. CodeQL segue um valor
+# que entra por `request` e vai parar numa query, num `eval`, num redirect ou
+# numa resposta -- que e a familia de defeito que mais importa aqui, porque este
+# projeto tem rota publica que grava no banco (comentario de blog), rota que
+# monta URL de WhatsApp com texto vindo da pagina, e um painel administrativo
+# atras de cookie assinada.
+#
+# Este repositorio e publico, entao a analise e gratuita. Se um dia ele virar
+# privado sem plano que inclua Advanced Security, este workflow passa a falhar
+# por falta de licenca: nesse caso a decisao correta e REMOVER o arquivo, nao
+# deixar um job vermelho permanente. Portao que vive vermelho deixa de ser lido,
+# e um site que funciona nao pode ficar refem de um recurso pago indisponivel.
+
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Uma varredura semanal pega regra nova da propria CodeQL sobre codigo que
+    # nao mudou. Segunda de manha, junto do ritmo do Dependabot.
+    - cron: "40 9 * * 1"
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analisar:
+    name: Analise JS/TS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Inicializar CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          # "security-and-quality" acrescenta regra de qualidade a de seguranca.
+          # Aqui fica so seguranca de proposito: qualidade ja tem dono (eslint,
+          # typecheck, os auditores em scripts/), e misturar as duas enche o
+          # painel de Security com aviso de estilo ate ninguem mais abrir.
+          queries: security-extended
+
+      # Sem passo de build: o codigo e JS/TS interpretado e a CodeQL analisa a
+      # arvore direto. Construir o Next aqui so gastaria minuto de runner.
+      - name: Analisar
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"

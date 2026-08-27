@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { buildItemListLD, buildBreadcrumbLD } from "@/lib/structured-data";
+import { buildItemListLD, buildBreadcrumbLD, buildCollectionPageLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
@@ -11,12 +11,12 @@ const CATALOG_FAQS = [
   {
     question: "Como funciona o processo de reserva de um filhote de Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O processo é simples: escolha o filhote pelo site, entre em contato via WhatsApp, conheça a história e os exames do filhote, e confirme a reserva com sinal. A criadora acompanha você em todo o processo, desde a escolha até a entrega com todos os documentos (registro oficial, carteira de vacinação, consulta veterinária e hemograma completo; identificação do animal conforme a legislação aplicável).",
+      "Use a vitrine desta página para identificar a cor e o sexo que você procura e fale com a equipe pelo WhatsApp: é no atendimento que as opções atuais são confirmadas e a reserva é fechada. A entrega inclui registro oficial, carteira de vacinação, consulta veterinária e hemograma completo; a identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
-    question: "Quais são as cores de Spitz Alemão Anão disponíveis?",
+    question: "Com quais cores de Spitz Alemão Anão a By Império Dog trabalha?",
     answer:
-      "A By Império Dog divulga cinco cores: Particolor, Laranja, Creme, Preto e Branco. O particolor é o menor valor da tabela e o branco, o maior. A disponibilidade é informada no atendimento.",
+      "São cinco cores divulgadas: Particolor, Laranja, Creme, Preto e Branco. O particolor é o menor valor da tabela e o branco, o maior. As opções atuais de cada cor são confirmadas no atendimento.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão Anão Fêmea e Macho?",
@@ -26,32 +26,43 @@ const CATALOG_FAQS = [
   {
     question: "Os filhotes são entregues com quais documentos?",
     answer:
-      "Todos os filhotes saem com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda direto com a criadora.",
+      "Todos os filhotes saem com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, com o protocolo em dia conforme a idade do filhote, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Depois da entrega, o tutor continua com o suporte da equipe pelo WhatsApp.",
   },
 ];
 
+// O title dizia "Filhotes de Spitz Alemão Anão Disponíveis" — a página é uma
+// vitrine de fotos permanentes, não um estoque em tempo real, e a palavra
+// prometia no resultado da busca uma informação que só o atendimento tem.
+//
+// O array `keywords` saiu junto: o Google ignora meta keywords desde 2009, e o
+// deste arquivo carregava "filhotes Spitz Alemão Anão disponíveis" e
+// "Lulu da Pomerânia à venda" — a mesma promessa, no lugar onde ninguém a lê.
 export const metadata: Metadata = {
-  title:       "Filhotes de Spitz Alemão Anão Disponíveis",
+  title:       "Filhotes de Spitz Alemão Anão — Cores, Fotos e Valores",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
   description: "Filhotes de Spitz Alemão Anão nas cores Particolor, Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
-  keywords: [
-    "filhotes Spitz Alemão Anão disponíveis", "Lulu da Pomerânia à venda",
-    "comprar Spitz Alemão creme", "filhote Pomeranian SP",
-    "canil Spitz Alemão Bragança Paulista", "Lulu da Pomerânia com registro oficial",
-    "Spitz Alemão laranja creme preto branco", "filhote cachorro pequeno SP",
-  ],
   alternates: { canonical: "/filhotes" },
   openGraph: {
     title:       "Filhotes de Spitz Alemão Anão — By Império Dog",
-    description: "Catálogo de filhotes com registro oficial, consulta veterinária e hemograma completo. Bragança Paulista, SP.",
+    description: "Vitrine de filhotes com registro oficial, consulta veterinária e hemograma completo. Bragança Paulista, SP.",
     type:        "website",
-    images:      [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933, alt: "Filhotes Spitz Alemão Anão disponíveis — By Império Dog" }],
+    images:      [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933, alt: "Filhotes de Spitz Alemão Anão da By Império Dog" }],
   },
 };
 
 export default function FilhotesPage() {
   const itemListLd   = buildItemListLD(puppiesPublicados as any);
+  // O ItemList existia solto: descrevia a coleção sem dizer de que página ela
+  // é. O CollectionPage é o nó dono, e os dois se referenciam pelo @id.
+  const collectionLd = buildCollectionPageLD({
+    path: "/filhotes",
+    name: "Vitrine de filhotes de Spitz Alemão Anão — By Império Dog",
+    description:
+      "Fotos reais das cores e dos sexos com que a By Império Dog trabalha, com o valor de partida de cada combinação.",
+    image: "/spitz-hero-desktop.webp",
+    itemListId: `${SITE_URL}/filhotes#itemlist`,
+  });
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",   url: `${SITE_URL}/` },
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
@@ -59,6 +70,7 @@ export default function FilhotesPage() {
 
   return (
     <>
+      <script id="ld-collection" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionLd) }} />
       <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 

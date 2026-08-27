@@ -32,7 +32,7 @@ const SEXES = [
 ];
 
 const waLink = buildWhatsAppLink({
-  message: "Olá! Quero conhecer os filhotes disponíveis e entender os próximos passos para reservar.",
+  message: "Olá! Quero conhecer as opções atuais e entender os próximos passos para reservar.",
   utmSource: "site",
   utmMedium: "price_section",
   utmCampaign: "conhecer_filhotes",
@@ -116,7 +116,7 @@ export default function PriceTransparency() {
           className="inline-flex min-h-[52px] items-center gap-2.5 rounded-xl bg-emerald-600 px-8 text-base font-semibold text-white shadow-lg transition hover:bg-emerald-700"
         >
           <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-          Conhecer os filhotes disponíveis
+          Conhecer a vitrine de filhotes
         </a>
         <p className="mt-3 text-xs text-zinc-500">Atendimento todos os dias, 8h–22h.</p>
       </div>

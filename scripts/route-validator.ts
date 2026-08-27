@@ -61,11 +61,35 @@ interface FetchResult {
   responseTime: number;
 }
 
+/**
+ * Rota que não pôde sequer ser buscada — servidor fora do ar, DNS, timeout,
+ * porta errada. Não é rota "sem erro": é ausência de evidência.
+ *
+ * Antes deste tipo existir, o fetch devolvia `null`, o `null` era descartado
+ * em silêncio pelo `if (result)` do relatório, e um servidor desligado fazia o
+ * validador imprimir "🎉 Todas as rotas estão OK!" com zero rota testada e sair
+ * com código 0 — o pior defeito possível num portão de CI, porque o verde vinha
+ * da falta de prova.
+ */
+interface FetchFailure {
+  route: string;
+  url: string;
+  reason: string;
+}
+
+function isFailure(resultado: FetchResult | FetchFailure): resultado is FetchFailure {
+  return (resultado as FetchFailure).reason !== undefined;
+}
+
 interface ValidationReport {
   timestamp: string;
   baseUrl: string;
   summary: {
+    // `totalRoutesTested` é quantas rotas o validador TENTOU. `routesReached`
+    // é quantas responderam. As duas precisam ser iguais para o relatório
+    // significar alguma coisa: a diferença entre elas é evidência que faltou.
     totalRoutesTested: number;
+    routesReached: number;
     successCount: number;
     errorCount: number;
     warningCount: number;
@@ -74,6 +98,7 @@ interface ValidationReport {
     route404: FetchResult[];
     adminAccessible: FetchResult[];
     titleMissing: FetchResult[];
+    unreachable: FetchFailure[];
   };
   warnings: {
     titleNotPt: FetchResult[];
@@ -215,7 +240,7 @@ async function fetchRoute(
   route: string,
   timeout = 5000,
   redirect: RequestRedirect = 'follow'
-): Promise<FetchResult | null> {
+): Promise<FetchResult | FetchFailure> {
   const url = new URL(route, baseUrl).toString();
   const startTime = Date.now();
 
@@ -250,8 +275,12 @@ async function fetchRoute(
       responseTime,
     };
   } catch (error) {
-    console.error(`⚠️  Erro ao buscar ${url}:`, error instanceof Error ? error.message : String(error));
-    return null;
+    // Devolver `null` aqui era o mesmo que não ter testado a rota: quem chama
+    // não conseguia distinguir "não respondeu" de "não perguntei". A falha
+    // agora viaja com o motivo, e o relatório a conta como erro.
+    const reason = error instanceof Error ? error.message : String(error);
+    console.error(`⚠️  Erro ao buscar ${url}: ${reason}`);
+    return { route, url, reason };
   }
 }
 
@@ -306,6 +335,7 @@ Aguarde enquanto fazemos o fetch das rotas...
     baseUrl,
     summary: {
       totalRoutesTested: 0,
+      routesReached: 0,
       successCount: 0,
       errorCount: 0,
       warningCount: 0,
@@ -314,6 +344,7 @@ Aguarde enquanto fazemos o fetch das rotas...
       route404: [],
       adminAccessible: [],
       titleMissing: [],
+      unreachable: [],
     },
     warnings: {
       titleNotPt: [],
@@ -328,7 +359,11 @@ Aguarde enquanto fazemos o fetch das rotas...
     process.stdout.write(`  ├─ ${route.padEnd(35)} `);
     const result = await fetchRoute(baseUrl, route);
 
-    if (result) {
+    // Rota que não respondeu não é rota sem problema.
+    if (isFailure(result)) {
+      report.errors.unreachable.push(result);
+      console.log(`❌ INACESSÍVEL — ${result.reason}`);
+    } else {
       results.push(result);
       report.rawData.push(result);
 
@@ -362,7 +397,10 @@ Aguarde enquanto fazemos o fetch das rotas...
     // que a rota protegida enviou o visitante anônimo para o login.
     const result = await fetchRoute(baseUrl, route, 5000, 'manual');
 
-    if (result) {
+    if (isFailure(result)) {
+      report.errors.unreachable.push(result);
+      console.log(`❌ INACESSÍVEL — ${result.reason}`);
+    } else {
       results.push(result);
       report.rawData.push(result);
 
@@ -385,16 +423,25 @@ Aguarde enquanto fazemos o fetch das rotas...
   }
 
   // Calcular resumo
-  report.summary.totalRoutesTested = results.length;
+  //
+  // `totalRoutesTested` era `results.length` — o número de rotas que RESPONDERAM.
+  // Com o servidor fora do ar isso dava 0, e 0 rota com 0 erro passava no portão.
+  // Agora ele é o número de rotas que a lista manda testar, um valor que não
+  // depende do servidor estar de pé; quem responde vai em `routesReached`.
+  report.summary.totalRoutesTested = PUBLIC_ROUTES_TO_TEST.length + ADMIN_ROUTES.length;
+  report.summary.routesReached = results.length;
   report.summary.errorCount =
     report.errors.route404.length +
     report.errors.adminAccessible.length +
-    report.errors.titleMissing.length;
+    report.errors.titleMissing.length +
+    report.errors.unreachable.length;
   report.summary.warningCount =
     report.warnings.titleNotPt.length + report.warnings.slowResponse.length;
   report.summary.successCount =
-    report.summary.totalRoutesTested -
-    report.summary.errorCount -
+    report.summary.routesReached -
+    report.errors.route404.length -
+    report.errors.adminAccessible.length -
+    report.errors.titleMissing.length -
     report.summary.warningCount;
 
   return report;
@@ -421,11 +468,19 @@ function printReportSummary(report: ValidationReport): void {
   ✅ Sucesso:    ${report.summary.successCount} rotas
   ❌ Erros:      ${report.summary.errorCount} rotas
   ⚠️  Avisos:    ${report.summary.warningCount} rotas
-  📊 Total:      ${report.summary.totalRoutesTested} rotas
+  📡 Responderam: ${report.summary.routesReached} de ${report.summary.totalRoutesTested} rotas
 
 `);
 
   // Mostrar erros críticos
+  if (report.errors.unreachable.length > 0) {
+    console.log('🚫 ROTAS QUE NÃO RESPONDERAM (sem evidência, contam como erro):');
+    report.errors.unreachable.forEach(r => {
+      console.log(`   • ${r.route} - ${r.reason}`);
+    });
+    console.log();
+  }
+
   if (report.errors.route404.length > 0) {
     console.log('❌ ROTAS COM 404:');
     report.errors.route404.forEach(r => {
@@ -466,7 +521,13 @@ function printReportSummary(report: ValidationReport): void {
     console.log();
   }
 
-  if (report.summary.errorCount === 0 && report.summary.warningCount === 0) {
+  // A frase só pode ser dita quando todas as rotas da lista responderam. Sem
+  // essa condição, ela era impressa também quando nenhuma respondeu.
+  if (
+    report.summary.routesReached === report.summary.totalRoutesTested &&
+    report.summary.errorCount === 0 &&
+    report.summary.warningCount === 0
+  ) {
     console.log('🎉 Todas as rotas estão OK!');
   }
 
@@ -500,8 +561,30 @@ async function main(): Promise<void> {
   // Exibir resumo
   printReportSummary(report);
 
-  // Exit com código apropriado
-  if (report.summary.errorCount > 0) {
+  // Portão fecha-fechado: verde exige evidência, não a falta dela.
+  const { totalRoutesTested, routesReached, errorCount } = report.summary;
+
+  if (routesReached === 0) {
+    console.error(
+      [
+        ``,
+        `❌ FALHA: nenhuma das ${totalRoutesTested} rotas respondeu em ${baseUrl}.`,
+        ``,
+        `   Servidor fora do ar, porta errada ou build ausente. Isto é falha do`,
+        `   validador, não aprovação: sem página buscada não há nada a validar, e`,
+        `   um relatório vazio não é um relatório limpo.`,
+        ``,
+        `   Suba o servidor antes de rodar:  npm run build && npm run start`,
+        `   Ou aponte para outra origem:     ROUTE_VALIDATOR_URL=https://... npm run route:validate`,
+        ``,
+      ].join('\n'),
+    );
+    process.exit(1);
+  }
+
+  if (errorCount > 0) {
+    // `unreachable` já entra em errorCount, então rota que caiu no meio do
+    // caminho reprova aqui junto com 404 e admin aberto.
     process.exit(1);
   }
 }

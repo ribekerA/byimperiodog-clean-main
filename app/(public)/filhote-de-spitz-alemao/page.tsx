@@ -168,11 +168,15 @@ export default function FilhoteDeSpitzPage() {
 
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
-        <h2 className="text-xl font-bold text-zinc-900">Ver filhotes disponíveis agora</h2>
-        <p className="mt-2 text-sm text-zinc-600">Catálogo completo com fotos, sexo, cor e valor — atualizado regularmente.</p>
+        {/* Dizia "Ver filhotes disponíveis agora" sobre um botão que leva a uma
+            vitrine de fotos permanentes — a página prometia estoque em tempo
+            real que nenhuma parte do site tem. "atualizado regularmente" saiu
+            junto: era uma promessa de frescor sem nada que a garantisse. */}
+        <h2 className="text-xl font-bold text-zinc-900">Ver a vitrine de filhotes</h2>
+        <p className="mt-2 text-sm text-zinc-600">Fotos reais por cor e sexo, com o valor de partida de cada combinação. As opções atuais você confirma no atendimento.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
-            Ver catálogo de filhotes
+            Ver a vitrine
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">

@@ -74,7 +74,7 @@ export async function GET() {
     "",
     `> Criação de ${breed.official} (${breed.alternative}) em ${BRAND.headquarters.city}/` +
       `${BRAND.headquarters.state}, Brasil, em atividade desde ${FOUNDING_YEAR}. O site publica o ` +
-      `catálogo de filhotes disponíveis, a tabela de preços por cor e sexo (${min} a ${max}) e ` +
+      `galeria de fotos dos filhotes, a tabela de preços por cor e sexo (${min} a ${max}) e ` +
       `artigos sobre a raça. Venda direta ao tutor, com entrega em todo o Brasil.`,
     "",
     `O canil divulga ${CORES_EXIBIDAS.length} cores. Fêmeas custam mais que machos em todas elas.`,
@@ -83,7 +83,7 @@ export async function GET() {
     "",
     "## Catálogo",
     "",
-    linha("Filhotes disponíveis", "/filhotes", "catálogo completo, atualizado conforme as ninhadas"),
+    linha("Vitrine de filhotes", "/filhotes", "galeria por cor e sexo, com preço a partir de"),
     linha("Preços", "/preco-spitz-anao", `tabela por cor e sexo, de ${min} a ${max}`),
     linha("Como comprar", "/comprar-spitz-anao", "passo a passo da reserva até a entrega"),
     linha("Reservar", "/reserve-seu-filhote", "formulário de reserva"),

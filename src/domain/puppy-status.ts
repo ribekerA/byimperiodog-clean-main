@@ -135,24 +135,17 @@ export function isUnavailable(value?: string | null): boolean {
   return !isAvailable(value);
 }
 
-/**
- * Disponibilidade schema.org correspondente.
+/*
+ * Aqui existia `schemaAvailability()`, que traduzia o status interno para
+ * `schema.org/InStock`, `PreOrder` ou `SoldOut`. Ela ficou sem nenhum chamador
+ * quando o `Product`/`Offer` saiu das paginas de vitrine: a vitrine e evergreen
+ * e nao publica estoque. Uma funcao pronta que ainda sabe escrever `InStock` e
+ * um convite a reintroduzir o problema no proximo componente de catalogo -- por
+ * isso ela foi removida, e nao apenas deixada de lado.
  *
- * `reserved` era publicado como `PreOrder`, que anuncia ao Google um produto
- * que ainda vai poder ser comprado. Um filhote reservado nao vai: ele tem
- * dono. `SoldOut` e a leitura honesta para quem chega pela busca -- a pagina
- * continua util, mas nao promete uma compra que nao existe.
+ * O status continua existindo no admin (`STATUS_LABEL` abaixo), que e onde ele
+ * sempre pertenceu: decisao interna de atendimento, nunca dado publico.
  */
-export function schemaAvailability(value?: string | null): string {
-  switch (normalizePuppyStatus(value)) {
-    case "available":
-      return "https://schema.org/InStock";
-    case "coming_soon":
-      return "https://schema.org/PreOrder";
-    default:
-      return "https://schema.org/SoldOut";
-  }
-}
 
 /** Rotulo em portugues para exibicao. */
 export const STATUS_LABEL: Record<PuppyStatus, string> = {

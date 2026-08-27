@@ -196,6 +196,23 @@ async function sendWhatsAppMessage({
   body: string;
   phoneNumberId: string;
 }) {
+  // Trava de resposta automática (26/08/2026).
+  //
+  // Esta rota respondia sozinha, pela conta de WhatsApp do canil, a quem
+  // mandasse mensagem — com preço, lista de filhotes e convite para enviar
+  // fotos. Isso é venda autônoma sem ninguém no meio, e a regra do projeto é a
+  // oposta: quem fala de disponibilidade e de valor com o cliente é o
+  // atendimento humano.
+  //
+  // O webhook continua recebendo, deduplicando, validando assinatura e
+  // registrando o lead — só o ENVIO é que passa a exigir uma decisão explícita
+  // de quem opera o canil. Sem WA_AGENT_AUTOREPLY=on nada sai. Falhar fechado
+  // aqui é o comportamento desejado, não um bug a ser "consertado" depois.
+  if (process.env.WA_AGENT_AUTOREPLY !== "on") {
+    console.info("[WA Agent] Resposta automática desligada (WA_AGENT_AUTOREPLY != on). Nada enviado.");
+    return;
+  }
+
   if (!ACCESS_TOKEN || !phoneNumberId) {
     console.warn("[WA Agent] WA_ACCESS_TOKEN ou WA_PHONE_NUMBER_ID não configurados.");
     return;

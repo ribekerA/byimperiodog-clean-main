@@ -142,9 +142,17 @@ export default function BlogFilterShell({
         <div className="sticky top-0 z-30 -mx-4 bg-white/95 backdrop-blur-sm sm:-mx-6 lg:-mx-8">
           <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3 [scrollbar-width:none] sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden">
             {[{ id: "todos", title: "Todos" }, ...BLOG_CATEGORIES].map((cat) => (
+              // O href serve a quem abre em nova aba: o efeito de montagem le
+              // `?categoria=` e reaplica o filtro. Para robo, nao serve nada — o
+              // servidor ignora a query string, entao /blog?categoria=X devolve
+              // HTML identico a /blog. Sao 5 URLs duplicadas consumindo
+              // rastreamento sem existir como pagina. O canonical fixo de /blog
+              // ja consolida; o rel="nofollow" evita que elas virem caminho de
+              // rastreamento. Filtro e estado de interface, nao arquitetura de URL.
               <a
                 key={cat.id}
                 href={cat.id === "todos" ? "/blog" : `/blog?categoria=${cat.id}`}
+                rel={cat.id === "todos" ? undefined : "nofollow"}
                 onClick={(event) => {
                   event.preventDefault();
                   selectCategory(cat.id);

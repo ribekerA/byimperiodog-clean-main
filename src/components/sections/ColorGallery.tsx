@@ -19,8 +19,6 @@ const COLORS = [
     label: "Particolor",
     tagline: "Base branca com manchas definidas",
     image: "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
-    badge: "Disponível",
-    badgeClass: "bg-emerald-700 text-white",
     glowColor: "rgba(200,200,200,0.16)",
   },
   {
@@ -29,8 +27,6 @@ const COLORS = [
     label: "Laranja",
     tagline: "A cor icônica da raça",
     image: "/filhotes/laranja/laranja-femea-01.jpg",
-    badge: "Disponível",
-    badgeClass: "bg-emerald-700 text-white",
     glowColor: "rgba(249,115,22,0.18)",
   },
   {
@@ -39,18 +35,14 @@ const COLORS = [
     label: "Creme",
     tagline: "Pelagem cor de marfim",
     image: "/filhotes/creme/creme-femea-01.jpg",
-    badge: "Disponibilidade limitada",
-    badgeClass: "bg-[var(--accent)] text-[var(--accent-foreground)]",
     glowColor: "rgba(243,181,98,0.18)",
   },
   {
     slug: "preto",
     cor: "preto",
     label: "Preto",
-    tagline: "Elegância e disponibilidade limitada",
+    tagline: "Pelagem preta uniforme",
     image: "/filhotes/preto/preto-filhote-flores-01.jpg",
-    badge: "Ninhadas esporádicas",
-    badgeClass: "bg-zinc-800 text-white",
     glowColor: "rgba(161,161,170,0.12)",
   },
   {
@@ -59,8 +51,6 @@ const COLORS = [
     label: "Branco",
     tagline: "Pelagem branca e uniforme",
     image: "/filhotes/branco/branco-femea-jardim-01.jpg",
-    badge: "Disponível",
-    badgeClass: "bg-zinc-100 text-zinc-800",
     glowColor: "rgba(255,255,255,0.20)",
   },
 ] as const satisfies readonly { cor: CorDivulgada; [k: string]: unknown }[];
@@ -73,7 +63,7 @@ export default function ColorGallery() {
         {/* Header */}
         <div className="mx-auto mb-12 max-w-xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-400">
-            Cores disponíveis
+            Cores da raça
           </p>
           {/* Esta galeria e o chat de qualificação ficam a uma seção de
               distância na home e usavam o MESMO h2, palavra por palavra. Duas
@@ -83,7 +73,7 @@ export default function ColorGallery() {
             As cores do Spitz Alemão Anão
           </h2>
           <p className="mt-3 text-zinc-400">
-            Cada cor tem disponibilidade e preço próprios. Clique para explorar.
+            Cada cor tem o seu valor de partida. Clique para ver as fotos reais de cada uma.
           </p>
         </div>
 
@@ -117,12 +107,13 @@ export default function ColorGallery() {
                     }}
                     aria-hidden="true"
                   />
-                  {/* Badge */}
-                  <span
-                    className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-bold ${cor.badgeClass}`}
-                  >
-                    {cor.badge}
-                  </span>
+                  {/* O selo saiu em 26/08/2026 com os campos `badge` e
+                      `badgeClass`. Ele dizia "Disponível" em três cores,
+                      "Disponibilidade limitada" no creme e "Ninhadas
+                      esporádicas" no preto — estoque e escassez declarados na
+                      home, sobre fotos que ficam publicadas para sempre. O card
+                      já mostra a tagline da pelagem e o valor de partida; o
+                      selo só acrescentava a parte que não era verdade. */}
                 </div>
 
                 {/* Info */}

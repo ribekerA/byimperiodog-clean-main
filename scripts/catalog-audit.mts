@@ -213,8 +213,20 @@ for (const [cor, porRotulo] of rotulosPorCor) {
   critica(cor, `a mesma cor aparece com rotulos diferentes: ${detalhe}`);
 }
 
+// -- o auditor precisa ter auditado alguma coisa ---------------------------
+// Sem esta checagem, um catalogo vazio -- import quebrado, arquivo truncado,
+// filtro que zerou a lista -- passava com "0 entradas, 0 publicadas" e saida 0.
+// Zero filhote nao e catalogo sem defeito: e ausencia de evidencia, e a vitrine
+// existe justamente para mostrar filhote.
+if (puppies.length === 0) {
+  critica("catalogo", "nenhuma entrada carregada de content/puppies-static.ts");
+}
+
 // -- relatorio -------------------------------------------------------------
 const publicados = puppies.filter(publicado).length;
+if (puppies.length > 0 && publicados === 0) {
+  critica("catalogo", "nenhum filhote publicado: a vitrine ficaria vazia");
+}
 console.log(
   `Catalogo: ${puppies.length} entradas, ${publicados} publicadas, ` +
     `${puppies.length - publicados} fora da vitrine.`,

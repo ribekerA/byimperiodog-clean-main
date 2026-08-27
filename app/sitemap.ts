@@ -89,18 +89,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ─── Individual puppy pages ──────────────────────────────────────────────────
-  // Filhote não tem data própria: o que muda nessas páginas (disponibilidade,
-  // preço, fotos) mora em content/puppies-static.ts, então a data do catálogo é
-  // a data real delas. Mesma coisa para cor e sexo, que são recortes do mesmo
-  // catálogo.
+  // Filhote não tem data própria: o que muda nessas páginas (preço, fotos) mora
+  // em content/puppies-static.ts, então a data do catálogo é a data real delas.
+  // Mesma coisa para cor e sexo, que são recortes do mesmo catálogo.
   // O filtro por cor divulgada é o que mantém sitemap e vitrine dizendo a
   // mesma coisa. Cor fora de CORES_DIVULGADAS continua com página no ar — só
   // deixa de ser oferecida ao rastreador, como já não é oferecida ao visitante.
   const divulgada = (cor: string) => (CORES_DIVULGADAS as readonly string[]).includes(cor);
 
+  // Prioridade única por página de filhote.
+  //
+  // Era `p.status === "available" ? 0.85 : 0.45`: a página perdia quase metade
+  // da prioridade no dia em que aquele animal saía. São páginas permanentes —
+  // referência visual de uma cor e de um sexo — e nenhuma delas muda de valor
+  // para o rastreador por causa de uma venda. Vender um filhote nunca mexe no
+  // sitemap. (26/08/2026)
   const puppyPages: MetadataRoute.Sitemap = staticPuppies
     .filter((p) => divulgada(p.color))
-    .map((p) => entrada(`/filhotes/${p.slug}`, "weekly", p.status === "available" ? 0.85 : 0.45, "@puppy"));
+    .map((p) => entrada(`/filhotes/${p.slug}`, "weekly", 0.85, "@puppy"));
 
   // ─── Color landing pages ─────────────────────────────────────────────────────
   const colorPages: MetadataRoute.Sitemap = ALL_COLORS.filter(divulgada).map((cor) =>

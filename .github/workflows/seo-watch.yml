@@ -1,0 +1,83 @@
+# Monitor do site publicado. NAO constroi, NAO publica, NAO altera nada.
+#
+# Por que existe: o CI prova que o commit esta bom no momento em que ele entra.
+# Depois disso o site continua no ar por semanas sem ninguem olhar, e as falhas
+# que mais custam trafego organico sao silenciosas -- um `noindex` que sobrou de
+# um teste, um canonical apontando para outro dominio, uma pagina comercial que
+# passou a responder 500, um titulo que sumiu, um selo de "Disponivel" que
+# voltou por cima da foto. Nada disso aparece no log de deploy: aparece na queda
+# de impressoes tres semanas depois.
+#
+# Este workflow le as URLs criticas em producao uma vez por dia com as MESMAS
+# regras do `npm run seo:audit` (scripts/lib/seo-checks.ts), e so fala quando ha
+# problema. Rodada boa nao gera e-mail, nao gera issue, nao gera notificacao.
+#
+# Regra que o script carrega: zero URL verificada e ERRO, nao aprovacao. Se o
+# site estiver fora do ar, o monitor reprova -- silencio por ausencia de
+# evidencia e exatamente o que ele existe para impedir.
+
+name: Monitor de SEO em producao
+
+on:
+  schedule:
+    # 09:10 UTC = 06:10 em Brasilia. Depois do horario em que um deploy da
+    # noite anterior ja estabilizou, e cedo o bastante para dar o dia inteiro
+    # de margem antes do proximo rastreamento do Google.
+    - cron: "10 9 * * *"
+  # Botao manual, para conferir logo depois de publicar alguma coisa.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: seo-watch
+  cancel-in-progress: false
+
+jobs:
+  monitorar:
+    name: URLs criticas
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Verificar producao
+        id: watch
+        run: npm run production:seo-watch 2>&1 | tee monitor.log
+        env:
+          SEO_WATCH_URL: https://byimperiodog.com.br
+
+      # UMA issue, nao uma por dia.
+      #
+      # Um monitor que abre issue a cada execucao vermelha transforma a aba de
+      # issues em log e deixa de ser lido -- e ai o monitor nao serve para nada.
+      # Este passo procura uma issue aberta com o mesmo titulo; se ja existe,
+      # comenta nela; se nao existe, cria. O proprio job continua reprovado de
+      # qualquer forma, que e o sinal principal.
+      - name: Registrar regressao
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITULO: "Monitor de SEO: regressao em producao"
+        run: |
+          corpo=$(printf 'Execucao: %s/%s/actions/runs/%s\n\n```\n%s\n```\n' \
+            "${GITHUB_SERVER_URL}" "${GITHUB_REPOSITORY}" "${GITHUB_RUN_ID}" \
+            "$(tail -n 60 monitor.log 2>/dev/null || echo 'sem log')")
+          numero=$(gh issue list --state open --search "$TITULO in:title" --json number --jq '.[0].number // empty')
+          if [ -n "$numero" ]; then
+            gh issue comment "$numero" --body "$corpo"
+          else
+            gh issue create --title "$TITULO" --body "$corpo"
+          fi

@@ -22,7 +22,7 @@ import { cn } from '@/lib/cn';
  * @example
  * <Card variant="elevated">
  *   <CardHeader>
- *     <CardTitle>Filhote Disponível</CardTitle>
+ *     <CardTitle>Spitz Alemão Anão laranja</CardTitle>
  *   </CardHeader>
  *   <CardContent>
  *     <p>Detalhes do filhote...</p>

@@ -197,7 +197,7 @@ export default function PrecoSpitzPage() {
           </table>
         </div>
         <p className="mt-3 text-xs text-zinc-500">
-          * Valores sujeitos a alteração conforme disponibilidade. Consulte filhotes disponíveis no catálogo.
+          * Cada valor é o ponto de partida daquela combinação de cor e sexo. Consulte as opções atuais pelo WhatsApp.
         </p>
       </section>
 
@@ -229,7 +229,7 @@ export default function PrecoSpitzPage() {
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência entre os filhotes disponíveis do que o laranja. Por isso ficam acima do laranja na tabela atual, nos dois sexos." },
+            { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência entre as ninhadas do que o laranja. Por isso ficam acima do laranja na tabela atual, nos dois sexos." },
             { title: "Sexo", body: "A fêmea tem procura maior que o macho, e custa R$ 1.000 a mais na mesma cor." },
             { title: "Padrão da raça", body: "Filhotes dentro do padrão FCI nº 97 — porte, pelagem e estrutura — são menos frequentes e têm valor maior no mercado." },
             { title: "Documentação completa", body: "Registro oficial, consulta veterinária e exames laboratoriais têm custo, e já estão inclusos no valor anunciado." },
@@ -282,7 +282,7 @@ export default function PrecoSpitzPage() {
       {/* ── CTA ── */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">
-          Ver filhotes disponíveis com preço atualizado
+          Ver a vitrine com os preços por cor e sexo
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
           Consulte o catálogo completo com fotos, sexo, cor e valor de cada filhote da ninhada atual.

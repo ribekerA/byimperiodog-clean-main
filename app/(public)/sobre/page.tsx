@@ -228,7 +228,7 @@ export default function SobrePage() {
               href="/filhotes"
               className="inline-flex items-center gap-2 rounded-full border border-zinc-600 hover:border-emerald-600 transition px-6 py-3 text-sm font-semibold text-zinc-300 hover:text-white"
             >
-              Ver filhotes disponíveis
+              Ver a vitrine de filhotes
             </Link>
           </div>
         </div>
@@ -372,7 +372,7 @@ export default function SobrePage() {
         <div className="mx-auto max-w-2xl">
           <Sparkles className="mx-auto mb-4 h-8 w-8 text-emerald-200" aria-hidden />
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Veja os filhotes disponíveis hoje
+            Veja a vitrine de filhotes
           </h2>
           <p className="mt-4 text-emerald-100">
             Cada ninhada é única. Não deixe para amanhã a conversa que pode mudar a vida da sua família.
@@ -382,7 +382,7 @@ export default function SobrePage() {
               href="/filhotes"
               className="rounded-full bg-white px-8 py-3 text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition shadow-lg"
             >
-              Ver filhotes disponíveis
+              Ver a vitrine de filhotes
             </Link>
             <a
               href={waLink}

@@ -87,7 +87,7 @@ const SCHEDULE_DAYS = [
 
 export default function ContatoPage() {
   const waMainLink = buildWhatsAppLink({
-    message: "Olá! Vim do site By Império Dog e gostaria de saber sobre filhotes disponíveis.",
+    message: "Olá! Vim do site By Império Dog e gostaria de saber sobre as opções atuais.",
     utmSource: "contato",
     utmCampaign: "contato-hero",
   });

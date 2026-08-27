@@ -1,6 +1,5 @@
 import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
-import { isAvailable } from "@/domain/puppy-status";
 import { lastmodFor } from "@/lib/_generated-lastmod";
 import type { CatalogItem } from "@/lib/catalog-utils";
 
@@ -68,61 +67,84 @@ export function buildWebPageLD(input: {
   };
 }
 
-export function buildPuppyProductLD(
-  puppy: CatalogItem,
-  aggregateRating?: { ratingValue: number; reviewCount: number }
-) {
-  const images = puppy.images
-    .filter((img: string) => !img.endsWith(".mp4"))
-    .map((img: string) => `${SITE_URL}${img}`);
+/**
+ * Página de um item da vitrine: `WebPage` + `ImageObject`, sem `Offer`.
+ *
+ * Isto substituiu `buildPuppyProductLD` em 26/08/2026. O que saiu:
+ *
+ *  • `"@type": "Product"` com `offers.availability: InStock` e `offers.price`.
+ *    A oferta era emitida quando `isAvailable(puppy.status)` dava verdadeiro, e
+ *    `status` vinha de um arquivo estático que só mudava em deploy. Traduzido:
+ *    o site declarava ao Google, em dado estruturado, que um animal específico
+ *    estava em estoque por um preço fechado — depois de ele ter saído. Rich
+ *    result de produto com estoque errado é motivo de ação manual, e a página
+ *    não é uma ficha de produto: é a foto permanente de uma combinação de cor e
+ *    sexo. Preço exato depende de linhagem, idade e do que existir no
+ *    atendimento; o que o HTML mostra é "a partir de".
+ *
+ *  • `aggregateRating`. Vinha de `reviewCount`/`averageRating` do próprio
+ *    arquivo, zerados em todas as entradas. Nota agregada sem fonte verificável
+ *    não se publica.
+ *
+ * O que entrou é o que o HTML realmente mostra: uma página, as fotos reais
+ * dela e a empresa a que ela pertence. Sem licença, autor ou detentor de
+ * direitos declarados — esses campos só entram quando houver registro
+ * confirmado de quem fotografou, e não há.
+ */
+export function buildVitrinePageLD(puppy: CatalogItem) {
+  const url = `${SITE_URL}/filhotes/${puppy.slug}`;
+  const registro = puppy as unknown as Record<string, string>;
+  const corLabel = registro.cor ?? puppy.color ?? "";
+  const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
 
-  const priceCents =
-    (puppy as unknown as Record<string, number>).priceCents ??
-    (puppy as unknown as Record<string, number>).price_cents ??
-    0;
+  const fotos = puppy.images.filter((img: string) => !img.endsWith(".mp4"));
+
+  // A legenda repete o `alt` publicado na galeria. Dado estruturado que
+  // descreve a imagem de um jeito e o HTML de outro é divergência, não reforço.
+  const imagens = fotos.map((img: string, i: number) => ({
+    "@type": "ImageObject",
+    "@id": i === 0 ? `${url}#primaryimage` : `${url}#image-${i + 1}`,
+    url: `${SITE_URL}${img}`,
+    contentUrl: `${SITE_URL}${img}`,
+    caption: `${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`,
+    ...(i === 0 ? { representativeOfPage: true } : {}),
+  }));
 
   return {
     "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${SITE_URL}/filhotes/${puppy.slug}#product`,
+    "@type": "WebPage",
+    "@id": `${url}#webpage`,
+    url,
     name: puppy.name,
-    description: (puppy as unknown as Record<string, string>).description,
-    image: images.length > 0 ? images : undefined,
-    url: `${SITE_URL}/filhotes/${puppy.slug}`,
-    brand: { "@type": "Brand", name: "By Império Dog" },
-    ...(aggregateRating && aggregateRating.reviewCount > 0
+    ...(registro.description ? { description: registro.description } : {}),
+    inLanguage: "pt-BR",
+    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.name },
+    about: { "@id": BUSINESS_ID },
+    ...(imagens.length > 0
       ? {
-          aggregateRating: {
-            "@type":      "AggregateRating",
-            ratingValue:  aggregateRating.ratingValue.toFixed(1),
-            reviewCount:  aggregateRating.reviewCount,
-            bestRating:   5,
-            worstRating:  1,
-          },
-        }
-      : {}),
-    ...(isAvailable(puppy.status)
-      ? {
-          offers: {
-            "@type": "Offer",
-            priceCurrency: "BRL",
-            price: (priceCents / 100).toFixed(2),
-            availability: "https://schema.org/InStock",
-            url: `${SITE_URL}/filhotes/${puppy.slug}`,
-            seller: { "@id": BUSINESS_ID },
-          },
+          primaryImageOfPage: { "@id": `${url}#primaryimage` },
+          image: imagens,
         }
       : {}),
   };
 }
 
-// ─── ItemList para página de catálogo ────────────────────────────────────────
+// ─── CollectionPage + ItemList da vitrine ────────────────────────────────────
 
+/**
+ * A lista de /filhotes.
+ *
+ * O `name` dizia "Filhotes de Spitz Alemão Anão disponíveis". Era a mesma
+ * afirmação de estoque do resto da página, só que em dado estruturado, e a
+ * `numberOfItems` a completava com um número: "12 filhotes disponíveis". A
+ * lista enumera as fotos da vitrine, não o que existe hoje no canil.
+ */
 export function buildItemListLD(puppies: CatalogItem[]) {
   return {
     "@context": "https://schema.org",
     "@type":    "ItemList",
-    name:       "Filhotes de Spitz Alemão Anão disponíveis — By Império Dog",
+    "@id":      `${SITE_URL}/filhotes#itemlist`,
+    name:       "Vitrine de filhotes de Spitz Alemão Anão — By Império Dog",
     url:        `${SITE_URL}/filhotes`,
     numberOfItems: puppies.length,
     itemListElement: puppies.map((p, i) => ({
@@ -134,6 +156,46 @@ export function buildItemListLD(puppies: CatalogItem[]) {
         ? `${SITE_URL}${p.images.find((img: string) => !img.endsWith(".mp4"))}`
         : undefined,
     })),
+  };
+}
+
+/**
+ * `CollectionPage` de /filhotes, apontando para o `ItemList` acima.
+ *
+ * `WebPage` genérico descrevia a URL mas não dizia que ela é uma coleção; o
+ * `ItemList` descrevia a coleção mas ficava solto, sem página dona. Os dois nós
+ * agora se referenciam pelo `@id`.
+ */
+export function buildCollectionPageLD(input: {
+  path: string;
+  name: string;
+  description?: string;
+  image?: string;
+  itemListId?: string;
+}) {
+  const caminho = input.path.startsWith("/") ? input.path : `/${input.path}`;
+  const url = `${SITE_URL}${caminho}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: input.name,
+    ...(input.description ? { description: input.description } : {}),
+    inLanguage: "pt-BR",
+    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.name },
+    about: { "@id": BUSINESS_ID },
+    ...(input.itemListId ? { mainEntity: { "@id": input.itemListId } } : {}),
+    ...(input.image
+      ? {
+          primaryImageOfPage: {
+            "@type": "ImageObject",
+            "@id": `${url}#primaryimage`,
+            url: input.image.startsWith("http") ? input.image : `${SITE_URL}${input.image}`,
+          },
+        }
+      : {}),
   };
 }
 
@@ -298,7 +360,10 @@ export function buildLocalBusinessLD() {
     ],
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "Filhotes de Spitz Alemão Anão disponíveis",
+      // Sem "disponíveis" no nome: o catálogo é a vitrine permanente por cor e
+      // sexo, não uma lista de estoque. O adjetivo transformava um nó fixo do
+      // grafo numa afirmação de disponibilidade que ninguém atualiza.
+      name: "Filhotes de Spitz Alemão Anão — Lulu da Pomerânia",
       url: `${SITE_URL}/filhotes`,
     },
     sameAs: BRAND.schema.sameAs,

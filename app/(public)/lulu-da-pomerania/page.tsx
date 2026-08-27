@@ -204,7 +204,7 @@ export default function LuluDaPomeraniaPage() {
         <p className="mt-2 text-sm text-zinc-600">Acesse o catálogo atualizado ou fale com a criadora diretamente.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
-            Ver filhotes disponíveis
+            Ver a vitrine de filhotes
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">

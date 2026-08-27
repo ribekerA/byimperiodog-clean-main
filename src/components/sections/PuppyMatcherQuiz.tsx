@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDe } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -83,8 +83,8 @@ export default function PuppyMatcherQuiz() {
 
   const baseWaLink = buildWhatsAppLink({
     message: match
-      ? `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel} ${sexoLabel !== "Tanto faz" ? `(${sexoLabel})` : ""}. O filhote ${match.name} está disponível? Pode me ajudar?`
-      : `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel}. Pode me mostrar os filhotes disponíveis?`,
+      ? `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel} ${sexoLabel !== "Tanto faz" ? `(${sexoLabel})` : ""}. Vi ${match.name} na vitrine do site e gostaria de conhecer as opções atuais dessa combinação.`
+      : `Olá! ${MESSAGES[paraQuem] ?? "Quero um Spitz"}. Prefiro a cor ${corLabel}. Gostaria de conhecer as opções atuais.`,
     utmSource: "site",
     utmMedium: "quiz",
     utmCampaign: "matcher_quiz",
@@ -107,7 +107,7 @@ export default function PuppyMatcherQuiz() {
         </h2>
         <p className="mt-3 text-zinc-600">
           Spitz Alemão Anão. 3 perguntas rápidas para filtrar
-          os filhotes disponíveis.
+          a vitrine por cor e sexo.
         </p>
       </div>
 
@@ -207,8 +207,11 @@ export default function PuppyMatcherQuiz() {
           {/* "Seu match encontrado" dava ao resultado de um filtro de cor e
               sexo o status de veredito. O que a tela mostra é um filhote que
               atende ao que foi escolhido — e é isso que ela passa a dizer. */}
+          {/* Dizia "Filhote disponível ✓" sobre um filtro de cor e sexo:
+              o quiz não consulta estoque nenhum, ele escolhe uma foto da
+              vitrine que combina com o que a pessoa respondeu. */}
           <p className="mb-4 text-center text-sm font-semibold uppercase tracking-widest text-emerald-600">
-            Filhote disponível ✓
+            Referência na vitrine
           </p>
 
           {match ? (
@@ -219,9 +222,7 @@ export default function PuppyMatcherQuiz() {
                   <div className="relative mx-auto h-40 w-40 overflow-hidden rounded-2xl bg-zinc-100 sm:h-44 sm:w-44">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={coverImg} alt={match.name} className="h-full w-full object-cover transition hover:scale-105" />
-                    <span className="absolute left-2 top-2 rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-white">
-                      Disponível
-                    </span>
+                    {/* O selo verde "Disponível" saiu daqui: a foto continua publicada depois que o filhote encontra a família dele. */}
                   </div>
                 </Link>
               )}
@@ -237,7 +238,7 @@ export default function PuppyMatcherQuiz() {
                 </div>
                 {matchPrice > 0 && (
                   <p className="text-2xl font-extrabold text-[var(--accent-ink)]">
-                    {formatarPreco(matchPrice)}
+                    {textoAPartirDe(matchPrice)}
                   </p>
                 )}
                 <div className="flex flex-col gap-2">
@@ -248,7 +249,7 @@ export default function PuppyMatcherQuiz() {
                     className="flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-5 text-sm font-bold text-white shadow-md transition hover:bg-emerald-700"
                   >
                     <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                    Tenho interesse — falar agora
+                    Consultar opções atuais
                   </a>
                   <Link
                     href={`/filhotes/${match.slug}`}
@@ -263,7 +264,7 @@ export default function PuppyMatcherQuiz() {
             /* Sem match — fallback */
             <div className="text-center">
               <p className="mb-4 text-sm text-zinc-600">
-                Não encontrei um filhote <strong>{corLabel}</strong> disponível agora, mas a criadora pode ter novidades em breve.
+                Ainda não há foto de <strong>{corLabel}</strong> publicada nesse recorte da vitrine. Fale com a equipe para conhecer as opções atuais.
               </p>
               <a
                 href={waLink}
@@ -272,7 +273,7 @@ export default function PuppyMatcherQuiz() {
                 className="inline-flex min-h-[48px] items-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-sm font-bold text-white shadow-md transition hover:bg-emerald-700"
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                Consultar disponibilidade
+                Consultar opções atuais
               </a>
             </div>
           )}

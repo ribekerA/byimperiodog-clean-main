@@ -16,7 +16,6 @@ type AnyPuppy = {
   cor?: string;
   sex?: string;
   gender?: string;
-  status?: string;
   priceCents?: number;
   price_cents?: number;
   images: string[];
@@ -40,11 +39,14 @@ const SEX_OPTIONS = [
   { value: "male", label: "Macho" },
 ];
 
-const STATUS_OPTIONS = [
-  { value: "", label: "Todos" },
-  { value: "available", label: "Disponíveis" },
-  { value: "reserved", label: "Reservados" },
-];
+// Esta lista não é estoque, e por isso não tem filtro de estoque.
+//
+// Havia aqui um terceiro grupo de pills — "Disponíveis" e "Reservados" — e uma
+// contagem "{n} de {total} filhotes" logo acima. Os dois liam um campo `status`
+// do arquivo estático, que ninguém reescrevia a cada venda: a página anunciava
+// como disponível o que já tinha saído e como reservado o que já tinha voltado.
+// Cor e sexo continuam, porque descrevem a foto e não o estoque: são a mesma
+// taxonomia das URLs editoriais /filhotes/cor/… e /filhotes/sexo/….
 
 // Rótulo amigável para cores cujo slug não serve como texto. Está vazio porque
 // toda cor divulgada tem slug de uma palavra só — o `capitalize` do fallback dá
@@ -55,7 +57,6 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
   const HeroHeading = headingLevel === 2 ? "h2" : "h1";
   const [filterColor, setFilterColor] = useState("");
   const [filterSex, setFilterSex] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
 
   const colors = useMemo(() => {
     const set = new Set<string>();
@@ -70,24 +71,17 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
     return puppies.filter((p) => {
       const pColor = p.color ?? (p.cor as string | undefined)?.toLowerCase() ?? "";
       const pSex = p.sex ?? p.gender ?? "";
-      const pStatus = (p.status ?? "available").toLowerCase();
-      const statusNorm =
-        pStatus === "disponivel" ? "available" :
-        pStatus === "reservado" ? "reserved" :
-        pStatus === "vendido" ? "sold" :
-        pStatus;
 
       if (filterColor && pColor !== filterColor) return false;
       if (filterSex && pSex !== filterSex) return false;
-      if (filterStatus && statusNorm !== filterStatus) return false;
       return true;
     });
-  }, [puppies, filterColor, filterSex, filterStatus]);
+  }, [puppies, filterColor, filterSex]);
 
-  const hasFilters = filterColor || filterSex || filterStatus;
+  const hasFilters = Boolean(filterColor || filterSex);
 
   const baseWaEmpty = buildWhatsAppLink({
-    message: "Olá! Não encontrei o filhote que procuro no catálogo. Pode me ajudar a encontrar o filhote certo para a minha família?",
+    message: "Olá! Vi a vitrine do site e gostaria de conhecer as opções atuais de Spitz Alemão Anão.",
     utmSource: "site",
     utmMedium: "catalog_empty",
     utmCampaign: "filhotes",
@@ -100,7 +94,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
       <div className="bg-[var(--brand)] px-5 py-10 text-center sm:px-8 sm:py-12">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">Criação responsável · Bragança Paulista, SP</p>
         <HeroHeading className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-4xl">
-          Filhotes disponíveis
+          Filhotes de Spitz Alemão Anão
         </HeroHeading>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
           Cada filhote sai com registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda. Saúde documentada, sem surpresas.
@@ -110,9 +104,12 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       {/* ── Filter bar ─────────────────────────────────────────────────────── */}
       <div className="mb-6 space-y-3 sm:mb-8">
-        {/* Contagem */}
-        <p className="text-sm text-zinc-500">
-          <span className="font-semibold text-zinc-900">{filtered.length}</span> de {puppies.length} filhotes
+        {/* Aviso de vitrine — curto, no lugar onde ficava o contador de estoque */}
+        <p className="text-sm leading-relaxed text-zinc-500">
+          Estas são fotos reais das combinações de cor e sexo com que trabalhamos.{" "}
+          <span className="font-medium text-zinc-700">
+            Consulte as opções atuais pelo WhatsApp.
+          </span>
         </p>
 
         {/* Pills de cor — scroll horizontal no mobile */}
@@ -159,26 +156,11 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
               {o.label}
             </button>
           ))}
-          {/* Separador */}
-          <span className="mx-1 shrink-0 self-center h-4 w-px bg-zinc-200" aria-hidden="true" />
-          {/* Status como pills */}
-          {STATUS_OPTIONS.filter((o) => o.value !== "").map((o) => (
-            <button
-              key={o.value}
-              type="button"
-              onClick={() => setFilterStatus(filterStatus === o.value ? "" : o.value)}
-              className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
-                filterStatus === o.value ? "bg-amber-500 text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
-              }`}
-            >
-              {o.label}
-            </button>
-          ))}
           {/* Limpar */}
           {hasFilters && (
             <button
               type="button"
-              onClick={() => { setFilterColor(""); setFilterSex(""); setFilterStatus(""); }}
+              onClick={() => { setFilterColor(""); setFilterSex(""); }}
               className="shrink-0 rounded-full border border-zinc-200 px-3.5 py-2 text-xs font-semibold text-zinc-500 transition hover:bg-zinc-100 active:scale-95"
             >
               ✕ Limpar
@@ -192,7 +174,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
           documento pulava de h1 direto para h3 e o leitor de tela perdia o
           nível intermediário. É sr-only porque a barra de filtros logo acima
           já identifica a lista visualmente — o desenho não muda. */}
-      <h2 className="sr-only">Catálogo de filhotes</h2>
+      <h2 className="sr-only">Vitrine de filhotes</h2>
       {filtered.length > 0 ? (
         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
           {filtered.map((puppy, i) => (
@@ -205,7 +187,6 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
                 cor={puppy.cor as string | undefined}
                 sex={puppy.sex}
                 gender={puppy.gender}
-                status={puppy.status}
                 priceCents={puppy.priceCents}
                 price_cents={puppy.price_cents}
                 images={puppy.images}
@@ -219,14 +200,14 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
         <div className="flex flex-col items-center gap-5 rounded-2xl border border-dashed border-zinc-200 py-16 text-center">
           <p className="text-zinc-500">
             {hasFilters
-              ? "Nenhum filhote encontrado com esses filtros."
-              : "Nenhum filhote disponível no momento."}
+              ? "Nenhuma combinação corresponde a esses filtros."
+              : "A vitrine está sendo atualizada."}
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {hasFilters && (
               <button
                 type="button"
-                onClick={() => { setFilterColor(""); setFilterSex(""); setFilterStatus(""); }}
+                onClick={() => { setFilterColor(""); setFilterSex(""); }}
                 className="rounded-full border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100"
               >
                 Limpar filtros

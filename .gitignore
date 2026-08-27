@@ -28,6 +28,10 @@ reports/migration-next16/screenshots/
 reports/migration-next16/*eslint*.json
 reports/migration-next16/*lighthouse*.json
 reports/route-validation.json
+# Saida da rodada local do seo:audit: aponta para localhost e carrega timestamp.
+# Mesma natureza do route-validation.json — regeravel, nunca fonte de verdade.
+reports/seo-audit.json
+reports/seo-audit.md
 
 # Env (local secrets)
 .env.local

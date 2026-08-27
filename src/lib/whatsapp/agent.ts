@@ -89,26 +89,28 @@ const FAQ: Array<{ q: string; a: string }> = [
 
 // ─── Skill: Mostrar filhotes ───────────────────────────────────────────────────
 
+// A lista aqui é a VITRINE, não estoque: as mesmas fotos publicadas no site,
+// que continuam no ar depois que o filhote encontra a família dele. O filtro
+// por `status` saiu em 26/08/2026 junto com o campo, e com ele a frase "não
+// temos filhotes disponíveis" e a lista de espera que ninguém mantinha.
 function skillMostrarFilhotes(text: string): string {
-  const available = (puppiesPublicados as any[]).filter(
-    (p) => p.status !== "sold" && p.status !== "vendido"
-  );
+  const vitrine = puppiesPublicados as any[];
 
-  if (available.length === 0) {
+  if (vitrine.length === 0) {
     return (
-      "No momento não temos filhotes disponíveis, mas você pode entrar na lista de espera para a próxima ninhada! " +
-      "Quer garantir seu lugar com prioridade? 🐾"
+      "Ainda não há fotos publicadas na vitrine do site. Me conta a cor e o sexo que você procura " +
+      "que a equipe confirma as opções atuais. 🐾"
     );
   }
 
   // Detectar preferência de cor ou sexo na mensagem
   const lower = text.toLowerCase();
-  let filtered = available;
+  let filtered = vitrine;
 
   if (lower.includes("fêmea") || lower.includes("femea") || lower.includes("fêmeas")) {
-    filtered = available.filter((p) => p.sex === "female" || p.sex === "femea");
+    filtered = vitrine.filter((p) => p.sex === "female" || p.sex === "femea");
   } else if (lower.includes("macho") || lower.includes("machos")) {
-    filtered = available.filter((p) => p.sex === "male" || p.sex === "macho");
+    filtered = vitrine.filter((p) => p.sex === "male" || p.sex === "macho");
   }
 
   for (const cor of ["creme", "laranja", "preto", "chocolate", "branco"]) {
@@ -125,25 +127,29 @@ function skillMostrarFilhotes(text: string): string {
   const lines = list.map((p) => {
     const cor = p.cor ?? p.color ?? "";
     const sexo = p.sex === "female" ? "Fêmea" : "Macho";
+    // O selo por filhote — ⏳ Reservado / ✅ Disponível — saiu daqui: era
+    // status público carimbado em cima de uma foto permanente.
     const preco =
       p.priceCents || p.price_cents
-        ? `R$ ${((p.priceCents ?? p.price_cents) / 100).toLocaleString("pt-BR")}`
-        : "Sob consulta";
-    const status =
-      p.status === "reserved" || p.status === "reservado" ? " ⏳ *Reservado*" : " ✅ *Disponível*";
-    return `🐾 *${p.name}* — ${cor} ${sexo} — ${preco}${status}`;
+        ? `a partir de R$ ${((p.priceCents ?? p.price_cents) / 100).toLocaleString("pt-BR")}`
+        : "valor sob consulta";
+    return `🐾 *${p.name}* — ${cor} ${sexo} — ${preco}`;
   });
 
   const extra =
     filtered.length > 4
-      ? `\n\n_...e mais ${filtered.length - 4} filhotes. Acesse o catálogo completo: byimperiodog.com.br/filhotes_`
+      ? "\n\n_Veja a vitrine completa: byimperiodog.com.br/filhotes_"
       : "";
 
+  // Era "Temos *N filhotes* disponíveis agora 🎉" — contagem de estoque
+  // anunciada por um robô, calculada sobre fotos que não saem do ar. E a
+  // promessa de "fotos e vídeos exclusivos" era um compromisso que só o
+  // atendimento humano pode assumir.
   return (
-    `Ótima notícia! Temos *${available.length} filhotes* disponíveis agora 🎉\n\n` +
+    "Estas são fotos reais da vitrine da By Império Dog 🐾\n\n" +
     lines.join("\n") +
     extra +
-    "\n\nQual te interessou? Posso enviar fotos e vídeos exclusivos! 📸"
+    "\n\nQual combinação de cor e sexo te interessou? A equipe confirma as opções atuais no atendimento."
   );
 }
 
@@ -167,7 +173,7 @@ function skillSaudacao(name?: string): string {
   return (
     `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — criação familiar de Spitz Alemão Anão.\n\n` +
     `Como posso te ajudar hoje?\n\n` +
-    `1️⃣ Ver filhotes disponíveis\n` +
+    `1️⃣ Ver a vitrine de filhotes\n` +
     `2️⃣ Saber sobre preços e condições\n` +
     `3️⃣ Dúvidas sobre raça, saúde ou documentação\n` +
     `4️⃣ Falar com a criadora\n\n` +
@@ -286,7 +292,7 @@ export async function runAgent(msg: IncomingMessage): Promise<AgentResponse> {
       if (faqAnswer) {
         reply =
           faqAnswer +
-          "\n\nTem mais dúvidas ou quer ver os filhotes disponíveis? É só perguntar! 🐾";
+          "\n\nTem mais dúvidas ou quer ver a vitrine de filhotes? É só perguntar! 🐾";
       } else {
         // FAQ não encontrou resposta — tenta mostrar filhotes ou escalona
         reply = skillMostrarFilhotes(msg.text);

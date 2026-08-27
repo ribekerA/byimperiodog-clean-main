@@ -112,7 +112,7 @@ export default function GaleriaPage() {
                 href="/filhotes"
                 className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 transition px-6 py-3 text-sm font-semibold text-white shadow-lg"
               >
-                Ver filhotes disponíveis →
+                Ver a vitrine de filhotes →
               </Link>
               <Link
                 href="/sobre"
@@ -138,7 +138,7 @@ export default function GaleriaPage() {
             data-wa-safe-zone
             className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 transition shadow-2xl px-8 py-3 text-sm font-bold text-white"
           >
-            Ver filhotes disponíveis →
+            Ver a vitrine de filhotes →
           </Link>
         </div>
       </div>

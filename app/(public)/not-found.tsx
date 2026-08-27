@@ -16,7 +16,7 @@ import Link from "next/link";
  */
 
 const DESTINOS = [
-  { href: "/filhotes", titulo: "Filhotes disponíveis", texto: "O catálogo atual, por cor e por sexo." },
+  { href: "/filhotes", titulo: "Vitrine de filhotes", texto: "O catálogo atual, por cor e por sexo." },
   { href: "/preco-spitz-anao", titulo: "Tabela de preços", texto: "Valores por cor e sexo e o que está incluso." },
   { href: "/blog", titulo: "Blog", texto: "Guias sobre criação, saúde, rotina e comportamento." },
   { href: "/contato", titulo: "Contato", texto: "Falar direto com a criadora pelo WhatsApp." },

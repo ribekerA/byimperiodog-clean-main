@@ -7,11 +7,8 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { TiltCard } from "@/components/motion/TiltCard";
-import NotifyMeButton from "@/components/NotifyMeButton";
-import { staticPuppies } from "@/content/puppies-static";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDe } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
-import { getBadgesForPuppy, type CatalogBadge } from "@/lib/ai/catalog-badges";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -22,7 +19,19 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
+// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida, e
+// textoAPartirDe e ela mais o prefixo que a vitrine exige.
+
+// O card nao anuncia estoque.
+//
+// Ate 26/08/2026 ele trazia tres coisas que nao podiam continuar: um selo
+// "Disponivel"/"Reservado"/"Vendido" lido de um campo que ninguem atualizava a
+// cada venda; um selo "Ultimo desta cor" calculado contando quantas entradas do
+// proprio arquivo tinham status "available"; e os selos de demanda de
+// `getBadgesForPuppy` ("Muito procurado", "Ultimas unidades nessa cor"),
+// derivados de um `score` sintetizado ali mesmo a partir de `leadCount`. Os
+// tres anunciavam escassez que ninguem media. O card agora e o que sempre foi
+// de fato: a foto real de uma combinacao de cor e sexo, com o preco-base dela.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -34,28 +43,14 @@ type StaticPuppyCardProps = {
   cor?: string;
   sex?: string;
   gender?: string;
-  status?: string;
   priceCents?: number;
   price_cents?: number;
   images: string[];
   description?: string;
   priority?: boolean;
-  /** Badges pré-computados pelo servidor (score, leads, etc.) */
-  badges?: CatalogBadge[];
-  /** Contagem de leads com interesse nesta cor (para badge de demanda) */
-  leadCount?: number;
 };
 
 // ─── Mapas de cor ─────────────────────────────────────────────────────────────
-
-const STATUS_CONFIG: Record<string, { label: string; icon: string; bg: string }> = {
-  available:  { label: "Disponível", icon: "✓", bg: "bg-emerald-700" },
-  disponivel: { label: "Disponível", icon: "✓", bg: "bg-emerald-700" },
-  reserved:   { label: "Reservado",  icon: "⏳", bg: "bg-amber-700"  },
-  reservado:  { label: "Reservado",  icon: "⏳", bg: "bg-amber-700"  },
-  sold:       { label: "Vendido",    icon: "✕", bg: "bg-zinc-500"   },
-  vendido:    { label: "Vendido",    icon: "✕", bg: "bg-zinc-500"   },
-};
 
 /** Glow colorido por pelagem do filhote */
 const COLOR_GLOW: Record<string, string> = {
@@ -67,13 +62,6 @@ const COLOR_GLOW: Record<string, string> = {
 };
 const DEFAULT_GLOW = "rgba(52,211,153,0.30)";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function formatPrice(cents?: number) {
-  if (!cents) return "Sob consulta";
-  return formatarPreco(cents);
-}
-
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export default function StaticPuppyCard({
@@ -84,14 +72,11 @@ export default function StaticPuppyCard({
   cor,
   sex,
   gender,
-  status = "available",
   priceCents,
   price_cents,
   images,
   description,
   priority = false,
-  badges: badgesProp,
-  leadCount = 0,
 }: StaticPuppyCardProps) {
   const corLabel = cor ?? color ?? "";
   const corKey = (color ?? cor ?? "").toLowerCase();
@@ -101,45 +86,18 @@ export default function StaticPuppyCard({
     sexRaw === "male"   || sexRaw === "macho" ? "Macho" : "";
   const price = priceCents ?? price_cents;
   const cover = images.find((img) => !img.endsWith(".mp4")) ?? images[0];
-  const statusCfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.available;
-  const isSold     = status === "sold"     || status === "vendido";
-  const isReserved = status === "reserved" || status === "reservado";
-  const isUnavailable = isSold || isReserved;
   const glowColor  = COLOR_GLOW[corKey] ?? DEFAULT_GLOW;
-
-  // Escassez da cor — conta apenas filhotes REALMENTE disponíveis.
-  // Antes o filtro só excluía "sold", então reservados entravam na conta e,
-  // como cada cor tem 2 filhotes no catálogo, o selo "Apenas 2 disponíveis"
-  // aparecia em praticamente todos os cards. O único selo de escassez que
-  // sobra é o "Último desta cor", que é verificável no próprio catálogo.
-  const availableOfSameColor = (staticPuppies as any[]).filter((p) => {
-    const pColor  = (p.color ?? p.cor ?? "").toLowerCase();
-    const pStatus = p.status ?? "available";
-    return pColor === corKey && (pStatus === "available" || pStatus === "disponivel" || pStatus === "disponível");
-  }).length;
-  const isLastOfColor  = availableOfSameColor === 1 && !isUnavailable;
-
-  // Badges de demanda — usa dados do servidor se disponíveis, senão heurística local
-  const computedBadges: CatalogBadge[] = badgesProp ?? getBadgesForPuppy({
-    score:            leadCount > 5 ? 85 : leadCount > 2 ? 72 : 50,
-    flag:             isLastOfColor ? "hot" : "normal",
-    leadCount,
-    ageDays:          0,
-    similarAvailable: availableOfSameColor,
-    status,
-  });
-  const topBadge = computedBadges[0] ?? null;
 
   const baseWaLink = useMemo(
     () =>
       buildWhatsAppLink({
-        message: `Olá! Vi o filhote ${name} (${corLabel} ${sexLabel}) no site e quero saber disponibilidade.`,
+        message: `Olá! Vi no site a galeria de ${corLabel} ${sexLabel} e gostaria de conhecer as opções atuais.`,
         utmSource: "site",
         utmMedium: "catalog_card",
         utmCampaign: "filhote_card",
         utmContent: slug,
       }),
-    [name, corLabel, sexLabel, slug]
+    [corLabel, sexLabel, slug]
   );
   const waLink = useWhatsAppLink(baseWaLink);
 
@@ -150,7 +108,7 @@ export default function StaticPuppyCard({
         {/* ── Foto (full-bleed, aspect 4/5) ──────────────────────────────────── */}
         <Link
           href={`/filhotes/${slug}`}
-          aria-label={`Ver detalhes de ${name}`}
+          aria-label={`Ver galeria de ${name}`}
           tabIndex={-1}
           aria-hidden="true"
         >
@@ -181,30 +139,10 @@ export default function StaticPuppyCard({
               aria-hidden="true"
             />
 
-            {/* Badge de status — top-left */}
-            <span
-              className={`absolute left-3 top-3 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${statusCfg.bg}`}
-            >
-              <span aria-hidden="true">{statusCfg.icon}</span>
-              {statusCfg.label}
-            </span>
-
-            {/* Sexo — top-right */}
+            {/* Sexo — top-right. Taxonomia, nao estoque: e o que a foto mostra. */}
             {sexLabel && (
               <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
                 {sexLabel}
-              </span>
-            )}
-
-            {/* Badge de demanda IA — bottom-left da foto */}
-            {topBadge && !isUnavailable && (
-              <span className="absolute bottom-3 left-3 rounded-full bg-black/70 px-2.5 py-0.5 text-[10px] font-bold text-white shadow backdrop-blur-sm">
-                {topBadge.label}
-              </span>
-            )}
-            {!topBadge && isLastOfColor && (
-              <span className="absolute bottom-3 left-3 rounded-full bg-[var(--accent)] px-2.5 py-0.5 text-[10px] font-bold text-[var(--accent-foreground)] shadow">
-                ⚡ Último desta cor
               </span>
             )}
           </div>
@@ -232,37 +170,33 @@ export default function StaticPuppyCard({
             )}
           </div>
 
-          {/* Preço */}
+          {/* Preço — ponto de partida da combinação, não etiqueta do animal da foto */}
           <div className="mt-auto flex flex-col gap-0.5">
             <span className="text-xl font-extrabold text-[var(--accent-ink)]">
-              {formatPrice(price)}
+              {price ? textoAPartirDe(price) : "Sob consulta"}
             </span>
             <span className="text-[10px] font-medium text-zinc-500">Documentação inclusa</span>
           </div>
 
-          {/* CTA: WhatsApp (disponível) | NotifyMe (reservado/vendido) */}
-          {!isUnavailable ? (
-            <div className="flex items-center gap-2">
-              <PawConfettiButton
-                href={waLink}
-                data-wa-placement="puppy_card"
-                data-wa-puppy={slug}
-                rel="noreferrer"
-                target="_blank"
-                wrapperClassName="flex-1"
-                className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white shadow-sm"
-                emojis="paw"
-                count={14}
-                aria-label={`Entrar em contato sobre ${name} via WhatsApp`}
-              >
-                <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                Tenho interesse
-              </PawConfettiButton>
-              <HeartBurstButton puppyId={id} size={18} className="h-11 w-11 shrink-0" aria-label={`Curtir ${name}`} />
-            </div>
-          ) : (
-            <NotifyMeButton color={corKey} colorLabel={corLabel} />
-          )}
+          {/* CTA — sempre o mesmo: quem informa o que existe hoje é o atendimento */}
+          <div className="flex items-center gap-2">
+            <PawConfettiButton
+              href={waLink}
+              data-wa-placement="puppy_card"
+              data-wa-puppy={slug}
+              rel="noreferrer"
+              target="_blank"
+              wrapperClassName="flex-1"
+              className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white shadow-sm"
+              emojis="paw"
+              count={14}
+              aria-label={`Consultar opções de ${corLabel} ${sexLabel} pelo WhatsApp`}
+            >
+              <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
+              Consultar opções atuais
+            </PawConfettiButton>
+            <HeartBurstButton puppyId={id} size={18} className="h-11 w-11 shrink-0" aria-label={`Curtir ${name}`} />
+          </div>
 
           <Link
             href={`/filhotes/${slug}`}

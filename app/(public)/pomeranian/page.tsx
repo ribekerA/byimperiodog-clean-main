@@ -71,7 +71,7 @@ const FAQS = [
 export default function PomeranianPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Pomeranian no site da By Império Dog e gostaria de informações sobre filhotes disponíveis.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Pomeranian no site da By Império Dog e gostaria de informações sobre as opções atuais.")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([

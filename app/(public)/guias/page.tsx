@@ -160,7 +160,7 @@ export default function GuiasIndexPage() {
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-4">
               <a
-                href={`https://wa.me/5511968633239?text=${encodeURIComponent("Olá! Li os guias da By Império Dog e quero saber sobre filhotes disponíveis.")}`}
+                href={`https://wa.me/5511968633239?text=${encodeURIComponent("Olá! Li os guias da By Império Dog e quero saber sobre as opções atuais.")}`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex min-h-[52px] items-center gap-2.5 rounded-xl bg-emerald-600 px-7 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-500"
@@ -174,7 +174,7 @@ export default function GuiasIndexPage() {
                 href="/filhotes"
                 className="inline-flex min-h-[52px] items-center gap-2 rounded-xl border-2 border-white/20 px-7 text-sm font-semibold text-white transition hover:border-white/60"
               >
-                Ver filhotes disponíveis →
+                Ver a vitrine de filhotes →
               </Link>
             </div>
           </div>

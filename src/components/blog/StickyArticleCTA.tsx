@@ -28,7 +28,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
         href="/filhotes?utm_source=blog&utm_medium=sidebar_cta"
         className="mt-2 flex items-center justify-center text-xs font-semibold text-emerald-700 underline-offset-2 hover:underline"
       >
-        Ver filhotes disponíveis →
+        Ver a vitrine de filhotes →
       </Link>
       <p className="mt-3 text-center text-[10px] text-zinc-500">
         Registro oficial · Contrato digital

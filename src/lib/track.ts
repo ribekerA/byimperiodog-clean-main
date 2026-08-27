@@ -15,7 +15,7 @@ export function sendFB(name: string, params?: Params) {
   if (typeof fbq === "function") {
     const map: Record<string, string> = {
       generate_lead: "Lead",
-      view_item: "ViewContent",
+      view_puppy_reference: "ViewContent",
       select_item: "ViewContent",
     };
     fbq("track", map[name] || name, params || {});
@@ -28,7 +28,7 @@ export function sendTT(name: string, params?: Params) {
   if (ttq && typeof ttq.track === "function") {
     const map: Record<string, string> = {
       generate_lead: "SubmitForm",
-      view_item: "ViewContent",
+      view_puppy_reference: "ViewContent",
       select_item: "ClickButton",
     };
     ttq.track(map[name] || name, params || {});
@@ -41,7 +41,7 @@ export function sendPIN(name: string, params?: Params) {
   if (typeof pintrk === "function") {
     const map: Record<string, string> = {
       generate_lead: "lead",
-      view_item: "pagevisit",
+      view_puppy_reference: "pagevisit",
       select_item: "viewcategory",
     };
     pintrk("track", map[name] || name, params || {});

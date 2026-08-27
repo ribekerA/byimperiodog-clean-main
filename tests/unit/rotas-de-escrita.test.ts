@@ -40,7 +40,11 @@ const GUARDAS: ReadonlyArray<RegExp> = [
   /headers\.get\(['"]authorization/i,
   /limiteDeTaxa|checkRateLimit|rateLimit\(/,
   // Limitadores escritos dentro do próprio arquivo (media-likes, comentários).
-  /dentroDoLimite|MAX_POR_JANELA|in-memory rate limiter/,
+  // Só entra identificador de código. A lista já teve `in-memory rate limiter`,
+  // que era um comentário: reescrever o comentário derrubava o teste sem que
+  // nada da proteção tivesse mudado — e, pior, um comentário colado numa rota
+  // aberta teria aprovado ela. Comentário não é guarda.
+  /dentroDoLimite|MAX_POR_JANELA|checkRate\(/,
 ];
 
 const EXCECOES: ReadonlyArray<{ rota: string; motivo: string }> = [

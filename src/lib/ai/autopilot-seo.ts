@@ -1,6 +1,5 @@
 import { buildArticleLD } from "@/lib/schemas/article";
 import { buildBreadcrumbLD } from "@/lib/schemas/breadcrumb";
-import { buildProductLD } from "@/lib/schemas/product";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type BlogRow = {
@@ -67,7 +66,7 @@ export type AutopilotSeoResult = {
   // "faq" saiu da lista: o Google encerrou o rich result de FAQ em
   // 07/05/2026, entao sugerir FAQPage no painel seria propor markup que nao
   // rende nada na busca.
-  jsonld: { slug: string; kind: "article" | "product" | "breadcrumb"; payload: Record<string, unknown> }[];
+  jsonld: { slug: string; kind: "article" | "breadcrumb"; payload: Record<string, unknown> }[];
 };
 
 async function safeSelect<T>(table: string, columns: string) {
@@ -197,48 +196,14 @@ export async function runAutopilotSeo(): Promise<AutopilotSeoResult> {
     ];
     generatedFaqs.push({ slug, faqs, kind: "puppy" });
 
-    jsonld.push({
-      slug,
-      kind: "product",
-      payload: buildProductLD({
-        // Campos obrigatórios de Puppy
-        id: p.id,
-        slug: p.slug ?? p.id,
-        name: p.name ?? "Filhote",
-        breed: "Spitz Alemão Anão",
-        color: (p.color as any) ?? "creme",
-        sex: (p.gender as "male" | "female") ?? "male",
-        birthDate: new Date(),
-        size: "mini",
-        title: p.name ?? "Filhote",
-        description: p.descricao ?? "",
-        priceCents: p.price_cents ?? 0,
-        currency: "BRL",
-        status: (p.status as any) ?? "available",
-        isHighlighted: false,
-        isFeatured: false,
-        isBestSeller: false,
-        isNewArrival: false,
-        seoKeywords: [],
-        hasPedigree: false,
-        vaccinationStatus: "up-to-date",
-        hasMicrochip: false,
-        reviewCount: 0,
-        averageRating: 0,
-        viewCount: 0,
-        favoriteCount: 0,
-        shareCount: 0,
-        inquiryCount: 0,
-        source: "own-breeding",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        // Campos opcionais
-        availableForShipping: true,
-        city: (p.city as any) ?? "sao-paulo",
-        state: p.state ?? "SP",
-        images: [],
-      }),
-    });
+    // Aqui o autopilot sugeria um `Product` com `offers.availability: InStock`
+    // para cada filhote do banco. Duas coisas erradas de uma vez: a página de
+    // vitrine não é ficha de produto (ela continua no ar depois que o filhote
+    // encontra a família dele), e a chamada preenchia `birthDate: new Date()` —
+    // data de nascimento inventada no instante da geração, para um animal cuja
+    // data ninguém tinha. A página pública já emite o próprio WebPage +
+    // ImageObject em buildVitrinePageLD, então não há segundo nó a sugerir.
+    // Removido em 26/08/2026 junto com src/lib/schemas/product.ts.
     jsonld.push({
       slug,
       kind: "breadcrumb",

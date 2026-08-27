@@ -51,7 +51,7 @@ export default async function GuidePage(props: Props) {
   ]);
 
   const waLink = buildWhatsAppLink({
-    message: `Olá! Li o guia "${guide.title}" e quero saber mais sobre filhotes disponíveis.`,
+    message: `Olá! Li o guia "${guide.title}" e quero saber mais sobre as opções atuais.`,
     utmSource: "site",
     utmMedium: "guide_page",
     utmCampaign: "guia_leitura",
@@ -131,7 +131,7 @@ export default async function GuidePage(props: Props) {
         {/* CTA */}
         <div className="mt-14 overflow-hidden rounded-2xl bg-[var(--brand)] px-8 py-10 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">Pronto para o próximo passo?</p>
-          <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Veja os filhotes disponíveis</h2>
+          <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">Veja a vitrine de filhotes</h2>
           <p className="mx-auto mt-2 max-w-md text-sm text-white/70">
             Converse com a criadora sobre a disponibilidade atual e tire as suas dúvidas antes de decidir.
           </p>

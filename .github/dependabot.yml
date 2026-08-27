@@ -1,0 +1,63 @@
+# Atualizacao de dependencia com freio de mao puxado.
+#
+# O objetivo aqui NAO e estar sempre na ultima versao de tudo. E receber
+# correcao de seguranca sem que o site seja atualizado sozinho para uma versao
+# maior de framework -- que e como um canil de um cachorro so acorda com a
+# vitrine fora do ar por causa de uma migracao que ninguem pediu.
+#
+# Por isso:
+#   - semanal, nao diario: PR de dependencia que aparece todo dia vira ruido e
+#     passa a ser fechado sem ler.
+#   - poucos PRs abertos ao mesmo tempo: fila curta e fila que alguem termina.
+#   - major de next / react / react-dom / eslint-config-next IGNORADO. Este
+#     projeto acabou de migrar para Next 16 / React 19 / Node 24 a mao, com
+#     ajuste de proxy.ts, de tipagem e de build. Isso e trabalho de rodada
+#     planejada, com build local verde antes de publicar, e nao de merge de bot.
+#   - NENHUM auto-merge configurado, em lugar nenhum. Todo PR daqui e lido por
+#     uma pessoa. Auto-merge de major e o modo mais direto de derrubar producao
+#     com o repositorio "em dia".
+#
+# Alerta de vulnerabilidade (Dependabot alerts) e coisa diferente e se liga no
+# painel do GitHub, nao neste arquivo: ver GITHUB_SECURITY_SETUP.md.
+
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
+    ignore:
+      # Framework e runtime: atualizacao maior so em rodada planejada.
+      - dependency-name: next
+        update-types: ["version-update:semver-major"]
+      - dependency-name: react
+        update-types: ["version-update:semver-major"]
+      - dependency-name: react-dom
+        update-types: ["version-update:semver-major"]
+      - dependency-name: eslint-config-next
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # Tailwind 4 muda a forma de configurar tema inteiro; nao e patch.
+      - dependency-name: tailwindcss
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: America/Sao_Paulo
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "chore(ci)"

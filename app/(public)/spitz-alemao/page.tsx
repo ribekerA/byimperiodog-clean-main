@@ -86,7 +86,7 @@ const FAQS = [
 export default function SpitzAlemaoPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão Anão e gostaria de saber mais sobre filhotes disponíveis.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão Anão e gostaria de saber mais sobre as opções atuais.")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
@@ -210,7 +210,10 @@ export default function SpitzAlemaoPage() {
             { cor: "Branco",     slug: "branco",     desc: "Pelagem de aparência branca e uniforme. Fotos em luz natural ajudam a diferenciar do creme claro." },
             { cor: "Laranja",    slug: "laranja",    desc: "A cor mais icônica e tradicional da raça. Tonalidades que vão do dourado ao alaranjado intenso." },
             { cor: "Creme",      slug: "creme",      desc: "Pelagem cor de marfim com contraste de olhos e focinho escuros." },
-            { cor: "Preto",      slug: "preto",      desc: "Pelagem preta brilhante uniforme. Disponibilidade limitada — ninhadas esporádicas." },
+            // O preto dizia "Disponibilidade limitada — ninhadas esporádicas":
+            // duas afirmações de escassez, nenhuma verificável, num card que só
+            // deveria descrever a cor.
+            { cor: "Preto",      slug: "preto",      desc: "Pelagem preta uniforme e brilhante, com subpelo e pele escuros." },
           ].map((c) => (
             <Link
               key={c.cor}

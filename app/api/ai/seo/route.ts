@@ -13,7 +13,7 @@ export async function POST(req:Request){
     alt_cover: `Cão Spitz Alemão ${base||''} em destaque`,
     og_text: `${title} – Aprenda cuidados essenciais, grooming e socialização.`,
     internal_links: [
-      { href:'/filhotes', anchor:'Ver filhotes disponíveis' },
+      { href:'/filhotes', anchor:'Ver a vitrine de filhotes' },
       { href:'/comprar-spitz-anao', anchor:'Processo de compra responsável' },
       { href:'/contato', anchor:'Fale com a equipe' }
     ]

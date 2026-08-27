@@ -142,7 +142,7 @@ export default function LeadForm({ context, className }: Props) {
       reset();
 
       setTimeout(() => {
-        const mensagemWhatsApp = `Olá! Acabei de preencher o formulário no site. Meu nome é *${data.nome}* e estou interessado(a) em conhecer os filhotes disponíveis.${
+        const mensagemWhatsApp = `Olá! Acabei de preencher o formulário no site. Meu nome é *${data.nome}* e estou interessado(a) em conhecer as opções atuais.${
           data.mensagem ? `\n\nMinhas observações: ${data.mensagem}` : ""
         }`;
 
@@ -428,7 +428,7 @@ export default function LeadForm({ context, className }: Props) {
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
             </svg>
           )}
-          {isSubmitting ? "Enviando..." : "Quero conhecer os filhotes disponíveis"}
+          {isSubmitting ? "Enviando..." : "Quero conhecer as opções atuais"}
         </button>
 
         <div className="text-xs text-[var(--text-muted)]" aria-live="polite">

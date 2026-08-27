@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   BUSINESS_ID,
   buildLocalBusinessLD,
-  buildPuppyProductLD,
+  buildVitrinePageLD,
 } from "@/lib/structured-data";
 import * as tracking from "@/lib/tracking";
 import { buildWebsiteLD } from "@/lib/tracking";
@@ -16,16 +16,25 @@ const puppyBase = {
   price_cents: 650000,
 };
 
-function productWithStatus(status: string) {
-  const input = { ...puppyBase, status } as unknown as Parameters<typeof buildPuppyProductLD>[0];
-  return buildPuppyProductLD(input);
+function vitrineComStatus(status: string) {
+  const input = { ...puppyBase, status } as unknown as Parameters<typeof buildVitrinePageLD>[0];
+  return buildVitrinePageLD(input) as Record<string, unknown>;
 }
 
 describe("delta de consistência interna", () => {
-  it("emite Offer apenas para filhote disponível", () => {
-    expect(productWithStatus("available")).toHaveProperty("offers.availability", "https://schema.org/InStock");
-    expect(productWithStatus("reserved")).not.toHaveProperty("offers");
-    expect(productWithStatus("sold")).not.toHaveProperty("offers");
+  // Este teste dizia o contrário até 26/08/2026: exigia `offers.availability:
+  // InStock` para quem estivesse "available". A página de vitrine não é ficha
+  // de produto — ela continua publicada depois que o filhote encontra a família
+  // dele —, então Offer nenhuma pode sair dela, em nenhum status. O teste agora
+  // reprova se alguém trouxer o Product de volta.
+  it("a página de vitrine não emite Product nem Offer, em status nenhum", () => {
+    for (const status of ["available", "reserved", "sold"]) {
+      const ld = vitrineComStatus(status);
+      expect(ld["@type"], `status ${status} emitiu ${String(ld["@type"])}`).not.toBe("Product");
+      expect(ld, `status ${status} publicou Offer`).not.toHaveProperty("offers");
+      expect(JSON.stringify(ld), `status ${status} publicou InStock`).not.toContain("InStock");
+      expect(ld, `status ${status} publicou nota agregada`).not.toHaveProperty("aggregateRating");
+    }
   });
 
   it("mantém uma entidade canônica e fatos geográficos mínimos", () => {

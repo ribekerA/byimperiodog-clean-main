@@ -123,6 +123,9 @@ const CERNELHA_PATTERN = /cernelha/gi;
 
 const violations = [];
 
+// Quantos arquivos foram REALMENTE lidos. Ver a checagem depois do laco.
+let arquivosLidos = 0;
+
 for (const file of files) {
   if (!EXTENSIONS.test(file)) continue;
   if (SKIP_PATTERNS.some((pattern) => pattern.test(file))) continue;
@@ -142,6 +145,7 @@ for (const file of files) {
   const raw = stripWhatsAppPrefill(
     stripComments(readFileSync(absolutePath, "utf8").replace(/\r\n/g, "\n"))
   );
+  arquivosLidos += 1;
   const normalized = normalize(raw);
 
   for (const term of BANNED_TERMS) {
@@ -206,6 +210,25 @@ for (const file of files) {
   }
 }
 
+// Guard que nao abriu arquivo nenhum nao aprovou nada.
+//
+// Isto ja aconteceu aqui: quando as paginas foram para app/(public)/, o
+// PUBLIC_APP_ALLOWLIST parou de casar e o guard passou a varrer so content/,
+// imprimindo "aprovado" com 44 paginas publicas sem verificacao alguma. O
+// comentario de stripRouteGroups conta a historia; faltava o portao que a
+// impede de se repetir.
+if (arquivosLidos === 0) {
+  console.error(
+    [
+      "❌ Content guard falhou: nenhum arquivo foi verificado.",
+      `   ${files.length} caminho(s) entraram e todos foram filtrados antes da leitura.`,
+      "   Isso e defeito do guard (allowlist ou skip pattern fora de sincronia com",
+      "   a arvore de arquivos), nao aprovacao do conteudo.",
+    ].join("\n")
+  );
+  process.exit(1);
+}
+
 if (violations.length) {
   console.error(
     [
@@ -216,7 +239,7 @@ if (violations.length) {
   process.exit(1);
 }
 
-process.stdout.write("✅ Content guard aprovado.\n");
+process.stdout.write(`✅ Content guard aprovado — ${arquivosLidos} arquivos verificados.\n`);
 
 function normalize(text) {
   return text

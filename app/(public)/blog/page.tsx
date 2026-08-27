@@ -303,7 +303,7 @@ function BlogFooterSection() {
             href="/filhotes"
             className="rounded-full bg-white px-6 py-3 text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition"
           >
-            Ver filhotes disponíveis
+            Ver a vitrine de filhotes
           </Link>
           <Link
             href="/contato"

@@ -77,12 +77,31 @@ export function precoDe(cor: CorDivulgada, sexo: Sexo): number {
 /**
  * Menor valor real da cor — o que pode ser anunciado como "a partir de".
  *
- * Card genérico de cor, sem sexo definido, usa este número. Card de um filhote
- * específico, que já sabe o sexo, usa {@link precoDe} e não diz "a partir de".
+ * Card genérico de cor, sem sexo definido, usa este número.
  */
 export function aPartirDe(cor: CorDivulgada): number {
   const linha = TABELA_DE_PRECOS[cor];
   return Math.min(linha.macho, linha.femea);
+}
+
+/**
+ * "A partir de R$ 6.500" — a forma como todo preço é publicado na vitrine.
+ *
+ * Esta função existe porque a regra mudou em 26/08/2026. Antes, o card de um
+ * filhote específico já sabia o sexo e por isso publicava o valor cravado, sem
+ * "a partir de". Só que a foto continua no ar depois que aquele animal sai, e
+ * a página passa a representar a combinação de cor e sexo, não mais um
+ * indivíduo — o valor exato depende de linhagem, idade e do que existir no
+ * atendimento. Publicar um número fechado para uma página permanente é
+ * prometer um preço que ninguém garantiu.
+ *
+ * Recebe centavos porque quem chama já tem o valor da combinação em mãos
+ * (`precoDe`, ou o `priceCents` da vitrine, que o pricing-guard confere contra
+ * a tabela). O texto é montado sobre {@link formatarPreco} pelo mesmo motivo
+ * de sempre: um único formato de "R$" no site inteiro.
+ */
+export function textoAPartirDe(cents: number): string {
+  return `A partir de ${formatarPreco(cents)}`;
 }
 
 const TODOS_OS_VALORES = Object.values(TABELA_DE_PRECOS).flatMap((linha) => [
@@ -151,12 +170,18 @@ export const RESPOSTA_QUANTO_CUSTA =
  * A pergunta é repetida na home, na página da cor e na /spitz-alemao-preto, e
  * as três cópias falavam de matrizes, de padreadores e de raridade — assunto
  * comercial que a página não precisa levantar para responder "quanto custa".
- * Aqui sobra o que é verificável: disponibilidade e valor.
+ * Aqui sobra o que é verificável: o valor.
+ *
+ * Em 26/08/2026 saiu também a frase de abertura — "pode apresentar menor
+ * disponibilidade em determinados períodos" — e o "sujeitos à disponibilidade"
+ * do fim. Escassez não é resposta de preço, e o site não publica estoque. Esta
+ * string aparece em três lugares (home, página da cor, /spitz-alemao-preto),
+ * então a frase se multiplicava por três.
  */
 export const RESPOSTA_PRETO =
-  "O Spitz Alemão Anão preto pode apresentar menor disponibilidade em " +
-  `determinados períodos. Os valores atuais são ${formatarPreco(TABELA_DE_PRECOS.preto.macho)} para machos e ` +
-  `${formatarPreco(TABELA_DE_PRECOS.preto.femea)} para fêmeas, sujeitos à disponibilidade.`;
+  `O Spitz Alemão Anão preto sai a partir de ${formatarPreco(TABELA_DE_PRECOS.preto.macho)} para machos e ` +
+  `${formatarPreco(TABELA_DE_PRECOS.preto.femea)} para fêmeas. ` +
+  "As opções atuais são confirmadas no atendimento.";
 
 /**
  * A tabela agrupada por valor — "Macho — Creme / Preto · R$ 7.500".

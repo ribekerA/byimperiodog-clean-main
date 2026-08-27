@@ -201,7 +201,20 @@ export function trackLeadFormSubmit(formName: string): void {
 }
 
 /**
- * Tracking de abertura de modal de filhote
+ * Tracking de abertura de modal de filhote.
+ *
+ * O evento chamava-se `view_item` — nome padrão de e-commerce do GA4, que
+ * pressupõe um item de catálogo com preço fechado e disponibilidade. Nenhuma
+ * das duas coisas descreve estas páginas: são fotos permanentes de uma
+ * combinação de cor e sexo, e o preço publicado é ponto de partida. Com o nome
+ * de e-commerce, o evento aparecia no GA4 ao lado de add_to_cart e purchase e
+ * convidava qualquer pessoa a marcá-lo como conversão — que é exatamente o
+ * defeito que este arquivo inteiro existe para impedir.
+ *
+ * `view_puppy_reference` diz o que de fato aconteceu: alguém olhou uma
+ * referência visual. O custo dessa troca é real e vale registrar: relatórios
+ * do GA4 montados sobre `view_item` param de receber dados novos a partir do
+ * deploy, e a série histórica não se converte sozinha.
  */
 export function trackPuppyModalOpen(puppyId: string, puppyName: string): void {
   if (typeof window === 'undefined') return;
@@ -211,7 +224,7 @@ export function trackPuppyModalOpen(puppyId: string, puppyName: string): void {
 
   const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
   if (typeof gtag === 'function') {
-    gtag('event', 'view_item', {
+    gtag('event', 'view_puppy_reference', {
       event_category: 'engagement',
       event_label: puppyName,
       item_id: puppyId,
@@ -291,7 +304,7 @@ export function trackMediaLike(params: {
  * PixelsByConsent e que está documentado lá.
  *
  * Lead nesta operação é o clique em WhatsApp (`whatsapp_click`) e o envio de
- * formulário (`generate_lead`). Visualizar é `view_item` / `view_contact_page`,
+ * formulário (`generate_lead`). Visualizar é `view_puppy_reference` /
  * que descrevem interesse, não contato.
  *
  * O segundo defeito era de entrega. O gtag.js é carregado com `lazyOnload`;
@@ -367,10 +380,14 @@ function publicarView(nome: string, payload: Record<string, unknown>): void {
 /**
  * Visualização da página de um filhote.
  *
- * `view_item` é o nome padrão do GA4 para visualização de item, o mesmo que
- * PuppyCard já usa na grade (`placement: 'grid'`) e que trackPuppyModalOpen usa
- * no modal. Aqui entra com `placement: 'puppy_page'`, então os três pontos
- * ficam no mesmo relatório e separáveis pelo parâmetro.
+ * `view_puppy_reference` é o mesmo evento que trackPuppyModalOpen usa no modal.
+ * Aqui entra com `placement: 'puppy_page'`, então os dois pontos ficam no mesmo
+ * relatório e separáveis pelo parâmetro.
+ *
+ * O nome anterior era `view_item`, padrão de e-commerce do GA4. Ele descrevia a
+ * página como ficha de produto e ficava a um clique de ser marcado como
+ * conversão. Abrir a página não é pedir contato: lead nesta operação continua
+ * sendo `whatsapp_click` e `generate_lead`, e só eles.
  *
  * Nenhum dado pessoal: slug, cor e sexo descrevem o ANIMAL, não o visitante.
  */
@@ -390,7 +407,7 @@ export function trackPuppyPageView(params: {
   if (params.puppyColor) payload.puppy_color = params.puppyColor;
   if (params.puppySex) payload.puppy_sex = params.puppySex;
 
-  publicarView('view_item', payload);
+  publicarView('view_puppy_reference', payload);
 }
 
 /** Visualização da página de contato. Abrir a página não é pedir contato. */

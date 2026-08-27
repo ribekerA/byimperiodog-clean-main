@@ -165,7 +165,7 @@ export default function CanilInteriorSPPage() {
         <p className="mt-2 text-sm text-zinc-600">Atendemos famílias de todo o interior de SP — pessoalmente ou com entrega.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
-            Ver filhotes disponíveis
+            Ver a vitrine de filhotes
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
@@ -178,7 +178,7 @@ export default function CanilInteriorSPPage() {
       <RelatedPages links={[
         { label: "Lulu da Pomerânia em Bragança Paulista", href: "/lulu-da-pomerania-braganca-paulista", desc: "Localização, visitas e como chegar" },
         { label: "Spitz Alemão Anão — A Raça",            href: "/spitz-alemao",                        desc: "Características, temperamento e cuidados" },
-        { label: "Ver Filhotes Disponíveis",              href: "/filhotes",                            desc: "Catálogo atualizado com fotos e valores" },
+        { label: "Ver a Vitrine de Filhotes",             href: "/filhotes",                            desc: "Fotos reais por cor e sexo, com o valor de partida" },
       ]} />
 
       <nav aria-label="Navegação estrutural">

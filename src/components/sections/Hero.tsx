@@ -64,12 +64,12 @@ export default function HeroSection() {
   // "saúde validada" e "ainda dá tempo" prometiam o que nao da para sustentar:
   // um selo que ninguem emite e um prazo que nao existe.
   const [greeting, setGreeting] = useState(
-    "Converse com a criadora sobre os filhotes disponíveis e a documentação de cada um.",
+    "Converse com a criadora sobre as opções atuais e a documentação de cada um.",
   );
   useEffect(() => {
     const hora = new Date().getHours();
-    if (hora < 12) setGreeting("Bom dia! Veja os filhotes disponíveis e fale direto com a criadora.");
-    else if (hora < 18) setGreeting("Boa tarde! Veja os filhotes disponíveis e fale direto com a criadora.");
+    if (hora < 12) setGreeting("Bom dia! Veja a vitrine de filhotes e fale direto com a criadora.");
+    else if (hora < 18) setGreeting("Boa tarde! Veja a vitrine de filhotes e fale direto com a criadora.");
     else setGreeting("Boa noite! Deixe a sua mensagem e a criadora responde pelo WhatsApp.");
   }, []);
 
@@ -128,7 +128,7 @@ export default function HeroSection() {
               href="#filhotes"
               className="inline-flex min-h-[52px] w-full items-center justify-center rounded-full border border-emerald-300 bg-white px-6 text-sm font-semibold text-emerald-700 transition hover:border-emerald-400 hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 sm:w-auto"
             >
-              Ver filhotes disponíveis
+              Ver a vitrine de filhotes
             </Link>
           </div>
 

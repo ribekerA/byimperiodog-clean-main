@@ -19,12 +19,22 @@ import { useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { textoAPartirDe } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { COLOR_SEO, CORES_EXIBIDAS, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Temas por cor ────────────────────────────────────────────────────────────
+
+// O particolor não tinha tema.
+//
+// Ele é uma das cinco cores divulgadas (src/domain/pricing.ts), tem página, tem
+// COLOR_SEO próprio e tem filhote na vitrine — mas caía no `?? THEMES.creme` lá
+// embaixo. O resultado é que /filhotes/cor/particolor abria com a foto de um
+// filhote creme no hero, o selo "✨ Pelagem cor de marfim" e a amostra de cor
+// creme ao lado de um texto sobre manchas em base branca. A página descrevia
+// uma cor e mostrava outra. (26/08/2026)
 
 const THEMES = {
   branco: {
@@ -72,6 +82,22 @@ const THEMES = {
     // recortes. Esta mostra o animal inteiro e em foco.
     heroImg:      "/filhotes/laranja/laranja-femea-jardim-04.jpg",
   },
+  particolor: {
+    heroGradient: "bg-gradient-to-br from-white via-amber-50/50 to-zinc-100",
+    heroDark:     false,
+    sectionBg:    "bg-amber-50/40",
+    accentText:   "text-amber-700",
+    accentBg:     "bg-amber-600",
+    accentLight:  "bg-amber-100",
+    accentBorder: "border-amber-200",
+    progressBar:  "bg-amber-500",
+    badge:        "🤍 Base branca com manchas definidas",
+    badgeCss:     "bg-amber-50 text-amber-900 ring-1 ring-amber-200",
+    // A amostra é bicolor de propósito: uma cor chapada não representa uma
+    // pelagem que é, por definição, branca com manchas.
+    swatchCss:    "bg-gradient-to-br from-white via-white to-amber-500 ring-amber-300",
+    heroImg:      "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
+  },
   preto: {
     heroGradient: "bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-800",
     heroDark:     true,
@@ -81,7 +107,10 @@ const THEMES = {
     accentLight:  "bg-zinc-100",
     accentBorder: "border-zinc-200",
     progressBar:  "bg-zinc-800",
-    badge:        "🖤 Disponibilidade limitada",
+    // Era "🖤 Disponibilidade limitada": escassez publicada como característica
+    // da cor, sem nada por trás além do efeito de pressa. Trocado por uma
+    // descrição da própria pelagem, que é o que os outros selos fazem.
+    badge:        "🖤 Pelagem preta uniforme",
     badgeCss:     "bg-zinc-800 text-zinc-200 ring-1 ring-zinc-700",
     swatchCss:    "bg-zinc-900 ring-zinc-600",
     heroImg:      "/filhotes/preto/preto-filhote-flores-01.jpg",
@@ -177,10 +206,8 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
     ((puppy as Record<string, unknown>).priceCents as number) ??
     ((puppy as Record<string, unknown>).price_cents as number) ??
     0;
-  const isAvailable = puppy.status === "available";
-
   const baseWaLink = buildWhatsAppLink({
-    message:      `Olá! Vi o ${puppy.name} na página de cores do site e tenho interesse. Pode me informar disponibilidade?`,
+    message:      `Olá! Vi ${puppy.name} na página de ${corLabel} do site e gostaria de conhecer as opções atuais dessa combinação de cor e sexo.`,
     utmSource:    "site",
     utmMedium:    "color_page",
     utmCampaign:  "filhote_cor",
@@ -213,13 +240,10 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
           )}
           {/* Overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          <span
-            className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-xs font-bold text-white shadow ${
-              isAvailable ? "bg-emerald-700" : "bg-amber-700"
-            }`}
-          >
-            {isAvailable ? "Disponível" : "Reservado"}
-          </span>
+          {/* O selo "Disponível" / "Reservado" saiu daqui em 26/08/2026. A
+              página de cor é uma referência visual permanente daquela cor: a
+              foto continua no ar depois que aquele animal sai, e o selo passava
+              a mentir no dia seguinte à venda. Sexo fica — é taxonomia. */}
           <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
             {sexLabel}
           </span>
@@ -244,8 +268,8 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
         <div className="mt-auto space-y-3">
           {priceCents > 0 && (
             <div>
-              <p className="text-xl font-extrabold text-[var(--accent-ink)]">
-                {formatPrice(priceCents)}
+              <p className="text-lg font-extrabold leading-snug text-[var(--accent-ink)]">
+                {textoAPartirDe(priceCents)}
               </p>
               <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
             </div>
@@ -259,9 +283,10 @@ function PuppyCard({ puppy }: { puppy: CatalogItem }) {
             className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow transition hover:bg-emerald-700 hover:scale-[1.02]"
             emojis="mixed"
             count={12}
+            aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${puppy.name}`}
           >
-            <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-            Tenho interesse
+            <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className="text-center">Consultar opções atuais</span>
           </PawConfettiButton>
           <Link
             href={`/filhotes/${puppy.slug}`}
@@ -377,7 +402,14 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
   const { heroDark } = theme;
   const trackedWaLink = useWhatsAppLink(waLink);
 
-  const available = puppies.filter((p) => p.status === "available").length;
+  // A contagem de disponíveis saiu daqui.
+  //
+  // Era `puppies.filter(p => p.status === "available").length`, publicada no
+  // topo da página como "3 disponíveis". Isso é estoque público, lido de um
+  // campo estático que só mudava em deploy: no dia seguinte a uma venda a
+  // página anunciava um número que já não existia. A página de cor mostra as
+  // fotos reais daquela cor; quem confirma o que existe hoje é o atendimento.
+  // (26/08/2026)
   const allPrices = puppies.map(
     (p) =>
       ((p as Record<string, unknown>).priceCents as number) ??
@@ -472,13 +504,10 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
               }`}
             >
               {[
-                {
-                  value: available > 0 ? String(available) : "—",
-                  label: available === 1 ? "disponível" : "disponíveis",
-                },
                 priceMin > 0
                   ? { value: formatPrice(priceMin), label: "a partir de" }
                   : null,
+                { value: "Fotos reais", label: "de cada filhote" },
                 { value: "Registro oficial", label: "incluso" },
                 { value: "Mentoria", label: "pós-venda" },
               ]
@@ -514,7 +543,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 count={14}
               >
                 <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-                Consultar disponibilidade
+                Consultar opções atuais
               </PawConfettiButton>
               <Link
                 href="/filhotes"
@@ -683,19 +712,25 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             transition={{ duration: 0.5 }}
           >
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
-              Catálogo
+              Vitrine
             </p>
+            {/* O título era `${puppies.length} filhotes ${seo.h1}`. Contar as
+                fotos e chamar o número de "filhotes" é publicar plantel: quem
+                lia "3 filhotes Branco" entendia três animais no canil hoje, e
+                o número só mudava em deploy. O título passa a nomear a cor, que
+                é o que a página realmente é. (26/08/2026) */}
             <h2
               id="puppies-heading"
               className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl"
             >
-              {puppies.length > 0
-                ? `${puppies.length} ${puppies.length === 1 ? "filhote" : "filhotes"} ${seo.h1}`
-                : `Filhotes ${seo.h1}`}
+              Filhotes {seo.h1}
             </h2>
             {puppies.length > 0 && (
               <p className="mt-2 text-zinc-500">
-                Filhotes disponíveis pela By Império Dog, com socialização em ambiente familiar.
+                Fotos reais de filhotes {seo.h1} criados pela By Império Dog.{" "}
+                <span className="font-medium text-zinc-700">
+                  Consulte as opções atuais pelo WhatsApp.
+                </span>
               </p>
             )}
           </motion.div>
@@ -715,11 +750,14 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
               transition={{ duration: 0.4 }}
             >
               <p className="text-5xl" aria-hidden="true">🐾</p>
+              {/* Dizia "Sem filhotes disponíveis agora". Este bloco não sabe
+                  nada sobre disponibilidade: ele aparece quando a vitrine ainda
+                  não tem foto publicada desta cor, que é outra coisa. */}
               <p className="mt-5 text-lg font-bold text-zinc-800">
-                Sem filhotes disponíveis agora
+                Ainda sem fotos publicadas nesta cor
               </p>
               <p className="mt-2 text-sm text-zinc-500">
-                Entre na lista de interesse e seja avisado assim que a próxima ninhada for confirmada.
+                Fale com a equipe pelo WhatsApp para conhecer as opções atuais no atendimento.
               </p>
               <PawConfettiButton
                 href={trackedWaLink}
@@ -730,7 +768,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 count={10}
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                Entrar na lista de interesse
+                Falar pelo WhatsApp
               </PawConfettiButton>
             </motion.div>
           )}

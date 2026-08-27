@@ -34,7 +34,7 @@ export const guides: Guide[] = [
       {
         heading: "Entenda o padrão racial antes de comprar",
         paragraphs: [
-          "O Lulu da Pomerânia tem cernelha (altura) de 21 cm ± 3 cm, conforme o padrão FCI nº 97, e pelagem dupla e densa. Criadores sérios seguem o padrão e apresentam laudo de medição junto ao registro oficial.",
+          "O Lulu da Pomerânia tem cernelha (altura) de 21 cm ± 3 cm, conforme o padrão FCI nº 97, e pelagem dupla e densa. Criador sério trabalha dentro dessa faixa e é honesto sobre o limite: altura de adulto não se mede em filhote — se estima pela linhagem, e a estimativa erra.",
           "Desconfie de vendedores que oferecem 'Spitz micro' ou 'nano' — esses termos não existem no padrão oficial e frequentemente indicam seleção de exemplares com problemas de saúde.",
         ],
       },
@@ -56,7 +56,7 @@ export const guides: Guide[] = [
       {
         heading: "Como reconhecer um criador confiável",
         paragraphs: [
-          "Um criador sério apresenta registro oficial do filhote e dos pais, laudo de saúde, exames genéticos (opcionais mas recomendados) e vacinação em dia com carteirinha assinada por veterinário.",
+          "Um criador sério apresenta registro oficial do filhote e dos pais, carteira de vacinação assinada por veterinário, histórico de vermifugação e o resultado dos exames feitos antes da entrega. Na By Império Dog esse pacote é consulta veterinária e hemograma completo — exame de sangue com resultado, não um atestado genérico.",
           "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação. Em qualquer formato, observe se os filhotes estão limpos, curiosos e sem sinais de medo ou apatia.",
           "Mentoria pós-venda é o diferencial que separa criadores comprometidos dos comercializadores. Pergunte diretamente: 'Posso entrar em contato depois da entrega?' A resposta diz muito.",
         ],

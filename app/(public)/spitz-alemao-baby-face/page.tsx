@@ -61,7 +61,7 @@ const FAQS = [
 export default function SpitzAlemaobabyFacePage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão Baby Face no site da By Império Dog. Pode me dar mais informações sobre os filhotes disponíveis?")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão Baby Face no site da By Império Dog. Pode me dar mais informações sobre as opções atuais?")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
