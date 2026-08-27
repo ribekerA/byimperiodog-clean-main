@@ -152,6 +152,8 @@ const DEFINEM_A_REGRA = new Set(
   [
     "src/lib/ai/catalog-seo.ts", // const BLACKLIST = [...]
     "src/lib/db/schemas/blog.ts", // bannedPattern + mensagem de erro
+    "src/domain/public-truth.ts", // matriz que define as afirmacoes proibidas
+    "tests/public-truth.test.ts", // regressao que prova que a matriz bloqueia o termo
     "tests/unit/content-guard.test.ts", // teste que prova o validador
   ].map((p) => p.split("/").join(sep))
 );
