@@ -95,14 +95,32 @@ describe("lastmod — acompanha o conteúdo", () => {
 });
 
 describe("lastmod — não anda sozinho", () => {
-  it("não é o instante do build", () => {
-    // Uma hora de folga. Se o gerador voltasse a carimbar Date.now(), toda data
-    // do arquivo cairia dentro dos últimos segundos.
-    const limite = Date.now() - 60 * 60 * 1000;
+  it("não declara data no futuro", () => {
+    // Vale sempre, inclusive em clone raso. Relógio de build adiantado é a
+    // outra forma de o timestamp de deploy vazar para o sitemap.
+    const agora = Date.now();
     for (const d of datas) {
-      expect(new Date(d).getTime(), `data suspeita de ser hora de build: ${d}`).toBeLessThan(
-        limite,
-      );
+      expect(new Date(d).getTime(), `data no futuro: ${d}`).toBeLessThanOrEqual(agora);
+    }
+  });
+
+  it("toda data é a de um commit que existe", () => {
+    if (rasoOuSemGit) return;
+    // Esta é a prova de que a data não é hora de build, e é exata: Date.now()
+    // não cai em cima de um commit. A versão anterior deste teste exigia que
+    // toda data fosse mais velha que uma hora, e reprovava sozinha assim que
+    // alguém commitava texto — que é justamente quando a data DEVE ser nova.
+    const commits = new Set(
+      git(["log", "--format=%aI"])
+        .split("\n")
+        .filter(Boolean)
+        .map((l) => new Date(l).getTime()),
+    );
+    for (const d of datas) {
+      expect(
+        commits.has(new Date(d).getTime()),
+        `${d} não corresponde a nenhum commit — de onde veio?`,
+      ).toBe(true);
     }
   });
 
