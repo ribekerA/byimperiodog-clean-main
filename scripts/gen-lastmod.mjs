@@ -39,6 +39,18 @@ const ROOT = process.cwd();
 const OUT = path.join(ROOT, "src", "lib", "_generated-lastmod.ts");
 const PUBLIC_DIR = path.join(ROOT, "app", "(public)");
 
+const HISTORICO_COMPLETO = (() => {
+  try {
+    return execFileSync("git", ["rev-parse", "--is-shallow-repository"], {
+      cwd: ROOT,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim() !== "true";
+  } catch {
+    return false;
+  }
+})();
+
 /** Pastas cujo conteudo, se mudar, muda a pagina de verdade. */
 const PASTAS_DE_CONTEUDO = [
   path.join(ROOT, "content"),
@@ -99,6 +111,7 @@ function dependenciasDeConteudo(arquivoDaPagina) {
  * exatamente o sinal que o Google aprende a ignorar.
  */
 function ultimoCommitISO(arquivos) {
+  if (!HISTORICO_COMPLETO) return null;
   const rel = arquivos
     .filter((f) => fs.existsSync(f))
     .map((f) => path.relative(ROOT, f).split(path.sep).join("/"));
@@ -129,6 +142,7 @@ function ultimoCommitISO(arquivos) {
  * nascer de novo hoje.
  */
 function primeiroCommitISO(arquivo) {
+  if (!HISTORICO_COMPLETO) return null;
   if (!fs.existsSync(arquivo)) return null;
   const rel = path.relative(ROOT, arquivo).split(path.sep).join("/");
   try {
