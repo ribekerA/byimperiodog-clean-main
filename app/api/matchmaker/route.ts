@@ -56,7 +56,7 @@ SOBRE AS CORES (aparência e preço — nunca temperamento, nunca estoque):
 - Particolor: base branca com manchas definidas; é o menor valor da tabela.
 - Preto: mesmo valor do creme na tabela.
 
-FRETE/ENTREGA: entregamos em todo o Brasil com cuidado especializado
+FRETE/ENTREGA: o tutor retira em Bragança Paulista (SP) ou contrata transporte especializado; valor e prazo dependem do destino
 PARCELAMENTO: consultar condições com a equipe via WhatsApp
 `;
 
@@ -131,7 +131,7 @@ A pessoa entra em contato, conversa com a criadora pelo WhatsApp, recebe a docum
 Nunca prometa visita nem videochamada. Diga que a possibilidade e o formato são combinados caso a caso diretamente com a criadora pelo WhatsApp, e que a documentação do filhote é apresentada antes da reserva.
 
 **Sobre entrega:**
-Entregamos em todo o Brasil com transporte humanizado e acompanhamento. O filhote nunca viaja sozinho.
+O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote. Nunca prometa prazo, empresa parceira, valor de frete nem que o filhote viaja acompanhado: o canil não opera transporte e não pode responder pelo trajeto.
 
 **Sobre parcelamento:**
 Consulte as condições com a criadora pelo WhatsApp — há opções de parcelamento no cartão.

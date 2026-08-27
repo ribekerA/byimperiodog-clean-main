@@ -236,12 +236,18 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   const interlinks = [
     {
       title: "Filhotes sob consulta",
-      description: "Entenda como selecionamos cada família e garanta prioridade na próxima ninhada.",
+      // Dizia "Entenda como selecionamos cada familia e garanta prioridade na
+      // proxima ninhada": processo de selecao que nao existe, mais uma fila de
+      // espera que ninguem administra.
+      description: "Veja as cores e os sexos com que o canil trabalha, com o valor de partida de cada combinação.",
       href: "/filhotes",
     },
     {
       title: "Processo completo",
-      description: "Veja as etapas: entrevista, socialização, entrega humanizada e mentoria pós-venda.",
+      // Esta lista de CTAs e uma copia da de src/components/blog/BlogCTAs.tsx,
+      // que ja tinha sido corrigida — esta ficou para tras com "entrevista" e
+      // "entrega humanizada", duas etapas que o canil nao executa.
+      description: "Conheça cada etapa: contato, documentação, reserva em contrato, entrega e acompanhamento pós-venda.",
       href: "/sobre#processo",
     },
     {

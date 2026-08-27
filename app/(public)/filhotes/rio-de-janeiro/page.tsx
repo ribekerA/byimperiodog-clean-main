@@ -46,21 +46,35 @@ const rjCities = [
   "Campos dos Goytacazes",
 ];
 
+// Tres respostas foram reescritas nesta lista.
+//
+// A primeira dizia "Fazemos entrega (...) A entrega e segura, com transporte
+// especializado para filhotes". O canil nao opera transporte: quem retira e o
+// tutor, ou quem leva e uma transportadora que ele contrata. Garantir a
+// seguranca de um trajeto que nao se conduz e prometer por conta de terceiro.
+//
+// A segunda terminava em "Voce pode conhecer os filhotes e os pais mediante
+// agendamento". Conhecer os pais nunca foi confirmado como parte de nenhuma
+// visita, e visita nao e direito universal.
+//
+// A terceira dizia "Para capital e regiao metropolitana temos condicoes
+// especiais". Condicao especial e desconto anunciado sem tabela: ninguem
+// consegue dizer depois qual era a condicao nem de quanto era o desconto.
 const faqRJ = [
   {
     question: "Vocês fazem entrega no Rio de Janeiro?",
     answer:
-      "Sim! Fazemos entrega em toda a capital carioca, Niterói, região metropolitana e interior do RJ. A entrega é segura, com transporte especializado para filhotes, e você recebe todas as orientações necessárias.",
+      "Sim! Atendemos famílias da capital carioca, de Niterói, da região metropolitana e do interior do RJ. O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote.",
   },
   {
     question: "Posso buscar o filhote pessoalmente?",
     answer:
-      "Sim! Nosso criatório fica em Bragança Paulista (SP), mas recebemos tutores do Rio de Janeiro que preferem buscar pessoalmente. Você pode conhecer os filhotes e os pais mediante agendamento.",
+      "Sim! O criatório fica em Bragança Paulista (SP), e tutores do Rio de Janeiro que preferem buscar pessoalmente são bem-vindos. A data é combinada caso a caso com a criadora pelo WhatsApp.",
   },
   {
     question: "Qual o valor da entrega para o Rio de Janeiro?",
     answer:
-      "O valor da entrega varia conforme a região e distância. Para capital e região metropolitana temos condições especiais. Consulte nossa equipe via WhatsApp para saber o valor exato para sua cidade.",
+      "O valor varia conforme a região e a distância, porque depende do transporte contratado para o trajeto. Consulte a criadora pelo WhatsApp para saber o valor até a sua cidade.",
   },
   {
     question: "O filhote vem com documentação e vacinas?",

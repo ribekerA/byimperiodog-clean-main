@@ -77,7 +77,7 @@ const TESTIMONIALS: readonly Depoimento[] = [
     city: "Rio de Janeiro, RJ",
     puppy: "Spitz Creme Macho",
     stars: 5,
-    text: "Pesquisei meses antes de decidir. O que diferenciou a By Império Dog foi a transparência — sem promessas vazias, com laudos e documentação real. O Thor chegou exatamente como prometido: saudável, socializado e com muita energia!",
+    text: "Pesquisei meses antes de decidir. O que diferenciou a By Império Dog foi a transparência — sem promessas vazias, com documentação real. O Thor chegou exatamente como prometido: saudável, socializado e com muita energia!",
   },
   {
     id: "joao",

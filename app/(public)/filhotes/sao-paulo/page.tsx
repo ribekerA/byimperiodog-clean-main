@@ -46,21 +46,36 @@ const spCities = [
   "Santos e Litoral",
 ];
 
+// Tres respostas foram reescritas nesta lista.
+//
+// A primeira dizia "Fazemos entrega (...) A entrega e segura, com transporte
+// especializado para filhotes". O canil nao opera transporte: quem retira e o
+// tutor, ou quem leva e uma transportadora que ele contrata. Garantir a
+// seguranca de um trajeto que nao se conduz e prometer por conta de terceiro.
+//
+// A segunda comecava com "Sim!" e prometia "conhecer os filhotes e os pais".
+// Visita nao e direito universal, e conhecer os pais nunca foi confirmado
+// como parte de nenhuma visita.
+//
+// A terceira dizia que para capital e Grande SP a entrega "geralmente e
+// inclusa ou tem valor simbolico". Frete gratis nao existe aqui, e "valor
+// simbolico" e um numero que a pessoa preenche sozinha na cabeca — e cobra
+// depois.
 const faqSP = [
   {
     question: "Vocês fazem entrega em São Paulo capital?",
     answer:
-      "Sim! Fazemos entrega em toda a capital paulista e Grande São Paulo. A entrega é segura, com transporte especializado para filhotes, e o tutor recebe orientações completas no momento da entrega.",
+      "Sim! Atendemos famílias da capital paulista e de toda a Grande São Paulo. O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote.",
   },
   {
     question: "Posso visitar o criatorio em Bragança Paulista antes de comprar?",
     answer:
-      "Sim! Recebemos visitas agendadas em nosso criatório em Bragança Paulista (SP). É uma ótima oportunidade para conhecer os filhotes e os pais. Agende pelo WhatsApp.",
+      "Visitas são combinadas caso a caso com a criadora, no criatório em Bragança Paulista (SP). Fale pelo WhatsApp para alinhar data e horário.",
   },
   {
     question: "Qual o valor da entrega para São Paulo?",
     answer:
-      "O valor da entrega varia conforme a região e distância. Para capital e Grande SP geralmente é incluso ou tem valor simbólico. Consulte nossa equipe para sua região específica.",
+      "O valor varia conforme a região e a distância, porque depende do transporte contratado para o trajeto. Consulte a criadora pelo WhatsApp para saber o valor até a sua cidade.",
   },
   {
     question: "Os filhotes já vêm vacinados e vermifugados?",

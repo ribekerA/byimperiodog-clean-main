@@ -118,7 +118,12 @@ function buildMessages(input: LeadAdvisorInput, compatibility: AdvisorCompatibil
   const firstName = toFirstName(input.name) || "tudo bem";
   const contextColor = input.preferredColor ? ` na cor ${input.preferredColor}` : "";
   const puppyName = compatibility.puppyName ? ` o ${compatibility.puppyName}` : " um Spitz da nossa ninhada";
-  const cityLine = input.city ? ` Entregamos em ${input.city} sem burocracia.` : " Temos entrega segura para todo Brasil.";
+  // "Entregamos em X sem burocracia" e "entrega segura para todo Brasil" iam
+  // para a sugestao de mensagem que a criadora envia no WhatsApp — prometendo,
+  // em primeira pessoa, um transporte que o canil nao opera nem pode garantir.
+  const cityLine = input.city
+    ? ` Atendemos ${input.city}: a retirada é em Bragança Paulista (SP) ou por transporte especializado.`
+    : " Atendemos famílias de todo o Brasil.";
   const base = `Somos da By Império Dog e separamos${puppyName}${contextColor}.`;
 
   return [

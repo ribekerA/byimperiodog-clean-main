@@ -67,7 +67,10 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Seleção criteriosa de famílias",
-    body: "Entrevistamos e orientamos cada família antes da venda. O objetivo é garantir que o filhote vá para um lar compatível com suas necessidades — não apenas vender.",
+    // "Entrevistamos" descrevia uma etapa formal de selecao de familias que
+    // nao existe. O que existe e conversa pelo WhatsApp com a criadora, e isso
+    // ja basta para o argumento da secao.
+    body: "Conversamos com cada família antes da venda e orientamos sobre rotina, espaço e cuidado. O objetivo é que o filhote vá para um lar compatível com as necessidades da raça — não apenas vender.",
   },
   // Este item dizia "maternidade climatizada, cameras de monitoramento, espaco
   // de socializacao e rede multidisciplinar (veterinarios, comportamentalista,

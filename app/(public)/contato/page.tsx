@@ -244,8 +244,13 @@ export default function ContatoPage() {
                 <p className="mt-1 text-sm text-zinc-500">
                   Bragança Paulista, SP
                 </p>
+                {/* Dizia "Visitas com agendamento prévio (sáb)". Sábado é dia
+                    fixo, e dia fixo é promessa: quem lê agenda o fim de semana
+                    contando com uma visita que ninguém garantiu. A própria
+                    página se contradizia — o card de baixo já dizia "combinadas
+                    caso a caso". Agora as duas dizem a mesma coisa. */}
                 <p className="mt-2 text-sm text-zinc-600">
-                  Visitas com agendamento prévio (sáb)
+                  Visitas combinadas caso a caso com a criadora
                 </p>
               </div>
               <a

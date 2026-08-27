@@ -60,13 +60,13 @@ const TIMELINE = [
       "A primeira ninhada com registro oficial saiu da By Império Dog. Um marco que estabeleceu o compromisso com a rastreabilidade e o acompanhamento veterinário.",
     emoji: "📋",
   },
-  {
-    year: "2018",
-    title: "100 famílias atendidas",
-    description:
-      "Atingimos a marca de 100 famílias em todo o Brasil. Cada entrega foi acompanhada de perto, com contrato claro e suporte pós-entrega.",
-    emoji: "🏡",
-  },
+  // O marco de 2018 dizia "100 familias atendidas" e "Atingimos a marca de
+  // 100 familias em todo o Brasil". Nao existe registro do numero nem da data
+  // em que ele teria sido alcancado, e contagem de clientes publicada sem
+  // fonte e exatamente o tipo de numero que ninguem consegue defender depois.
+  // Nao da para reescrever o item com outro acontecimento: nenhum outro esta
+  // documentado para 2018, e inventar um seria trocar um numero sem lastro
+  // por uma data sem lastro. Mesmo tratamento dado ao marco de 2022 abaixo.
   // O marco de 2022 anunciava "maternidade monitorada com cameras, ambiente
   // climatizado e espaco de socializacao sensorial". Nao existe estrutura
   // nenhuma desse tipo — a responsavel confirmou. Nao da para reescrever o

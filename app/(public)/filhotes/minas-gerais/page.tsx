@@ -45,16 +45,29 @@ const mgCities = [
   "Poços de Caldas",
 ];
 
+// Duas respostas foram reescritas nesta lista.
+//
+// A primeira dizia "Fazemos entrega em todo o estado (...) A entrega e
+// segura, com transporte especializado para filhotes". O canil nao opera
+// transporte: quem retira e o tutor, ou quem leva e uma transportadora que
+// ele contrata. Garantir a seguranca de um trajeto que nao se conduz e
+// prometer por conta de terceiro. A pagina /contato ja usava a formulacao
+// correta; agora as duas dizem a mesma coisa.
+//
+// A segunda comecava com "Sim!" e seguia com "Recebemos visitas agendadas
+// para que voce conheca os filhotes e os pais". Visita nao e direito
+// universal, e conhecer os pais nunca foi confirmado como parte de
+// nenhuma visita. Um "Sim!" no comeco da resposta e uma promessa.
 const faqMG = [
   {
     question: "Vocês fazem entrega em Minas Gerais?",
     answer:
-      "Sim! Fazemos entrega em todo o estado de Minas Gerais, incluindo Belo Horizonte, região metropolitana, Uberlândia, Juiz de Fora e demais cidades. A entrega é segura, com transporte especializado para filhotes.",
+      "Sim! Atendemos famílias de todo o estado de Minas Gerais, incluindo Belo Horizonte, região metropolitana, Uberlândia, Juiz de Fora e demais cidades. O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote.",
   },
   {
     question: "Posso visitar o criatório antes de comprar?",
     answer:
-      "Sim! Nosso criatório fica em Bragança Paulista (SP), a cerca de 200km de BH pela Fernão Dias. Recebemos visitas agendadas para que você conheça os filhotes e os pais. Muitos tutores de MG fazem a visita e aproveitam para buscar o filhote pessoalmente.",
+      "O criatório fica em Bragança Paulista (SP), a cerca de 200 km de BH pela Fernão Dias. Visitas são combinadas caso a caso com a criadora pelo WhatsApp — muitos tutores de MG combinam a visita e aproveitam para buscar o filhote pessoalmente.",
   },
   {
     question: "Qual o prazo de entrega para Minas Gerais?",

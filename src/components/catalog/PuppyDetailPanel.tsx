@@ -239,7 +239,9 @@ export default function PuppyDetailPanel({
           {[
             { icon: "🏆", text: `Criando desde ${FOUNDING_YEAR}` },
             { icon: "📄", text: "Contrato de compra e venda" },
-            { icon: "✈️", text: "Entregamos em todo o Brasil" },
+            // "Entregamos em todo o Brasil" descrevia uma operacao de transporte que
+            // o canil nao tem. O alcance e verdade; a operacao e do tutor.
+            { icon: "✈️", text: "Atendemos todo o Brasil" },
           ].map((item) => (
             <div key={item.text} className="flex items-center gap-1.5 text-xs text-zinc-600">
               <span aria-hidden="true">{item.icon}</span>

@@ -6,7 +6,11 @@ const INCLUDED = [
   { icon: "📋", title: "Registro oficial", desc: "Documento oficial reconhecido internacionalmente" },
   { icon: "❤️", title: "Consulta veterinária", desc: "Consulta e hemograma completo antes da entrega" },
   { icon: "💉", title: "Protocolo vacinal", desc: "Em dia conforme a idade do filhote, carteira assinada pelo médico-veterinário" },
-  { icon: "🔖", title: "Identificação do animal", desc: "Identificação individual e rastreável, conforme os requisitos da legislação aplicável" },
+  // "Identificação individual e rastreável" dizia mais do que o canil confirma:
+  // rastreável, num card ao lado de um preço, é lido como microchip, e nenhum
+  // filhote da vitrine tem microchip incluso. A frase agora é a mesma do resto
+  // do site, palavra por palavra.
+  { icon: "🔖", title: "Identificação do animal", desc: "Segue os requisitos exigidos pela legislação aplicável" },
   { icon: "🌿", title: "Vermifugação", desc: "Tratamento preventivo incluso" },
   { icon: "🎓", title: "Mentoria pós-venda", desc: "Você nunca vai ficar sozinho com dúvidas" },
   { icon: "🤝", title: "Suporte pós-entrega", desc: "Acompanhamento direto com a criadora" },
@@ -25,8 +29,15 @@ const SEXES = [
   },
   {
     label: "Fêmea",
+    // `highlight` era o selo "Maior procura" sobre este card, e a nota terminava
+    // em "a disponibilidade pode mudar rapidamente conforme as reservas".
+    // Nenhuma das duas se sustenta: procura é afirmação de mercado que ninguém
+    // aqui mediu, e o site não publica estoque — a página é vitrine permanente,
+    // e a disponibilidade real só existe no atendimento. Pressa fabricada em
+    // cima de um preço aberto estraga justamente o que a seção promete no
+    // título, que é não ter letra miúda.
     highlight: true,
-    note: "A fêmea custa mais que o macho em todas as cores. A disponibilidade pode mudar rapidamente conforme as reservas.",
+    note: "A fêmea custa mais que o macho em todas as cores. O valor de um filhote específico é confirmado no atendimento.",
     colors: LINHAS_FORMATADAS.map((linha) => ({ cor: linha.label, valor: linha.femea })),
   },
 ];
@@ -81,11 +92,11 @@ export default function PriceTransparency() {
                 : "border-zinc-200 bg-white shadow-sm"
             }`}
           >
-            {s.highlight && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--accent)] px-4 py-1 text-xs font-bold text-[var(--accent-foreground)]">
-                Maior procura
-              </span>
-            )}
+            {/* Aqui havia um selo "Maior procura" pendurado no topo do card da
+                fêmea. O destaque visual continua — é a coluna de valor mais
+                alto, e separar as duas colunas ajuda a ler. O que saiu foi a
+                legenda, que transformava decisão de layout em dado de mercado
+                sem nenhuma medição por trás. */}
             <h3 className="text-lg font-bold text-zinc-900">{s.label}</h3>
             <p className="mt-1 text-sm text-zinc-500">{s.note}</p>
             {/* Cabeçalho da coluna de valores. A tabela mostrava o número

@@ -13,7 +13,11 @@ interface BlogCTAsProps {
 const CTA_LINKS = [
   {
     title: "Filhotes sob consulta",
-    description: "Visualize disponibilidade, cronograma de entrevistas e acompanhe a socialização em tempo real.",
+    // Prometia tres coisas que a pagina /filhotes nao entrega: disponibilidade
+    // (a vitrine e permanente, quem confirma estoque e o atendimento),
+    // cronograma de entrevistas (nao existe processo de entrevista) e
+    // socializacao em tempo real (nao existe acompanhamento ao vivo).
+    description: "Veja as cores e os sexos com que o canil trabalha, com o valor de partida de cada combinação.",
     href: "/filhotes",
     utmContent: "cta_filhotes",
   },

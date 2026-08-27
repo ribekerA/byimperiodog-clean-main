@@ -56,7 +56,10 @@ const benefits = [
 const processSteps = [
   {
     step: "01",
-    title: "Entrevista e Alinhamento",
+    // Era "Entrevista e Alinhamento". Entrevista descreve um processo formal
+    // de selecao de familias que nao existe aqui — e a propria descricao ja
+    // dizia "conversamos".
+    title: "Conversa e Alinhamento",
     description: "Conversamos sobre a sua rotina e as suas preferências, e explicamos como funciona o processo.",
   },
   {
@@ -81,8 +84,11 @@ const processSteps = [
   },
   {
     step: "06",
-    title: "Entrega Humanizada",
-    description: "Retirada presencial ou transporte assistido para todo o Brasil, com kit de boas-vindas, registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato — e suporte pós-entrega.",
+    // "Entrega Humanizada" com "transporte assistido para todo o Brasil"
+    // descrevia uma operacao de transporte que o canil nao tem. Quem retira e
+    // o tutor, ou quem leva e uma transportadora que ele contrata.
+    title: "Retirada ou Transporte",
+    description: "Retirada presencial em Bragança Paulista (SP) ou transporte especializado contratado pelo tutor, com kit de boas-vindas, registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato — e suporte pós-entrega.",
   },
 ] as const;
 

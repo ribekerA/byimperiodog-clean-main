@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { puppiesPublicados } from "@/content/puppies-static";
+import { RESPOSTA_MACHO_VS_FEMEA } from "@/domain/pricing";
 import { buildItemListLD, buildBreadcrumbLD, buildCollectionPageLD } from "@/lib/structured-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -20,8 +21,11 @@ const CATALOG_FAQS = [
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão Anão Fêmea e Macho?",
-    answer:
-      "A fêmea custa R$ 1.000 a mais que o macho da mesma cor, por conta da maior procura. Cada valor é o ponto de partida da cor. Fêmeas: R$ 6.500 no particolor, R$ 7.500 no laranja, R$ 8.500 em creme e preto, R$ 9.500 no branco. Machos: R$ 5.500 no particolor, R$ 6.500 no laranja, R$ 7.500 em creme e preto, R$ 8.500 no branco.",
+    // Os dez valores estavam escritos à mão aqui, e a frase ainda explicava a
+    // diferença "por conta da maior procura" — número duplicado da tabela mais
+    // uma afirmação de mercado que ninguém mediu. Agora a resposta é montada em
+    // domain/pricing, a mesma fonte que abastece a vitrine desta página.
+    answer: RESPOSTA_MACHO_VS_FEMEA,
   },
   {
     question: "Os filhotes são entregues com quais documentos?",

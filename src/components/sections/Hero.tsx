@@ -133,7 +133,10 @@ export default function HeroSection() {
           </div>
 
           <ul className="flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.3em] text-emerald-700">
-            <li>Entrega humanizada</li>
+            {/* Era "Entrega humanizada". O canil nao opera transporte, entao a
+                primeira credencial do hero prometia justamente o que ele nao
+                faz. Trocada por um item da lista confirmada de entrega. */}
+            <li>Consulta veterinária antes da entrega</li>
             <li className="text-zinc-600" aria-hidden="true">
               •
             </li>

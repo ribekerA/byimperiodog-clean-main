@@ -165,6 +165,45 @@ export const RESPOSTA_QUANTO_CUSTA =
   "A disponibilidade é informada no atendimento.";
 
 /**
+ * Diferença entre fêmea e macho na mesma cor, em centavos — ou `null` quando a
+ * matriz deixar de ter uma diferença única.
+ *
+ * Nasce da tabela em vez de "R$ 1.000" digitado numa FAQ. Hoje as cinco cores
+ * têm o mesmo degrau; no dia em que uma linha andar sozinha, esta constante
+ * vira `null` e a frase troca de forma automaticamente, em vez de continuar
+ * afirmando um número que parou de valer.
+ */
+export const DIFERENCA_FEMEA_MACHO: number | null = (() => {
+  const degraus = new Set(
+    CORES_DIVULGADAS.map((cor) => precoDe(cor, "femea") - precoDe(cor, "macho"))
+  );
+  return degraus.size === 1 ? [...degraus][0] : null;
+})();
+
+/**
+ * Resposta oficial de "por que a fêmea custa mais que o macho".
+ *
+ * A versão anterior vivia escrita à mão em `/filhotes` e dizia que a diferença
+ * existia "por conta da maior procura". Duas coisas erradas na mesma frase:
+ *
+ * 1. Os dez valores estavam copiados na prosa. Bastava a tabela mudar para a
+ *    FAQ passar a contradizer a própria página em que ela aparece.
+ * 2. "Maior procura" é afirmação sobre o mercado que ninguém aqui mediu. O
+ *    preço não precisa de justificativa inventada: ele é o que é, publicado
+ *    aberto, e o visitante compara com quem quiser.
+ *
+ * O que sobra é o que se pode conferir na tabela — o degrau e os dois pontos
+ * de partida por sexo.
+ */
+export const RESPOSTA_MACHO_VS_FEMEA =
+  (DIFERENCA_FEMEA_MACHO !== null
+    ? `A fêmea custa ${formatarPreco(DIFERENCA_FEMEA_MACHO)} a mais que o macho da mesma cor. `
+    : "A fêmea custa mais que o macho em todas as cores. ") +
+  "Cada valor abaixo é o ponto de partida da combinação de cor e sexo, e o valor de um filhote " +
+  `específico é confirmado no atendimento. Machos: ${enumerarPorSexo("macho")}. ` +
+  `Fêmeas: ${enumerarPorSexo("femea")}.`;
+
+/**
  * Resposta oficial sobre o preto.
  *
  * A pergunta é repetida na home, na página da cor e na /spitz-alemao-preto, e
