@@ -2,7 +2,7 @@
 
 Data: 27/08/2026
 Projeto: By Império Dog
-Estado: configuração externa concluída em rascunho e validada localmente; sem publicação do GTM, deploy, commit ou push
+Estado: código implantado, GTM versão 16 publicada e domínio de produção validado
 
 ## 1. Situação encontrada
 
@@ -12,13 +12,14 @@ No código havia ainda duas rotas conceituais para o mesmo clique (`whatsapp_cli
 
 O acesso autenticado confirmou:
 
-- GTM real: `GTM-NM5P94W8`, versão publicada 14, workspace 15;
+- GTM real: `GTM-NM5P94W8`, versão publicada 16;
 - GA4 real: `G-WZ9RQKW48Z`, propriedade `WEB Analytics`;
 - Google Ads ativo: `316-551-9817`, conta `Karen Cristina Ferreira`;
 - Conversion ID: `AW-16465652074`;
 - Conversion Label: `kx_fCODZyuQcEOrSt6s9`;
-- Google tag vinculada observada: `GT-M6QS4CHS`;
-- o identificador histórico `GT-T9C34H7P` não foi encontrado instalado ou associado nas telas auditadas.
+- Google tag vinculada ao GA4: `GT-M6QS4CHS`;
+- Google tag da conta Ads: `GT-T9C34H7P`, carregada indiretamente pela tag de conversão apenas no clique; não deve ser instalada diretamente;
+- a antiga tag-base separada `AW-16465652074` ativava também o GA4 legado `G-NQJJ8H969T` e duplicava `page_view`; ela foi removida na versão 16.
 
 ## 2. Causa raiz
 
@@ -28,6 +29,7 @@ O acesso autenticado confirmou:
 4. Tags antigas de WhatsApp permaneciam executáveis e poderiam duplicar a medição.
 5. O `page_view` SPA tinha dois possíveis emissores.
 6. A ação de conversão do Ads estava com nome e janela de clique fora do padrão definido para esta implementação.
+7. A tag-base separada do Ads carregava uma configuração remota conectada ao GA4 antigo `G-NQJJ8H969T`, criando um segundo `page_view`.
 
 ## 3. Correções executadas
 
@@ -43,7 +45,7 @@ O acesso autenticado confirmou:
 - Com GTM ativo, `TrackingScripts` não envia `page_view` por `gtag`; o History Change do GTM é a fonte única.
 - `resolveActiveEnvironment` usa o ID do banco como fonte principal e aceita `GTM_ID`/`NEXT_PUBLIC_GTM_ID` validado como fallback.
 
-### GTM — workspace 15, não publicado
+### GTM — versões 15 e 16 publicadas
 
 - Backup da versão publicada 14 exportado antes das alterações.
 - Criado `CE | whatsapp_click`, Custom Event exato `whatsapp_click`.
@@ -52,7 +54,10 @@ O acesso autenticado confirmou:
 - Criada `Google Ads | Conversion | Lead WhatsApp Site` para `16465652074/kx_fCODZyuQcEOrSt6s9`.
 - `GA4 – Page View SPA` ficou somente com `History Change – SPA`.
 - Quatro tags antigas de WhatsApp foram pausadas e renomeadas com `[LEGADO - NÃO USAR]`.
-- Google tag base e Conversion Linker existentes foram preservados.
+- A versão 15 publicou a arquitetura canônica e os legados sem capacidade de disparo no clique validado.
+- A validação em produção revelou que a tag-base separada `Google Ads – Tag base` carregava o GA4 antigo `G-NQJJ8H969T`.
+- A versão corretiva 16 removeu somente essa tag-base redundante.
+- A Google tag canônica `G-WZ9RQKW48Z`, o Conversion Linker e a conversão direta do Ads foram preservados.
 
 ### GA4
 
@@ -118,11 +123,12 @@ Arquivos mortos removidos após comprovação de ausência de uso:
 
 | Item | Identificador | Estado |
 |---|---|---|
-| Container GTM | `GTM-NM5P94W8` | workspace 15 em rascunho; versão 14 segue publicada |
-| GA4 | `G-WZ9RQKW48Z` | vinculado e recebendo pelo Preview |
+| Container GTM | `GTM-NM5P94W8` | versão 16 ativa em produção |
+| GA4 | `G-WZ9RQKW48Z` | única Google tag base carregada em todas as páginas |
 | Google tag observada | `GT-M6QS4CHS` | destino associado |
-| Google Ads | `AW-16465652074` | tag base preservada |
-| Conversão Ads | `16465652074/kx_fCODZyuQcEOrSt6s9` | tag direta validada no Preview |
+| Google tag Ads | `GT-T9C34H7P` | carregada indiretamente pela conversão; não instalar diretamente |
+| Google Ads | `AW-16465652074` | destino da conversão, sem segunda tag-base All Pages |
+| Conversão Ads | `16465652074/kx_fCODZyuQcEOrSt6s9` | tag direta validada no Preview e em produção |
 | Evento canônico | `whatsapp_click` | 1 evento por clique |
 | Evento principal GA4 | `whatsapp_click` | cadastrado antecipadamente |
 | Page view SPA | `GA4 – Page View SPA` | apenas `History Change – SPA` |
@@ -162,12 +168,19 @@ No Ads:
 | Preview: navegação SPA | 1 History Change e 1 Page View SPA |
 | Catálogo | preços `[5500, 5500, 6500, 6500, 7500, 7500, 7500, 7500, 8500, 8500]` |
 | `[ref:]` e “A partir de” | ausentes nas páginas verificadas |
+| CI remoto | aprovado, incluindo 17 smokes públicos |
+| CodeQL | aprovado |
+| Produção: catálogo | `5500, 5500, 6500, 6500, 7500, 7500, 7500, 7500, 8500, 8500` |
+| Produção: GTM publicado | 1 `gtm.js` e 1 `gtag/js`, somente `G-WZ9RQKW48Z` em All Pages |
+| Produção: clique | 1 `whatsapp_click`; GA4 e Ads dispararam 1 vez no Tag Assistant |
+| Produção: coleta de teste | requisições interceptadas e respondidas localmente, sem gravar conversão artificial |
+| Produção: GA4 legado | `G-NQJJ8H969T` ausente após a versão 16 |
 
 O build registrou `site_settings read error: fetch failed` no ambiente de rede restrita. O fallback previsto foi usado e o build terminou com sucesso.
 
 ## 8. Configurações externas concluídas
 
-- GTM: workspace reconstruído, backup salvo e Preview aprovado; não publicado.
+- GTM: versões 15 e 16 publicadas, versão 16 ativa, backup da versão 14 preservado e Preview de produção aprovado.
 - GA4: `whatsapp_click` registrado como evento principal.
 - Ads: ação direta normalizada e recurso de mensagem associado à campanha.
 - Ads: codificação automática ativa.
@@ -175,31 +188,26 @@ O build registrou `site_settings read error: fetch failed` no ambiente de rede r
 
 ## 9. Bloqueios restantes
 
-1. O GTM continua em rascunho por decisão explícita; produção ainda usa a versão 14.
-2. O código não foi commitado, enviado nem implantado.
-3. A ação `Lead | WhatsApp | Site` mostra “Configuração incorreta” até que o contêiner e o site sejam publicados e eventos reais sejam processados.
-4. Mesmo com o recurso de mensagem aprovado e associado à campanha, a meta nativa `Leads a partir de mensagens`/`Mensagens dos seus anúncios` ainda não aparece no seletor. Isso depende de propagação ou elegibilidade do Google Ads; não foi criada uma conversão falsa para contornar.
-5. A produção deve ser validada novamente no Tag Assistant após deploy.
+1. A ação `Lead | WhatsApp | Site` ainda pode mostrar diagnóstico transitório até que eventos legítimos sejam processados pelo Google Ads.
+2. Mesmo com o recurso de mensagem aprovado e associado à campanha, a meta nativa `Leads a partir de mensagens`/`Mensagens dos seus anúncios` ainda não aparece no seletor. Isso depende de propagação ou elegibilidade do Google Ads; não foi criada uma conversão falsa para contornar.
+3. Os 1.147 avisos de lint são dívida preexistente sem erro bloqueante e serão tratados em tarefa separada, por etapas.
 
 ## 10. Próximas ações autorizáveis
 
-1. Conferir o servidor local em `http://localhost:3001` e o diff.
-2. Autorizar commit/push/deploy em etapa separada.
-3. Autorizar separadamente a publicação de uma única versão do GTM.
-4. Repetir Tag Assistant e GA4 DebugView no domínio publicado.
-5. Aguardar 24–48 horas para o diagnóstico do Ads processar eventos.
-6. Reabrir as metas da campanha e verificar se a meta nativa de mensagens passou a aparecer.
-7. Executar o saneamento de lint como tarefa separada, por etapas.
+1. Aguardar 24–48 horas para o diagnóstico do Ads processar tráfego legítimo.
+2. Reabrir as metas da campanha e verificar se a meta nativa de mensagens passou a aparecer.
+3. Confirmar `whatsapp_click` no GA4 Realtime quando houver um contato legítimo.
+4. Executar o saneamento de lint como tarefa separada, por etapas.
 
 ## 11. Critério de aceite
 
 **APROVADO COM BLOQUEIO HUMANO.**
 
-O código local, o workspace do GTM e o Preview estão tecnicamente aprovados. A conclusão operacional depende de autorização humana para publicar GTM e implantar o código, seguida da validação no domínio real. A meta nativa de mensagens permanece um bloqueio de propagação/elegibilidade do Google Ads.
+O código, o deploy, o GTM e o Tag Assistant no domínio real estão tecnicamente aprovados. A classificação permanece com bloqueio humano somente porque o diagnóstico do Ads depende de tráfego legítimo/processamento e a meta nativa de mensagens ainda depende da elegibilidade/propagação da plataforma.
 
 ## Rollback
 
-- Código: antes de commit, reverter apenas os arquivos desta tarefa; depois de commit, usar `git revert`.
-- GTM: republicar a versão 14 do backup, sem apagar o histórico.
+- Código: usar `git revert` nos commits publicados, preservando alterações posteriores.
+- GTM: republicar a versão 15 para reverter somente a remoção da tag-base; usar a versão 14/backup para rollback integral da reconstrução.
 - Ads: tornar `Lead | WhatsApp | Site` Secundária ou retirá-la da meta, sem excluir a ação.
 - GA4: desmarcar `whatsapp_click` como evento principal, se necessário.

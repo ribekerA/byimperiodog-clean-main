@@ -1,17 +1,18 @@
 # Runbook operacional — GTM, GA4, Google Ads e WhatsApp
 
-Atualizado em 27/08/2026. Este roteiro parte do workspace 15 já configurado e testado. Não publicar GTM, não fazer deploy e não alterar campanhas sem aprovação humana explícita.
+Atualizado em 27/08/2026. O código está implantado e a versão 16 do GTM está ativa. Não alterar campanhas nem republicar o contêiner sem aprovação humana explícita.
 
 ## Inventário confirmado
 
 | Plataforma | Identificação |
 |---|---|
-| GTM | conta `By Imperio Dog`, container `GTM-NM5P94W8`, workspace 15 |
-| GTM publicado | versão 14 |
+| GTM | conta `By Imperio Dog`, container `GTM-NM5P94W8` |
+| GTM publicado | versão 16 |
 | Backup | `docs/analytics/gtm-GTM-NM5P94W8-version-14-backup-2026-08-27.json` |
 | GA4 | conta/propriedade `339-484-5796` / `WEB Analytics` |
 | Web stream | `By Imperio Dog - Site`, `G-WZ9RQKW48Z` |
 | Google tag observada | `GT-M6QS4CHS` |
+| Google tag Ads | `GT-T9C34H7P`, carregada indiretamente pela conversão; não instalar |
 | Google Ads | conta ativa `316-551-9817`, `AW-16465652074` |
 | Conversão do site | `Lead | WhatsApp | Site`, label `kx_fCODZyuQcEOrSt6s9` |
 | Campanha | `Pesquisa | Spitz Branco Fêmea` |
@@ -40,7 +41,7 @@ Esse único Custom Event aciona, no GTM:
 
 Não enviar nome, telefone, e-mail, mensagem, endereço, GCLID, GBRAID ou WBRAID no payload.
 
-## Estado do workspace 15
+## Estado publicado — versão 16
 
 ### Trigger
 
@@ -90,7 +91,13 @@ Não enviar nome, telefone, e-mail, mensagem, endereço, GCLID, GBRAID ou WBRAID
 - `[LEGADO - NÃO USAR] GA4 – click_whatsapp todos`;
 - `[LEGADO - NÃO USAR] GA4 - whatsapp_from_puppy_modal`.
 
-Não excluir tags, triggers nem ações de conversão antigas; preservar histórico.
+Não excluir ações de conversão antigas no Ads; preservar histórico. As versões 14 e 15 do GTM permanecem disponíveis para rollback.
+
+### Tag-base Ads redundante
+
+`Google Ads – Tag base` (`AW-16465652074`, Initialization - All Pages) foi removida na versão 16. A configuração remota dessa tag também ativava o GA4 legado `G-NQJJ8H969T`, gerando um segundo `page_view`.
+
+A conversão direta `Google Ads | Conversion | Lead WhatsApp Site` continua carregando `GT-T9C34H7P`/`AW-16465652074` somente quando o evento ocorre. Esse é o comportamento esperado; não instalar `GT-T9C34H7P` diretamente.
 
 ## Validação local reproduzível
 
@@ -149,33 +156,38 @@ Codificação automática está ativa. Nunca testar clicando no próprio anúnci
 
 Se futuramente houver importação do GA4 para o Ads, mantê-la Secundária. A tag direta do Ads e a importação do GA4 não podem ser simultaneamente principais para o mesmo clique.
 
-## Publicação aprovada
+## Publicação concluída
 
-Somente após conferência do diff e autorização explícita:
+Concluído em 27/08/2026:
 
-1. criar commit único do código aprovado;
-2. fazer um único push/deploy;
-3. publicar uma única versão do GTM, com nome e descrição de rollback;
-4. repetir Tag Assistant em `https://www.byimperiodog.com.br`;
-5. confirmar GA4 DebugView/Realtime;
-6. verificar Diagnostics da ação `Lead | WhatsApp | Site`;
-7. aguardar 24–48 horas de processamento;
-8. validar com tráfego legítimo, sem clique próprio em anúncio.
+1. código enviado à `main` e implantado pela Netlify;
+2. CI, CodeQL e 17 smokes públicos aprovados;
+3. versão 15 publicou a arquitetura canônica;
+4. versão 16 removeu a tag-base Ads redundante encontrada na validação pós-publicação;
+5. Tag Assistant em produção confirmou 1 `whatsapp_click`, 1 tag GA4 e 1 tag Ads;
+6. a coleta da validação foi interceptada, evitando conversão artificial.
+
+Ainda operacional:
+
+1. aguardar 24–48 horas de processamento;
+2. verificar Diagnostics da ação `Lead | WhatsApp | Site`;
+3. confirmar GA4 Realtime com tráfego legítimo;
+4. validar a meta nativa de mensagens quando ela aparecer no seletor;
+5. nunca clicar no próprio anúncio.
 
 ## Rollback
 
-- GTM: republicar a versão 14 registrada no backup.
+- GTM: republicar a versão 15 para rollback da correção final; republicar a versão 14/backup para rollback integral.
 - Ads: tornar a nova ação Secundária ou removê-la das metas, sem excluir histórico.
 - GA4: desmarcar `whatsapp_click` como evento principal.
 - Site: usar `git revert` no commit aprovado e fazer um único redeploy.
 
 ## Critério de aceite pós-publicação
 
-O trabalho só passa de **APROVADO COM BLOQUEIO HUMANO** para **APROVADO** quando:
+Estado atual: **APROVADO COM BLOQUEIO HUMANO**.
 
-- o código estiver implantado;
-- o workspace GTM estiver publicado;
-- o Preview/Tag Assistant no domínio real mostrar um disparo por clique;
-- o GA4 receber `whatsapp_click` uma vez;
+Passa para **APROVADO** quando:
+
+- o GA4 Realtime confirmar `whatsapp_click` em tráfego legítimo;
 - o diagnóstico da conversão do Ads deixar de depender da ausência de tráfego/tag;
 - não houver PII nem duplicidade.
