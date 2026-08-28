@@ -5,24 +5,6 @@
 import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-type PuppyRow = {
-  id: string;
-  name: string;
-  price_cents?: number | null;
-  color?: string | null;
-  sex?: string | null;
-  birth_date?: string | null;
-  status?: string | null;
-};
-
-type LeadRow = {
-  id: string;
-  cor_preferida?: string | null;
-  sexo_preferido?: string | null;
-  page_slug?: string | null;
-  status?: string | null;
-};
-
 type PricingResult = {
   price_min_cents: number;
   price_ideal_cents: number;
@@ -58,12 +40,6 @@ export async function recalcPricingForPuppy(puppyId: string): Promise<PricingRes
     .from("leads")
     .select("id,cor_preferida,sexo_preferido,page_slug,status")
     .or(`page_slug.eq.${puppyId},page_slug.eq.${puppy.name || ""}`)
-    .limit(200);
-
-  const { data: sales } = await sb
-    .from("puppies")
-    .select("price_cents,color,sex,status,birth_date")
-    .or(statusOrFilter(["sold"]))
     .limit(200);
 
   const basePrice = puppy.price_cents ?? 600000; // fallback 6k

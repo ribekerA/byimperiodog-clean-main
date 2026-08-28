@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   openGraph: { images: [OG_DEFAULT_IMAGE], title: "Temperamento — By Império Dog", description: guide.metaDescription },
 };
 
-const FAQS = guide.faqs ?? [];
-
 export default function TemperamentoPage() {
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },

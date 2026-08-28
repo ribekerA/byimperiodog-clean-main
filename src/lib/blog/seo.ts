@@ -58,7 +58,7 @@ function stripMarkdown(src: string): string {
 // (rich result encerrado pelo Google em 07/05/2026); a funcao ficou porque
 // nao ha outro consumidor previsto e reescrever o parser depois custaria mais
 // do que mante-lo. Nenhuma pagina a chama hoje.
-function extractFaqFromMdx(mdx: string): { q: string; a: string }[] {
+function _extractFaqFromMdx(mdx: string): { q: string; a: string }[] {
   if (!mdx) return [];
   const results: { q: string; a: string }[] = [];
 

@@ -12,8 +12,6 @@ const logger = createLogger("autosales:engine");
 export type AutoSalesStepType = "intro" | "follow_up_light" | "follow_up_strong" | "follow_up_final";
 
 type PuppyRow = Database["public"]["Tables"]["puppies"]["Row"];
-type SequenceRow = Database["public"]["Tables"]["autosales_sequences"]["Row"];
-
 type AutoSalesPlanStep = {
   type: AutoSalesStepType;
   delayMinutes: number;

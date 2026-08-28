@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * Procura mojibake (UTF-8 lido como Windows-1252) no codigo fonte.
  * Falha (exit 1) se encontrar.

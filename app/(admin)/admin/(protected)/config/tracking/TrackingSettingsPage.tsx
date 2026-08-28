@@ -15,7 +15,6 @@ import {
   ShieldCheck,
   Tag,
   Wifi,
-  WifiOff,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
@@ -356,7 +355,7 @@ export function TrackingSettingsPage({ initialEnvironment, initialConfig }: Prop
 
   useEffect(() => {
     if (activeTab === "history" && history.length === 0) loadHistory();
-  }, [activeTab]);
+  }, [activeTab, history.length]);
 
   const loadEnvironment = useCallback(
     async (env: Environment) => {

@@ -42,23 +42,23 @@ export async function POST(req: Request) {
     const bucket = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || "media";
     // Garante que o bucket existe (cria se ausente)
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       const { data: bInfo, error: bErr } = await (sb as any).storage.getBucket(bucket);
       if (bErr || !bInfo) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         await (sb as any).storage.createBucket(bucket, { public: true }).catch(() => {});
       }
     } catch { /* noop: bucket check best-effort */ }
     const bytes = await file.arrayBuffer();
     const ext = (file.type?.split("/")[1] || "bin").replace("jpeg", "jpg");
     const filename = `${role}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const { error: upErr } = await (sb as any).storage.from(bucket).upload(filename, new Uint8Array(bytes), {
       contentType: file.type || "application/octet-stream",
       upsert: false,
     });
     if (upErr) throw upErr;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const { data: pub } = (sb as any).storage.from(bucket).getPublicUrl(filename);
     const url = pub.publicUrl as string;
 

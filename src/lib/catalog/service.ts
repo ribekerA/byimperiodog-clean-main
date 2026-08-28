@@ -6,7 +6,7 @@
 
 import type { Puppy, PuppyFilters, PuppySearchResult, PuppySortBy } from "@/domain/puppy";
 import { statusOrFilter } from "@/domain/puppy-status";
-import type { City, Color, PuppyStatus } from "@/domain/taxonomies";
+import type { City, Color } from "@/domain/taxonomies";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
 import { normalizePuppyFromDB } from "./normalize";
@@ -159,7 +159,7 @@ export async function listPuppies(
     }
 
     // Buscar dados
-    const { data, error, count } = await query;
+    const { data, error } = await query;
 
     if (error) {
       throw new Error(`Erro ao buscar puppies: ${error.message}`);
@@ -394,4 +394,3 @@ export async function getCatalogStats() {
     };
   }
 }
-

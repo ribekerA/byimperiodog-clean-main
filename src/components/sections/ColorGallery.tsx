@@ -3,24 +3,14 @@ import Link from "next/link";
 
 import { aPartirDe, type CorDivulgada, formatarPreco } from "@/domain/pricing";
 
-// O card do Cinza-Lobo (Wolf Sable) saiu daqui: a cor deixou de ser divulgada.
-// Sobraram as cores da tabela comercial, e o `price` de cada uma passou a vir de
-// domain/pricing em vez de ser digitado — o branco anunciava "fêmea R$ 9.500"
-// enquanto as outras diziam "a partir de", comparando maçã com laranja no mesmo
-// grid.
+// Esta vitrine mostra as quatro cores escolhidas para a home. Cinza-Lobo já não
+// era divulgado e o Particolor foi retirado daqui por decisão comercial. O
+// valor de cada card vem de domain/pricing em vez de ser digitado no componente.
 //
 // A ordem é a da tabela de preços, do valor mais acessível ao mais caro: quem
 // chega por esta seção lê os cards antes de abrir a tabela, e as duas listas
 // discordarem de ordem faz a mais barata parecer estar em lugares diferentes.
 const COLORS = [
-  {
-    slug: "particolor",
-    cor: "particolor",
-    label: "Particolor",
-    tagline: "Base branca com manchas definidas",
-    image: "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
-    glowColor: "rgba(200,200,200,0.16)",
-  },
   {
     slug: "laranja",
     cor: "laranja",
@@ -78,11 +68,8 @@ export default function ColorGallery() {
         </div>
 
         {/* Grid de cores — cada card com delay individual */}
-        {/* O número de colunas no desktop acompanha o número de cores
-            divulgadas: com uma coluna sobrando a linha fica com um vão à
-            direita, e com uma faltando a última cor cai sozinha na segunda
-            linha. Passou de 4 para 5 quando o particolor entrou na tabela. */}
-        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+        {/* Quatro cores divulgadas nesta vitrine, em uma única linha no desktop. */}
+        <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {COLORS.map((cor) => (
             <li key={cor.slug}>
               <Link
@@ -121,7 +108,7 @@ export default function ColorGallery() {
                   <p className="text-[10px] font-bold uppercase tracking-widest text-white/55">{cor.tagline}</p>
                   <p className="mt-0.5 text-lg font-bold text-white">{cor.label}</p>
                   <p className="mt-0.5 text-sm font-semibold text-emerald-400">
-                    a partir de {formatarPreco(aPartirDe(cor.cor))}
+                    {formatarPreco(aPartirDe(cor.cor))}
                   </p>
                 </div>
 

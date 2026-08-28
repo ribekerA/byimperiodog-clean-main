@@ -7,7 +7,7 @@ vi.mock('@/lib/supabasePublic', () => {
   return {
     supabasePublic: () => {
       let callCount = 0;
-      function buildChain(isBase: boolean) {
+      function buildChain(_isBase: boolean) {
         const chain: any = {
           select: () => chain,
           eq: () => chain,

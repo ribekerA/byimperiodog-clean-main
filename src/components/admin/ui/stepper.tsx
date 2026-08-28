@@ -15,7 +15,7 @@ type StepperProps = {
 
 export default function Stepper({ steps, currentStep, onStepChange }: StepperProps) {
   return (
-    <ol className="flex flex-wrap items-center gap-3" role="list">
+    <ol className="flex flex-wrap items-center gap-3">
       {steps.map((step, index) => {
         const state = index === currentStep ? "active" : index < currentStep ? "completed" : "pending";
         return (

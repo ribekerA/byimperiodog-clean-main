@@ -108,7 +108,7 @@ export function usePuppyForm({ mode, record, onSuccess }: UsePuppyFormOptions){
         throw new Error(msg);
       }
       push({ type:'success', message: isEdit? 'Filhote atualizado.' : `Filhote cadastrado${values.codigo? ' (#'+values.codigo+')':''}.` });
-      onSuccess && onSuccess(j);
+      if (onSuccess) onSuccess(j);
       if(!isEdit){
         setValues({ codigo:'', nome:'', gender:'female', status:'disponivel', color:'', price_display:'', nascimento:'', image_url:'', descricao:'', notes:'', video_url:'', midia:[] });
         setErrors({});

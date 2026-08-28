@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * Script de diagnóstico para testar query de posts do blog
  * Verifica se os posts existem no banco e se estão sendo retornados corretamente

@@ -31,7 +31,7 @@ export function TOC({ items, className, title = "Sumário" }: TOCProps) {
       <h2 className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-700">
         {title}
       </h2>
-      <ul role="list" className="mt-4 space-y-2 text-sm text-zinc-700">
+      <ul className="mt-4 space-y-2 text-sm text-zinc-700">
         {items.map((item) => (
           <TocEntry key={item.id} item={item} depth={item.level ?? 1} />
         ))}
@@ -57,7 +57,6 @@ function TocEntry({ item, depth }: { item: TocItem; depth: number }) {
       </Link>
       {hasChildren ? (
         <ul
-          role="list"
           className="mt-2 space-y-2 border-l border-emerald-100 pl-4"
         >
           {item.children!.map((child) => (

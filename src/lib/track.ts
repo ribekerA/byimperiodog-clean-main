@@ -2,7 +2,6 @@
 type Params = Record<string, any>;
 
 export function sendGA4(name: string, params?: Params) {
-  // @ts-ignore
   const gtag = (window as any).gtag;
   if (typeof gtag === "function") {
     gtag("event", name, params || {});
@@ -10,7 +9,6 @@ export function sendGA4(name: string, params?: Params) {
 }
 
 export function sendFB(name: string, params?: Params) {
-  // @ts-ignore
   const fbq = (window as any).fbq;
   if (typeof fbq === "function") {
     const map: Record<string, string> = {
@@ -23,7 +21,6 @@ export function sendFB(name: string, params?: Params) {
 }
 
 export function sendTT(name: string, params?: Params) {
-  // @ts-ignore
   const ttq = (window as any).ttq;
   if (ttq && typeof ttq.track === "function") {
     const map: Record<string, string> = {
@@ -36,7 +33,6 @@ export function sendTT(name: string, params?: Params) {
 }
 
 export function sendPIN(name: string, params?: Params) {
-  // @ts-ignore
   const pintrk = (window as any).pintrk;
   if (typeof pintrk === "function") {
     const map: Record<string, string> = {
@@ -95,10 +91,8 @@ function postAnalytics(name: string, meta: ExperimentPayload) {
     const path = typeof window !== "undefined" ? window.location.pathname : undefined;
     const body = JSON.stringify({ name, meta, path });
     // Usa sendBeacon quando disponível para não bloquear navegação
-    // @ts-ignore
     const beacon = typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function";
     if (beacon) {
-      // @ts-ignore
       navigator.sendBeacon("/api/analytics", new Blob([body], { type: "application/json" }));
       return;
     }
@@ -128,4 +122,3 @@ export function experimentConversion(experiment: string, variant: string, extra?
 
 const tracker = { event, page, bindClicks, experimentView, experimentConversion };
 export default tracker;
-

@@ -5,7 +5,6 @@ import { requireAdmin } from "@/lib/adminAuth";
 import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import {
   blogRepo,
-  commentRepo,
   postContentSchema,
   type BulkActionInput,
   type PostContentInput,

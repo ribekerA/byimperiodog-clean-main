@@ -51,7 +51,7 @@ export type LinhaDaTabela = {
  */
 export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
   particolor: { label: "Particolor", macho: 550000, femea: 650000 },
-  laranja: { label: "Laranja", macho: 650000, femea: 750000 },
+  laranja: { label: "Laranja", macho: 650000, femea: 850000 },
   creme: { label: "Creme", macho: 750000, femea: 850000 },
   preto: { label: "Preto", macho: 750000, femea: 850000 },
   branco: { label: "Branco", macho: 850000, femea: 950000 },
@@ -82,10 +82,10 @@ export function precoDe(cor: CorDivulgada, sexo: Sexo): number {
  * que card, página e validações usem exatamente o mesmo número.
  */
 export const PRECO_POR_SLUG = {
-  "spitz-alemao-anao-branco-femea": 750000,
-  "lulu-da-pomerania-branco-macho": 650000,
-  "lulu-da-pomerania-particolor-macho": 550000,
-  "lulu-da-pomerania-laranja-macho": 550000,
+  "spitz-alemao-anao-branco-femea": 850000,
+  "spitz-alemao-anao-laranja-femea": 850000,
+  "spitz-alemao-anao-laranja-femea-laco-rosa": 850000,
+  "spitz-alemao-anao-preto-femea": 850000,
 } as const satisfies Record<string, number>;
 
 /** Preço anunciado para o filhote, com fallback para a tabela por cor/sexo. */

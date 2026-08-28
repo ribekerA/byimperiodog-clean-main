@@ -1,5 +1,4 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { getProvider } from "@/lib/tracking/providers/registry";
 import type { ProviderKey } from "@/lib/tracking/providers/types";
 
 export type NormalizedResource = { id: string; name: string; extra?: Record<string, any> };

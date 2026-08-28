@@ -254,7 +254,7 @@ function parseLegacyArray(input: unknown): string[] {
     return uniqueList(
       trimmed
         .split(/\n|;|,|\|/)
-        .map((chunk) => chunk.replace(/^\"|\"$/g, "").trim())
+        .map((chunk) => chunk.replace(/^"|"$/g, "").trim())
         .map(normalizeUrl)
         .filter(Boolean)
     );
@@ -279,7 +279,7 @@ function uniqueList(list: string[]): string[] {
 
 function extractStructuredMedia(record?: PuppyFormRecord | null): Array<{ url: string; type: MediaItem["type"] }> {
   if (!record) return [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const sources: unknown[] = [record.midia, (record as any).media];
   for (const source of sources) {
     if (!Array.isArray(source) || source.length === 0) continue;
@@ -378,7 +378,7 @@ export default function PuppyForm({
     const structuredPhotos = structured.filter((entry) => entry.type === "image").map((entry) => entry.url);
     const structuredVideos = structured.filter((entry) => entry.type === "video").map((entry) => entry.url);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const legacyMedia = parseLegacyArray(record.midia ?? (record as any).media);
     const legacyPhotos = legacyMedia.filter((url) => inferTypeFromUrl(url) === "image");
     const legacyVideos = legacyMedia.filter((url) => inferTypeFromUrl(url) === "video");

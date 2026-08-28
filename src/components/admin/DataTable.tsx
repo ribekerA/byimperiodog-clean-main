@@ -10,7 +10,7 @@ interface Props<T>{ columns:Column<T>[]; data:T[]; loading?:boolean; onSort?:(ke
 export function DataTable<T extends { id:string|number }>({ columns, data, loading, onSort, sortKey, sortDir, empty }:Props<T>){
   return (
     <div className="relative overflow-auto rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
-      <table className="w-full border-collapse text-sm" role="grid">
+      <table className="w-full border-collapse text-sm">
         <thead className="sticky top-0 z-10 bg-[var(--surface)] text-[var(--text-muted)] shadow-sm">
           <tr>
             {columns.map(col=>{ const active = sortKey===col.key; return (

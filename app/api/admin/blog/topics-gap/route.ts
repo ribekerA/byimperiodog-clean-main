@@ -33,7 +33,6 @@ export async function GET(req: Request) {
   if (auth) return auth;
 
   try {
-    const url = new URL(req.url);
     const sb = supabaseAdmin();
     const { data, error } = await sb.from('blog_posts').select('slug');
     if (error) throw error;

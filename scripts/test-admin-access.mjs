@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * Testa conexão do admin com SERVICE_ROLE_KEY
  */

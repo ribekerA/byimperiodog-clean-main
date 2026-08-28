@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2, TrendingDown, TrendingUp, Minus } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { adminFetch } from "@/lib/adminFetch";
 
@@ -28,8 +28,7 @@ export default function PricingBadge({ puppyId, currentPriceCents }: Props) {
   const [loading, setLoading] = useState(false);
   const [open,    setOpen]    = useState(false);
 
-  async function load() {
-    if (data || loading) return;
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const res  = await adminFetch(`/api/admin/puppies/pricing?id=${puppyId}`);
@@ -37,9 +36,9 @@ export default function PricingBadge({ puppyId, currentPriceCents }: Props) {
       if (json.ok) setData(json);
     } catch {}
     finally { setLoading(false); }
-  }
+  }, [puppyId]);
 
-  useEffect(() => { if (open) load(); }, [open]);
+  useEffect(() => { if (open) load(); }, [load, open]);
 
   const diff = data && currentPriceCents
     ? currentPriceCents - data.price_ideal_cents

@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { guides } from "@/content/guides";
 import { staticPuppies } from "@/content/puppies-static";
+import { GALLERY_VIDEOS } from "@/domain/gallery-videos";
 import { CORES_DIVULGADAS } from "@/domain/pricing";
 import { lastmodFor } from "@/lib/_generated-lastmod";
 import { generatedPosts } from "@/lib/_generated-posts";
@@ -118,6 +119,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entrada(`/filhotes/sexo/${sexo}`, "weekly", 0.78, "@sex")
   );
 
+  // Watch pages individuais: nelas o vídeo é o conteúdo principal. A data é a
+  // primeira publicação real do arquivo, a mesma fonte usada no VideoObject e
+  // no sitemap de vídeos.
+  const videoPages: MetadataRoute.Sitemap = GALLERY_VIDEOS.map((video) => ({
+    url: `${SITE_URL}/galeria/${video.slug}`,
+    lastModified: video.uploadDate,
+    changeFrequency: "monthly" as const,
+    priority: 0.66,
+  }));
+
   // ─── Guide pages (static) ────────────────────────────────────────────────────
   const guidePages: MetadataRoute.Sitemap = guides.map((g) => ({
     url: `${SITE_URL}/guias/${g.slug}`,
@@ -183,6 +194,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...puppyPages,
     ...colorPages,
     ...sexPages,
+    ...videoPages,
     ...guidePages,
     ...blogBySlug.values(),
   ];

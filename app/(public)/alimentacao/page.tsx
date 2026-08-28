@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   openGraph: { images: [OG_DEFAULT_IMAGE], title: "Alimentação — By Império Dog", description: guide.metaDescription },
 };
 
-const FAQS = guide.faqs ?? [];
-
 export default function AlimentacaoPage() {
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },

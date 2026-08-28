@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * Verifica os headers de cache das mídias que a vitrine realmente publica.
  *

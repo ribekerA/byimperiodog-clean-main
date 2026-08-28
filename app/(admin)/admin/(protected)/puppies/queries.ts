@@ -79,7 +79,7 @@ type ColorRow = { color: string | null };
 type LeadAggRow = { page_slug: string | null; count: number };
 
 const DEFAULT_LIMIT = 2000;
-const NUMBER_REGEX = /^\d+(?:[\.,]\d+)?$/;
+const NUMBER_REGEX = /^\d+(?:[.,]\d+)?$/;
 
 const normalizeSearch = (value?: string) => value?.normalize("NFD").replace(/[`´~^]/g, "").trim();
 
@@ -220,7 +220,7 @@ export async function fetchAdminPuppies({
   }
 
   if (filters.search) {
-    const like = `%${filters.search.replace(/%/g, "\%")}%`;
+    const like = `%${filters.search.replace(/%/g, "%")}%`;
     query = query.or(
       ["nome", "name", "slug", "color", "cidade", "city"].map((column) => `${column}.ilike.${like}`).join(","),
     );

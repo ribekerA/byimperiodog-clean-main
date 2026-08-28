@@ -161,7 +161,8 @@ export default function AutopilotPage() {
   function toggleTopic(topic: string) {
     setSelectedTopics((prev) => {
       const next = new Set(prev);
-      next.has(topic) ? next.delete(topic) : next.add(topic);
+      if (next.has(topic)) next.delete(topic);
+      else next.add(topic);
       return next;
     });
   }
@@ -219,10 +220,6 @@ export default function AutopilotPage() {
   }
 
   const highIssues = result?.issues.filter((i) => i.severity === "high") ?? [];
-  const allTopics = [
-    ...(result?.suggestedPosts.map((p) => p.title) ?? []),
-    ...(result?.keywordOpportunities.map((k) => `Guia completo: ${k}`) ?? []),
-  ];
   const doneCount = genItems.filter((i) => i.status === "done").length;
   const errorCount = genItems.filter((i) => i.status === "error").length;
 

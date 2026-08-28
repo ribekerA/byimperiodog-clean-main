@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     // bastava publicar para virar pagina. Ver src/lib/ai/require-key.ts.
     const openaiKey = chaveIA();
     if (!openaiKey) return respostaSemChaveIA();
-    const targetLang = body.targetLang || "pt-BR";
+    const _targetLang = body.targetLang || "pt-BR";
     const wordBudget = Math.max(600, Math.min(2400, body.wordBudget || 1200));
     const primaryKw = (body.primaryKeyword || "Spitz Alemão filhote").trim();
   const scope = body.scope || 'guia-completo';

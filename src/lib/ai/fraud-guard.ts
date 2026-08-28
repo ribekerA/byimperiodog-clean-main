@@ -1,22 +1,5 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-type LeadRow = {
-  id: string;
-  created_at: string;
-  nome?: string | null;
-  telefone?: string | null;
-  cidade?: string | null;
-  estado?: string | null;
-  mensagem?: string | null;
-  page?: string | null;
-  page_slug?: string | null;
-  utm_source?: string | null;
-  utm_medium?: string | null;
-  referer?: string | null;
-  ip_address?: string | null;
-  user_agent?: string | null;
-};
-
 export type FraudAssessment = {
   leadId: string;
   score: number; // 0-100

@@ -121,9 +121,14 @@ describe("sitemap de imagens", () => {
     const xml = await (await GET()).text();
 
     const slugs = new Set(staticPuppies.map((p) => p.slug));
+    const videoSlugs = new Set(GALLERY_VIDEOS.map((video) => video.slug));
     for (const loc of todos(xml, /<loc>([^<]+)<\/loc>/g)) {
       const rota = loc.replace(SITE, "");
       if (rota === "/galeria") continue;
+      if (rota.startsWith("/galeria/")) {
+        expect(videoSlugs.has(rota.replace("/galeria/", ""))).toBe(true);
+        continue;
+      }
       const slug = rota.replace("/filhotes/", "");
       expect(slugs.has(slug)).toBe(true);
     }
@@ -199,11 +204,13 @@ describe("sitemap de vídeos", () => {
     }
   });
 
-  it("relaciona os vídeos com /galeria, que é onde eles são exibidos", async () => {
+  it("relaciona cada vídeo com sua página canônica individual", async () => {
     const { GET } = await import("../../app/sitemaps/videos.xml/route");
     const xml = await (await GET()).text();
 
-    expect(todos(xml, /<loc>([^<]+)<\/loc>/g)).toEqual([`${SITE}/galeria`]);
+    expect(todos(xml, /<loc>([^<]+)<\/loc>/g)).toEqual(
+      GALLERY_VIDEOS.map((video) => `${SITE}/galeria/${video.slug}`),
+    );
   });
 });
 

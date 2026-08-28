@@ -67,9 +67,8 @@ export function getPuppyImages(slug: string): PuppyImageSet {
 export function getPuppyImage(
   slug: string,
   size: 'hero' | 'card' | 'thumbnail' = 'card',
-  format: 'webp' | 'jpeg' = 'webp'
+  _format: 'webp' | 'jpeg' = 'webp'
 ): ImageSource {
-  const ext = format === 'webp' ? 'webp' : 'jpg';
   const baseUrl = `/puppies/${slug}`;
   const sizeConfig = IMAGE_CONFIG.sizes[size];
 
@@ -136,7 +135,7 @@ function getSizesForImageSize(size: 'hero' | 'card' | 'thumbnail'): string {
  */
 export function getPuppyImageWithFallback(
   slug: string,
-  fallbackUrl?: string
+  _fallbackUrl?: string
 ): ImageSource {
   const image = getPuppyImage(slug, 'card');
 
@@ -149,7 +148,7 @@ export function getPuppyImageWithFallback(
 /**
  * Valida se as imagens otimizadas existem para um slug
  */
-export async function validatePuppyImages(slug: string): Promise<boolean> {
+export async function validatePuppyImages(_slug: string): Promise<boolean> {
   // TODO: Implementar verificação no filesystem ou Supabase
   // Por enquanto, assume que existem
   return true;

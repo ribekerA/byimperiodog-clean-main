@@ -71,7 +71,6 @@ type LeadsByDayRow = { day: string | null; total: number | null };
 type LeadsAggRow = { label?: string | null; value?: number | null };
 type StatusAggRow = { status: string | null; total: number | null };
 
-type SupabaseClient = ReturnType<typeof supabaseAdmin>;
 type LeadsQueryBuilder = ReturnType<ReturnType<typeof supabaseAdmin>["from"]>;
 
 const applyFilters = <T extends LeadsQueryBuilder>(query: T, filters: AnalyticsFilters) => {

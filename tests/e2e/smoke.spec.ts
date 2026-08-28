@@ -288,9 +288,9 @@ test.describe("Portao das superficies criticas", () => {
   /** Vitrines citadas pelo nome, com a linha da tabela que cada uma deve exibir. */
   const VITRINES = [
     { slug: "spitz-alemao-anao-branco-femea", cor: "branco", sexo: "femea" },
-    { slug: "lulu-da-pomerania-branco-macho", cor: "branco", sexo: "macho" },
-    { slug: "lulu-da-pomerania-particolor-macho", cor: "particolor", sexo: "macho" },
-    { slug: "lulu-da-pomerania-laranja-macho", cor: "laranja", sexo: "macho" },
+    { slug: "spitz-alemao-anao-laranja-femea", cor: "laranja", sexo: "femea" },
+    { slug: "spitz-alemao-anao-laranja-femea-laco-rosa", cor: "laranja", sexo: "femea" },
+    { slug: "spitz-alemao-anao-preto-femea", cor: "preto", sexo: "femea" },
   ] as const;
 
   for (const vitrine of VITRINES) {
@@ -311,6 +311,17 @@ test.describe("Portao das superficies criticas", () => {
         corpo,
         `${vitrine.slug} ainda adiciona "A partir de" ao valor do filhote`,
       ).not.toContain(`A partir de ${esperado}`);
+    });
+  }
+
+  for (const slug of [
+    "lulu-da-pomerania-branco-macho",
+    "lulu-da-pomerania-particolor-macho",
+    "lulu-da-pomerania-laranja-macho",
+  ]) {
+    test(`/filhotes/${slug} foi removido`, async ({ request }) => {
+      const resposta = await request.get(`/filhotes/${slug}`);
+      expect(resposta.status()).toBe(404);
     });
   }
 

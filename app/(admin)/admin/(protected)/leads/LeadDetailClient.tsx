@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, AlertTriangle, BadgeCheck, Copy, Flame, Gauge, Loader2, MessageCircle, Sparkles } from "lucide-react";
+import { BadgeCheck, Copy, Flame, Gauge, Loader2, MessageCircle, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";

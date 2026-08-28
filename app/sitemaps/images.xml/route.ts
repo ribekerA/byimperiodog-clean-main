@@ -54,15 +54,13 @@ export async function GET() {
     });
   }
 
-  // ─── Capas dos vídeos → a galeria, que é onde eles são exibidos ────────────
-  const capas = GALLERY_VIDEOS.map((v) => ({ src: v.poster, title: v.title }))
-    .filter((c) => existe(c.src) && !jaUsadas.has(c.src));
-  capas.forEach((c) => jaUsadas.add(c.src));
-
-  if (capas.length > 0) {
+  // ─── Capas dos vídeos → a watch page canônica de cada vídeo ────────────────
+  for (const video of GALLERY_VIDEOS) {
+    if (!existe(video.poster) || jaUsadas.has(video.poster)) continue;
+    jaUsadas.add(video.poster);
     paginas.push({
-      loc: `${site}/galeria`,
-      imagens: capas.map((c) => ({ loc: site + c.src, title: c.title })),
+      loc: `${site}/galeria/${video.slug}`,
+      imagens: [{ loc: site + video.poster, title: video.title }],
     });
   }
 

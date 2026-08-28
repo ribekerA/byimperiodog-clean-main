@@ -5,10 +5,13 @@
 
 import { analyzePuppyImage, type PuppyImageAIResult } from '@/lib/ai/puppyImageQualityAI';
 import { analyzePuppyVision, type PuppyVisionInsights } from '@/lib/ai/puppyVisionAI';
+import { createLogger } from '@/lib/logger';
 
 import { processImage, type ProcessedImage } from '../../scripts/image-pipeline/processor';
 import { analyzeImageQuality } from '../../scripts/image-pipeline/quality-analyzer';
 import { uploadBatchToSupabase } from '../../scripts/image-pipeline/supabase-storage';
+
+const logger = createLogger('admin:image-upload');
 
 export interface UploadImageOptions {
   puppyId: string;
@@ -59,7 +62,7 @@ export async function uploadPuppyImage(
     }
 
     // 2. Analisar qualidade
-    console.log('📊 Analisando qualidade da imagem...');
+    logger.debug('analyzing_image_quality');
     const qualityReport = await analyzeImageQuality(filePath);
     const aiQuality = await analyzePuppyImage(filePath, {
       puppyName: options.slug,
@@ -80,7 +83,7 @@ export async function uploadPuppyImage(
     }
 
     // 3. Processar imagem
-    console.log('🖼️  Processando imagem...');
+    logger.debug('processing_image');
     const processResult = await processImage(filePath, {
       slug: options.slug,
       color: options.color,
@@ -101,7 +104,7 @@ export async function uploadPuppyImage(
     const urls: UploadImageResult['urls'] = {};
 
     if (options.useSupabase) {
-      console.log('☁️  Fazendo upload para Supabase...');
+      logger.debug('uploading_image_to_supabase');
       const uploadResults = await uploadBatchToSupabase(
         processResult.images,
         options.puppyId

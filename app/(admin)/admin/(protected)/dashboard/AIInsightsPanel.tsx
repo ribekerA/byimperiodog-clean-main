@@ -142,7 +142,7 @@ function InsightList({ title, icon, tone, items, loading, emptyLabel }: InsightL
       {loading ? (
         <SkeletonList />
       ) : items.length ? (
-        <ul className="space-y-2" role="list">
+        <ul className="space-y-2">
           {items.map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-[var(--text)]">
               <CheckCircle2 className="mt-0.5 h-4 w-4 text-[var(--brand)]" aria-hidden />

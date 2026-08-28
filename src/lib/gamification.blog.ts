@@ -1,6 +1,5 @@
 // Blog gamification utilities. No new env vars.
 import { supabaseAdmin } from './supabaseAdmin';
-import { supabasePublic } from './supabasePublic';
 
 export type GamUser = { id:string; xp:number; level:number; streak_days:number; last_event_at?:string|null };
 
@@ -95,4 +94,3 @@ export async function evaluateAndAwardBadges(gamUserId: string){
   }
   return awarded;
 }
-

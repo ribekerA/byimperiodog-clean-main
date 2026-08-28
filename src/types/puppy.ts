@@ -71,7 +71,7 @@ function normalizeMediaList(source: MediaValue[] | undefined): string[] {
 
 export function normalizePuppy(raw: RawPuppy): PuppyDTO {
   const nome = (raw.nome ?? raw.name ?? "").trim();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const midia = normalizeMediaList((raw.midia as MediaValue[]) || ((raw as any).media as MediaValue[]));
   const cover = raw.image_url || midia[0] || null;
   const ordered = cover ? [cover, ...midia.filter((u) => u !== cover)] : midia;

@@ -76,10 +76,10 @@ const THEMES = {
     badge:        "🔥 A mais icônica",
     badgeCss:     "bg-orange-100 text-orange-800 ring-1 ring-orange-200",
     swatchCss:    "bg-orange-400 ring-orange-500",
-    // Mesma troca feita na capa do filhote em puppies-static: a foto anterior
-    // (flores-01) fecha o enquadramento na mão do criador e perde o cão nos
-    // recortes. Esta mostra o animal inteiro e em foco.
-    heroImg:      "/filhotes/laranja/laranja-femea-jardim-04.jpg",
+    // A entrada da página usa a mesma fêmea de laço rosa mostrada na capa da
+    // vitrine de cores. A fêmea de laço vermelho permanece abaixo, identificada
+    // como outra filhote e com a sua própria galeria.
+    heroImg:      "/filhotes/laranja/laranja-femea-01.jpg",
   },
   particolor: {
     heroGradient: "bg-gradient-to-br from-white via-amber-50/50 to-zinc-100",
@@ -416,7 +416,6 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
       0
   ).filter(Boolean);
   const priceMin = allPrices.length > 0 ? Math.min(...allPrices) : 0;
-
   return (
     <>
       {/* ── 1. HERO ───────────────────────────────────────────────────────────── */}

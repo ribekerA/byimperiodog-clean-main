@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-/* eslint-disable no-console */
+
 
 /**
  * Corrige textos com mojibake (UTF-8 interpretado como ISO-8859-1/latin1).

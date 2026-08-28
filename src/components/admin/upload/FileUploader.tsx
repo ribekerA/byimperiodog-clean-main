@@ -103,10 +103,11 @@ export default function FileUploader({ onUpload }: FileUploaderProps) {
               <p>
                 <strong>Tamanho:</strong> {(file.size / 1024 / 1024).toFixed(2)} MB
               </p>
-              <label className="block text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
+              <label htmlFor="image-zoom" className="block text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">
                 Zoom
               </label>
               <input
+                id="image-zoom"
                 type="range"
                 min={1}
                 max={3}

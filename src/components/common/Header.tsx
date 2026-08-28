@@ -104,6 +104,8 @@ export default function Header() {
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
 
             {/* Dropdown Raça */}
+            {/* Hover apenas mantém o menu aberto; o botão abaixo oferece toda a interação por teclado. */}
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div
               ref={dropdownRef}
               className="relative"
@@ -130,6 +132,7 @@ export default function Header() {
               {racaOpen && (
                 <div
                   role="menu"
+                  tabIndex={-1}
                   className="absolute left-0 top-full z-50 mt-1 w-72 rounded-2xl border border-zinc-100 bg-white p-2 shadow-xl"
                   onMouseEnter={handleRacaEnter}
                   onMouseLeave={handleRacaLeave}

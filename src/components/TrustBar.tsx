@@ -6,8 +6,8 @@
  * Exibe: famílias atendidas | tempo de resposta | localização.
  * Usado na homepage hero, página de filhote e formulário de lead.
  *
- * Não exibimos nota (★ 5.0): não existe plataforma pública de avaliações
- * verificadas do canil, então qualquer média seria inventada.
+ * Não congelamos nota/contagem no componente. O Perfil da Empresa real está
+ * ligado no rodapé e na página de contato; a fonte viva continua sendo o Google.
  */
 
 interface TrustBarProps {

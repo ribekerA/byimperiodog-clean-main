@@ -47,8 +47,9 @@ export const URLS_CRITICAS: readonly string[] = [
   "/",
   "/filhotes",
   "/filhotes/spitz-alemao-anao-branco-femea",
-  // O particolor e da linha Lulu da Pomerania: o slug nao repete "spitz".
-  "/filhotes/lulu-da-pomerania-particolor-macho",
+  "/filhotes/spitz-alemao-anao-laranja-femea",
+  "/filhotes/spitz-alemao-anao-laranja-femea-laco-rosa",
+  "/filhotes/spitz-alemao-anao-preto-femea",
   "/filhotes/spitz-alemao-anao-laranja-macho",
   "/preco-spitz-anao",
   "/blog",
@@ -288,7 +289,11 @@ export function achatarLd(dados: unknown): Record<string, unknown>[] {
 
 export function temImagem(html: string): boolean {
   const limpo = semScripts(html);
-  return /<img[\s>]/i.test(limpo) || /<source[^>]+srcset=/i.test(limpo);
+  return (
+    /<img[\s>]/i.test(limpo) ||
+    /<source[^>]+srcset=/i.test(limpo) ||
+    /<video[^>]+poster=/i.test(limpo)
+  );
 }
 
 export function temCtaWhatsapp(html: string): boolean {

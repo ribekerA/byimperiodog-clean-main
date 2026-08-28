@@ -65,9 +65,9 @@ export default function GscPanel() {
     }
   }
 
-  useEffect(() => { load(days); }, []);
+  useEffect(() => { load(days); }, [days]);
 
-  function handleDays(d: number) { setDays(d); load(d); }
+  function handleDays(d: number) { setDays(d); }
 
   if (loading) {
     return (

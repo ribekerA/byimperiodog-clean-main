@@ -26,6 +26,7 @@ import {
   Webhook,
   Zap,
 } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -84,12 +85,10 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-const ALL_ITEMS = NAV_GROUPS.flatMap((g) => g.items);
-
 function NavLink({ item, active, onClick }: { item: NavItem; active: boolean; onClick?: () => void }) {
   const Icon = item.icon;
   return (
-    <a
+    <Link
       href={item.href}
       onClick={onClick}
       className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
@@ -101,7 +100,7 @@ function NavLink({ item, active, onClick }: { item: NavItem; active: boolean; on
     >
       <Icon className={`h-4 w-4 flex-shrink-0 ${active ? "text-[var(--brand)]" : "text-[var(--text-muted)]"}`} aria-hidden />
       <span className="truncate">{item.label}</span>
-    </a>
+    </Link>
   );
 }
 
@@ -116,7 +115,7 @@ function GroupSection({ group, pathname, collapsed }: { group: NavGroup; pathnam
           const active = pathname?.startsWith(item.href);
           const Icon = item.icon;
           return (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               title={item.label}
@@ -128,7 +127,7 @@ function GroupSection({ group, pathname, collapsed }: { group: NavGroup; pathnam
               aria-current={active ? "page" : undefined}
             >
               <Icon className="h-4 w-4" aria-hidden />
-            </a>
+            </Link>
           );
         })}
       </div>
@@ -210,13 +209,13 @@ export function AdminNav({ environment }: Props) {
         {/* Footer — Quick links + Logout */}
         <div className={`space-y-0.5 border-t border-[var(--border)] pt-3 ${collapsed ? "w-full" : ""}`}>
           {!collapsed && (
-            <a
+            <Link
               href="/admin/config/tracking"
               className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)] transition-colors"
             >
               <Zap className="h-4 w-4 flex-shrink-0" aria-hidden />
               <span>Tracking & Pixels</span>
-            </a>
+            </Link>
           )}
           <button
             type="button"
@@ -271,14 +270,14 @@ export function AdminNav({ environment }: Props) {
             ))}
           </nav>
           <div className="mt-3 space-y-1 border-t border-[var(--border)] pt-3">
-            <a
+            <Link
               href="/admin/config/tracking"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
             >
               <Zap className="h-4 w-4" aria-hidden />
               <span>Tracking & Pixels</span>
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => {

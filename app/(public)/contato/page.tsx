@@ -3,7 +3,6 @@ import {
   Instagram,
   Mail,
   MapPin,
-  MessageCircle,
   Phone,
   Youtube,
 } from "lucide-react";
@@ -14,6 +13,7 @@ import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import LeadForm from "@/components/LeadForm";
 import TrustBar from "@/components/TrustBar";
 import ViewEventTracker from "@/components/ViewEventTracker";
+import { GOOGLE_BUSINESS_PROFILE_URL } from "@/domain/config";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -254,12 +254,12 @@ export default function ContatoPage() {
                 </p>
               </div>
               <a
-                href="https://maps.google.com/?q=Bragança+Paulista+SP"
+                href={GOOGLE_BUSINESS_PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-auto text-xs font-semibold text-zinc-600 hover:text-emerald-700 hover:underline transition"
               >
-                Ver no Google Maps →
+                Ver perfil e avaliações no Google →
               </a>
             </div>
           </div>
@@ -362,12 +362,12 @@ export default function ContatoPage() {
                 <span className="text-zinc-500">Visitas combinadas caso a caso com a criadora</span>
               </p>
               <a
-                href="https://maps.google.com/?q=Bragança+Paulista+SP"
+                href={GOOGLE_BUSINESS_PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-xs font-semibold text-emerald-700 hover:underline"
               >
-                Abrir no Google Maps →
+                Abrir Perfil da Empresa no Google →
               </a>
             </div>
           </aside>

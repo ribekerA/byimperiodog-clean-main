@@ -14,7 +14,7 @@ type GenPayload = {
 function stubGenerate(p: GenPayload) {
   const breed = "Spitz Alemão Anão";
   const topic = p.topic || p.prompt || breed;
-  const title = `Cuidados e dicas para filhotes de ${breed}`;
+  const title = topic === breed ? `Cuidados e dicas para filhotes de ${breed}` : `${topic}: guia para ${breed}`;
   const excerpt = `Tudo que você precisa saber sobre cuidados, alimentação e treinamento de filhotes de ${breed}.`;
   const content_mdx = `# ${title}
 

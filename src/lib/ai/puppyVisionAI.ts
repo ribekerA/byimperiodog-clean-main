@@ -263,34 +263,8 @@ function calculateNoise(stats: SharpStats): number {
   return channels.reduce((sum, ch) => sum + ch.stdev, 0) / channels.length;
 }
 
-async function measureSharpness(image: SharpImage, options: PuppyVisionOptions): Promise<number> {
+async function measureSharpness(image: SharpImage, _options: PuppyVisionOptions): Promise<number> {
   try {
-    const hints: string[] = [];
-    if (options.puppyName) hints.push(`filhote ${options.puppyName}`);
-    if (options.colorHint) hints.push(`cor esperada ${options.colorHint}`);
-    if (options.sexHint) hints.push(`sexo previsto ${options.sexHint}`);
-    if (typeof options.ageWeeksHint === "number") hints.push(`idade prevista ~${Math.round(options.ageWeeksHint)} semanas`);
-    const hintBlock = hints.length ? `Contexto conhecido: ${hints.join(" • ")}.` : "Contexto conhecido: nenhum.";
-
-    const requirements = `Analise esta foto pensando como um diretor de marketing de canil premium.
-DETETAR:
-- "isSpitz": confirme se e um Spitz Alemao real; use "spitzConfidence" (0-1) e "multipleDogs" quando houver outros pets.
-- "messyBackground": identifique fundo baguncado ou com objetos que distraiam; use "backgroundQuality" e descreva em "messyBackgroundReason".
-- "lighting": classifique luz (ideal, boa, neutra, baixa, estourada) e marque "lowLight" se estiver ruim.
-- "noiseLevel": avalie ruído/ISO alto.
-- "poseQuality": avalie se a pose e comercial (pet inteiro, olhar para camera); explique em "badPoseReason" quando ruim.
-- "duplicateSuspected": true quando a cena parece repetida de outra foto.
-CLASSIFICAR:
-- "color": descreva cor real do Spitz.
-- "sexGuess": macho|femea|indefinido (apenas se houver evidencias visuais).
-- "ageWeeks": idade estimada em semanas (0-52).
-- "rarity": comum|raro|exclusivo com base na cor e marcacoes.
-SUGERIR:
-- "photographyTips": ate 3 dicas objetivas para refazer a foto.
-- "cropAdvice": ate 2 orientacoes de enquadramento/recorte.
-- "editingTips": ate 2 ajustes rapidos de edicao.
-${hintBlock}
-Responda SOMENTE em JSON com os campos solicitados.`;
     const { data, info } = await image
       .clone()
       .greyscale()
@@ -322,7 +296,7 @@ Responda SOMENTE em JSON com os campos solicitados.`;
 
 async function detectBackgroundComplexity(image: SharpImage) {
   try {
-    const { data, info } = await image
+    const { data } = await image
       .clone()
       .resize(256, 256, { fit: "inside" })
       .raw()
@@ -357,7 +331,7 @@ async function runVisionModel(buffer: Buffer, format: string, options: PuppyVisi
     if (options.sexHint) hints.push(`sexo previsto ${options.sexHint}`);
     if (typeof options.ageWeeksHint === "number") hints.push(`idade prevista ~${Math.round(options.ageWeeksHint)} semanas`);
     const hintBlock = hints.length ? `Contexto conhecido: ${hints.join(" • ")}.` : "Contexto conhecido: nenhum.";
-    const requirements = `Analise esta foto pensando como um diretor de marketing de canil premium.\nDETETAR:\n- \"isSpitz\": confirme se e um Spitz Alemao real; use \"spitzConfidence\" (0-1) e \"multipleDogs\" quando houver outros pets.\n- \"messyBackground\": identifique fundo baguncado ou com objetos que distraiam; use \"backgroundQuality\" e descreva em \"messyBackgroundReason\".\n- \"lighting\": classifique luz (ideal, boa, neutra, baixa, estourada) e marque \"lowLight\" se estiver ruim.\n- \"noiseLevel\": avalie ruído/ISO alto.\n- \"poseQuality\": avalie se a pose e comercial (pet inteiro, olhar para camera); explique em \"badPoseReason\" quando ruim.\n- \"duplicateSuspected\": true quando a cena parece repetida de outra foto.\nCLASSIFICAR:\n- \"color\": descreva cor real do Spitz.\n- \"sexGuess\": macho|femea|indefinido (apenas se houver evidencias visuais).\n- \"ageWeeks\": idade estimada em semanas (0-52).\n- \"rarity\": comum|raro|exclusivo com base na cor e marcacoes.\nSUGERIR:\n- \"photographyTips\": ate 3 dicas objetivas para refazer a foto.\n- \"cropAdvice\": ate 2 orientacoes de enquadramento/recorte.\n- \"editingTips\": ate 2 ajustes rapidos de edicao.\n${hintBlock}\nResponda SOMENTE em JSON com os campos solicitados.`;
+    const requirements = `Analise esta foto pensando como um diretor de marketing de canil premium.\nDETETAR:\n- "isSpitz": confirme se e um Spitz Alemao real; use "spitzConfidence" (0-1) e "multipleDogs" quando houver outros pets.\n- "messyBackground": identifique fundo baguncado ou com objetos que distraiam; use "backgroundQuality" e descreva em "messyBackgroundReason".\n- "lighting": classifique luz (ideal, boa, neutra, baixa, estourada) e marque "lowLight" se estiver ruim.\n- "noiseLevel": avalie ruído/ISO alto.\n- "poseQuality": avalie se a pose e comercial (pet inteiro, olhar para camera); explique em "badPoseReason" quando ruim.\n- "duplicateSuspected": true quando a cena parece repetida de outra foto.\nCLASSIFICAR:\n- "color": descreva cor real do Spitz.\n- "sexGuess": macho|femea|indefinido (apenas se houver evidencias visuais).\n- "ageWeeks": idade estimada em semanas (0-52).\n- "rarity": comum|raro|exclusivo com base na cor e marcacoes.\nSUGERIR:\n- "photographyTips": ate 3 dicas objetivas para refazer a foto.\n- "cropAdvice": ate 2 orientacoes de enquadramento/recorte.\n- "editingTips": ate 2 ajustes rapidos de edicao.\n${hintBlock}\nResponda SOMENTE em JSON com os campos solicitados.`;
 
     const response = await fetch(endpoint, {
       method: "POST",

@@ -40,7 +40,6 @@ export function PuppiesBoard({ items, leadCounts, onStatusChange, mutatingId }: 
           <section
             key={col.key}
             className={`flex min-h-[320px] flex-col gap-3 rounded-2xl border p-3 ${col.tone}`}
-            role="region"
             aria-label={`Coluna ${col.label}`}
           >
             <header className="flex items-center justify-between">

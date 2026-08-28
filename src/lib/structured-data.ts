@@ -339,13 +339,11 @@ export function buildLocalBusinessLD() {
         availableLanguage: ["pt-BR"],
       },
     ],
-    // Sem `aggregateRating`: a nota 5.0 com reviewCount 180 era fixa no código,
-    // não vinha de nenhuma plataforma de avaliações verificadas. Marcação de
-    // review sem avaliação real viola a política de dados estruturados do
-    // Google e sujeita o domínio a ação manual. O mesmo 180, que o site depois
-    // repetia como "famílias atendidas", também saiu — não havia como conferir
-    // a contagem. Volta aqui, como AggregateRating, apenas se um dia vier de
-    // plataforma pública de avaliações verificadas.
+    // Sem `aggregateRating`: agora existe Perfil da Empresa confirmado e ele
+    // está ligado em `sameAs`/`hasMap`, mas copiar sua nota para o próprio
+    // LocalBusiness seria review "self-serving" e ainda congelaria uma contagem
+    // que muda. Avaliações verificadas permanecem no Google; o site aponta para
+    // elas e não republica uma nota como se fosse sua fonte.
     knowsAbout: BRAND.schema.knowsAbout,
     makesOffer: [
       {
@@ -367,5 +365,6 @@ export function buildLocalBusinessLD() {
       url: `${SITE_URL}/filhotes`,
     },
     sameAs: BRAND.schema.sameAs,
+    hasMap: BRAND.urls.googleBusinessProfile,
   };
 }

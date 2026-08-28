@@ -57,7 +57,7 @@ export async function POST(req: Request) {
 
   const filename = `covers/${Date.now()}-${Math.random().toString(36).slice(2)}.png`;
   // fileData is Blob (Edge) or Buffer (Node) — pass directly to Supabase storage
-  const { data: up, error: upErr } = await (sb as any).storage.from(bucket).upload(filename, fileData as any, {
+  const { error: upErr } = await (sb as any).storage.from(bucket).upload(filename, fileData as any, {
     contentType: "image/png",
     upsert: false,
   });

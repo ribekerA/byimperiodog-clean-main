@@ -5,8 +5,6 @@ import type { NextRequest } from "next/server";
 import { requireAdminApi } from "@/lib/adminAuth";
 import { chaveIA, respostaSemChaveIA } from "@/lib/ai/require-key";
 
-import { supabaseAdmin, hasServiceRoleKey } from "../../../../../src/lib/supabaseAdmin";
-
 type SuggestPayload = {
   title?: string;
   excerpt?: string;

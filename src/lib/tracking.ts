@@ -1,4 +1,4 @@
-import { BRAND, FOUNDING_YEAR } from "@/domain/config";
+import { BRAND } from "@/domain/config";
 import type { PixelEnvironmentConfig } from "@/lib/pixels";
 
 type TrackingEvent = "page_view" | "view_form" | "submit_start" | "submit_success" | "submit_error";

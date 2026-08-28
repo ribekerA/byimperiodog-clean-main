@@ -26,7 +26,10 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { createLogger } from "@/lib/logger";
 import { runAgent } from "@/lib/whatsapp/agent";
+
+const logger = createLogger("api:whatsapp:webhook");
 
 const VERIFY_TOKEN = process.env.WA_VERIFY_TOKEN ?? "";
 const APP_SECRET = process.env.WA_APP_SECRET ?? "";
@@ -181,7 +184,7 @@ async function processMessage({
 
   // Se escalou para humano, notifica internamente (log ou futura notificação push)
   if (escalate) {
-    console.info(`[WA Agent] 🚨 Escalonado para humano — ${mascararTelefone(phone)}`);
+    logger.info("wa_agent_escalated", { phone: mascararTelefone(phone) });
   }
 }
 
@@ -209,7 +212,7 @@ async function sendWhatsAppMessage({
   // de quem opera o canil. Sem WA_AGENT_AUTOREPLY=on nada sai. Falhar fechado
   // aqui é o comportamento desejado, não um bug a ser "consertado" depois.
   if (process.env.WA_AGENT_AUTOREPLY !== "on") {
-    console.info("[WA Agent] Resposta automática desligada (WA_AGENT_AUTOREPLY != on). Nada enviado.");
+    logger.info("wa_agent_autoreply_disabled");
     return;
   }
 

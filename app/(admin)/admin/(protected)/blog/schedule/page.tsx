@@ -127,7 +127,6 @@ export default function BlogSchedulePage() {
   const [month, setMonth] = useState(() => startOfMonth(new Date()));
   const [events, setEvents] = useState<ScheduleEvent[]>([]);
   const [posts, setPosts] = useState<PostOption[]>([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -150,7 +149,6 @@ export default function BlogSchedulePage() {
   }, [calendar.cells, selectedDay]);
 
   const fetchEvents = useCallback(async (targetMonth: Date) => {
-    setLoading(true);
     setError(null);
     setFeedback(null);
     try {
@@ -165,8 +163,6 @@ export default function BlogSchedulePage() {
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
       setEvents([]);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -458,8 +454,9 @@ function ScheduleForm({
         <p className="text-xs text-[var(--text-muted)]">Escolha um post e defina data e hora. Posts marcados como draft ou review continuam acessiveis ate a publicacao automatica.</p>
       </div>
       <div className="space-y-2">
-        <label className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Post sugerido</label>
+        <label htmlFor="schedule-post" className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Post sugerido</label>
         <select
+          id="schedule-post"
           value={postId}
           onChange={(event) => setPostId(event.target.value)}
           className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm"
@@ -473,8 +470,9 @@ function ScheduleForm({
         </select>
       </div>
       <div className="space-y-2">
-        <label className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Ou informe ID manual</label>
+        <label htmlFor="schedule-custom-id" className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Ou informe ID manual</label>
         <input
+          id="schedule-custom-id"
           value={customId}
           onChange={(event) => setCustomId(event.target.value)}
           placeholder="UUID do post"
@@ -482,8 +480,9 @@ function ScheduleForm({
         />
       </div>
       <div className="space-y-2">
-        <label className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Data e hora</label>
+        <label htmlFor="schedule-run-at" className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Data e hora</label>
         <input
+          id="schedule-run-at"
           type="datetime-local"
           value={runAt}
           onChange={(event) => setRunAt(event.target.value)}
@@ -492,8 +491,9 @@ function ScheduleForm({
         />
       </div>
       <div className="space-y-2">
-        <label className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Acao</label>
+        <label htmlFor="schedule-action" className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Acao</label>
         <select
+          id="schedule-action"
           value={action}
           onChange={(event) => setAction(event.target.value)}
           className="w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm"

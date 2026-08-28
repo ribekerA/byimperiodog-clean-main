@@ -14,13 +14,13 @@ export const metadata: Metadata = {
   // mostrou data nem cor prevista, e "filhotes reserváveis" numa que não lista
   // filhote. `keywords` saiu junto: o Google ignora a meta keywords desde 2009,
   // e nenhuma busca interna deste site lê esse campo.
-  title: "Ninhadas de Spitz Alemão Anão — lista de interesse",
+  title: "Ninhadas Spitz Alemão: Lista de Interesse",
   description: "Entre na lista de interesse para ser avisado sobre as próximas ninhadas de Spitz Alemão Anão em Bragança Paulista, SP. Conte qual cor e qual sexo você procura.",
   alternates: { canonical: "/ninhadas" },
   openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Lista de interesse para as próximas ninhadas de Spitz Alemão Anão." },
 };
 
-const FAQS = [
+const _FAQS = [
   { question: "Como funcionam as reservas de ninhadas?", answer: "Reservas são por ordem de interesse e mediante pagamento de sinal. A criadora entrará em contato para confirmar datas e condições." },
   { question: "Posso entrar em lista de espera?", answer: "Sim — colocamos interessados em lista e avisamos quando houver confirmação de cobertura e nascimento." },
 ];

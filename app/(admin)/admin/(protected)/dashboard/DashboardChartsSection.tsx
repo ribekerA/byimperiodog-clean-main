@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 type DayPoint = { label: string; value: number };
@@ -44,9 +45,9 @@ export function DashboardChartsSection({
             <h2 className="text-sm font-semibold text-[var(--text)]">Tendência de leads (14d)</h2>
             <p className="text-xs text-[var(--text-muted)]">Captações por dia nas últimas 2 semanas.</p>
           </div>
-          <a href="/admin/analytics" className="text-xs font-semibold text-[var(--brand)] hover:text-[var(--brand-hover)]">
+          <Link href="/admin/analytics" className="text-xs font-semibold text-[var(--brand)] hover:text-[var(--brand-hover)]">
             Ver analytics →
-          </a>
+          </Link>
         </div>
         {mounted ? <LeadsTrendChart data={leadsByDay} /> : <ChartSkeleton />}
       </div>

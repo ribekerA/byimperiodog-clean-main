@@ -1,5 +1,5 @@
 /* eslint-disable import/order */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { Root } from 'hast';
 import { compile } from '@mdx-js/mdx';
 import * as runtime from 'react/jsx-runtime';

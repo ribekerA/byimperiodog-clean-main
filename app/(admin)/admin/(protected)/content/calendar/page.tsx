@@ -72,7 +72,6 @@ export default function EditorialCalendar(){
     if(dragEvent){
       // mover evento existente
       const from=dragEvent.from; const idx=dragEvent.idx;
-      const title=(events[from]||[])[idx];
       setEvents(prev=>{
         const src=[...(prev[from]||[])]; const [moved]=src.splice(idx,1);
         const dst=[...(prev[key]||[])]; if(moved) dst.push(moved);
@@ -122,7 +121,7 @@ export default function EditorialCalendar(){
           </div>
         </div>
         <div className="mt-4 overflow-x-auto" ref={gridRef}>
-          <div className="grid min-w-[880px] grid-cols-7 gap-2" role="grid" aria-label="Calendário mensal" onKeyDown={(e)=>{
+          <div className="grid min-w-[880px] grid-cols-7 gap-2" role="grid" tabIndex={-1} aria-label="Calendário mensal" onKeyDown={(e)=>{
             const cols=7; if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
             e.preventDefault();
             setFocusIndex(idx=>{

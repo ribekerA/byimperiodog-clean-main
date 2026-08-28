@@ -66,8 +66,8 @@ export const staticPuppies = [
       "/filhotes/branco/branco-femea-jardim-07.jpeg",
     ],
     // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 750000,
-    priceCents: 750000,
+    price_cents: 850000,
+    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -160,9 +160,9 @@ export const staticPuppies = [
   // ─── SPITZ LARANJA FÊMEA ────────────────────────────────────────────────────
   {
     id: "spitz-laranja-femea-01",
-    name: "Spitz Laranja Fêmea",
+    name: "Spitz Laranja Fêmea Laço Vermelho",
     slug: "spitz-alemao-anao-laranja-femea",
-    title: "Spitz Alemão Anão Laranja Fêmea | By Império Dog",
+    title: "Spitz Alemão Anão Laranja Fêmea Laço Vermelho | By Império Dog",
     color: "laranja",
     cor: "Laranja",
     sex: "female",
@@ -171,37 +171,65 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
-    // A capa é a primeira imagem que não é vídeo — é ela que aparece nos cards
-    // do catálogo e no topo da página do filhote. A antiga (flores-01) mostra a
-    // fêmea suspensa na mão do criador, em recorte vertical fechado: no card
-    // quadrado sobra a mão e falta o cão. A nova mostra o animal inteiro, de pé,
-    // em foco, sozinho no enquadramento. flores-01 continua na galeria.
+    // Esta ficha reúne somente a fêmea do laço vermelho. A foto flores-01 era
+    // de um macho e foi retirada; femea-01 pertence à outra fêmea, de laço rosa,
+    // que agora possui uma ficha própria. A primeira imagem é a capa escolhida.
     images: [
-      "/filhotes/laranja/laranja-femea-jardim-04.jpg",
-      "/filhotes/laranja/laranja-femea-flores-01.jpg",
-      "/filhotes/laranja/laranja-femea-jardim-03.jpg",
       "/filhotes/laranja/laranja-femea-brinquedos-04.jpg",
-      "/filhotes/laranja/laranja-femea-flores-02.jpg",
-      "/filhotes/laranja/laranja-femea-jardim-02.jpg",
-      "/filhotes/laranja/laranja-femea-brinquedos-03.jpg",
-      "/filhotes/laranja/laranja-femea-interior-01.jpg",
-      "/filhotes/laranja/laranja-femea-01.jpg",
       "/filhotes/laranja/laranja-femea-brinquedos-01.jpg",
       "/filhotes/laranja/laranja-femea-brinquedos-02.jpg",
+      "/filhotes/laranja/laranja-femea-brinquedos-03.jpg",
+      "/filhotes/laranja/laranja-femea-brinquedos-05.jpg",
+      "/filhotes/laranja/laranja-femea-brinquedos-06.jpg",
+      "/filhotes/laranja/laranja-femea-brinquedos-07.jpg",
+      "/filhotes/laranja/laranja-femea-flores-02.jpg",
+      "/filhotes/laranja/laranja-femea-interior-01.jpg",
+      "/filhotes/laranja/laranja-femea-jardim-01.jpg",
+      "/filhotes/laranja/laranja-femea-jardim-02.jpg",
+      "/filhotes/laranja/laranja-femea-jardim-03.jpg",
+      "/filhotes/laranja/laranja-femea-jardim-04.jpg",
       "/filhotes/videos/laranja-femea-jardim.mp4",
-      "/filhotes/videos/ninhada-jun22-01.mp4",
     ],
-    // Fêmea Laranja → R$ 7.500 (TABELA_DE_PRECOS.laranja.femea)
-    price_cents: 750000,
-    priceCents: 750000,
+    // Valor definido para esta página em PRECO_POR_SLUG.
+    price_cents: 850000,
+    priceCents: 850000,
     currency: "BRL",
     description:
-      "Fêmea Laranja de coloração viva, dentro do padrão FCI nº 97. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
+      "Fêmea Laranja fotografada com laço vermelho, em galeria exclusiva e diferente da fêmea de laço rosa. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: false,
+  },
+
+  // ─── SPITZ LARANJA FÊMEA — LAÇO ROSA ───────────────────────────────────────
+  {
+    id: "spitz-laranja-femea-laco-rosa-01",
+    name: "Spitz Laranja Fêmea Laço Rosa",
+    slug: "spitz-alemao-anao-laranja-femea-laco-rosa",
+    title: "Spitz Alemão Anão Laranja Fêmea Laço Rosa | By Império Dog",
+    color: "laranja",
+    cor: "Laranja",
+    sex: "female",
+    gender: "female",
+    breed: "Spitz Alemão Anão",
+    size: "mini",
+    city: "braganca-paulista",
+    state: "SP",
+    // Esta é a única foto desta fêmea disponível no acervo atual. Ela não é a
+    // mesma fêmea do laço vermelho e não compartilha mídia com a outra ficha.
+    images: ["/filhotes/laranja/laranja-femea-01.jpg"],
+    price_cents: 850000,
+    priceCents: 850000,
+    currency: "BRL",
+    description:
+      "Fêmea Laranja fotografada com laço rosa, em enquadramento individual. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    hasPedigree: true,
+    vaccinationStatus: "up-to-date",
+    hasMicrochip: false,
+    isHighlighted: true,
+    isFeatured: true,
   },
 
   // ─── SPITZ CREME MACHO ──────────────────────────────────────────────────────
@@ -317,134 +345,6 @@ export const staticPuppies = [
     currency: "BRL",
     description:
       "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
-    hasPedigree: true,
-    vaccinationStatus: "up-to-date",
-    hasMicrochip: false,
-    isHighlighted: false,
-    isFeatured: true,
-  },
-
-  // ─── LULU DA POMERÂNIA BRANCO MACHO ─────────────────────────────────────────
-  // Mesma raça dos demais: "Lulu da Pomerânia" é o nome popular do Spitz
-  // Alemão Anão. A responsável pediu que ESTE filhote — e só ele, entre os já
-  // cadastrados — fosse anunciado pelo nome popular. O `color` continua
-  // "branco" porque é ele que liga o filhote à tabela de preços; o rótulo
-  // muda, o valor cobrado não.
-  {
-    id: "lulu-pomerania-branco-macho-01",
-    name: "Lulu da Pomerânia Branco Macho",
-    slug: "lulu-da-pomerania-branco-macho",
-    title: "Lulu da Pomerânia Branco Macho | By Império Dog",
-    color: "branco",
-    cor: "Branco",
-    sex: "male",
-    gender: "male",
-    breed: "Lulu da Pomerânia",
-    size: "mini",
-    city: "braganca-paulista",
-    state: "SP",
-    // Capa: a foto em que ele aparece inteiro, de frente e em foco. As outras
-    // seguem na ordem em que dão contexto — sentado, em pé no trevo, e a do
-    // gramado aberto por último.
-    images: [
-      "/filhotes/branco/branco-macho-jardim-01.jpeg",
-      "/filhotes/branco/branco-macho-jardim-02.jpeg",
-      "/filhotes/branco/branco-macho-jardim-03.jpeg",
-      "/filhotes/branco/branco-macho-jardim-04.jpeg",
-    ],
-    // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 650000,
-    priceCents: 650000,
-    currency: "BRL",
-    description:
-      "Macho Branco fotografado em luz natural no gramado. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
-    hasPedigree: true,
-    vaccinationStatus: "up-to-date",
-    hasMicrochip: false,
-    isHighlighted: false,
-    isFeatured: true,
-  },
-
-  // ─── LULU DA POMERÂNIA PARTICOLOR MACHO ─────────────────────────────────────
-  // Segue o mesmo pedido do branco acima: nome popular no anúncio, `color`
-  // ligado à tabela. O particolor entrou na tabela junto com este filhote — era
-  // a cor dele que faltava ter valor oficial, não o contrário.
-  {
-    id: "lulu-pomerania-particolor-macho-01",
-    name: "Lulu da Pomerânia Particolor Macho",
-    slug: "lulu-da-pomerania-particolor-macho",
-    title: "Lulu da Pomerânia Particolor Macho | By Império Dog",
-    color: "particolor",
-    cor: "Particolor",
-    sex: "male",
-    gender: "male",
-    breed: "Lulu da Pomerânia",
-    size: "mini",
-    city: "braganca-paulista",
-    state: "SP",
-    // Capa: a única foto em que ele aparece inteiro, de frente e em foco — é o
-    // enquadramento em que dá para ver como as manchas se distribuem, que é o
-    // que distingue um particolor de outro. As demais seguem por contexto.
-    images: [
-      "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
-      "/filhotes/particolor/particolor-macho-jardim-02.jpeg",
-      "/filhotes/particolor/particolor-macho-jardim-03.jpeg",
-      "/filhotes/particolor/particolor-macho-jardim-04.jpeg",
-      "/filhotes/particolor/particolor-macho-jardim-05.jpeg",
-      "/filhotes/particolor/particolor-macho-jardim-06.jpeg",
-    ],
-    // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 550000,
-    priceCents: 550000,
-    currency: "BRL",
-    description:
-      "Macho Particolor fotografado em luz natural no jardim. Pelagem de base branca com manchas definidas na cabeça, nas orelhas e no dorso; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
-    hasPedigree: true,
-    vaccinationStatus: "up-to-date",
-    hasMicrochip: false,
-    isHighlighted: true,
-    isFeatured: true,
-  },
-
-  // ─── LULU DA POMERÂNIA LARANJA MACHO ────────────────────────────────────────
-  // Terceiro filhote do lote anunciado pelo nome popular. A cor de registro é
-  // laranja, confirmada pela responsável: nas fotos a pelagem aparece com
-  // sombreado escuro nas pontas, o que é a fase de filhote e não a cor adulta.
-  // A descrição diz isso em vez de prometer o laranja pleno das outras fotos.
-  {
-    id: "lulu-pomerania-laranja-macho-01",
-    name: "Lulu da Pomerânia Laranja Macho",
-    slug: "lulu-da-pomerania-laranja-macho",
-    title: "Lulu da Pomerânia Laranja Macho | By Império Dog",
-    color: "laranja",
-    cor: "Laranja",
-    sex: "male",
-    gender: "male",
-    breed: "Lulu da Pomerânia",
-    size: "mini",
-    city: "braganca-paulista",
-    state: "SP",
-    // Capa: a foto frontal em foco. O .mp4 fica no fim porque o componente
-    // separa foto de vídeo por extensão e usa photos[0] como pôster — a
-    // posição do vídeo no array não muda a capa.
-    images: [
-      "/filhotes/laranja/laranja-macho-gramado-01.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-02.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-03.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-04.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-05.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-06.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-07.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-08.jpeg",
-      "/filhotes/laranja/laranja-macho-gramado-09.jpeg",
-      "/filhotes/videos/laranja-macho-gramado.mp4",
-    ],
-    // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 550000,
-    priceCents: 550000,
-    currency: "BRL",
-    description:
-      "Macho Laranja fotografado e filmado em luz natural no gramado. A pelagem de filhote ainda traz sombreado escuro nas pontas, que costuma clarear até a cor adulta se firmar; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,

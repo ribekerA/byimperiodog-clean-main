@@ -15,8 +15,6 @@ import {
 } from "recharts";
 
 type DayPoint = { label: string; value: number };
-type StatusCount = { label: string; value: number };
-
 const STATUS_COLORS: Record<string, string> = {
   available: "#10b981",
   reserved: "#f59e0b",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { PuppiesPageClient } from "./PuppiesPageClient";
 import { fetchAdminPuppies, parsePuppyFilters } from "./queries";
@@ -22,12 +23,12 @@ export default async function AdminPuppiesPage(
           <h1 className="text-2xl font-bold text-[var(--text)]">Filhotes</h1>
           <p className="text-sm text-[var(--text-muted)]">Gerencie os filhotes (criar, editar, status).</p>
         </div>
-        <a
+        <Link
           href="/admin/puppies/new"
           className="inline-flex items-center justify-center gap-2 rounded-[var(--radius-full)] bg-[var(--brand)] px-[var(--space-4)] py-[var(--space-2)] text-sm font-semibold text-white shadow-[var(--elevation-2)] transition hover:bg-[var(--brand-hover)] hover:shadow-[var(--elevation-3)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2"
         >
           Novo filhote
-        </a>
+        </Link>
       </header>
 
       <PuppiesPageClient

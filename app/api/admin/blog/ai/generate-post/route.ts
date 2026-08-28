@@ -59,7 +59,7 @@ export async function POST(req: Request) {
   if (!openaiKey) return respostaSemChaveIA();
   const scope = body.scope || 'guia-completo';
   const temperature = body.randomize ? 0.85 : 0.55;
-  const wordBudget = Math.max(800, Math.min(2400, body.wordBudget || 1400));
+  const _wordBudget = Math.max(800, Math.min(2400, body.wordBudget || 1400));
 
   // --- Sessão IA persistida ---
   const sb = supabaseAdmin();
@@ -134,7 +134,7 @@ export async function POST(req: Request) {
   }
 }
 
-function buildOutline(scope: string): SectionOutline[] {
+function buildOutline(_scope: string): SectionOutline[] {
   const base: SectionOutline[] = [
     { id: 'intro', heading: 'Introdução', goal: 'Contextualizar o tema e relação com Spitz Alemão Anão.'},
     { id: 'historia', heading: 'História e Origem', goal: 'Breve origem e evolução da raça.'},
@@ -183,7 +183,7 @@ function buildTitle(topic: string, scope: string): string {
 }
 
 function buildExcerpt(mdx: string, topic: string): string {
-  const plain = mdx.replace(/[#>*`_\-]/g,' ').replace(/\s+/g,' ').trim();
+  const plain = mdx.replace(/[-#>*`_]/g,' ').replace(/\s+/g,' ').trim();
   return (plain.slice(0, 155) || `Tudo sobre ${topic} no contexto do Spitz Alemão.`);
 }
 
@@ -218,7 +218,7 @@ function sanitizeTopic(t: string){
 function refineMDX(mdx: string, topic: string){
   let out = mdx;
   // Remover citações literais exageradas do título
-  out = out.replace(/Guia Completo Spitz Alemão:\s+"([^"]+)"/gi,(m,inner)=>`Guia Completo Spitz Alemão: ${inner}`);
+  out = out.replace(/Guia Completo Spitz Alemão:\s+"([^"]+)"/gi,(_m,inner)=>`Guia Completo Spitz Alemão: ${inner}`);
   out = out.replace(/"Assunto do artigo"/gi, sanitizeTopic(topic));
   // Enriquecer seções muito curtas (< 40 palavras)
   out = out.replace(/^(##\s+[^\n]+)\n([^#\n]{0,240})$/gm,(match, heading, body)=>{
@@ -228,7 +228,7 @@ function refineMDX(mdx: string, topic: string){
     return `${heading}\n${body.trim()}${add}`;
   });
   // CTA Section enhancement
-  out = out.replace(/##\s+Recursos e CTA[\r\n]+(?!Links internos)([\s\S]*?)(?=^##\s|$)/m,(m,body)=>{
+  out = out.replace(/##\s+Recursos e CTA[\r\n]+(?!Links internos)([\s\S]*?)(?=^##\s|$)/m,(_m,_body)=>{
     const links = `Links internos recomendados:\n- [Filhotes disponíveis](/filhotes)\n- [Como comprar](/comprar-spitz-anao)\n- [Socialização](/blog)\n\nCTA: Entre em contato para saber quais filhotes estão disponíveis e tirar dúvidas.`;
     return `## Recursos e CTA\n${links}`;
   });

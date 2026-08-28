@@ -47,7 +47,17 @@ export function getPuppyBySlug(slug: string): CatalogItem | undefined {
 export function getPuppiesByColor(color: string): CatalogItem[] {
   // Vitrine de cor mostra apenas filhotes divulgados. A URL do Cinza-Lobo
   // segue respondendo com o texto da cor; o que ela deixa de ter e a oferta.
-  return publicados.filter((p) => p.color === color);
+  const puppies = publicados.filter((p) => p.color === color);
+
+  // As duas fêmeas laranja têm o mesmo preço. Sem um desempate explícito, a
+  // ficha antiga (laço vermelho) aparecia antes mesmo quando a capa que trouxe
+  // o visitante até esta página era a fêmea de laço rosa.
+  if (color === "laranja") {
+    const pinkBowSlug = "spitz-alemao-anao-laranja-femea-laco-rosa";
+    return puppies.sort((a, b) => Number(b.slug === pinkBowSlug) - Number(a.slug === pinkBowSlug));
+  }
+
+  return puppies;
 }
 
 export function getPuppiesBySex(urlSex: string): CatalogItem[] {
@@ -172,7 +182,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Laranja?",
         answer:
-          "Na By Império Dog, o Laranja parte de R$ 6.500 no macho e R$ 7.500 na fêmea — acima apenas do particolor, que abre a tabela. A disponibilidade é informada no atendimento.",
+          "Na By Império Dog, o Laranja parte de R$ 6.500 no macho e R$ 8.500 na fêmea. A disponibilidade é informada no atendimento.",
       },
       {
         question: "Spitz Laranja é dócil com crianças?",

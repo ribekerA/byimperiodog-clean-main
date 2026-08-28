@@ -10,8 +10,10 @@
 
 import { useEffect, useState } from "react";
 
-const GOOGLE_REVIEW_URL =
-  "https://g.page/r/byimperiodog/review"; // substituir pelo link real do GBP
+import {
+  GOOGLE_BUSINESS_PROFILE_URL,
+  GOOGLE_REVIEW_URL,
+} from "@/domain/config";
 
 const SEEN_KEY = "bid_review_prompt_seen";
 
@@ -40,17 +42,16 @@ export default function ReviewRequestPrompt({ immediate = false, trigger = "what
 
   const handleDismiss = () => {
     setVisible(false);
-    try { sessionStorage.setItem(SEEN_KEY, "1"); } catch {}
-  };
-
-  const handleReview = () => {
-    window.open(GOOGLE_REVIEW_URL, "_blank", "noopener,noreferrer");
-    handleDismiss();
+    try {
+      sessionStorage.setItem(SEEN_KEY, "1");
+    } catch {
+      // O CTA continua funcionando quando o navegador bloqueia storage.
+    }
   };
 
   if (!visible) return null;
 
-  const isExistingClient = trigger === "whatsapp";
+  const veioDoAtendimento = trigger === "whatsapp";
 
   return (
     <div
@@ -66,18 +67,30 @@ export default function ReviewRequestPrompt({ immediate = false, trigger = "what
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-zinc-900">
-            {isExistingClient ? "Já é cliente? Nos ajude!" : "Gostou do atendimento?"}
+            {veioDoAtendimento ? "Já conhece nosso trabalho?" : "Como foi sua experiência?"}
           </p>
           <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">
-            Sua avaliação no Google ajuda outras famílias a encontrar um criador de confiança.
+            Se você já foi atendido pela By Império Dog, compartilhe sua experiência real no Google.
           </p>
           <div className="mt-3 flex gap-2">
-            <button
-              onClick={handleReview}
+            <a
+              href={GOOGLE_REVIEW_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleDismiss}
               className="flex-1 rounded-xl bg-emerald-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
-              Deixar avaliação ★★★★★
-            </button>
+              Avaliar no Google
+            </a>
+            <a
+              href={GOOGLE_BUSINESS_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleDismiss}
+              className="rounded-xl border border-zinc-200 px-3 py-2 text-xs font-semibold text-zinc-600 transition hover:border-zinc-300 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+            >
+              Ver perfil
+            </a>
             <button
               onClick={handleDismiss}
               aria-label="Fechar sugestão de avaliação"

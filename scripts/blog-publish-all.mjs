@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * Publica todos os posts em status draft ou review.
  * Uso: node scripts/blog-publish-all.mjs [--dry]

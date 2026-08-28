@@ -41,7 +41,7 @@ export function ConfigTabs({ initialGeneral, trackingEnvironment, trackingConfig
   return (
     <section className="space-y-4" aria-label="Configurações do site">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <nav className="inline-flex rounded-full border border-[var(--border)] bg-white p-1 shadow-sm" role="tablist">
+        <div className="inline-flex rounded-full border border-[var(--border)] bg-white p-1 shadow-sm" role="tablist">
           {TABS.map((tab) => (
             <button
               key={tab.id}
@@ -59,7 +59,7 @@ export function ConfigTabs({ initialGeneral, trackingEnvironment, trackingConfig
               {tab.label}
             </button>
           ))}
-        </nav>
+        </div>
         <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
           <span>Ambiente atual:</span>
           <span

@@ -13,6 +13,18 @@ import { FAIXA_PUBLICA } from "@/domain/pricing";
 export const FOUNDING_YEAR = 2013;
 
 /**
+ * Identidade pública confirmada no Perfil da Empresa do Google.
+ *
+ * `GOOGLE_BUSINESS_PROFILE_URL` usa o Knowledge Graph id exibido pelo próprio
+ * Google. Diferente de uma busca por cidade, ele sempre resolve para esta
+ * empresa. `GOOGLE_REVIEW_URL` foi copiado de "Solicitar avaliações" no perfil
+ * administrado — não é uma URL montada ou inferida pelo site.
+ */
+export const GOOGLE_BUSINESS_PROFILE_URL =
+  "https://www.google.com/search?kgmid=/g/11gpnjwc18";
+export const GOOGLE_REVIEW_URL = "https://g.page/r/CT2ftXTDDxpAEAI/review";
+
+/**
  * Não existe constante de "famílias atendidas" — e não deve passar a existir.
  *
  * O site publicava "180+ famílias atendidas" em vinte arquivos. O número nasceu
@@ -58,6 +70,8 @@ export const BRAND = {
   urls: {
     site: "https://byimperiodog.com.br",
     whatsappLink: "https://wa.me/5511968633239",
+    googleBusinessProfile: GOOGLE_BUSINESS_PROFILE_URL,
+    googleReview: GOOGLE_REVIEW_URL,
   },
 
   /**
@@ -76,7 +90,10 @@ export const BRAND = {
       "Pomeranian",
       "socialização de filhotes",
     ],
-    sameAs: ["https://www.instagram.com/byimperiodog"],
+    sameAs: [
+      "https://www.instagram.com/byimperiodog",
+      GOOGLE_BUSINESS_PROFILE_URL,
+    ],
   },
 } as const;
 

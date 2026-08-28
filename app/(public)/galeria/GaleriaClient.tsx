@@ -14,6 +14,7 @@
  */
 
 import { Play } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
@@ -50,9 +51,11 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 function waFor(video: GalleryVideo) {
   return buildWhatsAppLink({
-    message: `Olá! Vi o vídeo "${video.title}" na galeria da By Império Dog e tenho interesse nesta cor.`,
+    message: `Olá! Assisti ao vídeo "${video.title}" na galeria da By Império Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
     utmSource: "galeria",
-    utmContent: video.category,
+    utmMedium: "video_gallery",
+    utmCampaign: "video_interest",
+    utmContent: video.slug,
   });
 }
 
@@ -114,11 +117,11 @@ function VideoCard({
     <article
       ref={cardRef}
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-700/60 hover:shadow-2xl"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       <button
         onClick={onPlay}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         // 9:16 em toda largura de tela: é o formato do arquivo. O desktop
         // ficou com mais colunas em vez de cards deitados — num card 16:9 o
         // corte engolia dois terços do quadro lá também, não só no celular.
@@ -194,7 +197,7 @@ function VideoCard({
       {/* Corpo do card — desktop */}
       <div className="hidden flex-1 flex-col gap-2 p-4 sm:flex">
         <h2 className="text-sm font-semibold leading-snug text-white transition group-hover:text-emerald-400">
-          {video.title}
+          <Link href={`/galeria/${video.slug}`}>{video.title}</Link>
         </h2>
         {video.description && (
           <p className="line-clamp-2 text-xs leading-relaxed text-zinc-400">{video.description}</p>
@@ -218,7 +221,7 @@ function VideoCard({
             aria-label={`Interesse em ${video.title} pelo WhatsApp`}
           >
             <WhatsAppIcon size={14} aria-hidden />
-            Tenho interesse
+            Quero conhecer os filhotes
           </a>
         </div>
       </div>
@@ -252,9 +255,16 @@ export default function GaleriaClient({ videos }: Props) {
     else setReelsIndex(index);
   }
 
-  const videoItems = videos.map((v) => ({ src: v.src, title: v.title, description: v.description, poster: v.poster }));
-
   const reelWaLinks = useWhatsAppLinks(videos.map(waFor));
+  const videoItems = videos.map((v, index) => ({
+    src: v.src,
+    title: v.title,
+    description: v.description,
+    poster: v.poster,
+    waLink: reelWaLinks[index],
+    detailUrl: `/galeria/${v.slug}`,
+  }));
+
   const reelItems: ReelItem[] = videos.map((v, index) => ({
     src: v.src,
     title: v.title,
@@ -321,6 +331,7 @@ export default function GaleriaClient({ videos }: Props) {
           onClose={() => setReelsIndex(null)}
           backLabel="Ver grade"
           ariaLabel="Vídeos da By Império Dog"
+          ctaLabel="Quero conhecer os filhotes"
           curtidas={curtidas}
         />
       )}

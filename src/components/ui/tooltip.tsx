@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import { cn } from '@/lib/cn';
 
+/* eslint-disable jsx-a11y/no-static-element-interactions -- wrappers delegate hover and focus to arbitrary child controls. */
+
 interface TooltipProps { children:React.ReactNode; content:React.ReactNode; side?:'top'|'bottom'|'left'|'right'; disabled?:boolean; className?:string; }
 
 // Tooltip simples (sem portal) focado em acessibilidade básica.

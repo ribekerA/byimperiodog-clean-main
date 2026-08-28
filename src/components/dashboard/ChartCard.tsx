@@ -29,9 +29,9 @@ export function ChartCard({ title, description, type, labels, datasets, loading,
   const tipId = React.useId();
   // Lazy-load charts somente quando em viewport
   const containerRef = React.useRef<HTMLDivElement|null>(null);
-  const [inView,setInView] = React.useState(false);
-  const [ChartLib,setChartLib] = React.useState<any>(null);
-  const [loadError,setLoadError] = React.useState<string|undefined>(undefined);
+  const [_inView,setInView] = React.useState(false);
+  const [_ChartLib,_setChartLib] = React.useState<any>(null);
+  const [_loadError,_setLoadError] = React.useState<string|undefined>(undefined);
   React.useEffect(()=>{
     if(!containerRef.current){ return; }
     if(typeof IntersectionObserver === 'undefined') { setInView(true); return; }

@@ -41,8 +41,6 @@ export function analyzeConversion(leads: Lead[], puppies: Puppy[], interactions:
   const totalLeads = leads.length || 1;
   const closed = leads.filter((l) => l.status === "fechado").length;
   const lost = leads.filter((l) => l.status === "perdido").length;
-  const inContact = leads.filter((l) => l.status === "em_contato").length;
-
   const closeRate = (closed / totalLeads) * 100;
   const lostRate = (lost / totalLeads) * 100;
 

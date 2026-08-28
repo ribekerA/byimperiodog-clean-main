@@ -120,15 +120,6 @@ async function hydrateMedia(record: any, client: SupabaseClient) {
 
   const finalImages = imageUrls.length ? imageUrls : resolvedCover ? [resolvedCover] : [];
 
-  if (process.env.NODE_ENV !== "production") {
-    console.debug("[admin-puppies-route] media hydration", {
-      mediaSource,
-      resolvedEntries,
-      resolvedCover,
-      videoUrls,
-    });
-  }
-
   return {
     ...record,
     image_url: resolvedCover,

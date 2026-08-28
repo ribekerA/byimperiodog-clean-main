@@ -46,37 +46,37 @@ export default function EditorialWizardPage(){
           <div className="md:col-span-2 space-y-4">
             {step==='Brief' && (
               <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
-                <label className="block text-sm font-medium">Título/H1</label>
-                <input value={title} onChange={e=>setTitle(e.target.value)} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
-                <label className="mt-3 block text-sm font-medium">Brief</label>
-                <textarea className="mt-1 h-28 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" placeholder="Objetivo, persona, tópicos-chave" />
+                <label htmlFor="editor-title" className="block text-sm font-medium">Título/H1</label>
+                <input id="editor-title" value={title} onChange={e=>setTitle(e.target.value)} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
+                <label htmlFor="editor-brief" className="mt-3 block text-sm font-medium">Brief</label>
+                <textarea id="editor-brief" className="mt-1 h-28 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" placeholder="Objetivo, persona, tópicos-chave" />
               </section>
             )}
             {step==='Outline' && (
               <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
-                <label className="block text-sm font-medium">Seções</label>
-                <textarea value={outline} onChange={e=>setOutline(e.target.value)} className="mt-1 h-56 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" placeholder="H2/H3 e bullets" />
+                <label htmlFor="editor-outline" className="block text-sm font-medium">Seções</label>
+                <textarea id="editor-outline" value={outline} onChange={e=>setOutline(e.target.value)} className="mt-1 h-56 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" placeholder="H2/H3 e bullets" />
               </section>
             )}
             {step==='Draft MDX' && (
               <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
-                <label className="block text-sm font-medium">Conteúdo MDX</label>
-                <textarea value={mdx} onChange={e=>setMdx(e.target.value)} className="mt-1 h-72 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" placeholder={"## Introdução\n..."} />
+                <label htmlFor="editor-mdx" className="block text-sm font-medium">Conteúdo MDX</label>
+                <textarea id="editor-mdx" value={mdx} onChange={e=>setMdx(e.target.value)} className="mt-1 h-72 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" placeholder={"## Introdução\n..."} />
               </section>
             )}
             {step==='SEO' && (
               <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4 space-y-3">
                 <div>
-                  <label className="block text-sm font-medium">Meta Title</label>
-                  <input value={seo.metaTitle} onChange={e=>setSeo(v=> ({...v, metaTitle:e.target.value}))} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
+                  <label htmlFor="editor-meta-title" className="block text-sm font-medium">Meta Title</label>
+                  <input id="editor-meta-title" value={seo.metaTitle} onChange={e=>setSeo(v=> ({...v, metaTitle:e.target.value}))} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium">Meta Description</label>
-                  <input value={seo.metaDesc} onChange={e=>setSeo(v=> ({...v, metaDesc:e.target.value}))} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
+                  <label htmlFor="editor-meta-description" className="block text-sm font-medium">Meta Description</label>
+                  <input id="editor-meta-description" value={seo.metaDesc} onChange={e=>setSeo(v=> ({...v, metaDesc:e.target.value}))} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium">Slug</label>
-                  <input value={seo.slug} onChange={e=>setSeo(v=> ({...v, slug:e.target.value}))} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
+                  <label htmlFor="editor-slug" className="block text-sm font-medium">Slug</label>
+                  <input id="editor-slug" value={seo.slug} onChange={e=>setSeo(v=> ({...v, slug:e.target.value}))} className="mt-1 w-full rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/40" />
                 </div>
               </section>
             )}
@@ -111,7 +111,7 @@ export default function EditorialWizardPage(){
             <RelatedPicker value={related} onChange={setRelated} />
           </aside>
         </div>
-        <ScheduleDrawer open={openSched} onOpenChange={setOpenSched} onConfirm={(iso)=> console.log('scheduled', iso)} />
+        <ScheduleDrawer open={openSched} onOpenChange={setOpenSched} onConfirm={()=> setOpenSched(false)} />
   </Main>
   </>
   );

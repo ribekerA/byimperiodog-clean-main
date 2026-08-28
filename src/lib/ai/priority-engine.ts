@@ -81,13 +81,7 @@ export async function generatePriorityTasks(): Promise<PriorityTask[]> {
       }
     });
 
-  // 3) Filhotes mais buscados (pelos leads)
-  const leadCountBySlug = new Map<string, number>();
-  leadsArr.forEach((l) => {
-    const slug = l.id; // fallback: if not available we skip
-    if (!slug) return;
-  });
-  // se houver page_slug/page seria melhor; aqui usamos leads totais para ranking de follow-up
+  // 3) Leads recentes para ranking de follow-up
   const topLeads = leadsArr.slice(0, 10);
   topLeads.forEach((l) =>
     tasks.push({

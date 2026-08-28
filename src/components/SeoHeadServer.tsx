@@ -23,10 +23,6 @@ export interface SeoHeadServerProps {
    */
   skipCanonical?: boolean;
 
-  /**
-   * Domínio custom a usar (padrão: vem de env NEXT_PUBLIC_SITE_URL)
-   */
-  customOrigin?: string;
 }
 
 /**
@@ -36,7 +32,6 @@ export interface SeoHeadServerProps {
 export function SeoHeadServer({
   pathname = '/',
   skipCanonical = false,
-  customOrigin,
 }: SeoHeadServerProps) {
   // Construir canonical com domínio primário
   const canonical = skipCanonical ? null : buildCanonical(pathname);

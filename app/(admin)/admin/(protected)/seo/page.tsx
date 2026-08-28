@@ -158,7 +158,7 @@ export default function SeoHub() {
     if (activeTab === "sitemap" && !sitemapData) loadSitemap();
     if (activeTab === "redirects" && redirects.length === 0) loadRedirects();
     if (activeTab === "robots" && !robotsTxt) loadRobots();
-  }, [activeTab]);
+  }, [activeTab, auditLoaded, redirects.length, robotsTxt, sitemapData]);
 
   // ─── Dashboard ─────────────────────────────────────────────────────────────
   async function loadDashboard() {
@@ -1011,10 +1011,11 @@ export default function SeoHub() {
                   <h4 className="mb-4 text-sm font-semibold text-[var(--brand)]">Novo Redirect</h4>
                   <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto]">
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-[var(--brand)]">
+                      <label htmlFor="redirect-from" className="mb-1 block text-xs font-medium text-[var(--brand)]">
                         De (path)
                       </label>
                       <input
+                        id="redirect-from"
                         type="text"
                         placeholder="/pagina-antiga"
                         value={newFrom}
@@ -1023,10 +1024,11 @@ export default function SeoHub() {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-[var(--brand)]">
+                      <label htmlFor="redirect-to" className="mb-1 block text-xs font-medium text-[var(--brand)]">
                         Para (URL ou path)
                       </label>
                       <input
+                        id="redirect-to"
                         type="text"
                         placeholder="/pagina-nova"
                         value={newTo}
@@ -1035,8 +1037,9 @@ export default function SeoHub() {
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs font-medium text-[var(--brand)]">Tipo</label>
+                      <label htmlFor="redirect-code" className="mb-1 block text-xs font-medium text-[var(--brand)]">Tipo</label>
                       <select
+                        id="redirect-code"
                         value={newCode}
                         onChange={(e) => setNewCode(Number(e.target.value) as 301 | 302)}
                         className="rounded-lg border border-[var(--brand-tint-200)] bg-white px-3 py-2 text-sm focus:border-[var(--brand)] focus:outline-none"

@@ -537,7 +537,7 @@ export default function AiMatchmakerChat() {
         if (!voiceActiveRef.current) inputRef.current?.focus();
       }
     },
-    [messages, streaming, instanceId, leadSubmitted, speak]
+    [messages, streaming, instanceId, leadSubmitted, matchedPuppies.length, speak]
   );
 
   // ── Grava áudio e transcreve via Groq Whisper ─────────────────────────────

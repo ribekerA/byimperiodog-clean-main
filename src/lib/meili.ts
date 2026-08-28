@@ -24,7 +24,7 @@ export async function ensureBlogIndex(){
   return false;
 }
 
-export async function meiliSearchBlog(q: string, limit = 10){
+export async function meiliSearchBlog(q: string, _limit = 10){
   // Stub: sem resultados
   return { hits: [], estimatedTotalHits: 0 };
 }

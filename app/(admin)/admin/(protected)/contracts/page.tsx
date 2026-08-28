@@ -13,7 +13,7 @@ import {
   Send,
   Zap,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { VirtualizedDataTable } from "@/components/admin/table/VirtualizedDataTable";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
@@ -97,7 +97,7 @@ export default function ContractsPage() {
 
   useEffect(() => { load(); }, []);
 
-  async function copyLink(code: string) {
+  const copyLink = useCallback(async (code: string) => {
     const link = `${baseUrl}/contract/${code}`;
     try {
       await navigator.clipboard.writeText(link);
@@ -107,7 +107,7 @@ export default function ContractsPage() {
     } catch {
       push({ type: "error", message: "Não foi possível copiar" });
     }
-  }
+  }, [baseUrl, push]);
 
   async function sendToZapSign(contractId: string) {
     setSending(contractId);
@@ -254,7 +254,7 @@ export default function ContractsPage() {
         },
       },
     ],
-    [baseUrl, sending, copied],
+    [baseUrl, sending, copied, copyLink],
   );
 
   return (

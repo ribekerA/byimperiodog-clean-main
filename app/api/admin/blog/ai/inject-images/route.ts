@@ -23,7 +23,7 @@ function buildPrompt(articleTitle: string, heading: string): string {
 
 async function generateAndUpload(
   prompt: string,
-  alt: string,
+  _alt: string,
 ): Promise<string | null> {
   const openaiKey = process.env.OPENAI_API_KEY;
   const bucket = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || "media";

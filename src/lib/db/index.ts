@@ -51,7 +51,7 @@ function normalizeDate(value: unknown): string | null {
   return null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapPost(row: any): Post {
   return {
     id: row?.id ?? "",
@@ -74,7 +74,7 @@ function mapPost(row: any): Post {
         }
       : null,
     tags: Array.isArray(row?.tags)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       ? (row.tags as any[]).map(
           (tag) =>
             (typeof tag === "string"
@@ -100,7 +100,7 @@ function mapPost(row: any): Post {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapComment(row: any): Comment {
   return {
     id: row?.id ?? "",
@@ -115,7 +115,7 @@ function mapComment(row: any): Comment {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapMedia(row: any): MediaAsset {
   return {
     id: row?.id ?? "",
@@ -133,7 +133,7 @@ function mapMedia(row: any): MediaAsset {
 }
 
 // Note: mapSchedule not currently used, kept for future reference
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapSchedule(row: any): Schedule {
   return {
     id: row?.id ?? "",
@@ -146,7 +146,7 @@ function mapSchedule(row: any): Schedule {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapScheduleEvent(row: any): ScheduleEvent {
   return {
     id: row?.id ?? "",
@@ -160,7 +160,7 @@ function mapScheduleEvent(row: any): ScheduleEvent {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapRevision(row: any): PostRevision {
   return {
     id: row?.id ?? "",
@@ -172,7 +172,7 @@ function mapRevision(row: any): PostRevision {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapSeoSettings(row: any): SeoSettings {
   return {
     defaultTitle: row?.default_title ?? null,
@@ -185,7 +185,7 @@ function mapSeoSettings(row: any): SeoSettings {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapExperiment(row: any): Experiment {
   return {
     id: row?.id ?? "",
@@ -195,7 +195,7 @@ function mapExperiment(row: any): Experiment {
     status: (row?.status as Experiment["status"]) ?? "draft",
     audience: row?.audience ?? null,
     variants: Array.isArray(row?.variants)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       ? row.variants.map((entry: any) => ({
           key: entry?.key ?? "",
           label: entry?.label ?? entry?.key ?? "",
@@ -209,7 +209,7 @@ function mapExperiment(row: any): Experiment {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapEvent(row: any): AnalyticsEvent {
   return {
     id: row?.id ?? "",
@@ -221,7 +221,7 @@ function mapEvent(row: any): AnalyticsEvent {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapPostMetrics(row: any): PostMetrics {
   return {
     postId: row?.post_id ?? "",
@@ -233,7 +233,7 @@ function mapPostMetrics(row: any): PostMetrics {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapSiteSettings(row: any): SiteSettings {
   return {
     id: row?.id ?? "",
@@ -247,7 +247,7 @@ function mapSiteSettings(row: any): SiteSettings {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapPixelEnvironment(value: any): PixelEnvironment {
   return {
     gtmId: value?.gtmId ?? value?.gtm_id ?? null,
@@ -265,7 +265,7 @@ function mapPixelEnvironment(value: any): PixelEnvironment {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function mapPixelSettings(row: any): PixelSettings {
   return {
     id: row?.id ?? "pixels",
@@ -275,7 +275,7 @@ function mapPixelSettings(row: any): PixelSettings {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function applyListFilters(query: any, params?: ListParams) {
   if (!params) return query;
   const { search, status, tag, category } = params;
@@ -293,7 +293,7 @@ function applyListFilters(query: any, params?: ListParams) {
   return query;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function applyPagination(query: any, params?: ListParams) {
   const limit = Math.min(100, Math.max(1, params?.limit ?? 20));
   const offset = Math.max(0, params?.offset ?? 0);
@@ -303,12 +303,12 @@ function applyPagination(query: any, params?: ListParams) {
 async function fetchPostMetrics(client: SupabaseClient, postIds: string[]): Promise<Record<string, PostMetrics>> {
   if (!client || postIds.length === 0) return {};
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const rpcFunc = (client as any).rpc;
     if (!rpcFunc) return {};
     const { data, error } = await rpcFunc("blog_post_metrics", { post_ids: postIds });
     if (error || !Array.isArray(data)) return {};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return data.reduce((acc: Record<string, PostMetrics>, row: any) => {
       const metrics = mapPostMetrics(row);
       if (metrics.postId) acc[metrics.postId] = metrics;
@@ -328,7 +328,7 @@ async function fetchPendingComments(client: SupabaseClient, postIds: string[]): 
       .eq("status", "pending")
       .in("post_id", postIds);
     if (error || !Array.isArray(data)) return {};
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return data.reduce((acc: Record<string, number>, row: any) => {
       const key = row?.post_id ?? "";
       if (!key || typeof key !== "string") return acc;
@@ -342,9 +342,9 @@ async function fetchPendingComments(client: SupabaseClient, postIds: string[]): 
 
 
 async function execList<T>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   query: any,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   mapper: (row: any) => T,
   fallback: ListResult<T> = { items: [], total: 0 },
 ): Promise<ListResult<T>> {
@@ -366,7 +366,7 @@ async function execList<T>(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 async function execSingle<T>(query: any, mapper: (row: any) => T | null): Promise<T | null> {
   try {
     const { data, error } = (await query) as { data: unknown | null; error: { message?: string } | null };
@@ -381,7 +381,7 @@ async function execSingle<T>(query: any, mapper: (row: any) => T | null): Promis
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 async function execWrite<T>(operation: Promise<{ data: unknown; error: { message?: string } | null }>, mapper: (row: any) => T): Promise<T | null> {
   try {
     const { data, error } = await operation;
@@ -816,7 +816,7 @@ export const mediaRepo = {
     }
     if (params?.role) {
       const pivot = await client.from("post_media").select("media_id").eq("role", params.role);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       const allowed = pivot?.data?.map((row: any) => row.media_id);
       if (Array.isArray(allowed) && allowed.length > 0) {
         query = query.in("id", allowed);

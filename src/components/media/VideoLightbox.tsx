@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
@@ -12,6 +13,9 @@ export type VideoItem = {
   src: string;
   title: string;
   description?: string;
+  poster?: string;
+  waLink?: string;
+  detailUrl?: string;
 };
 
 type VideoLightboxProps = {
@@ -82,10 +86,11 @@ export function VideoLightbox({ videos, initialIndex, onClose }: VideoLightboxPr
     touchStartY.current = null;
   }
 
-  const baseWaLink = buildWhatsAppLink({
-    message: `Olá! Vi o vídeo "${video.title}" no site da By Império Dog e tenho interesse nesta cor.`,
+  const baseWaLink = video.waLink ?? buildWhatsAppLink({
+    message: `Olá! Assisti ao vídeo "${video.title}" no site da By Império Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
     utmSource: "galeria",
-    utmCampaign: "video-interest",
+    utmMedium: "video_lightbox",
+    utmCampaign: "video_interest",
   });
   const waLink = useWhatsAppLink(baseWaLink);
 
@@ -130,6 +135,7 @@ export function VideoLightbox({ videos, initialIndex, onClose }: VideoLightboxPr
           <video
             ref={videoRef}
             src={video.src}
+            poster={video.poster}
             controls
             autoPlay
             playsInline
@@ -145,13 +151,23 @@ export function VideoLightbox({ videos, initialIndex, onClose }: VideoLightboxPr
           )}
           <a
             href={waLink}
+            data-wa-placement="gallery"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 transition px-5 py-2.5 text-white text-sm font-semibold shadow-lg"
           >
             <WhatsAppIcon size={18} aria-hidden />
-            Tenho interesse nesta cor
+            Quero conhecer os filhotes
           </a>
+          {video.detailUrl && (
+            <Link
+              href={video.detailUrl}
+              onClick={onClose}
+              className="text-xs font-semibold text-white/75 underline-offset-4 hover:text-white hover:underline"
+            >
+              Ver página e detalhes deste vídeo
+            </Link>
+          )}
           {/* Counter */}
           <p className="text-white/50 text-xs">
             {current + 1} / {videos.length}

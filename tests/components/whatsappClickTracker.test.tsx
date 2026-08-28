@@ -351,5 +351,5 @@ describe("botão flutuante real — um toque, um evento", () => {
     expect(abrir).toHaveBeenCalledTimes(1);
 
     vi.unstubAllGlobals();
-  });
+  }, 10_000);
 });

@@ -20,7 +20,7 @@ function computeScore(errors: number, warnings: number): number {
 function estimateWordCount(text: string): number {
   return text
     .replace(/<[^>]+>/g, " ")
-    .replace(/[#*`_~\[\]()>]/g, " ")
+    .replace(/[#*`_~[\]()>]/g, " ")
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;

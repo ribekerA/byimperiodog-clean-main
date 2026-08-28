@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ObrigadoConversionTracker } from "@/components/ObrigadoConversionTracker";
 import { getPixelsSettings, resolveActiveEnvironment } from "@/lib/pixels";
@@ -36,7 +37,7 @@ export default async function ObrigadoPage() {
         <p>Fique de olho no seu WhatsApp para nossa mensagem inicial.</p>
       </div>
       <div className="mt-8">
-        <a className="inline-block rounded bg-black px-4 py-2 text-white" href="/filhotes">Voltar aos filhotes</a>
+        <Link className="inline-block rounded bg-black px-4 py-2 text-white" href="/filhotes">Voltar aos filhotes</Link>
       </div>
     </div>
   );

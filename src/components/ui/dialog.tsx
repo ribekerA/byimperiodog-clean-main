@@ -12,7 +12,7 @@ export function Dialog({ children, open:controlled, onOpenChange }: { children:R
   const [uncontrolled,setUncontrolled] = useState(false);
   const isControlled = controlled!==undefined;
   const open = isControlled? controlled: uncontrolled;
-  const setOpen = useCallback((v:boolean)=>{ if(isControlled) onOpenChange&&onOpenChange(v); else setUncontrolled(v); },[isControlled,onOpenChange]);
+  const setOpen = useCallback((v:boolean)=>{ if(isControlled) onOpenChange?.(v); else setUncontrolled(v); },[isControlled,onOpenChange]);
   return <DialogContext.Provider value={{open,setOpen}}>{children}</DialogContext.Provider>;
 }
 
@@ -32,7 +32,7 @@ export function DialogContent({ title, description, children, className }: { tit
   if(!open) return null;
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-4" role="dialog" aria-modal="true">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={()=> setOpen(false)} />
+      <button type="button" aria-label="Fechar diálogo" className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={()=> setOpen(false)} />
       <div ref={ref} tabIndex={-1} className={cn('relative z-10 w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-xl focus:outline-none',className)}>
         {title && <h2 className="text-lg font-semibold tracking-tight text-[var(--text)]">{title}</h2>}
         {description && <p className="mt-1 text-sm text-[var(--text-muted)]">{description}</p>}

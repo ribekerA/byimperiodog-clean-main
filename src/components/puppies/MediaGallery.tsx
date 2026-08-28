@@ -64,7 +64,7 @@ export default function MediaGallery({ media, cover, onChange, onSelectCover, ma
                 throw new Error(presJson?.error || `Arquivo muito grande. Limite: ${mb}MB para ${isVid? 'vídeo':'imagem'}.`);
               }
               const { path, token } = presJson as { path: string; token: string };
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
               const supa = supabasePublic() as any; // tipagem frouxa apenas neste ponto para evitar dependência de tipos
               const { error: upErr } = await supa.storage.from('puppies').uploadToSignedUrl(path, token, f, { contentType: f.type, upsert: false });
               if (upErr) throw new Error(upErr.message || 'Falha no upload direto');
@@ -103,7 +103,7 @@ export default function MediaGallery({ media, cover, onChange, onSelectCover, ma
       if(!cover && coverUrl && onSelectCover){ onSelectCover(coverUrl); }
       if(coverUrl){ next = [coverUrl, ...next.filter(u=> u!==coverUrl)]; }
       onChange(next);
-      liveRef.current && (liveRef.current.textContent = `${newUrls.length} imagem(ns) adicionada(s). Total: ${next.length}`);
+      if (liveRef.current) liveRef.current.textContent = `${newUrls.length} imagem(ns) adicionada(s). Total: ${next.length}`;
     }
     e.target.value='';
   }
@@ -119,7 +119,7 @@ export default function MediaGallery({ media, cover, onChange, onSelectCover, ma
     const [moved] = arr.splice(from,1);
     arr.splice(index,0,moved);
     onChange(arr);
-    liveRef.current && (liveRef.current.textContent = 'Imagem reposicionada. Nova ordem aplicada.');
+    if (liveRef.current) liveRef.current.textContent = 'Imagem reposicionada. Nova ordem aplicada.';
   }
 
   return (

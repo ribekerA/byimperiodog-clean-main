@@ -141,9 +141,9 @@ export default function PuppyForm({
               </select>
             </div>
             <div className="grid gap-1 md:col-span-2">
-              <label className="font-medium" id="status-label">
+              <span className="font-medium" id="status-label">
                 Status
-              </label>
+              </span>
               <StatusToggle value={values.status} onChange={(next) => set("status", next)} />
             </div>
             <div className="md:col-span-2">

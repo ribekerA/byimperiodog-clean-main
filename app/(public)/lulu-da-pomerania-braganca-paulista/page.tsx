@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description:
     // 222 caracteres, com "Bragança Paulista" duas vezes. Reescrita em 144, e o
     // ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
-    `Canil de Lulu da Pomerânia (Spitz Alemão Anão) em Bragança Paulista, SP. Criação familiar desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo.`,
+    `Canil de Lulu da Pomerânia em Bragança Paulista, SP. Criação familiar desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo.`,
   keywords: [
     "Lulu da Pomerânia Bragança Paulista",
     "Spitz Alemão Anão Bragança Paulista",

@@ -101,7 +101,7 @@ export function HeartBurstButton({
       setBurst(createBurstParticles());
       setTimeout(() => setBurst([]), 1600);
     }
-  }, [liked, onLike, reduced]);
+  }, [liked, onLike, puppyId, reduced]);
 
   return (
     <div style={{ position: "relative", display: "inline-flex" }}>

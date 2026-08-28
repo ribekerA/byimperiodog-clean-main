@@ -1,24 +1,6 @@
 import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-type LeadRecord = {
-  id: string;
-  nome?: string | null;
-  telefone?: string | null;
-  cidade?: string | null;
-  estado?: string | null;
-  cor_preferida?: string | null;
-  sexo_preferido?: string | null;
-  mensagem?: string | null;
-};
-
-type InsightRecord = {
-  desired_color?: string | null;
-  desired_sex?: string | null;
-  desired_city?: string | null;
-  budget_inferred?: string | null;
-};
-
 type PuppyRecord = {
   id: string;
   name: string;

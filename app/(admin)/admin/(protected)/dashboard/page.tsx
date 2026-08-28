@@ -433,7 +433,7 @@ export default async function DashboardPage() {
             Nenhum lead novo foi registrado recentemente. Assim que novos cadastros chegarem eles aparecem aqui.
           </p>
         ) : (
-          <ol className="mt-4 divide-y divide-[var(--border)]" role="list">
+          <ol className="mt-4 divide-y divide-[var(--border)]">
             {latestLeads.map((lead) => (
               <li key={lead.id} className="py-3">
                 <div className="flex flex-wrap items-center justify-between gap-3">

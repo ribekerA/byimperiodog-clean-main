@@ -4,7 +4,7 @@ import { requireAdmin } from '@/lib/adminAuth';
 import { logAdminAction } from '@/lib/adminAuth';
 import { rateLimit } from '@/lib/rateLimit';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
-import { computeCoverage, TOPIC_CLUSTERS } from '@/lib/topicClusters';
+import { computeCoverage } from '@/lib/topicClusters';
 
 /* Batch gera posts para clusters faltantes (limite opcional ?limit=5)
    Estratégia simples sequencial (pode ser otimizada com fila/background)

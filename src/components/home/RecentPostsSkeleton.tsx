@@ -4,7 +4,6 @@ export default function RecentPostsSkeleton() {
 		<section
 			className="mx-auto w-full max-w-6xl px-5 md:px-6 py-16 sm:py-20"
 			aria-labelledby="home-blog-heading"
-			role="region"
 		>
 			<div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 				<div>

@@ -69,22 +69,88 @@ function definir(
 // fonte e a terceira dava a entender um acompanhamento de criacao que o video
 // nao mostra.
 export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
-  definir("apresentacao-canil", "Apresentação do Canil", "Vídeo de apresentação da By Império Dog.", "canil"),
-  definir("creme-dupla", "Dupla Creme", "Dois Spitz creme juntos — pura fofura em dobro.", "creme"),
-  definir("laranja-femea-jardim", "Fêmea Laranja no Jardim", "Spitz laranja fêmea explorando o jardim.", "laranja"),
+  definir(
+    "apresentacao-canil",
+    "Por dentro da By Império Dog: apresentação do canil",
+    "Conheça a By Império Dog e veja em vídeo o trabalho dedicado ao Spitz Alemão Anão em Bragança Paulista, SP.",
+    "canil"
+  ),
+  definir(
+    "creme-dupla",
+    "Dois Spitz Alemão Anão creme: fofura em dobro",
+    "Dois filhotes de Spitz Alemão Anão creme juntos, mostrando de perto a pelagem clara e o jeito curioso da raça.",
+    "creme"
+  ),
+  definir(
+    "laranja-femea-jardim",
+    "Spitz Alemão Anão laranja fêmea explorando o jardim",
+    "Uma fêmea laranja de Lulu da Pomerânia caminhando e explorando o jardim em um vídeo natural, sem filtros.",
+    "laranja"
+  ),
   // Entrou com o lote de 26/08/2026, junto das fotos de
   // lulu-pomerania-laranja-macho-01. Data real de entrada no repositorio,
   // conferida no git log do proprio .mp4 -- por isso nao usa VIDEO_UPLOAD_DATE.
-  definir("laranja-macho-gramado", "Macho Laranja no Gramado", "Spitz Alemão Anão laranja macho no gramado, filmado em luz natural.", "laranja", "2026-08-26"),
-  definir("laranja-macho-jardim", "Macho Laranja no Jardim", "Spitz laranja macho brincando no espaço externo.", "laranja"),
-  definir("ninhada-creme-01", "Ninhada Creme", "Uma ninhada inteira de Spitz creme.", "ninhada"),
-  definir("ninhada-jun22-01", "Ninhada Junho 2022 — Vol. 1", "Ninhada de junho de 2022.", "ninhada"),
-  definir("ninhada-jun22-02", "Ninhada Junho 2022 — Vol. 2", "Continuação da ninhada de junho de 2022.", "ninhada"),
-  definir("ninhada-laranja-01", "Ninhada Laranja", "Ninhada com filhotes laranja.", "ninhada"),
-  definir("spitz-anao", "Spitz Alemão Anão", "Spitz Alemão Anão em movimento.", "raça"),
-  definir("spitz-branco", "Spitz Branco", "Spitz Alemão Anão branco em movimento.", "branco"),
-  definir("spitz-creme", "Spitz Creme", "Spitz Alemão Anão creme em movimento.", "creme"),
-  definir("spitz-laranja-macho", "Spitz Laranja Macho", "Spitz Alemão Anão laranja macho em movimento.", "laranja"),
+  definir(
+    "laranja-macho-gramado",
+    "Lulu da Pomerânia laranja macho brincando no gramado",
+    "Um Spitz Alemão Anão laranja macho em movimento no gramado, filmado ao ar livre e em luz natural.",
+    "laranja",
+    "2026-08-26"
+  ),
+  definir(
+    "laranja-macho-jardim",
+    "Spitz laranja macho no jardim: energia e curiosidade",
+    "Veja um macho laranja de Spitz Alemão Anão brincando e explorando o espaço externo da By Império Dog.",
+    "laranja"
+  ),
+  definir(
+    "ninhada-creme-01",
+    "Ninhada de Spitz creme: filhotes juntos em vídeo",
+    "Uma ninhada de filhotes creme reunida, com movimentos e interação registrados em vídeo pela By Império Dog.",
+    "ninhada"
+  ),
+  definir(
+    "ninhada-jun22-01",
+    "Ninhada de Lulu da Pomerânia — junho de 2022, parte 1",
+    "Primeiro vídeo da ninhada de Spitz Alemão Anão registrada em junho de 2022.",
+    "ninhada"
+  ),
+  definir(
+    "ninhada-jun22-02",
+    "Ninhada de Lulu da Pomerânia — junho de 2022, parte 2",
+    "Segundo vídeo da ninhada de Spitz Alemão Anão registrada em junho de 2022.",
+    "ninhada"
+  ),
+  definir(
+    "ninhada-laranja-01",
+    "Ninhada de Spitz laranja em movimento",
+    "Filhotes laranja de Spitz Alemão Anão juntos em um registro natural da ninhada.",
+    "ninhada"
+  ),
+  definir(
+    "spitz-anao",
+    "Spitz Alemão Anão em movimento: conheça a raça",
+    "Veja de perto o porte, a pelagem e os movimentos do Spitz Alemão Anão, também conhecido como Lulu da Pomerânia.",
+    "raça"
+  ),
+  definir(
+    "spitz-branco",
+    "Lulu da Pomerânia branco: pelagem e movimento",
+    "Um Spitz Alemão Anão branco em movimento, com destaque para a pelagem clara e volumosa.",
+    "branco"
+  ),
+  definir(
+    "spitz-creme",
+    "Spitz creme em movimento: veja de perto",
+    "Vídeo de um Spitz Alemão Anão creme em movimento, mostrando a tonalidade e o volume da pelagem.",
+    "creme"
+  ),
+  definir(
+    "spitz-laranja-macho",
+    "Lulu da Pomerânia laranja macho em movimento",
+    "Veja de perto um macho laranja de Spitz Alemão Anão em um vídeo real da By Império Dog.",
+    "laranja"
+  ),
   // O video da femea branca (spitz-femea-branco.mp4) estava aqui e saiu: o
   // arquivo desapareceu de public/filhotes/videos/ antes do commit e nao existe
   // em nenhum outro lugar do disco. Registro sem arquivo = <video:content_loc>
@@ -112,4 +178,9 @@ export type VideoMedida = { width: number; height: number; duration: string };
  *  nao tiver sido gerado -- quem consome decide se omite o campo no schema. */
 export function medidaDoVideo(slug: string): VideoMedida | undefined {
   return (medidas as Record<string, VideoMedida>)[slug];
+}
+
+/** Busca sem fallback: rota desconhecida deve responder 404, nunca outro vídeo. */
+export function videoDaGaleria(slug: string): GalleryVideo | undefined {
+  return GALLERY_VIDEOS.find((video) => video.slug === slug);
 }

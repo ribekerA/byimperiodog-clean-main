@@ -265,12 +265,20 @@ export default function PuppyCinematicGallery({
 
       {/* ── Imagem principal ─────────────────────────────────────────────── */}
       <div
+        role="button"
+        tabIndex={0}
         // As fotos dos filhotes sao verticais. Num quadro 4/3 (deitado) o
         // `object-cover` cortava cabeca e patas e sobrava so uma faixa do meio.
         // 4/5 acompanha o formato da foto e o `object-contain` abaixo mostra a
         // imagem inteira — o fundo escuro faz a sobra parecer proposital.
         className="group relative aspect-[4/5] cursor-zoom-in overflow-hidden rounded-2xl bg-zinc-900 shadow-xl ring-1 ring-zinc-900/8 sm:aspect-square"
         onClick={onClickGallery}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onClickGallery();
+          }
+        }}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >

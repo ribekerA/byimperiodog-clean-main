@@ -322,7 +322,7 @@ function checkFileForBannedWords(filePath) {
 // ============================================================================
 
 function main() {
-  // eslint-disable-next-line no-console
+
   console.log("🔍 Verificando palavras banidas...\n");
 
   let totalViolations = 0;
@@ -340,7 +340,7 @@ function main() {
 
   // Relatório
   if (totalViolations === 0) {
-    // eslint-disable-next-line no-console
+
     console.log("✅ Nenhuma palavra banida encontrada!\n");
     process.exit(0);
   }

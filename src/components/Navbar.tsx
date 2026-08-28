@@ -149,7 +149,7 @@ export default function Navbar() {
                     </Dialog.Close>
                   </div>
                   <nav className="px-2 pb-6 pt-4" aria-label="Menu mobile">
-                    <ul className="flex flex-col gap-1" role="menu">
+                    <ul className="flex flex-col gap-1">
                       {navLinks.map((link) => {
                         const active = isActive(link.href, pathname, hash);
                         const cls = classNames(
@@ -163,7 +163,6 @@ export default function Navbar() {
                               onClick={close}
                               aria-current={active ? "page" : undefined}
                               className={cls}
-                              role="menuitem"
                               ref={firstLinkRef}
                             >
                               {link.label}

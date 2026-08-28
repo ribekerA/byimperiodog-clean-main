@@ -6,7 +6,7 @@ export function estimateReadingTime(text: string | null | undefined, wpm = 200):
   if (!text) return 0;
   const words = text
     .replace(/<[^>]+>/g, ' ') // remover tags HTML
-    .replace(/[`*_#>\-]+/g, ' ') // remover sinais markdown
+    .replace(/[-`*_#>]+/g, ' ') // remover sinais markdown
     .split(/\s+/)
     .filter(Boolean);
   if (!words.length) return 0;

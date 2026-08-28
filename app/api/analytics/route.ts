@@ -124,7 +124,7 @@ export async function POST(req: NextRequest) {
     if (insertedId && process.env.ANALYTICS_OUTBOX === '1') {
       try {
         // Remover campos potencialmente sensíveis (ip) do payload replicado
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
         const { ip: _omitIp, ...clean } = payload as Omit<AnalyticsInsertPayload, 'ip'> & { ip: string | null };
         await sb
           .from('analytics_events_outbox')

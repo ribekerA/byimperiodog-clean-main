@@ -9,7 +9,7 @@ const MOCK = [
 
 export function RelatedPicker({ value, onChange }:{ value:string[]; onChange:(ids:string[])=>void }){
   const ids = new Set(value);
-  function toggle(id:string){ const s=new Set(ids); s.has(id)? s.delete(id): s.add(id); onChange(Array.from(s)); }
+  function toggle(id:string){ const s=new Set(ids); if (s.has(id)) s.delete(id); else s.add(id); onChange(Array.from(s)); }
   return (
     <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4">
       <div className="mb-2 text-sm font-medium">Links internos sugeridos</div>

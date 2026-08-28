@@ -128,7 +128,7 @@ function exportCSV(items: LeadListItem[]) {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function LeadsCRM({ filters, items, total, page, hasNext, statusSummary, colorOptions, cityOptions, prioritySummary }: Props) {
+export default function LeadsCRM({ filters, items, total, page, hasNext, statusSummary, colorOptions, cityOptions }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { push } = useToast();
@@ -271,7 +271,8 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
                       <input type="checkbox" className="sr-only" checked={checked}
                         onChange={(e) => {
                           const next = new Set(formState.statuses);
-                          e.target.checked ? next.add(status) : next.delete(status);
+                          if (e.target.checked) next.add(status);
+                          else next.delete(status);
                           setFormState((p) => ({ ...p, statuses: next }));
                         }}
                       />
@@ -294,7 +295,8 @@ export default function LeadsCRM({ filters, items, total, page, hasNext, statusS
                       <input type="checkbox" className="sr-only" checked={checked}
                         onChange={(e) => {
                           const next = new Set(formState.colors);
-                          e.target.checked ? next.add(color) : next.delete(color);
+                          if (e.target.checked) next.add(color);
+                          else next.delete(color);
                           setFormState((p) => ({ ...p, colors: next }));
                         }}
                       />

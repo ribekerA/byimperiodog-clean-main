@@ -75,7 +75,7 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
   }
 
   function text(str: string, opts: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     size?: number; font?: any; color?: ReturnType<typeof rgb>;
     x?: number; indent?: number; maxWidth?: number;
   } = {}) {

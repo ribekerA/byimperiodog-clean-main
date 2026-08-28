@@ -57,9 +57,14 @@ export function CoverPreview({ url, onChange, id = "image_url", label = "Imagem 
           role="dialog"
           aria-modal="true"
           className="fixed inset-0 z-40 flex items-center justify-center bg-black/60"
-          onClick={() => setOpen(false)}
         >
-          <div className="relative w-[90vw] max-w-3xl aspect-video bg-[var(--surface)] rounded-xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            aria-label="Fechar visualização da capa"
+            className="absolute inset-0 cursor-default"
+            onClick={() => setOpen(false)}
+          />
+          <div className="relative w-[90vw] max-w-3xl aspect-video bg-[var(--surface)] rounded-xl overflow-hidden">
             <Image src={url} alt="Capa" fill className="object-contain" sizes="90vw" />
             <button
               type="button"
@@ -77,4 +82,3 @@ export function CoverPreview({ url, onChange, id = "image_url", label = "Imagem 
 }
 
 export default CoverPreview;
-

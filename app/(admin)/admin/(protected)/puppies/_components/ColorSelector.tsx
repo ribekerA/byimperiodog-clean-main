@@ -30,12 +30,11 @@ export function ColorSelector({ value, onChange, presets, id='color-selector', e
         className={`rounded-lg border px-3 py-2 bg-[var(--surface-2)] border-[var(--border)] ${error? 'border-[var(--error)]':''}`}
       />
       <datalist id={dataListId}>{presets.map(c=> <option key={c} value={c} />)}</datalist>
-      <div className="flex flex-wrap gap-1 pt-1" role="list" aria-label="Sugestões de cores">
+      <div className="flex flex-wrap gap-1 pt-1" aria-label="Sugestões de cores">
         {presets.map(c=> (
           <button
             type="button"
             key={c}
-            role="listitem"
             onClick={()=> onChange(c)}
             className={`px-2 py-1 rounded-md border text-[11px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] ${value===c? 'bg-[var(--accent)] text-[var(--accent-contrast)] border-[var(--accent)]':'bg-[var(--surface-2)] border-[var(--border)] hover:border-[var(--accent)]'}`}
           >{c}</button>

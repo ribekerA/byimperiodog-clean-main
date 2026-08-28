@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 /**
  * fix-encoding.mjs
  * Varre arquivos texto e corrige mojibake comum (UTF-8 tratado como ISO-8859-1) como:

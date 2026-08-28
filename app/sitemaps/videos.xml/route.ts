@@ -25,12 +25,14 @@ function segundos(iso: string | undefined): number | undefined {
 }
 
 export async function GET() {
-  // Todos os vídeos do registro são exibidos em /galeria, então entram sob a mesma
-  // <url>. O protocolo permite vários <video:video> por página e é assim que a
-  // relação vídeo→página fica correta.
+  // Cada vídeo tem uma watch page própria. Isso dá ao Google uma URL em que o
+  // player é o conteúdo principal, em vez de apontar treze vídeos diferentes
+  // para a mesma grade /galeria.
   const itens = GALLERY_VIDEOS.filter((v) => getImageSize(v.poster) !== undefined).map((v) => {
     const dur = segundos(medidaDoVideo(v.slug)?.duration);
     return (
+      `  <url>\n` +
+      `    <loc>${xmlEscape(`${site}/galeria/${v.slug}`)}</loc>\n` +
       `    <video:video>` +
       `<video:thumbnail_loc>${xmlEscape(site + v.poster)}</video:thumbnail_loc>` +
       `<video:title>${xmlEscape(v.title)}</video:title>` +
@@ -40,7 +42,8 @@ export async function GET() {
       `<video:publication_date>${v.uploadDate}</video:publication_date>` +
       `<video:family_friendly>yes</video:family_friendly>` +
       `<video:live>no</video:live>` +
-      `</video:video>`
+      `</video:video>\n` +
+      `  </url>`
     );
   });
 
@@ -49,9 +52,7 @@ export async function GET() {
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n` +
-    (itens.length > 0
-      ? `  <url>\n    <loc>${xmlEscape(site)}/galeria</loc>\n${itens.join("\n")}\n  </url>\n`
-      : "") +
+    (itens.length > 0 ? `${itens.join("\n")}\n` : "") +
     `</urlset>`;
 
   return new NextResponse(xml, {

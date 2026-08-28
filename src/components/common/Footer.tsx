@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { FOUNDING_YEAR } from "@/domain/config";
+import {
+  FOUNDING_YEAR,
+  GOOGLE_BUSINESS_PROFILE_URL,
+  GOOGLE_REVIEW_URL,
+} from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { openConsentPreferences } from "@/lib/consent";
 import { routes } from "@/lib/route";
@@ -113,6 +117,24 @@ export default function Footer() {
                 </a>
               </p>
             </address>
+            <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+              <a
+                href={GOOGLE_BUSINESS_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                Perfil no Google
+              </a>
+              <a
+                href={GOOGLE_REVIEW_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-white"
+              >
+                Avaliar no Google
+              </a>
+            </div>
           </div>
 
           {/* Navegação */}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { GALLERY_VIDEOS, medidaDoVideo } from "@/domain/gallery-videos";
+import { GALLERY_VIDEOS } from "@/domain/gallery-videos";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 
 import GaleriaClient from "./GaleriaClient";
@@ -9,9 +9,9 @@ import GaleriaClient from "./GaleriaClient";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br";
 
 export const metadata: Metadata = {
-  title: "Galeria de Vídeos do Spitz Alemão Anão",
+  title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia",
   description:
-    "Assista aos nossos Spitz Alemão Anão em movimento. Vídeos reais dos filhotes, ninhadas e do canil By Império Dog em Bragança Paulista, SP.",
+    "Assista a vídeos reais de Spitz Alemão Anão: filhotes creme, laranja e branco, ninhadas e a By Império Dog em Bragança Paulista, SP.",
   keywords: [
     "vídeos Spitz Alemão Anão",
     "galeria Lulu da Pomerânia",
@@ -24,43 +24,37 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/galeria`,
-    title: "Galeria de Vídeos do Spitz Alemão Anão | By Império Dog",
+    title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia | By Império Dog",
     description:
-      "Veja nossos Spitz Alemão Anão em movimento. Filhotes, ninhadas e muito mais.",
+      "Veja filhotes, ninhadas e Spitz Alemão Anão em movimento em vídeos reais da By Império Dog.",
   },
 };
 
-// JSON-LD VideoObject.
-//
-// Cada VideoObject apontava para `${SITE_URL}/og-image.jpg` — arquivo que não
-// existe em public/ — e declarava `uploadDate: "2024-01-01"` nos doze. Miniatura
-// 404 e data igual para tudo é metadado que o Google descarta.
-//
-// Agora a capa é a do próprio vídeo, a data é a de cada um (quando aquele
-// arquivo passou a ser servido pelo site) e largura/altura/duração são
-// medidas do arquivo, não digitadas.
-const videoObjectLd = GALLERY_VIDEOS.map((v) => {
-  const medida = medidaDoVideo(v.slug);
-  return {
-    "@type": "VideoObject",
-    "@id": `${SITE_URL}/galeria#${v.slug}`,
-    name: v.title,
-    description: v.description,
-    contentUrl: `${SITE_URL}${v.src}`,
-    thumbnailUrl: `${SITE_URL}${v.poster}`,
-    uploadDate: v.uploadDate,
-    // Omitidos enquanto o poster do vídeo não tiver sido gerado: campo ausente
-    // é melhor do que campo chutado.
-    ...(medida ? { duration: medida.duration, width: medida.width, height: medida.height } : {}),
-    isFamilyFriendly: true,
-    inLanguage: "pt-BR",
-    publisher: {
-      "@type": "Organization",
-      name: "By Império Dog",
-      url: SITE_URL,
-    },
-  };
-});
+// A galeria é uma coleção. Cada vídeo agora tem sua própria watch page em
+// /galeria/[slug], onde ele é o conteúdo principal e recebe um VideoObject
+// completo. Aqui o ItemList cria os links entre a coleção e essas páginas sem
+// fingir que treze vídeos diferentes são o conteúdo principal da mesma URL.
+const galleryLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": `${SITE_URL}/galeria#webpage`,
+  name: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia",
+  description: metadata.description,
+  url: `${SITE_URL}/galeria`,
+  inLanguage: "pt-BR",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    numberOfItems: GALLERY_VIDEOS.length,
+    itemListElement: GALLERY_VIDEOS.map((video, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: video.title,
+      url: `${SITE_URL}/galeria/${video.slug}`,
+      image: `${SITE_URL}${video.poster}`,
+    })),
+  },
+};
 
 const breadcrumbLd = {
   "@context": "https://schema.org",
@@ -80,9 +74,9 @@ export default function GaleriaPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <script
-        id="ld-galeria-videos"
+        id="ld-galeria-collection"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": videoObjectLd }) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(galleryLd) }}
       />
 
       <div className="min-h-screen bg-zinc-950 pb-24">
@@ -98,7 +92,7 @@ export default function GaleriaPage() {
               Galeria Oficial
             </span>
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-              Conheça nossos filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em movimento{" "}
+              Vídeos reais de Spitz Alemão Anão (Lulu da Pomerânia){" "}
               <span aria-hidden>🐾</span>
             </h1>
             {/* "estrutura" prometia instalações que não existem — mesmo caso da

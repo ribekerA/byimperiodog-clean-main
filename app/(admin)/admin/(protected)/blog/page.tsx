@@ -14,13 +14,6 @@ export default async function AdminBlogPage() {
     includePendingComments: true,
   });
 
-  // Debug log
-  console.log('[AdminBlogPage] listSummaries result:', {
-    items: initial.items.length,
-    total: initial.total,
-    hasServiceKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-  });
-
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-6 p-6">
       <BlogSubnav />

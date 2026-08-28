@@ -59,7 +59,7 @@ export function limiteDeTaxa(
   capacidade: number,
   janelaMs = 60_000,
 ): NextResponse | null {
-  const { allowed, reset } = rateLimit(`${escopo}:${ipDoCliente(req)}`, capacidade, janelaMs);
+  const { allowed } = rateLimit(`${escopo}:${ipDoCliente(req)}`, capacidade, janelaMs);
   if (allowed) return null;
   return NextResponse.json(
     { error: "Muitas requisições. Aguarde um instante e tente novamente." },

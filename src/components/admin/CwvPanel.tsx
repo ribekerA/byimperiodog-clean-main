@@ -132,7 +132,7 @@ export default function CwvPanel() {
     }
   }
 
-  useEffect(() => { load(days); }, []);
+  useEffect(() => { load(days); }, [days]);
 
   if (loading) {
     return (
@@ -198,7 +198,7 @@ create index if not exists rum_vitals_idx
         <div className="flex items-center gap-2">
           <div className="flex gap-1">
             {DAYS_OPTS.map((o) => (
-              <button key={o.v} onClick={() => { setDays(o.v); load(o.v); }}
+              <button key={o.v} onClick={() => setDays(o.v)}
                 className={`rounded-full px-3 py-1 text-xs font-semibold transition ${days === o.v ? "bg-[var(--brand)] text-white" : "border border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--surface)]"}`}>
                 {o.label}
               </button>

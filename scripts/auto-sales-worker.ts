@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
+
 import "dotenv/config";
 
 import { processAutoSalesQueue } from "../src/lib/ai/autoSalesEngine";

@@ -46,7 +46,7 @@ export default function CommandPalette({ open, onOpenChange }: Props) {
               aria-label="Buscar"
             />
           </div>
-          <ul role="listbox" aria-label="Resultados" className="max-h-[50vh] overflow-auto p-2">
+          <ul aria-label="Resultados" className="max-h-[50vh] overflow-auto p-2">
             {results.length === 0 && (
               <li className="px-2 py-3 text-sm text-zinc-500">Nenhum resultado.</li>
             )}

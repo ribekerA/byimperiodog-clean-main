@@ -3,6 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 import { erroPublico } from "@/lib/apiErro";
+import { createLogger } from "@/lib/logger";
+
+const logger = createLogger("api:blog:generate");
 
 type GenerateBody = {
   topic?: string;
@@ -95,7 +98,7 @@ export async function POST(req: Request) {
     const { data, error } = await supabase.from("blog_posts").insert(payload).select().single();
     if (error) throw error;
 
-    console.log("blog_post_generated", { id: data.id, slug: data.slug, status: data.status });
+    logger.info("blog_post_generated", { id: data.id, slug: data.slug, status: data.status });
     return NextResponse.json({ ok: true, id: data.id, slug: data.slug, status: data.status });
   } catch (err: any) {
     return erroPublico("api/blog/generate", err);

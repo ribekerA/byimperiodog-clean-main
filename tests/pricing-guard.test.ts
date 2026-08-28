@@ -120,11 +120,18 @@ describe("regras de preco x catalogo de filhotes", () => {
 
   it("mantem os valores definidos para as paginas com preco especifico", () => {
     expect(PRECO_POR_SLUG).toEqual({
-      "spitz-alemao-anao-branco-femea": 750000,
-      "lulu-da-pomerania-branco-macho": 650000,
-      "lulu-da-pomerania-particolor-macho": 550000,
-      "lulu-da-pomerania-laranja-macho": 550000,
+      "spitz-alemao-anao-branco-femea": 850000,
+      "spitz-alemao-anao-laranja-femea": 850000,
+      "spitz-alemao-anao-laranja-femea-laco-rosa": 850000,
+      "spitz-alemao-anao-preto-femea": 850000,
     });
+  });
+
+  it("nao publica os tres filhotes retirados da vitrine", () => {
+    const slugs = staticPuppies.map((filhote) => filhote.slug);
+    expect(slugs).not.toContain("lulu-da-pomerania-branco-macho");
+    expect(slugs).not.toContain("lulu-da-pomerania-particolor-macho");
+    expect(slugs).not.toContain("lulu-da-pomerania-laranja-macho");
   });
 
   it("publica o catalogo do menor preco para o maior", () => {

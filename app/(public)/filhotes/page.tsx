@@ -42,7 +42,7 @@ const CATALOG_FAQS = [
 // deste arquivo carregava "filhotes Spitz Alemão Anão disponíveis" e
 // "Lulu da Pomerânia à venda" — a mesma promessa, no lugar onde ninguém a lê.
 export const metadata: Metadata = {
-  title:       "Filhotes de Spitz Alemão Anão — Cores, Fotos e Valores",
+  title:       "Filhotes Spitz Alemão Anão: Valores",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
   description: "Filhotes de Spitz Alemão Anão nas cores Particolor, Laranja, Creme, Preto e Branco. Bragança Paulista, SP.",
@@ -114,7 +114,7 @@ export default function FilhotesPage() {
       <section
         className="mx-auto max-w-3xl px-5 pb-16 sm:px-8"
         aria-labelledby="catalog-faq-heading"
-       
+
       >
         <h2
           id="catalog-faq-heading"
