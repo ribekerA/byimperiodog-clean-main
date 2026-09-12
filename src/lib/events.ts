@@ -168,21 +168,29 @@ export function trackShare(platform: string, content: string): void {
 /**
  * Tracking de envio de formulário de lead
  */
-export function trackLeadFormSubmit(formName: string): void {
+export function trackLeadFormSubmit(formName: string, transactionId?: string | null): void {
   if (typeof window === 'undefined') return;
 
   const consent = getCurrentConsent();
   if (!consent.analytics && !consent.marketing) return;
 
-  // GA4
-  if (consent.analytics) {
+  const payload = {
+    event_category: 'conversion',
+    event_label: formName,
+    lead_source: formName === 'ai-matchmaker' ? 'ai_matchmaker' : 'formulario',
+    ...(transactionId ? { transaction_id: transactionId } : {}),
+  };
+
+  // Com GTM, GA4 e Ads escutam o mesmo evento, mas cada tag exige seu próprio
+  // consentimento no container. Assim Analytics-only mede no GA4, Marketing-
+  // only mede no Ads e nenhuma das duas categorias invade a outra.
+  if (isGoogleTagManagerEnabled()) {
+    safePushToDataLayer('generate_lead', payload, { mirrorPixels: false });
+  } else if (consent.analytics) {
+    // Sem GTM, o fallback direto continua restrito ao consentimento Analytics.
     const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
     if (typeof gtag === 'function') {
-      gtag('event', 'generate_lead', {
-        event_category: 'conversion',
-        event_label: formName,
-        value: 1,
-      });
+      gtag('event', 'generate_lead', payload);
     }
   }
 

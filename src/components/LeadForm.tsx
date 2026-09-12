@@ -124,8 +124,6 @@ export default function LeadForm({ context, className }: Props) {
         throw new Error(errorMsg);
       }
 
-      trackLeadFormSubmit("lead-form-main");
-
       // Este é o momento em que o lead existe de verdade — e por isso o único
       // lugar onde a conversão do Ads pode disparar. O id devolvido pela API
       // vai como transaction_id para o Ads reconhecer o mesmo lead caso ele
@@ -135,6 +133,7 @@ export default function LeadForm({ context, className }: Props) {
         .then((corpo: { id?: string | null }) => corpo?.id ?? null)
         .catch(() => null);
 
+      trackLeadFormSubmit("lead-form-main", leadId);
       trackLeadAdsConversion({ transactionId: leadId ?? undefined });
       rememberLeadConversion(leadId);
 

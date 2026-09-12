@@ -807,7 +807,7 @@ export default function AiMatchmakerChat() {
                       .then((corpo: { id?: string | null }) => corpo?.id ?? null)
                       .catch(() => null);
 
-                    trackLeadFormSubmit("ai-matchmaker");
+                    trackLeadFormSubmit("ai-matchmaker", leadId);
                     trackLeadAdsConversion({ transactionId: leadId ?? undefined });
                     rememberLeadConversion(leadId);
 
