@@ -54,7 +54,7 @@ export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
   laranja: { label: "Laranja", macho: 650000, femea: 850000 },
   creme: { label: "Creme", macho: 750000, femea: 850000 },
   preto: { label: "Preto", macho: 750000, femea: 850000 },
-  branco: { label: "Branco", macho: 850000, femea: 950000 },
+  branco: { label: "Branco", macho: 850000, femea: 850000 },
 };
 
 /**
@@ -140,7 +140,7 @@ export const FAIXA_PUBLICA = {
   ),
 } as const;
 
-/** "R$ 5.500 a R$ 9.500" — a forma como a faixa é escrita em prosa. */
+/** "R$ 5.500 a R$ 8.500" — a forma como a faixa é escrita em prosa. */
 export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a ${formatarPreco(
   FAIXA_PUBLICA.maxCents
 )}`;
@@ -187,8 +187,8 @@ export const RESPOSTA_QUANTO_CUSTA =
  * Diferença entre fêmea e macho na mesma cor, em centavos — ou `null` quando a
  * matriz deixar de ter uma diferença única.
  *
- * Nasce da tabela em vez de "R$ 1.000" digitado numa FAQ. Hoje as cinco cores
- * têm o mesmo degrau; no dia em que uma linha andar sozinha, esta constante
+ * Nasce da tabela em vez de "R$ 1.000" digitado numa FAQ. Quando as cores não
+ * têm o mesmo degrau, esta constante
  * vira `null` e a frase troca de forma automaticamente, em vez de continuar
  * afirmando um número que parou de valer.
  */
@@ -217,7 +217,7 @@ export const DIFERENCA_FEMEA_MACHO: number | null = (() => {
 export const RESPOSTA_MACHO_VS_FEMEA =
   (DIFERENCA_FEMEA_MACHO !== null
     ? `A fêmea custa ${formatarPreco(DIFERENCA_FEMEA_MACHO)} a mais que o macho da mesma cor. `
-    : "A fêmea custa mais que o macho em todas as cores. ") +
+    : "Os valores por sexo variam conforme a cor. ") +
   "Cada valor abaixo é o ponto de partida da combinação de cor e sexo, e o valor de um filhote " +
   `específico é confirmado no atendimento. Machos: ${enumerarPorSexo("macho")}. ` +
   `Fêmeas: ${enumerarPorSexo("femea")}.`;

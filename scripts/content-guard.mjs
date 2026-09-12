@@ -81,7 +81,7 @@ const frontmatterEnd = (source) => {
 // A tabela está repetida aqui de propósito: este script roda no prebuild, antes
 // do Next existir, e não resolve o alias "@/". A dupla é conferida pelo teste
 // tests/pricing-guard.test.ts, que quebra se as duas divergirem.
-const PRECOS_DA_TABELA = new Set([5500, 6500, 7500, 8500, 9500]);
+const PRECOS_DA_TABELA = new Set([5500, 6500, 7500, 8500]);
 
 // Faixa em que um número solto é, quase certamente, preço de filhote. Abaixo de
 // R$ 5.500 estão custo de manutenção, vacina e consulta; acima de R$ 20.000 não

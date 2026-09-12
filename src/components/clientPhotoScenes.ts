@@ -8,7 +8,7 @@
 // coisas que ela revelou e que valem mais do que o alt em si:
 //
 // • Nenhuma das 37 fotos tem um Spitz branco. O branco é a cor mais cara da
-//   tabela (R$ 8.500 macho, R$ 9.500 fêmea) e é a única sem prova social —
+//   tabela (R$ 8.500 macho e fêmea) e é a única sem prova social —
 //   e também a única sem ficha de macho no catálogo estático.
 // • Nove fotos têm mais de um cão, e em três delas há cão de outra raça. Uma
 //   legenda de cor por foto seria falsa nesses casos; por isso `cores` é lista

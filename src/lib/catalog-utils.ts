@@ -113,7 +113,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Branco?",
         answer:
-          "A tabela atual parte de R$ 8.500 para macho e R$ 9.500 para fêmea — o maior valor entre as cinco cores, nos dois sexos. A disponibilidade é informada no atendimento.",
+          "Na tabela atual, macho e fêmea brancos partem de R$ 8.500. A disponibilidade é informada no atendimento.",
       },
       {
         question: "A cor branca muda o temperamento ou a saúde do Spitz?",
@@ -348,7 +348,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Spitz Fêmea é mais cara que Macho?",
         answer:
-          "Sim. A fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco; o macho vai de R$ 5.500 a R$ 8.500 conforme a cor. Comparando a mesma cor, a diferença é de R$ 1.000.",
+          "Na tabela atual, a fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja e R$ 8.500 em creme, preto e branco. A diferença é de R$ 1.000 nas quatro primeiras cores; no branco, macho e fêmea partem de R$ 8.500.",
       },
       {
         question: "Posso castrar a Spitz Fêmea?",

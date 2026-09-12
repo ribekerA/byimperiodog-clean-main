@@ -29,7 +29,7 @@
 //
 // Esta linha já creditou a conferência ao content-guard do prebuild, que não a
 // fazia: este arquivo está na lista de SKIP do guard, e o que ele procura é o
-// preço em prosa ("R$ 9.500"), nunca os centavos guardados aqui.
+// preço em prosa ("R$ 8.500"), nunca os centavos guardados aqui.
 //
 // `divulgar: false` tira a entrada das vitrines públicas sem apagar a sua
 // página: o Cinza-Lobo saiu da comunicação, mas as URLs que já estavam

@@ -93,12 +93,12 @@ const PAGE_FAQS = [
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
     answer:
-      "Sim. Na tabela atual da By Império Dog, a fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco. Em relação ao macho da mesma cor, a diferença é de R$ 1.000. É a política comercial praticada hoje, e não uma regra da raça.",
+      "Na tabela atual da By Império Dog, a fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja e R$ 8.500 em creme, preto e branco. A diferença é de R$ 1.000 nas quatro primeiras cores; no branco, macho e fêmea partem de R$ 8.500.",
   },
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
     answer:
-      "O branco. Na tabela atual, o macho branco parte de R$ 8.500 e a fêmea branca, de R$ 9.500 — o maior valor nos dois sexos. Creme e preto ficam em R$ 7.500 para macho e R$ 8.500 para fêmea, e o laranja em R$ 6.500 e R$ 7.500. Quem abre a tabela é o particolor, com R$ 5.500 para macho e R$ 6.500 para fêmea.",
+      "Entre os machos, o branco tem o maior valor da tabela: R$ 8.500. Entre as fêmeas, branco, creme e preto ficam empatados em R$ 8.500; o laranja custa R$ 7.500 e o particolor, R$ 6.500.",
   },
   {
     question: "O que está incluso no preço da By Império Dog?",

@@ -71,14 +71,19 @@ describe("tabela de precos x content-guard", () => {
     expect(Number(janela[2])).toBeGreaterThanOrEqual(FAIXA_PUBLICA.maxCents / 100);
   });
 
-  it("nenhum valor divulgado passa de R$ 9.500 nesta rodada", () => {
-    expect(FAIXA_PUBLICA.maxCents).toBeLessThanOrEqual(950000);
+  it("nenhum valor divulgado passa de R$ 8.500 nesta rodada", () => {
+    expect(FAIXA_PUBLICA.maxCents).toBeLessThanOrEqual(850000);
   });
 
-  it("a femea custa mais que o macho em todas as cores divulgadas", () => {
+  it("a femea nunca custa menos que o macho nas cores divulgadas", () => {
     for (const cor of CORES_DIVULGADAS) {
-      expect(TABELA_DE_PRECOS[cor].femea).toBeGreaterThan(TABELA_DE_PRECOS[cor].macho);
+      expect(TABELA_DE_PRECOS[cor].femea).toBeGreaterThanOrEqual(TABELA_DE_PRECOS[cor].macho);
     }
+  });
+
+  it("macho e femea brancos ficam em R$ 8.500", () => {
+    expect(TABELA_DE_PRECOS.branco.macho).toBe(850000);
+    expect(TABELA_DE_PRECOS.branco.femea).toBe(850000);
   });
 });
 
@@ -89,7 +94,7 @@ describe("tabela de precos x content-guard", () => {
  *
  * O cabecalho de content/puppies-static.ts dizia que o content-guard fazia
  * essa conferencia no prebuild. Nao fazia: o arquivo esta na lista de SKIP do
- * guard, e o padrao que o guard procura e o preco em prosa ("R$ 9.500"), nunca
+ * guard, e o padrao que o guard procura e o preco em prosa ("R$ 8.500"), nunca
  * os centavos que o catalogo guarda. A conferencia estava documentada e
  * ausente — a pior das combinacoes, porque quem lesse o comentario confiaria
  * nela.
