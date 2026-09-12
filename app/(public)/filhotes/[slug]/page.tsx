@@ -41,6 +41,30 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ slug: string }> };
 
+const SEARCH_LANDING_COPY: Record<string, {
+  heading: string;
+  metadataDescription: string;
+  sectionTitle: string;
+  introduction: string;
+}> = {
+  "spitz-alemao-anao-branco-femea": {
+    heading: "Spitz Alemão Anão Branco Fêmea",
+    metadataDescription:
+      "Filhote de Spitz Alemão Anão branco fêmea (Lulu da Pomerânia), com fotos reais, valor de R$ 8.500 e atendimento em Bragança Paulista, SP.",
+    sectionTitle: "Filhote de Lulu da Pomerânia branca fêmea: informações para decidir",
+    introduction:
+      "Esta página reúne fotos reais de uma fêmea branca de Spitz Alemão Anão, raça também conhecida como Lulu da Pomerânia. O valor anunciado é R$ 8.500; a disponibilidade atual e as condições da reserva são confirmadas diretamente no atendimento.",
+  },
+  "spitz-alemao-anao-preto-femea": {
+    heading: "Spitz Alemão Anão Preto Fêmea",
+    metadataDescription:
+      "Filhote de Spitz Alemão Anão preto fêmea (Lulu da Pomerânia), com fotos reais, valor de R$ 8.500 e atendimento em Bragança Paulista, SP.",
+    sectionTitle: "Filhote de Lulu da Pomerânia preta fêmea: informações para decidir",
+    introduction:
+      "Esta página reúne fotos reais de uma fêmea preta de Spitz Alemão Anão, raça também conhecida como Lulu da Pomerânia. O valor anunciado é R$ 8.500; a disponibilidade atual e as condições da reserva são confirmadas diretamente no atendimento.",
+  },
+};
+
 // ─── Static params ────────────────────────────────────────────────────────────
 
 export function generateStaticParams() {
@@ -56,6 +80,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
   const corLabel = (puppy as any).cor ?? puppy.color ?? "";
+  const searchCopy = SEARCH_LANDING_COPY[puppy.slug];
   // O título repetia cor e sexo duas vezes ("Spitz Cinza-Lobo (Wolf Sable)
   // Fêmea — Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo Fêmea"): 109
   // caracteres com o sufixo da marca, cortado na busca e com a palavra "Spitz"
@@ -67,11 +92,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   // estar ali. Nos nomes curtos ele ajuda quem pesquisa por "Lulu"; nos longos
   // o próprio nome do filhote já diz cor, sexo e raça.
   const tituloCompleto = `${puppy.name} — Lulu da Pomerânia`;
-  const title = tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
+  const priceCents = (puppy as any).priceCents ?? (puppy as any).price_cents;
+  const title = searchCopy
+    ? `${searchCopy.heading} | ${formatarPreco(priceCents)}`
+    : tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??
     `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
-  const descricaoBusca = resumirParaBusca(description);
+  const descricaoBusca = resumirParaBusca(searchCopy?.metadataDescription ?? description);
   const firstImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
   // A rota /og/filhote/[slug] nunca chegou a devolver imagem: quebrava no
@@ -149,6 +177,7 @@ export default async function PuppyPage(props: Props) {
   const sexSlug   = puppy.sex === "female" ? "femea" : "macho";
   const corLabel  = (puppy as any).cor ?? puppy.color ?? "";
   const colorSlug = (puppy.color ?? (puppy as any).cor ?? "").toLowerCase();
+  const searchCopy = SEARCH_LANDING_COPY[puppy.slug];
   const description =
     (puppy as any).description ??
     `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
@@ -219,6 +248,7 @@ export default async function PuppyPage(props: Props) {
           <div className="flex min-w-0 flex-col gap-4">
             <PuppyDetailPanel
               name={puppy.name}
+              heading={searchCopy?.heading}
               corLabel={corLabel}
               colorSlug={colorSlug}
               sexLabel={sexLabel}
@@ -230,6 +260,63 @@ export default async function PuppyPage(props: Props) {
             />
           </div>
         </div>
+
+        {searchCopy && (
+          <section
+            className="mt-12 rounded-3xl border border-zinc-200 bg-white px-5 py-8 shadow-sm sm:mt-16 sm:px-8"
+            aria-labelledby="search-landing-heading"
+          >
+            <div className="mx-auto max-w-4xl">
+              <h2
+                id="search-landing-heading"
+                className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl"
+              >
+                {searchCopy.sectionTitle}
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-zinc-700">
+                {searchCopy.introduction}
+              </p>
+
+              <div className="mt-7 grid gap-4 sm:grid-cols-3">
+                <div className="rounded-2xl bg-zinc-50 p-4">
+                  <h3 className="font-semibold text-zinc-900">Valor transparente</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                    {formatarPreco((puppy as any).priceCents ?? (puppy as any).price_cents)} publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-zinc-50 p-4">
+                  <h3 className="font-semibold text-zinc-900">Saúde e documentação</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                    Registro oficial, consulta veterinária, hemograma completo e protocolo vacinal em dia conforme a idade.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-zinc-50 p-4">
+                  <h3 className="font-semibold text-zinc-900">Atendimento direto</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                    Atendimento em Bragança Paulista, SP, com possibilidade de visita ou videochamada e suporte após a entrega.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-7 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5">
+                <h3 className="font-semibold text-zinc-900">Como confirmar a disponibilidade?</h3>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+                  As fotos permanecem como referência real da combinação de cor e sexo. Fale com a equipe para conhecer as opções atuais antes de reservar.
+                </p>
+                <a
+                  href={waLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-wa-placement="product_detail"
+                  data-wa-puppy={puppy.slug}
+                  className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                >
+                  Consultar opções atuais no WhatsApp
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ── Avaliações das famílias ────────────────────────────────────── */}
         <ClientOnlyPuppyReviews puppySlug={puppy.slug} puppyName={puppy.name} />

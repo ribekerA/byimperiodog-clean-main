@@ -51,6 +51,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 interface Props {
   name: string;
+  heading?: string;
   corLabel: string;
   colorSlug: string;
   sexLabel: string;
@@ -84,6 +85,7 @@ const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
 
 export default function PuppyDetailPanel({
   name,
+  heading,
   corLabel,
   colorSlug,
   sexLabel,
@@ -128,10 +130,10 @@ export default function PuppyDetailPanel({
         transition={{ duration: 0.55, ease: EASE, delay: 0.18 }}
       >
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          {name}
+          {heading ?? name}
         </h1>
         <p className="mt-1 text-sm text-zinc-500">
-          Spitz Alemão Anão · Bragança Paulista, SP
+          Lulu da Pomerânia · Bragança Paulista, SP
         </p>
       </motion.div>
 

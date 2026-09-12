@@ -13,6 +13,7 @@
  */
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { MediaLikeButton } from "@/components/media/MediaLikeButton";
@@ -20,7 +21,7 @@ import { VideoReelsPlayer, type ReelItem } from "@/components/media/VideoReelsPl
 import { mediaIdDeArquivo } from "@/domain/media-registry";
 import { useMediaLikes } from "@/hooks/useMediaLikes";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
-import { optimizePuppyGalleryImage, optimizePuppyThumb } from "@/lib/optimize-image";
+import { optimizePuppyGalleryImage } from "@/lib/optimize-image";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -291,34 +292,42 @@ export default function PuppyCinematicGallery({
             Vale tambem para o video inline do desktop: ele e 9:16 dentro de
             uma caixa quadrada, entao sobra faixa dos dois lados. */}
         {photos[showVideo ? 0 : selectedIdx] && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={
-              optimizePuppyThumb(photos[showVideo ? 0 : selectedIdx]) ||
-              photos[showVideo ? 0 : selectedIdx]
-            }
+          <Image
+            src={photos[showVideo ? 0 : selectedIdx]}
             alt=""
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full scale-125 object-cover blur-2xl brightness-[0.55] saturate-150"
+            fill
+            sizes="(min-width: 1024px) 560px, 100vw"
+            quality={45}
+            className="pointer-events-none z-0 scale-125 object-cover blur-2xl brightness-[0.55] saturate-150"
           />
         )}
 
         <AnimatePresence custom={direction} mode="popLayout" initial={false}>
           {!showVideo && photos[selectedIdx] && (
-            <motion.img
+            <motion.div
               // A `key` continua sendo a URL original: e ela que da identidade
-              // ao frame para o AnimatePresence. So o `src` e redimensionado.
+              // ao frame para o AnimatePresence. Next Image gera AVIF/WebP e
+              // srcset responsivo; antes a foto original inteira era baixada.
               key={photos[selectedIdx]}
-              src={optimizePuppyGalleryImage(photos[selectedIdx]) || photos[selectedIdx]}
-              alt={alt}
-              className="relative z-[1] h-full w-full object-contain"
+              className="relative z-[1] h-full w-full"
               custom={direction}
               variants={VARS}
               initial="enter"
               animate="center"
               exit="exit"
-              loading="eager"
-            />
+            >
+              <Image
+                src={photos[selectedIdx]}
+                alt={alt}
+                fill
+                sizes="(min-width: 1024px) 560px, 100vw"
+                quality={75}
+                priority={selectedIdx === 0}
+                fetchPriority={selectedIdx === 0 ? "high" : "auto"}
+                className="object-contain"
+              />
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -512,15 +521,15 @@ export default function PuppyCinematicGallery({
               whileHover={{ opacity: 1, scale: 1.04 }}
               whileTap={{ scale: 0.94 }}
             >
-              {/* Miniatura aparece com 62px; sem o resize cada uma das nove
-                  baixava a foto original inteira. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={optimizePuppyThumb(img) || img}
+              {/* Miniatura aparece com 62px. Next Image entrega uma variante
+                  pequena em AVIF/WebP, sem baixar a foto original de 900px. */}
+              <Image
+                src={img}
                 alt=""
-                className="h-full w-full object-cover"
-                loading="lazy"
-                decoding="async"
+                fill
+                sizes="62px"
+                quality={75}
+                className="object-cover"
                 aria-hidden="true"
               />
             </motion.button>
@@ -547,13 +556,13 @@ export default function PuppyCinematicGallery({
               whileTap={{ scale: 0.94 }}
             >
               {photos[0] && (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={optimizePuppyThumb(photos[0]) || photos[0]}
+                <Image
+                  src={photos[0]}
                   alt=""
-                  className="h-full w-full object-cover brightness-[0.6]"
-                  loading="lazy"
-                  decoding="async"
+                  fill
+                  sizes="62px"
+                  quality={75}
+                  className="object-cover brightness-[0.6]"
                   aria-hidden="true"
                 />
               )}
