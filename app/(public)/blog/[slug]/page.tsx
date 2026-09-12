@@ -24,6 +24,7 @@ import LeadForm from "@/components/LeadForm";
 import { mdxComponents } from "@/components/MDXContent";
 import PageViewPing from "@/components/PageViewPing";
 import SeoJsonLd from "@/components/SeoJsonLd";
+import { relatedSearchTopics } from "@/content/search-topics";
 import { getImageSize } from "@/lib/_generated-image-sizes";
 import { generatedPosts } from "@/lib/_generated-posts";
 import { isCommentablePostId } from "@/lib/blog/commentable";
@@ -233,29 +234,11 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
     ? whatsappLeadUrl(waPhone, { pageType: "blog", url: postUrl })
     : `https://wa.me/5511968633239?text=${encodeURIComponent(`Olá! Li o artigo "${post.title}" e gostaria de saber mais sobre os filhotes.`)}`;
 
-  const interlinks = [
-    {
-      title: "Filhotes sob consulta",
-      // Dizia "Entenda como selecionamos cada familia e garanta prioridade na
-      // proxima ninhada": processo de selecao que nao existe, mais uma fila de
-      // espera que ninguem administra.
-      description: "Veja as cores e os sexos com que o canil trabalha, com o valor de partida de cada combinação.",
-      href: "/filhotes",
-    },
-    {
-      title: "Processo completo",
-      // Esta lista de CTAs e uma copia da de src/components/blog/BlogCTAs.tsx,
-      // que ja tinha sido corrigida — esta ficou para tras com "entrevista" e
-      // "entrega humanizada", duas etapas que o canil nao executa.
-      description: "Conheça cada etapa: contato, documentação, reserva em contrato, entrega e acompanhamento pós-venda.",
-      href: "/sobre#processo",
-    },
-    {
-      title: "FAQ do tutor",
-      description: "Respostas claras sobre investimento, suporte, logística e rotina diária.",
-      href: "/faq-do-tutor",
-    },
-  ];
+  const interlinks = relatedSearchTopics(`/blog/${post.slug}`).map((topic) => ({
+    title: topic.label,
+    description: topic.description,
+    href: topic.href,
+  }));
 
   return (
     <div className="relative mx-auto w-full max-w-6xl px-4 pt-6 pb-16 sm:pt-8 sm:pb-20 lg:pt-10">

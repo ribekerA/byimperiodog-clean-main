@@ -8,7 +8,9 @@ import {
   FAIXA_PUBLICA,
   formatarPreco,
   LINHAS_FORMATADAS,
+  RESPOSTA_MACHO_VS_FEMEA,
   RESPOSTA_QUANTO_CUSTA,
+  CARDS_POR_FAIXA,
 } from "@/domain/pricing";
 import { buildArticleLD, buildBreadcrumbLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
@@ -18,28 +20,17 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: "Preço do Spitz Alemão Anão por Cor e Sexo",
+  title: "Preço do Spitz e Lulu da Pomerânia por Cor e Sexo",
   description:
     // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
     // varia", que é justamente a intenção de busca da página. Reescrita em 156.
-    "Tabela do Spitz Alemão Anão por cor e sexo: Particolor, Laranja, Creme, Preto e Branco, a partir de R$ 5.500. Veja o que está incluso no valor.",
-  keywords: [
-    "preço Spitz Alemão Anão",
-    "quanto custa Lulu da Pomerânia",
-    "preço filhote Spitz Alemão",
-    "Spitz Alemão Anão creme valor",
-    "Lulu da Pomerânia preço fêmea macho",
-    "custo Spitz Alemão com registro oficial",
-    "por que Spitz Alemão é caro",
-    "Pomeranian",
-    "Pomeranian Brasil",
-  ],
+    `Quanto custa um Lulu da Pomerânia? Compare preços do Spitz Alemão Anão por cor e sexo, a partir de ${formatarPreco(FAIXA_PUBLICA.minCents)}, e veja o que está incluso.`,
   alternates: { canonical: "/preco-spitz-anao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
     description:
-      "Machos a partir de R$ 5.500 e fêmeas a partir de R$ 6.500, conforme a cor — com registro oficial, contrato e mentoria pós-venda inclusos.",
+      `Spitz Alemão Anão de ${formatarPreco(FAIXA_PUBLICA.minCents)} a ${formatarPreco(FAIXA_PUBLICA.maxCents)}, conforme cor e sexo. Consulte a tabela e as condições da reserva.`,
     type: "article",
   },
 };
@@ -92,13 +83,11 @@ const PAGE_FAQS = [
   },
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
-    answer:
-      "Na tabela atual da By Império Dog, a fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja e R$ 8.500 em creme, preto e branco. A diferença é de R$ 1.000 nas quatro primeiras cores; no branco, macho e fêmea partem de R$ 8.500.",
+    answer: RESPOSTA_MACHO_VS_FEMEA,
   },
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
-    answer:
-      "Entre os machos, o branco tem o maior valor da tabela: R$ 8.500. Entre as fêmeas, branco, creme e preto ficam empatados em R$ 8.500; o laranja custa R$ 7.500 e o particolor, R$ 6.500.",
+    answer: `Compare as faixas da tabela atual: ${CARDS_POR_FAIXA.map((card) => `${card.rotulo}: ${card.valor}`).join("; ")}. O maior valor de partida é ${formatarPreco(FAIXA_PUBLICA.maxCents)}.`,
   },
   {
     question: "O que está incluso no preço da By Império Dog?",
@@ -145,7 +134,7 @@ export default function PrecoSpitzPage() {
           Preço do Spitz Alemão Anão
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          A partir de {formatarPreco(FAIXA_PUBLICA.minCents)}, chegando a {formatarPreco(FAIXA_PUBLICA.maxCents)} conforme cor e sexo. Veja abaixo o que está incluso e por que o preço varia.
+          Quanto custa um Lulu da Pomerânia? Na By Império Dog, o Spitz Alemão Anão parte de {formatarPreco(FAIXA_PUBLICA.minCents)}, chegando a {formatarPreco(FAIXA_PUBLICA.maxCents)} conforme cor e sexo. Veja a tabela e o que acompanha o filhote.
         </p>
       </header>
 
@@ -229,9 +218,9 @@ export default function PrecoSpitzPage() {
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência entre as ninhadas do que o laranja. Por isso ficam acima do laranja na tabela atual, nos dois sexos." },
-            { title: "Sexo", body: "A fêmea tem procura maior que o macho, e custa R$ 1.000 a mais na mesma cor." },
-            { title: "Padrão da raça", body: "Filhotes dentro do padrão FCI nº 97 — porte, pelagem e estrutura — são menos frequentes e têm valor maior no mercado." },
+            { title: "Cor", body: "Cada cor tem uma faixa comercial na tabela. Compare as linhas e confirme as opções atuais no atendimento." },
+            { title: "Sexo", body: "A diferença entre macho e fêmea depende da cor. A tabela mostra os dois valores lado a lado, inclusive quando são iguais." },
+            { title: "Referência do filhote", body: "Confira o valor publicado na ficha que você está consultando e confirme as condições da reserva antes de qualquer pagamento." },
             { title: "Documentação completa", body: "Registro oficial, consulta veterinária e exames laboratoriais têm custo, e já estão inclusos no valor anunciado." },
           ].map((card) => (
             <article key={card.title} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">

@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SearchTopicDirectory } from "@/components/common/SearchTopicDirectory";
 import { guides } from "@/content/guides";
+import { SEARCH_CLUSTERS } from "@/content/search-topics";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Guias sobre Spitz Alemão Anão",
+  title: "Guias de Spitz e Lulu: Preços, Escolha e Cuidados",
   description:
     // O ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
-    `Guias completos sobre Spitz Alemão Anão: como escolher, alimentação, cuidados, diferenças de cor e sexo. Conteúdo de quem cria desde ${FOUNDING_YEAR}.`,
+    "Encontre guias de Spitz Alemão e Lulu da Pomerânia: preços, cores, compra, comportamento, cuidados e transporte. Escolha o assunto da sua dúvida.",
   alternates: { canonical: "/guias" },
 };
 
@@ -67,10 +69,10 @@ export default function GuiasIndexPage() {
           Conteúdo educativo · By Império Dog
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-5xl">
-          Guias sobre Spitz Alemão Anão
+          Guias de Spitz Alemão e Lulu da Pomerânia
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white/70">
-          Tudo que você precisa saber antes de levar um filhote para casa — escrito por quem cria desde {FOUNDING_YEAR}.
+          Do preço do filhote à rotina em casa: encontre o assunto da sua dúvida e os caminhos para decidir. Conteúdo de quem cria desde {FOUNDING_YEAR}.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3 text-sm text-white/60">
           <span className="flex items-center gap-1.5">
@@ -91,6 +93,15 @@ export default function GuiasIndexPage() {
       {/* Cards */}
       <div className="bg-[var(--bg)] px-5 py-14 sm:px-8">
         <div className="mx-auto max-w-5xl">
+          <nav aria-label="Escolha um assunto" className="mb-10 flex flex-wrap gap-2">
+            {SEARCH_CLUSTERS.map((group) => (
+              <a key={group.id} href={`#temas-${group.id}`} className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm text-zinc-700 hover:border-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500">
+                {group.title}
+              </a>
+            ))}
+          </nav>
+          <SearchTopicDirectory />
+          <h2 className="mb-6 mt-14 text-2xl font-bold text-zinc-900">Guias passo a passo</h2>
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {guides.map((guide) => {
               const meta = GUIDE_META[guide.slug] ?? {
@@ -122,9 +133,9 @@ export default function GuiasIndexPage() {
 
                     {/* Content */}
                     <div className="flex flex-1 flex-col gap-3 p-5">
-                      <h2 className="text-base font-bold leading-snug text-zinc-900 transition group-hover:text-emerald-700">
+                      <h3 className="text-base font-bold leading-snug text-zinc-900 transition group-hover:text-emerald-700">
                         {guide.title}
-                      </h2>
+                      </h3>
                       <p className="line-clamp-3 text-sm leading-relaxed text-zinc-500">
                         {guide.excerpt}
                       </p>

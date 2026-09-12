@@ -35,14 +35,7 @@ export const metadata: Metadata = {
   // para caber inteira, mantendo "Lulu da Pomerânia" — que sai do título por
   // falta de espaço, mas é o nome pelo qual a raça é de fato pesquisada.
   description:
-    "Canil de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo. Enviamos para todo o Brasil.",
-  keywords: [
-    "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
-    "filhote Spitz Alemão", "canil Bragança Paulista",
-    "canil Spitz Alemão SP", "Lulu da Pomerânia à venda SP",
-    "comprar Spitz Alemão Anão", "canil confiável Spitz",
-    "registro oficial Spitz Alemão Anão", "Lulu da Pomerânia interior SP",
-  ],
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Veja fotos, preços, documentação e atendimento para famílias de todo o Brasil.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -418,16 +411,16 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl px-5 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Conteúdo educativo</p>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
-              Prepare-se para receber seu filhote
+              Preço, escolha e rotina do Lulu da Pomerânia
             </h2>
             <p className="mt-3 text-zinc-600">
-              Guias escritos por quem cria desde {FOUNDING_YEAR}: alimentação, cuidados, documentação e muito mais.
+              Compare cores e valores, conheça os cuidados e veja como preparar a chegada do filhote. Os guias estão organizados por assunto para ajudar em cada etapa.
             </p>
             <Link
               href="/guias"
               className="mt-6 inline-flex items-center gap-2 rounded-full border-2 border-zinc-200 px-7 py-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 hover:scale-[1.02]"
             >
-              Ver todos os guias →
+              Explorar todos os assuntos →
             </Link>
           </div>
         </div>

@@ -8,11 +8,13 @@ import {
   ClientOnlyPuppyStickyFloatingCTA,
 } from "@/components/catalog/PuppyClientOnly";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
+import { RelatedPages } from "@/components/common/RelatedPages";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { TiltCard } from "@/components/motion/TiltCard";
 import ViewEventTracker from "@/components/ViewEventTracker";
 import { staticPuppies } from "@/content/puppies-static";
+import { puppySearchCopy } from "@/content/puppy-search-copy";
 import { formatarPreco } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
@@ -41,30 +43,6 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ slug: string }> };
 
-const SEARCH_LANDING_COPY: Record<string, {
-  heading: string;
-  metadataDescription: string;
-  sectionTitle: string;
-  introduction: string;
-}> = {
-  "spitz-alemao-anao-branco-femea": {
-    heading: "Spitz Alemão Anão Branco Fêmea",
-    metadataDescription:
-      "Filhote de Spitz Alemão Anão branco fêmea (Lulu da Pomerânia), com fotos reais, valor de R$ 8.500 e atendimento em Bragança Paulista, SP.",
-    sectionTitle: "Filhote de Lulu da Pomerânia branca fêmea: informações para decidir",
-    introduction:
-      "Esta página reúne fotos reais de uma fêmea branca de Spitz Alemão Anão, raça também conhecida como Lulu da Pomerânia. O valor anunciado é R$ 8.500; a disponibilidade atual e as condições da reserva são confirmadas diretamente no atendimento.",
-  },
-  "spitz-alemao-anao-preto-femea": {
-    heading: "Spitz Alemão Anão Preto Fêmea",
-    metadataDescription:
-      "Filhote de Spitz Alemão Anão preto fêmea (Lulu da Pomerânia), com fotos reais, valor de R$ 8.500 e atendimento em Bragança Paulista, SP.",
-    sectionTitle: "Filhote de Lulu da Pomerânia preta fêmea: informações para decidir",
-    introduction:
-      "Esta página reúne fotos reais de uma fêmea preta de Spitz Alemão Anão, raça também conhecida como Lulu da Pomerânia. O valor anunciado é R$ 8.500; a disponibilidade atual e as condições da reserva são confirmadas diretamente no atendimento.",
-  },
-};
-
 // ─── Static params ────────────────────────────────────────────────────────────
 
 export function generateStaticParams() {
@@ -80,7 +58,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
   const corLabel = (puppy as any).cor ?? puppy.color ?? "";
-  const searchCopy = SEARCH_LANDING_COPY[puppy.slug];
+  const searchCopy = puppySearchCopy(puppy);
   // O título repetia cor e sexo duas vezes ("Spitz Cinza-Lobo (Wolf Sable)
   // Fêmea — Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo Fêmea"): 109
   // caracteres com o sufixo da marca, cortado na busca e com a palavra "Spitz"
@@ -177,7 +155,7 @@ export default async function PuppyPage(props: Props) {
   const sexSlug   = puppy.sex === "female" ? "femea" : "macho";
   const corLabel  = (puppy as any).cor ?? puppy.color ?? "";
   const colorSlug = (puppy.color ?? (puppy as any).cor ?? "").toLowerCase();
-  const searchCopy = SEARCH_LANDING_COPY[puppy.slug];
+  const searchCopy = puppySearchCopy(puppy);
   const description =
     (puppy as any).description ??
     `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
@@ -317,6 +295,14 @@ export default async function PuppyPage(props: Props) {
             </div>
           </section>
         )}
+
+        <div className="mt-12">
+          <RelatedPages links={[
+            { href: `/filhotes/cor/${colorSlug}`, label: `Compare os filhotes ${corLabel}`, desc: "Veja outras referências desta cor e seus valores." },
+            { href: "/preco-spitz-anao", label: "Compare preços por cor e sexo", desc: "Confira a tabela e o que acompanha o filhote." },
+            { href: "/comprar-spitz-anao", label: "Como comprar e reservar", desc: "Conheça as etapas e os documentos antes de decidir." },
+          ]} />
+        </div>
 
         {/* ── Avaliações das famílias ────────────────────────────────────── */}
         <ClientOnlyPuppyReviews puppySlug={puppy.slug} puppyName={puppy.name} />

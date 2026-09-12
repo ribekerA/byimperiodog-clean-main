@@ -184,7 +184,8 @@ function rotasEstaticas() {
 // paginas, e ele vive em content/puppies-static.ts, importado por componentes
 // e nao pela pagina.
 const EXTRAS = {
-  "/filhotes": ["content/puppies-static.ts"],
+  "/filhotes": ["content/puppies-static.ts", "content/search-topics.ts", "src/components/common/SearchTopicDirectory.tsx"],
+  "/guias": ["content/search-topics.ts", "src/components/common/SearchTopicDirectory.tsx"],
   "/filhotes/sao-paulo": ["content/puppies-static.ts"],
   "/filhotes/minas-gerais": ["content/puppies-static.ts"],
   "/filhotes/rio-de-janeiro": ["content/puppies-static.ts"],
@@ -196,7 +197,7 @@ const EXTRAS = {
 // Chaves sinteticas: rotas dinamicas de catalogo, que nao tem frontmatter para
 // carregar data propria. Mudam quando o catalogo muda.
 const SINTETICAS = {
-  "@puppy": ["content/puppies-static.ts", "app/(public)/filhotes/[slug]/page.tsx"],
+  "@puppy": ["content/puppies-static.ts", "content/puppy-search-copy.ts", "src/domain/pricing.ts", "app/(public)/filhotes/[slug]/page.tsx"],
   "@color": ["content/puppies-static.ts", "app/(public)/filhotes/cor/[cor]/page.tsx"],
   "@sex": ["content/puppies-static.ts", "app/(public)/filhotes/sexo/[sexo]/page.tsx"],
 };

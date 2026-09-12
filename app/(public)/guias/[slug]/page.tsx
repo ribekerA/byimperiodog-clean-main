@@ -3,8 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import BlogPuppyBanner from "@/components/blog/BlogPuppyBanner";
+import { RelatedPages } from "@/components/common/RelatedPages";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { guides, getGuideBySlug } from "@/content/guides";
+import { relatedSearchTopics } from "@/content/search-topics";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildArticleLD, buildBreadcrumbLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -152,6 +154,12 @@ export default async function GuidePage(props: Props) {
               Ver filhotes →
             </Link>
           </div>
+        </div>
+
+        <div className="mt-12">
+          <RelatedPages links={relatedSearchTopics(`/guias/${guide.slug}`).map((topic) => ({
+            href: topic.href, label: topic.label, desc: topic.description,
+          }))} />
         </div>
 
         {/* Other guides */}
