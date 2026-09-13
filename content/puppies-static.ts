@@ -50,20 +50,16 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
-    // images[0] é a capa do card e do modal. A responsável escolheu a foto da
-    // dupla no gramado como capa; as outras seguem a ordem em que ela enviou.
-    // O .mp4 fica no fim: o componente separa foto de vídeo por extensão e usa
-    // photos[0] como pôster, então a posição do vídeo no array não muda a capa.
+    // Somente o novo lote da fêmea com corações rosas: três fotos e quatro
+    // vídeos. A primeira foto enviada é a capa da ficha e da vitrine.
     images: [
-      "/filhotes/branco/branco-femea-dupla-jardim-01.jpg",
-      "/filhotes/branco/branco-femea-jardim-01.jpg",
-      "/filhotes/branco/branco-femea-colo-01.jpg",
-      "/filhotes/branco/branco-femea-jardim-02.jpg",
-      "/filhotes/branco/branco-femea-jardim-03.jpg",
-      "/filhotes/branco/branco-femea-jardim-04.jpg",
-      "/filhotes/branco/branco-femea-jardim-05.jpg",
-      "/filhotes/branco/branco-femea-jardim-06.jpg",
-      "/filhotes/branco/branco-femea-jardim-07.jpeg",
+      "/filhotes/branco/branco-femea-coracoes-20260912-01.jpg",
+      "/filhotes/branco/branco-femea-coracoes-20260912-02.jpg",
+      "/filhotes/branco/branco-femea-coracoes-20260912-03.jpg",
+      "/filhotes/videos/branco-femea-coracoes-20260912-01.mp4",
+      "/filhotes/videos/branco-femea-coracoes-20260912-02.mp4",
+      "/filhotes/videos/branco-femea-coracoes-20260912-03.mp4",
+      "/filhotes/videos/branco-femea-coracoes-20260912-04.mp4",
     ],
     // Valor definido para esta página em PRECO_POR_SLUG.
     price_cents: 850000,
@@ -133,16 +129,19 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
+    // Galeria substituída pelo lote enviado em 12/09/2026: somente as seis
+    // fotos e os três vídeos desta fêmea com flores rosas. A primeira foto
+    // enviada é a capa; os arquivos antigos não pertencem mais a esta ficha.
     images: [
-      "/filhotes/preto/preto-filhote-flores-01.jpg",
-      "/filhotes/preto/preto-filhote-jardim-01.jpg",
-      "/filhotes/preto/preto-filhote-flores-04.jpg",
-      "/filhotes/preto/preto-filhote-jardim-04.jpg",
-      "/filhotes/preto/preto-filhote-flores-05.jpg",
-      "/filhotes/preto/preto-filhote-jardim-03.jpg",
-      "/filhotes/preto/preto-filhote-2024-jardim-01.jpg",
-      "/filhotes/preto/preto-filhote-2024-jardim-02.jpg",
-      "/filhotes/videos/spitz-anao.mp4",
+      "/filhotes/preto/preto-femea-flores-rosas-20260912-01.jpg",
+      "/filhotes/preto/preto-femea-flores-rosas-20260912-02.jpg",
+      "/filhotes/preto/preto-femea-flores-rosas-20260912-03.jpg",
+      "/filhotes/preto/preto-femea-flores-rosas-20260912-04.jpg",
+      "/filhotes/preto/preto-femea-flores-rosas-20260912-05.jpg",
+      "/filhotes/preto/preto-femea-flores-rosas-20260912-06.jpg",
+      "/filhotes/videos/preto-femea-flores-rosas-20260912-01.mp4",
+      "/filhotes/videos/preto-femea-flores-rosas-20260912-02.mp4",
+      "/filhotes/videos/preto-femea-flores-rosas-20260912-03.mp4",
     ],
     // Fêmea Preta — preço único de fêmea → R$ 8.500
     price_cents: 850000,
