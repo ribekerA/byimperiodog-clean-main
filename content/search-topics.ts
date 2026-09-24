@@ -40,7 +40,7 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
   },
   {
     id: "preco", cluster: "compra", href: "/preco-spitz-anao", label: "Quanto custa um Lulu da Pomerânia?",
-    description: "Tabela de preços do Spitz por cor e sexo e o que acompanha o filhote.",
+    description: "Veja fotos, vídeos e o valor individual de cada filhote disponível.",
     queries: ["Spitz Alemão preço", "Lulu da Pomerânia valor", "quanto custa um Lulu da Pomerânia"],
     supportingPaths: ["/blog/preco-spitz-alemao-anao", "/blog/cores-spitz-alemao-anao-qual-mais-cara"], related: ["filhotes", "custo-mensal", "comprar"],
   },

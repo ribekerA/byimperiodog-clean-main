@@ -318,7 +318,7 @@ export default async function PuppyPage(props: Props) {
         <div className="mt-12">
           <RelatedPages links={[
             { href: `/filhotes/cor/${colorSlug}`, label: `Compare os filhotes ${corLabel}`, desc: "Veja outras referências desta cor e seus valores." },
-            { href: "/preco-spitz-anao", label: "Compare preços por cor e sexo", desc: "Confira a tabela e o que acompanha o filhote." },
+            { href: "/filhotes", label: "Veja os filhotes disponíveis", desc: "Compare fotos, vídeos e valores individuais dos filhotes." },
             { href: "/comprar-spitz-anao", label: "Como comprar e reservar", desc: "Conheça as etapas e os documentos antes de decidir." },
           ]} />
         </div>

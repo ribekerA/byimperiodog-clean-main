@@ -72,7 +72,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entrada("/filhote-de-spitz-alemao","monthly", 0.88),
 
     // ─── Intenção comercial ───────────────────────────────────────────────────
-    entrada("/preco-spitz-anao",       "monthly", 0.92),
     entrada("/comprar-spitz-anao",     "monthly", 0.92),
     entrada("/criador-spitz-confiavel","monthly", 0.90),
 
