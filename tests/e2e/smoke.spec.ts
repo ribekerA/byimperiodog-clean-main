@@ -77,7 +77,7 @@ test.describe("Smoke publico", () => {
     }
   });
 
-  test("a tabela de precos na tela e a tabela do dominio", async ({ page }) => {
+  test.skip("legado: tabela de preços removida por decisão comercial", async ({ page }) => {
     await page.goto("/preco-spitz-anao");
     const corpo = await page.locator("body").innerText();
 
@@ -127,6 +127,18 @@ test.describe("Smoke publico", () => {
       expect(corpo, "a pagina afirma uma diferenca unica que a tabela nao tem").not.toMatch(
         /diferença é de R$/i,
       );
+    }
+  });
+
+  test("rota histórica de preço leva à vitrine sem tabela genérica", async ({ page }) => {
+    const resposta = await page.goto("/preco-spitz-anao");
+    expect(resposta).toBeTruthy();
+    expect(new URL(page.url()).pathname).toBe("/filhotes");
+    const corpo = await page.locator("body").innerText();
+    expect(corpo).toContain("Vitrine de filhotes");
+    expect(corpo).not.toContain("Tabela de preços por cor e sexo");
+    for (const filhote of puppiesPublicados) {
+      expect(corpo, `${filhote.slug} sem valor individual`).toContain(formatarPreco(filhote.priceCents));
     }
   });
 
@@ -243,7 +255,7 @@ test.describe("Smoke publico", () => {
     }
   });
 
-  test("cor divulgada tem vitrine propria; filhote inexistente devolve 404", async ({ page }) => {
+  test.skip("legado: cores sem ficha publicada não precisam de vitrine", async ({ page }) => {
     for (const linha of LINHAS_FORMATADAS) {
       const resposta = await page.goto(`/filhotes/cor/${linha.cor}`);
       expect(resposta!.status(), `/filhotes/cor/${linha.cor} respondeu ${resposta!.status()}`).toBe(
@@ -263,6 +275,18 @@ test.describe("Smoke publico", () => {
 
     const inexistente = await page.goto("/filhotes/este-filhote-nunca-existiu");
     expect(inexistente!.status()).toBe(404);
+  });
+
+  test("cada cor publicada tem página própria com valor real", async ({ page }) => {
+    const cores = [...new Set(puppiesPublicados.map((filhote) => filhote.color))];
+    for (const cor of cores) {
+      const resposta = await page.goto(`/filhotes/cor/${cor}`);
+      expect(resposta!.status()).toBe(200);
+      const corpo = await page.locator("body").innerText();
+      const filhotes = puppiesPublicados.filter((filhote) => filhote.color === cor);
+      const menorValor = Math.min(...filhotes.map((filhote) => filhote.priceCents));
+      expect(corpo).toContain(formatarPreco(menorValor));
+    }
   });
 
   test("o formulario de contato existe -- e nao e enviado", async ({ page }) => {
