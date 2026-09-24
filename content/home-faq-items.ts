@@ -51,7 +51,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Vocês entregam o filhote em todo o Brasil?",
     answer:
-      "Sim. Orientamos transporte seguro para qualquer estado do Brasil. O tutor pode buscar pessoalmente em Bragança Paulista (SP) ou o filhote pode viajar por transportadora aérea especializada em animais. Auxiliamos na escolha da empresa, preparação da caixa de transporte e documentação necessária. O filhote só viaja após atingir peso e maturidade adequados, com todos os exames em dia.",
+      "Sim. Atendemos famílias de todos os estados e a negociação pode ser conduzida pelo WhatsApp. A retirada ou entrega é definida caso a caso conforme destino, idade e condição do animal, legislação aplicável, documentação sanitária e regras da empresa de transporte. Modalidade, prazo, responsável e custo são informados antes da reserva.",
   },
   {
     question: "Quais documentos acompanham o filhote?",

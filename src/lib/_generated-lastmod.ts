@@ -16,12 +16,12 @@ export const LASTMOD: Record<string, string> = {
   "/cuidados": "2026-08-28T11:31:30.000Z",
   "/faq-do-tutor": "2026-08-26T18:30:10.000Z",
   "/filhote-de-spitz-alemao": "2026-08-27T04:39:09.000Z",
-  "/filhotes": "2026-09-24T13:00:56.000Z",
+  "/filhotes": "2026-09-24T13:07:22.000Z",
   "/filhotes/minas-gerais": "2026-09-24T13:00:56.000Z",
   "/filhotes/rio-de-janeiro": "2026-09-24T13:00:56.000Z",
   "/filhotes/sao-paulo": "2026-09-24T13:00:56.000Z",
   "/galeria": "2026-09-24T13:00:56.000Z",
-  "/guias": "2026-09-12T21:19:42.000Z",
+  "/guias": "2026-09-24T13:07:22.000Z",
   "/lulu-da-pomerania": "2026-09-24T13:00:56.000Z",
   "/lulu-da-pomerania-braganca-paulista": "2026-08-28T11:31:30.000Z",
   "/ninhadas": "2026-09-24T13:00:56.000Z",
@@ -40,7 +40,7 @@ export const LASTMOD: Record<string, string> = {
   "/temperamento": "2026-08-28T11:31:30.000Z",
   "/termos-de-uso": "2026-08-22T12:00:02.000Z",
   "@color": "2026-09-24T13:00:56.000Z",
-  "@puppy": "2026-09-24T13:00:56.000Z",
+  "@puppy": "2026-09-24T13:07:22.000Z",
   "@sex": "2026-09-24T13:00:56.000Z",
 } as const;
 

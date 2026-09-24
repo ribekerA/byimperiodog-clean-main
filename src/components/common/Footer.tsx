@@ -38,6 +38,7 @@ const RACA_ITEMS = [
   { label: "Spitz Alemão Baby Face", href: "/spitz-alemao-baby-face" },
   { label: "Ninhadas", href: "/ninhadas" },
   { label: "Como Comprar", href: "/comprar-spitz-anao" },
+  { label: "Entrega em todo o Brasil", href: "/blog/spitz-alemao-anao-entrega-brasil" },
 ];
 
 const SUPPORT_ITEMS = [

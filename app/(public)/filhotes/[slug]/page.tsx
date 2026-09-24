@@ -320,6 +320,7 @@ export default async function PuppyPage(props: Props) {
             { href: `/filhotes/cor/${colorSlug}`, label: `Compare os filhotes ${corLabel}`, desc: "Veja outras referências desta cor e seus valores." },
             { href: "/filhotes", label: "Veja os filhotes disponíveis", desc: "Compare fotos, vídeos e valores individuais dos filhotes." },
             { href: "/comprar-spitz-anao", label: "Como comprar e reservar", desc: "Conheça as etapas e os documentos antes de decidir." },
+            { href: "/blog/spitz-alemao-anao-entrega-brasil", label: "Entrega para todo o Brasil", desc: "Entenda documentação, transporte e atendimento para outros estados." },
           ]} />
         </div>
 
