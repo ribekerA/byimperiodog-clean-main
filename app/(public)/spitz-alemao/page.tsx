@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   // 76 caracteres com o sufixo da marca. "Características" é a palavra mais
   // cara do título e a que menos gente digita — sai ela, ficam raça, preço e
   // cuidados, que são as três consultas reais. O H1 da página não muda.
-  title: "Spitz Alemão Anão — Raça, Preço e Cuidados",
+  title: "Spitz Alemão Anão — Características, Porte e Cuidados",
   description:
     // 184 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 150, agora com "Lulu da Pomerânia".
-    "Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto, cuidados e preço. Criadora em Bragança Paulista, SP.",
+      "Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto e cuidados. Guia da raça por criadora em Bragança Paulista, SP.",
   keywords: [
     "Spitz Alemão Anão",
     "Spitz Alemão características",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Spitz Alemão Anão — Tudo Sobre a Raça | By Império Dog",
-    description: "Origem, características, temperamento, cores, cuidados e preços do Spitz Alemão Anão.",
+    description: "Origem, características, temperamento, cores, porte e cuidados do Spitz Alemão Anão.",
     type: "article",
   },
 };
@@ -276,7 +276,7 @@ export default function SpitzAlemaoPage() {
       <RelatedPages links={[
         { label: "Lulu da Pomerânia",         href: "/lulu-da-pomerania",        desc: "Guia completo + preços atualizados" },
         { label: "Filhote de Spitz Alemão",   href: "/filhote-de-spitz-alemao",  desc: "Como escolher e cuidar do filhote" },
-        { label: "Tabela de Preços",          href: "/preco-spitz-anao",         desc: "Valores por cor e sexo" },
+        { label: "Filhotes e Valores",        href: "/filhotes",                 desc: "Fotos, vídeos e valores individuais" },
       ]} />
 
       <nav aria-label="Navegação estrutural">

@@ -10,11 +10,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/filhote-de-spitz-alemao`;
 
 export const metadata: Metadata = {
-  title: "Filhote de Spitz Alemão Anão — Onde Comprar",
+  title: "Filhote de Spitz Alemão — Escolha e Primeiros Cuidados",
   description:
     // 192 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 155, agora com "Lulu da Pomerânia".
-    "Filhote de Spitz Alemão Anão: como escolher, o que verificar, primeiros cuidados, alimentação e vacinação. Onde comprar com procedência.",
+      "Filhote de Spitz Alemão Anão: como escolher, adaptar a casa e organizar alimentação, vacinação, socialização e primeiros cuidados.",
   keywords: [
     "filhote de Spitz Alemão Anão",
     "filhote Lulu da Pomerânia",

@@ -7,6 +7,8 @@ import { adminFetch } from "@/lib/adminFetch";
 
 type QueryRow = { query: string; clicks: number; impressions: number; ctr: number; position: number };
 type PageRow  = { page:  string; clicks: number; impressions: number; ctr: number; position: number };
+type QueryPageRow = QueryRow & { page: string };
+type CannibalizationRow = { query: string; clicks: number; impressions: number; pages: { page: string; clicks: number; impressions: number; position: number }[] };
 
 type GscData = {
   ok: boolean;
@@ -14,6 +16,8 @@ type GscData = {
   message?: string;
   topQueries: QueryRow[];
   topPages:   PageRow[];
+  opportunities: QueryPageRow[];
+  cannibalization: CannibalizationRow[];
   totals:     { clicks: number; impressions: number; ctr: number; position: number };
   dateRange:  { start: string; end: string };
 };
@@ -50,7 +54,7 @@ export default function GscPanel() {
   const [days,    setDays]    = useState(28);
   const [data,    setData]    = useState<GscData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tab,     setTab]     = useState<"queries" | "pages">("queries");
+  const [tab, setTab] = useState<"queries" | "pages" | "opportunities" | "cannibalization">("queries");
 
   async function load(d: number) {
     setLoading(true);
@@ -59,7 +63,7 @@ export default function GscPanel() {
       const json = await res.json();
       setData(json);
     } catch (e) {
-      setData({ ok: false, error: String(e), topQueries: [], topPages: [], totals: { clicks: 0, impressions: 0, ctr: 0, position: 0 }, dateRange: { start: "", end: "" } });
+      setData({ ok: false, error: String(e), topQueries: [], topPages: [], opportunities: [], cannibalization: [], totals: { clicks: 0, impressions: 0, ctr: 0, position: 0 }, dateRange: { start: "", end: "" } });
     } finally {
       setLoading(false);
     }
@@ -105,7 +109,7 @@ export default function GscPanel() {
     );
   }
 
-  const { totals, topQueries, topPages, dateRange } = data;
+  const { totals, topQueries, topPages, opportunities = [], cannibalization = [], dateRange } = data;
 
   return (
     <section className="space-y-4">
@@ -145,23 +149,34 @@ export default function GscPanel() {
 
       {/* Tabs */}
       <div className="flex gap-1 border-b border-[var(--border)]">
-        {(["queries", "pages"] as const).map((t) => (
+        {(["queries", "pages", "opportunities", "cannibalization"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
             className={`px-4 py-2 text-sm font-semibold transition ${tab === t ? "border-b-2 border-[var(--brand)] text-[var(--brand)]" : "text-[var(--text-muted)] hover:text-[var(--text)]"}`}
           >
-            {t === "queries" ? "Top queries" : "Top páginas"}
+            {{ queries: "Top consultas", pages: "Top páginas", opportunities: "Oportunidades", cannibalization: "Canibalização" }[t]}
           </button>
         ))}
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-[var(--border)]">
+      {tab === "cannibalization" ? (
+        <div className="space-y-2">
+          <p className="text-xs text-[var(--text-muted)]">Consultas exibidas por duas ou mais páginas estratégicas. Decida a página principal antes de alterar conteúdo ou canonical.</p>
+          {cannibalization.map((row) => (
+            <div key={row.query} className="rounded-xl border border-[var(--border)] bg-white p-4">
+              <div className="flex justify-between gap-3"><strong>{row.query}</strong><span className="text-xs text-[var(--text-muted)]">{fmt(row.impressions)} impressões</span></div>
+              <ul className="mt-2 space-y-1 text-xs text-[var(--text-muted)]">{row.pages.map((page) => <li key={page.page}><code>{page.page}</code> — posição #{page.position}, {fmt(page.impressions)} impressões</li>)}</ul>
+            </div>
+          ))}
+          {!cannibalization.length && <p className="rounded-xl border border-[var(--border)] bg-white p-6 text-center text-sm text-[var(--text-muted)]">Nenhuma canibalização detectada entre as cinco páginas estratégicas no período.</p>}
+        </div>
+      ) : <div className="overflow-hidden rounded-xl border border-[var(--border)]">
         <table className="min-w-full divide-y divide-[var(--border)] text-sm">
           <thead className="bg-[var(--surface)] text-[11px] uppercase tracking-wide text-[var(--text-muted)]">
             <tr>
-              <th className="px-4 py-2 text-left">{tab === "queries" ? "Query" : "Página"}</th>
+              <th className="px-4 py-2 text-left">{tab === "queries" ? "Consulta" : tab === "pages" ? "Página" : "Consulta / página"}</th>
               <th className="px-4 py-2 text-right">Cliques</th>
               <th className="px-4 py-2 text-right">Impressões</th>
               <th className="px-4 py-2 text-right">CTR</th>
@@ -169,8 +184,8 @@ export default function GscPanel() {
             </tr>
           </thead>
           <tbody className="divide-y divide-[var(--border)] bg-white">
-            {(tab === "queries" ? topQueries : topPages).map((row, i) => {
-              const label = tab === "queries" ? (row as QueryRow).query : (row as PageRow).page;
+            {(tab === "queries" ? topQueries : tab === "pages" ? topPages : opportunities).map((row, i) => {
+              const label = tab === "queries" ? (row as QueryRow).query : tab === "pages" ? (row as PageRow).page : `${(row as QueryPageRow).query} → ${(row as QueryPageRow).page}`;
               return (
                 <tr key={i} className="hover:bg-[var(--surface)]">
                   <td className="px-4 py-2.5 font-medium text-[var(--text)] max-w-[260px] truncate" title={label}>
@@ -189,7 +204,7 @@ export default function GscPanel() {
                 </tr>
               );
             })}
-            {(tab === "queries" ? topQueries : topPages).length === 0 && (
+            {(tab === "queries" ? topQueries : tab === "pages" ? topPages : opportunities).length === 0 && (
               <tr>
                 <td colSpan={5} className="px-4 py-6 text-center text-sm text-[var(--text-muted)]">
                   Nenhum dado disponível para o período selecionado.
@@ -198,7 +213,7 @@ export default function GscPanel() {
             )}
           </tbody>
         </table>
-      </div>
+      </div>}
     </section>
   );
 }

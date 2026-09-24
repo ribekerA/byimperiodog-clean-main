@@ -40,7 +40,7 @@ function resolveMessage(pathname: string): string {
   if (pathname === "/filhotes")
     return "Olá! Estou vendo o catálogo da By Império Dog e gostaria de saber disponibilidade de filhotes.";
   if (pathname.startsWith("/preco-spitz-anao"))
-    return "Olá! Vi a tabela de preços no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi os filhotes no site da By Império Dog e gostaria de confirmar disponibilidade e valor.";
   if (pathname.startsWith("/comprar-spitz-anao"))
     return "Olá! Estou interessado em comprar um Spitz Alemão Anão da By Império Dog. Pode me ajudar?";
   if (pathname.startsWith("/criador-spitz-confiavel"))

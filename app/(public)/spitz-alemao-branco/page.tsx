@@ -190,8 +190,8 @@ export default function SpitzAlemaoBrancoPage() {
           {respostaPrecoCor("branco")}
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/preco-spitz-anao" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-zinc-900 px-6 text-sm font-semibold text-white transition hover:bg-zinc-700">
-            Ver tabela de preços
+          <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-zinc-900 px-6 text-sm font-semibold text-white transition hover:bg-zinc-700">
+            Ver filhotes e valores
           </Link>
           <Link href="/filhotes/cor/branco" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-zinc-300 bg-white px-6 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50">
             Ver filhotes brancos
@@ -245,7 +245,7 @@ export default function SpitzAlemaoBrancoPage() {
 
       <RelatedPages links={[
         { label: "Filhotes Brancos", href: "/filhotes/cor/branco", desc: "Catálogo atualizado por cor" },
-        { label: "Tabela de Preços", href: "/preco-spitz-anao", desc: "Valores por cor e sexo" },
+        { label: "Filhotes e Valores", href: "/filhotes", desc: "Fotos, vídeos e valores individuais" },
         { label: "Spitz Alemão Anão", href: "/spitz-alemao", desc: "Guia completo da raça" },
       ]} />
 

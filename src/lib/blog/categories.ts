@@ -65,7 +65,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     highlight: "Conteúdo didático produzido com base nas dúvidas reais dos tutores.",
     color: "bg-amber-50 border-amber-200 text-amber-700",
     keywords: ["preco", "investimento", "valor", "custo"],
-    cta: { label: "Ver preços", href: "/preco-spitz-anao" },
+    cta: { label: "Ver filhotes e valores", href: "/filhotes" },
   },
   {
     id: "cuidados",

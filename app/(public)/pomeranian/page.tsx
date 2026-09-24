@@ -14,11 +14,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/pomeranian`;
 
 export const metadata: Metadata = {
-  title: "Pomeranian: Preço, Fotos e Nomes no Brasil",
+  title: "Pomeranian no Brasil: Spitz ou Lulu da Pomerânia?",
   description:
     // 195 caracteres: a equivalência de nomes, que é o ponto da página, ficava
     // fora do trecho exibido. Reescrita em 152.
-    "Tudo sobre o Pomeranian no Brasil: o que é a raça, preço, características e onde encontrar filhotes com registro oficial. Pomeranian = Lulu da Pomerânia.",
+      "Entenda o nome Pomeranian no Brasil, sua relação com Spitz Alemão Anão e Lulu da Pomerânia e como pesquisar a raça sem confundir nomenclaturas.",
   keywords: [
     "Pomeranian",
     "Pomeranian Brasil",
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pomeranian" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Pomeranian: Preço, Fotos e Nomes no Brasil | By Império Dog",
+    title: "Pomeranian no Brasil: Spitz ou Lulu da Pomerânia? | By Império Dog",
     description:
-      "O Pomeranian é o mesmo que Lulu da Pomerânia e Spitz Alemão Anão. Saiba preço, características e onde comprar com registro oficial no Brasil.",
+        "Pomeranian, Lulu da Pomerânia e Spitz Alemão Anão: entenda a nomenclatura usada no Brasil e no exterior.",
     type: "article",
   },
 };
@@ -95,7 +95,7 @@ export default function PomeranianPage() {
           Pomeranian no Brasil — o que você precisa saber
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Pomeranian é o nome em inglês do Lulu da Pomerânia, também chamado Spitz Alemão Anão. Veja a tabela de preços por cor e sexo, compare fotos reais da nossa criação em Bragança Paulista e saiba o que conferir antes de escolher.
+          Pomeranian é o nome em inglês do Lulu da Pomerânia, também chamado Spitz Alemão Anão. Compare fotos reais da nossa criação em Bragança Paulista, valores individuais e o que conferir antes de escolher.
         </p>
         <Link href="/filhotes" className="inline-flex min-h-11 items-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-800">Ver fotos e vídeos reais na vitrine</Link>
       </header>
@@ -202,7 +202,7 @@ export default function PomeranianPage() {
       <RelatedPages links={[
         { label: "Spitz Alemão Anão — Raça Completa", href: "/spitz-alemao",        desc: "Nome oficial FCI: tudo sobre a raça" },
         { label: "Lulu da Pomerânia",                 href: "/lulu-da-pomerania",   desc: "Guia completo em português" },
-        { label: "Tabela de Preços",                  href: "/preco-spitz-anao",    desc: "Valores por cor e sexo" },
+        { label: "Filhotes e Valores",                href: "/filhotes",            desc: "Fotos, vídeos e valores individuais" },
       ]} />
 
       <nav aria-label="Navegação estrutural">

@@ -394,8 +394,7 @@ const referenciasVisuais = [
       "/filhotes/wolf-sable/wolf-sable-filhote-jardim-01.jpg",
       "/filhotes/wolf-sable/wolf-sable-filhote-jardim-03.jpg",
       "/filhotes/wolf-sable/wolf-sable-macho-01.jpg",
-      "/filhotes/videos/wolf-sable-jardim.mp4",
-      "/filhotes/videos/spitz-anao.mp4",
+        "/filhotes/videos/wolf-sable-jardim.mp4",
     ],
     // Cinza-Lobo Macho — faixa baixa de macho (Cinza-Lobo/Laranja) → R$ 6.500
     price_cents: 650000,

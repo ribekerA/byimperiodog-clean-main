@@ -39,10 +39,10 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     supportingPaths: ["/ninhadas"], related: ["preco", "comprar", "femea"],
   },
   {
-    id: "preco", cluster: "compra", href: "/preco-spitz-anao", label: "Quanto custa um Lulu da Pomerânia?",
+    id: "preco", cluster: "compra", href: "/blog/preco-spitz-alemao-anao", label: "Quanto custa um Lulu da Pomerânia?",
     description: "Veja fotos, vídeos e o valor individual de cada filhote disponível.",
     queries: ["Spitz Alemão preço", "Lulu da Pomerânia valor", "quanto custa um Lulu da Pomerânia"],
-    supportingPaths: ["/blog/preco-spitz-alemao-anao", "/blog/cores-spitz-alemao-anao-qual-mais-cara"], related: ["filhotes", "custo-mensal", "comprar"],
+    supportingPaths: ["/blog/cores-spitz-alemao-anao-qual-mais-cara"], related: ["filhotes", "custo-mensal", "comprar"],
   },
   {
     id: "comprar", cluster: "compra", href: "/comprar-spitz-anao", label: "Como comprar com segurança",

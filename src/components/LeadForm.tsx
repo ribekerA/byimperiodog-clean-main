@@ -12,6 +12,7 @@ import { trackLeadFormSubmit } from "@/lib/events";
 import { getClickId } from "@/lib/gclid";
 import { confirmedLeadId } from "@/lib/lead-confirmation";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { getFirstTouch, getLastTouch } from "@/lib/attribution";
 
 type LeadFormContext = {
   pageType?: string;
@@ -102,6 +103,11 @@ export default function LeadForm({ context, className }: Props) {
     try {
       const payload = {
         ...data,
+        page: window.location.pathname,
+        utm_source: getLastTouch()?.utm_source ?? getFirstTouch()?.utm_source,
+        utm_medium: getLastTouch()?.utm_medium ?? getFirstTouch()?.utm_medium,
+        utm_campaign: getLastTouch()?.utm_campaign ?? getFirstTouch()?.utm_campaign,
+        first_landing_page: getFirstTouch()?.landing_page,
         // Releitura no envio: uma revogação após abrir o formulário deve valer aqui.
         gclid: getClickId(),
         consent_timestamp: new Date().toISOString(),

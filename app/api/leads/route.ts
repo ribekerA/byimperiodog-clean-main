@@ -38,6 +38,8 @@ const leadSchema = z.object({
   page_color: z.string().max(60).optional(),
   page_city: z.string().max(120).optional(),
   page_intent: z.string().max(60).optional(),
+  page: z.string().max(300).optional(),
+  first_landing_page: z.string().max(300).optional(),
 });
 
 // Corpo máximo aceito. O formulário mais cheio não passa de ~2 KB; 16 KB dá
@@ -187,7 +189,7 @@ export async function POST(req: NextRequest) {
         consent_version: data.consent_version,
         consent_timestamp: data.consent_timestamp ?? new Date().toISOString(),
         // Contexto
-        page: url.pathname,
+        page: data.first_landing_page || data.page || url.pathname,
         page_type: data.page_type ?? null,
         page_slug: data.page_slug ?? null,
         page_color: data.page_color ?? null,
