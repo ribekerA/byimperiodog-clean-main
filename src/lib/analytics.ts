@@ -1,5 +1,7 @@
 // Client-side analytics: Web Vitals (LCP, INP, CLS) + custom events
 // Hardened contra falhas de rede / dev ruidoso / offline.
+import { getCurrentConsent } from '@/lib/consent';
+import { isProductionTrackingHost } from '@/lib/tracking-host';
 
 export type AnalyticsEvent = {
   name: string;
@@ -31,6 +33,7 @@ function shouldSkip(evt: AnalyticsEvent): boolean {
   if (DISABLED) return true; // desligado explicitamente
   if (!IS_PROD && !FORCE) return true; // só coleta em produção (ou se forçado)
   if (typeof window === 'undefined') return true; // SSR
+  if (!isProductionTrackingHost() || !getCurrentConsent().analytics) return true;
   if (typeof navigator !== 'undefined' && navigator.onLine === false) return true; // offline
   if (!evt?.name) return true;
   const path = typeof location !== 'undefined' ? location.pathname : '';
@@ -118,4 +121,3 @@ export function __getAnalyticsGates() {
     navigatorOnline: typeof navigator !== 'undefined' ? navigator.onLine : undefined,
   } as const;
 }
-

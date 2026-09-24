@@ -13,8 +13,10 @@ import { captureClickId } from "@/lib/gclid";
  */
 export default function AttributionTracker() {
   useEffect(() => {
-    captureAttribution();
-    captureClickId();
+    const capture = () => { captureAttribution(); captureClickId(); };
+    capture();
+    window.addEventListener('consentUpdated', capture);
+    return () => window.removeEventListener('consentUpdated', capture);
   }, []);
 
   return null;

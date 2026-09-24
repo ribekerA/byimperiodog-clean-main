@@ -26,6 +26,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
 import { getClickId } from "@/lib/gclid";
+import { confirmedLeadId } from "@/lib/lead-confirmation";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -802,13 +803,10 @@ export default function AiMatchmakerChat() {
                     // Nome e telefone entregues aqui valem o mesmo que o
                     // formulário da página: é lead, e a conversão do Ads
                     // precisa contar. O id da API vira transaction_id.
-                    const leadId = await res
-                      .json()
-                      .then((corpo: { id?: string | null }) => corpo?.id ?? null)
-                      .catch(() => null);
+                    const leadId = await confirmedLeadId(res);
 
                     trackLeadFormSubmit("ai-matchmaker", leadId);
-                    trackLeadAdsConversion({ transactionId: leadId ?? undefined });
+                    trackLeadAdsConversion({ transactionId: leadId });
                     rememberLeadConversion(leadId);
 
                     setLeadSubmitted(true);

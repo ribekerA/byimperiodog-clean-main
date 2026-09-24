@@ -97,7 +97,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
   return (
     <>
       {/* Page hero */}
-      <div className="bg-[var(--brand)] px-5 py-10 text-center sm:px-8 sm:py-12">
+      <div className="bg-[var(--brand)] px-5 py-6 text-center sm:px-8 sm:py-10">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">Criação responsável · Bragança Paulista, SP</p>
         <HeroHeading className="mt-3 text-2xl font-bold tracking-tight text-white sm:text-4xl">
           Filhotes de Spitz Alemão Anão
@@ -105,6 +105,9 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-white/70">
           Cada filhote sai com registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda. Saúde documentada, sem surpresas.
         </p>
+        <a href={waEmpty} target="_blank" rel="noopener noreferrer" data-wa-placement="hero" className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-sm font-semibold text-emerald-900 hover:bg-emerald-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+          <WhatsAppIcon className="h-5 w-5" aria-hidden="true" /> Consultar opções atuais
+        </a>
       </div>
 
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">

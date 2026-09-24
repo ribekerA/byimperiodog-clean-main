@@ -4,6 +4,8 @@ import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { TABELA_DE_PRECOS, precoCartao } from "../src/domain/pricing.ts";
+
 const targets = process.argv.slice(2);
 
 const files =
@@ -78,10 +80,12 @@ const frontmatterEnd = (source) => {
 // percebe quando a tabela muda. Foi assim que a fêmea laranja ficou anunciada
 // por R$ 8.500 em três artigos depois de passar para R$ 7.500.
 //
-// A tabela está repetida aqui de propósito: este script roda no prebuild, antes
-// do Next existir, e não resolve o alias "@/". A dupla é conferida pelo teste
-// tests/pricing-guard.test.ts, que quebra se as duas divergirem.
-const PRECOS_DA_TABELA = new Set([5500, 6500, 7500, 8500]);
+// Node 24 (produção/CI) lê o módulo TypeScript sem aliases. Nenhuma cópia da matriz.
+const PRECOS_DA_TABELA = new Set(
+  Object.values(TABELA_DE_PRECOS)
+    .flatMap(({ macho, femea }) => [macho, femea, precoCartao(macho), precoCartao(femea)])
+    .map((cents) => cents / 100)
+);
 
 // Faixa em que um número solto é, quase certamente, preço de filhote. Abaixo de
 // R$ 5.500 estão custo de manutenção, vacina e consulta; acima de R$ 20.000 não

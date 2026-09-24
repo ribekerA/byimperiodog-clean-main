@@ -1,5 +1,7 @@
 ﻿import { createClient } from "@supabase/supabase-js";
 
+import "server-only";
+
 import type { Database } from "@/types/supabase";
 
 function makeStubBuilder(result: any = { data: null, error: null }) {

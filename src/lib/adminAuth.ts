@@ -1,14 +1,13 @@
 ﻿import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
 
 import { ADMIN_SESSION_COOKIE, verifyAdminSession, type AdminSessionPayload } from "@/lib/adminSession";
 import { comparaConstante, lerCookieDeSessao, verifyAdminSessionSync } from "@/lib/adminSessionNode";
 import { createLogger } from "@/lib/logger";
 import {
   DEFAULT_ROLE,
-  getRoleFromCookies,
-  getRoleFromHeaders,
   hasPermission,
   type AdminPermission,
   type AdminRole,
@@ -28,13 +27,6 @@ async function getVerifiedSession(
 ): Promise<AdminSessionPayload | null> {
   const cookieStore = store ?? await cookies();
   return verifyAdminSession(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
-}
-
-function resolveRoleFromRequest(req: Request | NextRequest): AdminRole {
-  if (req instanceof NextRequest) {
-    return getRoleFromCookies(req.cookies);
-  }
-  return getRoleFromHeaders(req.headers);
 }
 
 export type AdminIdentity = {
@@ -87,8 +79,20 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
   // o proxy nao olhava, e um `curl -H "Cookie: admin_auth=1"` respondia 200 em
   // producao. As duas cookies legadas deixaram de ser aceitas aqui.
   const checarPermissao = (papel: AdminRole): NextResponse | null => {
-    if (!options.permission) return null;
-    if (!hasPermission(papel, options.permission)) {
+    const path = new URL(req.url).pathname;
+    const writing = !["GET", "HEAD", "OPTIONS"].includes(req.method.toUpperCase());
+    if (writing) {
+      const origin = req.headers.get("origin");
+      if (req.headers.get("sec-fetch-site") === "cross-site" || (origin && origin !== new URL(req.url).origin)) {
+        return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
+      }
+    }
+    const settings = /\/settings(?:\/|$)|\/config(?:\/|$)|\/integrations(?:\/|$)|\/webhooks(?:\/|$)|\/tracking/.test(path);
+    const permission = options.permission ?? (settings ? "settings:write" : !writing ? "dashboard:read" :
+      /\/blog(?:\/|$)/.test(path) ? "blog:write" :
+      /\/media(?:\/|$)|\/upload(?:\/|$)/.test(path) ? "media:write" :
+      /\/leads(?:\/|$)|\/cadastros(?:\/|$)|\/contracts(?:\/|$)|\/puppies(?:\/|$)/.test(path) ? "cadastros:write" : "settings:write");
+    if (!hasPermission(papel, permission)) {
       return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
     }
     return null;
@@ -103,7 +107,7 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
 
   // Apenas ADMIN_PASS: NEXT_PUBLIC_* vai para o bundle do browser.
   if (comparaConstante(process.env.ADMIN_PASS, req.headers.get("x-admin-pass"))) {
-    return checarPermissao(resolveRoleFromRequest(req));
+    return checarPermissao("owner");
   }
 
   return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
@@ -143,6 +147,6 @@ export async function logAdminAction(params: {
 }
 
 export function resolveAdminContext(req: Request | NextRequest) {
-  const role = resolveRoleFromRequest(req) ?? DEFAULT_ROLE;
+  const role = verifyAdminSessionSync(lerCookieDeSessao(req, ADMIN_SESSION_COOKIE))?.role ?? DEFAULT_ROLE;
   return { role };
 }

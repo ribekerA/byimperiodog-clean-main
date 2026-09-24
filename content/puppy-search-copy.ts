@@ -12,7 +12,7 @@ export function puppySearchCopy(puppy: PuppySearchInput) {
   const heading = `Spitz Alemão Anão ${color} ${sex}${variant}`;
   return {
     heading,
-    metadataDescription: `Spitz Alemão Anão ${color.toLowerCase()} ${sex.toLowerCase()} (Lulu da Pomerânia) por ${price}. Fotos reais; consulte as opções em Bragança Paulista, SP.`,
+    metadataDescription: `Spitz Alemão Anão ${color.toLowerCase()} ${sex.toLowerCase()}${variant} (Lulu da Pomerânia) por ${price}. Fotos reais; consulte as opções em Bragança Paulista, SP.`,
     sectionTitle: `Lulu da Pomerânia ${color.toLowerCase()} ${sex.toLowerCase()}: fotos, preço e reserva`,
     introduction: `${puppy.description ?? `Veja esta referência de Spitz Alemão Anão ${color.toLowerCase()} ${sex.toLowerCase()}, também conhecido como Lulu da Pomerânia.`} O valor publicado é ${price}. As fotos são referências permanentes; disponibilidade e condições da reserva são confirmadas no atendimento.`,
   };

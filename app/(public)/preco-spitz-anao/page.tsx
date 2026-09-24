@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
+import { ConsultaFilhotes } from '@/components/blog/CommercialPricing';
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import {
   type CorDivulgada,
   FAIXA_PUBLICA,
   formatarPreco,
+  CONDICOES_PAGAMENTO,
   LINHAS_FORMATADAS,
   RESPOSTA_MACHO_VS_FEMEA,
   RESPOSTA_QUANTO_CUSTA,
@@ -20,7 +23,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/preco-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: "Preço do Spitz e Lulu da Pomerânia por Cor e Sexo",
+  title: "Preço do Spitz Anão: Tabela por Cor e Sexo",
   description:
     // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
     // varia", que é justamente a intenção de busca da página. Reescrita em 156.
@@ -42,8 +45,8 @@ export const metadata: Metadata = {
 const NOTAS_DA_LINHA: Record<CorDivulgada, string> = {
   particolor: "Menor valor da tabela atual",
   laranja: "A cor mais icônica da raça",
-  creme: "Acima do laranja, junto com o preto",
-  preto: "Acima do laranja, junto com o creme",
+  creme: "Acima do laranja e abaixo do preto",
+  preto: "Acima do creme e abaixo do branco",
   branco: "Maior valor da tabela atual",
 };
 
@@ -51,6 +54,8 @@ const PRICE_TABLE = LINHAS_FORMATADAS.map((linha) => ({
   color: linha.label,
   male: linha.macho,
   female: linha.femea,
+  maleCard: linha.machoCartao,
+  femaleCard: linha.femeaCartao,
   note: NOTAS_DA_LINHA[linha.cor],
 }));
 
@@ -97,7 +102,7 @@ const PAGE_FAQS = [
   {
     question: "Existe parcelamento ou condições especiais?",
     answer:
-      "Sim, eventualmente trabalhamos com parcelamento no cartão de crédito. Consulte a criadora diretamente no WhatsApp para verificar condições vigentes. A reserva do filhote é confirmada com sinal, e o saldo pode ser pago na entrega.",
+      CONDICOES_PAGAMENTO,
   },
   {
     question: "Posso encontrar Spitz Alemão Anão mais barato em outros lugares?",
@@ -110,6 +115,8 @@ const PAGE_FAQS = [
 ] as const;
 
 export default function PrecoSpitzPage() {
+  redirect("/filhotes");
+
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
     ? whatsappLeadUrl(phone, { pageType: "intent", url: PAGE_URL, intent: "preco-spitz-anao" })
@@ -134,7 +141,7 @@ export default function PrecoSpitzPage() {
           Preço do Spitz Alemão Anão
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Quanto custa um Lulu da Pomerânia? Na By Império Dog, o Spitz Alemão Anão parte de {formatarPreco(FAIXA_PUBLICA.minCents)}, chegando a {formatarPreco(FAIXA_PUBLICA.maxCents)} conforme cor e sexo. Veja a tabela e o que acompanha o filhote.
+          Quanto custa um Lulu da Pomerânia? Na By Império Dog, o Spitz Alemão Anão parte de {formatarPreco(FAIXA_PUBLICA.minCents)}, chegando a {formatarPreco(FAIXA_PUBLICA.maxCents)} no Pix conforme cor e sexo. Veja a tabela e o que acompanha o filhote.
         </p>
       </header>
 
@@ -177,8 +184,8 @@ export default function PrecoSpitzPage() {
               {PRICE_TABLE.map((row, i) => (
                 <tr key={row.color} className={`border-b border-zinc-100 ${i % 2 === 0 ? "" : "bg-zinc-50/50"}`}>
                   <td className="px-4 py-3 font-semibold text-zinc-900">{row.color}</td>
-                  <td className="px-4 py-3 text-zinc-700">{row.male}</td>
-                  <td className="px-4 py-3 font-medium text-emerald-700">{row.female}</td>
+                  <td className="px-4 py-3 text-zinc-700"><span className="block">{row.male} Pix</span><small className="block">{row.maleCard} cartão</small></td>
+                  <td className="px-4 py-3 font-medium text-emerald-700"><span className="block">{row.female} Pix</span><small className="block text-zinc-600">{row.femaleCard} cartão</small></td>
                   <td className="hidden px-4 py-3 text-xs text-zinc-500 sm:table-cell">{row.note}</td>
                 </tr>
               ))}
@@ -186,8 +193,9 @@ export default function PrecoSpitzPage() {
           </table>
         </div>
         <p className="mt-3 text-xs text-zinc-500">
-          * Cada valor é o ponto de partida daquela combinação de cor e sexo. Consulte as opções atuais pelo WhatsApp.
+          {CONDICOES_PAGAMENTO} Cada valor é o ponto de partida daquela combinação de cor e sexo. Consulte as opções atuais pelo WhatsApp.
         </p>
+        <ConsultaFilhotes placement="content" />
       </section>
 
       {/* ── O QUE ESTÁ INCLUSO ── */}

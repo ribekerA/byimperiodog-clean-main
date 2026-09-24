@@ -29,7 +29,7 @@ const leadSchema = z.object({
   // quando a visita não veio de anúncio. Exigir string faria a validação
   // rejeitar o lead inteiro por causa de um campo de atribuição.
   gclid: z.string().trim().max(2048).nullish(),
-  consent_lgpd: z.boolean(),
+  consent_lgpd: z.literal(true),
   consent_version: z.string().max(20).default("1.0"),
   consent_timestamp: z.string().max(40).optional(),
   // Contexto opcional de página

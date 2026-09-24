@@ -3,6 +3,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import TrackingScripts from "@/components/TrackingScripts";
 
+vi.mock('@/lib/tracking-host', () => ({ isProductionTrackingHost: () => true }));
+
 const mocks = vi.hoisted(() => ({
   isGoogleTagManagerEnabled: vi.fn(),
 }));

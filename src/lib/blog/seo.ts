@@ -1,3 +1,6 @@
+import { editorialImage } from '../editorial-image';
+import { resolveRobots } from '../seo';
+
 import type { TocItem } from './mdx/toc';
 import { parseSources, sourcesToCitation } from './sources';
 
@@ -93,29 +96,25 @@ export function buildBlogMetadata(post: BasePost & { content_mdx?: string | null
   const canonical = `${site}/blog/${encodeURIComponent(post.slug)}`;
   const description = post.seo_description || deriveExcerpt(post) || undefined;
   const title = post.seo_title || post.title;
-  // A capa vale como og:image, menos quando e WebP: WhatsApp e Facebook tratam
-  // WebP de forma irregular na previa de link e o cartao sai sem imagem. Foi por
-  // isso que og-default ja tinha saido de webp para jpg. 13 dos 30 artigos usam
-  // /spitz-hero-desktop.webp como capa e caiam nesse buraco. Aqui so a previa de
-  // compartilhamento troca — a imagem que aparece no topo do artigo continua a mesma.
-  const capa = post.cover_url;
-  const ogImage = capa && !/\.webp(\?|$)/i.test(capa) ? capa : `${site}/og-default.jpg`;
+  // Mesma capa real no artigo e na metadata; sem substituir foto por fallback genérico.
+  const image = editorialImage(post.cover_url, post.cover_alt || title, canonical);
   return {
     title,
     description,
     alternates: { canonical },
+    robots: resolveRobots(),
     openGraph: {
       type: 'article',
       title,
       description,
       url: canonical,
-      images: ogImage ? [{ url: ogImage, alt: post.cover_alt || title }] : undefined
+      images: image ? [{ url: image.url, width: image.width, height: image.height, alt: image.alt }] : []
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: ogImage ? [ogImage] : undefined
+      images: image ? [image.url] : []
     }
   };
 }
@@ -125,6 +124,7 @@ interface JsonLdExtras { toc?: TocItem[] }
 export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | null; sources?: string[] | null }, author: AuthorLike | null, extras: JsonLdExtras = {}) {
   const site = (process.env.NEXT_PUBLIC_SITE_URL || 'https://byimperiodog.com.br').replace(/\/$/, '');
   const url = `${site}/blog/${post.slug}`;
+  const image = editorialImage(post.cover_url, post.cover_alt || post.title, url);
   const description = post.seo_description || deriveExcerpt(post) || undefined;
   // Extrai os primeiros ~500 chars do conteúdo como articleBody para rich snippets
   const articleBody = post.content_mdx
@@ -137,11 +137,11 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
     // `@id` estável: a página emitia duas entidades de artigo para a mesma URL
     // (este Article e um BlogPosting montado em lib/schema.ts). Ficou só esta.
     '@id': `${url}#article`,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url, url, primaryImageOfPage: image?.schema },
     headline: post.title,
     description,
     articleBody,
-    image: post.cover_url ? [post.cover_url] : undefined,
+    image: image ? [image.schema] : undefined,
     author: author ? { '@type': 'Person', name: author.name } : { '@id': `${site}/#business` },
     datePublished: post.published_at || post.created_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,

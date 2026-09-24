@@ -5,6 +5,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import PixelsByConsent from "@/components/PixelsByConsent";
 import { acceptAllConsent } from "@/lib/consent";
+import { isProductionTrackingHost } from '@/lib/tracking-host';
+
+vi.mock('@/lib/tracking-host', () => ({ isProductionTrackingHost: vi.fn(() => true) }));
 
 vi.mock("next/script", () => ({
   default: ({
@@ -23,6 +26,7 @@ vi.mock("next/script", () => ({
 }));
 
 beforeEach(() => {
+  vi.mocked(isProductionTrackingHost).mockReturnValue(true);
   localStorage.clear();
   acceptAllConsent();
 });
@@ -33,6 +37,11 @@ afterEach(() => {
 });
 
 describe("fonte única das tags Google", () => {
+  it('não carrega tags em localhost ou preview mesmo após aceite', () => {
+    vi.mocked(isProductionTrackingHost).mockReturnValue(false);
+    const { container } = render(<PixelsByConsent isAdminRoute={false} useGTM GTM_ID="GTM-TESTE123" />);
+    expect(container.querySelectorAll('script')).toHaveLength(0);
+  });
   it("com GTM renderiza um único loader e nenhum gtag direto", () => {
     const { container } = render(
       <PixelsByConsent

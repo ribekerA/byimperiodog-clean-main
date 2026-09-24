@@ -35,7 +35,9 @@
 // página: o Cinza-Lobo saiu da comunicação, mas as URLs que já estavam
 // indexadas continuam respondendo até que se decida o que fazer com elas.
 
-export const staticPuppies = [
+import { CORES_DIVULGADAS, precoDoFilhote, type CorDivulgada } from "../src/domain/pricing";
+
+const referenciasVisuais = [
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-branco-femea-01",
@@ -61,9 +63,6 @@ export const staticPuppies = [
       "/filhotes/videos/branco-femea-coracoes-20260912-03.mp4",
       "/filhotes/videos/branco-femea-coracoes-20260912-04.mp4",
     ],
-    // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -102,9 +101,6 @@ export const staticPuppies = [
       "/filhotes/videos/spitz-creme.mp4",
       "/filhotes/videos/ninhada-creme-01.mp4",
     ],
-    // Fêmea Creme — preço único de fêmea → R$ 8.500
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Creme de pelagem clara e uniforme. Registro oficial, protocolo vacinal em dia conforme a idade e mentoria pós-venda inclusos. Consulte a disponibilidade e as condições da reserva.",
@@ -143,9 +139,6 @@ export const staticPuppies = [
       "/filhotes/videos/preto-femea-flores-rosas-20260912-02.mp4",
       "/filhotes/videos/preto-femea-flores-rosas-20260912-03.mp4",
     ],
-    // Fêmea Preta — preço único de fêmea → R$ 8.500
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Preta de pelagem escura e brilhante, estrutura compacta. Registro oficial, consulta veterinária e hemograma completo. Consulte a disponibilidade e as condições da reserva.",
@@ -189,9 +182,6 @@ export const staticPuppies = [
       "/filhotes/laranja/laranja-femea-jardim-04.jpg",
       "/filhotes/videos/laranja-femea-jardim.mp4",
     ],
-    // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Laranja fotografada com laço vermelho, em galeria exclusiva e diferente da fêmea de laço rosa. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
@@ -219,8 +209,6 @@ export const staticPuppies = [
     // Esta é a única foto desta fêmea disponível no acervo atual. Ela não é a
     // mesma fêmea do laço vermelho e não compartilha mídia com a outra ficha.
     images: ["/filhotes/laranja/laranja-femea-01.jpg"],
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Laranja fotografada com laço rosa, em enquadramento individual. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -258,9 +246,6 @@ export const staticPuppies = [
       "/filhotes/videos/spitz-branco.mp4",
       "/filhotes/videos/creme-dupla.mp4",
     ],
-    // Macho Creme — faixa alta de macho (Creme/Preto) → R$ 7.500
-    price_cents: 750000,
-    priceCents: 750000,
     currency: "BRL",
     description:
       "Macho Creme com estrutura compacta dentro do padrão FCI nº 97 (altura na cernelha de 21 cm ± 3 cm). Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
@@ -299,9 +284,6 @@ export const staticPuppies = [
       "/filhotes/preto/preto-filhote-jardim-02.jpg",
       "/filhotes/videos/spitz-anao.mp4",
     ],
-    // Macho Preto — faixa alta de macho (Creme/Preto) → R$ 7.500
-    price_cents: 750000,
-    priceCents: 750000,
     currency: "BRL",
     description:
       "Macho Preto de pelagem escura e brilhante, estrutura compacta. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
@@ -338,9 +320,6 @@ export const staticPuppies = [
       "/filhotes/videos/laranja-macho-jardim.mp4",
       "/filhotes/videos/ninhada-laranja-01.mp4",
     ],
-    // Macho Laranja — faixa baixa de macho (Cinza-Lobo/Laranja) → R$ 6.500
-    price_cents: 650000,
-    priceCents: 650000,
     currency: "BRL",
     description:
       "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
@@ -431,6 +410,16 @@ export const staticPuppies = [
     isFeatured: false,
   },
 ];
+
+/** Snapshot comercial derivado, sem cópia manual dos preços divulgados. */
+export const staticPuppies = referenciasVisuais.map((referencia) => {
+  const cor = referencia.color as CorDivulgada;
+  const valor = CORES_DIVULGADAS.includes(cor)
+    ? precoDoFilhote(cor, referencia.sex === "female" ? "femea" : "macho", referencia.slug)
+    : referencia.price_cents; // Preserva apenas referências não divulgadas fora da matriz.
+  if (valor === undefined) throw new Error(`Referência sem preço: ${referencia.slug}`);
+  return { ...referencia, priceCents: valor, price_cents: valor };
+});
 
 /**
  * O catálogo como as vitrines genéricas devem enxergá-lo.

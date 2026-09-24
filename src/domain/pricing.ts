@@ -51,11 +51,27 @@ export type LinhaDaTabela = {
  */
 export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
   particolor: { label: "Particolor", macho: 550000, femea: 650000 },
-  laranja: { label: "Laranja", macho: 650000, femea: 850000 },
+  laranja: { label: "Laranja", macho: 650000, femea: 750000 },
   creme: { label: "Creme", macho: 750000, femea: 850000 },
-  preto: { label: "Preto", macho: 750000, femea: 850000 },
-  branco: { label: "Branco", macho: 850000, femea: 850000 },
+  preto: { label: "Preto", macho: 850000, femea: 950000 },
+  branco: { label: "Branco", macho: 950000, femea: 1050000 },
 };
+
+/** Condições comerciais aprovadas em 14/09/2026. Todos os valores são centavos. */
+export const ACRESCIMO_CARTAO_CENTS = 70000;
+export const MAX_PARCELAS_CARTAO = 3;
+
+export function precoCartao(pixCents: number): number {
+  return pixCents + ACRESCIMO_CARTAO_CENTS;
+}
+
+export const CONDICOES_PAGAMENTO =
+  `No cartão, o preço é o valor Pix + ${formatarPreco(ACRESCIMO_CARTAO_CENTS)}, ` +
+  `em até ${MAX_PARCELAS_CARTAO}x sem juros sobre o preço do cartão.`;
+
+export function textoPrecoCartao(pixCents: number): string {
+  return `${formatarPreco(precoCartao(pixCents))} no cartão · até ${MAX_PARCELAS_CARTAO}x sem juros`;
+}
 
 /**
  * Formata centavos como o site escreve: "R$ 6.500", sem centavos.
@@ -74,6 +90,17 @@ export function precoDe(cor: CorDivulgada, sexo: Sexo): number {
   return TABELA_DE_PRECOS[cor][sexo];
 }
 
+/** Integrações e admin: desconhecido não recebe preço inventado. */
+export function precoDeCadastro(cor?: string | null, sexo?: string | null): number | null {
+  const normalizar = (valor: string) => valor.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const corNormalizada = normalizar(cor ?? "") as CorDivulgada;
+  const sexoNormalizado = normalizar(sexo ?? "");
+  if (!CORES_DIVULGADAS.includes(corNormalizada)) return null;
+  if (["male", "macho", "m"].includes(sexoNormalizado)) return precoDe(corNormalizada, "macho");
+  if (["female", "femea", "f"].includes(sexoNormalizado)) return precoDe(corNormalizada, "femea");
+  return null;
+}
+
 /**
  * Valores definidos para páginas específicas da vitrine.
  *
@@ -81,12 +108,15 @@ export function precoDe(cor: CorDivulgada, sexo: Sexo): number {
  * um valor próprio para um filhote, o slug passa a ser a chave comercial para
  * que card, página e validações usem exatamente o mesmo número.
  */
-export const PRECO_POR_SLUG = {
+// Revisão 14/09/2026: as quatro entradas anteriores repetiam a matriz antiga
+// em páginas de REFERÊNCIA, não ofertas individuais com desconto. A nova
+// matriz oficial as substitui. O mecanismo permanece para exceções genuínas.
+export const PRECO_POR_SLUG: Readonly<Record<string, number>> = {
+  // Condição operacional confirmada em 24/09/2026 para as duas fêmeas
+  // brancas atualmente divulgadas nesta página. A referência geral da
+  // combinação branco/fêmea permanece separada da oferta deste estoque.
   "spitz-alemao-anao-branco-femea": 850000,
-  "spitz-alemao-anao-laranja-femea": 850000,
-  "spitz-alemao-anao-laranja-femea-laco-rosa": 850000,
-  "spitz-alemao-anao-preto-femea": 850000,
-} as const satisfies Record<string, number>;
+};
 
 /** Preço anunciado para o filhote, com fallback para a tabela por cor/sexo. */
 export function precoDoFilhote(cor: CorDivulgada, sexo: Sexo, slug: string): number {
@@ -120,7 +150,7 @@ export function aPartirDe(cor: CorDivulgada): number {
  * de sempre: um único formato de "R$" no site inteiro.
  */
 export function textoAPartirDe(cents: number): string {
-  return `A partir de ${formatarPreco(cents)}`;
+  return `A partir de ${formatarPreco(cents)} no Pix`;
 }
 
 const TODOS_OS_VALORES = Object.values(TABELA_DE_PRECOS).flatMap((linha) => [
@@ -179,9 +209,9 @@ function enumerarPorSexo(sexo: Sexo): string {
 
 export const RESPOSTA_QUANTO_CUSTA =
   `Os filhotes de Spitz Alemão Anão saem a partir de ${formatarPreco(FAIXA_PUBLICA.minCents)}, ` +
-  `chegando a ${formatarPreco(FAIXA_PUBLICA.maxCents)} conforme sexo e cor — cada valor abaixo é ` +
+  `chegando a ${formatarPreco(FAIXA_PUBLICA.maxCents)} no Pix conforme sexo e cor — cada valor abaixo é ` +
   `o ponto de partida da combinação. Machos: ${enumerarPorSexo("macho")}. Fêmeas: ${enumerarPorSexo("femea")}. ` +
-  "A disponibilidade é informada no atendimento.";
+  `A disponibilidade é informada no atendimento. ${CONDICOES_PAGAMENTO}`;
 
 /**
  * Diferença entre fêmea e macho na mesma cor, em centavos — ou `null` quando a
@@ -220,7 +250,7 @@ export const RESPOSTA_MACHO_VS_FEMEA =
     : "Os valores por sexo variam conforme a cor. ") +
   "Cada valor abaixo é o ponto de partida da combinação de cor e sexo, e o valor de um filhote " +
   `específico é confirmado no atendimento. Machos: ${enumerarPorSexo("macho")}. ` +
-  `Fêmeas: ${enumerarPorSexo("femea")}.`;
+  `Fêmeas: ${enumerarPorSexo("femea")}. Valores no Pix. ${CONDICOES_PAGAMENTO}`;
 
 /**
  * Resposta oficial sobre o preto.
@@ -236,10 +266,12 @@ export const RESPOSTA_MACHO_VS_FEMEA =
  * string aparece em três lugares (home, página da cor, /spitz-alemao-preto),
  * então a frase se multiplicava por três.
  */
-export const RESPOSTA_PRETO =
-  `O Spitz Alemão Anão preto sai a partir de ${formatarPreco(TABELA_DE_PRECOS.preto.macho)} para machos e ` +
-  `${formatarPreco(TABELA_DE_PRECOS.preto.femea)} para fêmeas. ` +
-  "As opções atuais são confirmadas no atendimento.";
+export function respostaPrecoCor(cor: CorDivulgada): string {
+  return `Na By Império Dog, o Spitz Alemão Anão ${TABELA_DE_PRECOS[cor].label.toLowerCase()} parte de ` +
+    `${formatarPreco(precoDe(cor, "macho"))} para machos e ${formatarPreco(precoDe(cor, "femea"))} para fêmeas no Pix. ` +
+    `As opções atuais são confirmadas no atendimento. ${CONDICOES_PAGAMENTO}`;
+}
+export const RESPOSTA_PRETO = respostaPrecoCor("preto");
 
 /**
  * A tabela agrupada por valor — "Macho — Creme / Preto · R$ 7.500".
@@ -264,6 +296,7 @@ export const CARDS_POR_FAIXA = (["macho", "femea"] as const).flatMap((sexo) => {
     .map(([valor, cores]) => ({
       rotulo: `${rotuloSexo} — ${cores.join(" / ")}`,
       valor: formatarPreco(valor),
+      cartao: textoPrecoCartao(valor),
     }));
 });
 
@@ -273,5 +306,7 @@ export const LINHAS_FORMATADAS = CORES_DIVULGADAS.map((cor) => ({
   label: TABELA_DE_PRECOS[cor].label,
   macho: formatarPreco(TABELA_DE_PRECOS[cor].macho),
   femea: formatarPreco(TABELA_DE_PRECOS[cor].femea),
+  machoCartao: formatarPreco(precoCartao(TABELA_DE_PRECOS[cor].macho)),
+  femeaCartao: formatarPreco(precoCartao(TABELA_DE_PRECOS[cor].femea)),
   aPartirDe: formatarPreco(aPartirDe(cor)),
 }));

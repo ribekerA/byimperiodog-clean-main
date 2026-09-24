@@ -23,6 +23,7 @@
 import { useState } from "react";
 
 import { getClickId } from "@/lib/gclid";
+import { confirmedLeadId } from "@/lib/lead-confirmation";
 import { sendGA4 } from "@/lib/track";
 
 interface Props {
@@ -36,15 +37,18 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
   const [step, setStep] = useState<Step>("idle");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const digits = phone.replace(/\D/g, "");
-    if (digits.length < 10) return;
+    if (digits.length < 10 || !consent) return;
 
     setLoading(true);
+    setError(false);
     try {
-      await fetch("/api/leads", {
+      const response = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -63,10 +67,11 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
         }),
         keepalive: true,
       });
+      await confirmedLeadId(response);
       sendGA4("preferencia_informada", { color: color ?? "any" });
       setStep("success");
     } catch {
-      setStep("success"); // graceful — salva localmente mesmo se falhar
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -111,6 +116,11 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
             {loading ? "..." : "Enviar"}
           </button>
         </div>
+        <label className="flex items-start gap-2 text-xs text-zinc-700">
+          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} required className="mt-0.5" />
+          <span>Autorizo o contato sobre filhotes conforme a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline">Política de Privacidade</a>.</span>
+        </label>
+        {error && <p role="alert" className="text-sm text-rose-700">Não foi possível confirmar seu cadastro. Tente novamente.</p>}
         <button
           type="button"
           onClick={() => setStep("idle")}

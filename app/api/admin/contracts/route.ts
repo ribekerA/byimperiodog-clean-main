@@ -3,9 +3,20 @@ export const dynamic = "force-dynamic";
 import { randomUUID } from "crypto";
 
 import { type NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 import { requireAdminApi } from "@/lib/adminAuth";
+import { corpoJson } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+
+const contractInput = z.object({
+  lead_id: z.string().uuid().nullish(),
+  total_price_cents: z.number().int().min(0).max(100_000_000).nullish(),
+  nome_filhote: z.string().trim().max(160).optional(),
+  cor: z.string().trim().max(50).optional(),
+  sexo: z.string().trim().max(20).optional(),
+  nascimento_filhote: z.string().max(30).optional(),
+});
 
 export async function GET(req: NextRequest) {
   const guard = requireAdminApi(req);
@@ -22,8 +33,8 @@ export async function GET(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ ok: true, items: data ?? [] });
-  } catch (e) {
-    return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
+  } catch {
+    return NextResponse.json({ ok: false, error: "Não foi possível carregar os contratos" }, { status: 500 });
   }
 }
 
@@ -31,14 +42,18 @@ export async function POST(req: NextRequest) {
   const guard = requireAdminApi(req);
   if (guard) return guard;
 
+  const body = await corpoJson<unknown>(req);
+  if (body.resposta) return body.resposta;
+  const parsed = contractInput.safeParse(body.dados);
+  if (!parsed.success) return NextResponse.json({ ok: false, error: "Dados do contrato inválidos" }, { status: 400 });
   const {
     lead_id, total_price_cents,
     nome_filhote, cor, sexo, nascimento_filhote,
-  } = await req.json().catch(() => ({}));
+  } = parsed.data;
 
   try {
     const sb   = supabaseAdmin();
-    const code = randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase();
+    const code = randomUUID().replace(/-/g, "").toUpperCase();
 
     // Payload inicial com dados do filhote preenchidos pelo admin
     const payload = {
@@ -90,6 +105,6 @@ export async function POST(req: NextRequest) {
       }, { status: 422 });
     }
 
-    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
+    return NextResponse.json({ ok: false, error: "Não foi possível criar o contrato" }, { status: 500 });
   }
 }

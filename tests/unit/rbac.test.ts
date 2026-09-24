@@ -10,13 +10,15 @@ import {
 } from "@/lib/rbac";
 
 describe("rbac helpers", () => {
-  it("normalizes roles desconhecidos como owner", () => {
+  it("normalizes roles desconhecidos como viewer sem elevar privilégios", () => {
     expect(normalizeRole("owner")).toBe("owner");
     expect(normalizeRole("EDITOR")).toBe("editor");
     expect(normalizeRole("viewer")).toBe("viewer");
     expect(normalizeRole("")).toBe(DEFAULT_ROLE);
     expect(normalizeRole(undefined)).toBe(DEFAULT_ROLE);
     expect(normalizeRole("squad")).toBe(DEFAULT_ROLE);
+    expect(DEFAULT_ROLE).toBe("viewer");
+    expect(normalizeRole("admin")).toBe("owner"); // alias do schema legado
   });
 
   it("valida permissões por role", () => {
@@ -34,8 +36,7 @@ describe("rbac helpers", () => {
     expect(getRoleFromHeaderCookie(header)).toBe("editor");
   });
 
-  it("getClientAdminRole retorna owner no ambiente de teste", () => {
+  it("getClientAdminRole falha com privilégio mínimo", () => {
     expect(getClientAdminRole()).toBe(DEFAULT_ROLE);
   });
 });
-

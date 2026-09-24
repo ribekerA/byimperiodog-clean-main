@@ -76,7 +76,6 @@ const RACE_LINKS = [
   // existisse em lugar nenhum do código — e viraria "2027" sozinho na virada do
   // ano. Era também a origem do "Preços 2025" reprovado na auditoria anterior:
   // mesma linha, ano diferente. Sem data, o rótulo não envelhece.
-  { emoji: "💰", label: "Tabela de Preços",                                   href: "/preco-spitz-anao",          desc: "Valores por cor e sexo — sem surpresas" },
   { emoji: "🛡️", label: "Como Comprar com Segurança", href: "/comprar-spitz-anao",         desc: "Guia passo a passo para não cair em golpes" },
   { emoji: "🍼", label: "Filhote de Spitz Alemão",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
   { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, exames e red flags para evitar" },

@@ -11,6 +11,8 @@
  * completa de canal no relatório de conversões.
  */
 
+import { getCurrentConsent } from '@/lib/consent';
+
 export interface TouchData {
   utm_source?: string;
   utm_medium?: string;
@@ -41,6 +43,7 @@ function readUtmFromUrl(): TouchData | null {
 }
 
 export function captureAttribution(): void {
+  if (!getCurrentConsent().analytics) return;
   try {
     const utmData = readUtmFromUrl();
     if (!utmData) return;
@@ -54,6 +57,7 @@ export function captureAttribution(): void {
 }
 
 export function getFirstTouch(): TouchData | null {
+  if (!getCurrentConsent().analytics) return null;
   try {
     const raw = localStorage.getItem(FIRST_TOUCH_KEY);
     return raw ? (JSON.parse(raw) as TouchData) : null;
@@ -63,6 +67,7 @@ export function getFirstTouch(): TouchData | null {
 }
 
 export function getLastTouch(): TouchData | null {
+  if (!getCurrentConsent().analytics) return null;
   try {
     const raw = localStorage.getItem(LAST_TOUCH_KEY);
     return raw ? (JSON.parse(raw) as TouchData) : null;

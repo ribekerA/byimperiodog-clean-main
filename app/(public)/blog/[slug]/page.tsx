@@ -76,7 +76,7 @@ interface RelatedAny {
   cover_url?: string | null;
 }
 
-type MDXComponentsMap = Record<string, React.ComponentType<Record<string, unknown>>>;
+type MDXComponentsMap = import('mdx/types').MDXComponents;
 
 // Colunas reais de blog_posts. A lista antiga terminava em ",faq" — coluna que
 // não existe na tabela. O PostgREST respondia 42703 ("column blog_posts.faq

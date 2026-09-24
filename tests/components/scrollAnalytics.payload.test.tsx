@@ -9,6 +9,8 @@ import { POST as analyticsPost } from "../../app/api/analytics/route";
 import { makeNextRequestStub } from "../helpers/nextRequestStub";
 
 const ENV_ORIGINAL = { ...process.env };
+vi.mock('@/lib/tracking-host', () => ({ isProductionTrackingHost: () => true }));
+vi.mock('@/lib/consent', () => ({ getCurrentConsent: () => ({ analytics: true }) }));
 
 let corpos: string[] = [];
 

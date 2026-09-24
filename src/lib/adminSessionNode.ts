@@ -56,7 +56,8 @@ export function lerCookieDeSessao(req: Request, nome: string): string | undefine
     const igual = parte.indexOf("=");
     if (igual === -1) continue;
     if (parte.slice(0, igual).trim() !== nome) continue;
-    return decodeURIComponent(parte.slice(igual + 1).trim());
+    try { return decodeURIComponent(parte.slice(igual + 1).trim()); }
+    catch { return undefined; }
   }
   return undefined;
 }

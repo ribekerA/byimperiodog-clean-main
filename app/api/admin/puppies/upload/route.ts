@@ -7,8 +7,10 @@ import sharp from 'sharp';
 import { z } from 'zod';
 
 import { requireAdmin } from '@/lib/adminAuth';
+import { BodyTooLargeError, readBoundedFormData } from '@/lib/bounded-body';
+import { InvalidPublicImage, validatePublicImage } from '@/lib/image-upload-security';
+import { corpoJson } from '@/lib/limitePublico';
 import { rateLimit } from '@/lib/limiter';
-import { safeAction } from '@/lib/safeAction';
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
 import {
   ALLOWED_IMAGE_MIME,
@@ -39,6 +41,11 @@ async function processUpload({ buf, mime, filename, wantUpsert, b64Fallback }:{ 
   }
   if (buf.byteLength <= 0 || buf.byteLength > maxBytes) {
     return NextResponse.json({ error: 'arquivo-muito-grande', maxBytes, tipo: isVideo ? 'video' : 'imagem' }, { status: 413 });
+  }
+
+  if (isImage) {
+    try { await validatePublicImage(buf, mime); }
+    catch { return NextResponse.json({ error: 'imagem-invalida' }, { status: 400 }); }
   }
 
   const ext = inferExtFromMime(mime);
@@ -106,9 +113,12 @@ async function processUpload({ buf, mime, filename, wantUpsert, b64Fallback }:{ 
   return NextResponse.json({ ok: true, url: pub.publicUrl, thumb: thumbUrl, upsert: wantUpsert });
 }
 
-const execute = safeAction({
-  schema: bodySchema,
-  handler: async (body, { req }) => {
+async function execute(req: Request) {
+    const read = await corpoJson<unknown>(req, Math.ceil(MAX_VIDEO_BYTES * 4 / 3) + 64 * 1024);
+    if (read.resposta) return read.resposta;
+    const parsed = bodySchema.safeParse(read.dados);
+    if (!parsed.success) return NextResponse.json({ error: 'dados-invalidos' }, { status: 400 });
+    const body = parsed.data;
     const urlObj = new URL(req.url);
     const wantUpsert = urlObj.searchParams.get('upsert') === '1' || body.upsert === true;
     const b64 = body.dataBase64;
@@ -116,8 +126,7 @@ const execute = safeAction({
     const mime = match[1] || 'image/png';
     const buf = Buffer.from(match[2]!, 'base64');
     return processUpload({ buf, mime, filename: body.filename, wantUpsert, b64Fallback: b64 });
-  },
-});
+}
 
 export async function POST(req: NextRequest){
   const auth = requireAdmin(req); if(auth) return auth;
@@ -130,7 +139,7 @@ export async function POST(req: NextRequest){
   const ct = req.headers.get('content-type') || '';
   if (ct.startsWith('multipart/form-data')) {
     try {
-      const form = await req.formData();
+      const form = await readBoundedFormData(req, MAX_VIDEO_BYTES + 64 * 1024);
       const file = form.get('file');
       const upsert = form.get('upsert');
       const wantUpsert = String(upsert) === '1' || String(upsert).toLowerCase() === 'true';
@@ -142,11 +151,15 @@ export async function POST(req: NextRequest){
       const filename = (form.get('filename') as string) || file.name || 'upload';
       return await processUpload({ buf: arr, mime, filename, wantUpsert });
     } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : 'erro-desconhecido';
-      return NextResponse.json({ error: 'falha-ao-processar-formdata', details: msg }, { status: 400 });
+      return NextResponse.json({ error: 'falha-ao-processar-formdata' }, { status: e instanceof BodyTooLargeError ? 413 : 400 });
     }
   }
 
   // Fallback para JSON (compatibilidade)
-  return execute(req as unknown as Request);
+  try { return await execute(req as unknown as Request); }
+  catch (error) {
+    return NextResponse.json({ error: 'falha-no-upload' }, {
+      status: error instanceof BodyTooLargeError ? 413 : error instanceof InvalidPublicImage ? 400 : 500,
+    });
+  }
 }

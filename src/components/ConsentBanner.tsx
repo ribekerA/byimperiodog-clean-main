@@ -1,19 +1,19 @@
 'use client';
 import { Cookie, Settings, X } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
-  acceptAllConsent,
   getCurrentConsent,
   hasConsent,
   OPEN_CONSENT_EVENT,
-  rejectAllConsent,
+  requiresConsentReload,
   saveConsent,
   type ConsentPreferences,
 } from '@/lib/consent';
 
 export default function ConsentBanner() {
+  const bannerRef = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [preferences, setPreferences] = useState<ConsentPreferences>({
@@ -46,22 +46,29 @@ export default function ConsentBanner() {
     return () => window.removeEventListener(OPEN_CONSENT_EVENT, reopen);
   }, []);
 
-  const handleAcceptAll = () => {
-    acceptAllConsent();
+  useEffect(() => {
+    const element = bannerRef.current;
+    if (!show || !element) return;
+    const update = () => document.documentElement.style.setProperty('--consent-banner-height', `${element.getBoundingClientRect().height}px`);
+    update();
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(update) : null;
+    observer?.observe(element);
+    return () => { observer?.disconnect(); document.documentElement.style.removeProperty('--consent-banner-height'); };
+  }, [show, showSettings]);
+
+  const applyPreferences = (next: ConsentPreferences) => {
+    const reload = requiresConsentReload(getCurrentConsent(), next);
+    saveConsent(next);
     setShow(false);
     setShowSettings(false);
+    if (reload) window.location.reload();
   };
 
-  const handleRejectAll = () => {
-    rejectAllConsent();
-    setShow(false);
-    setShowSettings(false);
-  };
+  const handleAcceptAll = () => applyPreferences({ necessary: true, analytics: true, marketing: true, functional: true });
+  const handleRejectAll = () => applyPreferences({ necessary: true, analytics: false, marketing: false, functional: false });
 
   const handleSavePreferences = () => {
-    saveConsent(preferences);
-    setShow(false);
-    setShowSettings(false);
+    applyPreferences(preferences);
   };
 
   const toggleCategory = (category: keyof ConsentPreferences) => {
@@ -77,25 +84,24 @@ export default function ConsentBanner() {
 
   return (
       <div
-        className="fixed bottom-0 left-0 right-0 z-[9999] bg-white border-t border-gray-200 shadow-2xl transition-transform duration-200 will-change-transform"
+        ref={bannerRef}
+        className="fixed bottom-0 left-0 right-0 z-[9999] max-h-[85dvh] overflow-y-auto bg-white border-t border-gray-200 shadow-2xl"
         role="dialog"
         aria-labelledby="consent-title"
-        aria-describedby="consent-description"
+        aria-describedby="cookie-consent-description"
       >
-        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
           {!showSettings ? (
             // Banner simples
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="flex items-start gap-3 flex-1">
                 <Cookie className="h-6 w-6 text-brand shrink-0 mt-1" aria-hidden="true" />
                 <div>
                   <h2 id="consent-title" className="text-lg font-semibold text-gray-900">
-                    🍪 Cookies e Privacidade
+                    Cookies e privacidade
                   </h2>
-                  <p id="consent-description" className="mt-1 text-sm text-gray-600 leading-relaxed">
-                    Usamos cookies essenciais e opcionais para melhorar sua experiência,
-                    analisar nosso tráfego e personalizar conteúdo. Você pode escolher suas
-                    preferências.{' '}
+                  <p id="cookie-consent-description" className="mt-1 text-sm text-gray-600 leading-relaxed">
+                    Cookies opcionais de análise e marketing só com sua escolha. Aceite, rejeite ou personalize.{' '}
                     <Link
                       href="/politica-de-privacidade"
                       prefetch={false}
@@ -107,7 +113,7 @@ export default function ConsentBanner() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
                 <button
                   onClick={() => setShowSettings(true)}
                   className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
@@ -133,7 +139,7 @@ export default function ConsentBanner() {
             // Configurações detalhadas
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 id="consent-title" className="text-lg font-semibold text-gray-900">
                   Preferências de Cookies
                 </h2>
                 <button
@@ -145,6 +151,7 @@ export default function ConsentBanner() {
                 </button>
               </div>
 
+              <p id="cookie-consent-description" className="text-sm text-gray-600">Você pode mudar sua escolha a qualquer momento. Alterar permissões de tags já carregadas recarrega a página para aplicar a preferência.</p>
               <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-2">
                 {/* Necessários */}
                 <div className="flex items-start justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">

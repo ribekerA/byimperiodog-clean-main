@@ -27,6 +27,7 @@ export function makeNextRequestStub(url: string, init: { method?: string; header
     headers: req.headers,
     method: req.method,
     url: req.url,
+    body: req.body,
     json: () => req.json(),
     text: () => req.text(),
     nextUrl,

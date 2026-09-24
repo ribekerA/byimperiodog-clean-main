@@ -161,7 +161,8 @@ export default function LuluDaPomeraniaPage() {
           {CARDS_POR_FAIXA.map((p) => (
             <div key={p.rotulo} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs text-zinc-500 uppercase tracking-wide">valor da tabela</p>
-              <p className="text-xl font-bold text-emerald-700">{p.valor}</p>
+              <p className="text-xl font-bold text-emerald-700">{p.valor} no Pix</p>
+              <p className="mt-1 text-xs text-zinc-600">{p.cartao}</p>
               <p className="text-sm text-zinc-600">{p.rotulo}</p>
             </div>
           ))}

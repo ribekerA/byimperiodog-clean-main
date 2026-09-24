@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
@@ -7,7 +8,7 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { TiltCard } from "@/components/motion/TiltCard";
-import { formatarPreco } from "@/domain/pricing";
+import { formatarPreco, textoPrecoCartao } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -111,11 +112,14 @@ export default function StaticPuppyCard({
           tabIndex={-1}
           aria-hidden="true"
         >
-          <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
+          <div className="relative aspect-square overflow-hidden bg-zinc-100 sm:aspect-[4/5]">
             {cover && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={cover}
+                fill
+                sizes="(min-width: 1024px) 350px, (min-width: 640px) 50vw, 100vw"
+                quality={75}
+                priority={priority}
                 alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
                 // As fotos sao verticais e o filhote raramente esta no mesmo
                 // lugar do quadro: quem posa no colo fica no alto, quem posa na
@@ -125,7 +129,6 @@ export default function StaticPuppyCard({
                 // foi medido.
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.07]"
                 style={{ objectPosition: focoDaFoto(cover) }}
-                loading={priority ? "eager" : "lazy"}
               />
             )}
 
@@ -172,8 +175,9 @@ export default function StaticPuppyCard({
           {/* Preço — ponto de partida da combinação, não etiqueta do animal da foto */}
           <div className="mt-auto flex flex-col gap-0.5">
             <span className="text-xl font-extrabold text-[var(--accent-ink)]">
-              {price ? formatarPreco(price) : "Sob consulta"}
+              {price ? `${formatarPreco(price)} no Pix` : "Sob consulta"}
             </span>
+            {price != null && <span className="text-xs text-zinc-600">{textoPrecoCartao(price)}</span>}
             <span className="text-[10px] font-medium text-zinc-500">Documentação inclusa</span>
           </div>
 

@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server';
 
 import { generatedPosts } from '@/lib/_generated-posts';
 import { isPublishableSupabasePost } from '@/lib/blog/publishable';
+import { editorialImage } from '@/lib/editorial-image';
 import { supabasePublic } from '@/lib/supabasePublic';
+import { escapeXml } from '@/lib/xml';
 
 export const revalidate = 300;
 
@@ -24,7 +26,7 @@ function entryFor(slug: string, published: string, updated?: string | null, img?
     lastmod,
     changefreq: recente ? 'daily' : 'weekly',
     priority: recente ? '0.8' : '0.7',
-    img: img || undefined,
+    img: editorialImage(img, slug, `${site}/blog/${slug}`)?.url,
   };
 }
 
@@ -64,8 +66,8 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${[...bySlug.values()]
     .map(
       (u) =>
-        `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}<changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority>${
-          u.img ? `<image:image><image:loc>${u.img.startsWith('http') ? u.img : site + u.img}</image:loc></image:image>` : ''
+        `  <url><loc>${escapeXml(u.loc)}</loc>${u.lastmod ? `<lastmod>${escapeXml(u.lastmod)}</lastmod>` : ''}<changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority>${
+          u.img ? `<image:image><image:loc>${escapeXml(u.img)}</image:loc></image:image>` : ''
         }</url>`
     )
     .join('\n')}\n</urlset>`;

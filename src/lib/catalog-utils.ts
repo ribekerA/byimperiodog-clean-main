@@ -1,5 +1,5 @@
 import { puppiesPublicados as publicados, staticPuppies } from "@/content/puppies-static";
-import { CORES_DIVULGADAS, RESPOSTA_PRETO } from "@/domain/pricing";
+import { CORES_DIVULGADAS, RESPOSTA_PRETO, RESPOSTA_MACHO_VS_FEMEA, respostaPrecoCor, formatarPreco, precoDe } from "@/domain/pricing";
 
 export type CatalogItem = (typeof staticPuppies)[number];
 
@@ -113,7 +113,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Branco?",
         answer:
-          "Na tabela atual, macho e fêmea brancos partem de R$ 8.500. A disponibilidade é informada no atendimento.",
+          respostaPrecoCor("branco"),
       },
       {
         question: "A cor branca muda o temperamento ou a saúde do Spitz?",
@@ -145,12 +145,12 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço de um Spitz Alemão Anão Creme?",
         answer:
-          "Na By Império Dog, o Macho Creme é R$ 7.500 e a Fêmea Creme é R$ 8.500. A disponibilidade é informada no atendimento.",
+          respostaPrecoCor("creme"),
       },
       {
         question: "Por que o Spitz Creme é mais caro que o laranja?",
         answer:
-          "Na tabela atual da By Império Dog o creme fica acima do laranja, junto com o preto: R$ 7.500 para macho e R$ 8.500 para fêmea. É uma diferença de tabela entre as cores, e não de cuidado: consulta veterinária, hemograma, documentação e contrato são os mesmos em qualquer cor.",
+          respostaPrecoCor("creme") + " Compare os preços de cada cor na tabela; o preço não comprova qualidade ou saúde.",
       },
       {
         question: "O Spitz Creme perde muito pelo?",
@@ -182,7 +182,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Laranja?",
         answer:
-          "Na By Império Dog, o Laranja parte de R$ 6.500 no macho e R$ 8.500 na fêmea. A disponibilidade é informada no atendimento.",
+          respostaPrecoCor("laranja"),
       },
       {
         question: "Spitz Laranja é dócil com crianças?",
@@ -204,10 +204,10 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   particolor: {
     seoTitle: "Spitz Alemão Anão Particolor — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas, a partir de R$ 5.500.",
+      `Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas, a partir de ${formatarPreco(precoDe("particolor", "macho"))} no Pix.`,
     h1: "Spitz Alemão Anão Particolor",
     intro:
-      "O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. É a combinação que abre a tabela da By Império Dog: a partir de R$ 5.500 no macho.",
+      `O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. O macho parte de ${formatarPreco(precoDe("particolor", "macho"))} no Pix na tabela da By Império Dog.`,
     characteristics: [
       "Base branca com manchas definidas de outra cor — o desenho é único em cada filhote",
       "Coloração reconhecida pelo padrão FCI nº 97 da raça",
@@ -219,7 +219,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Particolor?",
         answer:
-          "Na By Império Dog, o Particolor parte de R$ 5.500 no macho e R$ 6.500 na fêmea — o menor valor da tabela nos dois sexos. A disponibilidade é informada no atendimento.",
+          respostaPrecoCor("particolor"),
       },
       {
         question: "O que é um Spitz Particolor?",
@@ -348,7 +348,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Spitz Fêmea é mais cara que Macho?",
         answer:
-          "Na tabela atual, a fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja e R$ 8.500 em creme, preto e branco. A diferença é de R$ 1.000 nas quatro primeiras cores; no branco, macho e fêmea partem de R$ 8.500.",
+          RESPOSTA_MACHO_VS_FEMEA,
       },
       {
         question: "Posso castrar a Spitz Fêmea?",

@@ -6,9 +6,11 @@ import { initWebVitals, logEvent } from "@/lib/analytics";
 import { getCurrentConsent, type ConsentPreferences } from "@/lib/consent";
 import { isGoogleTagManagerEnabled } from "@/lib/conversions";
 import { isAdminRoute } from "@/lib/tracking";
+import { isProductionTrackingHost } from '@/lib/tracking-host';
 
 export default function TrackingScripts() {
   useEffect(() => {
+    if (!isProductionTrackingHost()) return;
     const waitFor = <T,>(opts: {
       getter: () => T | undefined;
       onReady: (value: T) => void;

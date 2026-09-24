@@ -196,7 +196,7 @@ export default async function PuppyPage(props: Props) {
       <div className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 sm:py-8 lg:px-10 lg:pb-16">
 
         {/* ── Breadcrumb ─────────────────────────────────────────────────── */}
-        <nav aria-label="Navegação estrutural" className="mb-6">
+        <nav aria-label="Navegação estrutural" className="mb-3 sm:mb-6">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500">
             <li><Link href="/" className="hover:text-emerald-700 hover:underline">Início</Link></li>
             <li aria-hidden="true" className="text-zinc-300">/</li>
@@ -207,9 +207,26 @@ export default async function PuppyPage(props: Props) {
         </nav>
 
         {/* ── Grid principal ─────────────────────────────────────────────── */}
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+        <div className="grid gap-5 lg:grid-cols-2 lg:items-start lg:gap-x-10">
+
+          <div className="min-w-0 lg:col-start-2 lg:row-start-1">
+            <PuppyDetailPanel
+              summaryOnly
+              name={puppy.name}
+              heading={searchCopy?.heading}
+              corLabel={corLabel}
+              colorSlug={colorSlug}
+              sexLabel={sexLabel}
+              sexSlug={sexSlug}
+              priceCents={puppy.priceCents ?? puppy.price_cents}
+              description={description}
+              waLink={waLink}
+              slug={puppy.slug}
+            />
+          </div>
 
           {/* Galeria cinematográfica */}
+          <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2">
           <PuppyCinematicGallery
             images={puppy.images ?? []}
             puppyName={puppy.name}
@@ -217,14 +234,16 @@ export default async function PuppyPage(props: Props) {
             puppySex={sexLabel}
             puppyId={puppy.slug}
           />
+          </div>
 
           {/* Painel de detalhes */}
           {/* `min-w-0`: a coluna da galeria já tinha, esta não. Sem ela a
               trilha do grid cresce até o min-content do conteúdo mais rígido
               do painel, e qualquer texto que não quebre volta a estourar a
               largura da tela no celular. */}
-          <div className="flex min-w-0 flex-col gap-4">
+          <div className="flex min-w-0 flex-col gap-4 lg:col-start-2 lg:row-start-2">
             <PuppyDetailPanel
+              detailsOnly
               name={puppy.name}
               heading={searchCopy?.heading}
               corLabel={corLabel}

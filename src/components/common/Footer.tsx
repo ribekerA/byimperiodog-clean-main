@@ -37,7 +37,6 @@ const RACA_ITEMS = [
   { label: "Spitz Alemão Preto", href: "/spitz-alemao-preto" },
   { label: "Spitz Alemão Baby Face", href: "/spitz-alemao-baby-face" },
   { label: "Ninhadas", href: "/ninhadas" },
-  { label: "Tabela de Preços", href: "/preco-spitz-anao" },
   { label: "Como Comprar", href: "/comprar-spitz-anao" },
 ];
 

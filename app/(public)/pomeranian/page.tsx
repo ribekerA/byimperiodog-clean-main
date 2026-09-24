@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { ConsultaFilhotes } from "@/components/blog/CommercialPricing";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { CARDS_POR_FAIXA, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
+import { RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/pomeranian`;
 
 export const metadata: Metadata = {
-  title: "Pomeranian no Brasil — Raça, Preço e Filhotes",
+  title: "Pomeranian: Preço, Fotos e Nomes no Brasil",
   description:
     // 195 caracteres: a equivalência de nomes, que é o ponto da página, ficava
     // fora do trecho exibido. Reescrita em 152.
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pomeranian" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Pomeranian no Brasil — Raça, Preço e Filhotes | By Império Dog",
+    title: "Pomeranian: Preço, Fotos e Nomes no Brasil | By Império Dog",
     description:
       "O Pomeranian é o mesmo que Lulu da Pomerânia e Spitz Alemão Anão. Saiba preço, características e onde comprar com registro oficial no Brasil.",
     type: "article",
@@ -69,10 +71,7 @@ const FAQS = [
 ];
 
 export default function PomeranianPage() {
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
-  const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Pomeranian no site da By Império Dog e gostaria de informações sobre as opções atuais.")}`
-    : "#";
+  const waHref = buildWhatsAppLink({ message: "Olá! Vi a página sobre Pomeranian no site da By Império Dog e gostaria de informações sobre as opções atuais." });
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
@@ -96,8 +95,9 @@ export default function PomeranianPage() {
           Pomeranian no Brasil — o que você precisa saber
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          O Pomeranian é uma das raças de cães mais buscadas no Brasil. Aqui você encontra tudo: o que é a raça, como ela se chama em português, preço atualizado, características e como encontrar um filhote com registro oficial.
+          Pomeranian é o nome em inglês do Lulu da Pomerânia, também chamado Spitz Alemão Anão. Veja a tabela de preços por cor e sexo, compare fotos reais da nossa criação em Bragança Paulista e saiba o que conferir antes de escolher.
         </p>
+        <Link href="/filhotes" className="inline-flex min-h-11 items-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-800">Ver fotos e vídeos reais na vitrine</Link>
       </header>
 
       {/* Três nomes — seção central para SEO */}
@@ -110,27 +110,13 @@ export default function PomeranianPage() {
         </p>
       </section>
 
-      {/* Tabela de preços */}
-      <section aria-labelledby="preco-pom-heading" className="rounded-3xl border border-zinc-200 bg-zinc-50 p-6 sm:p-8 space-y-4">
-        <h2 id="preco-pom-heading" className="text-xl font-bold text-zinc-900">
-          Preço do Pomeranian no Brasil — By Império Dog
-        </h2>
-        <p className="text-sm text-zinc-600">
-          Os valores variam conforme a cor e o sexo. Todos os filhotes incluem registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda.
-        </p>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {CARDS_POR_FAIXA.map((p) => (
-            <div key={p.rotulo} className="rounded-xl bg-white border border-zinc-200 p-4">
-              <p className="text-xs text-zinc-500 uppercase tracking-wide">valor da tabela</p>
-              <p className="text-xl font-bold text-emerald-700">{p.valor}</p>
-              <p className="text-sm text-zinc-600">{p.rotulo}</p>
-            </div>
-          ))}
-        </div>
-        <p className="text-xs text-zinc-500">
-          Inclui registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade do filhote, contrato e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável.{" "}
-          <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link>
-        </p>
+      <ConsultaFilhotes placement="content" />
+
+      <section aria-labelledby="escolha-pomeranian" className="space-y-4">
+        <h2 id="escolha-pomeranian" className="text-2xl font-bold text-zinc-900">Antes de escolher seu Pomeranian</h2>
+        <p>Compare a cor e o sexo na <Link href="/filhotes" className="underline">vitrine com fotos e vídeos reais</Link>. As galerias são referências permanentes: confirme quais opções podem ser reservadas no atendimento.</p>
+        <p>Na conversa com a equipe, confira o valor do filhote, o contrato, a documentação entregue e as condições de transporte para sua cidade. Visitas e videochamadas podem ser combinadas com a criadora.</p>
+        <Link href="/guias/como-escolher-spitz-alemao-anao" className="inline-block font-medium text-emerald-800 underline">Ler o guia para escolher um Spitz Alemão Anão</Link>
       </section>
 
       {/* Características */}
@@ -199,9 +185,10 @@ export default function PomeranianPage() {
           >
             Ver catálogo de filhotes
           </Link>
-          {phone && (
+          {waHref && (
             <a
               href={waHref}
+              data-wa-placement="content"
               target="_blank"
               rel="noreferrer"
               className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50"

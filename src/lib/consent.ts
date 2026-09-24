@@ -56,7 +56,8 @@ export function loadConsent(): ConsentState | null {
     const parsed = JSON.parse(stored) as ConsentState;
 
     // Valida versão da política
-    if (parsed.version !== CURRENT_POLICY_VERSION) {
+    if (parsed.version !== CURRENT_POLICY_VERSION ||
+        !['necessary', 'analytics', 'marketing', 'functional'].every((key) => typeof parsed[key as keyof ConsentPreferences] === 'boolean')) {
       return null;
     }
 
@@ -71,6 +72,7 @@ export function loadConsent(): ConsentState | null {
  */
 export function saveConsent(preferences: ConsentPreferences): void {
   if (typeof window === 'undefined') return;
+  const previous = getCurrentConsent();
 
   const state: ConsentState = {
     ...preferences,
@@ -80,6 +82,7 @@ export function saveConsent(preferences: ConsentPreferences): void {
   };
 
   try {
+    clearRevokedStorage(previous, preferences);
     localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(state));
 
     // Atualiza Google Consent Mode
@@ -89,6 +92,37 @@ export function saveConsent(preferences: ConsentPreferences): void {
     window.dispatchEvent(new CustomEvent('consentUpdated', { detail: preferences }));
   } catch {
     // Ignora erros de localStorage
+  }
+}
+
+/** Loaded third-party libraries cannot be unloaded by unmounting a script tag. */
+export function requiresConsentReload(previous: ConsentPreferences, next: ConsentPreferences): boolean {
+  return (previous.analytics || previous.marketing) &&
+    (previous.analytics !== next.analytics || previous.marketing !== next.marketing);
+}
+
+function clearRevokedStorage(previous: ConsentPreferences, next: ConsentPreferences): void {
+  if (!next.analytics) {
+    for (const key of ['bid_first_touch', 'bid_last_touch']) localStorage.removeItem(key);
+  }
+  if (previous.marketing && !next.marketing) {
+    for (const key of ['bid_click_id', 'bid_click_id_sessao', 'bid_click_ids_v2']) {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    }
+  }
+  const patterns = [
+    ...(previous.analytics && !next.analytics ? [/^_ga(?:_|$)/, /^_gid$/, /^_gat/] : []),
+    ...(previous.marketing && !next.marketing ? [/^_gcl_/, /^_fbp$/, /^_fbc$/, /^_pin_/, /^_pinterest_/, /^_ttp$/] : []),
+  ];
+  for (const cookie of document.cookie.split(';')) {
+    const name = cookie.split('=')[0].trim();
+    if (!patterns.some((pattern) => pattern.test(name))) continue;
+    const hostname = window.location.hostname;
+    const domains = ['', hostname, ...(hostname.endsWith('.byimperiodog.com.br') ? ['byimperiodog.com.br'] : [])];
+    for (const domain of domains) {
+      document.cookie = `${name}=; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/; SameSite=Lax${domain ? `; Domain=${domain}` : ''}`;
+    }
   }
 }
 

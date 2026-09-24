@@ -22,6 +22,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // O Next valida server-only no build; os testes usam banco simulado.
+      'server-only': resolve(__dirname, './tests/setup/server-only.ts'),
       // Espelha os paths do tsconfig. Sem '@/content' e '@/domain' o vitest
       // resolvia para src/content e src/domain — pastas que nao existem — e
       // qualquer teste de componente que importasse dai quebrava na coleta.

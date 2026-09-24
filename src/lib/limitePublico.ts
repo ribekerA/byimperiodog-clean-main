@@ -14,6 +14,7 @@
 // garantia importa (/api/leads) existe uma segunda camada contada no banco.
 import { NextResponse } from "next/server";
 
+import { BodyTooLargeError, readBoundedBody } from "@/lib/bounded-body";
 import { rateLimit } from "@/lib/rateLimit";
 
 /** Corpo máximo padrão. Nenhum formulário do site chega perto de 16 KB. */
@@ -89,8 +90,11 @@ export async function corpoJson<T>(req: Request, limiteBytes = LIMITE_CORPO_PADR
 
   let cru: string;
   try {
-    cru = await req.text();
-  } catch {
+    cru = new TextDecoder().decode(await readBoundedBody(req, limiteBytes));
+  } catch (error) {
+    if (error instanceof BodyTooLargeError) {
+      return { resposta: NextResponse.json({ error: "Envio grande demais." }, { status: 413 }) };
+    }
     return { resposta: NextResponse.json({ error: "Corpo inválido" }, { status: 400 }) };
   }
 

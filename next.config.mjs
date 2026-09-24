@@ -98,6 +98,15 @@ const nextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
+      // Depois dos globais: URLs de contrato contêm credenciais de acesso.
+      ...["/contract/:path*", "/api/contract"].map((source) => ({
+        source,
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive, nosnippet" },
+          { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+        ],
+      })),
       // Fontes e icones sao imutaveis de fato: quando mudam, mudam de arquivo.
       {
         source: "/:all*(svg|ico|woff|woff2)",

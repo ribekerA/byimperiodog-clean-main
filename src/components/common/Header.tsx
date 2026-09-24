@@ -31,7 +31,6 @@ const RACA_LINKS = [
   { label: "Spitz Alemão Branco",      href: "/spitz-alemao-branco",       desc: "Diferenças do creme claro" },
   { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Preço e disponibilidade" },
   { label: "Spitz Alemão Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
-  { label: "Tabela de Preços",         href: "/preco-spitz-anao",          desc: "Valores por cor e sexo" },
   { label: "Como Comprar",             href: "/comprar-spitz-anao",        desc: "Guia passo a passo seguro" },
   { label: "Criador Confiável",        href: "/criador-spitz-confiavel",   desc: "Como identificar procedência" },
 ] as const;

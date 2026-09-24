@@ -22,8 +22,8 @@ import { useEffect, useState, useTransition, type FormEvent } from "react";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useToast } from "@/components/ui/toast";
 
+import { LEAD_STATUS_OPTIONS } from "./lead-status";
 import type { AdminLeadsPayload, LeadListItem, LeadStatus, ParsedLeadFilters } from "./queries";
-import { LEAD_STATUS_OPTIONS } from "./queries";
 
 type Props = AdminLeadsPayload & { filters: ParsedLeadFilters };
 

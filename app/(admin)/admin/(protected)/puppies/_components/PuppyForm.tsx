@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { useToast } from "@/components/ui/toast";
+import { precoDeCadastro, textoPrecoCartao } from "@/domain/pricing";
 import type { Puppy } from "@/domain/puppy";
 import { CITIES, PUPPY_COLORS, type Color, type City, type PuppyStatus } from "@/domain/taxonomies";
 import type { RawPuppy } from "@/types/puppy";
@@ -76,16 +77,6 @@ const COLOR_OPTIONS = Object.entries(PUPPY_COLORS).map(([value, meta]) => ({
 const formatBRL = (cents: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(Math.max(0, cents) / 100);
 
-const COLOR_RARITY: Record<Color, number> = {
-  creme: 1,
-  branco: 1.08,
-  laranja: 1,
-  preto: 1.05,
-  particolor: 1.12,
-  chocolate: 1.15,
-  sable: 1.1,
-  azul: 1.2,
-};
 
 function slugify(value: string) {
   return value
@@ -443,41 +434,7 @@ export default function PuppyForm({
 
   const mainImage = photos[0]?.url || record?.imageUrl || "";
 
-  const demandScore = useMemo(() => {
-    const ageDays = (() => {
-      if (!record?.nascimento) return 30;
-      const birth = new Date(record.nascimento);
-      if (Number.isNaN(birth.getTime())) return 30;
-      return Math.max(0, (Date.now() - birth.getTime()) / (1000 * 60 * 60 * 24));
-    })();
-    const freshness = Math.max(0, 30 - ageDays) / 30;
-    const colorBoost = COLOR_RARITY[values.color] ?? 1;
-    const availabilityBoost = values.status === "available" ? 1 : 0.5;
-    const base = 50;
-    const score = base + freshness * 25 + (colorBoost - 1) * 40 + availabilityBoost * 10;
-    return Math.min(100, Math.max(0, Math.round(score)));
-  }, [record?.nascimento, values.color, values.status]);
-
-  const demandBadge = demandScore >= 75 ? "Muito procurado" : demandScore >= 45 ? "Normal" : "Baixa procura";
-
-  const priceSuggestionCents = useMemo(() => {
-    const base = 750000;
-    const colorMult = COLOR_RARITY[values.color] ?? 1;
-    const sexMult = values.sex === "female" ? 1.05 : 1;
-    const demandMult = 0.9 + demandScore / 120;
-    const ageDiscount = (() => {
-      if (!record?.nascimento) return 1;
-      const birth = new Date(record.nascimento);
-      if (Number.isNaN(birth.getTime())) return 1;
-      const months = Math.max(0, (Date.now() - birth.getTime()) / (1000 * 60 * 60 * 24 * 30));
-      if (months < 3) return 1.08;
-      if (months < 5) return 1;
-      if (months < 7) return 0.96;
-      return 0.9;
-    })();
-    const suggested = base * colorMult * sexMult * demandMult * ageDiscount;
-    return Math.max(300000, Math.round(suggested));
-  }, [demandScore, record?.nascimento, values.color, values.sex]);
+  const priceSuggestionCents = precoDeCadastro(values.color, values.sex);
 
   const copyVariants = useMemo(() => {
     const name = values.name || record?.nome || record?.name || "Filhote";
@@ -486,33 +443,33 @@ export default function PuppyForm({
     const priceLabel =
       values.priceCents > 0
         ? (values.priceCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
-        : (priceSuggestionCents / 100).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+        : priceSuggestionCents != null ? formatBRL(priceSuggestionCents) : "sob consulta";
     const variants = [
       {
         id: "conversao",
         title: "Conversão",
-        short: `Pronto para morar? ${name} é um ${sexLabel} ${colorLabel} incrível e está disponível por ${priceLabel}.`,
-        long: `${name} é um ${sexLabel} ${colorLabel} super sociável e habituado ao colo. Vacinas e vermífugo em dia, pronto para ir para casa por ${priceLabel}. Vamos agendar uma visita ou enviar mais fotos?`,
+        short: `${name}: Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel} no Pix. Consulte a disponibilidade.`,
+        long: `Conheça ${name}, Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel} no Pix. Fale com a equipe para confirmar disponibilidade, documentação e condições de entrega, ou solicitar fotos e vídeos atuais.`,
       },
       {
         id: "tecnico",
         title: "Técnico",
-        short: `${name}: ${sexLabel} ${colorLabel}, registro oficial, protocolo vacinal em dia conforme a idade.`,
-        long: `${name} (${sexLabel}, cor ${colorLabel}) possui registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade e acompanhamento veterinário. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Ótima densidade de pelagem e estrutura compacta. Valor sugerido ${priceLabel}.`,
+        short: `${name}: ${sexLabel}, cor ${colorLabel}. Solicite os documentos individuais e o histórico veterinário.`,
+        long: `${name} (${sexLabel}, cor ${colorLabel}). Antes de reservar, confirme com a equipe a documentação, o histórico veterinário, a identificação e a previsão de entrega deste filhote. Valor de referência: ${priceLabel} no Pix.`,
       },
       {
         id: "emocional",
         title: "Emocional",
-        short: `${name} é o companheiro perfeito: pelagem ${colorLabel}, olhar doce e temperamento carinhoso.`,
-        long: `${name} conquista com o olhar e o temperamento carinhoso. ${sexLabel} ${colorLabel} que adora colo, ideal para quem busca um Spitz de companhia. Proposta especial de ${priceLabel} com suporte pós-entrega.`,
+        short: `Pensando em receber um Spitz na família? Conheça ${name}, ${sexLabel}, cor ${colorLabel}.`,
+        long: `Receber um filhote pede planejamento e cuidado. Conheça ${name}, ${sexLabel}, cor ${colorLabel}, e converse com a equipe sobre rotina, adaptação e necessidades individuais. Valor de referência: ${priceLabel} no Pix.`,
       },
     ];
     if (copySeed % 2 === 0) {
       variants.push({
         id: `social-${copySeed}`,
         title: "Social",
-        short: `${name} adora pessoas e outros pets. Pelagem ${colorLabel}, ${sexLabel} equilibrado.`,
-        long: `${name} já convive com crianças e outros cães. ${sexLabel} ${colorLabel} com temperamento estável, ideal para famílias. ${priceLabel} com check-up e kit inicial inclusos.`,
+        short: `Veja fotos e vídeos de ${name}: Spitz Alemão Anão ${colorLabel}, ${sexLabel}.`,
+        long: `Quer conhecer ${name}? Peça fotos e vídeos atuais e tire dúvidas sobre a convivência com crianças e outros animais. Confirme as condições individuais com a equipe. Valor de referência: ${priceLabel} no Pix.`,
       });
     }
     return variants;
@@ -520,7 +477,6 @@ export default function PuppyForm({
 
   const photoQuality = useMemo(() => {
     const hasPhoto = Boolean(mainImage);
-    const qualityScore = hasPhoto ? Math.min(95, 70 + photos.length * 5) : 30;
     const suggestions = [
       "Ajustar brilho e contraste para destacar a pelagem.",
       "Garantir foco no rosto do filhote.",
@@ -528,21 +484,21 @@ export default function PuppyForm({
       "Usar fundo neutro ou claro para destacar a cor.",
       "Adicionar uma foto em pé e outra no colo.",
     ];
-    return { hasPhoto, qualityScore, suggestions };
-  }, [mainImage, photos.length]);
+    return { hasPhoto, suggestions };
+  }, [mainImage]);
 
   const tags = useMemo(() => {
     const base: string[] = [];
     base.push(values.color);
     base.push(values.sex === "female" ? "femea" : "macho");
     if (values.status === "available") base.push("disponivel");
-    if (priceSuggestionCents > 1000000) base.push("premium");
-    if (COLOR_RARITY[values.color] && COLOR_RARITY[values.color] > 1.1) base.push("raro");
+
+
     return Array.from(new Set(base));
-  }, [priceSuggestionCents, values.color, values.sex, values.status]);
+  }, [values.color, values.sex, values.status]);
 
   const applyPriceSuggestion = () => {
-    setValues((prev) => ({ ...prev, priceCents: priceSuggestionCents }));
+    if (priceSuggestionCents != null) setValues((prev) => ({ ...prev, priceCents: priceSuggestionCents }));
     push({ type: "success", message: "Preço sugerido aplicado" });
   };
 
@@ -769,45 +725,35 @@ export default function PuppyForm({
         <div className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] px-[var(--space-4)] py-[var(--space-4)] shadow-[var(--elevation-2)]">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold text-[var(--text)]">Preco sugerido pela IA</p>
-              <p className="text-xs text-[var(--text-muted)]">Baseado em cor, sexo, idade e demanda do funil.</p>
+              <p className="text-sm font-semibold text-[var(--text)]">Preço Pix de referência</p>
+              <p className="text-xs text-[var(--text-muted)]">Tabela comercial oficial por cor e sexo; não altera valores individuais automaticamente.</p>
             </div>
             <span className="rounded-full bg-[var(--brand-tint-50)] px-3 py-1 text-xs font-semibold text-[var(--brand)]">
-              {demandBadge} - {demandScore} pts
+              Tabela oficial
             </span>
           </div>
           <div className="mt-3 flex items-center justify-between rounded-[var(--radius-xl)] bg-white px-3 py-2 shadow-inner">
             <div>
               <p className="text-sm text-[var(--text-muted)]">Preco sugerido</p>
-              <p className="text-xl font-bold text-[var(--text)]">{formatBRL(priceSuggestionCents)}</p>
+              <p className="text-xl font-bold text-[var(--text)]">{priceSuggestionCents != null ? formatBRL(priceSuggestionCents) : "Combinação sob consulta"}</p>
             </div>
             <button
               type="button"
               onClick={applyPriceSuggestion}
+              disabled={priceSuggestionCents == null}
               className="rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
             >
               Aplicar preco
             </button>
           </div>
           <div className="mt-3 text-xs text-[var(--text-muted)]">
-            Considera raridade da cor, sexo, idade estimada e status de disponibilidade.
+            {priceSuggestionCents != null ? textoPrecoCartao(priceSuggestionCents) : "Sem preço oficial para esta combinação. Confirme com a responsável."}
           </div>
         </div>
 
-        <div className="space-y-3 rounded-[var(--radius-2xl)] border border-[var(--border)] bg-white px-[var(--space-4)] py-[var(--space-4)] shadow-[var(--elevation-2)]">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-[var(--text)]">Score de demanda</p>
-              <p className="text-xs text-[var(--text-muted)]">Clicks/cores populares/recencia e disponibilidade.</p>
-            </div>
-            <span className="rounded-full bg-[var(--surface)] px-3 py-1 text-xs font-semibold text-[var(--text)]">
-              {demandBadge}
-            </span>
-          </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--surface)]">
-            <div className="h-full bg-[var(--brand)]" style={{ width: `${demandScore}%` }} aria-valuenow={demandScore} />
-          </div>
-          <p className="text-xs text-[var(--text-muted)]">Quanto maior o score, mais urgente ajustar preco, fotos e copy.</p>
+        <div className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-white p-4">
+          <p className="text-sm font-semibold">Dados de demanda</p>
+          <p className="mt-2 text-xs text-[var(--text-muted)]">Sem medição validada vinculada a este cadastro. Não estimamos procura ou probabilidade de venda por cor, idade ou aparência.</p>
         </div>
       </section>
 
@@ -850,11 +796,11 @@ export default function PuppyForm({
               <p className="text-xs text-[var(--text-muted)]">Analise rapida da imagem principal.</p>
             </div>
             <span className="rounded-full bg-[var(--surface)] px-3 py-1 text-xs font-semibold text-[var(--text)]">
-              {photoQuality.qualityScore} pts
+              Revisão manual
             </span>
           </div>
           <p className="text-sm text-[var(--text-muted)]">
-            {photoQuality.hasPhoto ? "Use as recomendacoes para deixar o anuncio mais atrativo." : "Adicione uma foto para obter recomendacoes."}
+            {photoQuality.hasPhoto ? "Checklist geral: nenhuma análise automática da qualidade da foto foi realizada." : "Adicione uma foto e confira o checklist geral."}
           </p>
           <ul className="space-y-1 text-xs text-[var(--text-muted)]">
             {photoQuality.suggestions.map((tip) => (
@@ -994,5 +940,3 @@ function Select({
     </label>
   );
 }
-
-

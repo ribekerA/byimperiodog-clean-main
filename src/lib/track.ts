@@ -1,7 +1,11 @@
 // Client-only helper. Use: track.event("generate_lead", { puppy_id: "..." })
+import { getCurrentConsent } from './consent';
+import { isProductionTrackingHost } from './tracking-host';
+
 type Params = Record<string, any>;
 
 export function sendGA4(name: string, params?: Params) {
+  if (!isProductionTrackingHost() || !getCurrentConsent().analytics) return;
   const gtag = (window as any).gtag;
   if (typeof gtag === "function") {
     gtag("event", name, params || {});
@@ -9,6 +13,7 @@ export function sendGA4(name: string, params?: Params) {
 }
 
 export function sendFB(name: string, params?: Params) {
+  if (!isProductionTrackingHost() || !getCurrentConsent().marketing) return;
   const fbq = (window as any).fbq;
   if (typeof fbq === "function") {
     const map: Record<string, string> = {
@@ -21,6 +26,7 @@ export function sendFB(name: string, params?: Params) {
 }
 
 export function sendTT(name: string, params?: Params) {
+  if (!isProductionTrackingHost() || !getCurrentConsent().marketing) return;
   const ttq = (window as any).ttq;
   if (ttq && typeof ttq.track === "function") {
     const map: Record<string, string> = {
@@ -33,6 +39,7 @@ export function sendTT(name: string, params?: Params) {
 }
 
 export function sendPIN(name: string, params?: Params) {
+  if (!isProductionTrackingHost() || !getCurrentConsent().marketing) return;
   const pintrk = (window as any).pintrk;
   if (typeof pintrk === "function") {
     const map: Record<string, string> = {

@@ -35,7 +35,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { formatarPreco } from "@/domain/pricing";
+import { formatarPreco, textoPrecoCartao } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 // Formatacao de preco vem do dominio, nao daqui.
@@ -60,6 +60,8 @@ interface Props {
   description: string;
   waLink: string;
   slug: string;
+  summaryOnly?: boolean;
+  detailsOnly?: boolean;
 }
 
 // ─── Configurações ────────────────────────────────────────────────────────────
@@ -94,17 +96,21 @@ export default function PuppyDetailPanel({
   description,
   waLink,
   slug,
+  summaryOnly = false,
+  detailsOnly = false,
 }: Props) {
   const trackedWaLink = useWhatsAppLink(waLink);
   const price = formatPrice(priceCents);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
+
+      {!detailsOnly && <>
 
       {/* ── Taxonomia ────────────────────────────────────────────────────── */}
       <motion.div
         className="flex flex-wrap items-center gap-2"
-        initial={{ opacity: 0, y: 12 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: EASE, delay: 0.1 }}
       >
@@ -125,7 +131,7 @@ export default function PuppyDetailPanel({
 
       {/* ── Nome ─────────────────────────────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: EASE, delay: 0.18 }}
       >
@@ -141,27 +147,23 @@ export default function PuppyDetailPanel({
       {price && (
         <motion.div
           className="flex flex-wrap items-end gap-3"
-          initial={{ opacity: 0, scale: 0.97 }}
+          initial={false}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.26 }}
         >
           <div>
-            <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
+            <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço Pix: ${price}`}>{price} <span className="text-base">no Pix</span></p>
+            {priceCents != null && <p className="mt-1 text-sm text-zinc-700">{textoPrecoCartao(priceCents)}</p>}
             <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, consulta veterinária e mentoria inclusos</p>
           </div>
         </motion.div>
       )}
 
-      {/* ── Descrição ────────────────────────────────────────────────────── */}
-      <ScrollReveal variant="fadeIn" delay={0.08}>
-        <p className="text-base leading-relaxed text-zinc-700">{description}</p>
-      </ScrollReveal>
-
       {/* ── CTA principal ────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-2">
         <motion.div
           className="flex items-center gap-3"
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.36 }}
         >
@@ -209,6 +211,11 @@ export default function PuppyDetailPanel({
         </p>
       </div>
 
+      </>}
+
+      {!summaryOnly && <>
+      <p className="text-base leading-relaxed text-zinc-700">{description}</p>
+
       {/* ── Incluído no valor ────────────────────────────────────────────── */}
       <ScrollReveal variant="fadeUp" delay={0.05}>
         <div>
@@ -251,6 +258,7 @@ export default function PuppyDetailPanel({
           ))}
         </div>
       </ScrollReveal>
+      </>}
     </div>
   );
 }

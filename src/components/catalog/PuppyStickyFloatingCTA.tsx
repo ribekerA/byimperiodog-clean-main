@@ -92,6 +92,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
           {/* ── Mobile: barra inferior ─────────────────────────────────────── */}
           <motion.div
             className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-100 bg-white/96 px-4 py-3 backdrop-blur-md lg:hidden"
+            style={{ bottom: 'var(--consent-banner-height, 0px)' }}
             initial={{ y: reduced ? 0 : 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: reduced ? 0 : 80, opacity: 0 }}

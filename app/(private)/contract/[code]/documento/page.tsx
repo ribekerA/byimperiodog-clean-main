@@ -1,8 +1,10 @@
+// Documento administrativo: não compartilha o layout de marketing.
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 import { BRAND } from "@/domain/config";
+import { requireAdminLayout } from "@/lib/adminAuth";
 import { rateLimit } from "@/lib/rateLimit";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -45,8 +47,8 @@ async function fetchContract(code: string): Promise<ContractData | null> {
 async function getSignatureUrl(path: string | null): Promise<string | null> {
   if (!path) return null;
   try {
-    const { data } = supabaseAdmin().storage.from("contracts").getPublicUrl(path);
-    return data.publicUrl;
+    const { data, error } = await supabaseAdmin().storage.from("contracts").createSignedUrl(path, 300);
+    return error ? null : data?.signedUrl ?? null;
   } catch {
     return null;
   }
@@ -78,6 +80,8 @@ function fmtBirthDate(v?: string | null) {
 }
 
 export default async function ContractDocumento(props: { params: Promise<{ code: string }> }) {
+  // Documentos contêm CPF/endereço/assinatura. O código de preenchimento não autoriza leitura.
+  await requireAdminLayout({ permission: "cadastros:read" });
   const params = await props.params;
   const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rl = rateLimit(`contract-doc:${ip}`, 30, 60_000);
@@ -248,6 +252,8 @@ export default async function ContractDocumento(props: { params: Promise<{ code:
           {/* Assinaturas */}
           <div className="signatures">
             <div className="sig-box">
+              {/* Assinatura privada e temporária: não passar pelo cache público do otimizador. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               {signUrl && <img src={signUrl} alt="Assinatura do comprador" className="sig-img" />}
               <div className="sig-name">
                 <strong>{buyer.nome ?? "Comprador"}</strong><br />

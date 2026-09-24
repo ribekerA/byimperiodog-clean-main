@@ -21,11 +21,11 @@ describe("separacao das galerias das femeas laranja", () => {
     expect(lacoVermelho?.images).not.toContain("/filhotes/laranja/laranja-femea-01.jpg");
   });
 
-  it("publica a femea do laco rosa em uma ficha exclusiva por R$ 8.500", () => {
+  it("publica a femea do laco rosa em uma ficha exclusiva por R$ 7.500 no Pix", () => {
     expect(lacoRosa).toBeDefined();
     expect(lacoRosa?.images).toEqual(["/filhotes/laranja/laranja-femea-01.jpg"]);
-    expect(lacoRosa?.priceCents).toBe(850000);
-    expect(lacoRosa?.price_cents).toBe(850000);
+    expect(lacoRosa?.priceCents).toBe(750000);
+    expect(lacoRosa?.price_cents).toBe(750000);
   });
 
   it("nao compartilha nenhuma midia entre as duas fichas", () => {
