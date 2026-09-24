@@ -26,7 +26,7 @@ describe("navegação por intenção de busca", () => {
 
   it("mantém caminhos de compra para artigos ainda não classificados", () => {
     expect(relatedSearchTopics("/blog/novo-artigo").map((link) => link.href))
-      .toEqual(["/filhotes", "/preco-spitz-anao", "/comprar-spitz-anao"]);
+      .toEqual(["/filhotes", "/blog/preco-spitz-alemao-anao", "/comprar-spitz-anao"]);
     expect(relatedSearchTopics("/filhotes", 0)).toEqual([]);
   });
 });
