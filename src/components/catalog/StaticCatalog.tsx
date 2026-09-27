@@ -76,11 +76,6 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
         if (filterColor && pColor !== filterColor) return false;
         if (filterSex && pSex !== filterSex) return false;
         return true;
-      })
-      .sort((a, b) => {
-        const precoA = a.priceCents ?? a.price_cents ?? Number.MAX_SAFE_INTEGER;
-        const precoB = b.priceCents ?? b.price_cents ?? Number.MAX_SAFE_INTEGER;
-        return precoA - precoB;
       });
   }, [puppies, filterColor, filterSex]);
 
