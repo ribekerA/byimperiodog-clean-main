@@ -4,7 +4,7 @@ import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { TABELA_DE_PRECOS, precoCartao } from "../src/domain/pricing.ts";
+import { TABELA_DE_PRECOS } from "../src/domain/pricing.ts";
 
 const targets = process.argv.slice(2);
 
@@ -83,7 +83,7 @@ const frontmatterEnd = (source) => {
 // Node 24 (produção/CI) lê o módulo TypeScript sem aliases. Nenhuma cópia da matriz.
 const PRECOS_DA_TABELA = new Set(
   Object.values(TABELA_DE_PRECOS)
-    .flatMap(({ macho, femea }) => [macho, femea, precoCartao(macho), precoCartao(femea)])
+    .flatMap(({ macho, femea }) => [macho, femea])
     .map((cents) => cents / 100)
 );
 

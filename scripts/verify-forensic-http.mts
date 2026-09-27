@@ -76,7 +76,7 @@ try {
   for (const [color, ...prices] of expected) {
     const row = page.locator("table tbody tr").filter({ has: page.getByRole("cell", { name: color, exact: true }) });
     const text = await row.innerText();
-    const pass = prices.every((value) => text.includes("R$ " + value)) && text.includes("Pix") && text.includes("cartão");
+    const pass = prices.every((value) => text.includes("R$ " + value));
     results.push({ check: "ten-prices-rendered-html", color, pass });
   }
   await page.goto(origin + "/blog/preco-spitz-alemao-anao");

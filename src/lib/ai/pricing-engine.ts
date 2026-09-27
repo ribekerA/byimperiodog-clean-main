@@ -1,5 +1,5 @@
 /** Referência comercial determinística. Não estima procura nem altera o cadastro. */
-import { precoDeCadastro, CONDICOES_PAGAMENTO } from "@/domain/pricing";
+import { precoDeCadastro } from "@/domain/pricing";
 import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -26,7 +26,7 @@ export async function recalcPricingForPuppy(puppyId: string): Promise<PricingRes
     prob_sale_at_current: null,
     alert: puppy.price_cents === official ? "Preço cadastrado alinhado à tabela Pix." :
       "Preço cadastrado difere da tabela Pix. Investigue uma condição individual antes de alterar.",
-    reasoning: "Referência da tabela oficial por cor e sexo, sem estimativa de venda ou desconto automático. " + CONDICOES_PAGAMENTO,
+    reasoning: "Referência da tabela oficial por cor e sexo, sem estimativa de venda, desconto ou condição de pagamento automática.",
   };
 }
 

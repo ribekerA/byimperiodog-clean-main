@@ -23,7 +23,7 @@ export function DiferencaPrecosSexo() {
 }
 
 export function FaixaPrecos() {
-  return <span>{FAIXA_PUBLICA_TEXTO} no Pix</span>;
+  return <span>{FAIXA_PUBLICA_TEXTO}</span>;
 }
 
 export function ConsultaFilhotes({ placement = 'blog' }: { placement?: 'blog' | 'content' }) {

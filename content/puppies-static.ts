@@ -41,7 +41,7 @@ const referenciasVisuais = [
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-branco-femea-01",
-    name: "Spitz Branco Fêmea",
+    name: "Spitz Alemão Anão Branco Fêmea",
     slug: "spitz-alemao-anao-branco-femea",
     title: "Spitz Alemão Anão Branco Fêmea | By Império Dog",
     color: "branco",
@@ -52,16 +52,19 @@ const referenciasVisuais = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
-    // Somente o novo lote da fêmea com corações rosas: três fotos e quatro
-    // vídeos. A primeira foto enviada é a capa da ficha e da vitrine.
+    // Lote atual enviado em 26/09/2026. A primeira foto é a capa; os cinco
+    // vídeos foram processados sem faixa de áudio antes da publicação.
     images: [
-      "/filhotes/branco/branco-femea-coracoes-20260912-01.jpg",
-      "/filhotes/branco/branco-femea-coracoes-20260912-02.jpg",
-      "/filhotes/branco/branco-femea-coracoes-20260912-03.jpg",
-      "/filhotes/videos/branco-femea-coracoes-20260912-01.mp4",
-      "/filhotes/videos/branco-femea-coracoes-20260912-02.mp4",
-      "/filhotes/videos/branco-femea-coracoes-20260912-03.mp4",
-      "/filhotes/videos/branco-femea-coracoes-20260912-04.mp4",
+      "/filhotes/branco/branco-femea-jardim-20260926-01.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-02.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-03.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-04.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-05.jpg",
+      "/filhotes/videos/branco-femea-jardim-20260926-01.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-02.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-03.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-04.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-05.mp4",
     ],
     currency: "BRL",
     description:
@@ -71,12 +74,13 @@ const referenciasVisuais = [
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
+    catalogPriority: 110,
   },
 
   // ─── SPITZ CREME FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-creme-femea-01",
-    name: "Spitz Creme Fêmea",
+    name: "Lulu da Pomerânia Creme Fêmea",
     slug: "spitz-alemao-anao-creme-femea",
     title: "Spitz Alemão Anão Creme Fêmea | By Império Dog",
     color: "creme",
@@ -114,7 +118,7 @@ const referenciasVisuais = [
   // ─── SPITZ PRETO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-preto-femea-01",
-    name: "Spitz Preto Fêmea",
+    name: "Spitz Alemão Anão Preto Fêmea",
     slug: "spitz-alemao-anao-preto-femea",
     title: "Spitz Alemão Anão Preto Fêmea | By Império Dog",
     color: "preto",
@@ -125,19 +129,16 @@ const referenciasVisuais = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
-    // Galeria substituída pelo lote enviado em 12/09/2026: somente as seis
-    // fotos e os três vídeos desta fêmea com flores rosas. A primeira foto
-    // enviada é a capa; os arquivos antigos não pertencem mais a esta ficha.
+    // Lote atual enviado em 26/09/2026. A primeira foto é a capa; os quatro
+    // vídeos foram processados sem faixa de áudio antes da publicação.
     images: [
-      "/filhotes/preto/preto-femea-flores-rosas-20260912-01.jpg",
-      "/filhotes/preto/preto-femea-flores-rosas-20260912-02.jpg",
-      "/filhotes/preto/preto-femea-flores-rosas-20260912-03.jpg",
-      "/filhotes/preto/preto-femea-flores-rosas-20260912-04.jpg",
-      "/filhotes/preto/preto-femea-flores-rosas-20260912-05.jpg",
-      "/filhotes/preto/preto-femea-flores-rosas-20260912-06.jpg",
-      "/filhotes/videos/preto-femea-flores-rosas-20260912-01.mp4",
-      "/filhotes/videos/preto-femea-flores-rosas-20260912-02.mp4",
-      "/filhotes/videos/preto-femea-flores-rosas-20260912-03.mp4",
+      "/filhotes/preto/preto-femea-jardim-20260926-01.jpg",
+      "/filhotes/preto/preto-femea-jardim-20260926-02.jpg",
+      "/filhotes/preto/preto-femea-jardim-20260926-03.jpg",
+      "/filhotes/videos/preto-femea-jardim-20260926-01.mp4",
+      "/filhotes/videos/preto-femea-jardim-20260926-02.mp4",
+      "/filhotes/videos/preto-femea-jardim-20260926-03.mp4",
+      "/filhotes/videos/preto-femea-jardim-20260926-04.mp4",
     ],
     currency: "BRL",
     description:
@@ -147,12 +148,13 @@ const referenciasVisuais = [
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
+    catalogPriority: 100,
   },
 
   // ─── SPITZ LARANJA FÊMEA ────────────────────────────────────────────────────
   {
     id: "spitz-laranja-femea-01",
-    name: "Spitz Laranja Fêmea Laço Vermelho",
+    name: "Lulu da Pomerânia Laranja Fêmea Laço Vermelho",
     slug: "spitz-alemao-anao-laranja-femea",
     title: "Spitz Alemão Anão Laranja Fêmea Laço Vermelho | By Império Dog",
     color: "laranja",
@@ -195,7 +197,7 @@ const referenciasVisuais = [
   // ─── SPITZ LARANJA FÊMEA — LAÇO ROSA ───────────────────────────────────────
   {
     id: "spitz-laranja-femea-laco-rosa-01",
-    name: "Spitz Laranja Fêmea Laço Rosa",
+    name: "Spitz Alemão Anão Laranja Fêmea Laço Rosa",
     slug: "spitz-alemao-anao-laranja-femea-laco-rosa",
     title: "Spitz Alemão Anão Laranja Fêmea Laço Rosa | By Império Dog",
     color: "laranja",
@@ -222,7 +224,7 @@ const referenciasVisuais = [
   // ─── SPITZ CREME MACHO ──────────────────────────────────────────────────────
   {
     id: "spitz-creme-macho-01",
-    name: "Spitz Creme Macho",
+    name: "Spitz Alemão Anão Creme Macho",
     slug: "spitz-alemao-anao-creme-macho",
     title: "Spitz Alemão Anão Creme Macho | By Império Dog",
     color: "creme",
@@ -259,7 +261,7 @@ const referenciasVisuais = [
   // ─── SPITZ PRETO MACHO ──────────────────────────────────────────────────────
   {
     id: "spitz-preto-macho-01",
-    name: "Spitz Preto Macho",
+    name: "Lulu da Pomerânia Preto Macho",
     slug: "spitz-alemao-anao-preto-macho",
     title: "Spitz Alemão Anão Preto Macho | By Império Dog",
     color: "preto",
@@ -297,7 +299,7 @@ const referenciasVisuais = [
   // ─── SPITZ LARANJA MACHO ────────────────────────────────────────────────────
   {
     id: "spitz-laranja-macho-01",
-    name: "Spitz Laranja Macho",
+    name: "Spitz Alemão Anão Laranja Macho",
     slug: "spitz-alemao-anao-laranja-macho",
     title: "Spitz Alemão Anão Laranja Macho | By Império Dog",
     color: "laranja",
@@ -432,6 +434,9 @@ export const staticPuppies = referenciasVisuais.map((referencia) => {
 export const puppiesPublicados = staticPuppies
   .filter((p) => (p as { divulgar?: boolean }).divulgar !== false)
   .sort((a, b) => {
+    const prioridadeA = (a as { catalogPriority?: number }).catalogPriority ?? 0;
+    const prioridadeB = (b as { catalogPriority?: number }).catalogPriority ?? 0;
+    if (prioridadeA !== prioridadeB) return prioridadeB - prioridadeA;
     const precoA = a.priceCents ?? a.price_cents ?? Number.MAX_SAFE_INTEGER;
     const precoB = b.priceCents ?? b.price_cents ?? Number.MAX_SAFE_INTEGER;
     return precoA - precoB;

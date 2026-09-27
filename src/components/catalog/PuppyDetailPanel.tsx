@@ -35,7 +35,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { formatarPreco, textoPrecoCartao } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 // Formatacao de preco vem do dominio, nao daqui.
@@ -152,8 +152,7 @@ export default function PuppyDetailPanel({
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.26 }}
         >
           <div>
-            <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço Pix: ${price}`}>{price} <span className="text-base">no Pix</span></p>
-            {priceCents != null && <p className="mt-1 text-sm text-zinc-700">{textoPrecoCartao(priceCents)}</p>}
+            <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
             <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, consulta veterinária e mentoria inclusos</p>
           </div>
         </motion.div>

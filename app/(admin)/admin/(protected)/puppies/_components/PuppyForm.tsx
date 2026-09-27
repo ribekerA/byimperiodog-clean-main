@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { useToast } from "@/components/ui/toast";
-import { precoDeCadastro, textoPrecoCartao } from "@/domain/pricing";
+import { precoDeCadastro } from "@/domain/pricing";
 import type { Puppy } from "@/domain/puppy";
 import { CITIES, PUPPY_COLORS, type Color, type City, type PuppyStatus } from "@/domain/taxonomies";
 import type { RawPuppy } from "@/types/puppy";
@@ -448,20 +448,20 @@ export default function PuppyForm({
       {
         id: "conversao",
         title: "Conversão",
-        short: `${name}: Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel} no Pix. Consulte a disponibilidade.`,
-        long: `Conheça ${name}, Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel} no Pix. Fale com a equipe para confirmar disponibilidade, documentação e condições de entrega, ou solicitar fotos e vídeos atuais.`,
+        short: `${name}: Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel}. Consulte a disponibilidade.`,
+        long: `Conheça ${name}, Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel}. Fale com a equipe para confirmar disponibilidade, documentação e condições de entrega, ou solicitar fotos e vídeos atuais.`,
       },
       {
         id: "tecnico",
         title: "Técnico",
         short: `${name}: ${sexLabel}, cor ${colorLabel}. Solicite os documentos individuais e o histórico veterinário.`,
-        long: `${name} (${sexLabel}, cor ${colorLabel}). Antes de reservar, confirme com a equipe a documentação, o histórico veterinário, a identificação e a previsão de entrega deste filhote. Valor de referência: ${priceLabel} no Pix.`,
+        long: `${name} (${sexLabel}, cor ${colorLabel}). Antes de reservar, confirme com a equipe a documentação, o histórico veterinário, a identificação e a previsão de entrega deste filhote. Valor de referência: ${priceLabel}.`,
       },
       {
         id: "emocional",
         title: "Emocional",
         short: `Pensando em receber um Spitz na família? Conheça ${name}, ${sexLabel}, cor ${colorLabel}.`,
-        long: `Receber um filhote pede planejamento e cuidado. Conheça ${name}, ${sexLabel}, cor ${colorLabel}, e converse com a equipe sobre rotina, adaptação e necessidades individuais. Valor de referência: ${priceLabel} no Pix.`,
+        long: `Receber um filhote pede planejamento e cuidado. Conheça ${name}, ${sexLabel}, cor ${colorLabel}, e converse com a equipe sobre rotina, adaptação e necessidades individuais. Valor de referência: ${priceLabel}.`,
       },
     ];
     if (copySeed % 2 === 0) {
@@ -469,7 +469,7 @@ export default function PuppyForm({
         id: `social-${copySeed}`,
         title: "Social",
         short: `Veja fotos e vídeos de ${name}: Spitz Alemão Anão ${colorLabel}, ${sexLabel}.`,
-        long: `Quer conhecer ${name}? Peça fotos e vídeos atuais e tire dúvidas sobre a convivência com crianças e outros animais. Confirme as condições individuais com a equipe. Valor de referência: ${priceLabel} no Pix.`,
+        long: `Quer conhecer ${name}? Peça fotos e vídeos atuais e tire dúvidas sobre a convivência com crianças e outros animais. Confirme as condições individuais com a equipe. Valor de referência: ${priceLabel}.`,
       });
     }
     return variants;
@@ -747,7 +747,7 @@ export default function PuppyForm({
             </button>
           </div>
           <div className="mt-3 text-xs text-[var(--text-muted)]">
-            {priceSuggestionCents != null ? textoPrecoCartao(priceSuggestionCents) : "Sem preço oficial para esta combinação. Confirme com a responsável."}
+            {priceSuggestionCents != null ? "Condições de pagamento confirmadas no atendimento." : "Sem preço oficial para esta combinação. Confirme com a responsável."}
           </div>
         </div>
 

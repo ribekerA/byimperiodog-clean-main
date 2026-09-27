@@ -5,41 +5,39 @@ import { describe, expect, it } from "vitest";
 
 import { staticPuppies, puppiesPublicados } from "../content/puppies-static";
 import {
-  CORES_DIVULGADAS, FAIXA_PUBLICA, PRECO_POR_SLUG, MAX_PARCELAS_CARTAO,
-  precoDe, precoDoFilhote, precoCartao, type CorDivulgada, type Sexo,
+  CORES_DIVULGADAS, FAIXA_PUBLICA, PRECO_POR_SLUG,
+  precoDe, precoDoFilhote, type CorDivulgada, type Sexo,
 } from "../src/domain/pricing";
 
-// Fixture independente: preços aprovados em 14/09/2026, em reais.
-const OFICIAL: [CorDivulgada, Sexo, number, number][] = [
-  ["particolor", "macho", 5500, 6200],
-  ["particolor", "femea", 6500, 7200],
-  ["laranja", "macho", 6500, 7200],
-  ["laranja", "femea", 7500, 8200],
-  ["creme", "macho", 7500, 8200],
-  ["creme", "femea", 8500, 9200],
-  ["preto", "macho", 8500, 9200],
-  ["preto", "femea", 9500, 10200],
-  ["branco", "macho", 9500, 10200],
-  ["branco", "femea", 10500, 11200],
+// Fixture independente: preços-base oficiais, em reais. Condições de pagamento
+// não são inferidas pelo código e precisam ser confirmadas no atendimento.
+const OFICIAL: [CorDivulgada, Sexo, number][] = [
+  ["particolor", "macho", 5500],
+  ["particolor", "femea", 6500],
+  ["laranja", "macho", 6500],
+  ["laranja", "femea", 7500],
+  ["creme", "macho", 7500],
+  ["creme", "femea", 8500],
+  ["preto", "macho", 8500],
+  ["preto", "femea", 9500],
+  ["branco", "macho", 9500],
+  ["branco", "femea", 10500],
 ];
 
-describe("verdade comercial — fixture oficial Pix e cartão", () => {
-  it.each(OFICIAL)("%s %s: Pix %i e cartão %i", (cor, sexo, pix, cartao) => {
-    expect(precoDe(cor, sexo)).toBe(pix * 100);
-    expect(precoCartao(precoDe(cor, sexo))).toBe(cartao * 100);
-    expect(precoCartao(pix * 100) / 100).toBe(pix + 700);
+describe("verdade comercial — fixture oficial", () => {
+  it.each(OFICIAL)("%s %s: R$ %i", (cor, sexo, valor) => {
+    expect(precoDe(cor, sexo)).toBe(valor * 100);
   });
-  it("cobre as dez combinações e até três parcelas sobre o cartão", () => {
+  it("cobre as dez combinações sem inventar condição de pagamento", () => {
     expect(new Set(OFICIAL.map(([cor, sexo]) => cor + sexo)).size).toBe(10);
-    expect(MAX_PARCELAS_CARTAO).toBe(3);
     expect(FAIXA_PUBLICA.maxCents).toBe(1050000);
   });
   it("o content-guard importa a fonte única e inspeciona a faixa inteira", () => {
     const source = readFileSync(resolve(__dirname, "../scripts/content-guard.mjs"), "utf8");
-    expect(source).toContain('import { TABELA_DE_PRECOS, precoCartao } from "../src/domain/pricing.ts"');
+    expect(source).toContain('import { TABELA_DE_PRECOS } from "../src/domain/pricing.ts"');
     const janela = source.match(/FAIXA_DE_PRECO_DE_FILHOTE = \{ min: (\d+), max: (\d+) \}/)!;
     expect(Number(janela[1])).toBeLessThanOrEqual(FAIXA_PUBLICA.minCents / 100);
-    expect(Number(janela[2])).toBeGreaterThanOrEqual(precoCartao(FAIXA_PUBLICA.maxCents) / 100);
+    expect(Number(janela[2])).toBeGreaterThanOrEqual(FAIXA_PUBLICA.maxCents / 100);
   });
 });
 
@@ -56,8 +54,11 @@ describe("catálogo de referência derivado da fonte comercial", () => {
       expect(p.priceCents).toBe(excecao ?? OFICIAL.find(([c, s]) => c === cor && s === sexo)![2] * 100);
     }
   });
-  it("não mantém cópias da matriz antiga como exceções individuais", () => {
-    expect(PRECO_POR_SLUG).toEqual({ "spitz-alemao-anao-branco-femea": 850000 });
+  it("mantém somente os preços individuais confirmados", () => {
+    expect(PRECO_POR_SLUG).toEqual({
+      "spitz-alemao-anao-branco-femea": 850000,
+      "spitz-alemao-anao-preto-femea": 950000,
+    });
   });
   it("preserva a exclusão das três referências retiradas", () => {
     const slugs = staticPuppies.map((p) => p.slug);
@@ -65,9 +66,17 @@ describe("catálogo de referência derivado da fonte comercial", () => {
       expect(slugs).not.toContain(slug);
     }
   });
-  it("ordena a vitrine e mantém os aliases iguais inclusive nas URLs antigas", () => {
-    const precos = puppiesPublicados.map((p) => p.priceCents);
-    expect(precos).toEqual([...precos].sort((a, b) => a - b));
+  it("prioriza o lote em evidência e mantém os aliases iguais inclusive nas URLs antigas", () => {
+    expect(puppiesPublicados.slice(0, 2).map((p) => p.slug)).toEqual([
+      "spitz-alemao-anao-branco-femea",
+      "spitz-alemao-anao-preto-femea",
+    ]);
+    const precosRestantes = puppiesPublicados.slice(2).map((p) => p.priceCents);
+    expect(precosRestantes).toEqual([...precosRestantes].sort((a, b) => a - b));
     for (const p of staticPuppies) expect(p.price_cents).toBe(p.priceCents);
+  });
+  it("mantém nomes distintos nos cards publicados", () => {
+    const nomes = puppiesPublicados.map((p) => p.name.trim().toLocaleLowerCase("pt-BR"));
+    expect(new Set(nomes).size).toBe(nomes.length);
   });
 });

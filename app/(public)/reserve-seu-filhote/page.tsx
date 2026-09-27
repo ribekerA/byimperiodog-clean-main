@@ -95,7 +95,7 @@ const processSteps = [
 const faqEntries = [
   {
     question: "Qual o valor da reserva e como funciona o pagamento?",
-    answer: "O sinal de reserva é de 30% do valor total e garante sua prioridade. O saldo pode ser parcelado ou pago na entrega. Condições detalhadas são enviadas no contrato digital.",
+    answer: "As condições de reserva e pagamento são confirmadas diretamente com a equipe e registradas no contrato antes da conclusão.",
   },
   {
     question: "Posso visitar os filhotes antes de reservar?",

@@ -134,7 +134,7 @@ Nunca prometa visita nem videochamada. Diga que a possibilidade e o formato são
 O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote. Nunca prometa prazo, empresa parceira, valor de frete nem que o filhote viaja acompanhado: o canil não opera transporte e não pode responder pelo trajeto.
 
 **Sobre parcelamento:**
-Consulte as condições com a criadora pelo WhatsApp — há opções de parcelamento no cartão.
+Consulte as condições de reserva e pagamento diretamente com a criadora pelo WhatsApp.
 
 **Sobre documentação:**
 Cada filhote sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições do contrato), carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, consulta veterinária, hemograma completo, histórico de vermifugação e contrato. A identificação do animal segue os requisitos exigidos pela legislação aplicável.

@@ -204,10 +204,10 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   particolor: {
     seoTitle: "Spitz Alemão Anão Particolor — Filhotes",
     metaDescription:
-      `Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas, a partir de ${formatarPreco(precoDe("particolor", "macho"))} no Pix.`,
+      `Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas, a partir de ${formatarPreco(precoDe("particolor", "macho"))}.`,
     h1: "Spitz Alemão Anão Particolor",
     intro:
-      `O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. O macho parte de ${formatarPreco(precoDe("particolor", "macho"))} no Pix na tabela da By Império Dog.`,
+      `O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. O macho parte de ${formatarPreco(precoDe("particolor", "macho"))} na tabela da By Império Dog.`,
     characteristics: [
       "Base branca com manchas definidas de outra cor — o desenho é único em cada filhote",
       "Coloração reconhecida pelo padrão FCI nº 97 da raça",

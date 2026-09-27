@@ -8,7 +8,7 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { TiltCard } from "@/components/motion/TiltCard";
-import { formatarPreco, textoPrecoCartao } from "@/domain/pricing";
+import { formatarPreco } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -175,9 +175,8 @@ export default function StaticPuppyCard({
           {/* Preço — ponto de partida da combinação, não etiqueta do animal da foto */}
           <div className="mt-auto flex flex-col gap-0.5">
             <span className="text-xl font-extrabold text-[var(--accent-ink)]">
-              {price ? `${formatarPreco(price)} no Pix` : "Sob consulta"}
+              {price ? formatarPreco(price) : "Sob consulta"}
             </span>
-            {price != null && <span className="text-xs text-zinc-600">{textoPrecoCartao(price)}</span>}
             <span className="text-[10px] font-medium text-zinc-500">Documentação inclusa</span>
           </div>
 

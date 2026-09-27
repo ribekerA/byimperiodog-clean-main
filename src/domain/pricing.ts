@@ -57,22 +57,6 @@ export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
   branco: { label: "Branco", macho: 950000, femea: 1050000 },
 };
 
-/** Condições comerciais aprovadas em 14/09/2026. Todos os valores são centavos. */
-export const ACRESCIMO_CARTAO_CENTS = 70000;
-export const MAX_PARCELAS_CARTAO = 3;
-
-export function precoCartao(pixCents: number): number {
-  return pixCents + ACRESCIMO_CARTAO_CENTS;
-}
-
-export const CONDICOES_PAGAMENTO =
-  `No cartão, o preço é o valor Pix + ${formatarPreco(ACRESCIMO_CARTAO_CENTS)}, ` +
-  `em até ${MAX_PARCELAS_CARTAO}x sem juros sobre o preço do cartão.`;
-
-export function textoPrecoCartao(pixCents: number): string {
-  return `${formatarPreco(precoCartao(pixCents))} no cartão · até ${MAX_PARCELAS_CARTAO}x sem juros`;
-}
-
 /**
  * Formata centavos como o site escreve: "R$ 6.500", sem centavos.
  *
@@ -116,6 +100,8 @@ export const PRECO_POR_SLUG: Readonly<Record<string, number>> = {
   // brancas atualmente divulgadas nesta página. A referência geral da
   // combinação branco/fêmea permanece separada da oferta deste estoque.
   "spitz-alemao-anao-branco-femea": 850000,
+  // Fêmea preta do lote fotografado em 26/09/2026.
+  "spitz-alemao-anao-preto-femea": 950000,
 };
 
 /** Preço anunciado para o filhote, com fallback para a tabela por cor/sexo. */
@@ -150,7 +136,7 @@ export function aPartirDe(cor: CorDivulgada): number {
  * de sempre: um único formato de "R$" no site inteiro.
  */
 export function textoAPartirDe(cents: number): string {
-  return `A partir de ${formatarPreco(cents)} no Pix`;
+  return `A partir de ${formatarPreco(cents)}`;
 }
 
 const TODOS_OS_VALORES = Object.values(TABELA_DE_PRECOS).flatMap((linha) => [
@@ -209,9 +195,9 @@ function enumerarPorSexo(sexo: Sexo): string {
 
 export const RESPOSTA_QUANTO_CUSTA =
   `Os filhotes de Spitz Alemão Anão saem a partir de ${formatarPreco(FAIXA_PUBLICA.minCents)}, ` +
-  `chegando a ${formatarPreco(FAIXA_PUBLICA.maxCents)} no Pix conforme sexo e cor — cada valor abaixo é ` +
+  `chegando a ${formatarPreco(FAIXA_PUBLICA.maxCents)} conforme sexo e cor — cada valor abaixo é ` +
   `o ponto de partida da combinação. Machos: ${enumerarPorSexo("macho")}. Fêmeas: ${enumerarPorSexo("femea")}. ` +
-  `A disponibilidade é informada no atendimento. ${CONDICOES_PAGAMENTO}`;
+  `A disponibilidade e as condições de pagamento são informadas no atendimento.`;
 
 /**
  * Diferença entre fêmea e macho na mesma cor, em centavos — ou `null` quando a
@@ -250,7 +236,7 @@ export const RESPOSTA_MACHO_VS_FEMEA =
     : "Os valores por sexo variam conforme a cor. ") +
   "Cada valor abaixo é o ponto de partida da combinação de cor e sexo, e o valor de um filhote " +
   `específico é confirmado no atendimento. Machos: ${enumerarPorSexo("macho")}. ` +
-  `Fêmeas: ${enumerarPorSexo("femea")}. Valores no Pix. ${CONDICOES_PAGAMENTO}`;
+  `Fêmeas: ${enumerarPorSexo("femea")}. As condições de pagamento são confirmadas no atendimento.`;
 
 /**
  * Resposta oficial sobre o preto.
@@ -268,8 +254,8 @@ export const RESPOSTA_MACHO_VS_FEMEA =
  */
 export function respostaPrecoCor(cor: CorDivulgada): string {
   return `Na By Império Dog, o Spitz Alemão Anão ${TABELA_DE_PRECOS[cor].label.toLowerCase()} parte de ` +
-    `${formatarPreco(precoDe(cor, "macho"))} para machos e ${formatarPreco(precoDe(cor, "femea"))} para fêmeas no Pix. ` +
-    `As opções atuais são confirmadas no atendimento. ${CONDICOES_PAGAMENTO}`;
+    `${formatarPreco(precoDe(cor, "macho"))} para machos e ${formatarPreco(precoDe(cor, "femea"))} para fêmeas. ` +
+    `As opções e as condições atuais são confirmadas no atendimento.`;
 }
 export const RESPOSTA_PRETO = respostaPrecoCor("preto");
 
@@ -296,7 +282,6 @@ export const CARDS_POR_FAIXA = (["macho", "femea"] as const).flatMap((sexo) => {
     .map(([valor, cores]) => ({
       rotulo: `${rotuloSexo} — ${cores.join(" / ")}`,
       valor: formatarPreco(valor),
-      cartao: textoPrecoCartao(valor),
     }));
 });
 
@@ -306,7 +291,5 @@ export const LINHAS_FORMATADAS = CORES_DIVULGADAS.map((cor) => ({
   label: TABELA_DE_PRECOS[cor].label,
   macho: formatarPreco(TABELA_DE_PRECOS[cor].macho),
   femea: formatarPreco(TABELA_DE_PRECOS[cor].femea),
-  machoCartao: formatarPreco(precoCartao(TABELA_DE_PRECOS[cor].macho)),
-  femeaCartao: formatarPreco(precoCartao(TABELA_DE_PRECOS[cor].femea)),
   aPartirDe: formatarPreco(aPartirDe(cor)),
 }));
