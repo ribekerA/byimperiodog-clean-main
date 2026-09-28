@@ -81,7 +81,7 @@
     "@tiptap/extension-typography": "3.31.3",
     "@tiptap/react": "3.31.3",
     "@tiptap/starter-kit": "3.31.3",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.6.1",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
