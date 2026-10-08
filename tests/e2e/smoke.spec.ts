@@ -150,7 +150,7 @@ test.describe("Smoke publico", () => {
     }
   });
 
-  test("o catalogo ordena os filhotes pelo menor valor e mostra o valor sem prefixo", async ({
+  test("o catalogo preserva os destaques, ordena os demais por valor e mostra o valor sem prefixo", async ({
     page,
   }) => {
     await page.goto("/filhotes");
@@ -158,13 +158,18 @@ test.describe("Smoke publico", () => {
       items.map((item) => {
         const texto = item.textContent ?? "";
         const valor = texto.match(/R\$\s*([\d.]+)/)?.[1] ?? "0";
-        return { texto, cents: Number(valor.replace(/\./g, "")) * 100 };
+        const href = item.querySelector('a[href^="/filhotes/"]')?.getAttribute("href");
+        return { texto, href, cents: Number(valor.replace(/\./g, "")) * 100 };
       }),
     );
 
     expect(cards).toHaveLength(puppiesPublicados.length);
-    expect(cards.map((card) => card.cents)).toEqual(
-      [...cards.map((card) => card.cents)].sort((a, b) => a - b),
+    expect(cards.slice(0, 2).map((card) => card.href)).toEqual([
+      "/filhotes/spitz-alemao-anao-branco-femea",
+      "/filhotes/spitz-alemao-anao-preto-femea",
+    ]);
+    expect(cards.slice(2).map((card) => card.cents)).toEqual(
+      [...cards.slice(2).map((card) => card.cents)].sort((a, b) => a - b),
     );
     for (const card of cards) expect(card.texto).not.toMatch(/A partir de R\$/i);
   });

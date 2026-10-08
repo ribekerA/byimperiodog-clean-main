@@ -1,0 +1,35 @@
+# Conferência comercial — 07/10/2026
+
+Repositório `ribekerA/byimperiodog-clean-main`, branch `main`. Produção consultada por HTTP antes das alterações. Correções somente locais; nenhum deploy, alteração no Google Ads, nova dependência ou mudança contratual.
+
+| Problema encontrado | URL e arquivo responsável | Evidência antes | Correção realizada | Validação | Já resolvido — sem alteração | Confirmação da proprietária |
+| --- | --- | --- | --- | --- | --- | --- |
+| Percentual da reserva | `/reserve-seu-filhote`; `app/(public)/reserve-seu-filhote/page.tsx`, `src/lib/whatsapp/agent.ts` | Página pública já sem 30%; resposta do agente ainda dizia entrada de 30% | Agente corrigido para 50%; etapa de sinal da página explicita os 50% autorizados | HTTP 200; HTML local contém sinal de 50%; TypeScript aprovado | A ocorrência de 30% na própria página já não existia | Nenhuma para o percentual; condições restantes abaixo |
+| Tabela genérica e diferença fixa | `/`, `/filhotes`, `/pomeranian`, `/lulu-da-pomerania`; `src/domain/pricing.ts`, páginas de filhotes e Lulu | Produção listava branco fêmea por R$ 10.500 nas respostas; Lulu exibia dez cards por cor/sexo; FAQ dizia diferença fixa de R$ 1.000 | Respostas compartilhadas explicam preço individual; removida a grade genérica de Lulu; removido ranking obrigatório da FAQ | HTTP 200 nas quatro rotas; frases antigas ausentes na conferência; testes de preços aprovados | `/pomeranian` já tinha substituído a grade visual por consulta à vitrine; alterada apenas sua resposta compartilhada | Nenhuma |
+| Rota antiga de preços | `/preco-spitz-anao`; `app/(public)/preco-spitz-anao/page.tsx` | Já redirecionava para `/filhotes` | Nenhuma alteração na rota | Destino HTTP 200 e canonical `/filhotes` | Redirecionamento preservado | Nenhuma |
+| Afirmações e tabelas nos artigos | `/blog/preco-spitz-alemao-anao`, `/blog/cores-spitz-alemao-anao-qual-mais-cara`, `/blog/spitz-alemao-anao-creme`; arquivos homônimos em `content/posts` | Ranking, mínimos por cor, tabela creme e referências a tabela já removida | Removidos mínimos e hierarquias; mantidos temas de preço, imagens e links de consulta individual | Três páginas HTTP 200; titles e canonicals preservados; regenerado `_generated-posts.ts` | A tabela central do artigo de preço já havia sido retirada; não recriada | Nenhuma |
+| Mesma divergência em preto e sexo | `/spitz-alemao-preto`, `/blog/spitz-alemao-anao-preto`, `/blog/spitz-alemao-anao-macho-ou-femea`; página e MDX correspondentes | Produção mostrava mínimos por sexo, tabela com condição Pix e afirmação de fêmeas sempre mais caras | Removidas tabelas genéricas e condição Pix não confirmada; preços individuais permanecem no cadastro | TypeScript e testes relevantes aprovados; valores individuais preservados | Nenhuma intervenção em contratos ou registros históricos | Nenhuma condição Pix foi inventada |
+| Hierarquia comercial nas páginas de cor/sexo | `/filhotes/cor/particolor` e páginas que usam `src/lib/catalog-utils.ts` | Particolor sem fotos, mas anunciando mínimo de R$ 5.500 e menor preço nos dois sexos; branco descrito como maior valor | Textos e descrição comercial explicam preço individual; retirada diferença fixa e ordem entre cores | Particolor HTTP 200; title/canonical preservados; sem mínimo genérico | Conteúdo sobre aparência das cores preservado | Disponibilidade de opções continua pelo atendimento |
+| Referência do macho preto com apresentação de oferta | `/filhotes/spitz-alemao-anao-preto-macho`; `content/puppy-search-copy.ts`, `app/(public)/filhotes/[slug]/page.tsx`, `src/components/catalog/PuppyDetailPanel.tsx` | Preço de R$ 8.500 no título e descrição com “por”; página se declarava referência permanente | Mantido valor cadastrado; aviso junto ao preço; descrição de busca sem oferta numérica; sufixo do título passa a Referência visual; bloco comercial esclarecido | HTTP 200; aviso presente; sem Product ou InStock; canonical e núcleo do título preservados | Schema próprio já era WebPage/ImageObject sem Offer. Offer geral do canil não é oferta do animal: preservado | Confirmar se o animal fotografado está disponível, vendido ou apenas histórico. Não atribuído status sem fonte |
+| Promessa de transporte em SP | `/filhotes/sao-paulo`; `app/(public)/filhotes/sao-paulo/page.tsx` | Hero, descrição e benefício prometiam entrega/transporte em toda SP | Condicionados modalidade, destino, prazo e viabilidade à idade e exigências aplicáveis | HTTP 200; title, canonical, cidades e links preservados | FAQ já condicionava parte da logística; artigo nacional já explicava planejamento por caso | Condições de cada trajeto são confirmadas no atendimento |
+| Condições sem comprovação contratual suficiente | `/reserve-seu-filhote`; página de reserva, `src/lib/contractPdf.ts` e documento contratual existente | Espera de 2–6 meses; reembolso de 70%; transferência para outra ninhada; kit; exames laboratoriais. Contrato consultado não estabelece essas regras como política geral | Nenhuma alteração automática nessas condições | Comparação de conteúdo com fontes locais; contratos intactos | FAQ de pagamento já direcionava condições ao atendimento, sem regra específica de saldo | Confirmar os seis pontos abaixo |
+
+## Confirmações necessárias
+
+1. **Espera de 2 a 6 meses:** é prazo real atual? A que tipo de reserva se aplica e quando começa a contagem?
+2. **Reembolso parcial de 70%:** essa política está aprovada? Sobre qual base incide e em quais situações, observadas as condições legais e contratuais? Não foi validada juridicamente nesta tarefa.
+3. **Transferência para outra ninhada:** é permitida, em quais condições e prazos?
+4. **Kit de boas-vindas:** está incluído em todas as entregas? Quais itens?
+5. **Exames laboratoriais:** o site cita consulta e hemograma, mas isso não comprova uma promessa ampla de outros exames. Confirmar quais exames estão incluídos e como são documentados.
+6. **Pagamento do saldo:** confirmar vencimento, meios aceitos e relação com a entrega. A página atual não fixa esses detalhes; nenhuma regra nova foi criada.
+
+## Validação e limites
+
+- 71 testes passaram: `pricing-guard`, `public-truth`, `seo-schema` e `commercialPricing`.
+- `tsc --noEmit` aprovado após as últimas alterações; `git diff --check` sem erros.
+- 12 rotas prioritárias conferidas por HTTP no servidor local existente em `localhost:3000`; todas responderam 200 após os redirecionamentos existentes.
+- Fêmea branca: R$ 7.500 e foto `branco-femea-jardim-20260926-04.jpg` mantidos da solicitação anterior. Fêmea preta: R$ 9.500. Nenhum outro valor individual alterado nesta auditoria.
+- Titles das rotas verificadas e canonicals preservados, com a exceção comercial necessária no sufixo do título do macho preto, documentada acima. Links de consulta e conteúdo educativo mantidos.
+- Histórico do estoque não pôde ser confirmado pelo catálogo estático. Não foi alegada disponibilidade, venda ou reserva nova.
+- Alterações anteriores de compartilhamento/proteção de mídia e demais alterações preexistentes foram preservadas.
+- Não houve commit, push ou deploy. Produção ainda contém as divergências até publicação autorizada.

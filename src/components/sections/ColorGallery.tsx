@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { aPartirDe, type CorDivulgada, formatarPreco } from "@/domain/pricing";
+import { type CorDivulgada } from "@/domain/pricing";
 
 // Esta vitrine mostra as quatro cores escolhidas para a home. Cinza-Lobo já não
 // era divulgado e o Particolor foi retirado daqui por decisão comercial. O
@@ -108,7 +108,7 @@ export default function ColorGallery() {
                   <p className="text-[10px] font-bold uppercase tracking-widest text-white/55">{cor.tagline}</p>
                   <p className="mt-0.5 text-lg font-bold text-white">{cor.label}</p>
                   <p className="mt-0.5 text-sm font-semibold text-emerald-400">
-                    {formatarPreco(aPartirDe(cor.cor))}
+                    Consulte fotos e valores individuais
                   </p>
                 </div>
 

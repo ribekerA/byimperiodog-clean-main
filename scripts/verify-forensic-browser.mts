@@ -56,6 +56,7 @@ for (const config of configurations.filter((c) => !selected || selected.includes
       const response = await page.goto(origin + path, { waitUntil: "domcontentloaded" });
       assert.equal(response?.status(), 200);
       await page.locator("h1").waitFor();
+      await page.locator('link[rel="canonical"]').waitFor({ state: "attached" });
       await page.waitForTimeout(700);
       if (path === "/") {
         await page.getByRole("button", { name: "Rejeitar", exact: true }).click();
@@ -82,14 +83,15 @@ for (const config of configurations.filter((c) => !selected || selected.includes
       }));
       assert.equal(facts.h1, 1);
       assert.equal(facts.overflow, false);
-      assert.equal(facts.canonical?.replace(/\/$/, ""), ("https://byimperiodog.com.br" + path).replace(/\/$/, ""));
+      const canonicalPath = path === "/preco-spitz-anao" ? "/filhotes" : path;
+      assert.equal(facts.canonical?.replace(/\/$/, ""), ("https://byimperiodog.com.br" + canonicalPath).replace(/\/$/, ""));
       assert.match(facts.robots ?? "", /max-image-preview:large/);
       assert.equal(facts.visibleImageFailures.length, 0);
       assert.ok(facts.waLinks.length > 0);
       if (path.includes("branco-femea")) {
         const text = await page.locator("main").innerText();
-        assert.match(text, /R\$ 8\.500/);
-        assert.match(text, /R\$ 9\.200/);
+        assert.match(text, /R\$ 7\.500/);
+        assert.doesNotMatch(text, /R\$ 9\.200/);
         await page.getByRole("button", { name: "Ampliar foto", exact: true }).click();
         const dialog = page.getByRole("dialog", { name: /^Galeria de/ });
         await dialog.waitFor();
@@ -97,7 +99,7 @@ for (const config of configurations.filter((c) => !selected || selected.includes
         assert.equal(await dialog.evaluate((node) => node.contains(document.activeElement)), true);
         await page.getByRole("button", { name: "Fechar galeria", exact: true }).click();
         await dialog.waitFor({ state: "hidden" });
-        await page.getByRole("button", { name: /^Ver 4 vídeos/ }).click();
+        await page.getByRole("button", { name: /^Ver 5 vídeos/ }).click();
         const video = page.locator("video:visible").first();
         await video.waitFor();
         const playback = await video.evaluate(async (node) => {

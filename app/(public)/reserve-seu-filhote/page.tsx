@@ -65,7 +65,7 @@ const processSteps = [
   {
     step: "02",
     title: "Sinal de Reserva",
-    description: "Com o alinhamento feito, um sinal garante sua prioridade na ninhada. Contrato digital e condições claras são enviados imediatamente.",
+    description: "Com o alinhamento feito, um sinal de 50% do valor individual do filhote garante sua prioridade na ninhada. Contrato digital e condições claras são enviados imediatamente.",
   },
   {
     step: "03",
@@ -95,7 +95,7 @@ const processSteps = [
 const faqEntries = [
   {
     question: "Qual o valor da reserva e como funciona o pagamento?",
-    answer: "As condições de reserva e pagamento são confirmadas diretamente com a equipe e registradas no contrato antes da conclusão.",
+    answer: "A reserva corresponde a 50% do valor individual do filhote. As demais condições de pagamento são confirmadas diretamente com a equipe e registradas no contrato antes da conclusão.",
   },
   {
     question: "Posso visitar os filhotes antes de reservar?",

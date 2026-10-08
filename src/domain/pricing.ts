@@ -16,8 +16,8 @@
  * scripts/content-guard.mjs, que roda no prebuild e derruba o build se algum
  * texto divergir.
  *
- * Regra de negócio: a fêmea custa mais que o macho em todas as cores. O menor
- * valor de uma cor é sempre o do macho — é isso que sustenta o "a partir de".
+ * Regra vigente: cada referência possui preço individual em PRECO_POR_SLUG.
+ * A matriz legada permanece por compatibilidade interna, não como regra de oferta.
  */
 
 /**
@@ -88,25 +88,30 @@ export function precoDeCadastro(cor?: string | null, sexo?: string | null): numb
 /**
  * Valores definidos para páginas específicas da vitrine.
  *
- * A tabela por cor/sexo continua sendo o padrão. Quando a responsável define
- * um valor próprio para um filhote, o slug passa a ser a chave comercial para
- * que card, página e validações usem exatamente o mesmo número.
+ * O slug identifica o preço individual. Cor e sexo não determinam preços novos.
+ * Card, página e validações usam exatamente o mesmo número cadastrado.
  */
 // Revisão 14/09/2026: as quatro entradas anteriores repetiam a matriz antiga
 // em páginas de REFERÊNCIA, não ofertas individuais com desconto. A nova
 // matriz oficial as substitui. O mecanismo permanece para exceções genuínas.
 export const PRECO_POR_SLUG: Readonly<Record<string, number>> = {
-  // Condição operacional confirmada em 24/09/2026 para as duas fêmeas
-  // brancas atualmente divulgadas nesta página. A referência geral da
-  // combinação branco/fêmea permanece separada da oferta deste estoque.
-  "spitz-alemao-anao-branco-femea": 850000,
+  // Preço revisado pela responsável em 07/10/2026.
+  "spitz-alemao-anao-branco-femea": 750000,
   // Fêmea preta do lote fotografado em 26/09/2026.
   "spitz-alemao-anao-preto-femea": 950000,
+  "spitz-alemao-anao-creme-femea": 850000,
+  "spitz-alemao-anao-laranja-femea": 750000,
+  "spitz-alemao-anao-laranja-femea-laco-rosa": 750000,
+  "spitz-alemao-anao-creme-macho": 750000,
+  "spitz-alemao-anao-preto-macho": 850000,
+  "spitz-alemao-anao-laranja-macho": 650000,
 };
 
-/** Preço anunciado para o filhote, com fallback para a tabela por cor/sexo. */
+/** Preço individual cadastrado; ausência de valor não vira preço por cor/sexo. */
 export function precoDoFilhote(cor: CorDivulgada, sexo: Sexo, slug: string): number {
-  return PRECO_POR_SLUG[slug as keyof typeof PRECO_POR_SLUG] ?? precoDe(cor, sexo);
+  const valor = PRECO_POR_SLUG[slug];
+  if (valor === undefined) throw new Error(`Preço individual não cadastrado para ${slug} (${cor}/${sexo})`);
+  return valor;
 }
 
 /**
@@ -179,25 +184,12 @@ export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a $
  * reescrever texto: o Particolor existiria na matriz e continuaria fora da
  * frase. Agora o que a tabela ganha ou perde aparece aqui sozinho.
  */
-function enumerarPorSexo(sexo: Sexo): string {
-  const porValor = new Map<number, string[]>();
 
-  for (const cor of CORES_DIVULGADAS) {
-    const valor = precoDe(cor, sexo);
-    porValor.set(valor, [...(porValor.get(valor) ?? []), TABELA_DE_PRECOS[cor].label.toLowerCase()]);
-  }
-
-  return [...porValor.entries()]
-    .sort(([a], [b]) => a - b)
-    .map(([valor, cores]) => `${cores.join(" e ")} ${formatarPreco(valor)}`)
-    .join("; ");
-}
 
 export const RESPOSTA_QUANTO_CUSTA =
-  `Os filhotes de Spitz Alemão Anão saem a partir de ${formatarPreco(FAIXA_PUBLICA.minCents)}, ` +
-  `chegando a ${formatarPreco(FAIXA_PUBLICA.maxCents)} conforme sexo e cor — cada valor abaixo é ` +
-  `o ponto de partida da combinação. Machos: ${enumerarPorSexo("macho")}. Fêmeas: ${enumerarPorSexo("femea")}. ` +
-  `A disponibilidade e as condições de pagamento são informadas no atendimento.`;
+  "Cada filhote possui seu preço individual, conforme suas características e a oferta atual. " +
+  "Consulte o valor na ficha do filhote e confirme disponibilidade e condições de pagamento no atendimento. " +
+  "Não há preço fixo ou mínimo obrigatório por cor ou sexo.";
 
 /**
  * Diferença entre fêmea e macho na mesma cor, em centavos — ou `null` quando a
@@ -231,12 +223,8 @@ export const DIFERENCA_FEMEA_MACHO: number | null = (() => {
  * de partida por sexo.
  */
 export const RESPOSTA_MACHO_VS_FEMEA =
-  (DIFERENCA_FEMEA_MACHO !== null
-    ? `A fêmea custa ${formatarPreco(DIFERENCA_FEMEA_MACHO)} a mais que o macho da mesma cor. `
-    : "Os valores por sexo variam conforme a cor. ") +
-  "Cada valor abaixo é o ponto de partida da combinação de cor e sexo, e o valor de um filhote " +
-  `específico é confirmado no atendimento. Machos: ${enumerarPorSexo("macho")}. ` +
-  `Fêmeas: ${enumerarPorSexo("femea")}. As condições de pagamento são confirmadas no atendimento.`;
+  "Não existe diferença fixa de preço entre machos e fêmeas. O valor é individual: " +
+  "uma fêmea não é necessariamente mais cara que um macho. Compare as fichas e a oferta atual no atendimento.";
 
 /**
  * Resposta oficial sobre o preto.
@@ -253,9 +241,8 @@ export const RESPOSTA_MACHO_VS_FEMEA =
  * então a frase se multiplicava por três.
  */
 export function respostaPrecoCor(cor: CorDivulgada): string {
-  return `Na By Império Dog, o Spitz Alemão Anão ${TABELA_DE_PRECOS[cor].label.toLowerCase()} parte de ` +
-    `${formatarPreco(precoDe(cor, "macho"))} para machos e ${formatarPreco(precoDe(cor, "femea"))} para fêmeas. ` +
-    `As opções e as condições atuais são confirmadas no atendimento.`;
+  return `O preço do Spitz Alemão Anão ${TABELA_DE_PRECOS[cor].label.toLowerCase()} varia conforme o filhote e a oferta atual. ` +
+    "A cor não estabelece um valor fixo ou mínimo. Consulte a ficha individual e confirme disponibilidade e condições no atendimento.";
 }
 export const RESPOSTA_PRETO = respostaPrecoCor("preto");
 

@@ -153,6 +153,9 @@ export default function PuppyDetailPanel({
         >
           <div>
             <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
+            {slug === "spitz-alemao-anao-preto-macho" && (
+              <p className="mt-1 text-sm text-zinc-600">Valor cadastrado desta referência visual; não confirma uma oferta disponível. Consulte o preço e as opções atuais no atendimento.</p>
+            )}
             <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, consulta veterinária e mentoria inclusos</p>
           </div>
         </motion.div>

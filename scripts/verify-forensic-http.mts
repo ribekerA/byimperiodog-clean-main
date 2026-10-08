@@ -66,18 +66,13 @@ await page.route("**/*", (route) => {
 });
 try {
   await page.goto(origin + "/preco-spitz-anao");
-  const expected = [
-    ["Particolor", "5.500", "6.200", "6.500", "7.200"],
-    ["Laranja", "6.500", "7.200", "7.500", "8.200"],
-    ["Creme", "7.500", "8.200", "8.500", "9.200"],
-    ["Preto", "8.500", "9.200", "9.500", "10.200"],
-    ["Branco", "9.500", "10.200", "10.500", "11.200"],
-  ];
-  for (const [color, ...prices] of expected) {
-    const row = page.locator("table tbody tr").filter({ has: page.getByRole("cell", { name: color, exact: true }) });
-    const text = await row.innerText();
-    const pass = prices.every((value) => text.includes("R$ " + value));
-    results.push({ check: "ten-prices-rendered-html", color, pass });
+  assert.equal(new URL(page.url()).pathname, "/filhotes");
+  assert.equal(await page.locator("table").count(), 0);
+  for (const [slug, price] of [["spitz-alemao-anao-branco-femea", "7.500"], ["spitz-alemao-anao-preto-femea", "9.500"]]) {
+    await page.goto(origin + "/filhotes/" + slug);
+    const text = await page.locator("main").innerText();
+    const pass = text.includes("R$ " + price) && !text.includes("R$ 9.200");
+    results.push({ check: "individual-price-rendered-html", slug, pass });
   }
   await page.goto(origin + "/blog/preco-spitz-alemao-anao");
   const meta = await page.evaluate(() => ({

@@ -71,7 +71,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "reserva como reservar entrada",
-    a: "A reserva é feita com entrada de 30%. Após confirmada, o filhote fica exclusivamente seu até a entrega. Fale comigo para verificar disponibilidade!",
+    a: "A reserva é feita com entrada de 50% do valor individual do filhote. Após confirmada, o filhote fica exclusivamente seu até a entrega. Fale comigo para verificar disponibilidade!",
   },
   {
     q: "mentoria suporte apoio dúvidas",

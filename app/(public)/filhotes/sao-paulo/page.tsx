@@ -21,13 +21,13 @@ export const metadata: Metadata = {
   description:
     // 184 caracteres. Reescrita em 134. Sai "criadora de referência": é um
     // superlativo sem nada que o comprove.
-    "Filhotes de Spitz Alemão Anão com entrega segura em São Paulo: capital, Grande SP e interior. Com registro oficial.",
+    "Filhotes de Spitz Alemão Anão para famílias de São Paulo: consulte opções, registro oficial e viabilidade de transporte.",
   alternates: { canonical: canonical("/filhotes/sao-paulo") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/sao-paulo"),
     title: "Filhotes de Spitz Alemão Anão em São Paulo",
-    description: "Compre Spitz Alemão Anão com entrega em toda São Paulo. Criadora especializada.",
+    description: "Spitz Alemão Anão para São Paulo. Consulte disponibilidade e condições de transporte com a criadora.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933 }],
   },
 };
@@ -146,8 +146,7 @@ export default function FilhotesSaoPauloPage() {
             <span className="block text-[var(--brand)]">em São Paulo (SP)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
-            Compre seu Spitz Alemão Anão (Lulu da Pomerânia) com segurança e entrega em toda capital paulista, Grande SP
-            e interior. Criadora especializada com suporte pós-venda.
+            Conheça o Spitz Alemão Anão (Lulu da Pomerânia) para famílias da capital paulista, Grande SP e interior. Modalidade, destino, prazo e viabilidade de transporte são confirmados caso a caso, conforme a idade do animal e as exigências aplicáveis.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -192,7 +191,7 @@ export default function FilhotesSaoPauloPage() {
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
               <p className="text-sm text-[var(--text-muted)]">
-                Transporte especializado para filhotes em toda SP
+                Transporte sob consulta de destino, idade e viabilidade
               </p>
             </div>
             <div className="text-center">
@@ -261,7 +260,7 @@ export default function FilhotesSaoPauloPage() {
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
             <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão em São Paulo?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-muted)]">
-              Fale agora com nossa equipe e garanta seu filhote com entrega segura em toda São Paulo
+              Fale com nossa equipe e consulte as opções de transporte para sua cidade em São Paulo
             </p>
             <a
               href={waLink}

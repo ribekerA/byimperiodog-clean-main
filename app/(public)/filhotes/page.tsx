@@ -18,7 +18,7 @@ const CATALOG_FAQS = [
   {
     question: "Com quais cores de Spitz Alemão Anão a By Império Dog trabalha?",
     answer:
-      "São cinco cores divulgadas: Particolor, Laranja, Creme, Preto e Branco. O particolor é o menor valor da tabela e o branco, o maior. As opções atuais de cada cor são confirmadas no atendimento.",
+      "São cinco cores divulgadas: Particolor, Laranja, Creme, Preto e Branco. O preço é individual e não segue uma ordem obrigatória por cor. As opções atuais de cada cor são confirmadas no atendimento.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão Anão Fêmea e Macho?",

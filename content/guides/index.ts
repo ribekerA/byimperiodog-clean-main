@@ -41,7 +41,7 @@ export const guides: Guide[] = [
       {
         heading: "Macho ou Fêmea: qual escolher?",
         paragraphs: [
-          "O que muda de fato entre macho e fêmea é o preço e o ciclo reprodutivo. Na tabela atual da By Império Dog a fêmea custa R$ 1.000 a mais que o macho da mesma cor. A fêmea não castrada entra no cio cerca de duas vezes por ano, o que exige cuidados extras nesse período.",
+          "Cada filhote tem seu próprio preço, informado na oferta individual, sem diferença fixa entre macho e fêmea. Na fêmea não castrada, o intervalo entre cios varia; os cuidados reprodutivos devem ser orientados pelo médico-veterinário.",
           "Temperamento não vem do sexo. O comportamento é o típico da raça e depende de genética, socialização e da rotina que a família oferece — há macho tranquilo e fêmea agitada, e o contrário também.",
           "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem a mesma consulta veterinária, o mesmo hemograma completo, registro oficial e acompanhamento na By Império Dog.",
         ],
@@ -376,14 +376,14 @@ export const guides: Guide[] = [
         heading: "Ração — o maior custo mensal",
         paragraphs: [
           "Um adulto de Spitz Alemão Anão — Lulu da Pomerânia — (1,5 a 3,5 kg) come entre 40 e 80g de ração por dia, dependendo do peso e da marca. Rações premium para raças pequenas custam entre R$ 60 e R$ 150 por kg.",
-          "Na prática, um pacote de 1 kg dura entre 15 e 25 dias para um adulto. Custo médio mensal com ração premium: R$ 80 a R$ 180. Rações veterinárias (N&D, Royal Canin, Orijen) ficam na faixa superior e oferecem melhor custo-benefício na saúde a longo prazo.",
+          "Na prática, um pacote de 1 kg pode durar entre 15 e 25 dias para um adulto, conforme a porção individual. Custo médio mensal estimado com ração premium: R$ 80 a R$ 180. A marca não torna uma ração terapêutica nem garante benefício de saúde; a escolha e a quantidade devem considerar o animal, com orientação veterinária.",
           "Filhotes comem proporcionalmente mais que adultos em relação ao peso — planeje gastar entre 20% e 30% a mais durante os primeiros 12 meses.",
         ],
       },
       {
         heading: "Banho e tosa — cuidados com a pelagem dupla",
         paragraphs: [
-          "O Lulu da Pomerânia tem pelagem dupla que precisa de banho a cada 15–21 dias para evitar odor e dermatites. O banho em serviço profissional de banho e tosa varia de R$ 60 a R$ 130 para a raça, dependendo da cidade e do tamanho.",
+          "O Lulu da Pomerânia tem pelagem dupla. A frequência de banho depende da rotina e das condições da pele, com orientação veterinária quando necessário; um intervalo fixo não garante prevenção de dermatites. O banho em serviço profissional de banho e tosa varia de R$ 60 a R$ 130 para a raça, dependendo da cidade e do tamanho.",
           "Tosa de acabamento (não corte — a pelagem do Spitz não deve ser raspada) custa R$ 30 a R$ 60 adicionais. Uma escova profissional durante o período de muda pode chegar a R$ 100.",
           "Custo mensal estimado com grooming: R$ 120 a R$ 280. Tutores que aprendem a escovar em casa (3–4x por semana) reduzem o custo em até 40%.",
         ],

@@ -141,7 +141,7 @@ price.format("en-US"); // "$3,500.00"
 
 // Operações
 price.applyDiscount(10); // 10% off → R$ 3.150,00
-price.calculateDeposit(30); // Sinal de 30% → R$ 1.050,00
+price.calculateDeposit(50); // Sinal de 50% do valor individual → R$ 1.750,00
 price.isInRange(200000, 500000); // true
 ```
 

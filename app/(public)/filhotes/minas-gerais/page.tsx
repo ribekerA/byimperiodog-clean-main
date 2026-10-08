@@ -19,13 +19,13 @@ export const metadata: Metadata = {
   // da marca e o Google cortava o estado. O sinônimo continua na description.
   title: "Filhotes de Spitz Alemão Anão em Minas Gerais",
   description:
-    "Filhotes de Spitz Alemão Anão em Minas Gerais, com entrega em BH, Uberlândia, Juiz de Fora e todo o estado.",
+    "Filhotes de Spitz Alemão Anão para famílias de Minas Gerais. Consulte as opções de transporte para BH, Uberlândia, Juiz de Fora e sua cidade.",
   alternates: { canonical: canonical("/filhotes/minas-gerais") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/minas-gerais"),
     title: "Filhotes de Spitz Alemão Anão em Minas Gerais",
-    description: "Compre Spitz Alemão Anão com entrega em todo MG. Criadora especializada.",
+    description: "Spitz Alemão Anão para famílias de MG. Transporte sob consulta de destino, idade e condições do filhote.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933 }],
   },
 };
@@ -143,8 +143,8 @@ export default function FilhotesMinasGeraisPage() {
             <span className="block text-[var(--brand)]">em Minas Gerais (MG)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
-            Compre seu Spitz Alemão Anão (Lulu da Pomerânia) com segurança e entrega em BH, Uberlândia, Juiz de Fora e
-            todo o estado de Minas Gerais. Criadora especializada com suporte pós-venda.
+            Spitz Alemão Anão (Lulu da Pomerânia) para famílias de BH, Uberlândia, Juiz de Fora e Minas Gerais.
+            Consulte o transporte para sua cidade, conforme destino, idade e condições do filhote. Criadora especializada com suporte pós-venda.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -189,7 +189,7 @@ export default function FilhotesMinasGeraisPage() {
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
               <p className="text-sm text-[var(--text-muted)]">
-                Transporte especializado para filhotes em todo MG
+                Transporte sob consulta de destino, idade e viabilidade
               </p>
             </div>
             <div className="text-center">
@@ -260,7 +260,7 @@ export default function FilhotesMinasGeraisPage() {
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
             <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão em Minas Gerais?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-muted)]">
-              Fale agora com nossa equipe e garanta seu filhote com entrega segura em todo MG
+              Fale com nossa equipe e consulte as opções de transporte para sua cidade em MG
             </p>
             <a
               href={waLink}

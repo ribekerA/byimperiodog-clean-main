@@ -55,10 +55,10 @@ const referenciasVisuais = [
     // Lote atual enviado em 26/09/2026. A primeira foto é a capa; os cinco
     // vídeos foram processados sem faixa de áudio antes da publicação.
     images: [
+      "/filhotes/branco/branco-femea-jardim-20260926-04.jpg",
       "/filhotes/branco/branco-femea-jardim-20260926-01.jpg",
       "/filhotes/branco/branco-femea-jardim-20260926-02.jpg",
       "/filhotes/branco/branco-femea-jardim-20260926-03.jpg",
-      "/filhotes/branco/branco-femea-jardim-20260926-04.jpg",
       "/filhotes/branco/branco-femea-jardim-20260926-05.jpg",
       "/filhotes/videos/branco-femea-jardim-20260926-01.mp4",
       "/filhotes/videos/branco-femea-jardim-20260926-02.mp4",

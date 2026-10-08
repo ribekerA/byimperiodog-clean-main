@@ -72,7 +72,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const tituloCompleto = `${puppy.name} — Lulu da Pomerânia`;
   const priceCents = (puppy as any).priceCents ?? (puppy as any).price_cents;
   const title = searchCopy
-    ? `${searchCopy.heading} | ${formatarPreco(priceCents)}`
+    ? puppy.slug === "spitz-alemao-anao-preto-macho"
+      ? `${searchCopy.heading} | Referência visual`
+      : `${searchCopy.heading} | ${formatarPreco(priceCents)}`
     : tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??
@@ -278,7 +280,9 @@ export default async function PuppyPage(props: Props) {
                 <div className="rounded-2xl bg-zinc-50 p-4">
                   <h3 className="font-semibold text-zinc-900">Valor transparente</h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                    {formatarPreco((puppy as any).priceCents ?? (puppy as any).price_cents)} publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.
+                    {puppy.slug === "spitz-alemao-anao-preto-macho"
+                      ? "O valor cadastrado é uma referência; consulte o preço individual das opções atuais antes de reservar."
+                      : `${formatarPreco((puppy as any).priceCents ?? (puppy as any).price_cents)} publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.`}
                   </p>
                 </div>
                 <div className="rounded-2xl bg-zinc-50 p-4">
@@ -318,7 +322,7 @@ export default async function PuppyPage(props: Props) {
         <div className="mt-12">
           <RelatedPages links={[
             { href: `/filhotes/cor/${colorSlug}`, label: `Compare os filhotes ${corLabel}`, desc: "Veja outras referências desta cor e seus valores." },
-            { href: "/filhotes", label: "Veja os filhotes disponíveis", desc: "Compare fotos, vídeos e valores individuais dos filhotes." },
+            { href: "/filhotes", label: "Veja a vitrine de filhotes", desc: "Compare fotos, vídeos e valores individuais; confirme as opções atuais no atendimento." },
             { href: "/comprar-spitz-anao", label: "Como comprar e reservar", desc: "Conheça as etapas e os documentos antes de decidir." },
             { href: "/blog/spitz-alemao-anao-entrega-brasil", label: "Entrega para todo o Brasil", desc: "Entenda documentação, transporte e atendimento para outros estados." },
           ]} />

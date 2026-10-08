@@ -37,6 +37,12 @@ describe("fichas alinhadas à intenção e ao preço publicado", () => {
       const copy = puppySearchCopy(puppy);
       expect(copy?.heading).toContain("Spitz Alemão Anão");
       expect(copy?.metadataDescription).toContain("Lulu da Pomerânia");
+      if (puppy.slug === "spitz-alemao-anao-preto-macho") {
+        expect(copy?.metadataDescription).toContain("Referência visual");
+        expect(copy?.metadataDescription).not.toContain(formatarPreco(puppy.priceCents));
+        expect(copy?.introduction).toContain("não confirma uma oferta atual");
+        continue;
+      }
       expect(copy?.metadataDescription).toContain(formatarPreco(puppy.priceCents));
       expect(copy?.introduction).toContain(formatarPreco(puppy.priceCents));
       expect(copy?.introduction).toContain("confirmadas no atendimento");

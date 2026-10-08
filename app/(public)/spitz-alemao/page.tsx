@@ -188,7 +188,7 @@ export default function SpitzAlemaoPage() {
         <ul className="space-y-3">
           {[
             { t: "Escovação", b: "Pelo menos 3–4 vezes por semana. Evita nós, controla a muda e mantém a pelagem fluffy saudável. Em época de muda (2× ao ano), aumente para diário." },
-            { t: "Banho", b: "A cada 15–21 dias, com shampoo específico para pelagem dupla. Secagem completa é obrigatória — pelo úmido favorece fungos." },
+            { t: "Banho", b: "Frequência conforme rotina e condições da pele, com produtos próprios para cães e secagem cuidadosa. Alterações na pele exigem orientação veterinária." },
             { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Império Dog orienta sobre a alimentação por fase no acompanhamento pós-venda." },
             { t: "Exercício", b: "2 passeios curtos por dia (15–20 min cada) são suficientes. Não suporta calor intenso — evite saídas no pico do calor." },
             { t: "Dentes", b: "Raças pequenas são propensas a tartaro. Escovação 2–3× por semana + petiscos dentais. Consulta veterinária anual para limpeza profissional." },

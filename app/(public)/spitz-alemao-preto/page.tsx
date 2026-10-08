@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
-import { formatarPreco, precoDe, RESPOSTA_PRETO } from "@/domain/pricing";
+import { RESPOSTA_PRETO } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
@@ -111,18 +111,7 @@ export default function SpitzAlemaoPretoPage() {
       {/* Preço */}
       <section aria-labelledby="preco-preto-heading" className="rounded-3xl border border-zinc-200 bg-zinc-50 p-6 sm:p-8 space-y-4">
         <h2 id="preco-preto-heading" className="text-xl font-bold text-zinc-900">Preço do Spitz Alemão Anão Preto — By Império Dog</h2>
-        <div className="flex flex-wrap gap-4">
-          <div className="rounded-2xl bg-white border border-zinc-200 p-5 min-w-[160px] text-center shadow-sm">
-            <p className="text-xs text-zinc-500 uppercase">Macho</p>
-            <p className="text-2xl font-bold text-zinc-900">{formatarPreco(precoDe("preto", "macho"))}</p>
-          </div>
-          <div className="rounded-2xl bg-white border border-zinc-200 p-5 min-w-[160px] text-center shadow-sm">
-            <p className="text-xs text-zinc-500 uppercase">Fêmea</p>
-            <p className="text-2xl font-bold text-zinc-900">{formatarPreco(precoDe("preto", "femea"))}</p>
-          </div>
-        </div>
-        {/* Valores de partida: a tabela de src/domain/pricing e a unica fonte. */}
-        <p className="text-sm text-zinc-600">Valores de partida para a cor preta. A combinação exata é confirmada no atendimento.</p>
+        <p className="text-sm text-zinc-600">{RESPOSTA_PRETO}</p>
         {/* "Mentoria pós-venda" saiu da lista do que acompanha o filhote: o que
             existe é suporte pelo WhatsApp depois da entrega, e isso não é um
             item de contrato. A lista agora repete exatamente o que o contrato
