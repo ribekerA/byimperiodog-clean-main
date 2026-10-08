@@ -20,6 +20,8 @@ Baseline: main local/remoto e produção Netlify no SHA `e08fe1efdd6f9f38e55d87d
 
 Correções anteriores pendentes de publicação preservadas; resíduos adicionais corrigidos conforme tabela. Scripts forenses atualizados para preço branco7500, ausência de tabela e canonical do redirect `/preco-spitz-anao`→`/filhotes`, mantendo verificações de segurança.
 
+Conferência adicional do administrador: `PuppyForm.tsx` e `pricing-engine.ts` ainda sugeriam valor por cor/sexo e o chamavam de tabela Pix. A sugestão foi desativada; a análise interna usa somente o preço individual já cadastrado e recusa valor ausente/inválido. Não houve gravação em banco, desconto ou alteração de preço cadastrado.
+
 ## JÁ ESTAVA CORRETO — NÃO ALTERADO
 
 Canonical non-www, robots/sitemaps, redirect HTTP e www301,404 real, autenticação/contratos, infraestrutura de consentimento, campanha/orçamento/lances, SEO nacional, fatos operacionais confirmados, preço preta9500 e ordem dos destaques. Ficha preto macho já não tinha Product/Offer/InStock próprio; não confundir Offer geral do catálogo com oferta desse animal.
@@ -63,6 +65,7 @@ Nenhuma nova vulnerabilidade comprovada nesta auditoria.119 checks locais passar
 - Playwright direcionado: ordem dos destaques e preços/schema passaram.
 - `verify-forensic-browser.mts`:21/21passaram em Chromium desktop e mobile, incluindo7larguras adicionais; galeria,5vídeos, contato com API interceptada e axe sem violações nas rotas testadas.
 - Guard adicional de preço ausente:18/18testes de preço passaram após adicionar a proteção contra preço inferido.
+- Delta administrativo: typecheck e20testes de preço/engine passaram; lint direcionado e build conferidos antes do push complementar.
 - Consentimento real, com toda coleta interceptada: antes da escolha0tags opcionais; rejeição+reload0; preferências e aceitação por categorias+reload passaram. Não comprova conversões efetivas no GA4/Ads.
 
 ## GIT

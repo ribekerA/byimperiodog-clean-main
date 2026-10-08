@@ -76,12 +76,9 @@ export function precoDe(cor: CorDivulgada, sexo: Sexo): number {
 
 /** Integrações e admin: desconhecido não recebe preço inventado. */
 export function precoDeCadastro(cor?: string | null, sexo?: string | null): number | null {
-  const normalizar = (valor: string) => valor.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  const corNormalizada = normalizar(cor ?? "") as CorDivulgada;
-  const sexoNormalizado = normalizar(sexo ?? "");
-  if (!CORES_DIVULGADAS.includes(corNormalizada)) return null;
-  if (["male", "macho", "m"].includes(sexoNormalizado)) return precoDe(corNormalizada, "macho");
-  if (["female", "femea", "f"].includes(sexoNormalizado)) return precoDe(corNormalizada, "femea");
+  // Compatibilidade do formulário antigo: cor e sexo não autorizam preço.
+  void cor;
+  void sexo;
   return null;
 }
 

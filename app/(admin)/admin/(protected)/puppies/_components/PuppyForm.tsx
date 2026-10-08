@@ -725,17 +725,17 @@ export default function PuppyForm({
         <div className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--surface)] px-[var(--space-4)] py-[var(--space-4)] shadow-[var(--elevation-2)]">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold text-[var(--text)]">Preço Pix de referência</p>
-              <p className="text-xs text-[var(--text-muted)]">Tabela comercial oficial por cor e sexo; não altera valores individuais automaticamente.</p>
+              <p className="text-sm font-semibold text-[var(--text)]">Preço individual</p>
+              <p className="text-xs text-[var(--text-muted)]">Defina o valor deste filhote com a responsável. Cor e sexo não determinam o preço.</p>
             </div>
             <span className="rounded-full bg-[var(--brand-tint-50)] px-3 py-1 text-xs font-semibold text-[var(--brand)]">
-              Tabela oficial
+              Valor próprio
             </span>
           </div>
           <div className="mt-3 flex items-center justify-between rounded-[var(--radius-xl)] bg-white px-3 py-2 shadow-inner">
             <div>
               <p className="text-sm text-[var(--text-muted)]">Preco sugerido</p>
-              <p className="text-xl font-bold text-[var(--text)]">{priceSuggestionCents != null ? formatBRL(priceSuggestionCents) : "Combinação sob consulta"}</p>
+              <p className="text-xl font-bold text-[var(--text)]">{priceSuggestionCents != null ? formatBRL(priceSuggestionCents) : "Confirme o valor individual"}</p>
             </div>
             <button
               type="button"
@@ -747,7 +747,7 @@ export default function PuppyForm({
             </button>
           </div>
           <div className="mt-3 text-xs text-[var(--text-muted)]">
-            {priceSuggestionCents != null ? "Condições de pagamento confirmadas no atendimento." : "Sem preço oficial para esta combinação. Confirme com a responsável."}
+            {priceSuggestionCents != null ? "Condições de pagamento confirmadas no atendimento." : "Não há sugestão automática por cor ou sexo. Cadastre o valor individual confirmado pela responsável."}
           </div>
         </div>
 

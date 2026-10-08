@@ -1,5 +1,4 @@
 /** Referência comercial determinística. Não estima procura nem altera o cadastro. */
-import { precoDeCadastro } from "@/domain/pricing";
 import { statusOrFilter } from "@/domain/puppy-status";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -17,16 +16,15 @@ export async function recalcPricingForPuppy(puppyId: string): Promise<PricingRes
   const { data: puppy, error } = await sb.from("puppies")
     .select("id,price_cents,color,sex").eq("id", puppyId).maybeSingle();
   if (error || !puppy) throw new Error("Não foi possível consultar o cadastro");
-  const official = precoDeCadastro(puppy.color, puppy.sex);
-  if (official == null) throw new Error("Combinação sem preço oficial; consultar a responsável");
+  const official = puppy.price_cents;
+  if (!Number.isSafeInteger(official) || official <= 0) throw new Error("Cadastro sem preço individual válido; consultar a responsável");
   return {
     price_min_cents: official,
     price_ideal_cents: official,
     price_max_cents: official,
     prob_sale_at_current: null,
-    alert: puppy.price_cents === official ? "Preço cadastrado alinhado à tabela Pix." :
-      "Preço cadastrado difere da tabela Pix. Investigue uma condição individual antes de alterar.",
-    reasoning: "Referência da tabela oficial por cor e sexo, sem estimativa de venda, desconto ou condição de pagamento automática.",
+    alert: "Preço individual preservado. Qualquer alteração precisa ser confirmada pela responsável.",
+    reasoning: "Valor do próprio cadastro, sem inferência por cor ou sexo, estimativa de venda, desconto ou condição de pagamento automática.",
   };
 }
 

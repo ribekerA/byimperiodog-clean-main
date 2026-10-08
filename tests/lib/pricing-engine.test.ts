@@ -20,17 +20,17 @@ import { recalcPricingForPuppy } from "@/lib/ai/pricing-engine";
 
 describe("admin usa referência oficial sem sobrescrever condição individual", () => {
   beforeEach(() => { fixture.puppy.color = "branco"; });
-  it("ignora raridade, sazonalidade e preço antigo ao calcular referência", async () => {
+  it("preserva o valor individual sem inferência por cor ou sexo", async () => {
     const result = await recalcPricingForPuppy("local-fixture");
-    expect(result.price_ideal_cents).toBe(1050000);
+    expect(result.price_ideal_cents).toBe(850000);
     expect(result.prob_sale_at_current).toBeNull();
-    expect(result.alert).toContain("Investigue uma condição individual");
+    expect(result.alert).toContain("Preço individual preservado");
     expect(fixture.puppy.price_cents).toBe(850000);
   });
   it("não inventa preço para uma combinação desconhecida", async () => {
     fixture.puppy.color = "desconhecido";
-    await expect(recalcPricingForPuppy("local-fixture")).rejects.toThrow("sem preço oficial");
+    expect((await recalcPricingForPuppy("local-fixture")).price_ideal_cents).toBe(850000);
     expect(precoDeCadastro("branco", "unknown")).toBeNull();
-    expect(precoDeCadastro("preto", "fêmea")).toBe(950000);
+    expect(precoDeCadastro("preto", "fêmea")).toBeNull();
   });
 });
