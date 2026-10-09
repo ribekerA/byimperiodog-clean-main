@@ -95,8 +95,8 @@ describe("verificarTexto — o que NÃO pode passar", () => {
     ).toContain("procura-como-justificativa");
   });
 
-  it("pega o canil se colocando como operador do transporte", () => {
-    expect(idsDe("Fazemos entrega em todo o estado de Minas Gerais.")).toContain(
+  it("pega frota própria e garantias de transporte não confirmadas", () => {
+    expect(idsDe("Fazemos entrega com frota própria.")).toContain(
       "entrega-como-servico-proprio",
     );
     expect(idsDe("A entrega é segura, com transporte especializado para filhotes.")).toContain(
@@ -105,6 +105,16 @@ describe("verificarTexto — o que NÃO pode passar", () => {
     expect(idsDe("Entregamos em todo o Brasil com transporte humanizado.")).toContain(
       "entrega-como-servico-proprio",
     );
+  });
+
+  it("permite entrega aérea nacional confirmada com condições claras", () => {
+    expect(
+      idsDe("Entregamos em todo o Brasil via transporte aéreo, conforme viabilidade da rota, idade e condições do filhote. Prazo, custo e requisitos são confirmados antes da reserva."),
+    ).not.toContain("entrega-como-servico-proprio");
+    expect(idsDe("Realizamos entregas via transporte aéreo conforme viabilidade.")).not.toContain(
+      "entrega-como-servico-proprio",
+    );
+    expect(idsDe("Temos transporte aéreo próprio.")).toContain("entrega-como-servico-proprio");
   });
 
   it("pega o ano de fundação errado", () => {

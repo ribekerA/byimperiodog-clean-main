@@ -112,8 +112,8 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
     id: "transporte",
     status: "CONDICIONAL",
     texto:
-      "Orientação sobre transporte seguro; o tutor busca em Bragança Paulista ou contrata transportadora especializada, por conta dele",
-    nota: "Sem empresa parceira, sem prazo fixo, sem frete grátis.",
+      "Entregas em todo o Brasil via transporte aéreo, conforme viabilidade da rota, idade e condições do filhote; retirada em Bragança Paulista também pode ser combinada",
+    nota: "Entrega aérea nacional confirmada pela proprietária em 09/10/2026. Prazo, custo e requisitos da viagem são confirmados antes da reserva. Sem afirmar frota própria, empresa parceira, prazo fixo ou frete grátis.",
   },
   {
     id: "contrato",
@@ -326,11 +326,11 @@ export const REGRAS_DE_VERDADE: readonly RegraDeVerdade[] = [
     status: "PROIBIDO_SEM_EVIDENCIA",
     escopo: "sempre",
     padrao:
-      /\b(fazemos|realizamos)\s+(a\s+)?entregas?\b|\bentregamos\s+(em|para)\b|\btransporte\s+humanizado\b|\bnunca\s+viaja\s+sozinh[oa]\b|\ba\s+entrega\s+[ée]\s+segura\b|\bentrega\s+humanizada\b/i,
+      /\bfrota\s+pr[oó]pria\b|\btransporte\s+a[ée]reo\s+pr[oó]prio\b|\btransporte\s+humanizado\b|\bnunca\s+viaja\s+sozinh[oa]\b|\ba\s+entrega\s+[ée]\s+segura\b|\bentrega\s+humanizada\b/i,
     motivo:
-      "O canil não opera transporte. O tutor retira em Bragança Paulista ou contrata transporte especializado, e ninguém aqui pode garantir a segurança de um trajeto que não conduz.",
+      "Entrega aérea nacional foi confirmada em 09/10/2026, mas não há confirmação de frota própria, acompanhamento durante todo o trajeto ou garantia absoluta de segurança.",
     alternativa:
-      "o tutor pode retirar o filhote em Bragança Paulista ou consultar opções de transporte especializado, definidas conforme destino, idade e condições do filhote",
+      "entregas em todo o Brasil via transporte aéreo, conforme viabilidade da rota, idade e condições do filhote; prazo, custo e requisitos confirmados antes da reserva",
   },
   {
     id: "ano-errado",

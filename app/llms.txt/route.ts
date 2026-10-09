@@ -8,12 +8,8 @@ import { CORES_EXIBIDAS } from "@/lib/catalog-utils";
  *
  * Por que existe
  * -------------
- * O robots.txt ja libera OAI-SearchBot, PerplexityBot, Claude-SearchBot e
- * Google-Extended, e os artigos ja saem com schema Article e citation. Faltava
- * a peca do meio: um arquivo unico que diz, em texto corrido, o que o site e e
- * onde esta cada coisa. Sem ele o modelo monta esse mapa sozinho a partir do
- * HTML de uma pagina qualquer que caiu na busca — e o que ele resume acaba
- * sendo o menu de navegacao.
+ * Índice complementar de conteúdo público. Não substitui HTML, robots,
+ * sitemap ou links internos, nem garante uso ou citação por mecanismos de IA.
  *
  * Formato: llms.txt (llmstxt.org) — H1 com o nome, um blockquote de resumo e
  * secoes de links, cada um com uma frase de contexto.
@@ -23,13 +19,11 @@ import { CORES_EXIBIDAS } from "@/lib/catalog-utils";
  * Nada aqui e escrito a mao duas vezes. Nome, cidade, ano de fundacao, medidas
  * da raca e faixa de preco saem de src/domain/config.ts; as cores saem de
  * ALL_COLORS; a lista de artigos sai de _generated-posts. Arquivo separado que
- * repete fato de negocio e arquivo que um dia vai contradizer o site — e
- * contradicao entre duas paginas do mesmo dominio e exatamente o que faz um
- * modelo parar de citar a fonte.
+ * repete fato de negocio pode acabar contradizendo o site. Coerência é o
+ * objetivo; o efeito sobre citações externas não é garantido ou medido aqui.
  *
  * As rotas fixas abaixo foram conferidas uma a uma contra app/(public)/. Link
- * quebrado aqui custa mais caro que em qualquer outro lugar do site: este
- * arquivo existe para ser lido por maquina, e a maquina nao volta para conferir.
+ * quebrado prejudica a utilidade deste índice para leitores e ferramentas.
  */
 export const dynamic = "force-static";
 export const revalidate = 86400;
@@ -74,16 +68,20 @@ export async function GET() {
     "",
     `> Criação de ${breed.official} (${breed.alternative}) em ${BRAND.headquarters.city}/` +
       `${BRAND.headquarters.state}, Brasil, em atividade desde ${FOUNDING_YEAR}. O site publica o ` +
-      `galeria de fotos dos filhotes, valores individuais (${min} a ${max}) e ` +
-      `artigos sobre a raça. Venda direta ao tutor, com entrega em todo o Brasil.`,
+      `catálogo com fotos dos filhotes, valores individuais (${min} a ${max}) e ` +
+      `artigos sobre a raça. Entregas em todo o Brasil via transporte aéreo, ` +
+      `conforme viabilidade da rota, idade e condições do filhote. Prazo, custo e requisitos ` +
+      `da viagem são confirmados antes da reserva.`,
     "",
-    `O canil divulga ${CORES_EXIBIDAS.length} cores. Fêmeas custam mais que machos em todas elas.`,
-    "Cada filhote sai vacinado e vermifugado, com consulta veterinária, hemograma completo,",
-    "pedigree e contrato de responsabilidade compartilhada.",
+    `O catálogo divulga ${CORES_EXIBIDAS.length} cores. Cada filhote tem preço individual, inclusive quando possui a mesma cor e sexo de outro.`,
+    "A faixa acima resume os valores publicados, não é uma tabela de preços por cor ou sexo.",
+    "A disponibilidade atual e as condições são confirmadas pela criadora no WhatsApp oficial.",
+    "Vacinação e vermifugação conforme a idade, consulta veterinária, hemograma completo,",
+    "pedigree e contrato conforme as condições informadas nas páginas oficiais.",
     "",
     "## Catálogo",
     "",
-    linha("Vitrine de filhotes", "/filhotes", "galeria por cor e sexo, com preço a partir de"),
+    linha("Vitrine de filhotes", "/filhotes", "fotos e preços individuais de cada filhote"),
     linha("Filhotes e valores", "/filhotes", `fotos, disponibilidade e valores individuais, de ${min} a ${max}`),
     linha("Como comprar", "/comprar-spitz-anao", "passo a passo da reserva até a entrega"),
     linha("Reservar", "/reserve-seu-filhote", "formulário de reserva"),
