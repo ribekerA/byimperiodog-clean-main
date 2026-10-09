@@ -55,6 +55,17 @@ Lighthouse 12.8.2, Chrome local contra produção, 09/10/2026, 14:40–14:46 UTC
 
 INP: **NÃO MEDIDO** em todas as linhas; TBT não é INP. PageSpeed API: 12 consultas HTTP429. CrUX URL/origem: **NÃO MEDIDO — consulta indisponível por cota**, não prova ausência de amostra. Sem dados suficientes nesta auditoria para concluir aprovação dos CWV em campo. Segurança, conversão, conteúdo e indexação real não receberam pontuação artificial. SEO 100 não comprova ranking ou indexação.
 
+Repetição pós-deploy nas duas páginas alteradas, 09/10/2026 16:51–16:52 UTC, mesmo Lighthouse, sem build/testes paralelos:
+
+| URL | Perfil | Desempenho | Acessibilidade | Boas práticas | SEO | LCP ms | CLS | TBT ms |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| /filhotes | Mobile | 89 | 100 | 100 | 100 | 3198 | 0 | 232 |
+| /filhotes | Desktop | 100 | 100 | 100 | 100 | 633 | 0 | 0 |
+| /blog/preco-spitz-alemao-anao | Mobile | 84 | 100 | 100 | 100 | 3595 | 0 | 137 |
+| /blog/preco-spitz-alemao-anao | Desktop | 99 | 100 | 100 | 100 | 756 | 0 | 0 |
+
+Acessibilidade do artigo passou de 97 para 100, com falha específica de contraste eliminada. Catálogo mobile passou de 84 para 89 nesta amostra; **não é experimento controlado nem garantia de ganho permanente**. LCP mobile continua acima de 2,5s; ainda há espaço para investigação com amostras repetidas/campo. O artigo oscilou em LCP apesar de melhorar TBT: não atribuir variação de rede/CPU à mudança de cor. INP continua não medido. JSONs em .audit-evidence/lighthouse-after, todos sem runtimeError; dois avisos de limpeza de perfil temporário após medição.
+
 ### 2–3. Problemas e correções realmente realizadas
 
 Patches Next 16.3.8 / eslint-config-next 16.3.8, sharp 0.35.5 e transitivas compatíveis. Sem migração de major. A ferramenta PSI agora consulta o domínio oficial, conserva todas as categorias, separa laboratório/campo e não transforma métrica ausente em zero. Três testes unitários cobrem esses casos.
@@ -95,6 +106,8 @@ Na produção, seis simulações (home, ficha branca, reserva × consentimento s
 
 Isso comprova comportamento do código no navegador, **não** ingestão no GA4/Google Ads nem configuração interna de tags no GTM. Diferença histórica entre 28 cliques e oito sessões não tem causa comprovada nesta auditoria. Não foi refeita a instrumentação que passou nos testes.
 
+Teste dedicado adicional: antes da escolha, zero tentativas de tags opcionais; recusa persistiu após reload; alteração de preferências e aceite por categoria persistiram. GTM só foi solicitado após autorização (requisições interceptadas, sem envio real). As 42 verificações públicas foram repetidas após o deploy e novamente passaram.
+
 ### 9. Testes executados
 
 - Unitários: 76 arquivos aprovados, um ignorado; 550 testes aprovados, três ignorados. Reexecução com um worker eliminou timeouts de varredura na OneDrive, sem mudar limites ou silenciar testes.
@@ -108,7 +121,11 @@ Evidências brutas locais em .audit-evidence/lighthouse, live, crawl, psi, foren
 
 ### 10. Git e publicação
 
-Baseline remoto/produção b813be0654b924ba9acc6cec0ba953b09a590f7f; deploy Netlify 6ac71d06c573370007deb27b. Alterações isoladas da edição local de proteção de mídia. Este relatório acompanha o commit de correções; confirmação do SHA publicado será registrada no encerramento após o push. **DEPLOY DAS CORREÇÕES AINDA NÃO COMPROVADO nesta etapa pré-publicação.**
+Baseline remoto/produção b813be0654b924ba9acc6cec0ba953b09a590f7f; deploy anterior 6ac71d06c573370007deb27b. Alterações isoladas da edição local de proteção de mídia; os cinco arquivos locais permanecem fora do commit, sem serem descartados.
+
+**Correções publicadas e comprovadas:** commit b5c717e1db93c67abbefaeb2e1f0f29af21276ed enviado à main, confirmado por git ls-remote e pela API Netlify; deploy 6ac91a59c91e4800081d2e25, production/ready, publicado em 09/10/2026 às 16:48:35 UTC (13:48:35 Brasília). Seis páginas HTTP200 após publicação, prioridades/capa/preço/contraste confirmados no navegador; 42 verificações pós-deploy sem falhas.
+
+[CI completo aprovado](https://github.com/ribekerA/byimperiodog-clean-main/actions/runs/37961506921), incluindo tipos, testes, lint, build e smoke; [CodeQL aprovado](https://github.com/ribekerA/byimperiodog-clean-main/actions/runs/37961506982). Segunda execução local dos unitários também confirmou 550 aprovados/3 ignorados. Esta atualização final do relatório é documental e não altera a aplicação; seu SHA e eventual novo deploy serão informados no encerramento, sem fingir que um commit conhece seu próprio hash.
 
 ### 11–12. Pendências e impacto esperado
 
