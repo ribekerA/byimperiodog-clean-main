@@ -195,7 +195,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
                 price_cents={puppy.price_cents}
                 images={puppy.images}
                 description={puppy.description}
-                priority={i < 4}
+                priority={i === 0}
               />
             </li>
           ))}

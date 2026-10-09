@@ -120,6 +120,7 @@ export default function StaticPuppyCard({
                 sizes="(min-width: 1024px) 350px, (min-width: 640px) 50vw, 100vw"
                 quality={75}
                 priority={priority}
+                fetchPriority={priority ? "high" : undefined}
                 alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
                 // As fotos sao verticais e o filhote raramente esta no mesmo
                 // lugar do quadro: quem posa no colo fica no alto, quem posa na
