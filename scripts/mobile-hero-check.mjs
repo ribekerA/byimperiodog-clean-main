@@ -16,7 +16,7 @@ try{
   if(width<640){assert.equal(geometry.fit,'contain');assert(Math.abs(geometry.width/geometry.height-geometry.ratio)<0.01);const heading=await page.locator('#hero-heading').boundingBox();const image=await photo.boundingBox();assert(heading.y>=image.y+image.height);}
   else assert.equal(geometry.fit,'cover');
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-  await expect(hero.locator('[data-google-review-summary="compact"]')).toContainText('35');
+  await expect(hero.locator('[data-google-review-summary="compact"]')).toHaveCount(0);
   if(width===390||width===1440)await hero.screenshot({path:`${out}/hero-${width}.png`});
   results.push({width,...geometry,overflow:false});await context.close();
  }

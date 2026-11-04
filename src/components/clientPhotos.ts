@@ -2,6 +2,11 @@
 export type ClientPhoto = { src: string; width: number; height: number };
 const CLIENT_PHOTOS: readonly ClientPhoto[] = [
   {
+    "src": "/clientes/emily-pompom.jpg",
+    "width": 718,
+    "height": 1236
+  },
+  {
     "src": "/clientes/ana-paula-jundiai.jpeg",
     "width": 980,
     "height": 1600

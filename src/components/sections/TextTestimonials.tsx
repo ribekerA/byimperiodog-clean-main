@@ -176,8 +176,8 @@ export default function TextTestimonials() {
             <li data-review-source="family-photo" className="flex w-[90%] shrink-0 snap-start flex-col gap-3 rounded-xl border border-[#dadce0] bg-white p-5 shadow-sm sm:w-[310px]">
               <p className="text-sm font-semibold text-[#202124]">Emily e PomPom</p>
               <p className="text-xs text-[#5f6368]">São José dos Campos, SP</p>
-              <a href="/reviews/emily-pompom.jpg" target="_blank" rel="noopener noreferrer" className="rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1967d2]">
-                <Image src="/reviews/emily-pompom.jpg" alt="Emily com o filhote PomPom no colo" width={718} height={1236} sizes="(max-width: 639px) 80vw, 268px" className="h-auto w-full rounded-lg" />
+              <a href="/clientes/emily-pompom.jpg" target="_blank" rel="noopener noreferrer" className="rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1967d2]">
+                <Image src="/clientes/emily-pompom.jpg" alt="Emily com o filhote PomPom no colo" width={718} height={1236} sizes="(max-width: 639px) 80vw, 268px" className="h-auto w-full rounded-lg" />
                 <span className="mt-2 inline-block min-h-11 content-center text-sm text-[#1967d2]">Ampliar foto<span className="sr-only"> de Emily e PomPom (abre em nova aba)</span></span>
               </a>
               <p className="text-xs text-[#5f6368]">Foto compartilhada pela família</p>

@@ -24,7 +24,8 @@ async function main() {
       .filter((e) => e.isFile())
       .map((e) => e.name)
       .filter((n) => /\.(jpe?g|png|webp|avif)$/i.test(n))
-      .sort((a, b) => a.localeCompare(b, 'pt-BR'));
+      // A foto recém-enviada aparece também na primeira seleção do álbum.
+      .sort((a, b) => Number(b === 'emily-pompom.jpg') - Number(a === 'emily-pompom.jpg') || a.localeCompare(b, 'pt-BR'));
 
     const list = [];
     for (const n of files) {

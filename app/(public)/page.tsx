@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import GoogleReviewsSection from "@/components/reviews/GoogleReviewsSection";
 import ColorGallery from "@/components/sections/ColorGallery";
 import {
   ClientOnlyAiMatchmakerChat,
@@ -129,7 +128,7 @@ export default function HomePage() {
       <div className="relative flex flex-col">
 
         {/* ── 1. HERO ─────────────────────────────────────────────────────────── */}
-        <VideoHero reviewSummary={<GoogleReviewsSection compact />} />
+        <VideoHero />
 
         {/* ── 2. SOCIAL PROOF BAR ────────────────────────────────────────────── */}
         <div className="border-b border-zinc-100 bg-white py-5 overflow-hidden">
@@ -183,9 +182,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <TextTestimonials />
-
-        {/* Vitrine preservada, após as avaliações. */}
+        {/* Vitrine de filhotes. */}
         <section className="home-deferred-section bg-[var(--bg)] py-14 sm:py-28 overflow-hidden" aria-labelledby="featured-heading">
           <div className="mx-auto max-w-7xl">
 
@@ -355,6 +352,7 @@ export default function HomePage() {
           <div className="border-t border-zinc-100 pb-4">
             <ClientOnlyTestimonials title="Álbum das famílias" />
           </div>
+          <TextTestimonials />
         </div>
 
         {/* ── 8. TRANSPARÊNCIA DE PREÇO ───────────────────────────────────────── */}
