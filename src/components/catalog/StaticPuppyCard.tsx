@@ -117,7 +117,7 @@ export default function StaticPuppyCard({
               <Image
                 src={cover}
                 fill
-                sizes="(min-width: 1024px) 350px, (min-width: 640px) 50vw, 100vw"
+                sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1023px) 46vw, (max-width: 1279px) 30vw, 290px"
                 quality={75}
                 priority={priority}
                 fetchPriority={priority ? "high" : undefined}
@@ -193,7 +193,7 @@ export default function StaticPuppyCard({
               className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white shadow-sm"
               emojis="paw"
               count={14}
-              aria-label={`Consultar opções de ${corLabel} ${sexLabel} pelo WhatsApp`}
+              aria-label={`Consultar opções atuais de ${corLabel} ${sexLabel} pelo WhatsApp`}
             >
               <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
               Consultar opções atuais

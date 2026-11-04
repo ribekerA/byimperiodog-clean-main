@@ -249,6 +249,7 @@ export default function ComprarSpitzPage() {
 
       {/* Breadcrumb navegacional */}
       <RelatedPages links={[
+        { label: "Como funciona a reserva", href: "/reserve-seu-filhote", desc: "Consulte as etapas e as condições de reserva" },
         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel",  desc: "O que exigir antes de fechar negócio" },
         { label: "Entrega para todo o Brasil", href: "/blog/spitz-alemao-anao-entrega-brasil", desc: "Documentos, etapas e logística para outros estados" },
         { label: "Filhote de Spitz Alemão",              href: "/filhote-de-spitz-alemao",  desc: "Primeiros cuidados e o que verificar" },
