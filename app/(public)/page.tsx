@@ -3,15 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import GoogleReviewsSection from "@/components/reviews/GoogleReviewsSection";
 import ColorGallery from "@/components/sections/ColorGallery";
 import {
   ClientOnlyAiMatchmakerChat,
-  ClientOnlyTextTestimonials,
   ClientOnlyTestimonials,
 } from "@/components/sections/HomeClientOnly";
 import HomeFAQ from "@/components/sections/HomeFAQ";
 import NinhadaAlert from "@/components/sections/NinhadaAlert";
 import PriceTransparency from "@/components/sections/PriceTransparency";
+import TextTestimonials from "@/components/sections/TextTestimonials";
 import VideoHero from "@/components/sections/VideoHero";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
@@ -128,7 +129,7 @@ export default function HomePage() {
       <div className="relative flex flex-col">
 
         {/* ── 1. HERO ─────────────────────────────────────────────────────────── */}
-        <VideoHero />
+        <VideoHero reviewSummary={<GoogleReviewsSection compact />} />
 
         {/* ── 2. SOCIAL PROOF BAR ────────────────────────────────────────────── */}
         <div className="border-b border-zinc-100 bg-white py-5 overflow-hidden">
@@ -144,7 +145,47 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── 3. FILHOTES EM DESTAQUE ─────────────────────────────────────────── */}
+        {/* Apresentação e diferenciais antes das avaliações. */}
+        <section className="home-deferred-section bg-white py-14 sm:py-28 overflow-hidden" aria-labelledby="diff-heading">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+
+            <div className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Criação responsável</p>
+              <h2 id="diff-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                Por que a By Império Dog?
+              </h2>
+              <p className="mt-3 text-zinc-600 text-sm sm:text-base">
+                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {DIFFERENTIALS.map(({ emoji, title, body }) => (
+                <div key={title}>
+                  <div className="group flex h-full gap-3 sm:gap-4 rounded-2xl border border-zinc-100 bg-white p-4 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md">
+                    <div
+                      className="mt-0.5 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-lg sm:text-xl transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110"
+                      aria-hidden="true"
+                    >
+                      {emoji}
+                    </div>
+                    {/* <dl> e não <div>: dt/dd só são válidos dentro de uma lista
+                        de descrição. O preflight do Tailwind zera a margem de <dl>
+                        igual à de <div>, então o render é idêntico. */}
+                    <dl>
+                      <dt className="text-sm font-bold text-zinc-900 sm:text-base">{title}</dt>
+                      <dd className="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-600">{body}</dd>
+                    </dl>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <TextTestimonials />
+
+        {/* Vitrine preservada, após as avaliações. */}
         <section className="home-deferred-section bg-[var(--bg)] py-14 sm:py-28 overflow-hidden" aria-labelledby="featured-heading">
           <div className="mx-auto max-w-7xl">
 
@@ -304,44 +345,6 @@ export default function HomePage() {
           <ColorGallery />
         </div>
 
-        {/* ── 5. DIFERENCIAIS ─────────────────────────────────────────────────── */}
-        <section className="home-deferred-section bg-white py-14 sm:py-28 overflow-hidden" aria-labelledby="diff-heading">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-
-            <div className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Criação responsável</p>
-              <h2 id="diff-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-                Por que a By Império Dog?
-              </h2>
-              <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {DIFFERENTIALS.map(({ emoji, title, body }) => (
-                <div key={title}>
-                  <div className="group flex h-full gap-3 sm:gap-4 rounded-2xl border border-zinc-100 bg-white p-4 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md">
-                    <div
-                      className="mt-0.5 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-lg sm:text-xl transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110"
-                      aria-hidden="true"
-                    >
-                      {emoji}
-                    </div>
-                    {/* <dl> e não <div>: dt/dd só são válidos dentro de uma lista
-                        de descrição. O preflight do Tailwind zera a margem de <dl>
-                        igual à de <div>, então o render é idêntico. */}
-                    <dl>
-                      <dt className="text-sm font-bold text-zinc-900 sm:text-base">{title}</dt>
-                      <dd className="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-600">{body}</dd>
-                    </dl>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ── 6. AI MATCHMAKER ────────────────────────────────────────────────── */}
         <div className="home-deferred-section bg-[var(--bg)]">
           <ClientOnlyAiMatchmakerChat />
@@ -349,9 +352,6 @@ export default function HomePage() {
 
         {/* ── 7. PROVA SOCIAL ─────────────────────────────────────────────────── */}
         <div className="home-deferred-section bg-white overflow-hidden">
-          <div>
-            <ClientOnlyTextTestimonials />
-          </div>
           <div className="border-t border-zinc-100 pb-4">
             <ClientOnlyTestimonials title="Álbum das famílias" />
           </div>

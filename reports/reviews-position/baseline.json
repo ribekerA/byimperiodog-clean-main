@@ -1,0 +1,7 @@
+{
+  "base": "629f2c2de378a964e74c41314b180e7d62b07a26",
+  "remoteMain": "629f2c2de378a964e74c41314b180e7d62b07a26",
+  "branch": "codex/avaliacoes-posicionamento-main",
+  "originalCheckout": "Preserved; not merged or reset",
+  "scope": "Only existing reviews import and positioning; no pricing, catalog, WhatsApp, metadata or commercial-copy changes"
+}

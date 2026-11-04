@@ -1,6 +1,8 @@
 import Image from "next/image";
 
-import { FOUNDING_YEAR } from "@/domain/config";
+import GoogleReviewCards from "@/components/reviews/GoogleReviewCards";
+import GoogleReviewsSection from "@/components/reviews/GoogleReviewsSection";
+import ReviewCarousel from "@/components/reviews/ReviewCarousel";
 
 // Depoimentos reais, escritos pelas próprias famílias. A regra aqui é não
 // reescrever ninguém: o texto é o que a pessoa disse. A única intervenção
@@ -160,44 +162,36 @@ function Stars({ count }: { count: number }) {
 
 export default function TextTestimonials() {
   return (
-    <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
-      <div className="mx-auto mb-10 max-w-2xl text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Depoimentos reais</p>
-        <h2 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Famílias que já receberam um filhote da By Império Dog
-        </h2>
-        <p className="mt-3 text-zinc-600">
-          Criação de Spitz Alemão Anão desde {FOUNDING_YEAR}. Veja o que as famílias dizem sobre a experiência.
-        </p>
-      </div>
-
-      {/* ── Depoimentos — UMA única instância no DOM ───────────────────────────
-          Antes existia uma <ul> "mobile" e outra "desktop" com exatamente os
-          mesmos quatro depoimentos, o que duplicava todo o texto no HTML
-          público. Agora é a mesma lista: carrossel com snap no mobile e grid
-          de 2/4 colunas a partir de sm, alternado somente por CSS. */}
-      <ul
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-x-visible sm:pb-0 lg:grid-cols-4"
-        aria-label="Depoimentos de clientes"
-        // No mobile esta lista rola de lado e nenhum cartao tem link ou botao
-        // dentro: sem um ponto de foco, quem navega por teclado nao alcancava
-        // do segundo depoimento em diante — a regiao existia mas era
-        // inacessivel. Com tabIndex a propria lista recebe foco e as setas
-        // rolam. A partir de sm ela vira grade e nao rola mais.
-        // A regra abaixo so conhece a lista de roles interativas e nao enxerga
-        // rolagem; area rolavel precisa de foco por teclado (WCAG 2.1.1).
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-        tabIndex={0}
-      >
+    <section aria-labelledby="family-stories-heading" className="relative overflow-hidden border-y border-[#dadce0] bg-[#f8f9fa] py-10 sm:py-14">
+      <div className="mx-auto max-w-[1440px] px-5 sm:px-10">
+        <div className="mb-8 border-b border-[#dadce0] pb-6 sm:mb-9">
+          <p className="text-sm text-[#5f6368]">By Império Dog</p>
+          <h2 id="family-stories-heading" className="mt-2 scroll-mt-24 text-3xl font-semibold leading-tight tracking-tight text-[#202124] sm:text-4xl">Avaliações de quem já nos conhece</h2>
+          <p className="mt-3 text-sm text-[#5f6368]">Avaliações publicadas no Google e experiências compartilhadas pelas famílias.</p>
+        </div>
+        <div className="grid items-start gap-7 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-9">
+          <GoogleReviewsSection />
+          <ReviewCarousel>
+            <GoogleReviewCards />
+            <li data-review-source="family-photo" className="flex w-[90%] shrink-0 snap-start flex-col gap-3 rounded-xl border border-[#dadce0] bg-white p-5 shadow-sm sm:w-[310px]">
+              <p className="text-sm font-semibold text-[#202124]">Emily e PomPom</p>
+              <p className="text-xs text-[#5f6368]">São José dos Campos, SP</p>
+              <a href="/reviews/emily-pompom.jpg" target="_blank" rel="noopener noreferrer" className="rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1967d2]">
+                <Image src="/reviews/emily-pompom.jpg" alt="Emily com o filhote PomPom no colo" width={718} height={1236} sizes="(max-width: 639px) 80vw, 268px" className="h-auto w-full rounded-lg" />
+                <span className="mt-2 inline-block min-h-11 content-center text-sm text-[#1967d2]">Ampliar foto<span className="sr-only"> de Emily e PomPom (abre em nova aba)</span></span>
+              </a>
+              <p className="text-xs text-[#5f6368]">Foto compartilhada pela família</p>
+            </li>
         {TESTIMONIALS.map((t) => (
           <li
             key={t.id}
-            className="w-[82vw] max-w-[320px] shrink-0 snap-start flex flex-col gap-4 rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm transition sm:w-auto sm:max-w-none sm:shrink sm:hover:shadow-md"
+            className="w-[90%] shrink-0 snap-start flex flex-col gap-4 rounded-xl border border-[#dadce0] bg-white p-5 shadow-sm sm:w-[310px]"
           >
             {/* Sem nota, sem estrelas. O cartão começa pela aspa e continua
                 legível — melhor do que cinco estrelas que ninguém deu. */}
+            <p className="text-xs font-semibold text-emerald-800">Relato enviado pela família</p>
             {t.stars ? <Stars count={t.stars} /> : null}
-            <blockquote className="flex-1 text-sm leading-relaxed text-zinc-600">
+            <blockquote className="flex-1 text-base leading-relaxed text-zinc-700">
               &ldquo;{t.text}&rdquo;
             </blockquote>
             <div className="flex items-center gap-3 border-t border-zinc-100 pt-4">
@@ -229,7 +223,9 @@ export default function TextTestimonials() {
             </div>
           </li>
         ))}
-      </ul>
-    </div>
+          </ReviewCarousel>
+        </div>
+      </div>
+    </section>
   );
 }

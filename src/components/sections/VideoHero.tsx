@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { FOUNDING_YEAR } from "@/domain/config";
@@ -22,7 +22,7 @@ const waHero = buildWhatsAppLink({
 // Palavras do título — cada uma entra com stagger individual
 const HEADLINE_WORDS = ["Spitz", "Alemão", "Anão"];
 
-export default function VideoHero() {
+export default function VideoHero({ reviewSummary }: { reviewSummary?: ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoState, setVideoState] = useState<"loading" | "playing" | "paused" | "error">("paused");
   const [videoRequested, setVideoRequested] = useState(false);
@@ -256,6 +256,8 @@ export default function VideoHero() {
               Ver a vitrine de filhotes
             </Link>
           </div>
+
+          {reviewSummary}
 
           {/* Trust bar — números */}
           <div className="mt-2 flex flex-col items-center gap-2 sm:mt-3">

@@ -1,0 +1,120 @@
+{
+  "protectedFiles": [
+    "src/domain/pricing.ts",
+    "content/puppies-static.ts",
+    "src/lib/whatsapp.ts",
+    "src/lib/structured-data.ts",
+    "src/lib/seo.ts",
+    "content/home-faq-items.ts"
+  ],
+  "results": [
+    {
+      "width": 1440,
+      "visible": 3,
+      "nearCTA": 28,
+      "positions": {
+        "diff": {
+          "top": 1081.09375,
+          "bottom": 1903
+        },
+        "reviews": {
+          "top": 1903,
+          "bottom": 3033.625
+        },
+        "catalog": {
+          "top": 3033.625,
+          "bottom": 4903.875
+        },
+        "height": 12270
+      },
+      "overflow": false,
+      "touch": "not applicable",
+      "keyboard": "passed",
+      "arrows": "passed",
+      "violations": [],
+      "googleCards": 33,
+      "allCards": 48
+    },
+    {
+      "width": 390,
+      "visible": 1,
+      "nearCTA": 86,
+      "positions": {
+        "diff": {
+          "top": 1084.78125,
+          "bottom": 2099.765625
+        },
+        "reviews": {
+          "top": 2099.765625,
+          "bottom": 3795.203125
+        },
+        "catalog": {
+          "top": 3795.203125,
+          "bottom": 9748.71875
+        },
+        "height": 18412
+      },
+      "overflow": false,
+      "touch": "passed",
+      "keyboard": "passed",
+      "arrows": "passed",
+      "violations": [],
+      "googleCards": 33,
+      "allCards": 48
+    },
+    {
+      "width": 768,
+      "visible": 2,
+      "nearCTA": 28,
+      "positions": {
+        "diff": {
+          "top": 1093.84375,
+          "bottom": 2100.25
+        },
+        "reviews": {
+          "top": 2100.25,
+          "bottom": 3814.53125
+        },
+        "catalog": {
+          "top": 3814.53125,
+          "bottom": 7171.78125
+        },
+        "height": 15266
+      },
+      "overflow": false,
+      "touch": "not applicable",
+      "keyboard": "passed",
+      "arrows": "passed",
+      "violations": [],
+      "googleCards": 33,
+      "allCards": 48
+    },
+    {
+      "width": 1920,
+      "visible": 3,
+      "nearCTA": 28,
+      "positions": {
+        "diff": {
+          "top": 1081.09375,
+          "bottom": 1903
+        },
+        "reviews": {
+          "top": 1903,
+          "bottom": 3033.625
+        },
+        "catalog": {
+          "top": 3033.625,
+          "bottom": 4903.875
+        },
+        "height": 12270
+      },
+      "overflow": false,
+      "touch": "not applicable",
+      "keyboard": "passed",
+      "arrows": "passed",
+      "violations": [],
+      "googleCards": 33,
+      "allCards": 48
+    }
+  ]
+}
