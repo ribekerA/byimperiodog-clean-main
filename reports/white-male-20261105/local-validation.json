@@ -1,0 +1,23 @@
+{
+  "base": "http://localhost:3104",
+  "results": [
+    {
+      "width": 390,
+      "price": 4500,
+      "photos": 11,
+      "detail": 200,
+      "catalogSearch": "passed",
+      "whatsapp": "href checked; not clicked",
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "price": 4500,
+      "photos": 11,
+      "detail": 200,
+      "catalogSearch": "passed",
+      "whatsapp": "href checked; not clicked",
+      "overflow": false
+    }
+  ]
+}

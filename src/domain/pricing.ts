@@ -92,6 +92,8 @@ export function precoDeCadastro(cor?: string | null, sexo?: string | null): numb
 // em páginas de REFERÊNCIA, não ofertas individuais com desconto. A nova
 // matriz oficial as substitui. O mecanismo permanece para exceções genuínas.
 export const PRECO_POR_SLUG: Readonly<Record<string, number>> = {
+  // Macho branco: preço individual informado pela responsável em 05/11/2026.
+  "spitz-alemao-anao-branco-macho": 450000,
   // Preço revisado pela responsável em 07/10/2026.
   "spitz-alemao-anao-branco-femea": 750000,
   // Fêmea preta do lote fotografado em 26/09/2026.

@@ -1,0 +1,57 @@
+[
+  {
+    "source": "IMG-20261105-WA0030.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-01.jpg",
+    "sha256": "aafcf8c99179a4340a0c8483e8f94ede7d08e548ed7ceb6a7e40f0c88af0f94c"
+  },
+  {
+    "source": "IMG-20261105-WA0004.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-02.jpg",
+    "sha256": "3391578eb67fbae96b54dcf5bc487f0ad7295e62d17d9b31eab1b1752bc100e8"
+  },
+  {
+    "source": "IMG-20261105-WA0013.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-03.jpg",
+    "sha256": "d3c12bbb7e605d2e65a40530769f33f2d8ba25270ae8ea7d0fb20634c49455df"
+  },
+  {
+    "source": "IMG-20261105-WA0001.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-04.jpg",
+    "sha256": "af3f6dded1cd2c25f0da90543dfdb03bf0fcdfc07370b1433f5a0814143c1127"
+  },
+  {
+    "source": "IMG-20261105-WA0029.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-05.jpg",
+    "sha256": "a08a97a8c30bbc18288ba79a1c9ece12567d828f9efa6e63319eae18b003424f"
+  },
+  {
+    "source": "IMG-20261105-WA0028.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-06.jpg",
+    "sha256": "eb12910af3173c174779f6a493f6c1e8250deefd99ebf495250436024ee36b84"
+  },
+  {
+    "source": "IMG-20261105-WA0019.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-07.jpg",
+    "sha256": "11ea3eae6ce62141587c7bb6294a2f3652612ae1a59f7cedba0dc992d6a00dcb"
+  },
+  {
+    "source": "IMG-20261105-WA0040.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-08.jpg",
+    "sha256": "3dbaa64345aaedaaf709ddbf8a10ebd9ef754611493c42034269bb75c4e2d1df"
+  },
+  {
+    "source": "IMG-20261105-WA0010.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-09.jpg",
+    "sha256": "dda1365df1ba0065c10e219bde5601eaa29cdf7156d25414927a46753b447d29"
+  },
+  {
+    "source": "IMG-20261105-WA0025.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-10.jpg",
+    "sha256": "aa247693386d843191fe6ca6d527a0e8cc803bc64b284c8f96f21d06b745221d"
+  },
+  {
+    "source": "IMG-20261105-WA0016.jpg",
+    "destination": "public/filhotes/branco/branco-macho-20261105-11.jpg",
+    "sha256": "52fe52720a4f9f117678e5c7eb26fe4d7762ed1164886f665a43da964299ebcb"
+  }
+]

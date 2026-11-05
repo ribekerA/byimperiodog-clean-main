@@ -38,6 +38,39 @@
 import { CORES_DIVULGADAS, precoDoFilhote, type CorDivulgada } from "../src/domain/pricing";
 
 const referenciasVisuais = [
+  // Macho branco cadastrado com fotos e preço confirmados em 05/11/2026.
+  {
+    id: "spitz-branco-macho-20261105",
+    name: "Spitz Alemão Branco Macho",
+    slug: "spitz-alemao-anao-branco-macho",
+    title: "Spitz Alemão Branco Macho | By Império Dog",
+    color: "branco",
+    cor: "Branco",
+    sex: "male",
+    gender: "male",
+    breed: "Spitz Alemão",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/branco/branco-macho-20261105-01.jpg",
+      "/filhotes/branco/branco-macho-20261105-02.jpg",
+      "/filhotes/branco/branco-macho-20261105-03.jpg",
+      "/filhotes/branco/branco-macho-20261105-04.jpg",
+      "/filhotes/branco/branco-macho-20261105-05.jpg",
+      "/filhotes/branco/branco-macho-20261105-06.jpg",
+      "/filhotes/branco/branco-macho-20261105-07.jpg",
+      "/filhotes/branco/branco-macho-20261105-08.jpg",
+      "/filhotes/branco/branco-macho-20261105-09.jpg",
+      "/filhotes/branco/branco-macho-20261105-10.jpg",
+      "/filhotes/branco/branco-macho-20261105-11.jpg",
+    ],
+    currency: "BRL",
+    description:
+      "Filhote de Spitz Alemão macho branco, fotografado no gramado. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva deste filhote.",
+    isHighlighted: true,
+    isFeatured: true,
+  },
+
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-branco-femea-01",
