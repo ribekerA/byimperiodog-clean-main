@@ -4,7 +4,6 @@ import { Facebook, Link as LinkIcon, Twitter } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { trackShare } from "@/lib/events";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 interface ShareButtonsProps {
   title: string;
@@ -42,16 +41,22 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
     window.open(shareUrl, "_blank", features);
   };
 
+  /**
+   * Compartilhar é mandar o artigo para QUEM O VISITANTE ESCOLHER.
+   *
+   * `wa.me/?text=` sem número abre o seletor de contatos do WhatsApp: o
+   * destinatário é de quem clica. Já `buildWhatsAppLink()` monta o link para o
+   * número do canil — isso é atendimento, não compartilhamento, e era o que
+   * este botão fazia enquanto se anunciava como "Compartilhar". Quem queria
+   * mandar o texto para o marido caía na conversa com a criadora.
+   *
+   * Não usa `openWindow`: a janela de 600x560 é boa para sharer de desktop e
+   * ruim no celular, que é 92% do tráfego. O WhatsApp abre em aba/app.
+   */
   const shareOnWhatsApp = () => {
     const target = shareTarget.replace("%SOURCE%", "whatsapp");
-    const link = buildWhatsAppLink({
-      message: `${title} - ${target}`,
-      utmSource: "blog",
-      utmMedium: SHARE_UTM.medium,
-      utmCampaign: SHARE_UTM.campaign,
-      utmContent: "whatsapp_share",
-    });
-    window.open(link, "_blank", "noopener,noreferrer");
+    const text = encodeURIComponent(`${title} - ${target}`);
+    window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
     trackShare("whatsapp", title);
   };
 
@@ -91,8 +96,6 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
       <button
         type="button"
         onClick={shareOnWhatsApp}
-        data-wa-cta="true"
-        data-wa-placement="blog"
         className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-whatsapp text-whatsapp-contrast shadow-soft transition hover:scale-110 focus-ring"
         aria-label="Compartilhar no WhatsApp"
         data-track-event="share_whatsapp"

@@ -312,6 +312,84 @@ describe("medição de clique em WhatsApp", () => {
  * Aqui o componente real entra em cena. A regra que este bloco protege: quem
  * carrega `data-wa-cta` não mede nada sozinho — quem mede é o ouvinte.
  */
+/**
+ * O teste F acima cobre o link de compartilhamento — e por isso não pegou o
+ * defeito real: o botão de compartilhar do blog não é <a>, é <button>. O
+ * guarda `ehLinkDeContato` só rodava no ramo das âncoras, então o botão caía
+ * no ramo que dispensa o href, bastava ter `data-wa-cta`. Resultado: um toque
+ * em "Compartilhar" saía como `whatsapp_click` de `cta_location: "blog"` e
+ * alimentava a conversão de WhatsApp no Ads com gente que nunca falou com o
+ * canil.
+ *
+ * Como no bloco abaixo, aqui entra o componente real: o botão montado à mão é
+ * justamente o que deixou passar.
+ */
+describe("compartilhar do blog — compartilhar não é atendimento", () => {
+  it("manda o artigo para quem o visitante escolher, sem virar lead", async () => {
+    const { default: ShareButtons } = await import("@/components/blog/ShareButtons");
+    const abrir = vi.fn();
+    vi.stubGlobal("open", abrir);
+
+    const { getByLabelText } = render(
+      <>
+        <WhatsAppClickTracker />
+        <ShareButtons
+          title="Preço do Spitz Alemão Anão"
+          url="https://byimperiodog.com.br/blog/preco-spitz-alemao-anao"
+        />
+      </>,
+    );
+
+    const botao = getByLabelText("Compartilhar no WhatsApp");
+
+    // O ouvinte delegado anota todo CTA de contato que encontra. Se este botão
+    // aparecer anotado, ele voltou a ser contado como atendimento.
+    expect(botao).not.toHaveAttribute("data-analytics", "whatsapp-click");
+
+    botao.click();
+
+    // Compartilhar é compartilhar: nenhum clique de WhatsApp, nenhuma conversão.
+    expect(eventos("whatsapp_click")).toHaveLength(0);
+    expect(eventos("conversion")).toHaveLength(0);
+
+    // O que sai é um evento de compartilhamento, e só.
+    expect(eventos("share")).toHaveLength(1);
+    expect(eventos("share")[0].params).toMatchObject({ method: "whatsapp" });
+
+    // E o destino é o seletor de contatos, não a conversa com o canil.
+    expect(abrir).toHaveBeenCalledTimes(1);
+    const destino = String(abrir.mock.calls[0][0]);
+    expect(destino.startsWith("https://wa.me/?text=")).toBe(true);
+    expect(destino).not.toContain(WHATSAPP_NUMBER);
+
+    vi.unstubAllGlobals();
+  });
+
+  it("um botão que se declara compartilhamento não conta, mesmo com data-wa-cta", () => {
+    const { getByText } = render(
+      <>
+        <WhatsAppClickTracker />
+        <button type="button" data-wa-cta="true" data-track-event="share_whatsapp">
+          Compartilhar
+        </button>
+        <button type="button" data-wa-cta="true" data-wa-placement="floating_button">
+          Falar com a criadora
+        </button>
+      </>,
+    );
+
+    getByText("Compartilhar").click();
+    expect(eventos("whatsapp_click")).toHaveLength(0);
+
+    // O CTA de verdade continua contando — o guarda não pode ter levado junto.
+    getByText("Falar com a criadora").click();
+    expect(eventos("whatsapp_click")).toHaveLength(1);
+    expect(eventos("whatsapp_click")[0].params).toMatchObject({
+      cta_location: "floating_button",
+    });
+  });
+});
+
 describe("botão flutuante real — um toque, um evento", () => {
   it("não emite nenhum evento próprio além do whatsapp_click do ouvinte", async () => {
     const { default: WhatsAppFloat } = await import("@/components/WhatsAppFloat");
