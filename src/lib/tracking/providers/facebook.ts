@@ -11,7 +11,7 @@ const facebookAdapter: ProviderAdapter = {
     if (!clientId) {
       throw new Error("FACEBOOK_CLIENT_ID is not configured");
     }
-    const scope = ["ads_management", "business_management"];
+    const scope = ["ads_read", "business_management"];
     const url = new URL(FB_AUTH_URL);
     url.searchParams.set("client_id", clientId);
     url.searchParams.set("redirect_uri", redirectUri);
@@ -27,13 +27,12 @@ const facebookAdapter: ProviderAdapter = {
     if (!clientId || !clientSecret) {
       throw new Error("FACEBOOK_CLIENT_ID/SECRET not configured");
     }
-    const url = new URL(FB_TOKEN_URL);
-    url.searchParams.set("client_id", clientId);
-    url.searchParams.set("client_secret", clientSecret);
-    url.searchParams.set("redirect_uri", redirectUri);
-    url.searchParams.set("code", code);
-
-    const res = await fetch(url.toString(), { method: "GET" });
+    const body = new URLSearchParams({ client_id: clientId, client_secret: clientSecret, redirect_uri: redirectUri, code });
+    const res = await fetch(FB_TOKEN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
     if (!res.ok) {
       throw new Error(`Facebook token exchange failed: ${res.status}`);
     }
@@ -46,10 +45,24 @@ const facebookAdapter: ProviderAdapter = {
     };
   },
 
-  // Facebook pixels listing would normally hit /me/adaccounts then /act_x/pixels.
-  // Stubbed here; fill with real API calls using accessToken.
-  listResources: async (_tokens): Promise<Resource[]> => {
-    return [];
+  listResources: async (tokens): Promise<Resource[]> => {
+    const accountsResponse = await fetch("https://graph.facebook.com/v18.0/me/adaccounts?fields=id,name&limit=100", {
+      headers: { Authorization: `Bearer ${tokens.accessToken}` },
+    });
+    if (!accountsResponse.ok) throw new Error(`Facebook accounts request failed: ${accountsResponse.status}`);
+    const accounts = (await accountsResponse.json()).data || [];
+    const resources: Resource[] = [];
+    for (const account of accounts) {
+      const pixelsResponse = await fetch(`https://graph.facebook.com/v18.0/${encodeURIComponent(account.id)}/adspixels?fields=id,name&limit=100`, {
+        headers: { Authorization: `Bearer ${tokens.accessToken}` },
+      });
+      if (!pixelsResponse.ok) continue;
+      const pixels = (await pixelsResponse.json()).data || [];
+      for (const pixel of pixels) {
+        resources.push({ id: pixel.id, name: pixel.name || `Pixel ${pixel.id}`, type: "meta_pixel", meta: { account: account.name || account.id } });
+      }
+    }
+    return resources;
   },
 };
 

@@ -8,13 +8,30 @@ import {
   contractCanBeFilled, validContractCode, contractUploadPath, validateContractFile,
   InvalidContractFile, CONTRACT_MAX_FILE_BYTES, CONTRACT_MAX_SIGNATURE_BYTES, readContractForm,
 } from "@/lib/contract-security";
-import { rateLimit } from "@/lib/rateLimit";
+import { verifyContractAccessToken } from "@/lib/contractAccess";
+import { limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const STORAGE_BUCKET = "contracts";
+
+// Contrato é documento legal: CPF com dígito verificador inválido é erro de
+// digitação, não cliente a ser rejeitado em silêncio. O valor é guardado como
+// o comprador digitou, com máscara, para o documento sair igual ao preenchido.
+function validCpf(value: string): boolean {
+  const cpf = value.replace(/\D/g, "");
+  if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+  const digit = (length: number) => {
+    let sum = 0;
+    for (let i = 0; i < length; i++) sum += Number(cpf[i]) * (length + 1 - i);
+    const remainder = (sum * 10) % 11;
+    return remainder === 10 ? 0 : remainder;
+  };
+  return digit(9) === Number(cpf[9]) && digit(10) === Number(cpf[10]);
+}
+
 const payloadSchema = z.object({
-  nome: z.string().min(3).max(160),
-  cpf: z.string().min(11).max(20),
+  nome: z.string().trim().min(3).max(160),
+  cpf: z.string().trim().min(11).max(20).refine(validCpf, "CPF inválido"),
   rg: z.string().max(30).optional(),
   email: z.string().email().max(254).optional().or(z.literal("")),
   telefone: z.string().min(10).max(30),
@@ -31,15 +48,19 @@ export async function POST(req: NextRequest) {
   if (req.headers.get("sec-fetch-site") === "cross-site" || (origin && origin !== new URL(req.url).origin)) {
     return NextResponse.json({ error: "Solicitação não permitida" }, { status: 403 });
   }
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (!rateLimit(`contract-submit:${ip}`, 10, 10 * 60_000).allowed) {
-    return NextResponse.json({ error: "Muitas tentativas. Tente mais tarde." }, { status: 429 });
-  }
+  // Contador no banco: o limite continua valendo entre instâncias serverless e
+  // cold starts, o que a contagem em memória de processo não garantia.
+  const bloqueio = await limiteDeTaxa(req, "contract-submit", 10, 10 * 60_000);
+  if (bloqueio) return bloqueio;
 
   try {
     const form = await readContractForm(req);
-    const code = String(form.get("code") ?? "").trim();
+    const code = String(form.get("code") ?? "").trim().toUpperCase();
     if (!validContractCode(code)) return NextResponse.json({ error: "Link inválido" }, { status: 400 });
+    // Conhecer o código não basta: o link carrega um token HMAC emitido pelo painel.
+    if (!verifyContractAccessToken(code, String(form.get("access_token") ?? ""))) {
+      return NextResponse.json({ error: "Link de contrato inválido" }, { status: 404 });
+    }
     const rawPayload = String(form.get("payload") ?? "{}");
     if (rawPayload.length > 8000) return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
     let buyerData: z.infer<typeof payloadSchema>;

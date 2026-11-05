@@ -6,8 +6,8 @@ import { requireAdminApi } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function GET(req: NextRequest) {
-  const guard = requireAdminApi(req);
-  if (guard) return guard;
+  const denied = requireAdminApi(req);
+  if (denied) return denied;
   const { searchParams } = new URL(req.url);
   const tz = searchParams.get("tz") || "America/Sao_Paulo";
   const days = parseInt(searchParams.get("days") || "14", 10);

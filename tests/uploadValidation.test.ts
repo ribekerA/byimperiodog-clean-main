@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { ALLOWED_IMAGE_MIME, MAX_GIF_BYTES, MAX_IMAGE_BYTES, isAllowedImage, sanitizeFilename, inferExtFromMime } from '../src/lib/uploadValidation';
+import { ALLOWED_IMAGE_MIME, MAX_GIF_BYTES, MAX_IMAGE_BYTES, detectMediaMime, isAllowedImage, mediaMimeMatchesClaim, sanitizeFilename, inferExtFromMime } from '../src/lib/uploadValidation';
 
 describe('uploadValidation', () => {
   it('permite mimes válidos e tamanho dentro do limite', () => {
@@ -35,6 +35,15 @@ describe('uploadValidation', () => {
     expect(inferExtFromMime('image/png')).toBe('png');
     expect(inferExtFromMime('image/webp')).toBe('webp');
     expect(inferExtFromMime('image/avif')).toBe('avif');
+    expect(inferExtFromMime('video/mp4')).toBe('mp4');
+    expect(inferExtFromMime('video/quicktime')).toBe('mov');
     expect(inferExtFromMime('application/octet-stream')).toBe('bin');
+  });
+
+  it('confere a assinatura real do arquivo', () => {
+    expect(detectMediaMime(new Uint8Array([0xff, 0xd8, 0xff, 0xe0]))).toBe('image/jpeg');
+    expect(detectMediaMime(new TextEncoder().encode('GIF89a'))).toBe('image/gif');
+    expect(mediaMimeMatchesClaim('image/jpeg', 'image/png')).toBe(false);
+    expect(mediaMimeMatchesClaim('video/mp4', 'video/quicktime')).toBe(true);
   });
 });

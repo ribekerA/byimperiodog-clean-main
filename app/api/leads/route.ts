@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { erroPublico, registrarErro } from "@/lib/apiErro";
 import { sendLeadAutoResponse } from "@/lib/email";
+import { corpoJson, ipAnonimo, ipDoCliente, limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // Schema de validação server-side alinhado com o funil de leads (contato + contexto + LGPD).
@@ -42,27 +43,7 @@ const leadSchema = z.object({
   first_landing_page: z.string().max(300).optional(),
 });
 
-// Corpo máximo aceito. O formulário mais cheio não passa de ~2 KB; 16 KB dá
-// folga para UTMs longas e ainda impede que alguém empurre um JSON de 10 MB
-// para dentro da função.
 const LIMITE_CORPO_BYTES = 16 * 1024;
-
-// Primeira camada: contagem em memória. É rápida e barata, mas em serverless
-// cada instância tem o seu Map — quem distribui as requisições ganha uma janela
-// nova a cada cold start. Por isso ela deixou de ser a única (ver
-// `excedeuLimitePersistido`).
-const rateLimitMap = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW = 60000; // 60 segundos
-const MAX_REQUESTS = 3;
-
-// Segunda camada: contagem no banco, que é global para todas as instâncias.
-// Os números são folgados de propósito — um casal decidindo junto pode mandar
-// dois ou três formulários da mesma casa, e perder lead legítimo custa mais
-// caro que aguentar alguns POSTs a mais.
-const JANELA_CURTA_MS = 60_000;
-const MAX_CURTO = 5;
-const JANELA_DIARIA_MS = 24 * 60 * 60 * 1000;
-const MAX_DIARIO = 40;
 
 // Janela de deduplicação da automação de IA. O insert continua acontecendo (um
 // reenvio pode trazer dado corrigido), mas a sequência de vendas com IA — que
@@ -86,23 +67,6 @@ async function contarLeads(sb: ClienteSupabase, coluna: string, valor: string, d
   return count ?? 0;
 }
 
-/** Limite que não depende da memória da instância. Se a consulta falhar, cai
- *  para a camada em memória (que já rodou) em vez de recusar o lead: derrubar
- *  o formulário porque o banco piscou seria pior que o risco que ela cobre. */
-async function excedeuLimitePersistido(sb: ClienteSupabase, ip: string): Promise<boolean> {
-  if (!ip || ip === "unknown") return false;
-  try {
-    const [curto, diario] = await Promise.all([
-      contarLeads(sb, "ip_address", ip, JANELA_CURTA_MS),
-      contarLeads(sb, "ip_address", ip, JANELA_DIARIA_MS),
-    ]);
-    return curto >= MAX_CURTO || diario >= MAX_DIARIO;
-  } catch (erro) {
-    registrarErro("api/leads:limite-persistido", erro);
-    return false;
-  }
-}
-
 /** O lead recém-inserido já conta, então > 1 significa que este telefone já
  *  tinha passado por aqui na última meia hora. */
 async function telefoneJaAtendidoRecentemente(sb: ClienteSupabase, telefone: string): Promise<boolean> {
@@ -114,48 +78,19 @@ async function telefoneJaAtendidoRecentemente(sb: ClienteSupabase, telefone: str
   }
 }
 
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const timestamps = rateLimitMap.get(ip) || [];
-  const recent = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW);
-  if (recent.length >= MAX_REQUESTS) return false;
-  recent.push(now);
-  rateLimitMap.set(ip, recent);
-  if (Math.random() < 0.01) {
-    for (const [key, value] of rateLimitMap.entries()) {
-      const valid = value.filter((t) => now - t < RATE_LIMIT_WINDOW);
-      if (valid.length === 0) rateLimitMap.delete(key);
-      else rateLimitMap.set(key, valid);
-    }
-  }
-  return true;
-}
-
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json({ error: "Muitas requisições. Aguarde 1 minuto e tente novamente." }, { status: 429 });
-    }
+    const ip = ipDoCliente(req);
+    const bloqueioCurto = await limiteDeTaxa(req, "leads-minute", 5);
+    if (bloqueioCurto) return bloqueioCurto;
+    const bloqueioDiario = await limiteDeTaxa(req, "leads-day", 40, 24 * 60 * 60 * 1000);
+    if (bloqueioDiario) return bloqueioDiario;
 
-    // Lê como texto para poder medir antes de desserializar: `req.json()` já
-    // teria alocado o objeto inteiro na memória da função.
-    const corpoCru = await req.text();
-    if (corpoCru.length > LIMITE_CORPO_BYTES) {
-      return NextResponse.json({ error: "Envio grande demais." }, { status: 413 });
-    }
-
-    let body: Record<string, unknown>;
-    try {
-      body = JSON.parse(corpoCru) as Record<string, unknown>;
-    } catch {
-      return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
-    }
+    const leitura = await corpoJson<Record<string, unknown>>(req, LIMITE_CORPO_BYTES);
+    if (leitura.resposta) return leitura.resposta;
+    const body = leitura.dados;
 
     const sb = supabaseAdmin();
-    if (await excedeuLimitePersistido(sb, ip)) {
-      return NextResponse.json({ error: "Muitas requisições. Aguarde 1 minuto e tente novamente." }, { status: 429 });
-    }
 
     const validation = leadSchema.safeParse(body);
     if (!validation.success) {
@@ -200,7 +135,9 @@ export async function POST(req: NextRequest) {
         // como fallback para integrações que chamam a API diretamente.
         gclid: data.gclid || url.searchParams.get("gclid"),
         fbclid: url.searchParams.get("fbclid"),
-        ip_address: ip,
+        // O IP completo alimenta apenas o HMAC do limitador. Para antifraude e
+        // diagnóstico basta a rede aproximada, reduzindo o dado pessoal salvo.
+        ip_address: ipAnonimo(ip),
         user_agent: req.headers.get("user-agent"),
         // UTMs
         utm_source,

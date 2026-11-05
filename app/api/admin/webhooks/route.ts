@@ -14,7 +14,13 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { requireAdmin } from '@/lib/adminAuth';
+import { validatePublicHttpsUrl } from '@/lib/safeOutboundUrl';
 import type { Webhook, CreateWebhookPayload } from '@/types/webhooks';
+
+const ALLOWED_EVENTS = new Set([
+  'lead_form_submit', 'puppy_reservation', 'contact_form', 'whatsapp_click',
+  'phone_click', 'purchase', 'page_view', 'test_event',
+]);
 
 // Guard: createClient throws if URL is empty — during `next build` env vars are
 // not available, so we skip construction and let handlers fail gracefully at runtime.
@@ -37,7 +43,7 @@ export async function GET(request: NextRequest) {
     // Buscar webhooks do banco
     const { data, error } = await supabaseAdmin
       .from('webhooks')
-      .select('*')
+      .select('id,name,url,events,status,created_at,updated_at,last_triggered_at,error_count,success_count')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -68,6 +74,10 @@ export async function POST(request: NextRequest) {
       return authError;
     }
 
+    const contentLength = Number(request.headers.get('content-length') || '0');
+    if (Number.isFinite(contentLength) && contentLength > 16_384) {
+      return NextResponse.json({ error: 'Payload grande demais' }, { status: 413 });
+    }
     const body: CreateWebhookPayload = await request.json();
 
     // Validações
@@ -78,14 +88,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!body.url || !isValidUrl(body.url)) {
+    let safeUrl: string;
+    try {
+      safeUrl = await validatePublicHttpsUrl(body.url || '');
+    } catch {
       return NextResponse.json(
-        { error: 'URL inválida' },
+        { error: 'Use uma URL HTTPS pública válida' },
         { status: 400 }
       );
     }
 
-    if (!body.events || body.events.length === 0) {
+    if (!body.events || body.events.length === 0 || body.events.length > ALLOWED_EVENTS.size || body.events.some((event) => !ALLOWED_EVENTS.has(event))) {
       return NextResponse.json(
         { error: 'Selecione pelo menos um evento' },
         { status: 400 }
@@ -93,21 +106,21 @@ export async function POST(request: NextRequest) {
     }
 
     // Gerar secret se não fornecido
-    const secret = body.secret || generateWebhookSecret();
+    const secret = generateWebhookSecret();
 
     // Criar webhook
     const { data, error } = await supabaseAdmin
       .from('webhooks')
       .insert({
-        name: body.name,
-        url: body.url,
+        name: body.name.trim().slice(0, 120),
+        url: safeUrl,
         events: body.events,
         secret,
         status: 'active',
         error_count: 0,
         success_count: 0,
       })
-      .select()
+      .select('id,name,url,events,status,created_at,updated_at,last_triggered_at,error_count,success_count')
       .single();
 
     if (error) {
@@ -128,15 +141,6 @@ export async function POST(request: NextRequest) {
       { error: 'Internal server error' },
       { status: 500 }
     );
-  }
-}
-
-function isValidUrl(url: string): boolean {
-  try {
-    const parsed = new URL(url);
-    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
-  } catch {
-    return false;
   }
 }
 

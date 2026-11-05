@@ -1,0 +1,8 @@
+{
+  "url": "https://byimperiodog.com.br/",
+  "status": 429,
+  "medido": false,
+  "laboratorio": null,
+  "campo": null,
+  "nota": "A API de PageSpeed respondeu fora da faixa 2xx. O corpo do erro nao vai para o disco de proposito: e texto de terceiro e ja chegou a trazer identificadores internos do projeto no Cloud."
+}

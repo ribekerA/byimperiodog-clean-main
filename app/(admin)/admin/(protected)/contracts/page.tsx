@@ -38,6 +38,7 @@ type ContractItem = {
   zapsign_sign_link: string | null;
   zapsign_status: string | null;
   signed_pdf_url: string | null;
+  access_token: string;
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -97,11 +98,11 @@ export default function ContractsPage() {
 
   useEffect(() => { load(); }, []);
 
-  const copyLink = useCallback(async (code: string) => {
-    const link = `${baseUrl}/contract/${code}`;
+  const copyLink = useCallback(async (contract: ContractItem) => {
+    const link = `${baseUrl}/contract/${contract.code}?token=${encodeURIComponent(contract.access_token)}`;
     try {
       await navigator.clipboard.writeText(link);
-      setCopied(code);
+      setCopied(contract.code);
       push({ type: "success", message: "Link copiado!" });
       setTimeout(() => setCopied(null), 2000);
     } catch {
@@ -209,7 +210,7 @@ export default function ContractsPage() {
         header: "Ações",
         cell: ({ row }) => {
           const c = row.original;
-          const contractLink = `${baseUrl}/contract/${c.code}`;
+          const documentLink = `${baseUrl}/contract/${c.code}/documento?token=${encodeURIComponent(c.access_token)}`;
           return (
             <div className="flex items-center gap-1 flex-wrap">
               {!c.zapsign_doc_token ? (
@@ -233,13 +234,13 @@ export default function ContractsPage() {
                 </a>
               ) : null}
 
-              <button onClick={(e) => { e.stopPropagation(); copyLink(c.code); }}
+              <button onClick={(e) => { e.stopPropagation(); copyLink(c); }}
                 className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] px-2 py-1 text-[11px] font-semibold text-[var(--text)] hover:bg-[var(--surface)]">
                 {copied === c.code ? <Check className="h-3 w-3 text-[var(--brand)]" /> : <Copy className="h-3 w-3" />}
                 Link
               </button>
 
-              <a href={`${contractLink}/documento`} target="_blank" rel="noopener noreferrer"
+              <a href={documentLink} target="_blank" rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
                 className="inline-flex items-center gap-1 rounded-lg border border-[var(--border)] px-2 py-1 text-[11px] font-semibold text-[var(--text)] hover:bg-[var(--surface)]">
                 <ExternalLink className="h-3 w-3" />
@@ -369,7 +370,7 @@ export default function ContractsPage() {
           {expandedContract && (() => {
             const c = expandedContract;
             const buyer = c.payload as Record<string, string> | null;
-            const contractLink = `${baseUrl}/contract/${c.code}`;
+            const contractLink = `${baseUrl}/contract/${c.code}?token=${encodeURIComponent(c.access_token)}`;
             return (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 text-xs">
                 {buyer && (
@@ -426,7 +427,7 @@ export default function ContractsPage() {
                   <p className="font-bold uppercase tracking-widest text-[var(--text-muted)] mt-2">Link do comprador</p>
                   <div className="flex items-center gap-2 rounded-lg border border-[var(--border)] bg-white px-3 py-2 font-mono text-[10px] text-[var(--text)]">
                     <span className="flex-1 truncate">{contractLink}</span>
-                    <button onClick={() => copyLink(c.code)} className="flex-shrink-0 text-[var(--brand)] hover:text-[var(--brand-hover)]">
+                    <button onClick={() => copyLink(c)} className="flex-shrink-0 text-[var(--brand)] hover:text-[var(--brand-hover)]">
                       {copied === c.code ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                     </button>
                   </div>

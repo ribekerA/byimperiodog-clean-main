@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import { buildWhatsAppLink, WHATSAPP_MESSAGES } from "@/lib/whatsapp";
 
+import { NewsletterSignup } from "./NewsletterSignup";
+
 interface BlogCTAsProps {
   postTitle: string;
   category?: string | null;
@@ -66,30 +68,7 @@ export default function BlogCTAs({ postTitle, category }: BlogCTAsProps) {
               Nutrição, comportamento, rotinas e saúde — direto no seu e-mail. Sem spam.
             </p>
           </div>
-          <form
-            className="flex w-full flex-col gap-2 sm:w-auto sm:min-w-[300px] sm:flex-row"
-            action="https://byimperiodog.us21.list-manage.com/subscribe/post"
-            method="POST"
-          >
-            <input type="hidden" name="utm_source" value="blog" />
-            <input type="hidden" name="utm_medium" value="newsletter_cta" />
-            <input type="hidden" name="utm_campaign" value="blog_post" />
-            <label htmlFor="newsletter-email-blog" className="sr-only">Seu melhor e-mail</label>
-            <input
-              id="newsletter-email-blog"
-              name="EMAIL"
-              type="email"
-              required
-              placeholder="Seu melhor e-mail"
-              className="flex-1 rounded-pill border border-border bg-white px-4 py-2.5 text-sm text-text shadow-sm focus:ring-2 focus:ring-brand/30 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-on-brand shadow-soft transition hover:brightness-110 focus-ring whitespace-nowrap"
-            >
-              Quero receber
-            </button>
-          </form>
+          <NewsletterSignup />
         </div>
       </div>
 

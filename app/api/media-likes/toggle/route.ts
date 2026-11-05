@@ -6,6 +6,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { midiaRegistrada } from "@/domain/media-registry";
+import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import {
   hashDoVisitante,
   novoToken,
@@ -36,35 +37,9 @@ const corpo = z.object({
   contextId: z.string().trim().max(200).nullish(),
 });
 
-// Curtida é barata de propósito, mas não pode virar torneira. 30 por minuto
-// por IP cobre alguém percorrendo a galeria inteira e corta script.
-const janela = new Map<string, number[]>();
-const JANELA_MS = 60_000;
-const MAX_POR_JANELA = 30;
-
-function dentroDoLimite(ip: string): boolean {
-  const agora = Date.now();
-  const recentes = (janela.get(ip) ?? []).filter((t) => agora - t < JANELA_MS);
-  if (recentes.length >= MAX_POR_JANELA) return false;
-  recentes.push(agora);
-  janela.set(ip, recentes);
-  if (Math.random() < 0.01) {
-    for (const [chave, valores] of janela.entries()) {
-      const vivos = valores.filter((t) => agora - t < JANELA_MS);
-      if (vivos.length === 0) janela.delete(chave);
-      else janela.set(chave, vivos);
-    }
-  }
-  return true;
-}
-
 export async function POST(req: NextRequest) {
-  // O IP serve ao limite de taxa nesta requisição e some com ela: não é
-  // gravado, não vira hash e não acompanha a curtida até o banco.
-  const ip = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "desconhecido";
-  if (!dentroDoLimite(ip)) {
-    return NextResponse.json({ error: "muitas_requisicoes" }, { status: 429 });
-  }
+  const bloqueio = await limiteDeTaxa(req, "media-likes", 30);
+  if (bloqueio) return bloqueio;
 
   if (!temSegredoConfigurado()) {
     // Sem MEDIA_LIKE_SECRET não há identidade possível, e curtida sem
@@ -72,8 +47,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "indisponivel" }, { status: 503 });
   }
 
-  const json = await req.json().catch(() => null);
-  const validado = corpo.safeParse(json);
+  const lido = await corpoJson<unknown>(req, 4 * 1024);
+  if (lido.resposta) return lido.resposta;
+  const validado = corpo.safeParse(lido.dados);
   if (!validado.success) {
     return NextResponse.json({ error: "dados_invalidos" }, { status: 400 });
   }

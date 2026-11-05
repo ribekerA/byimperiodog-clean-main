@@ -1,0 +1,8 @@
+diff --git a/app/(public)/comprar-spitz-anao/page.tsx b/app/(public)/comprar-spitz-anao/page.tsx
+index b3ac9cd..5443370 100644
+--- a/app/(public)/comprar-spitz-anao/page.tsx
++++ b/app/(public)/comprar-spitz-anao/page.tsx
+@@ -251,2 +251,3 @@ export default function ComprarSpitzPage() {
+       <RelatedPages links={[
++        { label: "Como funciona a reserva", href: "/reserve-seu-filhote", desc: "Consulte as etapas e as condições de reserva" },
+         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel",  desc: "O que exigir antes de fechar negócio" },

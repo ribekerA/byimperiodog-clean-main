@@ -9,16 +9,35 @@ vi.mock('next/headers', () => ({ cookies: vi.fn() }));
 vi.mock('next/navigation', () => ({ redirect: vi.fn() }));
 vi.mock('@/lib/supabaseAdmin', () => ({ supabaseAdmin: vi.fn() }));
 
+// O cookie de sessao passou a carregar version/issuer/audience/jti e exige
+// segredo de no minimo 32 bytes (src/lib/adminSession.ts). Um payload mais
+// curto que isso e recusado com 401 antes de qualquer checagem de papel, que e
+// exatamente o comportamento desejado -- por isso o helper assina o formato
+// completo, em vez de o guard aceitar o formato antigo.
+const SEGREDO = 'local-test-signing-key-com-32-bytes-ou-mais';
+
 function request(role?: string, method = 'POST', path = '/api/admin/blog/publish', extra: Record<string, string> = {}) {
   const headers: Record<string, string> = { ...extra };
   if (role) {
-    const body = Buffer.from(JSON.stringify({ role, userId: 'test-user', exp: Math.floor(Date.now() / 1000) + 300 })).toString('base64url');
-    const signature = createHmac('sha256', 'local-test-signing-key').update(body).digest('base64url');
+    const agora = Math.floor(Date.now() / 1000);
+    const body = Buffer.from(JSON.stringify({
+      role,
+      userId: 'test-user',
+      email: 'teste@byimperiodog.com.br',
+      name: 'Teste',
+      version: 1,
+      issuer: 'by-imperio-dog',
+      audience: 'admin',
+      jti: '00000000-0000-4000-8000-000000000000',
+      iat: agora,
+      exp: agora + 300,
+    })).toString('base64url');
+    const signature = createHmac('sha256', SEGREDO).update(body).digest('base64url');
     headers.cookie = 'admin_session=' + body + '.' + signature + '; admin_role=owner';
   }
   return new Request('https://byimperiodog.com.br' + path, { method, headers });
 }
-beforeEach(() => { vi.stubEnv('ADMIN_SESSION_SECRET', 'local-test-signing-key'); vi.stubEnv('ADMIN_PASS', ''); vi.stubEnv('NEXT_PUBLIC_ADMIN_OPEN', '0'); });
+beforeEach(() => { vi.stubEnv('ADMIN_SESSION_SECRET', SEGREDO); vi.stubEnv('ADMIN_PASS', ''); vi.stubEnv('NEXT_PUBLIC_ADMIN_OPEN', '0'); });
 afterEach(() => vi.unstubAllEnvs());
 describe('autorização administrativa server-side', () => {
   it('não aceita cookies legados forjados ou malformados', () => {
@@ -33,7 +52,11 @@ describe('autorização administrativa server-side', () => {
     expect(requireAdminApi(request('viewer', 'GET', '/api/admin/leads'))).toBeNull();
     expect(requireAdminApi(request('editor'))).toBeNull();
     expect(requireAdminApi(request('owner'))).toBeNull();
-    expect(requireAdminApi(request('squad'))?.status).toBe(403);
+    // Papel fora do enum nao e rebaixado para viewer: o payload inteiro e
+    // recusado (401). Como a cookie e assinada, um papel desconhecido so
+    // aparece por bug ou adulteracao -- falhar fechado e mais seguro que
+    // conceder o menor privilegio em silencio.
+    expect(requireAdminApi(request('squad'))?.status).toBe(401);
   });
   it('configuração exige permissão também para leitura', () => {
     expect(requireAdminApi(request('editor', 'GET', '/api/admin/settings'))?.status).toBe(403);

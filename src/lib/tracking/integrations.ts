@@ -1,6 +1,7 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 import type { OAuthTokens, ProviderKey } from "./providers/types";
+import { decryptIntegrationToken, encryptIntegrationToken } from "./tokenCrypto";
 
 export type IntegrationRow = {
   id: string;
@@ -13,8 +14,6 @@ export type IntegrationRow = {
   metadata: Record<string, unknown> | null;
 };
 
-const DEFAULT_USER_ID = process.env.INTEGRATIONS_DEFAULT_USER_ID;
-
 export async function upsertIntegrationTokens(opts: {
   provider: ProviderKey;
   tokens: OAuthTokens;
@@ -22,9 +21,9 @@ export async function upsertIntegrationTokens(opts: {
   metadata?: Record<string, unknown> | null;
   userId?: string;
 }) {
-  const userId = opts.userId || DEFAULT_USER_ID;
+  const userId = opts.userId;
   if (!userId) {
-    throw new Error("Missing userId for integration (set INTEGRATIONS_DEFAULT_USER_ID or pass userId)");
+    throw new Error("Missing authenticated userId for integration");
   }
 
   const supa = supabaseAdmin();
@@ -35,8 +34,8 @@ export async function upsertIntegrationTokens(opts: {
     {
       user_id: userId,
       provider: opts.provider,
-      access_token: opts.tokens.accessToken,
-      refresh_token: opts.tokens.refreshToken ?? null,
+      access_token: encryptIntegrationToken(opts.tokens.accessToken),
+      refresh_token: opts.tokens.refreshToken ? encryptIntegrationToken(opts.tokens.refreshToken) : null,
       expires_at: expiresAtIso,
       provider_account_id: opts.providerAccountId ?? null,
       metadata: opts.metadata ?? null,
@@ -50,7 +49,7 @@ export async function upsertIntegrationTokens(opts: {
 }
 
 export async function getIntegrationForUser(provider: ProviderKey, userId?: string) {
-  const uid = userId || DEFAULT_USER_ID;
+  const uid = userId;
   if (!uid) {
     throw new Error("Missing userId for integration lookup");
   }
@@ -65,5 +64,11 @@ export async function getIntegrationForUser(provider: ProviderKey, userId?: stri
   if (error) {
     throw new Error(`Failed to load integration: ${error.message}`);
   }
-  return data as IntegrationRow | null;
+  if (!data) return null;
+  const row = data as IntegrationRow;
+  return {
+    ...row,
+    access_token: decryptIntegrationToken(row.access_token),
+    refresh_token: row.refresh_token ? decryptIntegrationToken(row.refresh_token) : null,
+  } satisfies IntegrationRow;
 }

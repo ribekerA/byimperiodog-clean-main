@@ -29,7 +29,6 @@ export default function Comments({ postId }: CommentsProps) {
 
   const [formData, setFormData] = useState({
     author_name: '',
-    author_email: '',
     content: '',
   });
 
@@ -92,7 +91,6 @@ export default function Comments({ postId }: CommentsProps) {
         body: JSON.stringify({
           post_id: postId,
           author_name: formData.author_name.trim(),
-          author_email: formData.author_email.trim() || undefined,
           body: formData.content.trim(),
           isca,
           aberto_ha_ms: Date.now() - abertoEm.current,
@@ -106,7 +104,7 @@ export default function Comments({ postId }: CommentsProps) {
         type: 'success'
       });
 
-      setFormData({ author_name: '', author_email: '', content: '' });
+      setFormData({ author_name: '', content: '' });
       fetchComments();
     } catch (error) {
       pushToast({ message: 'Erro ao enviar comentário. Tente novamente.', type: 'error' });
@@ -159,7 +157,7 @@ export default function Comments({ postId }: CommentsProps) {
               onChange={(e) => setIsca(e.target.value)}
             />
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div>
             <div>
               <label htmlFor="author_name" className="mb-2 block text-sm font-medium text-[var(--text)]">
                 Nome <span className="text-red-500">*</span>
@@ -170,19 +168,6 @@ export default function Comments({ postId }: CommentsProps) {
                 onChange={(e) => setFormData({ ...formData, author_name: e.target.value })}
                 placeholder="Seu nome"
                 required
-                disabled={submitting}
-              />
-            </div>
-            <div>
-              <label htmlFor="author_email" className="mb-2 block text-sm font-medium text-[var(--text)]">
-                E-mail (opcional)
-              </label>
-              <Input
-                id="author_email"
-                type="email"
-                value={formData.author_email}
-                onChange={(e) => setFormData({ ...formData, author_email: e.target.value })}
-                placeholder="seu@email.com"
                 disabled={submitting}
               />
             </div>

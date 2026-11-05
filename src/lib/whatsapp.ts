@@ -154,7 +154,7 @@ export function generateWhatsAppMessage(
 
   const summaryParts = [
     preset.hook,
-    `${puppyLabel}${priceLabel ? ` a partir de ${priceLabel}` : ""}.`,
+    `${puppyLabel}${priceLabel ? ` — ${priceLabel}` : ""}.`,
     location ? `Atendo pessoalmente clientes em ${location}.` : null,
     preset.promise,
   ].filter(Boolean);
@@ -166,15 +166,15 @@ export function generateWhatsAppMessage(
   const message = `${preset.greeting} ${name}! ${summaryParts.join(" ")} ${cta}`;
 
   const variations = [
-    `Primeiro contato — ${preset.greeting} ${name}! ${puppyLabel} esta reservado para voce. ${cta}`,
-    `Follow-up leve — ${name}, deixei o video do ${puppyLabel} pronto. Posso enviar agora? ${cta}`,
-    `Follow-up forte — ${name}, consigo garantir prioridade do ${puppyLabel} apenas hoje. Confirme comigo: ${cta}`,
-    `Urgencia — ${name}, ultima agenda premium para ver o ${puppyLabel} ainda hoje. ${cta}`,
-    `Confirmacao da visita — ${name}, confirmando sua visita privada para conhecer o ${puppyLabel}. Qualquer ajuste, fale aqui: ${cta}`,
-    `Reserva — ${name}, segue o acesso direto para finalizar a reserva do ${puppyLabel}. ${cta}`,
+    `Primeiro contato — ${preset.greeting} ${name}! Vi seu interesse no ${puppyLabel}. Posso confirmar as opcoes atuais com voce. ${cta}`,
+    `Follow-up — ${name}, quer receber as informacoes atuais sobre o ${puppyLabel}? ${cta}`,
+    `Video — ${name}, se ainda tiver interesse no ${puppyLabel}, confirme comigo quais fotos e videos atuais estao disponiveis. ${cta}`,
+    `Visita — ${name}, podemos alinhar o formato e o horario de uma visita para conhecer as opcoes atuais. ${cta}`,
+    `Documentacao — ${name}, posso explicar a documentacao e as condicoes referentes ao ${puppyLabel}. ${cta}`,
+    `Reserva — ${name}, antes de qualquer reserva, confirme comigo o filhote, a documentacao e as condicoes atuais. ${cta}`,
   ];
 
-  const strategy = `Sequencia ${tone || "premium"} com CTA unico no WhatsApp, mensagens curtas e foco em resposta imediata.`;
+  const strategy = `Sequencia ${tone || "premium"} com CTA unico no WhatsApp, mensagens curtas e informacoes condicionadas a confirmacao humana.`;
 
   return { message, variations, strategy, ctaLink: whatsappLink };
 }

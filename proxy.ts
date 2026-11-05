@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
+import { hasPermission, permissionForAdminRequest } from "@/lib/rbac";
 
 /**
  * Middleware para proteção de rotas /admin e regras globais
@@ -15,6 +16,7 @@ import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const url = req.nextUrl.clone();
+  const requestId = req.headers.get("x-request-id")?.slice(0, 100) || crypto.randomUUID();
 
   // ============================================================================
   // 1) REGRA: Forçar www em produção
@@ -39,16 +41,20 @@ export async function proxy(req: NextRequest) {
   // ============================================================================
   // 3) REGRA: Proteção de rotas /admin/* (exigir cookie assinado "admin_session" valido)
   // ============================================================================
-  const isAdminPath = pathname.startsWith("/admin");
-  const isAdminApiPath = pathname.startsWith("/api/admin");
+  const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
+  const isAdminApiPath = pathname === "/api/admin" || pathname.startsWith("/api/admin/");
   const isAdminLogin = pathname === "/admin/login";
   const isRotaAdminForaDoPrefixo = ehRotaAdministrativaForaDoPrefixo(pathname, req.method);
 
-  let hasSession = false;
+  let verifiedSession = null as Awaited<ReturnType<typeof verifyAdminSession>>;
   if (isAdminPath || isAdminApiPath || isRotaAdminForaDoPrefixo) {
     const sessionToken = req.cookies.get(ADMIN_SESSION_COOKIE)?.value;
-    const verified = await verifyAdminSession(sessionToken);
-    hasSession = verified !== null;
+    verifiedSession = await verifyAdminSession(sessionToken);
+  }
+  const hasSession = verifiedSession !== null;
+
+  if ((isAdminApiPath || isRotaAdminForaDoPrefixo) && metodoMutavel(req.method) && !origemPermitida(req)) {
+    return NextResponse.json({ ok: false, error: "forbidden-origin" }, { status: 403 });
   }
 
   if (isAdminPath) {
@@ -63,6 +69,15 @@ export async function proxy(req: NextRequest) {
       url.pathname = "/admin/login";
       return NextResponse.redirect(url);
     }
+
+    if (!isAdminLogin && verifiedSession) {
+      const permission = permissionForAdminRequest(pathname, "GET");
+      if (!hasPermission(verifiedSession.role, permission)) {
+        url.pathname = "/admin/dashboard";
+        url.search = "?permission=denied";
+        return NextResponse.redirect(url);
+      }
+    }
   }
 
   // ============================================================================
@@ -73,9 +88,10 @@ export async function proxy(req: NextRequest) {
     // então aceitar NEXT_PUBLIC_ADMIN_PASS aqui tornava possível autenticar com
     // uma senha que fica legível no JS público. Se precisar de acesso por
     // script, use o header x-admin-pass com o valor de ADMIN_PASS.
-    const expectedPass = process.env.ADMIN_PASS;
-    const headerPass = req.headers.get("x-admin-pass");
-    const authedByHeader = !!expectedPass && headerPass === expectedPass;
+    const authedByHeader = await comparaConstanteEdge(
+      process.env.ADMIN_PASS,
+      req.headers.get("x-admin-pass"),
+    );
 
     // Rejeita se não tem sessão E não tem header válido
     if (!hasSession && !authedByHeader) {
@@ -83,6 +99,13 @@ export async function proxy(req: NextRequest) {
         { ok: false, error: "Unauthorized" },
         { status: 401 }
       );
+    }
+
+    if (verifiedSession) {
+      const permission = permissionForAdminRequest(pathname, req.method);
+      if (!hasPermission(verifiedSession.role, permission)) {
+        return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
+      }
     }
   }
 
@@ -93,14 +116,51 @@ export async function proxy(req: NextRequest) {
   // ============================================================================
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set("x-next-pathname", pathname);
+  requestHeaders.set("x-request-id", requestId);
 
   if (isAdminPath || isAdminApiPath) {
     const res = NextResponse.next({ request: { headers: requestHeaders } });
     res.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+    res.headers.set("X-Request-ID", requestId);
     return res;
   }
 
-  return NextResponse.next({ request: { headers: requestHeaders } });
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  response.headers.set("X-Request-ID", requestId);
+  return response;
+}
+
+function metodoMutavel(method: string): boolean {
+  return method !== "GET" && method !== "HEAD" && method !== "OPTIONS";
+}
+
+function origemPermitida(req: NextRequest): boolean {
+  const fetchSite = req.headers.get("sec-fetch-site");
+  if (fetchSite === "cross-site") return false;
+  const origin = req.headers.get("origin");
+  if (!origin) return true;
+  try {
+    return new URL(origin).origin === req.nextUrl.origin;
+  } catch {
+    return false;
+  }
+}
+
+async function comparaConstanteEdge(
+  expected: string | undefined,
+  received: string | null,
+): Promise<boolean> {
+  if (!expected || !received) return false;
+  const encoder = new TextEncoder();
+  const [expectedHash, receivedHash] = await Promise.all([
+    crypto.subtle.digest("SHA-256", encoder.encode(expected)),
+    crypto.subtle.digest("SHA-256", encoder.encode(received)),
+  ]);
+  const a = new Uint8Array(expectedHash);
+  const b = new Uint8Array(receivedHash);
+  let difference = 0;
+  for (let index = 0; index < a.length; index += 1) difference |= a[index] ^ b[index];
+  return difference === 0;
 }
 
 /**
@@ -121,12 +181,17 @@ const ROTAS_ADMIN_EXATAS = new Set([
   "/api/ai/seo",
   "/api/tracking/select",
   "/api/tracking/settings",
+  "/api/blog/import",
+  "/api/blog/generate",
 ]);
+
+const ROTAS_ADMIN_SOMENTE_GET = new Set(["/api/analytics", "/api/rum"]);
 
 const PREFIXOS_ADMIN = ["/api/integrations/"];
 
 function ehRotaAdministrativaForaDoPrefixo(pathname: string, metodo: string): boolean {
   if (ROTAS_ADMIN_EXATAS.has(pathname)) return true;
+  if (ROTAS_ADMIN_SOMENTE_GET.has(pathname) && (metodo === "GET" || metodo === "HEAD")) return true;
   if (PREFIXOS_ADMIN.some((prefixo) => pathname.startsWith(prefixo))) return true;
   if (pathname === "/api/settings/tracking" && metodo !== "GET" && metodo !== "HEAD") return true;
   return false;

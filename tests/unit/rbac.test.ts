@@ -7,10 +7,11 @@ import {
   getRoleFromHeaderCookie,
   hasPermission,
   normalizeRole,
+  permissionForAdminRequest,
 } from "@/lib/rbac";
 
 describe("rbac helpers", () => {
-  it("normalizes roles desconhecidos como viewer sem elevar privilégios", () => {
+  it("normaliza papeis desconhecidos com o menor privilegio", () => {
     expect(normalizeRole("owner")).toBe("owner");
     expect(normalizeRole("EDITOR")).toBe("editor");
     expect(normalizeRole("viewer")).toBe("viewer");
@@ -36,6 +37,16 @@ describe("rbac helpers", () => {
     expect(getRoleFromHeaderCookie(header)).toBe("editor");
   });
 
+  it("getClientAdminRole retorna viewer sem cookie confiavel", () => {
+    expect(getClientAdminRole()).toBe(DEFAULT_ROLE);
+  });
+
+  it("infere permissao minima para rotas sem configuracao explicita", () => {
+    expect(permissionForAdminRequest("/api/admin/blog/publish", "POST")).toBe("blog:write");
+    expect(permissionForAdminRequest("/api/admin/settings", "POST")).toBe("settings:write");
+    expect(permissionForAdminRequest("/api/admin/leads", "PATCH")).toBe("cadastros:write");
+    expect(permissionForAdminRequest("/api/admin/settings", "GET")).toBe("settings:write");
+  });
   it("getClientAdminRole falha com privilégio mínimo", () => {
     expect(getClientAdminRole()).toBe(DEFAULT_ROLE);
   });

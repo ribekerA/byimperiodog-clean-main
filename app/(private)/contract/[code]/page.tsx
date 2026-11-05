@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import ContractForm from "@/components/ContractForm";
 import { contractCanBeFilled, validContractCode } from "@/lib/contract-security";
+import { verifyContractAccessToken } from "@/lib/contractAccess";
 import { rateLimit } from "@/lib/rateLimit";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -49,8 +50,10 @@ async function fetchContract(code: string): Promise<{ contract: ContractRow; pup
   }
 }
 
-export default async function ContractPage(props: { params: Promise<{ code: string }> }) {
+export default async function ContractPage(props: { params: Promise<{ code: string }>; searchParams: Promise<{ token?: string }> }) {
   const params = await props.params;
+  const { token = "" } = await props.searchParams;
+  if (!verifyContractAccessToken(params.code, token)) notFound();
   if (!validContractCode(params.code)) notFound();
   const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rl = rateLimit(`contract-view:${ip}`, 30, 60_000);
@@ -106,7 +109,7 @@ export default async function ContractPage(props: { params: Promise<{ code: stri
             </ul>
           </div>
 
-          <ContractForm code={contract.code} puppyName={puppy?.name ?? undefined} />
+          <ContractForm code={contract.code} accessToken={token} puppyName={puppy?.name ?? undefined} />
         </>
       )}
 

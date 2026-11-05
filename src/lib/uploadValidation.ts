@@ -35,7 +35,13 @@ export function isAllowedMedia(mime: string, sizeBytes: number): boolean {
 
 export function sanitizeFilename(name: string): string {
   // keep only safe chars; avoid path traversal; normalize spaces
-  const base = name.replace(/[^a-zA-Z0-9._-]+/g, '_').replace(/_+/g, '_');
+  const base = name
+    .replace(/\\/g, '/')
+    .split('/')
+    .pop()!
+    .replace(/[^a-zA-Z0-9._-]+/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^\.+/, '');
   return base.slice(0, 160) || 'file';
 }
 
@@ -51,4 +57,33 @@ export function inferExtFromMime(mime: string): string {
     'video/quicktime': 'mov',
   };
   return map[mime] || 'bin';
+}
+
+/** Confere os bytes reais; o Content-Type enviado pelo navegador não é prova. */
+export function detectMediaMime(input: ArrayBuffer | Uint8Array): string | null {
+  const bytes = input instanceof Uint8Array ? input : new Uint8Array(input);
+  const ascii = (start: number, length: number) =>
+    String.fromCharCode(...bytes.slice(start, start + length));
+
+  if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return 'image/jpeg';
+  if (bytes.length >= 8 && bytes.slice(0, 8).every((b, i) => b === [0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a][i])) return 'image/png';
+  if (bytes.length >= 12 && ascii(0, 4) === 'RIFF' && ascii(8, 4) === 'WEBP') return 'image/webp';
+  if (bytes.length >= 6 && (ascii(0, 6) === 'GIF87a' || ascii(0, 6) === 'GIF89a')) return 'image/gif';
+  if (bytes.length >= 4 && bytes[0] === 0x1a && bytes[1] === 0x45 && bytes[2] === 0xdf && bytes[3] === 0xa3) return 'video/webm';
+
+  if (bytes.length >= 12 && ascii(4, 4) === 'ftyp') {
+    const brand = ascii(8, 4).toLowerCase();
+    if (brand === 'avif' || brand === 'avis') return 'image/avif';
+    if (brand.trim() === 'qt') return 'video/quicktime';
+    return 'video/mp4';
+  }
+  return null;
+}
+
+export function mediaMimeMatchesClaim(detected: string | null, claimed: string): boolean {
+  if (!detected) return false;
+  if (detected === claimed) return true;
+  // Alguns navegadores rotulam .mov como MP4 e vice-versa; ambos usam ISO BMFF.
+  return (detected === 'video/mp4' && claimed === 'video/quicktime') ||
+    (detected === 'video/quicktime' && claimed === 'video/mp4');
 }

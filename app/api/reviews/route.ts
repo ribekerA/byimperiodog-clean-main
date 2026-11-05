@@ -10,7 +10,9 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { z } from "zod";
 
+import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
@@ -18,7 +20,7 @@ import { supabaseAnon } from "@/lib/supabaseAnon";
 
 export async function GET(req: NextRequest) {
   const slug = req.nextUrl.searchParams.get("slug");
-  if (!slug) {
+  if (!slug || slug.length > 120 || !getPuppyBySlug(slug)) {
     return NextResponse.json({ error: "slug obrigatório" }, { status: 400 });
   }
 
@@ -43,48 +45,27 @@ export async function GET(req: NextRequest) {
 
 // ─── POST — submeter nova avaliação ──────────────────────────────────────────
 
-interface ReviewBody {
-  puppySlug:    string;
-  reviewerName: string;
-  reviewerCity?: string;
-  rating:        number;
-  comment:       string;
-  photoUrl?:     string;
-}
+const reviewSchema = z.object({
+  puppySlug: z.string().trim().min(1).max(120).regex(/^[a-z0-9-]+$/),
+  reviewerName: z.string().trim().min(2).max(80),
+  reviewerCity: z.string().trim().max(80).optional(),
+  rating: z.number().int().min(1).max(5),
+  comment: z.string().trim().min(10).max(600),
+}).strict();
 
 export async function POST(req: NextRequest) {
   // Avaliação é escrita pública anônima: sem teto, um script gravaria
   // milhares de linhas pendentes na fila de moderação do canil.
-  const bloqueio = limiteDeTaxa(req, "reviews", 5);
+  const bloqueio = await limiteDeTaxa(req, "reviews", 5);
   if (bloqueio) return bloqueio;
 
-  const lido = await corpoJson<ReviewBody>(req);
+  const lido = await corpoJson<unknown>(req);
   if (lido.resposta) return lido.resposta;
-  const body = lido.dados;
-
-  const { puppySlug, reviewerName, rating, comment, reviewerCity, photoUrl } = body;
-
-  // Validação básica
-  if (!puppySlug || !reviewerName || !rating || !comment) {
-    return NextResponse.json({ error: "Campos obrigatórios ausentes" }, { status: 400 });
+  const parsed = reviewSchema.safeParse(lido.dados);
+  if (!parsed.success || !getPuppyBySlug(parsed.data?.puppySlug ?? "")) {
+    return NextResponse.json({ error: "Dados inválidos" }, { status: 400 });
   }
-  if (typeof rating !== "number" || rating < 1 || rating > 5) {
-    return NextResponse.json({ error: "Rating deve ser entre 1 e 5" }, { status: 400 });
-  }
-  if (comment.length < 10) {
-    return NextResponse.json({ error: "Comentário muito curto (mínimo 10 caracteres)" }, { status: 400 });
-  }
-  if (reviewerName.length > 80) {
-    return NextResponse.json({ error: "Nome muito longo" }, { status: 400 });
-  }
-  // Tetos por campo: o corpo já é limitado, mas sem isto um único POST
-  // ainda podia gravar 16 KB de comentário numa coluna de texto.
-  if (comment.length > 2000) {
-    return NextResponse.json({ error: "Comentário muito longo" }, { status: 400 });
-  }
-  if (puppySlug.length > 120 || (reviewerCity?.length ?? 0) > 80 || (photoUrl?.length ?? 0) > 500) {
-    return NextResponse.json({ error: "Campos fora do tamanho permitido" }, { status: 400 });
-  }
+  const { puppySlug, reviewerName, rating, comment, reviewerCity } = parsed.data;
 
   try {
     const sb = supabaseAnon();
@@ -92,9 +73,9 @@ export async function POST(req: NextRequest) {
       puppy_slug:    puppySlug,
       reviewer_name: reviewerName.trim(),
       reviewer_city: reviewerCity?.trim() || null,
-      rating:        Math.round(rating),
-      comment:       comment.trim(),
-      photo_url:     photoUrl?.trim() || null,
+      rating,
+      comment,
+      photo_url:     null,
       status:        "pending",
     });
 

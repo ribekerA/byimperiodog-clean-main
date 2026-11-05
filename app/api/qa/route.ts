@@ -1,9 +1,8 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
-import { corpoJson } from "@/lib/limitePublico";
+import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import { embedText, lexicalFallback, rankChunks } from "@/lib/rag";
-import { rateLimit } from "@/lib/rateLimit";
 import { supabasePublic } from "@/lib/supabasePublic";
 
 interface QaRequestBody { q?: string }
@@ -43,15 +42,13 @@ function guardarEmbedding(chave: string, v: number[]) {
 }
 
 export async function POST(req: Request){
+  const bloqueio = await limiteDeTaxa(req, "qa", 8);
+  if (bloqueio) return bloqueio;
   const lido = await corpoJson<QaRequestBody>(req, 4 * 1024);
   if (lido.resposta) return lido.resposta;
   const body = lido.dados ?? {};
   const q: string = (typeof body.q === 'string' ? body.q : '').slice(0,300);
   if(!q) return NextResponse.json({ ok:false, error:'q vazio' }, { status:400 });
-  // Rate limit by IP
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anon';
-  const rl = rateLimit(`qa:${ip}`, { capacity: 8, refillPerSec: 0.05 }); // ~1 nova a cada 20s além do burst
-  if(!rl.allowed) return NextResponse.json({ ok:false, error:'rate_limited', retryAfterSec: Math.ceil((1)/0.05) }, { status:429 });
   // Fetch latest published posts (limit for performance)
   const sb = supabasePublic();
   const { data } = await sb.from('blog_posts')

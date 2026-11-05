@@ -120,7 +120,7 @@ describe("sitemap de imagens", () => {
     const { GET } = await import("../../app/sitemaps/images.xml/route");
     const xml = await (await GET()).text();
 
-    const slugs = new Set(staticPuppies.map((p) => p.slug));
+    const slugs = new Set(puppiesPublicados.map((p) => p.slug));
     const videoSlugs = new Set(GALLERY_VIDEOS.map((video) => video.slug));
     for (const loc of todos(xml, /<loc>([^<]+)<\/loc>/g)) {
       const rota = loc.replace(SITE, "");
@@ -131,6 +131,15 @@ describe("sitemap de imagens", () => {
       }
       const slug = rota.replace("/filhotes/", "");
       expect(slugs.has(slug)).toBe(true);
+    }
+  });
+
+  it("não publica imagens em fichas retiradas da vitrine", async () => {
+    const { GET } = await import("../../app/sitemaps/images.xml/route");
+    const xml = await (await GET()).text();
+
+    for (const filhote of staticPuppies.filter((p) => p.divulgar === false)) {
+      expect(xml).not.toContain(`${SITE}/filhotes/${filhote.slug}`);
     }
   });
 
@@ -215,9 +224,9 @@ describe("sitemap de vídeos", () => {
 });
 
 describe("regressão comercial", () => {
-  // A ordem importa: é a ordem em que a tabela de preços é apresentada, do
-  // valor mais acessível ao mais caro. O Particolor entrou na frente porque
-  // entrou por baixo do laranja, não por preferência editorial.
+  // A ordem acompanha a tabela comercial de src/domain/pricing.ts, que é o que
+  // o site publica. Particolor entrou na matriz divulgada; este teste existe
+  // para que uma mudança de oferta seja deliberada, não silenciosa.
   it("mantém exatamente as cinco cores divulgadas", () => {
     expect([...CORES_DIVULGADAS]).toEqual([
       "particolor",
@@ -228,7 +237,7 @@ describe("regressão comercial", () => {
     ]);
   });
 
-  it("mantém o Cinza-Lobo fora das vitrines, sem quebrar a URL já indexada", () => {
+  it("mantém o Cinza-Lobo fora das ofertas públicas sem apagar os arquivos-fonte", () => {
     const cinzaLobo = staticPuppies.filter((p) => p.color === "wolf-sable");
     expect(cinzaLobo.length).toBeGreaterThan(0);
 
@@ -238,8 +247,8 @@ describe("regressão comercial", () => {
       expect(CORES_DIVULGADAS).not.toContain(filhote.color);
     }
 
-    // …mas a página específica continua existindo, senão uma URL que o Google
-    // já conhece passaria a devolver 404.
+    // A entrada e as mídias continuam versionadas para uso editorial e
+    // histórico, mas não integram a coleção comercial publicada.
     expect(staticPuppies.some((p) => p.color === "wolf-sable")).toBe(true);
   });
 });

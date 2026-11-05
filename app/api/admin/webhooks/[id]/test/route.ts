@@ -13,6 +13,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { requireAdmin } from '@/lib/adminAuth';
+import { validatePublicHttpsUrl } from '@/lib/safeOutboundUrl';
 import type { WebhookTestResult, WebhookPayload } from '@/types/webhooks';
 
 // Guard: createClient throws if URL is empty — during `next build` env vars are
@@ -69,7 +70,8 @@ export async function POST(request: NextRequest, props: { params: Promise<{ id: 
     try {
       const signature = generateSignature(JSON.stringify(payload), webhook.secret);
 
-      const response = await fetch(webhook.url, {
+      const safeUrl = await validatePublicHttpsUrl(webhook.url);
+      const response = await fetch(safeUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,6 +81,7 @@ export async function POST(request: NextRequest, props: { params: Promise<{ id: 
         },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(10000), // 10s timeout
+        redirect: 'error',
       });
 
       const responseTime = Date.now() - startTime;

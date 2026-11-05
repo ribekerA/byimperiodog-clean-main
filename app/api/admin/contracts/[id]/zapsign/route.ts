@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
+import { createContractAccessToken } from "@/lib/contractAccess";
 import { generateContractPdf } from "@/lib/contractPdf";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { createZapSignDocument, isConfigured } from "@/lib/zapsign";
@@ -81,7 +82,7 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     send_automatic_email:    Boolean(payload.email),
     send_automatic_whatsapp: Boolean(phone),
     auth_mode:               "assinaturaTela" as const,
-    redirect_link:           `${BASE_URL}/contract/${contract.code}`,
+    redirect_link:           `${BASE_URL}/contract/${contract.code}?token=${encodeURIComponent(createContractAccessToken(contract.code))}`,
   };
 
   // Cria o documento no ZapSign

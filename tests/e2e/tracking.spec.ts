@@ -122,8 +122,8 @@ test.describe('Admin de tracking - acesso', () => {
     await page.goto('/admin/login');
 
     await expect(page.getByRole('heading', { name: 'Acesso Admin' })).toBeVisible();
-    await expect(page.getByPlaceholder('admin@exemplo.com')).toBeVisible();
-    await expect(page.getByPlaceholder('********')).toBeVisible();
+    await expect(page.getByRole('textbox', { name: 'Email' })).toBeVisible();
+    await expect(page.getByLabel('Senha')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Entrar' })).toBeVisible();
   });
 

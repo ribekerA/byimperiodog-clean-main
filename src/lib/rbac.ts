@@ -13,6 +13,8 @@ export type AdminPermission =
 
 export const ADMIN_ROLE_COOKIE = "admin_role";
 
+// Falha segura: ausência, erro de digitação ou valor forjado nunca concede
+// privilégios de proprietário.
 export const DEFAULT_ROLE: AdminRole = "viewer";
 
 const ROLE_PERMISSIONS: Record<AdminRole, readonly AdminPermission[]> = {
@@ -48,10 +50,43 @@ export function normalizeRole(role?: string | null): AdminRole {
 }
 
 export function hasPermission(role: AdminRole, permission: AdminPermission): boolean {
-  // Emergência: NEXT_PUBLIC_ADMIN_OPEN=1 bypassa verificação (dev/demo apenas — nunca em producao)
-  if (process.env.NEXT_PUBLIC_ADMIN_OPEN === "1" && process.env.NODE_ENV !== "production") return true;
   if (role === "owner") return true;
   return ROLE_PERMISSIONS[role]?.includes(permission) ?? false;
+}
+
+export function isAdminRole(role: unknown): role is AdminRole {
+  return role === "owner" || role === "editor" || role === "viewer";
+}
+
+/** Permissão mínima inferida da rota e do método. O guard continua aceitando
+ * uma permissão explícita, mas nenhuma rota mutável fica liberada só porque o
+ * desenvolvedor esqueceu de informá-la. */
+export function permissionForAdminRequest(pathname: string, method: string): AdminPermission {
+  if (
+    pathname.includes("/settings") ||
+    pathname.includes("/config") ||
+    pathname.includes("/tracking") ||
+    pathname.includes("/webhooks") ||
+    pathname.includes("/integrations") ||
+    pathname.includes("/migrations") ||
+    pathname.includes("/system") ||
+    pathname.includes("/pixel-experiments")
+  ) {
+    return "settings:write";
+  }
+
+  const readOnly = method === "GET" || method === "HEAD" || method === "OPTIONS";
+  if (readOnly) {
+    if (pathname.includes("/blog")) return "blog:read";
+    if (pathname.includes("/cadastros") || pathname.includes("/leads") || pathname.includes("/puppies")) {
+      return "cadastros:read";
+    }
+    return "dashboard:read";
+  }
+
+  if (pathname.includes("/blog") || pathname.includes("/seo")) return "blog:write";
+  if (pathname.includes("/media")) return "media:write";
+  return "cadastros:write";
 }
 
 export function assertPermission(role: AdminRole, permission: AdminPermission) {

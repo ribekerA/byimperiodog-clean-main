@@ -98,7 +98,8 @@ async function processUpload({ buf, mime, filename, wantUpsert, b64Fallback }:{ 
       const urlData = b64Fallback || `data:${mime};base64,${buf.toString('base64')}`;
       return NextResponse.json({ ok: true, url: urlData, thumb: urlData, offline: true, upsert: wantUpsert });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Nao devolver error.message: expoe detalhes do storage ao cliente admin.
+    return NextResponse.json({ error: 'falha-no-armazenamento' }, { status: 500 });
   }
   let thumbUrl: string | null = null;
   if (thumbBuf) {

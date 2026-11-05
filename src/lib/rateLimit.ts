@@ -1,4 +1,5 @@
-// Simple in-memory rate limiter. For production, use Redis.
+// Limitador local em memória. As rotas públicas combinam esta proteção rápida
+// com o contador distribuído definido em limitePublico.ts.
 // Supports two modes:
 // 1) Token-bucket: rateLimit(key, { capacity, refillPerSec }) -> { allowed, remaining }
 // 2) Fixed-window: rateLimit(key, capacity, windowMs) -> { allowed, remaining, reset }
@@ -8,6 +9,11 @@ const RL_BUCKETS = new Map<string, TokenBucket>();
 
 type FixedWindow = { capacity: number; windowMs: number; windowStart: number; count: number };
 const RL_WINDOWS = new Map<string, FixedWindow>();
+
+export function resetRateLimit(key: string): void {
+  RL_BUCKETS.delete(key);
+  RL_WINDOWS.delete(key);
+}
 
 export function rateLimit(key: string, capacity: number, windowMs: number): { allowed: boolean; remaining: number; reset: string };
 export function rateLimit(key: string, opts?: { capacity?: number; refillPerSec?: number }): { allowed: boolean; remaining: number };

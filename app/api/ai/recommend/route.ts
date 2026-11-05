@@ -48,7 +48,7 @@ async function compute(slug:string){
 // de IA, mas nao e zero -- a segunda consulta traz ate 140 linhas. Sem teto,
 // um laco de POST vira carga de banco de graca.
 export async function POST(req:Request){
-  const bloqueio = limiteDeTaxa(req, 'ai-recommend', 30);
+  const bloqueio = await limiteDeTaxa(req, 'ai-recommend', 30);
   if (bloqueio) return bloqueio;
 
   const lido = await corpoJson<{ slug?: unknown }>(req, 2 * 1024);

@@ -6,6 +6,7 @@ import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
 import { BlogSubnav } from "@/components/admin/BlogSubnav";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { adminFetch } from "@/lib/adminFetch";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -129,10 +130,10 @@ function StepIndicator({ current }: { current: Step }) {
   );
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function Field({ label, htmlFor, required, children }: { label: string; htmlFor: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
-      <label className="mb-1 block text-xs font-medium text-zinc-600">
+      <label htmlFor={htmlFor} className="mb-1 block text-xs font-medium text-zinc-600">
         {label}{required && <span className="ml-0.5 text-rose-500">*</span>}
       </label>
       {children}
@@ -154,6 +155,7 @@ export default function WizardPage() {
   const [error,        setError]        = useState<string | null>(null);
   const [warnings,     setWarnings]     = useState<string[]>([]);
   const [genImage,     setGenImage]     = useState(true);
+  const [confirmPublish, setConfirmPublish] = useState(false);
 
   async function handleOutline() {
     if (!topic.trim()) return;
@@ -301,8 +303,9 @@ export default function WizardPage() {
       {step === "brief" && (
         <section className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
           <h2 className="font-semibold text-zinc-800">Sobre o que é o artigo?</h2>
-          <Field label="Tópico principal" required>
+          <Field label="Tópico principal" htmlFor="wizard-topic" required>
             <input
+              id="wizard-topic"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && topic.trim() && handleOutline()}
@@ -384,22 +387,22 @@ export default function WizardPage() {
           )}
 
           <div className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-            <Field label="Título" required>
-              <input value={draft.title} onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))} className={inputCls} />
+            <Field label="Título" htmlFor="wizard-title" required>
+              <input id="wizard-title" value={draft.title} onChange={(e) => setDraft((d) => ({ ...d, title: e.target.value }))} className={inputCls} />
             </Field>
-            <Field label="Resumo">
-              <textarea value={draft.excerpt} onChange={(e) => setDraft((d) => ({ ...d, excerpt: e.target.value }))} className={inputCls} rows={2} />
+            <Field label="Resumo" htmlFor="wizard-excerpt">
+              <textarea id="wizard-excerpt" value={draft.excerpt} onChange={(e) => setDraft((d) => ({ ...d, excerpt: e.target.value }))} className={inputCls} rows={2} />
             </Field>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={`SEO Title (${draft.seo_title.length}/70)`}>
-                <input value={draft.seo_title} maxLength={70} onChange={(e) => setDraft((d) => ({ ...d, seo_title: e.target.value }))} className={inputCls} />
+              <Field label={`SEO Title (${draft.seo_title.length}/70)`} htmlFor="wizard-seo-title">
+                <input id="wizard-seo-title" value={draft.seo_title} maxLength={70} onChange={(e) => setDraft((d) => ({ ...d, seo_title: e.target.value }))} className={inputCls} />
               </Field>
-              <Field label={`SEO Desc (${draft.seo_description.length}/160)`}>
-                <input value={draft.seo_description} maxLength={160} onChange={(e) => setDraft((d) => ({ ...d, seo_description: e.target.value }))} className={inputCls} />
+              <Field label={`SEO Desc (${draft.seo_description.length}/160)`} htmlFor="wizard-seo-description">
+                <input id="wizard-seo-description" value={draft.seo_description} maxLength={160} onChange={(e) => setDraft((d) => ({ ...d, seo_description: e.target.value }))} className={inputCls} />
               </Field>
             </div>
-            <Field label="Conteúdo MDX">
-              <textarea value={draft.content_mdx} onChange={(e) => setDraft((d) => ({ ...d, content_mdx: e.target.value }))} className={`${inputCls} font-mono text-xs`} rows={16} />
+            <Field label="Conteúdo MDX" htmlFor="wizard-content">
+              <textarea id="wizard-content" value={draft.content_mdx} onChange={(e) => setDraft((d) => ({ ...d, content_mdx: e.target.value }))} className={`${inputCls} font-mono text-xs`} rows={16} />
             </Field>
           </div>
 
@@ -413,11 +416,16 @@ export default function WizardPage() {
               ))}
             </div>
             {publishMode === "schedule" && (
-              <Field label="Data e hora de publicação">
-                <input type="datetime-local" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} min={new Date().toISOString().slice(0, 16)} className={inputCls} />
+              <Field label="Data e hora de publicação" htmlFor="wizard-schedule-date">
+                <input id="wizard-schedule-date" type="datetime-local" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} min={new Date().toISOString().slice(0, 16)} className={inputCls} />
               </Field>
             )}
-            <button onClick={handlePublish} disabled={!draft.title.trim() || (publishMode === "schedule" && !scheduleDate)} className="w-full rounded-xl bg-[var(--brand)] py-3 text-sm font-bold text-white shadow hover:bg-[var(--brand-hover)] disabled:cursor-not-allowed disabled:opacity-40">
+            <button
+              type="button"
+              onClick={() => publishMode === "draft" ? void handlePublish() : setConfirmPublish(true)}
+              disabled={!draft.title.trim() || (publishMode === "schedule" && !scheduleDate)}
+              className="w-full rounded-xl bg-[var(--brand)] py-3 text-sm font-bold text-white shadow hover:bg-[var(--brand-hover)] disabled:cursor-not-allowed disabled:opacity-40"
+            >
               {publishMode === "now" ? "🚀 Publicar agora" : publishMode === "schedule" ? "🗓️ Agendar publicação" : "💾 Salvar rascunho"}
             </button>
           </div>
@@ -450,6 +458,20 @@ export default function WizardPage() {
           </div>
         </section>
       )}
+
+      <ConfirmDialog
+        open={confirmPublish}
+        onOpenChange={setConfirmPublish}
+        title={publishMode === "now" ? "Publicar este artigo agora?" : "Agendar esta publicação?"}
+        description={
+          publishMode === "now"
+            ? "O conteúdo ficará público e poderá ser rastreado pelos mecanismos de busca imediatamente. Confirme que título, texto, imagem e dados de SEO foram revisados."
+            : `O artigo será publicado automaticamente em ${scheduleDate ? new Date(scheduleDate).toLocaleString("pt-BR") : "data ainda não informada"}.`
+        }
+        confirmLabel={publishMode === "now" ? "Publicar agora" : "Confirmar agendamento"}
+        variant={publishMode === "now" ? "warning" : "default"}
+        onConfirm={() => void handlePublish()}
+      />
     </div>
   );
 }

@@ -1,16 +1,26 @@
-import type { AdminRole } from "@/lib/rbac";
+import { isAdminRole, type AdminRole } from "@/lib/rbac";
 
 export const ADMIN_SESSION_COOKIE = "admin_session";
-export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 8; // 8h, mesmo TTL das cookies legadas
+export const ADMIN_SESSION_MAX_AGE = 60 * 60 * 4;
+export const ADMIN_SESSION_VERSION = 1;
+const ADMIN_SESSION_ISSUER = "by-imperio-dog";
+const ADMIN_SESSION_AUDIENCE = "admin";
+const MIN_SECRET_BYTES = 32;
 
 export type AdminSessionPayload = {
   userId: string;
   email: string;
   name: string;
   role: AdminRole;
+  version: typeof ADMIN_SESSION_VERSION;
+  issuer: typeof ADMIN_SESSION_ISSUER;
+  audience: typeof ADMIN_SESSION_AUDIENCE;
+  jti: string;
   iat: number;
   exp: number;
 };
+
+export type AdminSessionClaims = Pick<AdminSessionPayload, "userId" | "email" | "name" | "role">;
 
 function base64url(bytes: ArrayBuffer | Uint8Array): string {
   const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
@@ -29,8 +39,8 @@ function base64urlToBytes(value: string): Uint8Array {
 
 async function getSigningKey(): Promise<CryptoKey> {
   const secret = process.env.ADMIN_SESSION_SECRET;
-  if (!secret) {
-    throw new Error("ADMIN_SESSION_SECRET nao configurado - sessao admin nao pode ser assinada/verificada.");
+  if (!secret || new TextEncoder().encode(secret).byteLength < MIN_SECRET_BYTES) {
+    throw new Error("ADMIN_SESSION_SECRET deve ter pelo menos 32 bytes.");
   }
   return crypto.subtle.importKey(
     "raw",
@@ -41,9 +51,17 @@ async function getSigningKey(): Promise<CryptoKey> {
   );
 }
 
-export async function signAdminSession(payload: Omit<AdminSessionPayload, "iat" | "exp">): Promise<string> {
+export async function signAdminSession(payload: AdminSessionClaims): Promise<string> {
   const now = Math.floor(Date.now() / 1000);
-  const full: AdminSessionPayload = { ...payload, iat: now, exp: now + ADMIN_SESSION_MAX_AGE };
+  const full: AdminSessionPayload = {
+    ...payload,
+    version: ADMIN_SESSION_VERSION,
+    issuer: ADMIN_SESSION_ISSUER,
+    audience: ADMIN_SESSION_AUDIENCE,
+    jti: crypto.randomUUID(),
+    iat: now,
+    exp: now + ADMIN_SESSION_MAX_AGE,
+  };
   const body = base64url(new TextEncoder().encode(JSON.stringify(full)));
   const key = await getSigningKey();
   const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(body));
@@ -65,10 +83,28 @@ export async function verifyAdminSession(token: string | undefined | null): Prom
     );
     if (!valid) return null;
 
-    const payload = JSON.parse(new TextDecoder().decode(base64urlToBytes(body))) as AdminSessionPayload;
-    if (typeof payload.exp !== "number" || payload.exp < Math.floor(Date.now() / 1000)) return null;
+    const payload = JSON.parse(new TextDecoder().decode(base64urlToBytes(body))) as unknown;
+    if (!isValidAdminSessionPayload(payload)) return null;
     return payload;
   } catch {
     return null;
   }
+}
+
+export function isValidAdminSessionPayload(value: unknown): value is AdminSessionPayload {
+  if (!value || typeof value !== "object") return false;
+  const payload = value as Record<string, unknown>;
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.version !== ADMIN_SESSION_VERSION) return false;
+  if (payload.issuer !== ADMIN_SESSION_ISSUER || payload.audience !== ADMIN_SESSION_AUDIENCE) return false;
+  if (typeof payload.userId !== "string" || payload.userId.length < 1 || payload.userId.length > 128) return false;
+  if (typeof payload.email !== "string" || payload.email.length > 254 || !payload.email.includes("@")) return false;
+  if (typeof payload.name !== "string" || payload.name.length < 1 || payload.name.length > 120) return false;
+  if (!isAdminRole(payload.role)) return false;
+  if (typeof payload.jti !== "string" || !/^[0-9a-f-]{36}$/i.test(payload.jti)) return false;
+  if (typeof payload.iat !== "number" || typeof payload.exp !== "number") return false;
+  if (!Number.isInteger(payload.iat) || !Number.isInteger(payload.exp)) return false;
+  if (payload.iat > now + 60 || payload.exp <= now) return false;
+  if (payload.exp <= payload.iat || payload.exp - payload.iat > ADMIN_SESSION_MAX_AGE) return false;
+  return true;
 }

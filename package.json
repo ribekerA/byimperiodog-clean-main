@@ -16,7 +16,7 @@
     "build:analyze": "next experimental-analyze",
     "build:stats": "npm run build && node scripts/collect-build-stats.mjs",
     "lh:serve": "next start -p 3000",
-    "lh:run": "npx --yes lighthouse@12.8.2 http://localhost:3000/ --config-path=lighthouserc.json --output=json --output-path=./reports/lh-home.json",
+    "lh:run": "npx --yes lighthouse@12.8.2 http://localhost:3000/ --only-categories=performance,accessibility,best-practices,seo --form-factor=mobile --output=json --output-path=./reports/lh-home.json --quiet",
     "lh:ci": "npm run build && npx lhci autorun",
     "start": "next start -p 3000",
     "lint": "cross-env NODE_OPTIONS=--max-old-space-size=8192 eslint .",

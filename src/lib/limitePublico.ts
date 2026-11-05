@@ -9,13 +9,22 @@
 // barato do caminho, não brigar com visitante legítimo — perder um comentário
 // ou uma avaliação real custa mais que aguentar alguns POSTs a mais.
 //
-// Aviso de honestidade: `rateLimit` é memória de processo. Em serverless cada
-// instância tem a sua, então isto é uma barreira, não uma garantia. Onde a
-// garantia importa (/api/leads) existe uma segunda camada contada no banco.
+// A memória de processo corta rajadas baratas imediatamente. A segunda camada
+// usa um contador atômico no banco para que o limite continue valendo entre
+// instâncias serverless e cold starts. O IP nunca sai daqui em texto puro: a
+// chave persistida é um HMAC com segredo exclusivo do servidor.
+import { createHmac } from "node:crypto";
+
 import { NextResponse } from "next/server";
 
 import { BodyTooLargeError, readBoundedBody } from "@/lib/bounded-body";
+import { createLogger } from "@/lib/logger";
 import { rateLimit } from "@/lib/rateLimit";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
+
+const logger = createLogger("public-rate-limit");
+let avisoSegredoAusenteEmitido = false;
+let avisoDistribuidoIndisponivelEmitido = false;
 
 /** Corpo máximo padrão. Nenhum formulário do site chega perto de 16 KB. */
 export const LIMITE_CORPO_PADRAO = 16 * 1024;
@@ -54,17 +63,66 @@ export function ipAnonimo(ip: string | null | undefined): string | null {
  * Limite de taxa por IP em janela fixa. Devolve a resposta 429 pronta quando
  * estourou, ou `null` quando pode seguir.
  */
-export function limiteDeTaxa(
+export async function limiteDeTaxa(
   req: Request,
   escopo: string,
   capacidade: number,
   janelaMs = 60_000,
-): NextResponse | null {
-  const { allowed } = rateLimit(`${escopo}:${ipDoCliente(req)}`, capacidade, janelaMs);
-  if (allowed) return null;
+): Promise<NextResponse | null> {
+  const ip = ipDoCliente(req);
+  const local = rateLimit(`${escopo}:${ip}`, capacidade, janelaMs);
+  if (!local.allowed) {
+    const retryAfter = Math.max(1, Math.ceil((new Date(local.reset).getTime() - Date.now()) / 1000));
+    return respostaDeLimite(retryAfter);
+  }
+
+  const segredo = process.env.PUBLIC_RATE_LIMIT_SECRET || process.env.ADMIN_SESSION_SECRET || "";
+  if (segredo.length < 32) {
+    if (!avisoSegredoAusenteEmitido) {
+      avisoSegredoAusenteEmitido = true;
+      logger.warn("Segredo do limitador distribuido ausente; usando apenas a camada local");
+    }
+    return null;
+  }
+
+  try {
+    const chave = createHmac("sha256", segredo).update(`${escopo}:${ip}`).digest("hex");
+    const cliente = supabaseAdmin() as unknown as {
+      rpc: (nome: string, argumentos: Record<string, unknown>) => Promise<{
+        data: Array<{ allowed: boolean; retry_after_seconds: number }> | null;
+        error: { message?: string } | null;
+      }>;
+    };
+    const { data, error } = await cliente.rpc("consume_public_rate_limit", {
+      p_key_hash: chave,
+      p_limit: capacidade,
+      p_window_seconds: Math.max(1, Math.ceil(janelaMs / 1000)),
+    });
+    if (error) throw new Error(error.message || "public rate limit RPC failed");
+
+    const decisao = data?.[0];
+    if (decisao && !decisao.allowed) {
+      return respostaDeLimite(Math.max(1, decisao.retry_after_seconds));
+    }
+  } catch (error) {
+    // Disponibilidade do formulário prevalece se a migração ainda não foi
+    // aplicada ou o banco estiver momentaneamente indisponível. A barreira
+    // local acima continua ativa.
+    if (!avisoDistribuidoIndisponivelEmitido) {
+      avisoDistribuidoIndisponivelEmitido = true;
+      logger.warn("Limitador distribuido indisponivel; usando limite local", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+  }
+
+  return null;
+}
+
+function respostaDeLimite(retryAfter: number): NextResponse {
   return NextResponse.json(
     { error: "Muitas requisições. Aguarde um instante e tente novamente." },
-    { status: 429, headers: { "retry-after": String(Math.ceil(janelaMs / 1000)) } },
+    { status: 429, headers: { "retry-after": String(retryAfter) } },
   );
 }
 

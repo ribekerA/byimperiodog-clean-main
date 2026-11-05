@@ -1,3 +1,21 @@
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://analytics.tiktok.com https://static.hotjar.com https://www.clarity.ms https://s.pinimg.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self' data:",
+  "img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://placehold.co https://dummyimage.com https://www.google.com https://www.facebook.com https://*.google-analytics.com https://*.googletagmanager.com https://analytics.tiktok.com https://*.pinimg.com https://*.clarity.ms https://*.hotjar.com",
+  "media-src 'self' blob: https://*.supabase.co",
+  "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.google.com https://www.facebook.com https://connect.facebook.net https://analytics.tiktok.com https://*.hotjar.com wss://*.hotjar.com https://*.clarity.ms https://*.pinimg.com",
+  "frame-src 'none'",
+  "worker-src 'self' blob:",
+  "manifest-src 'self'",
+  "upgrade-insecure-requests",
+].join("; ");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Por padrão continua sendo `.next` — a Netlify e o `npm run dev` não mudam.
@@ -92,10 +110,15 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: [
+          { key: "Content-Security-Policy", value: contentSecurityPolicy },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-DNS-Prefetch-Control", value: "on" },
+          { key: "X-Permitted-Cross-Domain-Policies", value: "none" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
+          { key: "Origin-Agent-Cluster", value: "?1" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(self), geolocation=(), payment=(), usb=(), browsing-topics=()" },
         ],
       },
       // Depois dos globais: URLs de contrato contêm credenciais de acesso.

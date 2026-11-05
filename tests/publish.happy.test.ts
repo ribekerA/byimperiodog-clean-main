@@ -23,9 +23,9 @@ vi.mock('@/lib/supabaseAdmin', () => ({
 
 describe('publish endpoint happy path', () => {
   it('publica por id', async () => {
-    process.env.ADMIN_TOKEN = 'secret';
+    process.env.ADMIN_PASS = 'secret';
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'k';
-  const req = makeNextRequestStub('http://localhost/api/admin/blog/publish', { method: 'POST', headers: { 'x-admin-token': 'secret', 'content-type': 'application/json' }, body: { id: 'p1' } });
+  const req = makeNextRequestStub('http://localhost/api/admin/blog/publish', { method: 'POST', headers: { 'x-admin-pass': 'secret', 'content-type': 'application/json' }, body: { id: 'p1' } });
   // req já possui shape mínimo de NextRequest via helper
   const res = await publishPost(req as unknown as import('next/server').NextRequest);
     expect(res.status).toBe(200);

@@ -80,12 +80,13 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
         if (filterColor && pColor !== filterColor) return false;
         if (filterSex && pSex !== filterSex) return false;
         return matchesCatalogQuery(p, parsedQuery);
-      })
-      .sort((a, b) => {
-        const precoA = a.priceCents ?? a.price_cents ?? Number.MAX_SAFE_INTEGER;
-        const precoB = b.priceCents ?? b.price_cents ?? Number.MAX_SAFE_INTEGER;
-        return precoA - precoB;
       });
+    // Sem reordenar aqui de proposito. `puppiesPublicados` ja chega na ordem
+    // comercial: `catalogPriority` decrescente primeiro, preco crescente
+    // depois. Uma ordenacao por preco dentro deste componente descartava a
+    // prioridade e punha o filhote mais barato no topo da vitrine -- a escolha
+    // de destaque da responsavel virava ordem de liquidacao. Filtrar preserva
+    // a ordem de entrada, entao nao ha o que refazer.
   }, [puppies, filterColor, filterSex, parsedQuery]);
 
   const hasFilters = Boolean(filterColor || filterSex || query);

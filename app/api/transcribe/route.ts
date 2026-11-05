@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   // Rota pública que chama a Groq: cada POST é uma transcrição paga. Sem
   // limite de taxa nem teto de tamanho, um laço com arquivos grandes
   // gastava a cota da conta do canil sem passar por autenticação nenhuma.
-  const bloqueio = limiteDeTaxa(req, "transcribe", 10);
+  const bloqueio = await limiteDeTaxa(req, "transcribe", 10);
   if (bloqueio) return bloqueio;
 
   const grandeDemais = excedeTamanhoDeclarado(req, LIMITE_AUDIO_BYTES);

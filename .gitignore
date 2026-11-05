@@ -4,7 +4,7 @@ node_modules/
 # Next.js / Build
 .next/
 .next-build/
-.next-forensic/
+.next-*/
 out/
 
 # TypeScript build info

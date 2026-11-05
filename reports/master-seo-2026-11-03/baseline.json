@@ -1,0 +1,10 @@
+{
+  "branch": "codex/seo-organico-2026-11-03",
+  "head": "4e3f4b436530f5bfe7191343df265085ba6f7f79",
+  "files": [
+    "src/components/catalog/StaticCatalog.tsx",
+    "app/(public)/filhotes/page.tsx",
+    "app/(public)/page.tsx",
+    "src/components/catalog/StaticPuppyCard.tsx"
+  ]
+}

@@ -1,17 +1,19 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { z } from "zod";
 
-import { requireAdmin } from "@/lib/adminAuth";
+import { requireAdminContext } from "@/lib/adminAuth";
 import { erroPublico } from "@/lib/apiErro";
+import { corpoJson } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import type { ProviderKey } from "@/lib/tracking/providers/types";
 import { listResourcesByProvider } from "@/lib/tracking/resources";
 
-type Body = {
-  provider: ProviderKey;
-  resourceId: string;
-};
+const bodySchema = z.object({
+  provider: z.enum(["facebook", "google_analytics", "google_tag_manager", "tiktok"]),
+  resourceId: z.string().trim().min(1).max(300),
+}).strict();
 
 const FIELD_MAP: Record<ProviderKey, { idField: string; flagField: string }> = {
   facebook: { idField: "facebook_pixel_id", flagField: "is_facebook_pixel_enabled" },
@@ -20,21 +22,22 @@ const FIELD_MAP: Record<ProviderKey, { idField: string; flagField: string }> = {
   tiktok: { idField: "tiktok_pixel_id", flagField: "is_tiktok_enabled" },
 };
 
-const DEFAULT_USER_ID = process.env.INTEGRATIONS_DEFAULT_USER_ID;
-
 export async function POST(req: NextRequest) {
-  const auth = requireAdmin(req);
-  if (auth) return auth;
+  const auth = await requireAdminContext(req, "settings:write");
+  if (auth.response) return auth.response;
 
-  const body = (await req.json()) as Body;
+  const lido = await corpoJson<unknown>(req, 4 * 1024);
+  if (lido.resposta) return lido.resposta;
+  const parsed = bodySchema.safeParse(lido.dados);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "invalid_request" }, { status: 400 });
+  }
+  const body: { provider: ProviderKey; resourceId: string } = parsed.data;
   const map = FIELD_MAP[body.provider];
   if (!map) {
     return NextResponse.json({ error: "unsupported_provider" }, { status: 400 });
   }
-  const userId = DEFAULT_USER_ID;
-  if (!userId) {
-    return NextResponse.json({ error: "missing_user" }, { status: 400 });
-  }
+  const userId = auth.context!.session!.userId;
 
   try {
     const resources = await listResourcesByProvider(body.provider, userId);

@@ -8,8 +8,10 @@ export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { z } from "zod";
 
 import { requireAdmin } from "@/lib/adminAuth";
+import { corpoJson } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import {
   validateFacebookPixelId,
@@ -25,6 +27,11 @@ type TrackingPostBody = {
   facebookPixelId?: string | null;
   googleAnalyticsId?: string | null;
 };
+
+const trackingPostSchema = z.object({
+  facebookPixelId: z.string().trim().max(20).nullable().optional(),
+  googleAnalyticsId: z.string().trim().max(20).nullable().optional(),
+}).strict();
 
 const publicFields = `
   gtm_id,
@@ -114,7 +121,13 @@ export async function POST(req: NextRequest) {
     const auth = requireAdmin(req);
     if (auth) return auth; // 401/403 de adminAuth
 
-    const body = (await req.json().catch(() => ({}))) as TrackingPostBody;
+    const lido = await corpoJson<unknown>(req, 4 * 1024);
+    if (lido.resposta) return lido.resposta;
+    const parsed = trackingPostSchema.safeParse(lido.dados);
+    if (!parsed.success) {
+      return NextResponse.json<TrackingAPIError>({ error: "Dados inválidos" }, { status: 400 });
+    }
+    const body: TrackingPostBody = parsed.data;
 
     const fbValidation = validateFacebookPixelId(body.facebookPixelId);
     if (!fbValidation.valid) {

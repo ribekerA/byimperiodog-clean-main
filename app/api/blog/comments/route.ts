@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { erroPublico } from "@/lib/apiErro";
-import { corpoJson } from "@/lib/limitePublico";
+import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { supabasePublic } from "@/lib/supabasePublic";
 
@@ -22,51 +22,14 @@ import { supabasePublic } from "@/lib/supabasePublic";
  *      não há o que ganhar publicando spam de link (§135).
  *   3. Limite de corpo — `corpoJson` corta antes de desserializar.
  *   4. Isca e relógio — barram robô preguiçoso. Ver mais abaixo.
- *   5. Enxurrada por artigo — contagem no BANCO, que é durável.
- *
- * E o que NÃO vale: o `rateMap` abaixo. Ele é um Map na memória do processo.
- * Em funções serverless cada instância tem o seu, instâncias nascem e morrem a
- * cada requisição, e o site é publicado exatamente assim (Netlify). Uma rajada
- * distribuída simplesmente cai em processos diferentes e nenhum deles vê os
- * outros. Ele fica porque numa mesma instância quente ainda corta repetição
- * boba, e porque removê-lo não melhora nada — mas ele NÃO é limite global, e
- * quem for calcular risco não pode contá-lo como se fosse.
- *
- * O limite global por IP exige guardar o IP (ou um hash dele) com carimbo de
- * tempo — coluna nova em `blog_comments` ou tabela própria, ou seja, migração
- * no banco de produção. Está documentado em GITHUB_SECURITY_SETUP.md como
- * pendência; não entra numa rodada que não deve mexer no schema.
+ *   5. HMAC por IP — contador global sem persistir o endereço em texto puro.
+ *   6. Enxurrada por artigo — contagem no BANCO, que é durável.
  */
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const RATE_LIMIT_MAX = 5;
-const rateMap = new Map<string, { count: number; resetAt: number }>();
-
 /** Menos que isso entre abrir a página e enviar: não foi alguém digitando. */
 const TEMPO_MINIMO_MS = 3_000;
 /** Teto de comentários novos no MESMO artigo dentro da janela. */
 const ENXURRADA_JANELA_MS = 10 * 60_000;
 const ENXURRADA_MAX = 20;
-
-function getClientIp(req: Request) {
-  const xf = req.headers.get("x-forwarded-for");
-  if (xf) return xf.split(",")[0].trim();
-  const realIp = req.headers.get("x-real-ip");
-  if (realIp) return realIp;
-  return "anonymous";
-}
-
-function checkRate(req: Request) {
-  const key = getClientIp(req);
-  const now = Date.now();
-  const entry = rateMap.get(key);
-  if (!entry || now > entry.resetAt) {
-    rateMap.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return true;
-  }
-  if (entry.count >= RATE_LIMIT_MAX) return false;
-  entry.count += 1;
-  return true;
-}
 
 export async function GET(req: Request) {
   try {
@@ -117,9 +80,8 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    if (!checkRate(req)) {
-      return NextResponse.json({ error: "Muitas tentativas. Tente novamente em instantes." }, { status: 429 });
-    }
+    const bloqueio = await limiteDeTaxa(req, "blog-comments", 5);
+    if (bloqueio) return bloqueio;
 
     const schema = z.object({
       post_id: z.string().uuid({ message: "post_id inválido" }),
@@ -128,12 +90,6 @@ export async function POST(req: Request) {
         .trim()
         .min(1, { message: "Nome muito curto" })
         .max(60, { message: "Nome muito longo" })
-        .optional()
-        .or(z.literal("").transform(() => undefined)),
-      author_email: z
-        .string()
-        .trim()
-        .email({ message: "E-mail inválido" })
         .optional()
         .or(z.literal("").transform(() => undefined)),
       body: z.string().trim().min(5, { message: "Comentário muito curto" }).max(2000, { message: "Comentário muito longo" }),
@@ -150,7 +106,7 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.issues[0]?.message || "Dados inválidos" }, { status: 400 });
     }
-    const { post_id, author_name, author_email, body: comment, isca, aberto_ha_ms } = parsed.data;
+    const { post_id, author_name, body: comment, isca, aberto_ha_ms } = parsed.data;
 
     // Isca preenchida: descarta sem explicar o motivo. Dizer "você caiu na
     // armadilha" ensina o robô a contornar na próxima.
@@ -202,7 +158,7 @@ export async function POST(req: Request) {
     }
     const { data, error } = await sb
       .from("blog_comments")
-      .insert([{ post_id, author_name, author_email, body: comment }])
+      .insert([{ post_id, author_name, body: comment }])
       .select("id,post_id,author_name,body,approved,created_at")
       .single();
     if (error) throw error;

@@ -279,7 +279,7 @@ export default async function ContractDocumento(props: { params: Promise<{ code:
           <div className="footer">
             <p>Código de autenticidade: <span className="badge">{contract.code}</span></p>
             <p style={{ marginTop: 4 }}>
-              Este documento pode ser verificado em <strong>byimperiodog.com.br/contract/{contract.code}</strong>
+              A autenticidade deve ser verificada pelo link privado enviado ao comprador.
             </p>
           </div>
         </div>

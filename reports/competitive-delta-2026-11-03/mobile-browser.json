@@ -1,0 +1,461 @@
+{
+  "note": "One mobile simulated session. Analytics blocked; not a Lighthouse or field CWV score. No outbound WhatsApp clicks or forms submitted.",
+  "results": [
+    {
+      "url": "https://byimperiodog.com.br/",
+      "status": 200,
+      "overflow": false,
+      "height": 17633,
+      "headings": [
+        {
+          "text": "Conheça os filhotes",
+          "y": 1041
+        },
+        {
+          "text": "As cores do Spitz Alemão Anão",
+          "y": 7019
+        },
+        {
+          "text": "Por que a By Império Dog?",
+          "y": 7873
+        },
+        {
+          "text": "O que você recebe com cada filhote",
+          "y": 10811
+        },
+        {
+          "text": "Conte o que você procura",
+          "y": 9078
+        },
+        {
+          "text": "Tudo que você precisa saber antes de escolher",
+          "y": 12984
+        },
+        {
+          "text": "Guias e recursos para novos tutores",
+          "y": 13745
+        },
+        {
+          "text": "Preço, escolha e rotina do Lulu da Pomerânia",
+          "y": 14505
+        },
+        {
+          "text": "Cada filhote tem uma família esperando por ele.",
+          "y": 15377
+        }
+      ],
+      "googleCards": 0,
+      "googleSummary": false,
+      "waLinks": [
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+          "text": "Conversar agora"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+o+site+da+By+Imp%C3%A9rio+Dog+e+me+interessei+pelos+filhotes+de+Spitz+Alem%C3%A3o+An%C3%A3o.+Pode+me+contar+quais+s%C3%A3o+as+op%C3%A7%C3%B5es+atuais+e+os+valores%3F&utm_source=site&utm_medium=video_hero&utm_campaign=hero_cta",
+          "text": "Falar com a criadora"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Branco+F%C3%AAmea+%28Branco+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-branco-femea-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Preto+F%C3%AAmea+%28Preto+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-preto-femea-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Laranja+Macho+%28Laranja+Macho%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-laranja-macho-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Lulu+da+Pomer%C3%A2nia+Laranja+F%C3%AAmea+La%C3%A7o+Vermelho+%28Laranja+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-laranja-femea-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Laranja+F%C3%AAmea+La%C3%A7o+Rosa+%28Laranja+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-laranja-femea-laco-rosa-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Creme+Macho+%28Creme+Macho%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-creme-macho-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Lulu+da+Pomer%C3%A2nia+Creme+F%C3%AAmea+%28Creme+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-creme-femea-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Lulu+da+Pomer%C3%A2nia+Preto+Macho+%28Preto+Macho%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=featured_home&utm_campaign=filhotes&utm_content=spitz-preto-macho-01",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conhecer+as+op%C3%A7%C3%B5es+atuais+e+entender+os+pr%C3%B3ximos+passos+para+reservar.&utm_source=site&utm_medium=price_section&utm_campaign=conhecer_filhotes",
+          "text": "Conhecer a vitrine de filhotes"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1!+Tenho+uma+d%C3%BAvida+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o.",
+          "text": "Perguntar no WhatsApp"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "Conversar agora — sem compromisso"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "(11) 9 6863-3239"
+        }
+      ],
+      "navigation": [
+        {
+          "responseStart": 3510.39999999851,
+          "domContentLoaded": 3637.7000000029802
+        }
+      ]
+    },
+    {
+      "url": "https://byimperiodog.com.br/filhotes",
+      "status": 200,
+      "overflow": false,
+      "height": 11301,
+      "headings": [
+        {
+          "text": "Vitrine de filhotes",
+          "y": 573
+        },
+        {
+          "text": "Preços, compra e escolha do canil",
+          "y": 5885
+        },
+        {
+          "text": "Compare cores e sexos",
+          "y": 6820
+        },
+        {
+          "text": "Entrega e acompanhamento por estado",
+          "y": 8297
+        },
+        {
+          "text": "Perguntas frequentes sobre os filhotes",
+          "y": 8420
+        },
+        {
+          "text": "Cada filhote tem uma família esperando por ele.",
+          "y": 9045
+        }
+      ],
+      "googleCards": 0,
+      "googleSummary": false,
+      "waLinks": [
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+          "text": "Conversar agora"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+a+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=catalog_empty&utm_campaign=filhotes",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Branco+F%C3%AAmea+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-branco-femea",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Preto+F%C3%AAmea+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-femea",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Laranja+Macho+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-macho",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Laranja+F%C3%AAmea+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-femea",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Laranja+F%C3%AAmea+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-laranja-femea-laco-rosa",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Creme+Macho+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-macho",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Creme+F%C3%AAmea+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-creme-femea",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+no+site+a+galeria+de+Preto+Macho+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais.&utm_source=site&utm_medium=catalog_card&utm_campaign=filhote_card&utm_content=spitz-alemao-anao-preto-macho",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "Conversar agora — sem compromisso"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "(11) 9 6863-3239"
+        }
+      ],
+      "navigation": [
+        {
+          "responseStart": 589.2000000029802,
+          "domContentLoaded": 991.7000000029802
+        }
+      ]
+    },
+    {
+      "url": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-branco-femea",
+      "status": 200,
+      "overflow": false,
+      "height": 6614,
+      "headings": [
+        {
+          "text": "Lulu da Pomerânia branco fêmea: fotos, preço e reserva",
+          "y": 1702
+        },
+        {
+          "text": "Avaliações reais",
+          "y": 3537
+        },
+        {
+          "text": "Cada filhote tem uma família esperando por ele.",
+          "y": 4274
+        }
+      ],
+      "googleCards": 0,
+      "googleSummary": false,
+      "waLinks": [
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+          "text": "Conversar agora"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Branco+F%C3%AAmea+%28Branco%2C+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-branco-femea",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Branco+F%C3%AAmea+%28Branco%2C+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-branco-femea",
+          "text": "Consultar opções atuais no WhatsApp"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Branco+F%C3%AAmea+%28Branco%2C+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-branco-femea",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Vi+Spitz+Alem%C3%A3o+An%C3%A3o+Branco+F%C3%AAmea+%28Branco%2C+F%C3%AAmea%29+na+vitrine+do+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+dessa+combina%C3%A7%C3%A3o.&utm_source=site&utm_medium=puppy_page&utm_campaign=filhote_detalhe&utm_content=spitz-alemao-anao-branco-femea",
+          "text": "Consultar opções atuais"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "Conversar agora — sem compromisso"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "(11) 9 6863-3239"
+        }
+      ],
+      "navigation": [
+        {
+          "responseStart": 982.6999999955297,
+          "domContentLoaded": 1008.3999999985099
+        }
+      ]
+    },
+    {
+      "url": "https://flordotijuco.com.br/",
+      "status": 200,
+      "overflow": false,
+      "height": 15921,
+      "headings": [
+        {
+          "text": "O que está sendo postado em nosso INSTAGRAM",
+          "y": 1203
+        },
+        {
+          "text": "Conheça as cores da raça Spitz Alemão",
+          "y": 3531
+        },
+        {
+          "text": "Caracteristicas da raça Spitz Alemão Anão",
+          "y": 8738
+        },
+        {
+          "text": "Parceiros Flor do Tijuco",
+          "y": 9690
+        },
+        {
+          "text": "Conheça nosso BLOG sobre Spitz Alemão",
+          "y": 10233
+        },
+        {
+          "text": "Spitz Alemão e Lulu da Pomerânia em Todo o Brasil",
+          "y": 11961
+        },
+        {
+          "text": "Spitz Alemão na Zona Leste de São Paulo",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão na Zona Sul de São Paulo",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão na Zona Oeste de São Paulo",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em São Paulo",
+          "y": 13470
+        },
+        {
+          "text": "Spitz Alemão no Rio de Janeiro",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Minas Gerais",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Rio Grande do Sul",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Santa Catarina",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Paraná",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Goiás",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Espírito Santo",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Mato Grosso",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Mato Grosso do Sul",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Pernambuco",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Ceará",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Pará",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Bahia",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão na Paraíba",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Piauí",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Rio Grande do Norte",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Rondônia",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Roraima",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Sergipe",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Tocantins",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Acre",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão em Alagoas",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Amapá",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Amazonas",
+          "y": 9742
+        },
+        {
+          "text": "Spitz Alemão no Maranhão",
+          "y": 9742
+        },
+        {
+          "text": "Contatos",
+          "y": 14606
+        },
+        {
+          "text": "Atendimento de Terça a Sábado das 9 as 16hs",
+          "y": 14747
+        },
+        {
+          "text": "** Somente com agendamento prévio",
+          "y": 14798
+        },
+        {
+          "text": "Institucional",
+          "y": 14856
+        },
+        {
+          "text": "Criação desde 1996",
+          "y": 15168
+        }
+      ],
+      "googleCards": 0,
+      "googleSummary": false,
+      "waLinks": [
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20a%20respeito%20dos%20filhotes%20de%20Spitz%20Alem%C3%A3o.",
+          "text": "Reserva/Atendimento"
+        },
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20a%20respeito%20dos%20filhotes%20de%20Spitz%20Alem%C3%A3o.",
+          "text": "Falar com um especialista"
+        },
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20a%20respeito%20dos%20filhotes%20de%20Spitz%20Alem%C3%A3o.",
+          "text": "(11) 99822-0003"
+        },
+        {
+          "href": "https://wa.me/5511996452925?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20desenvolvimento%20de%20sites%20otimizados.",
+          "text": "SiteDesenvolvido por Vinicius Kishimoto | Gestor de Tráfego | Faça seu site e alavanque suas vendas | especializado em criadores"
+        },
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20sobre%20os%20filhotes%20de%20Spitz%20Alem%C3%A3o",
+          "text": "Quero saber sobre os filhotes"
+        }
+      ],
+      "navigation": [
+        {
+          "responseStart": 50.70000000298023,
+          "domContentLoaded": 494
+        }
+      ]
+    }
+  ]
+}
