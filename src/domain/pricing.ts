@@ -94,16 +94,20 @@ export function precoDeCadastro(cor?: string | null, sexo?: string | null): numb
 export const PRECO_POR_SLUG: Readonly<Record<string, number>> = {
   // Macho branco: preço individual informado pela responsável em 05/11/2026.
   "spitz-alemao-anao-branco-macho": 450000,
-  // Preço revisado pela responsável em 07/10/2026.
-  "spitz-alemao-anao-branco-femea": 750000,
+  // Revisado pela responsável em 05/11/2026 (era 750000).
+  "spitz-alemao-anao-branco-femea": 650000,
   // Fêmea preta do lote fotografado em 26/09/2026.
   "spitz-alemao-anao-preto-femea": 950000,
-  "spitz-alemao-anao-creme-femea": 850000,
+  // Revisado pela responsável em 05/11/2026 (era 850000).
+  "spitz-alemao-anao-creme-femea": 650000,
   "spitz-alemao-anao-laranja-femea": 750000,
   "spitz-alemao-anao-laranja-femea-laco-rosa": 750000,
-  "spitz-alemao-anao-creme-macho": 750000,
-  "spitz-alemao-anao-preto-macho": 850000,
-  "spitz-alemao-anao-laranja-macho": 650000,
+  // Revisado pela responsável em 05/11/2026 (era 750000).
+  "spitz-alemao-anao-creme-macho": 550000,
+  // Revisado pela responsável em 05/11/2026 (era 850000).
+  "spitz-alemao-anao-preto-macho": 650000,
+  // Revisado pela responsável em 05/11/2026 (era 650000).
+  "spitz-alemao-anao-laranja-macho": 450000,
 };
 
 /** Preço individual cadastrado; ausência de valor não vira preço por cor/sexo. */
@@ -141,6 +145,23 @@ export function aPartirDe(cor: CorDivulgada): number {
  */
 export function textoAPartirDe(cents: number): string {
   return `A partir de ${formatarPreco(cents)}`;
+}
+
+/**
+ * "A partir de R$ 6.500 no PIX" — a forma como o preço aparece na vitrine.
+ *
+ * A condição de pagamento passou a ser publicada por decisão da responsável em
+ * 05/11/2026: o valor cadastrado é o do PIX, e dizer isso evita que alguém
+ * chegue ao atendimento esperando o mesmo número em qualquer forma de
+ * pagamento. Continua sendo "a partir de", pela razão de sempre — a página é
+ * permanente e representa a combinação, não o animal daquela foto.
+ *
+ * Função única de propósito: o site tem três lugares que mostram preço
+ * (card da vitrine, ficha do filhote e CTA fixo) e já divergiram antes por
+ * cada um escrever o seu próprio texto.
+ */
+export function textoAPartirDeNoPix(cents: number): string {
+  return `${textoAPartirDe(cents)} no PIX`;
 }
 
 const TODOS_OS_VALORES = Object.values(TABELA_DE_PRECOS).flatMap((linha) => [

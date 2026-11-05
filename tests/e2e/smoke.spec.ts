@@ -165,7 +165,20 @@ test.describe("Smoke publico", () => {
     }
   });
 
-  test("o catalogo preserva os destaques, ordena os demais por valor e mostra o valor sem prefixo", async ({
+  /**
+   * O valor na vitrine aparece como "A partir de R$ X no PIX".
+   *
+   * Esta asercao ja foi o contrario. Em 27/08/2026 a auditoria de conversao
+   * registrou "os valores de filhote sao exibidos sem 'A partir de'" e o portao
+   * passou a proibir o prefixo. Em 05/11/2026 a responsavel determinou a forma
+   * atual: o numero cadastrado e o do PIX, e dizer isso evita que alguem chegue
+   * ao atendimento esperando o mesmo valor em qualquer forma de pagamento.
+   *
+   * O portao continua existindo porque o risco nunca foi o prefixo em si: e o
+   * card, a ficha e o CTA fixo divergirem entre si, como ja divergiram. Por
+   * isso aqui se exige a forma completa, nao apenas que o numero esteja na tela.
+   */
+  test("o catalogo preserva os destaques, ordena os demais por valor e mostra o valor no formato do PIX", async ({
     page,
   }) => {
     await page.goto("/filhotes");
@@ -186,7 +199,12 @@ test.describe("Smoke publico", () => {
     expect(cards.slice(2).map((card) => card.cents)).toEqual(
       [...cards.slice(2).map((card) => card.cents)].sort((a, b) => a - b),
     );
-    for (const card of cards) expect(card.texto).not.toMatch(/A partir de R\$/i);
+    for (const card of cards) {
+      expect(
+        card.texto,
+        `${card.href ?? "card sem href"} nao mostra o valor como "A partir de R$ X no PIX"`,
+      ).toMatch(/A partir de R\$\s*[\d.]+ no PIX/);
+    }
   });
 
   test("o preco na tela e o preco da tabela, e nenhuma pagina publica Offer", async ({
@@ -290,7 +308,7 @@ test.describe("Smoke publico", () => {
       const menorValor = Math.min(...filhotesDaCor.map((filhote) => filhote.priceCents));
       const esperado = formatarPreco(menorValor);
       expect(corpo, `/filhotes/cor/${linha.cor} nao mostra ${esperado}`).toContain(esperado);
-      expect(corpo).not.toContain(`A partir de ${esperado}`);
+      expect(corpo).toContain(`A partir de ${esperado} no PIX`);
     }
 
     const inexistente = await page.goto("/filhotes/este-filhote-nunca-existiu");
@@ -351,10 +369,12 @@ test.describe("Portao das superficies criticas", () => {
       const esperado = formatarPreco(precoDoFilhote(vitrine.cor, vitrine.sexo, vitrine.slug));
       const corpo = await page.locator("body").innerText();
       expect(corpo, `${vitrine.slug} nao mostra ${esperado}`).toContain(esperado);
+      // Forma determinada pela responsavel em 05/11/2026 -- ver o comentario do
+      // portao da vitrine, acima, sobre a decisao anterior que isto substitui.
       expect(
         corpo,
-        `${vitrine.slug} ainda adiciona "A partir de" ao valor do filhote`,
-      ).not.toContain(`A partir de ${esperado}`);
+        `${vitrine.slug} nao mostra o valor como "A partir de ${esperado} no PIX"`,
+      ).toContain(`A partir de ${esperado} no PIX`);
     });
   }
 

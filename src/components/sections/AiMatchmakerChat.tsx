@@ -21,7 +21,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import PuppyMatcherQuiz from "@/components/sections/PuppyMatcherQuiz";
 import type { staticPuppies } from "@/content/puppies-static";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
@@ -81,7 +81,7 @@ function stripMatches(text: string): string {
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 function formatPrice(cents: number) {
-  return formatarPreco(cents);
+  return textoAPartirDeNoPix(cents);
 }
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
@@ -315,7 +315,7 @@ function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boole
         </div>
 
         {priceCents > 0 && (
-          <p className="text-lg font-extrabold text-emerald-700">{formatPrice(priceCents)}</p>
+          <p className="text-base font-extrabold leading-snug text-emerald-700">{formatPrice(priceCents)}</p>
         )}
         <p className="text-[9px] text-zinc-500 -mt-1">registro oficial incluso</p>
 

@@ -35,7 +35,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 // Formatacao de preco vem do dominio, nao daqui.
@@ -78,7 +78,7 @@ const INCLUDED = [
 
 function formatPrice(cents?: number) {
   if (!cents) return null;
-  return formatarPreco(cents);
+  return textoAPartirDeNoPix(cents);
 }
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
@@ -152,7 +152,7 @@ export default function PuppyDetailPanel({
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.26 }}
         >
           <div>
-            <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
+            <p className="text-2xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
             {slug === "spitz-alemao-anao-preto-macho" && (
               <p className="mt-1 text-sm text-zinc-600">Valor cadastrado desta referência visual; não confirma uma oferta disponível. Consulte o preço e as opções atuais no atendimento.</p>
             )}

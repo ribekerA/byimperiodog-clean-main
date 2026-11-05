@@ -15,7 +15,7 @@ import TextTestimonials from "@/components/sections/TextTestimonials";
 import VideoHero from "@/components/sections/VideoHero";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
 function formatPrice(cents: number) {
-  return formatarPreco(cents);
+  return textoAPartirDeNoPix(cents);
 }
 
 // Links estratégicos — PageRank distribution para landing pages
@@ -288,7 +288,7 @@ export default function HomePage() {
                           </div>
                           <div className="mt-auto">
                             {price > 0 && (
-                              <p className="text-lg font-extrabold leading-snug text-[var(--accent-ink)]">{formatPrice(price)}</p>
+                              <p className="text-base font-extrabold leading-snug text-[var(--accent-ink)]">{formatPrice(price)}</p>
                             )}
                             <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
                           </div>

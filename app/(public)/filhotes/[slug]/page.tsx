@@ -15,7 +15,7 @@ import { TiltCard } from "@/components/motion/TiltCard";
 import ViewEventTracker from "@/components/ViewEventTracker";
 import { staticPuppies } from "@/content/puppies-static";
 import { puppySearchCopy } from "@/content/puppy-search-copy";
-import { formatarPreco } from "@/domain/pricing";
+import { formatarPreco, textoAPartirDeNoPix } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
@@ -282,7 +282,7 @@ export default async function PuppyPage(props: Props) {
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600">
                     {puppy.slug === "spitz-alemao-anao-preto-macho"
                       ? "O valor cadastrado é uma referência; consulte o preço individual das opções atuais antes de reservar."
-                      : `${formatarPreco((puppy as any).priceCents ?? (puppy as any).price_cents)} publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.`}
+                      : `${textoAPartirDeNoPix((puppy as any).priceCents ?? (puppy as any).price_cents)}, publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.`}
                   </p>
                 </div>
                 <div className="rounded-2xl bg-zinc-50 p-4">
@@ -395,8 +395,8 @@ export default async function PuppyPage(props: Props) {
                             <div className="p-3">
                               <p className="text-sm text-zinc-500">{relCor} · {relSex}</p>
                               {(rel as any).priceCents > 0 && (
-                                <p className="mt-1 text-sm font-bold text-emerald-700">
-                                  {formatarPreco((rel as any).priceCents)}
+                                <p className="mt-1 text-sm font-bold leading-snug text-emerald-700">
+                                  {textoAPartirDeNoPix((rel as any).priceCents)}
                                 </p>
                               )}
                             </div>

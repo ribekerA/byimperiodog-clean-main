@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
-import { formatarPreco } from "@/domain/pricing";
+import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 
@@ -50,7 +50,7 @@ interface Props {
 
 function formatPrice(cents?: number) {
   if (!cents) return null;
-  return formatarPreco(cents);
+  return textoAPartirDeNoPix(cents);
 }
 
 // ─── Componente ───────────────────────────────────────────────────────────────
@@ -149,7 +149,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
               {/* Preço */}
               {price && (
                 <div className="mb-3 flex items-center justify-between">
-                  <p className="text-xl font-extrabold text-[var(--accent-ink)]">{price}</p>
+                  <p className="text-base font-extrabold text-[var(--accent-ink)]">{price}</p>
                   <p className="text-xs text-zinc-500">Documentação inclusa</p>
                 </div>
               )}
