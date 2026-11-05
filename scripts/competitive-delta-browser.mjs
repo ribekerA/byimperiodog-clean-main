@@ -13,22 +13,54 @@ try{for(const url of ['https://byimperiodog.com.br/','https://byimperiodog.com.b
  results.push({url,status:r.status(),...data});await p.screenshot({path:out+'/'+new URL(url).hostname+'-'+(new URL(url).pathname.replaceAll('/','_')||'home')+'.png'});
  }catch(e){results.push({url,error:e.message})}await p.close();
 }await fs.writeFile(out+'/mobile-browser.json',JSON.stringify({note:'One mobile simulated session. Analytics blocked; not a Lighthouse or field CWV score. No outbound WhatsApp clicks or forms submitted.',results},null,2));}finally{await b.close()}
-// A resposta da API de PageSpeed nao vai crua para o disco. Ela e um corpo de
-// terceiro, sem limite de tamanho nem de forma garantidos, e gravar o payload
-// inteiro era o que o CodeQL apontava (js/http-to-file-access). O relatorio
-// recebe so os escalares que os extratores de psi-validation.mjs produzem --
-// que e tambem o que o relatorio sempre quis: notas e metricas, nao o dump da
-// auditoria do Lighthouse.
+// O CodeQL voltou a apontar este write (js/http-to-file-access, alerta 33) e
+// continuava com razao. Os extratores de psi-validation.mjs reduzem quase tudo
+// a numero, mas repassam `fetchTime`, `lighthouseVersion`, `finalDisplayedUrl`,
+// `runtimeError` e o `id` do CrUX crus do corpo da API -- strings e objetos de
+// terceiro, sem limite de tamanho nem de forma garantidos. E nao era hipotese:
+// o `psi-*.json` que este PR commitou guardava o erro 429 da Google inteiro,
+// com o numero do projeto no Cloud, num repositorio publico.
+//
+// Agora nada vindo da rede e copiado para o disco. Vai para o arquivo so o que
+// este script constroi: numeros refeitos por aritmetica, booleanos de
+// comparacao e rotulos escolhidos de listas literais daqui. O relatorio nao
+// perde nada -- ele sempre quis notas e metricas, e o que importava do
+// `finalDisplayedUrl` era saber se houve redirecionamento.
+const numero=v=>typeof v==='number'&&Number.isFinite(v)?Math.round(v*1000)/1000:null;
+const rotulo=(v,aceitos)=>aceitos.find(aceito=>aceito===v)??null;
+
 for(const url of ['https://byimperiodog.com.br/','https://flordotijuco.com.br/']){
+ const destino=out+'/psi-'+new URL(url).hostname+'.json';
  try{
   const r=await fetch(psiURL(url,'mobile'),{signal:AbortSignal.timeout(55000)});
+  const status=numero(r.status);
+  if(!r.ok){
+   await fs.writeFile(destino,JSON.stringify({url,status,medido:false,laboratorio:null,campo:null,
+    nota:'A API de PageSpeed respondeu fora da faixa 2xx. O corpo do erro nao vai para o disco de proposito: e texto de terceiro e ja chegou a trazer identificadores internos do projeto no Cloud.'},null,2));
+   console.log('PSI',url,r.status,'nao medido');
+   continue;
+  }
   const payload=await r.json();
-  await fs.writeFile(out+'/psi-'+new URL(url).hostname+'.json',JSON.stringify({
+  const lab=summarizeLighthouse(payload?.lighthouseResult);
+  const campo=summarizeField(payload?.loadingExperience);
+  const medido=Boolean(payload?.lighthouseResult)&&!payload.lighthouseResult.runtimeError;
+  await fs.writeFile(destino,JSON.stringify({
    url,
-   status:r.status,
-   laboratorio:summarizeLighthouse(payload?.lighthouseResult),
-   campo:summarizeField(payload?.loadingExperience),
+   status,
+   medido,
+   consultadoEm:new Date().toISOString(),
+   redirecionou:typeof lab.finalUrl==='string'&&lab.finalUrl!==url,
+   laboratorio:{
+    performance:numero(lab.performance),seo:numero(lab.seo),
+    acessibilidade:numero(lab.accessibility),boasPraticas:numero(lab.bestPractices),
+    lcpMs:numero(lab.lcpMs),cls:numero(lab.cls),tbtMs:numero(lab.tbtMs),
+   },
+   campo:{
+    temDados:campo.status==='CrUX p75',
+    categoria:rotulo(campo.overallCategory,['FAST','AVERAGE','SLOW']),
+    lcpMs:numero(campo.lcpMs),inpMs:numero(campo.inpMs),cls:numero(campo.cls),
+   },
   },null,2));
-  console.log('PSI',url,r.status);
+  console.log('PSI',url,r.status,medido?'medido':'sem resultado de laboratorio');
  }catch(e){console.log('PSI',url,e.message)}
 }

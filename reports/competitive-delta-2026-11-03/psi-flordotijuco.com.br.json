@@ -1,43 +1,8 @@
 {
   "url": "https://flordotijuco.com.br/",
   "status": 429,
-  "json": {
-    "error": {
-      "code": 429,
-      "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
-      "errors": [
-        {
-          "message": "Quota exceeded for quota metric 'Queries' and limit 'Queries per day' of service 'pagespeedonline.googleapis.com' for consumer 'project_number:583797351490'.",
-          "domain": "global",
-          "reason": "rateLimitExceeded"
-        }
-      ],
-      "status": "RESOURCE_EXHAUSTED",
-      "details": [
-        {
-          "@type": "type.googleapis.com/google.rpc.ErrorInfo",
-          "reason": "RATE_LIMIT_EXCEEDED",
-          "domain": "googleapis.com",
-          "metadata": {
-            "quota_limit": "defaultPerDayPerProject",
-            "quota_location": "global",
-            "quota_limit_value": "0",
-            "service": "pagespeedonline.googleapis.com",
-            "quota_metric": "pagespeedonline.googleapis.com/default",
-            "consumer": "projects/583797351490",
-            "quota_unit": "1/d/{project}"
-          }
-        },
-        {
-          "@type": "type.googleapis.com/google.rpc.Help",
-          "links": [
-            {
-              "description": "Request a higher quota limit.",
-              "url": "https://cloud.google.com/docs/quotas/help/request_increase"
-            }
-          ]
-        }
-      ]
-    }
-  }
+  "medido": false,
+  "laboratorio": null,
+  "campo": null,
+  "nota": "A API de PageSpeed respondeu fora da faixa 2xx. O corpo do erro nao vai para o disco de proposito: e texto de terceiro e ja chegou a trazer identificadores internos do projeto no Cloud."
 }
