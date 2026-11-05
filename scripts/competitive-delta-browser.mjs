@@ -1,6 +1,8 @@
 import fs from 'node:fs/promises';
 
 import {chromium} from '@playwright/test';
+
+import {psiURL,summarizeField,summarizeLighthouse} from './psi-validation.mjs';
 const out='reports/competitive-delta-2026-11-03';const results=[];const b=await chromium.launch();
 try{for(const url of ['https://byimperiodog.com.br/','https://byimperiodog.com.br/filhotes','https://byimperiodog.com.br/filhotes/spitz-alemao-anao-branco-femea','https://flordotijuco.com.br/']){
  const p=await b.newPage({viewport:{width:390,height:844},isMobile:true,deviceScaleFactor:1});
@@ -11,4 +13,22 @@ try{for(const url of ['https://byimperiodog.com.br/','https://byimperiodog.com.b
  results.push({url,status:r.status(),...data});await p.screenshot({path:out+'/'+new URL(url).hostname+'-'+(new URL(url).pathname.replaceAll('/','_')||'home')+'.png'});
  }catch(e){results.push({url,error:e.message})}await p.close();
 }await fs.writeFile(out+'/mobile-browser.json',JSON.stringify({note:'One mobile simulated session. Analytics blocked; not a Lighthouse or field CWV score. No outbound WhatsApp clicks or forms submitted.',results},null,2));}finally{await b.close()}
-for(const url of ['https://byimperiodog.com.br/','https://flordotijuco.com.br/']){try{const r=await fetch('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?strategy=mobile&url='+encodeURIComponent(url),{signal:AbortSignal.timeout(55000)});const json=await r.json();await fs.writeFile(out+'/psi-'+new URL(url).hostname+'.json',JSON.stringify({url,status:r.status,json},null,2));console.log('PSI',url,r.status)}catch(e){console.log('PSI',url,e.message)}}
+// A resposta da API de PageSpeed nao vai crua para o disco. Ela e um corpo de
+// terceiro, sem limite de tamanho nem de forma garantidos, e gravar o payload
+// inteiro era o que o CodeQL apontava (js/http-to-file-access). O relatorio
+// recebe so os escalares que os extratores de psi-validation.mjs produzem --
+// que e tambem o que o relatorio sempre quis: notas e metricas, nao o dump da
+// auditoria do Lighthouse.
+for(const url of ['https://byimperiodog.com.br/','https://flordotijuco.com.br/']){
+ try{
+  const r=await fetch(psiURL(url,'mobile'),{signal:AbortSignal.timeout(55000)});
+  const payload=await r.json();
+  await fs.writeFile(out+'/psi-'+new URL(url).hostname+'.json',JSON.stringify({
+   url,
+   status:r.status,
+   laboratorio:summarizeLighthouse(payload?.lighthouseResult),
+   campo:summarizeField(payload?.loadingExperience),
+  },null,2));
+  console.log('PSI',url,r.status);
+ }catch(e){console.log('PSI',url,e.message)}
+}

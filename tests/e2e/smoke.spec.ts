@@ -19,7 +19,7 @@
 
 import { expect, test, type Page } from "@playwright/test";
 
-import { puppiesPublicados } from "../../content/puppies-static";
+import { puppiesPublicados, staticPuppies } from "../../content/puppies-static";
 import {
   CORES_DIVULGADAS,
   LINHAS_FORMATADAS,
@@ -358,13 +358,16 @@ test.describe("Portao das superficies criticas", () => {
     });
   }
 
+  // So entram aqui slugs que nunca mais devem responder -- fichas que sairam do
+  // catalogo de verdade. Nao confundir com `divulgar: false`: essa marca tira a
+  // ficha das vitrines e mantem a URL de pe de proposito, e o contrato dela esta
+  // no teste logo abaixo. O cabecalho de content/puppies-static.ts e explicito:
+  // quem responde por uma URL especifica le `staticPuppies` direto, "senao uma
+  // pagina indexada passaria a devolver 404 ou a abrir vazia".
   for (const slug of [
     "lulu-da-pomerania-branco-macho",
     "lulu-da-pomerania-particolor-macho",
     "lulu-da-pomerania-laranja-macho",
-    "spitz-alemao-anao-laranja-macho",
-    "spitz-alemao-anao-wolf-sable-femea",
-    "spitz-alemao-anao-wolf-sable-macho",
   ]) {
     test(`/filhotes/${slug} foi removido`, async ({ request }) => {
       const resposta = await request.get(`/filhotes/${slug}`);
@@ -372,9 +375,48 @@ test.describe("Portao das superficies criticas", () => {
     });
   }
 
-  test("a cor retirada nao possui pagina comercial", async ({ request }) => {
-    const resposta = await request.get("/filhotes/cor/particolor");
-    expect(resposta.status()).toBe(404);
+  test("ficha com divulgar: false sai da vitrine e mantem a URL de pe", async ({
+    page,
+    request,
+  }) => {
+    const foraDaVitrine = staticPuppies.filter(
+      (filhote) => (filhote as { divulgar?: boolean }).divulgar === false,
+    );
+    expect(foraDaVitrine, "nenhuma ficha marcada divulgar: false para conferir").not.toHaveLength(0);
+
+    await page.goto("/filhotes");
+    for (const filhote of foraDaVitrine) {
+      // A URL continua de pe: ela pode estar indexada ou num link ja enviado.
+      const resposta = await request.get(`/filhotes/${filhote.slug}`);
+      expect(resposta.status(), `${filhote.slug} deixou de responder`).toBe(200);
+      // Mas a vitrine nao pode mais oferecer.
+      await expect(
+        page.locator(`a[href="/filhotes/${filhote.slug}"]`),
+        `${filhote.slug} esta marcado divulgar: false e ainda aparece na vitrine`,
+      ).toHaveCount(0);
+    }
+  });
+
+  test("particolor tem pagina propria e nao cai no tema de outra cor", async ({ page }) => {
+    // O particolor e uma das cinco cores divulgadas em src/domain/pricing.ts e
+    // tem pagina mesmo sem ficha publicada no momento -- uma cor da tabela sem
+    // pagina deixaria a tabela prometendo o que o site nao mostra.
+    //
+    // A assercao e contra o fallback `?? THEMES.creme`: o particolor nao tinha
+    // tema e a pagina abria com o selo e a amostra do creme, descrevendo uma cor
+    // e mostrando outra (corrigido em 26/08/2026). Conferir o selo proprio e o
+    // que faz essa regressao doer de novo.
+    const resposta = await page.goto("/filhotes/cor/particolor");
+    expect(resposta!.status()).toBe(200);
+    await expect(page.locator("h1").first()).toBeVisible();
+
+    const corpo = await page.locator("body").innerText();
+    expect(corpo, "a pagina do particolor nao mostra o selo proprio").toContain(
+      "Base branca com manchas definidas",
+    );
+    expect(corpo, "a pagina do particolor voltou a cair no tema do creme").not.toContain(
+      "Pelagem cor de marfim",
+    );
   });
 
   test("/blog lista artigos", async ({ page }) => {
