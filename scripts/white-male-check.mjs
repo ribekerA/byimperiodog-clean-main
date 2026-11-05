@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+
 import {chromium,expect} from '@playwright/test';
 const base=process.env.CHECK_URL||'http://localhost:3104';
 const slug='spitz-alemao-anao-branco-macho';const out='reports/white-male-20261105';

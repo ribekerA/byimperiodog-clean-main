@@ -4,8 +4,8 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 import ContractForm from "@/components/ContractForm";
-import { verifyContractAccessToken } from "@/lib/contractAccess";
 import { contractCanBeFilled, validContractCode } from "@/lib/contract-security";
+import { verifyContractAccessToken } from "@/lib/contractAccess";
 import { rateLimit } from "@/lib/rateLimit";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 

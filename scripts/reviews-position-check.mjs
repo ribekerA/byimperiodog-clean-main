@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
+import fs from 'node:fs/promises';
+
 import { chromium, expect } from '@playwright/test';
 
 const out='reports/reviews-position';

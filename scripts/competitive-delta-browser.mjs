@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+
 import {chromium} from '@playwright/test';
 const out='reports/competitive-delta-2026-11-03';const results=[];const b=await chromium.launch();
 try{for(const url of ['https://byimperiodog.com.br/','https://byimperiodog.com.br/filhotes','https://byimperiodog.com.br/filhotes/spitz-alemao-anao-branco-femea','https://flordotijuco.com.br/']){

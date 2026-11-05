@@ -4,11 +4,11 @@ import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { BRAND } from "@/domain/config";
-import { verifyContractAccessToken } from "@/lib/contractAccess";
 import {
   contractCanBeFilled, validContractCode, contractUploadPath, validateContractFile,
   InvalidContractFile, CONTRACT_MAX_FILE_BYTES, CONTRACT_MAX_SIGNATURE_BYTES, readContractForm,
 } from "@/lib/contract-security";
+import { verifyContractAccessToken } from "@/lib/contractAccess";
 import { limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 

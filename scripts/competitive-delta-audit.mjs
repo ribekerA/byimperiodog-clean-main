@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+
 import { JSDOM } from 'jsdom';
 const out = 'reports/competitive-delta-2026-11-03';
 await fs.mkdir(out, {recursive:true});
@@ -20,6 +21,9 @@ for(let i=0;i<urls.length;i+=3){await Promise.all(urls.slice(i,i+3).map(async ur
  results.push(result);console.log(r.status,url);dom.window.close();
  }catch(e){results.push({url,error:e.message});console.log('ERROR',url,e.message)}
  }));}
-const byPages=results.filter(r=>r.url.startsWith(by)&&r.status===200);
+// Comparacao exata de host: startsWith aceitaria byimperiodog.com.br.exemplo.com.
+const BY_HOSTS=new Set(['byimperiodog.com.br','www.byimperiodog.com.br']);
+const isByHost=value=>{try{return BY_HOSTS.has(new URL(value).hostname.toLowerCase())}catch{return false}};
+const byPages=results.filter(r=>isByHost(r.url)&&r.status===200);
 const depths=new Map([[by+'/',0]]);for(let i=0;i<8;i++)for(const page of byPages){const depth=depths.get(page.finalUrl);if(depth===undefined)continue;for(const link of page.links){const u=new URL(link.href);u.hash='';u.search='';const key=u.href;if(!depths.has(key))depths.set(key,depth+1)}}
 await fs.writeFile(out+(process.argv.includes('--extra')?'/public-extra.json':'/public-current.json'),JSON.stringify({note:'Fresh HTTP sample; not ranking, indexing or field CWV. Depth is an upper bound in the sampled graph; missing depth is not proof of orphan page.',results,depths:Object.fromEntries(depths)},null,2));
