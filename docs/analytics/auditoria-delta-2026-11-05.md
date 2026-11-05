@@ -92,7 +92,7 @@ Nas três, **os 12 testes antigos continuaram verdes** — é a medida de quanto
 
 ## D — Plano priorizado
 
-> **P1 está executada** (opção **a**, aprovada em 05/11/2026). O registro do que mudou está na seção C. **P2 a P5 seguem pendentes de aprovação** e nada delas foi tocado.
+> **P1 e P2 estão executadas e publicadas** (05/11/2026, cada uma com autorização sua). O registro do que mudou está na seção C e no fim de cada item. **P3 a P5 seguem pendentes de aprovação** e nada delas foi tocado.
 
 ### P1 — Separar compartilhar de contato *(comercial + medição; maior impacto)* — **feita**
 
@@ -108,10 +108,15 @@ Arquivos, qualquer que seja a escolha:
 - `src/components/tracking/WhatsAppClickTracker.tsx:57-65` — corrigir o comentário, que descreve o arquivo errado.
 - `src/components/ShareButtons.tsx` — **propor remoção**: não é importado em lugar nenhum e é exatamente o arquivo que alguém "consertaria" por engano.
 
-### P2 — Banner de cookies deixa de cobrir o botão do WhatsApp *(mobile, 92% do tráfego)*
+### P2 — Banner de cookies deixa de cobrir o botão do WhatsApp *(mobile, 92% do tráfego)* — **feita**
 
-- `src/components/WhatsAppFloat.tsx:214` e `src/components/ConsentBanner.tsx:88` — enquanto o banner estiver aberto, subir o botão acima dele ou deslocá-lo; com o banner fechado, nada muda.
-- Correção pequena e de baixo risco, sem efeito em conteúdo ou preço.
+Medido no site no ar, em 375×812: o banner é `fixed bottom-0` com `z-index` 9999 e ocupa 221px na base; o botão flutuante é `fixed` com `z-index` 9998 e fica em 732→788, inteiro dentro dessa faixa. `document.elementFromPoint` no centro do botão devolvia uma `div` do banner. Até a pessoa resolver os cookies, o CTA principal não recebia toque.
+
+O padrão de correção já existia no próprio repositório: o `ConsentBanner` publica `--consent-banner-height` na raiz enquanto está na tela e a remove ao sair, e `src/components/catalog/PuppyStickyFloatingCTA.tsx:95` já consumia a variável. O botão flutuante era o único ancorado embaixo que não lia.
+
+- `app/globals.css` — `.bottom-safe` passou a somar `var(--consent-banner-height, 0px)` ao `env(safe-area-inset-bottom)`. O seletor tem **um único consumidor**, o botão flutuante, o que torna a mudança contida. Quando o banner sai, a variável é removida e o botão volta sozinho à margem normal.
+- `src/components/WhatsAppFloat.tsx:213` — só comentário. O `z-index` 9998 **ficou como estava, de propósito**: subir o botão acima de 9999 o faria cobrir os botões do próprio banner de consentimento.
+- `tests/e2e/smoke.spec.ts` — teste novo que mede `elementFromPoint` no centro do botão, não o `z-index`. Foi escrito antes da correção e **visto vermelho** contra um build do código sem ela ("o toque no centro do botao de WhatsApp cai no banner de consentimento"). jsdom não aplica o `globals.css` nem calcula empilhamento, então nenhum teste de unidade pegaria isto.
 
 ### P3 — Reconciliar GTM com o código *(não é mudança de código do site)*
 
@@ -170,25 +175,32 @@ Nada aqui mexe em conversão principal do Ads sem sua autorização expressa.
 - **Branch:** `codex/auditoria-delta-2026-11-03`
 - **SHA no diagnóstico:** `889f639` — a seção B foi escrita sem nenhum commit
 - **PR #19:** **mergeado** em 05/11/2026 15:05 UTC, por merge commit `135f62d` (não squash, de propósito: squash reescreveria as datas por arquivo e reabriria a regressão de `lastmod` corrigida em `305e064`). Confirmado depois: 15 datas distintas em `_generated-lastmod.ts`, todas rastreáveis a commits reais
-- **Posição:** `origin/main` está 1 commit à frente desta branch — o próprio merge commit. Todo o conteúdo da branch está em `main`
-- **Alterações de P1:** na working tree, **não commitadas e não publicadas** — 4 arquivos (3 de código, 1 de teste), +124 / −121 linhas
+- **PR #20 (P1):** mergeado em 05/11/2026 15:32 UTC, merge commit `0613aee`, **autorizado por você** ("faça deploy e push agora msm"). A CI de `main` (run 42055986463) fechou **verde**. Mergeei com o portão "Qualidade e build" ainda pendente, por causa da pressa autorizada — foi um risco que assumi e que **não se materializou**, mas fica registrado
+- **P2:** commit `fd89c87` — 3 arquivos (1 de CSS, 1 de comentário, 1 de teste), +90 / −2 linhas
 - **Working tree:** `M next-env.d.ts` — sujo por causa do dev server (`./.next/types/` virou `./.next/dev/types/`). O `typecheck` passa com as duas variantes; é ruído, **e não deve ser commitado**
-- **Portões rodados, todos verdes:**
+- **Portões rodados em P1, todos verdes:**
   - `npm run check:all` — typecheck, vitest, encoding, banned-words, catalog:audit, showcase:audit, truth:guard, lint. **603 testes passando**, 3 ignorados, 88 arquivos
   - `npm run build` — compilou em 17,8s, **149 páginas estáticas** geradas
   - o smoke como a CI roda, `PLAYWRIGHT_WEB_SERVER="npm run start" npx playwright test tests/e2e/smoke.spec.ts --project=chromium` — **22 passando, 0 falhando**
+- **Portões rodados em P2, todos verdes:**
+  - `npm run check:all` — **603 testes passando**, 3 ignorados, truth:guard aprovou 724 arquivos, lint sem uma linha
+  - `npm run build` — compilou em 9,8s, **149 páginas estáticas**
+  - o mesmo smoke da CI — **23 passando, 0 falhando** (eram 22; o teste novo de P2 entrou)
+  - `npm run prebuild` rodado **depois** do commit, como exige a regressão de `lastmod`: working tree limpa, 15 datas distintas
 - **Ressalva sobre o e2e:** `npm run test:e2e` sem variável cai em `npm run dev` (`playwright.config.ts:34`) e roda os três navegadores e todos os specs — escopo que a CI não checa. Nesse modo dão 26 falhas: `smoke.spec.ts:300` e `:400` retornam 404 em `/filhotes/cor/<cor>` **mesmo com todas as cinco cores presentes em `COLOR_SEO`**, e `tracking.spec.ts` reprova em bloco. Os dois 404 do smoke não se reproduzem na saída de produção (o mesmo spec passa contra `npm run start`); os de `tracking.spec.ts` **não foram reconferidos** e a CI também não os roda. Nenhuma das 26 falhas está em arquivo que esta mudança toca, e `whatsapp-tracking.spec.ts` passou
-- **Não declaro o projeto validado:** P2 a P5 não foram executadas nem testadas, e o container GTM vivo segue não inspecionado
+- **Não declaro o projeto validado:** P3 a P5 não foram executadas nem testadas, e o container GTM vivo segue não inspecionado
 
 ### Riscos e limites desta auditoria
 
 1. **O container GTM vivo não foi inspecionado.** Tudo em B4–B7 vem do backup v14 de 27/08/2026, que **demonstravelmente não bate** com o que o GA4 registrou. As conclusões sobre tags e gatilhos são hipóteses fortes a confirmar no Preview/DebugView, não fatos sobre o container de hoje.
 2. **3 dos 13 nomes de evento do GA4 não constam do export** (só os 10 maiores aparecem). Não afirmo que evento algum "nunca disparou" — os três ausentes dispararam 5 vezes ou menos cada.
-3. A medição de dobras no mobile foi refeita: a primeira passagem excluiu o botão flutuante por engano, porque `offsetParent` é `null` em qualquer elemento `position: fixed`. **O botão flutuante existe e é alcançável** — o problema real é B3, a sobreposição do banner.
+3. A medição de dobras no mobile foi refeita duas vezes, e **as duas primeiras versões deste item estavam erradas**. A primeira passagem excluiu o botão flutuante por engano, porque `offsetParent` é `null` em qualquer elemento `position: fixed`. A segunda concluiu daí que o botão "existe e é alcançável" — existia, mas **não era alcançável** enquanto o banner estivesse aberto, o que só ficou provado ao medir `elementFromPoint` em navegador de verdade (P2). Conferir presença no DOM não é conferir alcance pelo dedo.
 4. O site no ar reflete `main`, não esta branch.
 
 ### Confirmação expressa
 
-**Nada foi publicado desta vez.** Nenhum `push` e nenhum deploy com as mudanças de P1 — elas estão só na working tree. Nenhum `reset`, `rebase` ou `checkout` destrutivo. Nenhum trabalho de outro agente foi sobrescrito.
+Três publicações, **cada uma com autorização sua, nominalmente**: PR #19 ("Sim, mergeia"), PR #20 com as mudanças de P1 ("faça deploy e push agora msm") e a P2 ("Sim, publica"). Nenhuma publicação automática, nenhum push ou deploy sem pedir antes.
 
-O único merge feito foi o do PR #19, **autorizado por você** ("Sim, mergeia") depois de o CI fechar verde, e registrado acima. As mudanças de P1 são posteriores a ele e seguem aguardando sua autorização para publicar.
+Nenhum `reset`, `rebase` ou `checkout` destrutivo. Nenhum trabalho de outro agente foi sobrescrito. Nenhuma conversão do Ads, tag do GTM, ferramenta de terceiros ou integração paga foi criada ou alterada. Nenhum texto editorial, título ou preço foi mexido — a P5, que é editorial, segue aguardando aprovação do texto exato.
+
+**O que segue não verificado:** o container GTM vivo não foi inspecionado, então tudo o que a seção B diz sobre tags e gatilhos continua hipótese a confirmar no Preview e no DebugView. P3 a P5 não foram executadas.
