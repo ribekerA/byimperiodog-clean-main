@@ -501,3 +501,80 @@ test.describe("Portao das superficies criticas", () => {
     await expect(page).toHaveURL(/\/admin\/login/);
   });
 });
+
+/**
+ * O CTA principal tem de ser alcancavel no celular.
+ *
+ * O banner de consentimento e `fixed bottom-0` com z-index 9999 e, numa tela
+ * de 375x812, ocupa ~220px de altura. O botao flutuante de WhatsApp e
+ * `fixed` com z-index 9998 e mora dentro dessa faixa: ficava inteiro ATRAS do
+ * banner, invisivel e sem receber toque, ate a pessoa resolver os cookies.
+ * Em 92% do trafego, que e celular, o CTA principal do site nao existia nesse
+ * intervalo.
+ *
+ * Isto so se prova em navegador de verdade: jsdom nao aplica o globals.css nem
+ * calcula empilhamento, entao nenhum teste de unidade pega. O teste mede o que
+ * o dedo faz -- `elementFromPoint` no centro do botao -- em vez de conferir
+ * z-index, que e exatamente o detalhe que ja estava "certo" e mesmo assim
+ * deixava o botao inacessivel.
+ *
+ * Nao clica no botao: abrir wa.me gravaria conversao de verdade no Ads. Ver a
+ * regra de seguranca no topo deste arquivo.
+ */
+test.describe("Portao do CTA no celular", () => {
+  test("o banner de consentimento nao cobre o botao flutuante de WhatsApp", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+
+    // Contexto novo comeca sem consentimento gravado, entao o banner aparece.
+    await page.goto("/blog/preco-spitz-alemao-anao");
+
+    const banner = page.locator('[role="dialog"][aria-labelledby="consent-title"]');
+    await expect(
+      banner,
+      "sem banner na tela este teste nao prova nada -- o consentimento vazou entre testes",
+    ).toBeVisible();
+
+    // O flutuante so monta 3s depois do load, de proposito (CLS).
+    const flutuante = page.locator('[data-wa-placement="floating_button"]');
+    await expect(flutuante).toBeVisible({ timeout: 15_000 });
+
+    const medida = await page.evaluate(() => {
+      const botao = document.querySelector<HTMLElement>('[data-wa-placement="floating_button"]');
+      const caixaBanner = document
+        .querySelector<HTMLElement>('[role="dialog"][aria-labelledby="consent-title"]')
+        ?.getBoundingClientRect();
+      if (!botao || !caixaBanner) return null;
+
+      const caixa = botao.getBoundingClientRect();
+      const x = Math.round(caixa.left + caixa.width / 2);
+      const y = Math.round(caixa.top + caixa.height / 2);
+      const noPonto = document.elementFromPoint(x, y);
+
+      return {
+        toqueAcertaOBotao: noPonto === botao || botao.contains(noPonto),
+        cobertoPeloBanner: Boolean(noPonto?.closest('[role="dialog"][aria-labelledby="consent-title"]')),
+        baseDoBotao: Math.round(caixa.bottom),
+        topoDoBanner: Math.round(caixaBanner.top),
+      };
+    });
+
+    expect(medida, "nao consegui medir o botao e o banner juntos").not.toBeNull();
+
+    expect(
+      medida!.cobertoPeloBanner,
+      "o toque no centro do botao de WhatsApp cai no banner de consentimento",
+    ).toBe(false);
+
+    expect(
+      medida!.toqueAcertaOBotao,
+      "o centro do botao de WhatsApp nao recebe o toque -- tem algo por cima",
+    ).toBe(true);
+
+    // Nao basta receber o toque: o botao tem de estar acima da faixa do banner,
+    // senao ele so esta visivel por acaso de um banner mais curto.
+    expect(
+      medida!.baseDoBotao,
+      `o botao termina em ${medida!.baseDoBotao}px e o banner comeca em ${medida!.topoDoBanner}px`,
+    ).toBeLessThanOrEqual(medida!.topoDoBanner);
+  });
+});

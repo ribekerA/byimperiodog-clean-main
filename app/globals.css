@@ -210,7 +210,15 @@ body.admin-shell [data-site-shell="cta"] {
 
 /* ── Safe area bottom padding para iPhone com Dynamic Island ──────────────── */
 .pb-safe { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
-.bottom-safe { bottom: max(1.5rem, env(safe-area-inset-bottom)); }
+/* O banner de consentimento e fixed bottom-0 com z-index 9999 e, no celular,
+   tem ~220px de altura. Qualquer coisa ancorada embaixo com z-index menor fica
+   ATRAS dele -- foi o que aconteceu com o botao flutuante de WhatsApp (z-9998):
+   invisivel e sem receber toque ate a pessoa resolver os cookies, em 92% do
+   trafego. Subir o z-index do botao resolveria a vista e estragaria o banner,
+   que precisa ficar por cima. O ConsentBanner publica --consent-banner-height
+   enquanto esta na tela e a remove ao sair, entao somar aqui tira o botao da
+   faixa do banner e o devolve sozinho a margem normal depois. */
+.bottom-safe { bottom: calc(max(1.5rem, env(safe-area-inset-bottom)) + var(--consent-banner-height, 0px)); }
 
 /* Seções profundas continuam no HTML/árvore de acessibilidade, mas o navegador
    pode adiar pintura e layout até elas se aproximarem da viewport. */
