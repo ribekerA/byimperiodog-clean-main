@@ -95,8 +95,8 @@ describe("formatação de preço no site público", () => {
   });
 
   it("formatarPreco escreve R$ com espaço comum, não U+00A0", () => {
-    const texto = formatarPreco(950000);
-    expect(texto).toBe("R$ 9.500");
+    const texto = formatarPreco(850000);
+    expect(texto).toBe("R$ 8.500");
     const codigos = [...texto].map((c) => c.charCodeAt(0));
     expect(codigos).not.toContain(0x00a0);
     expect(codigos).not.toContain(0x202f);

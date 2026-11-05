@@ -27,7 +27,7 @@ import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 // se soubesse o que existe hoje — e o que ele lia era um campo de arquivo
 // estático que só mudava em deploy. O chat não tem, e não vai ter, acesso a
 // estoque: ele conhece as combinações de cor e sexo com que o canil trabalha e
-// a tabela de partida de cada uma. Quem sabe o que existe hoje é o atendimento.
+// o valor publicado de cada uma. Quem sabe o que existe hoje é o atendimento.
 // (26/08/2026)
 
 function buildCatalogTable(): string {
@@ -41,20 +41,19 @@ function buildCatalogTable(): string {
 
 const CATALOG = `
 VITRINE — By Império Dog (Bragança Paulista, SP):
-Esta lista NÃO é estoque. São as combinações de cor e sexo com que o canil trabalha, com fotos reais que ficam publicadas de forma permanente e o valor de partida de cada combinação. Ela não diz, e não tem como dizer, o que existe hoje no canil.
+Esta lista NÃO é estoque. São as combinações de cor e sexo divulgadas pelo canil, com fotos reais que ficam publicadas de forma permanente e o valor exato publicado de cada combinação. Ela não diz, e não tem como dizer, o que existe hoje no canil.
 Todos os filhotes acompanham: registro oficial • protocolo vacinal em dia conforme a idade do filhote • consulta veterinária • hemograma completo • histórico de vermifugação • contrato • mentoria pós-venda. Identificação do animal conforme a legislação aplicável.
 
-SLUG                                    | Nome                 | Sexo   | Cor         | Preço de partida
+SLUG                                    | Nome                 | Sexo   | Cor         | Valor publicado
 ${buildCatalogTable()}
 
 SOBRE AS CORES (aparência e preço — nunca temperamento, nunca estoque):
 - A cor da pelagem não define temperamento, docilidade nem adaptação a crianças.
-- Todo valor da tabela é "a partir de": é o ponto de partida daquela cor e sexo.
-- Branco: pelagem de aparência branca e uniforme; é o topo da tabela.
-- Creme: pelagem cor de marfim; acima do laranja na tabela.
-- Laranja: a cor clássica da raça; acima apenas do particolor.
-- Particolor: base branca com manchas definidas; é o menor valor da tabela.
-- Preto: mesmo valor do creme na tabela.
+- Os valores exibidos são fechados, sem o prefixo "a partir de".
+- Branco: pelagem de aparência branca e uniforme; a fêmea publicada custa R$ 8.500.
+- Creme: pelagem cor de marfim; macho por R$ 7.500 e fêmea por R$ 8.500.
+- Laranja: a cor clássica da raça; as duas fêmeas publicadas custam R$ 8.500.
+- Preto: macho por R$ 7.500 e fêmea por R$ 8.500.
 
 FRETE/ENTREGA: o tutor retira em Bragança Paulista (SP) ou contrata transporte especializado; valor e prazo dependem do destino
 PARCELAMENTO: consultar condições com a equipe via WhatsApp
@@ -216,7 +215,7 @@ export async function POST(req: NextRequest) {
   // Rota pública que fala com a Groq. Antes não tinha limite de taxa, teto de
   // corpo nem teto de histórico: era o caminho mais barato para gastar a cota
   // de IA do canil sem passar por autenticação nenhuma.
-  const bloqueio = limiteDeTaxa(req, "matchmaker", 20);
+  const bloqueio = await limiteDeTaxa(req, "matchmaker", 20);
   if (bloqueio) return bloqueio;
 
   const lido = await corpoJson<{ messages?: unknown }>(req, LIMITE_CORPO_CHAT);

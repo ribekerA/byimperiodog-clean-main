@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
+import { requireAdminApi } from "@/lib/adminAuth";
 import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
   // então uma navegação normal gera poucas requisições. 60 por minuto por
   // IP cobre com folga quem abre várias abas e ainda corta o script que
   // tentar encher a tabela de vitals — que grava com service role.
-  const bloqueio = limiteDeTaxa(req, "rum", 60);
+  const bloqueio = await limiteDeTaxa(req, "rum", 60);
   if (bloqueio) return bloqueio;
 
   const lido = await corpoJson<{ name?: string; value?: number; id?: string; page?: string }>(req, 4 * 1024);
@@ -58,11 +58,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  // Apenas ADMIN_PASS: NEXT_PUBLIC_* vai para o bundle do browser.
-  const expectedPass = process.env.ADMIN_PASS;
-  const authedByHeader = !!expectedPass && req.headers.get("x-admin-pass") === expectedPass;
-  const session = await verifyAdminSession(req.cookies.get(ADMIN_SESSION_COOKIE)?.value);
-  if (!authedByHeader && !session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+  const guard = requireAdminApi(req, { permission: "dashboard:read" });
+  if (guard) return guard;
 
   const days = Math.min(Number(req.nextUrl.searchParams.get("days") ?? "7"), 90);
 

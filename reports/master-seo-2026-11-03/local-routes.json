@@ -1,0 +1,85 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br",
+    "schemas": 3
+  },
+  {
+    "path": "/filhotes",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/filhotes",
+    "schemas": 6
+  },
+  {
+    "path": "/spitz-alemao",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/spitz-alemao",
+    "schemas": 5
+  },
+  {
+    "path": "/preco-spitz-anao",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/preco-spitz-anao",
+    "schemas": 5
+  },
+  {
+    "path": "/guias",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/guias",
+    "schemas": 4
+  },
+  {
+    "path": "/comprar-spitz-anao",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/comprar-spitz-anao",
+    "schemas": 5
+  },
+  {
+    "path": "/faq-do-tutor",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/faq-do-tutor",
+    "schemas": 5
+  },
+  {
+    "path": "/contato",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/contato",
+    "schemas": 5
+  },
+  {
+    "path": "/reserve-seu-filhote",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/reserve-seu-filhote",
+    "schemas": 5
+  },
+  {
+    "path": "/blog/documentacao-registro-spitz-alemao",
+    "status": 200,
+    "h1": 1,
+    "canonical": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+    "schemas": 4
+  },
+  {
+    "path": "/robots.txt",
+    "status": 200,
+    "h1": 0,
+    "schemas": 0
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": 200,
+    "h1": 0,
+    "schemas": 0,
+    "sitemapUrls": 90
+  }
+]

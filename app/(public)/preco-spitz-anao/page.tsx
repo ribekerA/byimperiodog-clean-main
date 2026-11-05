@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   description:
     // 250 caracteres: o Google mostra ~160 e cortava antes de "por que o valor
     // varia", que é justamente a intenção de busca da página. Reescrita em 156.
-    "Tabela do Spitz Alemão Anão por cor e sexo: Particolor, Laranja, Creme, Preto e Branco, a partir de R$ 5.500. Veja o que está incluso no valor.",
+    "Valores atuais do Spitz Alemão Anão: machos creme e preto por R$ 7.500; fêmeas laranja, creme, preto e branco por R$ 8.500.",
   keywords: [
     "preço Spitz Alemão Anão",
     "quanto custa Lulu da Pomerânia",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     title: "Tabela de Preços Atualizada do Spitz Alemão Anão | By Império Dog",
     description:
-      "Machos a partir de R$ 5.500 e fêmeas a partir de R$ 6.500, conforme a cor — com registro oficial, contrato e mentoria pós-venda inclusos.",
+      "Machos creme e preto por R$ 7.500; fêmeas laranja, creme, preto e branco por R$ 8.500, com documentação inclusa.",
     type: "article",
   },
 };
@@ -49,11 +49,10 @@ export const metadata: Metadata = {
 // home já dizia outra coisa — agora as duas colunas de valor saem de
 // domain/pricing e não têm como divergir.
 const NOTAS_DA_LINHA: Record<CorDivulgada, string> = {
-  particolor: "Menor valor da tabela atual",
-  laranja: "A cor mais icônica da raça",
-  creme: "Acima do laranja, junto com o preto",
-  preto: "Acima do laranja, junto com o creme",
-  branco: "Maior valor da tabela atual",
+  creme: "Macho e fêmea publicados",
+  preto: "Macho e fêmea publicados",
+  laranja: "Duas fêmeas publicadas",
+  branco: "Fêmea publicada",
 };
 
 const PRICE_TABLE = LINHAS_FORMATADAS.map((linha) => ({
@@ -93,12 +92,12 @@ const PAGE_FAQS = [
   {
     question: "A fêmea de Spitz Alemão Anão é mais cara que o macho?",
     answer:
-      "Sim. Na tabela atual da By Império Dog, a fêmea parte de R$ 6.500 no particolor, R$ 7.500 no laranja, R$ 8.500 em creme e preto e R$ 9.500 no branco. Em relação ao macho da mesma cor, a diferença é de R$ 1.000. É a política comercial praticada hoje, e não uma regra da raça.",
+      "Nas cores com os dois sexos publicados atualmente, creme e preto, a fêmea custa R$ 8.500 e o macho, R$ 7.500. Essa diferença é a política comercial praticada hoje, não uma regra da raça.",
   },
   {
     question: "Qual a cor mais cara do Spitz Alemão Anão?",
     answer:
-      "O branco. Na tabela atual, o macho branco parte de R$ 8.500 e a fêmea branca, de R$ 9.500 — o maior valor nos dois sexos. Creme e preto ficam em R$ 7.500 para macho e R$ 8.500 para fêmea, e o laranja em R$ 6.500 e R$ 7.500. Quem abre a tabela é o particolor, com R$ 5.500 para macho e R$ 6.500 para fêmea.",
+      "As fêmeas laranja, creme, preta e branca publicadas atualmente têm o mesmo valor: R$ 8.500. Os machos creme e preto custam R$ 7.500.",
   },
   {
     question: "O que está incluso no preço da By Império Dog?",
@@ -145,7 +144,7 @@ export default function PrecoSpitzPage() {
           Preço do Spitz Alemão Anão
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          A partir de {formatarPreco(FAIXA_PUBLICA.minCents)}, chegando a {formatarPreco(FAIXA_PUBLICA.maxCents)} conforme cor e sexo. Veja abaixo o que está incluso e por que o preço varia.
+          Valores atuais de {formatarPreco(FAIXA_PUBLICA.minCents)} a {formatarPreco(FAIXA_PUBLICA.maxCents)}, conforme as combinações publicadas. Veja abaixo o que está incluso.
         </p>
       </header>
 
@@ -155,7 +154,7 @@ export default function PrecoSpitzPage() {
           Tabela de preços por cor e sexo
         </h2>
         <p className="mb-6 text-sm text-zinc-600">
-          Cada linha traz o valor <strong className="font-semibold text-zinc-900">a partir de</strong> daquela combinação de cor e sexo — é o ponto de partida, e o valor de um filhote específico é confirmado no atendimento. Todos são entregues com registro oficial, contrato e mentoria pós-venda inclusos.
+          Cada linha traz o valor exato das combinações publicadas atualmente. Um traço indica que aquela combinação não está sendo anunciada. Todos são entregues com registro oficial, contrato e mentoria pós-venda inclusos.
         </p>
         {/* A tabela tem min-w-[480px]: abaixo disso a caixa rola de lado e nao
             ha link nem botao dentro dela. Sem um ponto de foco, quem navega por
@@ -179,8 +178,8 @@ export default function PrecoSpitzPage() {
             <thead>
               <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500">
                 <th className="px-4 py-3">Cor</th>
-                <th className="px-4 py-3">Macho — a partir de</th>
-                <th className="px-4 py-3">Fêmea — a partir de</th>
+                <th className="px-4 py-3">Macho</th>
+                <th className="px-4 py-3">Fêmea</th>
                 <th className="hidden px-4 py-3 sm:table-cell">Observação</th>
               </tr>
             </thead>
@@ -188,8 +187,8 @@ export default function PrecoSpitzPage() {
               {PRICE_TABLE.map((row, i) => (
                 <tr key={row.color} className={`border-b border-zinc-100 ${i % 2 === 0 ? "" : "bg-zinc-50/50"}`}>
                   <td className="px-4 py-3 font-semibold text-zinc-900">{row.color}</td>
-                  <td className="px-4 py-3 text-zinc-700">{row.male}</td>
-                  <td className="px-4 py-3 font-medium text-emerald-700">{row.female}</td>
+                  <td className="px-4 py-3 text-zinc-700">{row.male ?? "—"}</td>
+                  <td className="px-4 py-3 font-medium text-emerald-700">{row.female ?? "—"}</td>
                   <td className="hidden px-4 py-3 text-xs text-zinc-500 sm:table-cell">{row.note}</td>
                 </tr>
               ))}
@@ -197,7 +196,7 @@ export default function PrecoSpitzPage() {
           </table>
         </div>
         <p className="mt-3 text-xs text-zinc-500">
-          * Cada valor é o ponto de partida daquela combinação de cor e sexo. Consulte as opções atuais pelo WhatsApp.
+          * Os valores correspondem às combinações publicadas na vitrine. Consulte as opções atuais pelo WhatsApp.
         </p>
       </section>
 
@@ -229,9 +228,9 @@ export default function PrecoSpitzPage() {
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Cor e disponibilidade", body: "Creme e preto aparecem com menos frequência entre as ninhadas do que o laranja. Por isso ficam acima do laranja na tabela atual, nos dois sexos." },
-            { title: "Sexo", body: "A fêmea tem procura maior que o macho, e custa R$ 1.000 a mais na mesma cor." },
-            { title: "Padrão da raça", body: "Filhotes dentro do padrão FCI nº 97 — porte, pelagem e estrutura — são menos frequentes e têm valor maior no mercado." },
+            { title: "Combinação publicada", body: "A tabela mostra somente as combinações que estão na vitrine atual, sem anunciar cor ou sexo retirado do catálogo." },
+            { title: "Sexo", body: "Nas cores creme e preto, que possuem os dois sexos publicados, a fêmea custa R$ 1.000 a mais que o macho." },
+            { title: "Transparência", body: "O valor mostrado no catálogo é fechado, sem o prefixo ‘a partir de’, e deve ser o mesmo no card, na página e no atendimento." },
             { title: "Documentação completa", body: "Registro oficial, consulta veterinária e exames laboratoriais têm custo, e já estão inclusos no valor anunciado." },
           ].map((card) => (
             <article key={card.title} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
@@ -285,7 +284,7 @@ export default function PrecoSpitzPage() {
           Ver a vitrine com os preços por cor e sexo
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
-          Consulte o catálogo completo com fotos, sexo, cor e valor de cada filhote da ninhada atual.
+          Consulte a vitrine com fotos reais, sexo, cor e o valor publicado de cada referência.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link

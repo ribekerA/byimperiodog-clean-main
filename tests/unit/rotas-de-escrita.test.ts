@@ -33,8 +33,9 @@ const ESCREVE = /export\s+(async\s+)?(function|const)\s+(POST|PUT|PATCH|DELETE)\
  */
 const GUARDAS: ReadonlyArray<RegExp> = [
   /requireAdmin/,
+  /consumeAdminLoginAttempt/,
   /internalGuard|verifyInternalToken/,
-  /x-admin-token|ADMIN_TOKEN|CRON_SECRET|INTERNAL_API_TOKEN/,
+  /CRON_SECRET|INTERNAL_API_TOKEN/,
   /verifyAdminSession/,
   /signature|assinatura|hmac/i,
   /headers\.get\(['"]authorization/i,

@@ -16,7 +16,9 @@ import {
   MAX_IMAGE_BYTES,
   MAX_GIF_BYTES,
   MAX_VIDEO_BYTES,
+  detectMediaMime,
   inferExtFromMime,
+  mediaMimeMatchesClaim,
   sanitizeFilename
 } from '@/lib/uploadValidation';
 
@@ -27,7 +29,7 @@ const bodySchema = z.object({
   upsert: z.boolean().optional(),
 });
 
-async function processUpload({ buf, mime, filename, wantUpsert, b64Fallback }:{ buf:Buffer; mime:string; filename?:string; wantUpsert:boolean; b64Fallback?:string; }){
+async function processUpload({ buf, mime, filename, wantUpsert }:{ buf:Buffer; mime:string; filename?:string; wantUpsert:boolean; }){
   // Determinar se é imagem ou vídeo
   const isVideo = ALLOWED_VIDEO_MIME.has(mime);
   const isImage = ALLOWED_IMAGE_MIME.has(mime);
@@ -39,6 +41,10 @@ async function processUpload({ buf, mime, filename, wantUpsert, b64Fallback }:{ 
   }
   if (buf.byteLength <= 0 || buf.byteLength > maxBytes) {
     return NextResponse.json({ error: 'arquivo-muito-grande', maxBytes, tipo: isVideo ? 'video' : 'imagem' }, { status: 413 });
+  }
+  const detectedMime = detectMediaMime(buf);
+  if (!mediaMimeMatchesClaim(detectedMime, mime)) {
+    return NextResponse.json({ error: 'conteudo-do-arquivo-invalido' }, { status: 415 });
   }
 
   const ext = inferExtFromMime(mime);
@@ -73,25 +79,15 @@ async function processUpload({ buf, mime, filename, wantUpsert, b64Fallback }:{ 
     }
   }
   if (!hasServiceRoleKey()) {
-    // modo offline: devolve data URL se fornecida como fallback, ou ecoa
-    const urlData = b64Fallback || `data:${mime};base64,${buf.toString('base64')}`;
-    let thumbDataUrl = urlData;
-    if (thumbBuf) {
-      const b64thumb = `data:image/webp;base64,${thumbBuf.toString('base64')}`;
-      thumbDataUrl = b64thumb;
-    }
-    return NextResponse.json({ ok: true, url: urlData, thumb: thumbDataUrl, offline: true, upsert: wantUpsert });
+    return NextResponse.json({ error: 'armazenamento-indisponivel' }, { status: 503 });
   }
 
   const s = supabaseAdmin();
   const { error } = await s.storage.from('puppies').upload(path, buf, { contentType: mime, upsert: wantUpsert });
   if (error) {
     const msg = (error.message || '').toLowerCase();
-    if (msg.includes('supabase_offline_stub')) {
-      const urlData = b64Fallback || `data:${mime};base64,${buf.toString('base64')}`;
-      return NextResponse.json({ ok: true, url: urlData, thumb: urlData, offline: true, upsert: wantUpsert });
-    }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (msg.includes('supabase_offline_stub')) return NextResponse.json({ error: 'armazenamento-indisponivel' }, { status: 503 });
+    return NextResponse.json({ error: 'falha-no-armazenamento' }, { status: 500 });
   }
   let thumbUrl: string | null = null;
   if (thumbBuf) {
@@ -115,12 +111,17 @@ const execute = safeAction({
     const match = /^data:(.*?);base64,(.*)$/.exec(b64) || [null, null, b64];
     const mime = match[1] || 'image/png';
     const buf = Buffer.from(match[2]!, 'base64');
-    return processUpload({ buf, mime, filename: body.filename, wantUpsert, b64Fallback: b64 });
+    return processUpload({ buf, mime, filename: body.filename, wantUpsert });
   },
 });
 
 export async function POST(req: NextRequest){
   const auth = requireAdmin(req); if(auth) return auth;
+  const contentLength = Number(req.headers.get('content-length') || '0');
+  const maxRequestBytes = Math.ceil(MAX_VIDEO_BYTES * 4 / 3) + 4096;
+  if (Number.isFinite(contentLength) && contentLength > maxRequestBytes) {
+    return NextResponse.json({ error: 'arquivo-muito-grande' }, { status: 413 });
+  }
   // Limit uploads to prevent abuse: 6/min per IP
   try { await rateLimit(req as unknown as Request, { identifier: 'admin-puppies-upload', limit: 6, windowMs: 60_000 }); } catch {
     return NextResponse.json({ error:'rate-limit' },{ status:429 });
@@ -141,9 +142,8 @@ export async function POST(req: NextRequest){
       const mime = file.type || 'application/octet-stream';
       const filename = (form.get('filename') as string) || file.name || 'upload';
       return await processUpload({ buf: arr, mime, filename, wantUpsert });
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : 'erro-desconhecido';
-      return NextResponse.json({ error: 'falha-ao-processar-formdata', details: msg }, { status: 400 });
+    } catch {
+      return NextResponse.json({ error: 'falha-ao-processar-formdata' }, { status: 400 });
     }
   }
 

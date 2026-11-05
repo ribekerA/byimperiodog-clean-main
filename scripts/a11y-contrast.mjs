@@ -44,7 +44,7 @@ function listRoutes() {
     if (fs.existsSync(appDir)) walk(appDir);
     return [...new Set(routes)];
   }
-  return ['/', '/sobre', '/contato', '/filhote/test', '/admin'];
+  return ['/', '/sobre', '/contato', '/filhotes/spitz-alemao-anao-creme-macho', '/admin'];
 }
 
 
@@ -172,6 +172,11 @@ async function run() {
       if (/var\(--text-muted\)/i.test(joined)) needFix.textMuted = true;
     }
   }
+  const encontrouFalhaDeContraste = results.some((resultado) =>
+    resultado.violations?.some(
+      (violacao) => violacao.id === 'color-contrast' && violacao.nodes.length > 0,
+    ),
+  );
 
   // Ler globals.css para compor patch propositivo (sem aplicar automaticamente)
   let globalsCss = fs.existsSync(globalsCssPath) ? fs.readFileSync(globalsCssPath, 'utf8') : '';
@@ -186,7 +191,7 @@ async function run() {
   }
 
   let newGlobals = globalsCss;
-  if (hasRoot) {
+  if (encontrouFalhaDeContraste && hasRoot) {
     newGlobals = newGlobals.replace(/:root\s*\{([\s\S]*?)\}/m, (m, body) => {
       let b = m;
       // Sugerir valores seguros com base nos tokens já existentes
@@ -207,7 +212,7 @@ async function run() {
       return b;
     });
   }
-  if (hasDark) {
+  if (encontrouFalhaDeContraste && hasDark) {
     newGlobals = newGlobals.replace(/\.dark\s*\{([\s\S]*?)\}/m, (m, body) => {
       let b = m;
       if (needFix.surface || !/--surface\s*:/.test(body)) {
@@ -224,10 +229,10 @@ async function run() {
   }
 
   // Se nenhum bloco foi encontrado, incluir blocos mínimos
-  if (!hasRoot) {
+  if (encontrouFalhaDeContraste && !hasRoot) {
     newGlobals = `:root{\n  --surface: 0 0% 100%;\n  --surface-2: 240 4.8% 95.9%;\n  --border: 240 5.9% 90%;\n  --text-muted: 240 3.8% 46.1%;\n}\n\n` + newGlobals;
   }
-  if (!hasDark) {
+  if (encontrouFalhaDeContraste && !hasDark) {
     newGlobals += `\n.dark{\n  --surface: 240 10% 6.5%;\n  --surface-2: 240 10% 8.5%;\n  --text-muted: 0 0% 63%;\n}\n`;
   }
 
@@ -266,9 +271,15 @@ async function run() {
     }
   }
   md.push('');
-  md.push('## Fixes propostos (tokens neutros)');
-  md.push('- Ajustes sugeridos em app/globals.css para tokens: --surface, --surface-2, --border, --text-muted');
+  if (encontrouFalhaDeContraste) {
+    md.push('## Fixes propostos (tokens neutros)');
+    md.push('- Ajustes sugeridos em app/globals.css para tokens: --surface, --surface-2, --border, --text-muted');
   if (!diff) md.push('- Sem alterações sugeridas (tokens já presentes)');
+
+  } else {
+    md.push('## Resultado');
+    md.push('- Nenhuma falha de contraste; nenhuma alteração necessária.');
+  }
 
   fs.writeFileSync(reportMdPath, md.join('\n'), 'utf8');
   fs.writeFileSync(patchPath, diff || '# Sem diferenças\n', 'utf8');

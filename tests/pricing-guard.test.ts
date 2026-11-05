@@ -50,10 +50,11 @@ describe("tabela de precos x content-guard", () => {
   it("o guard conhece exatamente os valores da tabela", () => {
     const daTabela = [
       ...new Set(
-        CORES_DIVULGADAS.flatMap((cor) => [
-          TABELA_DE_PRECOS[cor].macho / 100,
-          TABELA_DE_PRECOS[cor].femea / 100,
-        ])
+        CORES_DIVULGADAS.flatMap((cor) =>
+          [TABELA_DE_PRECOS[cor].macho, TABELA_DE_PRECOS[cor].femea]
+            .filter((valor): valor is number => valor !== null)
+            .map((valor) => valor / 100)
+        )
       ),
     ].sort((a, b) => a - b);
 
@@ -71,14 +72,19 @@ describe("tabela de precos x content-guard", () => {
     expect(Number(janela[2])).toBeGreaterThanOrEqual(FAIXA_PUBLICA.maxCents / 100);
   });
 
-  it("nenhum valor divulgado passa de R$ 9.500 nesta rodada", () => {
-    expect(FAIXA_PUBLICA.maxCents).toBeLessThanOrEqual(950000);
+  it("mantem a faixa publica exatamente entre R$ 7.500 e R$ 8.500", () => {
+    expect(FAIXA_PUBLICA).toMatchObject({ minCents: 750000, maxCents: 850000 });
   });
 
-  it("a femea custa mais que o macho em todas as cores divulgadas", () => {
+  it("compara os sexos somente quando os dois estao publicados", () => {
     for (const cor of CORES_DIVULGADAS) {
-      expect(TABELA_DE_PRECOS[cor].femea).toBeGreaterThan(TABELA_DE_PRECOS[cor].macho);
+      const linha = TABELA_DE_PRECOS[cor];
+      if (linha.macho !== null && linha.femea !== null) {
+        expect(linha.femea).toBeGreaterThan(linha.macho);
+      }
     }
+    expect(TABELA_DE_PRECOS.laranja.macho).toBeNull();
+    expect(TABELA_DE_PRECOS.branco.macho).toBeNull();
   });
 });
 
@@ -89,7 +95,7 @@ describe("tabela de precos x content-guard", () => {
  *
  * O cabecalho de content/puppies-static.ts dizia que o content-guard fazia
  * essa conferencia no prebuild. Nao fazia: o arquivo esta na lista de SKIP do
- * guard, e o padrao que o guard procura e o preco em prosa ("R$ 9.500"), nunca
+ * guard, e o padrao que o guard procura e o preco em prosa ("R$ 8.500"), nunca
  * os centavos que o catalogo guarda. A conferencia estava documentada e
  * ausente — a pior das combinacoes, porque quem lesse o comentario confiaria
  * nela.
@@ -127,11 +133,36 @@ describe("regras de preco x catalogo de filhotes", () => {
     });
   });
 
-  it("nao publica os tres filhotes retirados da vitrine", () => {
+  it("nao publica os filhotes retirados nem equivalentes com outro slug", () => {
     const slugs = staticPuppies.map((filhote) => filhote.slug);
     expect(slugs).not.toContain("lulu-da-pomerania-branco-macho");
     expect(slugs).not.toContain("lulu-da-pomerania-particolor-macho");
     expect(slugs).not.toContain("lulu-da-pomerania-laranja-macho");
+    expect(slugs).not.toContain("spitz-alemao-anao-laranja-macho");
+
+    expect(puppiesPublicados.some((filhote) => filhote.color === "particolor")).toBe(false);
+    expect(
+      puppiesPublicados.some(
+        (filhote) => filhote.color === "laranja" && filhote.sex === "male"
+      )
+    ).toBe(false);
+    expect(
+      puppiesPublicados.some(
+        (filhote) => filhote.color === "branco" && filhote.sex === "male"
+      )
+    ).toBe(false);
+  });
+
+  it("mantem exatamente as sete fichas comerciais autorizadas", () => {
+    expect(puppiesPublicados.map((filhote) => filhote.slug).sort()).toEqual([
+      "spitz-alemao-anao-branco-femea",
+      "spitz-alemao-anao-creme-femea",
+      "spitz-alemao-anao-creme-macho",
+      "spitz-alemao-anao-laranja-femea",
+      "spitz-alemao-anao-laranja-femea-laco-rosa",
+      "spitz-alemao-anao-preto-femea",
+      "spitz-alemao-anao-preto-macho",
+    ].sort());
   });
 
   it("publica o catalogo do menor preco para o maior", () => {

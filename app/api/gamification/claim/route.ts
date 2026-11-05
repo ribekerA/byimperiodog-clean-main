@@ -9,7 +9,7 @@ export const runtime = 'nodejs';
 export async function POST(req: Request){
   // Cada claim cria/atualiza usuário e credita XP no banco. Sem teto, um
   // laço de POST inflava o placar e a tabela junto.
-  const bloqueio = limiteDeTaxa(req, 'gam-claim', 30);
+  const bloqueio = await limiteDeTaxa(req, 'gam-claim', 30);
   if (bloqueio) return bloqueio;
 
   const lido = await corpoJson<{ anonId?: unknown; type?: unknown }>(req, 4 * 1024);

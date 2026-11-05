@@ -85,9 +85,7 @@ for (const p of puppies) {
 
   // -- status --------------------------------------------------------------
   const statusBruto = p.status === undefined || p.status === null ? "" : String(p.status).trim();
-  if (!statusBruto) {
-    aviso(slug, "sem status -- o catalogo assume disponivel");
-  } else if (
+  if (statusBruto &&
     normalizePuppyStatus(statusBruto) === "unavailable" &&
     !INDISPONIVEL_DE_PROPOSITO.has(statusBruto.toLowerCase())
   ) {

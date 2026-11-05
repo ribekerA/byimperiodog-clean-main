@@ -1,177 +1,63 @@
-export const dynamic = "force-dynamic";
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { erroPublico } from "@/lib/apiErro";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { requireAdminContext } from "@/lib/adminAuth";
+import { upsertIntegrationTokens } from "@/lib/tracking/integrations";
 import { cookieDeState, lerCookie, nomeDoCookieDeState, stateConfere } from "@/lib/tracking/oauthState";
 import { getProvider } from "@/lib/tracking/providers/registry";
 
-function getQuery(url: string): URLSearchParams {
-  return new URL(url).searchParams;
+function applicationOrigin(requestUrl: string): string {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  return new URL(configured || requestUrl).origin;
+}
+
+function clearState(response: NextResponse, provider: string): NextResponse {
+  response.headers.append("set-cookie", cookieDeState(provider, "", 0));
+  response.headers.set("Cache-Control", "no-store");
+  response.headers.set("Referrer-Policy", "no-referrer");
+  return response;
 }
 
 export async function GET(req: NextRequest, props: { params: Promise<{ provider: string }> }) {
-  const params = await props.params;
-  const providerKey = (params?.provider || "").trim();
-  const adapter = getProvider(providerKey);
-  if (!adapter) {
-    return NextResponse.json({ ok: false, error: "unsupported_provider" }, { status: 400 });
-  }
+  const admin = requireAdminContext(req, "settings:write");
+  if (admin.response) return admin.response;
 
-  const qs = getQuery(req.url);
-  const code = qs.get("code") || "";
-  const state = qs.get("state") || "";
-  if (!code) {
-    return NextResponse.json({ ok: false, error: "missing_code" }, { status: 400 });
-  }
-  // O state precisa bater com o cookie gravado no /login. Antes daqui havia um
-  // TODO e um console.warn: qualquer callback forjado era aceito.
-  const stateEsperado = lerCookie(req, nomeDoCookieDeState(providerKey));
-  if (!stateConfere(state, stateEsperado)) {
-    console.warn("[oauth-callback] state inválido para", providerKey);
-    return NextResponse.json({ ok: false, error: "invalid_state" }, { status: 400 });
+  const { provider = "" } = await props.params;
+  const adapter = getProvider(provider.trim());
+  if (!adapter) return NextResponse.json({ ok: false, error: "unsupported_provider" }, { status: 400 });
+
+  const params = new URL(req.url).searchParams;
+  const code = params.get("code") || "";
+  const state = params.get("state") || "";
+  const providerError = params.get("error");
+  const expectedState = lerCookie(req, nomeDoCookieDeState(adapter.id));
+
+  if (providerError || !code || code.length > 4096 || !stateConfere(state, expectedState)) {
+    const status = providerError ? 400 : !code ? 400 : 403;
+    return clearState(NextResponse.json({ ok: false, error: "oauth_callback_invalid" }, { status }), adapter.id);
   }
 
   try {
-    const origin = new URL(req.url).origin;
-    const redirectUri = `${origin}/api/integrations/${providerKey}/callback`;
+    const origin = applicationOrigin(req.url);
+    const redirectUri = `${origin}/api/integrations/${adapter.id}/callback`;
     const tokens = await adapter.exchangeCode({ code, redirectUri });
-
-    const supa = supabaseAdmin();
-    // Resolve current user; if using Supabase auth via cookies/JWT, augment here.
-    // For now, allow service role upsert with placeholder user resolution.
-    const userId = (process.env.TEST_USER_ID || process.env.ADMIN_USER_ID || "").trim();
-    if (!userId) {
-      // If no explicit user id, we cannot persist per-user.
-      // You may replace this with request-auth extraction.
-      console.warn("[oauth-callback] missing userId; set TEST_USER_ID or implement auth extraction");
-    }
-
-    // Persist/Upsert integration by (user_id, provider)
-    const payload = {
-      user_id: userId || null,
+    await upsertIntegrationTokens({
+      userId: admin.context.session.userId,
       provider: adapter.id,
-      access_token: tokens.accessToken,
-      refresh_token: tokens.refreshToken ?? null,
-      expires_at: tokens.expiresAt ? new Date(tokens.expiresAt * 1000).toISOString() : null,
-      provider_account_id: null,
+      tokens,
       metadata: {},
-    } as any;
+    });
 
-    // If tokens include id info via future adapter, set provider_account_id
-    if ((tokens as any).accountId) {
-      payload.provider_account_id = (tokens as any).accountId;
-    }
-
-    const { error } = await supa
-      .from("integrations")
-      .upsert(payload, { onConflict: "user_id,provider" });
-    if (error) {
-      console.warn("[oauth-callback] upsert error", error);
-    }
-
-    // Auto-fetch and auto-configure first resource
-    try {
-      const resourcesAdapter = getProvider(providerKey);
-      if (resourcesAdapter?.listResources) {
-        const resources = await resourcesAdapter.listResources(tokens);
-        if (resources && resources.length > 0) {
-          const picked = resources[0];
-          // Auto-save the first resource to tracking_settings (per-user) e pixels_settings (global)
-          const patch: Record<string, string> = {};
-          let pixelsField: keyof PixelEnv | null = null;
-          switch (providerKey) {
-            case "facebook":
-              patch["facebook_pixel_id"] = picked.id;
-              pixelsField = "metaPixelId";
-              break;
-            case "google_analytics":
-              patch["ga_measurement_id"] = picked.id;
-              pixelsField = "ga4Id";
-              break;
-            case "google_tag_manager":
-              patch["gtm_container_id"] = picked.id;
-              pixelsField = "gtmId";
-              break;
-            case "tiktok":
-              patch["tiktok_pixel_id"] = picked.id;
-              pixelsField = "tiktokPixelId";
-              break;
-          }
-
-          if (Object.keys(patch).length > 0) {
-            await supa.from("tracking_settings").upsert({ user_id: userId, ...patch }, { onConflict: "user_id" });
-          }
-
-          if (pixelsField) {
-            const defaultEnv: PixelEnv = {
-              gtmId: null,
-              ga4Id: null,
-              metaPixelId: null,
-              tiktokPixelId: null,
-              googleAdsId: null,
-              googleAdsConversionLabel: null,
-              pinterestId: null,
-              hotjarId: null,
-              clarityId: null,
-              metaDomainVerification: null,
-              analyticsConsent: true,
-              marketingConsent: true,
-            };
-
-            const { data: pixelsData } = await supa
-              .from("pixels_settings")
-              .select("*")
-              .eq("id", "pixels")
-              .maybeSingle();
-
-            const prod: PixelEnv = { ...defaultEnv, ...(pixelsData?.production || {}) };
-            const staging: PixelEnv = { ...defaultEnv, ...(pixelsData?.staging || {}) };
-            prod[pixelsField] = picked.id;
-            staging[pixelsField] = picked.id;
-
-            await supa
-              .from("pixels_settings")
-              .upsert(
-                {
-                  id: "pixels",
-                  production: prod,
-                  staging,
-                  updated_at: new Date().toISOString(),
-                },
-                { onConflict: "id" }
-              );
-          }
-        }
-      }
-    } catch (autoConfigError) {
-      console.warn("[oauth-callback] auto-config failed:", autoConfigError);
-    }
-
-    // Redirect to canonical admin tracking page
-    const to = new URL(origin);
-    to.pathname = "/admin/tracking";
-    const resposta = NextResponse.redirect(to);
-    // State é de uso único: expira junto com o redirect final.
-    resposta.headers.append("set-cookie", cookieDeState(providerKey, "", 0));
-    return resposta;
-  } catch (err: any) {
-    return erroPublico("api/integrations/callback", err, 500, { code: "callback_failed" });
+    const destination = new URL("/admin/tracking", origin);
+    destination.searchParams.set("connected", adapter.id);
+    return clearState(NextResponse.redirect(destination), adapter.id);
+  } catch (error) {
+    console.error("[oauth-callback] conexão recusada", error instanceof Error ? error.message : String(error));
+    return clearState(
+      NextResponse.json({ ok: false, error: "callback_failed" }, { status: 502 }),
+      adapter.id,
+    );
   }
 }
 
-type PixelEnv = {
-  gtmId: string | null;
-  ga4Id: string | null;
-  metaPixelId: string | null;
-  tiktokPixelId: string | null;
-  googleAdsId: string | null;
-  googleAdsConversionLabel: string | null;
-  pinterestId: string | null;
-  hotjarId: string | null;
-  clarityId: string | null;
-  metaDomainVerification: string | null;
-  analyticsConsent: boolean;
-  marketingConsent: boolean;
-};
+export const dynamic = "force-dynamic";

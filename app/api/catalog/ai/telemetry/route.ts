@@ -7,7 +7,7 @@ import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 export async function POST(request: Request) {
   // Telemetria de catálogo é escrita pública. O evento é pequeno; 120 por
   // minuto cobre uma sessão de navegação intensa.
-  const bloqueio = limiteDeTaxa(request, "catalog-telemetry", 120);
+  const bloqueio = await limiteDeTaxa(request, "catalog-telemetry", 120);
   if (bloqueio) return bloqueio;
 
   const lido = await corpoJson<Partial<CatalogAiEvent>>(request, 4 * 1024);

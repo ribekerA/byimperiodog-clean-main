@@ -1,0 +1,9 @@
+{
+  "recordedAt": "2026-11-03T20:41:25.447Z",
+  "head": "4e3f4b436530f5bfe7191343df265085ba6f7f79",
+  "localMain": "57bf859f176373d4a7c8ef5fb122ffb1c13de467",
+  "remoteMain": "629f2c2de378a964e74c41314b180e7d62b07a26",
+  "branch": "codex/auditoria-delta-2026-11-03",
+  "recentRemote": "629f2c2 fix: align public AI index and delivery facts with confirmed business data\nb808cdd docs: record verified audit deployment and final measurements\nb5c717e fix: apply measured audit deltas and security patches\nb813be0 fix: preservar preco individual tambem nas sugestoes administrativas\nb7bfe59 fix: corrigir residuos comerciais e editoriais sem refazer SEO\ne08fe1e fix: preservar filhotes em destaque na primeira linha",
+  "note": "Branch criada sobre checkout existente; alteracoes locais anteriores preservadas. Nao houve merge de origin/main."
+}

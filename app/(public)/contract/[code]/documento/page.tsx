@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 import { BRAND } from "@/domain/config";
+import { verifyContractAccessToken } from "@/lib/contractAccess";
 import { rateLimit } from "@/lib/rateLimit";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -45,8 +46,9 @@ async function fetchContract(code: string): Promise<ContractData | null> {
 async function getSignatureUrl(path: string | null): Promise<string | null> {
   if (!path) return null;
   try {
-    const { data } = supabaseAdmin().storage.from("contracts").getPublicUrl(path);
-    return data.publicUrl;
+    const { data, error } = await supabaseAdmin().storage.from("contracts").createSignedUrl(path, 5 * 60);
+    if (error) return null;
+    return data.signedUrl;
   } catch {
     return null;
   }
@@ -77,8 +79,10 @@ function fmtBirthDate(v?: string | null) {
   return v;
 }
 
-export default async function ContractDocumento(props: { params: Promise<{ code: string }> }) {
+export default async function ContractDocumento(props: { params: Promise<{ code: string }>; searchParams: Promise<{ token?: string }> }) {
   const params = await props.params;
+  const { token = "" } = await props.searchParams;
+  if (!verifyContractAccessToken(params.code, token)) notFound();
   const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rl = rateLimit(`contract-doc:${ip}`, 30, 60_000);
   if (!rl.allowed) notFound();
@@ -273,7 +277,7 @@ export default async function ContractDocumento(props: { params: Promise<{ code:
           <div className="footer">
             <p>Código de autenticidade: <span className="badge">{contract.code}</span></p>
             <p style={{ marginTop: 4 }}>
-              Este documento pode ser verificado em <strong>byimperiodog.com.br/contract/{contract.code}</strong>
+              A autenticidade deve ser verificada pelo link privado enviado ao comprador.
             </p>
           </div>
         </div>

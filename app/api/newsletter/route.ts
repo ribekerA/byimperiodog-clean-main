@@ -2,64 +2,31 @@ export const dynamic = "force-dynamic";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 import { hasServiceRoleKey, supabaseAdmin } from "@/lib/supabaseAdmin";
-
-// Rate limiting simples baseado em IP
-const rateLimitMap = new Map<string, number[]>();
-const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minuto
-const MAX_REQUESTS = 3; // máximo 3 inscrições por minuto por IP
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const timestamps = rateLimitMap.get(ip) || [];
-  const recentTimestamps = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW);
-
-  if (recentTimestamps.length >= MAX_REQUESTS) {
-    return false;
-  }
-
-  recentTimestamps.push(now);
-  rateLimitMap.set(ip, recentTimestamps);
-
-  // Limpar entradas antigas periodicamente
-  if (Math.random() < 0.01) {
-    for (const [key, stamps] of rateLimitMap.entries()) {
-      const valid = stamps.filter((t) => now - t < RATE_LIMIT_WINDOW);
-      if (valid.length === 0) {
-        rateLimitMap.delete(key);
-      } else {
-        rateLimitMap.set(key, valid);
-      }
-    }
-  }
-
-  return true;
-}
 
 const newsletterSchema = z.object({
   email: z.string().email("E-mail inválido").trim().toLowerCase(),
+  consent_lgpd: z.literal(true),
+  consent_version: z.string().trim().min(1).max(20),
+  source: z.string().trim().min(1).max(60).default("site"),
 });
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate limiting
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
-    if (!checkRateLimit(ip)) {
-      return NextResponse.json(
-        { message: "Muitas tentativas. Aguarde um momento." },
-        { status: 429 }
-      );
-    }
+    const bloqueio = await limiteDeTaxa(req, "newsletter", 3);
+    if (bloqueio) return bloqueio;
 
     if (!hasServiceRoleKey()) {
       return NextResponse.json(
-        { message: "Configuração ausente: SUPABASE_SERVICE_ROLE_KEY" },
-        { status: 500 }
+        { message: "Serviço temporariamente indisponível" },
+        { status: 503 }
       );
     }
 
-    const body = await req.json().catch(() => ({}));
-    const result = newsletterSchema.safeParse(body);
+    const leitura = await corpoJson<unknown>(req, 8 * 1024);
+    if (leitura.resposta) return leitura.resposta;
+    const result = newsletterSchema.safeParse(leitura.dados);
 
     if (!result.success) {
       return NextResponse.json(
@@ -68,9 +35,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { email } = result.data;
+    const { email, consent_lgpd, consent_version, source } = result.data;
     const sb = supabaseAdmin();
-    const { error } = await sb.from("newsletter_subscribers").insert({ email });
+    const { error } = await sb.from("newsletter_subscribers").insert({
+      email,
+      consent_lgpd,
+      consent_version,
+      consent_timestamp: new Date().toISOString(),
+      source,
+    } as Parameters<ReturnType<typeof sb.from>["insert"]>[0]);
 
     if (error) {
       // 23505 = unique_violation

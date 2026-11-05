@@ -12,7 +12,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { TiltCard } from "@/components/motion/TiltCard";
 import ViewEventTracker from "@/components/ViewEventTracker";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { formatarPreco } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
@@ -44,7 +44,7 @@ type Props = { params: Promise<{ slug: string }> };
 // ─── Static params ────────────────────────────────────────────────────────────
 
 export function generateStaticParams() {
-  return staticPuppies.map((p) => ({ slug: p.slug }));
+  return puppiesPublicados.map((p) => ({ slug: p.slug }));
 }
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -170,7 +170,7 @@ export default async function PuppyPage(props: Props) {
     { name: puppy.name,  url: `${SITE_URL}/filhotes/${puppy.slug}` },
   ]);
 
-  const related = staticPuppies
+  const related = puppiesPublicados
     .filter((p) => p.slug !== puppy.slug && p.color === puppy.color)
     .slice(0, 3);
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados } from "@/content/puppies-static";
 import { GALLERY_VIDEOS } from "@/domain/gallery-videos";
 import { getImageSize } from "@/lib/_generated-image-sizes";
 
@@ -39,7 +39,7 @@ export async function GET() {
   const paginas: Pagina[] = [];
 
   // ─── Fotos dos filhotes → a página do próprio filhote ──────────────────────
-  for (const filhote of staticPuppies) {
+  for (const filhote of puppiesPublicados) {
     const imagens = filhote.images
       .filter((src) => !src.endsWith(".mp4"))
       .filter(existe)

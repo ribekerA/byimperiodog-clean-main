@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
 import { MENSAGEM_ERRO_PUBLICA } from "@/lib/apiErro";
+import { createLogger } from "@/lib/logger";
+
+const logger = createLogger("api:response-error");
 
 export type AppErrorCode = "VALIDATION" | "AUTH" | "CONFLICT" | "RATE_LIMIT" | "UNKNOWN";
 
@@ -63,7 +66,7 @@ export function respondWithError(error: unknown) {
   // qualquer excecao -- inclusive erro do Postgres, com nome de tabela e de
   // coluna dentro. Esse fica no log e vira frase generica na resposta.
   if (appError.code === "UNKNOWN") {
-    console.error("[api]", `${appError.name}: ${appError.message}`);
+    logger.error("Erro inesperado", { error: appError });
     return NextResponse.json(
       { ok: false, error: MENSAGEM_ERRO_PUBLICA, code: appError.code, details: null },
       { status: appError.status },
@@ -80,4 +83,3 @@ export function respondWithError(error: unknown) {
     { status: appError.status },
   );
 }
-

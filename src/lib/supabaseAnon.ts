@@ -16,6 +16,22 @@ function makeStubBuilder(result: any = { data: null, error: null }) {
 }
 
 let client: ReturnType<typeof createClient<Database>> | null = null;
+
+/** Cliente efêmero para autenticação de servidor. Não compartilha access token
+ * entre requisições concorrentes e não inicia refresh em segundo plano. */
+export function createSupabaseAuthClient(): ReturnType<typeof createClient<Database>> | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+  if (!url || !key) return null;
+  return createClient<Database>(url, key, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  });
+}
+
 export function supabaseAnon(){
   if(client) return client;
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';

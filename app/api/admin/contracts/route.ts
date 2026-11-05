@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
+import { createContractAccessToken } from "@/lib/contractAccess";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function GET(req: NextRequest) {
@@ -15,13 +16,17 @@ export async function GET(req: NextRequest) {
     const sb = supabaseAdmin();
     const { data, error } = await sb
       .from("contracts")
-      .select("id,code,status,signed_at,created_at,payload,hemograma_path,laudo_path,signature_path,total_price_cents,lead_id")
+      .select("id,code,status,signed_at,created_at,payload,hemograma_path,laudo_path,signature_path,total_price_cents,lead_id,zapsign_doc_token,zapsign_sign_link,zapsign_status,signed_pdf_url")
       .order("created_at", { ascending: false })
       .limit(2000);
 
     if (error) throw error;
 
-    return NextResponse.json({ ok: true, items: data ?? [] });
+    const items = (data ?? []).map((contract: { code: string; [key: string]: unknown }) => ({
+      ...contract,
+      access_token: createContractAccessToken(contract.code),
+    }));
+    return NextResponse.json({ ok: true, items }, { headers: { "Cache-Control": "no-store" } });
   } catch (e) {
     return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
   }
@@ -38,7 +43,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const sb   = supabaseAdmin();
-    const code = randomUUID().replace(/-/g, "").slice(0, 12).toUpperCase();
+    const code = randomUUID().replace(/-/g, "").toUpperCase();
 
     // Payload inicial com dados do filhote preenchidos pelo admin
     const payload = {
@@ -66,7 +71,8 @@ export async function POST(req: NextRequest) {
     if (error) throw error;
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br";
-    const link    = `${baseUrl}/contract/${data.code}`;
+    const accessToken = createContractAccessToken(data.code);
+    const link = `${baseUrl}/contract/${data.code}?token=${encodeURIComponent(accessToken)}`;
 
     return NextResponse.json({ ok: true, code: data.code, link });
   } catch (e: unknown) {

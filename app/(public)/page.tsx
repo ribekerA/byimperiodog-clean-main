@@ -6,12 +6,12 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import ColorGallery from "@/components/sections/ColorGallery";
 import {
   ClientOnlyAiMatchmakerChat,
-  ClientOnlyTextTestimonials,
   ClientOnlyTestimonials,
 } from "@/components/sections/HomeClientOnly";
 import HomeFAQ from "@/components/sections/HomeFAQ";
 import NinhadaAlert from "@/components/sections/NinhadaAlert";
 import PriceTransparency from "@/components/sections/PriceTransparency";
+import TextTestimonials from "@/components/sections/TextTestimonials";
 import VideoHero from "@/components/sections/VideoHero";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
 //
 // Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
 // Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
+// resto do site escreve valores com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
@@ -358,7 +358,7 @@ export default function HomePage() {
         {/* ── 7. PROVA SOCIAL ─────────────────────────────────────────────────── */}
         <div className="home-deferred-section bg-white overflow-hidden">
           <div>
-            <ClientOnlyTextTestimonials />
+            <TextTestimonials />
           </div>
           <div className="border-t border-zinc-100 pb-4">
             <ClientOnlyTestimonials title="Álbum das famílias" />

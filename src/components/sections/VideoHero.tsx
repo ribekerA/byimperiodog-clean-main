@@ -123,14 +123,14 @@ export default function VideoHero() {
         {/* Poster enquanto o vídeo carrega */}
         {!videoVisible && (
           <Image
-            src="/filhotes/creme/creme-femea-01.jpg"
+            src="/spitz-hero-desktop.webp"
             alt=""
             fill
             priority
             fetchPriority="high"
-            quality={45}
+            quality={75}
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-[center_65%] lg:object-[center_75%]"
             aria-hidden="true"
           />
         )}
@@ -149,14 +149,14 @@ export default function VideoHero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.42) 35%, rgba(0,0,0,0.70) 72%, rgba(0,0,0,0.92) 100%)",
+            "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.08) 35%, rgba(0,0,0,0.16) 72%, rgba(0,0,0,0.46) 100%)",
         }}
         aria-hidden="true"
       />
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.52) 100%)",
+          background: "radial-gradient(ellipse at center, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.48) 32%, rgba(0,0,0,0.08) 76%, transparent 100%)",
         }}
         aria-hidden="true"
       />
@@ -176,7 +176,7 @@ export default function VideoHero() {
       )}
 
       {/* ── Conteúdo ─────────────────────────────────────────────────────────── */}
-      <div className="relative z-10 w-full">
+      <div className="relative z-10 w-full [text-shadow:0_2px_8px_rgba(0,0,0,0.65)]">
         <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 px-5 py-8 text-center sm:gap-7 sm:py-16 sm:px-8">
 
           {/* Eyebrow — entra primeiro.

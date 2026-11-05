@@ -27,6 +27,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { createLogger } from "@/lib/logger";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { runAgent } from "@/lib/whatsapp/agent";
 
 const logger = createLogger("api:whatsapp:webhook");
@@ -54,6 +55,26 @@ function marcarProcessado(id: string) {
     if (maisAntigo !== undefined) processedIds.delete(maisAntigo);
   }
   processedIds.add(id);
+}
+
+async function claimMessage(id: string): Promise<boolean> {
+  if (!id || id.length > 300) return false;
+  if (processedIds.has(id)) return false;
+  try {
+    const { data, error } = await (supabaseAdmin() as any).rpc("claim_webhook_event", {
+      p_provider: "whatsapp",
+      p_event_id: id,
+    });
+    if (!error) {
+      if (data === true) marcarProcessado(id);
+      return data === true;
+    }
+    logger.warn("wa_webhook_persistent_dedup_unavailable", { code: error.code || "unknown" });
+  } catch {
+    logger.warn("wa_webhook_persistent_dedup_unavailable");
+  }
+  marcarProcessado(id);
+  return true;
 }
 
 /** Telefone em log vira 5511•••••3239: o suficiente para casar com o
@@ -124,15 +145,15 @@ export async function POST(req: NextRequest) {
   }
 
   // Aceitar confirmação de entrega imediatamente (não bloquear Meta)
-  const entries = (body as any)?.entry ?? [];
+  const entries = Array.isArray((body as any)?.entry) ? (body as any).entry.slice(0, 20) : [];
 
   for (const entry of entries) {
-    for (const change of entry?.changes ?? []) {
+    for (const change of (Array.isArray(entry?.changes) ? entry.changes.slice(0, 20) : [])) {
       const value = change?.value;
       if (!value || change.field !== "messages") continue;
 
-      const messages: any[] = value.messages ?? [];
-      const contacts: any[] = value.contacts ?? [];
+      const messages: any[] = Array.isArray(value.messages) ? value.messages.slice(0, 50) : [];
+      const contacts: any[] = Array.isArray(value.contacts) ? value.contacts.slice(0, 50) : [];
       const phoneNumberId: string = value.metadata?.phone_number_id ?? PHONE_NUMBER_ID;
 
       for (const message of messages) {
@@ -140,16 +161,17 @@ export async function POST(req: NextRequest) {
         if (message.type !== "text") continue;
 
         const messageId: string = message.id ?? "";
-        if (messageId && processedIds.has(messageId)) continue; // dedup
-        if (messageId) marcarProcessado(messageId);
+        if (!messageId || !(await claimMessage(messageId))) continue;
 
-        const from: string = message.from ?? "";
-        const text: string = message.text?.body ?? "";
-        if (!from || !text) continue;
+        const from: string = typeof message.from === "string" ? message.from : "";
+        const text: string = typeof message.text?.body === "string" ? message.text.body.trim().slice(0, 4_000) : "";
+        if (!/^\d{10,15}$/.test(from) || !text) continue;
 
         // Busca nome do contato
         const contact = contacts.find((c: any) => c.wa_id === from);
-        const name: string | undefined = contact?.profile?.name;
+        const name: string | undefined = typeof contact?.profile?.name === "string"
+          ? contact.profile.name.trim().slice(0, 120)
+          : undefined;
 
         // Roda o agente (não bloqueia a resposta 200 — processa em background)
         processMessage({ phone: from, name, text, messageId, phoneNumberId }).catch(

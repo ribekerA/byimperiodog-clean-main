@@ -137,6 +137,11 @@ const CLIENT_PHOTOS: readonly ClientPhoto[] = [
     "height": 1002
   },
   {
+    "src": "/clientes/emily-pompom.jpg",
+    "width": 718,
+    "height": 1236
+  },
+  {
     "src": "/clientes/fernanda.jpeg",
     "width": 1020,
     "height": 989

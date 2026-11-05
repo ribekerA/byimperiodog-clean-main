@@ -14,18 +14,18 @@ describe('publish endpoint', () => {
     expect(res.status).toBe(401);
   });
   it('retorna 500 missing service role quando token ok mas sem chave', async () => {
-    process.env.ADMIN_TOKEN = 'secret';
-  const res = await publishPost(makeReq({ id: 'uuid-x' }, { 'x-admin-token': 'secret' }));
+    process.env.ADMIN_PASS = 'secret';
+  const res = await publishPost(makeReq({ id: 'uuid-x' }, { 'x-admin-pass': 'secret' }));
     expect([500,202]).toContain(res.status); // 202 caso stub retorne modo offline
     const json = await res.json();
     expect(json.error).toBeDefined();
   });
   it('retorna 400 se body inválido (sem id/slug)', async () => {
-    process.env.ADMIN_TOKEN = 'secret';
+    process.env.ADMIN_PASS = 'secret';
     const prev = process.env.SUPABASE_SERVICE_ROLE_KEY;
     process.env.SUPABASE_SERVICE_ROLE_KEY = 'stub'; // garante passar pelo hasServiceRoleKey()
     try {
-      const res = await publishPost(makeReq({}, { 'x-admin-token': 'secret' }));
+      const res = await publishPost(makeReq({}, { 'x-admin-pass': 'secret' }));
       expect(res.status).toBe(400);
       const j = await res.json();
       expect(j.error).toBe('missing-id-or-slug');

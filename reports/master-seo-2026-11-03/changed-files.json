@@ -1,0 +1,47 @@
+[
+  {
+    "file": "src/components/catalog/StaticCatalog.tsx",
+    "sha256": "ef030533845a6341c17c6df0d0dbb7beeeef44dbf515f83e56396717cd47c662",
+    "baseline": "baseline/src/components/catalog/StaticCatalog.tsx.txt"
+  },
+  {
+    "file": "app/(public)/filhotes/page.tsx",
+    "sha256": "9efc5cf297c3495bcd4b524b6f81d4e44a4eccabf2dfa9cb2f08d7e852b97cca",
+    "baseline": "baseline/app/(public)/filhotes/page.tsx.txt"
+  },
+  {
+    "file": "app/(public)/page.tsx",
+    "sha256": "1c2551422e890941204f625c4dec36db3d50ebd7a834038166761974b669cace",
+    "baseline": "baseline/app/(public)/page.tsx.txt"
+  },
+  {
+    "file": "src/components/catalog/StaticPuppyCard.tsx",
+    "sha256": "a99e53834e5f7d89d080466047aafdf8b64bfa099c8e330dd4304724b8caf78a",
+    "baseline": "baseline/src/components/catalog/StaticPuppyCard.tsx.txt"
+  },
+  {
+    "file": "src/lib/catalog-query.ts",
+    "sha256": "707c6ab630390558ee1601f1e6a992db76fa3039f88df52d9e0fb8c469e1764a",
+    "baseline": null
+  },
+  {
+    "file": "src/components/reviews/GoogleReviewsSection.tsx",
+    "sha256": "005fe8a7c17155919e6d48266cfd8dce5b5540ddcc2a6c34f0db9bce98ff8c0c",
+    "baseline": null
+  },
+  {
+    "file": "tests/unit/catalog-query.test.ts",
+    "sha256": "3ef4191021f03a9665889fa51c44e8ec18edab298ee8af5217f9d551d4d4856d",
+    "baseline": null
+  },
+  {
+    "file": "scripts/master-seo-audit.mjs",
+    "sha256": "5f474385cb009453081471e2d0d5e291ca3d0a9a84fdc8ff735f12095feecda7",
+    "baseline": null
+  },
+  {
+    "file": "scripts/master-seo-browser-check.mjs",
+    "sha256": "95e7a6bfff85e1c8ce5074136dd11828df58e8d4b9b2781391b5d79c1f6fc40e",
+    "baseline": null
+  }
+]

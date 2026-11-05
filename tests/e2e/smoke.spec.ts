@@ -83,8 +83,12 @@ test.describe("Smoke publico", () => {
 
     for (const linha of LINHAS_FORMATADAS) {
       expect(corpo, `cor "${linha.label}" fora da pagina de preco`).toContain(linha.label);
-      expect(corpo, `macho ${linha.label} deveria mostrar ${linha.macho}`).toContain(linha.macho);
-      expect(corpo, `femea ${linha.label} deveria mostrar ${linha.femea}`).toContain(linha.femea);
+      if (linha.macho !== null) {
+        expect(corpo, `macho ${linha.label} deveria mostrar ${linha.macho}`).toContain(linha.macho);
+      }
+      if (linha.femea !== null) {
+        expect(corpo, `femea ${linha.label} deveria mostrar ${linha.femea}`).toContain(linha.femea);
+      }
     }
 
     // Nenhum valor NA FAIXA DA TABELA pode aparecer sem estar na tabela.
@@ -94,14 +98,21 @@ test.describe("Smoke publico", () => {
     // manutencao, e por ai vai. Comparar tudo reprovaria aritmetica correta.
     // O que importa e o valor que o visitante pode confundir com preco --
     // um R$ 6.000 esquecido de uma tabela antiga, por exemplo.
-    const daTabela = new Set(LINHAS_FORMATADAS.flatMap((l) => [l.macho, l.femea]));
+    const daTabela = new Set(
+      LINHAS_FORMATADAS.flatMap((l) => [l.macho, l.femea]).filter(
+        (valor): valor is string => valor !== null,
+      ),
+    );
     const pisoCents = Math.min(
-      ...CORES_DIVULGADAS.map((cor) => TABELA_DE_PRECOS[cor].macho),
+      ...CORES_DIVULGADAS.flatMap((cor) => [
+        TABELA_DE_PRECOS[cor].macho,
+        TABELA_DE_PRECOS[cor].femea,
+      ]).filter((valor): valor is number => valor !== null),
     );
     const emCentavos = (texto: string) =>
-      Number(texto.replace(/[^0-9.]/g, "").replace(/./g, "")) * 100;
+      Number(texto.replace(/[^0-9.]/g, "").replace(/\./g, "")) * 100;
 
-    const precosNaTela = corpo.match(/R$s?d{1,3}(?:.d{3})+/g) ?? [];
+    const precosNaTela = corpo.match(/R\$\s?\d{1,3}(?:\.\d{3})+/g) ?? [];
     const estranhos = [...new Set(precosNaTela)].filter(
       (p) => emCentavos(p) >= pisoCents && !daTabela.has(p),
     );
@@ -113,9 +124,13 @@ test.describe("Smoke publico", () => {
     // A pagina afirma que a femea custa "R$ 1.000 a mais na mesma cor". Isso e
     // um numero derivado da tabela, escrito a mao em dois lugares: no dia em
     // que um preco mudar, a frase vira mentira sem ninguem editar nada.
-    const diferencas = new Set(
-      CORES_DIVULGADAS.map((cor) => TABELA_DE_PRECOS[cor].femea - TABELA_DE_PRECOS[cor].macho),
-    );
+    const diferencas = new Set<number>();
+    for (const cor of CORES_DIVULGADAS) {
+      const linha = TABELA_DE_PRECOS[cor];
+      if (linha.macho !== null && linha.femea !== null) {
+        diferencas.add(linha.femea - linha.macho);
+      }
+    }
     if (diferencas.size === 1) {
       const diferenca = formatarPreco([...diferencas][0]);
       expect(
@@ -318,12 +333,20 @@ test.describe("Portao das superficies criticas", () => {
     "lulu-da-pomerania-branco-macho",
     "lulu-da-pomerania-particolor-macho",
     "lulu-da-pomerania-laranja-macho",
+    "spitz-alemao-anao-laranja-macho",
+    "spitz-alemao-anao-wolf-sable-femea",
+    "spitz-alemao-anao-wolf-sable-macho",
   ]) {
     test(`/filhotes/${slug} foi removido`, async ({ request }) => {
       const resposta = await request.get(`/filhotes/${slug}`);
       expect(resposta.status()).toBe(404);
     });
   }
+
+  test("a cor retirada nao possui pagina comercial", async ({ request }) => {
+    const resposta = await request.get("/filhotes/cor/particolor");
+    expect(resposta.status()).toBe(404);
+  });
 
   test("/blog lista artigos", async ({ page }) => {
     const resposta = await page.goto("/blog");

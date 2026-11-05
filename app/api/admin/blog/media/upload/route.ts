@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { requireAdmin, logAdminAction } from "@/lib/adminAuth";
 import { rateLimit as rateLimitEdge } from "@/lib/rateLimit";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { ALLOWED_IMAGE_MIME, MAX_IMAGE_BYTES } from "@/lib/uploadValidation";
+import { ALLOWED_IMAGE_MIME, MAX_IMAGE_BYTES, detectMediaMime, mediaMimeMatchesClaim } from "@/lib/uploadValidation";
 
 export const runtime = "nodejs";
 
@@ -34,9 +34,13 @@ export async function POST(req: Request) {
     if (file.size <= 0 || file.size > MAX_IMAGE_BYTES) {
       return NextResponse.json({ error: "arquivo-muito-grande", maxBytes: MAX_IMAGE_BYTES }, { status: 413 });
     }
-    const role = (form.get("role") as string) || "gallery"; // 'cover'|'gallery'|'inline'
-    const postId = (form.get("post_id") as string) || undefined;
-    const alt = (form.get("alt") as string) || file.name;
+    const roleValue = String(form.get("role") || "gallery");
+    const role = (["cover", "gallery", "inline"] as const).includes(roleValue as "cover" | "gallery" | "inline")
+      ? roleValue
+      : "gallery";
+    const postIdValue = String(form.get("post_id") || "");
+    const postId = /^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(postIdValue) ? postIdValue : undefined;
+    const alt = String(form.get("alt") || file.name).trim().slice(0, 300);
 
     const sb = supabaseAdmin();
     const bucket = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || "media";
@@ -50,6 +54,9 @@ export async function POST(req: Request) {
       }
     } catch { /* noop: bucket check best-effort */ }
     const bytes = await file.arrayBuffer();
+    if (!mediaMimeMatchesClaim(detectMediaMime(bytes), file.type)) {
+      return NextResponse.json({ error: "conteudo-do-arquivo-invalido" }, { status: 415 });
+    }
     const ext = (file.type?.split("/")[1] || "bin").replace("jpeg", "jpg");
     const filename = `${role}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
 
@@ -83,6 +90,6 @@ export async function POST(req: Request) {
   } catch (err: unknown) {
   const msg = err instanceof Error ? err.message : String(err);
   await logAdminAction({ route:'/api/admin/blog/media/upload', method:'POST', action:'media_upload_error', payload:{ msg } });
-  return NextResponse.json({ error: msg }, { status: 500 });
+  return NextResponse.json({ error: "falha-no-upload" }, { status: 500 });
   }
 }

@@ -35,12 +35,13 @@ type Step = "idle" | "form" | "success";
 export default function NotifyMeButton({ color, colorLabel }: Props) {
   const [step, setStep] = useState<Step>("idle");
   const [phone, setPhone] = useState("");
+  const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const digits = phone.replace(/\D/g, "");
-    if (digits.length < 10) return;
+    if (digits.length < 10 || !consent) return;
 
     setLoading(true);
     try {
@@ -51,7 +52,7 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
           telefone: digits,
           nome: "Preferência informada pelo site",
           cor_preferida: color,
-          consent_lgpd: true,
+          consent_lgpd: consent,
           consent_timestamp: new Date().toISOString(),
           consent_version: "1.0",
           page_type: "preferencia",
@@ -105,12 +106,24 @@ export default function NotifyMeButton({ color, colorLabel }: Props) {
           />
           <button
             type="submit"
-            disabled={loading || phone.replace(/\D/g, "").length < 10}
+            disabled={loading || phone.replace(/\D/g, "").length < 10 || !consent}
             className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
           >
             {loading ? "..." : "Enviar"}
           </button>
         </div>
+        <label className="flex items-start gap-2 text-[11px] leading-relaxed text-zinc-600">
+          <input
+            type="checkbox"
+            checked={consent}
+            onChange={(event) => setConsent(event.target.checked)}
+            className="mt-0.5 h-4 w-4"
+            required
+          />
+          <span>
+            Li a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline">Política de Privacidade</a> e autorizo o contato pelo WhatsApp.
+          </span>
+        </label>
         <button
           type="button"
           onClick={() => setStep("idle")}

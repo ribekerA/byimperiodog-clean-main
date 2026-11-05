@@ -62,8 +62,8 @@ export default function AdminLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-transparent text-sm text-[var(--text)] outline-none"
-              placeholder="admin@exemplo.com"
-              autoComplete="email"
+              placeholder="seu@email.com"
+              autoComplete="username"
               aria-invalid={error?.toLowerCase().includes("email") || undefined}
             />
           </div>

@@ -26,15 +26,6 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Temas por cor ────────────────────────────────────────────────────────────
 
-// O particolor não tinha tema.
-//
-// Ele é uma das cinco cores divulgadas (src/domain/pricing.ts), tem página, tem
-// COLOR_SEO próprio e tem filhote na vitrine — mas caía no `?? THEMES.creme` lá
-// embaixo. O resultado é que /filhotes/cor/particolor abria com a foto de um
-// filhote creme no hero, o selo "✨ Pelagem cor de marfim" e a amostra de cor
-// creme ao lado de um texto sobre manchas em base branca. A página descrevia
-// uma cor e mostrava outra. (26/08/2026)
-
 const THEMES = {
   branco: {
     heroGradient: "bg-gradient-to-br from-white via-zinc-50 to-stone-100",
@@ -80,22 +71,6 @@ const THEMES = {
     // vitrine de cores. A fêmea de laço vermelho permanece abaixo, identificada
     // como outra filhote e com a sua própria galeria.
     heroImg:      "/filhotes/laranja/laranja-femea-01.jpg",
-  },
-  particolor: {
-    heroGradient: "bg-gradient-to-br from-white via-amber-50/50 to-zinc-100",
-    heroDark:     false,
-    sectionBg:    "bg-amber-50/40",
-    accentText:   "text-amber-700",
-    accentBg:     "bg-amber-600",
-    accentLight:  "bg-amber-100",
-    accentBorder: "border-amber-200",
-    progressBar:  "bg-amber-500",
-    badge:        "🤍 Base branca com manchas definidas",
-    badgeCss:     "bg-amber-50 text-amber-900 ring-1 ring-amber-200",
-    // A amostra é bicolor de propósito: uma cor chapada não representa uma
-    // pelagem que é, por definição, branca com manchas.
-    swatchCss:    "bg-gradient-to-br from-white via-white to-amber-500 ring-amber-300",
-    heroImg:      "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
   },
   preto: {
     heroGradient: "bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-800",

@@ -15,7 +15,7 @@
 // import e seguro; este arquivo nao pode ser importado pelo proxy.ts.
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-import type { AdminSessionPayload } from "@/lib/adminSession";
+import { isValidAdminSessionPayload, type AdminSessionPayload } from "@/lib/adminSession";
 
 function base64urlParaBuffer(valor: string): Buffer {
   return Buffer.from(valor.replace(/-/g, "+").replace(/_/g, "/"), "base64");
@@ -27,11 +27,13 @@ function base64urlParaBuffer(valor: string): Buffer {
 export function verifyAdminSessionSync(token: string | undefined | null): AdminSessionPayload | null {
   if (!token) return null;
 
-  const [corpo, assinatura] = token.split(".");
+  const partes = token.split(".");
+  if (partes.length !== 2) return null;
+  const [corpo, assinatura] = partes;
   if (!corpo || !assinatura) return null;
 
   const segredo = process.env.ADMIN_SESSION_SECRET;
-  if (!segredo) return null;
+  if (!segredo || Buffer.byteLength(segredo, "utf8") < 32) return null;
 
   try {
     const esperada = createHmac("sha256", segredo).update(corpo).digest();
@@ -39,8 +41,8 @@ export function verifyAdminSessionSync(token: string | undefined | null): AdminS
     if (recebida.length !== esperada.length) return null;
     if (!timingSafeEqual(recebida, esperada)) return null;
 
-    const payload = JSON.parse(base64urlParaBuffer(corpo).toString("utf8")) as AdminSessionPayload;
-    if (typeof payload.exp !== "number" || payload.exp < Math.floor(Date.now() / 1000)) return null;
+    const payload = JSON.parse(base64urlParaBuffer(corpo).toString("utf8")) as unknown;
+    if (!isValidAdminSessionPayload(payload)) return null;
     return payload;
   } catch {
     return null;

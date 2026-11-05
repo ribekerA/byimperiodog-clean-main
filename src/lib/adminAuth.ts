@@ -1,15 +1,14 @@
 ﻿import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 import { ADMIN_SESSION_COOKIE, verifyAdminSession, type AdminSessionPayload } from "@/lib/adminSession";
 import { comparaConstante, lerCookieDeSessao, verifyAdminSessionSync } from "@/lib/adminSessionNode";
 import { createLogger } from "@/lib/logger";
 import {
   DEFAULT_ROLE,
-  getRoleFromCookies,
-  getRoleFromHeaders,
   hasPermission,
+  permissionForAdminRequest,
   type AdminPermission,
   type AdminRole,
 } from "@/lib/rbac";
@@ -28,13 +27,6 @@ async function getVerifiedSession(
 ): Promise<AdminSessionPayload | null> {
   const cookieStore = store ?? await cookies();
   return verifyAdminSession(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
-}
-
-function resolveRoleFromRequest(req: Request | NextRequest): AdminRole {
-  if (req instanceof NextRequest) {
-    return getRoleFromCookies(req.cookies);
-  }
-  return getRoleFromHeaders(req.headers);
 }
 
 export type AdminIdentity = {
@@ -86,9 +78,25 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
   // /api/settings/tracking (POST) e /api/integrations/[provider]/resources. Nelas
   // o proxy nao olhava, e um `curl -H "Cookie: admin_auth=1"` respondia 200 em
   // producao. As duas cookies legadas deixaram de ser aceitas aqui.
+  if (req.method !== "GET" && req.method !== "HEAD" && req.method !== "OPTIONS") {
+    const fetchSite = req.headers.get("sec-fetch-site");
+    const origin = req.headers.get("origin");
+    let sameOrigin = fetchSite !== "cross-site";
+    if (origin) {
+      try { sameOrigin = sameOrigin && new URL(origin).origin === new URL(req.url).origin; }
+      catch { sameOrigin = false; }
+    }
+    if (!sameOrigin) {
+      return NextResponse.json({ ok: false, error: "forbidden-origin" }, { status: 403 });
+    }
+  }
+
   const checarPermissao = (papel: AdminRole): NextResponse | null => {
-    if (!options.permission) return null;
-    if (!hasPermission(papel, options.permission)) {
+    const pathname = (() => {
+      try { return new URL(req.url).pathname; } catch { return "/api/admin"; }
+    })();
+    const permission = options.permission ?? permissionForAdminRequest(pathname, req.method);
+    if (!hasPermission(papel, permission)) {
       return NextResponse.json({ ok: false, error: "forbidden" }, { status: 403 });
     }
     return null;
@@ -103,7 +111,10 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
 
   // Apenas ADMIN_PASS: NEXT_PUBLIC_* vai para o bundle do browser.
   if (comparaConstante(process.env.ADMIN_PASS, req.headers.get("x-admin-pass"))) {
-    return checarPermissao(resolveRoleFromRequest(req));
+    // ADMIN_PASS é uma credencial de automação de servidor e equivale ao
+    // proprietário; cabeçalhos/cookies de papel enviados pelo cliente nunca
+    // participam dessa decisão.
+    return checarPermissao("owner");
   }
 
   return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
@@ -111,6 +122,31 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
 
 export function requireAdmin(req: Request | NextRequest, options: ApiGuardOptions = {}) {
   return requireAdminApi(req, options);
+}
+
+/**
+ * Rotas vinculadas a uma conta humana (OAuth, integrações e preferências)
+ * precisam não só de autorização, mas também do UUID autenticado. A credencial
+ * de automação ADMIN_PASS continua válida nas demais APIs, porém não pode ser
+ * usada para escolher por variável de ambiente a conta que receberá tokens.
+ */
+export function requireAdminContext(
+  req: Request | NextRequest,
+  permission?: AdminPermission,
+):
+  | { response: null; context: { role: AdminRole; session: AdminSessionPayload } }
+  | { response: NextResponse; context: null } {
+  const guard = requireAdminApi(req, permission ? { permission } : {});
+  if (guard) return { response: guard, context: null };
+
+  const session = verifyAdminSessionSync(lerCookieDeSessao(req, ADMIN_SESSION_COOKIE));
+  if (!session) {
+    return {
+      response: NextResponse.json({ ok: false, error: "interactive-session-required" }, { status: 401 }),
+      context: null,
+    };
+  }
+  return { response: null, context: { role: session.role, session } };
 }
 
 export async function logAdminAction(params: {
@@ -143,6 +179,7 @@ export async function logAdminAction(params: {
 }
 
 export function resolveAdminContext(req: Request | NextRequest) {
-  const role = resolveRoleFromRequest(req) ?? DEFAULT_ROLE;
+  const session = verifyAdminSessionSync(lerCookieDeSessao(req, ADMIN_SESSION_COOKIE));
+  const role = session?.role ?? DEFAULT_ROLE;
   return { role };
 }

@@ -1,0 +1,1791 @@
+{
+  "note": "Fresh HTTP sample; not ranking, indexing or field CWV. Depth is an upper bound in the sampled graph; missing depth is not proof of orphan page.",
+  "results": [
+    {
+      "url": "https://byimperiodog.com.br/sitemap-index.xml",
+      "finalUrl": "https://byimperiodog.com.br/sitemap-index.xml",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:16.093Z",
+      "fetchMs": 458,
+      "bytes": 547,
+      "title": "",
+      "xRobots": null,
+      "headings": [],
+      "schemas": [],
+      "links": [],
+      "images": [],
+      "videos": [],
+      "text": "https://byimperiodog.com.br/sitemap.xml2026-10-08T04:33:18.000Z https://byimperiodog.com.br/sitemaps/posts.xml2026-09-24T00:00:00.000Z https://byimperiodog.com.br/sitemaps/images.xml https://byimperiodog.com.br/sitemaps/videos.xml2026-08-26"
+    },
+    {
+      "url": "https://byimperiodog.com.br/termos-de-uso",
+      "finalUrl": "https://byimperiodog.com.br/termos-de-uso",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:16.254Z",
+      "fetchMs": 654,
+      "bytes": 68889,
+      "title": "Termos de Uso | By Império Dog",
+      "canonical": "https://byimperiodog.com.br/termos-de-uso",
+      "robots": "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
+      "xRobots": null,
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Termos de Uso"
+        },
+        {
+          "level": "H2",
+          "text": "Sumário"
+        },
+        {
+          "level": "H2",
+          "text": "Identificação do fornecedor"
+        },
+        {
+          "level": "H2",
+          "text": "Escopo dos serviços"
+        },
+        {
+          "level": "H2",
+          "text": "Responsabilidades do tutor"
+        },
+        {
+          "level": "H2",
+          "text": "Obrigações da By Império Dog"
+        },
+        {
+          "level": "H2",
+          "text": "Condições comerciais e materiais"
+        },
+        {
+          "level": "H2",
+          "text": "Direito de arrependimento"
+        },
+        {
+          "level": "H2",
+          "text": "Alterações destes termos"
+        },
+        {
+          "level": "H2",
+          "text": "Foro aplicável"
+        },
+        {
+          "level": "H3",
+          "text": "Última atualização deste documento"
+        },
+        {
+          "level": "H2",
+          "text": "Cada filhote tem uma família esperando por ele."
+        },
+        {
+          "level": "H3",
+          "text": "Navegação"
+        },
+        {
+          "level": "H3",
+          "text": "A raça"
+        },
+        {
+          "level": "H3",
+          "text": "Suporte"
+        },
+        {
+          "level": "H3",
+          "text": "Criação responsável"
+        }
+      ],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://byimperiodog.com.br/#business",
+          "name": "By Império Dog",
+          "alternateName": [
+            "Canil By Império Dog",
+            "Império Dog"
+          ],
+          "description": "By Império Dog, em Bragança Paulista, SP, com criação de Spitz Alemão Anão (Lulu da Pomerânia) desde 2013. Filhotes vacinados e vermifugados, com consulta veterinária, hemograma completo e pedigree.",
+          "url": "https://byimperiodog.com.br",
+          "telephone": "+55 11 96863-3239",
+          "email": "contato@byimperiodog.com.br",
+          "priceRange": "R$ 5.500 – R$ 10.500",
+          "currenciesAccepted": "BRL",
+          "foundingDate": "2013",
+          "image": [
+            "https://byimperiodog.com.br/og-default.jpg",
+            "https://byimperiodog.com.br/filhotes/creme/creme-femea-01.jpg",
+            "https://byimperiodog.com.br/filhotes/laranja/laranja-femea-01.jpg"
+          ],
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://byimperiodog.com.br/byimperiologo.png",
+            "width": 150,
+            "height": 150
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Bragança Paulista",
+            "addressRegion": "SP",
+            "addressCountry": "BR"
+          },
+          "areaServed": [
+            {
+              "@type": "Country",
+              "name": "Brasil"
+            }
+          ],
+          "publishingPrinciples": "https://byimperiodog.com.br/politica-editorial",
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+55 11 96863-3239",
+              "contactType": "customer service",
+              "areaServed": "BR",
+              "availableLanguage": [
+                "pt-BR"
+              ]
+            }
+          ],
+          "knowsAbout": [
+            "Spitz Alemão Anão",
+            "Lulu da Pomerânia",
+            "Pomeranian",
+            "socialização de filhotes"
+          ],
+          "makesOffer": [
+            {
+              "@type": "Offer",
+              "name": "Filhote de Spitz Alemão Anão — Lulu da Pomerânia",
+              "description": "Filhote de Spitz Alemão Anão vacinado e vermifugado, com consulta veterinária, hemograma completo e pedigree. Atendimento com base em Bragança Paulista, SP.",
+              "priceCurrency": "BRL",
+              "url": "https://byimperiodog.com.br/filhotes",
+              "areaServed": {
+                "@type": "Country",
+                "name": "Brasil"
+              }
+            }
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Filhotes de Spitz Alemão Anão — Lulu da Pomerânia",
+            "url": "https://byimperiodog.com.br/filhotes"
+          },
+          "sameAs": [
+            "https://www.instagram.com/byimperiodog",
+            "https://www.google.com/search?kgmid=/g/11gpnjwc18"
+          ],
+          "hasMap": "https://www.google.com/search?kgmid=/g/11gpnjwc18"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": "https://byimperiodog.com.br/#website",
+          "name": "By Império Dog",
+          "alternateName": "Canil By Império Dog — Spitz Alemão Anão",
+          "description": "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão.",
+          "url": "https://byimperiodog.com.br/",
+          "inLanguage": "pt-BR",
+          "publisher": {
+            "@id": "https://byimperiodog.com.br/#business"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "SiteNavigationElement",
+          "name": [
+            "Inicio",
+            "Filhotes",
+            "Processo",
+            "Blog",
+            "FAQ do tutor",
+            "Contato"
+          ],
+          "url": [
+            "https://byimperiodog.com.br/",
+            "https://byimperiodog.com.br/filhotes",
+            "https://byimperiodog.com.br/sobre",
+            "https://byimperiodog.com.br/blog",
+            "https://byimperiodog.com.br/faq-do-tutor",
+            "https://byimperiodog.com.br/contato"
+          ]
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Início",
+              "item": "https://byimperiodog.com.br/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Termos de Uso",
+              "item": "https://byimperiodog.com.br/termos-de-uso"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#conteudo-principal",
+          "text": "Ir para o conteúdo"
+        },
+        {
+          "href": "https://byimperiodog.com.br/",
+          "text": "Início"
+        },
+        {
+          "href": "https://byimperiodog.com.br/filhotes",
+          "text": "Filhotes"
+        },
+        {
+          "href": "https://byimperiodog.com.br/galeria",
+          "text": "Galeria de vídeos"
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "https://byimperiodog.com.br/sobre",
+          "text": "Processo"
+        },
+        {
+          "href": "https://byimperiodog.com.br/faq-do-tutor",
+          "text": "FAQ do tutor"
+        },
+        {
+          "href": "https://byimperiodog.com.br/contato",
+          "text": "Contato"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+          "text": "Conversar agora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#fornecedor",
+          "text": "Identificação do fornecedor"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#escopo",
+          "text": "Escopo dos serviços"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#responsabilidades",
+          "text": "Responsabilidades do tutor"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#obrigacoes",
+          "text": "Obrigações da By Império Dog"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#condicoes",
+          "text": "Condições comerciais e materiais"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#arrependimento",
+          "text": "Direito de arrependimento"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#alteracoes",
+          "text": "Alterações destes termos"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso#foro",
+          "text": "Foro aplicável"
+        },
+        {
+          "href": "mailto:contato@byimperiodog.com.br",
+          "text": "contato@byimperiodog.com.br"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "(11) 9 6863-3239"
+        },
+        {
+          "href": "https://www.google.com/search?kgmid=/g/11gpnjwc18",
+          "text": "Perfil no Google"
+        },
+        {
+          "href": "https://g.page/r/CT2ftXTDDxpAEAI/review",
+          "text": "Avaliar no Google"
+        },
+        {
+          "href": "https://byimperiodog.com.br/guias",
+          "text": "Guias"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao",
+          "text": "Spitz Alemão Anão"
+        },
+        {
+          "href": "https://byimperiodog.com.br/lulu-da-pomerania",
+          "text": "Lulu da Pomerânia"
+        },
+        {
+          "href": "https://byimperiodog.com.br/pomeranian",
+          "text": "Pomeranian"
+        },
+        {
+          "href": "https://byimperiodog.com.br/filhote-de-spitz-alemao",
+          "text": "Filhote de Spitz"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao-branco",
+          "text": "Spitz Alemão Branco"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao-preto",
+          "text": "Spitz Alemão Preto"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao-baby-face",
+          "text": "Spitz Alemão Baby Face"
+        },
+        {
+          "href": "https://byimperiodog.com.br/ninhadas",
+          "text": "Ninhadas"
+        },
+        {
+          "href": "https://byimperiodog.com.br/comprar-spitz-anao",
+          "text": "Como Comprar"
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/spitz-alemao-anao-entrega-brasil",
+          "text": "Entrega em todo o Brasil"
+        },
+        {
+          "href": "https://byimperiodog.com.br/politica-de-privacidade",
+          "text": "Política de privacidade"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso",
+          "text": "Termos de uso"
+        },
+        {
+          "href": "https://byimperiodog.com.br/politica-editorial",
+          "text": "Política editorial"
+        }
+      ],
+      "images": [],
+      "videos": [],
+      "text": "Ir direto para o conteúdo principalIr para o conteúdoBy Império DogSementinhas de AmorSpitz Alemão AnãoRaçaInícioFilhotesGaleriaBlogProcessoFAQContatoConversar agoraCondições legaisTermos de UsoEstes termos regem o uso do site, dos materiais educativos e do suporte oferecido pela By Império Dog a tutores e interessados no Spitz Alemão Anão (Lulu da Pomerânia). Ao continuar navegando ou utilizar nossos serviços, você concorda com as condições descritas abaixo.SumárioIdentificação do fornecedorEscopo dos serviçosResponsabilidades do tutorObrigações da By Império DogCondições comerciais e materiaisDireito de arrependimentoAlterações destes termosForo aplicávelIdentificação do fornecedorO site é operado pela By Império Dog, criadora de Spitz Alemão Anão sediada em Bragança Paulista/SP. O atendimento ao consumidor — dúvidas, reclamações, exercício de direitos e suporte pós-entrega — é prestado pelos canais abaixo:E-mail: contato@byimperiodog.com.brWhatsApp e telefone: (11) 9 6863-3239Município de operação: Bragança Paulista/SPCNPJ: 22.587.478/0001-00A razão social completa e os demais dados de identificação empresarial do fornecedor constam do contrato de compra e venda e do documento fiscal emitido em cada aquisição.Escopo dos serviçosDisponibilizamos conteúdos educativos e orientações gerais de pós-entrega do Spitz Alemão Anão. As informações têm caráter informativo e não substituem consulta com médico-veterinário ou outro profissional habilitado.Responsabilidades do tutorO tutor compromete-se a fornecer informações verídicas, seguir orientações sanitárias, manter consultas preventivas e garantir ambiente seguro para o Spitz Alemão Anão. O eventual descumprimento de condições expressamente previstas no contrato poderá ser considerado na análise de garantias contratuais, conforme o caso e o nexo com o problema apresentado, sem prejuízo das garantias e demais direitos assegurados pela legislação.Realizar consultas veterinárias periódicas e cumprir o calendário de vacinas.Monitorar peso, alimentação e hidratação, comunicando alterações relevantes.Procurar orientação de médico-veterinário antes de aplicar medidas corretivas de saúde ou comportamento.Obrigações da By Império DogComprometemo-nos a fornecer materiais atualizados, comunicar eventuais riscos à saúde e manter canal de suporte com o tutor. As orientações de pós-entrega são prestadas pela criadora e não constituem consulta veterinária.Caso seja identificada necessidade de intervenção presencial, orientaremos que o tutor procure atendimento veterinário imediato.Condições comerciais e materiaisO contrato individual disciplina as condições específicas da aquisição, sem prejuízo dos direitos assegurados pela legislação aplicável e das ofertas vinculantes regularmente apresentadas ao consumidor. Eventuais condições comerciais são pessoais e intransferíveis. Os conteúdos publicados no site permanecem protegidos por direitos autorais e não podem ser redistribuídos sem autorização expressa.Direito de arrependimentoNas contratações sujeitas ao direito de arrependimento previsto no art. 49 do Código de Defesa do Consumidor, serão observados integralmente os prazos e efeitos previstos na legislação, inclusive quanto à restituição dos valores pagos.Fora dessas hipóteses, o cancelamento da reserva segue as condições pactuadas no contrato individual de compra e venda, que podem incluir a devolução parcial do sinal ou a transferência da reserva para outra ninhada. Em qualquer caso, as condições contratuais não afastam nem reduzem os direitos assegurados ao consumidor pela legislação aplicável.Para exercer o direito de arrependimento ou solicitar o cancelamento, entre em contato pelos canais indicados em Identificação do fornecedor.Alterações destes termosAtualizamos estes termos sempre que houver mudanças relevantes em processos, regulamentação ou serviços oferecidos. A versão vigente estará disponível nesta página, com indicação da última atualização. Recomendamos revisão periódica.Foro aplicávelFica indicado o foro de Bragança Paulista/SP para as controvérsias que legalmente admitam eleição de foro, sem prejuízo do foro do domicílio do consumidor e de outros foros legalmente assegurados.Última atualização deste documento20 de agosto de 2026Pronto para dar o próximo passo?Cada filhote tem uma família esperando por ele.Conversa sem pressão. Apresento os disponíveis, respondo suas dúvidas e ajudo você a escolher com calma.Conversar agora — sem compromissoBy Império DogSpitz Alemão Anão — criado com responsabilidade, acompanhamento veterinário e suporte da criadora depois da entrega.contato@byimperiodog.com.br(11) 9 6863-3239Perfil no GoogleAvaliar no GoogleNavegaçãoInícioFilhotesGaleria de vídeosGuiasBlogProcessoContatoA raçaSpitz Alemão AnãoLulu da PomerâniaPomeranianFilhote de SpitzSpitz Alemão BrancoSpitz Alemão PretoSpitz Alemão Baby FaceNinhadasComo ComprarEntrega em todo o BrasilSuporteFAQ do tutorPolítica de privacidadeTermos de usoPolítica editorialPreferências de cookiesCriação responsável✓Registro oficial incluso✓Consulta veterinária e hemograma✓Mentoria pós-venda✓Criando desde 2013✓Bragança Paulista, SP© 2013–2026 By Império Dog. Todos os direitos reservados.Spitz Alemão Anão — acompanhamento veterinário e suporte direto com a criadora."
+    },
+    {
+      "url": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+      "finalUrl": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:16.362Z",
+      "fetchMs": 727,
+      "bytes": 178232,
+      "title": "Documentação e Registro do Spitz Alemão Anão | By Império Dog",
+      "canonical": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+      "robots": "index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1",
+      "xRobots": null,
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Documentação e Registro do Spitz Alemão Anão: O Que Você Precisa Saber"
+        },
+        {
+          "level": "H2",
+          "text": "O Que é o Pedigree"
+        },
+        {
+          "level": "H2",
+          "text": "O Que é o Registro CBKC"
+        },
+        {
+          "level": "H3",
+          "text": "Como Verificar se o Registro é Verdadeiro"
+        },
+        {
+          "level": "H2",
+          "text": "Microchip: O Que É e Por Que Importa"
+        },
+        {
+          "level": "H3",
+          "text": "Por Que é Essencial"
+        },
+        {
+          "level": "H3",
+          "text": "O Cadastro Nacional"
+        },
+        {
+          "level": "H2",
+          "text": "Documentos Que Você Deve Receber na Compra"
+        },
+        {
+          "level": "H2",
+          "text": "Transferência de Propriedade: Como Funciona"
+        },
+        {
+          "level": "H2",
+          "text": "O Que Fazer se Recebeu Documentação Falsa"
+        },
+        {
+          "level": "H2",
+          "text": "Pedigree e Microchip Garantem Saúde?"
+        },
+        {
+          "level": "H2",
+          "text": "Por Que Alguns Criadores Não Registram"
+        },
+        {
+          "level": "H3",
+          "text": "Perguntas Frequentes sobre Documentação"
+        },
+        {
+          "level": "H2",
+          "text": "Fontes"
+        },
+        {
+          "level": "H2",
+          "text": "Quero receber recomendações"
+        },
+        {
+          "level": "H3",
+          "text": "Como escolher um criador confiável"
+        },
+        {
+          "level": "H3",
+          "text": "Como comprar com segurança"
+        },
+        {
+          "level": "H3",
+          "text": "Quanto custa um Lulu da Pomerânia?"
+        },
+        {
+          "level": "H3",
+          "text": "Receba o guia exclusivo do 1.º ano do Spitz"
+        },
+        {
+          "level": "H3",
+          "text": "Pronto para uma conversa sob consulta?"
+        },
+        {
+          "level": "H2",
+          "text": "Artigos relacionados"
+        },
+        {
+          "level": "H3",
+          "text": "Nomes para Lulu da Pomerânia: Ideias para Fêmeas e Machos"
+        },
+        {
+          "level": "H3",
+          "text": "Cores do Spitz Alemão Anão: Qual é a Mais Cara?"
+        },
+        {
+          "level": "H3",
+          "text": "Spitz Alemão Anão é Bom para Apartamento? A Resposta Direta da Criadora"
+        },
+        {
+          "level": "H3",
+          "text": "Guia Definitivo do Spitz Alemão Anão"
+        },
+        {
+          "level": "H2",
+          "text": "Cada filhote tem uma família esperando por ele."
+        },
+        {
+          "level": "H3",
+          "text": "Navegação"
+        },
+        {
+          "level": "H3",
+          "text": "A raça"
+        },
+        {
+          "level": "H3",
+          "text": "Suporte"
+        },
+        {
+          "level": "H3",
+          "text": "Criação responsável"
+        }
+      ],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "@id": "https://byimperiodog.com.br/#business",
+          "name": "By Império Dog",
+          "alternateName": [
+            "Canil By Império Dog",
+            "Império Dog"
+          ],
+          "description": "By Império Dog, em Bragança Paulista, SP, com criação de Spitz Alemão Anão (Lulu da Pomerânia) desde 2013. Filhotes vacinados e vermifugados, com consulta veterinária, hemograma completo e pedigree.",
+          "url": "https://byimperiodog.com.br",
+          "telephone": "+55 11 96863-3239",
+          "email": "contato@byimperiodog.com.br",
+          "priceRange": "R$ 5.500 – R$ 10.500",
+          "currenciesAccepted": "BRL",
+          "foundingDate": "2013",
+          "image": [
+            "https://byimperiodog.com.br/og-default.jpg",
+            "https://byimperiodog.com.br/filhotes/creme/creme-femea-01.jpg",
+            "https://byimperiodog.com.br/filhotes/laranja/laranja-femea-01.jpg"
+          ],
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://byimperiodog.com.br/byimperiologo.png",
+            "width": 150,
+            "height": 150
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Bragança Paulista",
+            "addressRegion": "SP",
+            "addressCountry": "BR"
+          },
+          "areaServed": [
+            {
+              "@type": "Country",
+              "name": "Brasil"
+            }
+          ],
+          "publishingPrinciples": "https://byimperiodog.com.br/politica-editorial",
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+55 11 96863-3239",
+              "contactType": "customer service",
+              "areaServed": "BR",
+              "availableLanguage": [
+                "pt-BR"
+              ]
+            }
+          ],
+          "knowsAbout": [
+            "Spitz Alemão Anão",
+            "Lulu da Pomerânia",
+            "Pomeranian",
+            "socialização de filhotes"
+          ],
+          "makesOffer": [
+            {
+              "@type": "Offer",
+              "name": "Filhote de Spitz Alemão Anão — Lulu da Pomerânia",
+              "description": "Filhote de Spitz Alemão Anão vacinado e vermifugado, com consulta veterinária, hemograma completo e pedigree. Atendimento com base em Bragança Paulista, SP.",
+              "priceCurrency": "BRL",
+              "url": "https://byimperiodog.com.br/filhotes",
+              "areaServed": {
+                "@type": "Country",
+                "name": "Brasil"
+              }
+            }
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Filhotes de Spitz Alemão Anão — Lulu da Pomerânia",
+            "url": "https://byimperiodog.com.br/filhotes"
+          },
+          "sameAs": [
+            "https://www.instagram.com/byimperiodog",
+            "https://www.google.com/search?kgmid=/g/11gpnjwc18"
+          ],
+          "hasMap": "https://www.google.com/search?kgmid=/g/11gpnjwc18"
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": "https://byimperiodog.com.br/#website",
+          "name": "By Império Dog",
+          "alternateName": "Canil By Império Dog — Spitz Alemão Anão",
+          "description": "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão.",
+          "url": "https://byimperiodog.com.br/",
+          "inLanguage": "pt-BR",
+          "publisher": {
+            "@id": "https://byimperiodog.com.br/#business"
+          }
+        },
+        {
+          "@context": "https://schema.org",
+          "@type": "SiteNavigationElement",
+          "name": [
+            "Inicio",
+            "Filhotes",
+            "Processo",
+            "Blog",
+            "FAQ do tutor",
+            "Contato"
+          ],
+          "url": [
+            "https://byimperiodog.com.br/",
+            "https://byimperiodog.com.br/filhotes",
+            "https://byimperiodog.com.br/sobre",
+            "https://byimperiodog.com.br/blog",
+            "https://byimperiodog.com.br/faq-do-tutor",
+            "https://byimperiodog.com.br/contato"
+          ]
+        },
+        [
+          {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "@id": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#article",
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+              "url": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao",
+              "primaryImageOfPage": {
+                "@type": "ImageObject",
+                "@id": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#primaryimage",
+                "url": "https://byimperiodog.com.br/spitz-hero-desktop.webp",
+                "contentUrl": "https://byimperiodog.com.br/spitz-hero-desktop.webp",
+                "width": 1400,
+                "height": 933,
+                "caption": "Documentação e Registro do Spitz Alemão Anão: O Que Você Precisa Saber"
+              }
+            },
+            "headline": "Documentação e Registro do Spitz Alemão Anão: O Que Você Precisa Saber",
+            "description": "Pedigree, registro CBKC e microchip do Spitz Alemão Anão: o que verificar antes de comprar e como transferir o registro.",
+            "image": [
+              {
+                "@type": "ImageObject",
+                "@id": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#primaryimage",
+                "url": "https://byimperiodog.com.br/spitz-hero-desktop.webp",
+                "contentUrl": "https://byimperiodog.com.br/spitz-hero-desktop.webp",
+                "width": 1400,
+                "height": 933,
+                "caption": "Documentação e Registro do Spitz Alemão Anão: O Que Você Precisa Saber"
+              }
+            ],
+            "author": {
+              "@id": "https://byimperiodog.com.br/#business"
+            },
+            "datePublished": "2025-06-01T00:00:00.000Z",
+            "dateModified": "2025-06-01T00:00:00.000Z",
+            "publisher": {
+              "@id": "https://byimperiodog.com.br/#business"
+            },
+            "articleSection": "raca",
+            "keywords": "registro spitz alemao anao cbkc, pedigree lulu pomerania, documentacao spitz alemao, microchip spitz alemao anao (Lulu da Pomerânia)",
+            "inLanguage": "pt-BR",
+            "wordCount": 1040,
+            "citation": [
+              {
+                "@type": "CreativeWork",
+                "name": "Raças reconhecidas pela CBKC",
+                "url": "https://cbkc.org/racas",
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "CBKC — Confederação Brasileira de Cinofilia"
+                }
+              },
+              {
+                "@type": "CreativeWork",
+                "name": "Padrão FCI nº 97 — German Spitz (Spitz Alemão)",
+                "url": "https://www.fci.be/en/nomenclature/GERMAN-SPITZ-97.html",
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "FCI — Fédération Cynologique Internationale"
+                }
+              },
+              {
+                "@type": "CreativeWork",
+                "name": "WSAVA Microchip Identification Guidelines",
+                "url": "https://wsava.org/global-guidelines/microchip-identification-guidelines/",
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "WSAVA — World Small Animal Veterinary Association"
+                }
+              }
+            ],
+            "about": [
+              {
+                "@type": "Thing",
+                "name": "O Que é o Pedigree"
+              },
+              {
+                "@type": "Thing",
+                "name": "O Que é o Registro CBKC"
+              },
+              {
+                "@type": "Thing",
+                "name": "Microchip: O Que É e Por Que Importa"
+              },
+              {
+                "@type": "Thing",
+                "name": "Documentos Que Você Deve Receber na Compra"
+              },
+              {
+                "@type": "Thing",
+                "name": "Transferência de Propriedade: Como Funciona"
+              },
+              {
+                "@type": "Thing",
+                "name": "O Que Fazer se Recebeu Documentação Falsa"
+              },
+              {
+                "@type": "Thing",
+                "name": "Pedigree e Microchip Garantem Saúde?"
+              },
+              {
+                "@type": "Thing",
+                "name": "Por Que Alguns Criadores Não Registram"
+              }
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Início",
+                "item": "https://byimperiodog.com.br/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://byimperiodog.com.br/blog"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Documentação e Registro do Spitz Alemão Anão: O Que Você Precisa Saber",
+                "item": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao"
+              }
+            ]
+          }
+        ]
+      ],
+      "links": [
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#conteudo-principal",
+          "text": "Ir para o conteúdo"
+        },
+        {
+          "href": "https://byimperiodog.com.br/",
+          "text": "Início"
+        },
+        {
+          "href": "https://byimperiodog.com.br/filhotes",
+          "text": "Filhotes"
+        },
+        {
+          "href": "https://byimperiodog.com.br/galeria",
+          "text": "Galeria de vídeos"
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog",
+          "text": "Blog"
+        },
+        {
+          "href": "https://byimperiodog.com.br/sobre",
+          "text": "Processo"
+        },
+        {
+          "href": "https://byimperiodog.com.br/faq-do-tutor",
+          "text": "FAQ do tutor"
+        },
+        {
+          "href": "https://byimperiodog.com.br/contato",
+          "text": "Contato"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+conversar+sobre+a+disponibilidade+dos+Spitz+Alem%C3%A3o+An%C3%A3o+da+By+Imp%C3%A9rio+Dog.&utm_source=site&utm_medium=header&utm_campaign=header_whatsapp&utm_content=hero_nav",
+          "text": "Conversar agora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#o-que-%C3%A9-o-pedigree",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#o-que-%C3%A9-o-registro-cbkc",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#como-verificar-se-o-registro-%C3%A9-verdadeiro",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#microchip-o-que-%C3%A9-e-por-que-importa",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#por-que-%C3%A9-essencial",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#o-cadastro-nacional",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#documentos-que-voc%C3%AA-deve-receber-na-compra",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#transfer%C3%AAncia-de-propriedade-como-funciona",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#o-que-fazer-se-recebeu-documenta%C3%A7%C3%A3o-falsa",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#pedigree-e-microchip-garantem-sa%C3%BAde",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#por-que-alguns-criadores-n%C3%A3o-registram",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao#perguntas-frequentes-sobre-documenta%C3%A7%C3%A3o",
+          "text": ""
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1!%20Li%20o%20artigo%20%22Documenta%C3%A7%C3%A3o%20e%20Registro%20do%20Spitz%20Alem%C3%A3o%20An%C3%A3o%3A%20O%20Que%20Voc%C3%AA%20Precisa%20Saber%22%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20filhotes.",
+          "text": "Conversar agora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/filhotes?utm_source=blog&utm_medium=sidebar_cta",
+          "text": "Ver a vitrine de filhotes →"
+        },
+        {
+          "href": "https://byimperiodog.com.br/reserve-seu-filhote",
+          "text": "Saiba mais →"
+        },
+        {
+          "href": "https://cbkc.org/racas",
+          "text": "Raças reconhecidas pela CBKC"
+        },
+        {
+          "href": "https://www.fci.be/en/nomenclature/GERMAN-SPITZ-97.html",
+          "text": "Padrão FCI nº 97 — German Spitz (Spitz Alemão)"
+        },
+        {
+          "href": "https://wsava.org/global-guidelines/microchip-identification-guidelines/",
+          "text": "WSAVA Microchip Identification Guidelines"
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Estava+lendo+o+artigo+%22Documenta%C3%A7%C3%A3o+e+Registro+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+O+Que+Voc%C3%AA+Precisa+Saber%22+no+site+e+gostaria+de+conhecer+as+op%C3%A7%C3%B5es+atuais+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=blog&utm_medium=inline_banner&utm_campaign=blog_puppy_cta",
+          "text": "Falar com a criadora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/politica-de-privacidade",
+          "text": "Política de privacidade"
+        },
+        {
+          "href": "https://byimperiodog.com.br/criador-spitz-confiavel",
+          "text": "Leia tambémComo escolher um criador confiávelCritérios para comparar canis, informações e documentos."
+        },
+        {
+          "href": "https://byimperiodog.com.br/comprar-spitz-anao",
+          "text": "Como Comprar"
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/preco-spitz-alemao-anao",
+          "text": "Leia tambémQuanto custa um Lulu da Pomerânia?Veja fotos, vídeos e valores individuais na vitrine. Confirme as opções atuais com a equipe."
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Li+o+artigo+%22Documenta%C3%A7%C3%A3o+e+Registro+do+Spitz+Alem%C3%A3o+An%C3%A3o%3A+O+Que+Voc%C3%AA+Precisa+Saber%22+no+blog+da+By+Imp%C3%A9rio+Dog+e+fiquei+com+algumas+d%C3%BAvidas.&utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_whatsapp",
+          "text": "Conversar agora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/filhotes?utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_filhotes",
+          "text": "Acessar agora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/sobre#processo?utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_processo",
+          "text": "Acessar agora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/faq-do-tutor?utm_source=blog&utm_medium=cta&utm_campaign=blog_post&utm_content=cta_faq",
+          "text": "Acessar agora"
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/nomes-lulu-da-pomerania",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/cores-spitz-alemao-anao-qual-mais-cara",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/spitz-alemao-anao-bom-para-apartamento",
+          "text": ""
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/guia-spitz-alemao",
+          "text": ""
+        },
+        {
+          "href": "https://wa.me/5511968633239?text=Ol%C3%A1%21+Quero+falar+com+a+By+Imp%C3%A9rio+Dog+sobre+disponibilidade+de+Spitz+Alem%C3%A3o+An%C3%A3o.&utm_source=site&utm_medium=footer&utm_campaign=footer_whatsapp&utm_content=footer_cta",
+          "text": "(11) 9 6863-3239"
+        },
+        {
+          "href": "mailto:contato@byimperiodog.com.br",
+          "text": "contato@byimperiodog.com.br"
+        },
+        {
+          "href": "https://www.google.com/search?kgmid=/g/11gpnjwc18",
+          "text": "Perfil no Google"
+        },
+        {
+          "href": "https://g.page/r/CT2ftXTDDxpAEAI/review",
+          "text": "Avaliar no Google"
+        },
+        {
+          "href": "https://byimperiodog.com.br/guias",
+          "text": "Guias"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao",
+          "text": "Spitz Alemão Anão"
+        },
+        {
+          "href": "https://byimperiodog.com.br/lulu-da-pomerania",
+          "text": "Lulu da Pomerânia"
+        },
+        {
+          "href": "https://byimperiodog.com.br/pomeranian",
+          "text": "Pomeranian"
+        },
+        {
+          "href": "https://byimperiodog.com.br/filhote-de-spitz-alemao",
+          "text": "Filhote de Spitz"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao-branco",
+          "text": "Spitz Alemão Branco"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao-preto",
+          "text": "Spitz Alemão Preto"
+        },
+        {
+          "href": "https://byimperiodog.com.br/spitz-alemao-baby-face",
+          "text": "Spitz Alemão Baby Face"
+        },
+        {
+          "href": "https://byimperiodog.com.br/ninhadas",
+          "text": "Ninhadas"
+        },
+        {
+          "href": "https://byimperiodog.com.br/blog/spitz-alemao-anao-entrega-brasil",
+          "text": "Entrega em todo o Brasil"
+        },
+        {
+          "href": "https://byimperiodog.com.br/termos-de-uso",
+          "text": "Termos de uso"
+        },
+        {
+          "href": "https://byimperiodog.com.br/politica-editorial",
+          "text": "Política editorial"
+        }
+      ],
+      "images": [
+        {
+          "src": "/_next/image?url=%2Fspitz-hero-desktop.webp&w=1280&q=75",
+          "alt": "Documentação e Registro do Spitz Alemão Anão: O Que Você Precisa Saber"
+        },
+        {
+          "src": "/_next/image?url=%2Ffilhotes%2Fcreme%2Fcreme-macho-01.jpg&w=1280&q=75",
+          "alt": "Filhote creme de Spitz Alemão Anão da By Império Dog no colo, de frente para a câmera, com flores vermelhas ao fundo"
+        },
+        {
+          "src": "/_next/image?url=%2Fspitz-hero-desktop.webp&w=1280&q=75",
+          "alt": "Nomes para Lulu da Pomerânia: Ideias para Fêmeas e Machos"
+        },
+        {
+          "src": "/_next/image?url=%2Fimages%2Fblog%2Fcores-spitz-alemao-anao-qual-mais-cara.jpg&w=1280&q=75",
+          "alt": "Cores do Spitz Alemão Anão: Qual é a Mais Cara?"
+        },
+        {
+          "src": "/_next/image?url=%2Fspitz-hero-desktop.webp&w=1280&q=75",
+          "alt": "Spitz Alemão Anão é Bom para Apartamento? A Resposta Direta da Criadora"
+        },
+        {
+          "src": "/_next/image?url=%2Fimages%2Fblog%2Fguia-spitz-alemao.jpg&w=1280&q=75",
+          "alt": "Guia Definitivo do Spitz Alemão Anão"
+        }
+      ],
+      "videos": [],
+      "text": "Ir direto para o conteúdo principalIr para o conteúdoBy Império DogSementinhas de AmorSpitz Alemão AnãoRaçaInícioFilhotesGaleriaBlogProcessoFAQContatoConversar agoraInício/Blog/Documentação e Registro do Spitz Alemão Anão: O Que Voc…racaDocumentação e Registro do Spitz Alemão Anão: O Que Você Precisa Saber01 de jun. de 2025·5 min de leituraCompartilharNeste artigo▾No artigoO Que é o PedigreeO Que é o Registro CBKCComo Verificar se o Registro é VerdadeiroMicrochip: O Que É e Por Que ImportaPor Que é EssencialO Cadastro NacionalDocumentos Que Você Deve Receber na CompraTransferência de Propriedade: Como FuncionaO Que Fazer se Recebeu Documentação FalsaPedigree e Microchip Garantem Saúde?Por Que Alguns Criadores Não RegistramPerguntas Frequentes sobre DocumentaçãoInteresse em um filhote?Conversa sem compromisso. Atendimento todos os dias, das 8h às 22h.Conversar agoraVer a vitrine de filhotes →Registro oficial · Contrato digital\"Ele tem pedigree?\" — é uma das primeiras perguntas de quem busca um Spitz Alemão Anão (Lulu da Pomerânia). Mas a maioria dos tutores não sabe exatamente o que isso significa, para que serve e o que verificar. Este guia resolve isso de vez. O Que é o Pedigree Pedigree é o documento que prova a linhagem genealógica do animal — um \"registro de nascimento\" que rastreia os ancestrais do filhote por pelo menos 3 gerações. No Brasil, é emitido pelo CBKC (Confederação Brasileira de Cinofilia) ou por entidade filiada. Um pedigree real contém: Nome registrado do cão Número de registro único Data de nascimento Cor e sexo Nome e registro dos pais, avós e bisavós Nome e registro do canil criador Número da ninhada O Que é o Registro CBKC O CBKC é a principal federação cinológica do Brasil, afiliada à FCI (Federação Cinológica Internacional). O registro no CBKC: Documenta o registro genealógico do animal perante a entidade Garante rastreabilidade de linhagem É necessário para participar de exposições oficiais É a única documentação reconhecida internacionalmente Como Verificar se o Registro é Verdadeiro O número de registro do cão pode ser verificado diretamente no site do CBKC (cbkc.org). Se o criador fornecer um número e ele não constar no sistema, confirme os dados com a entidade emissora antes de qualquer conclusão. Microchip: O Que É e Por Que Importa O microchip é um transponder eletrônico do tamanho de um grão de arroz implantado sob a pele (geralmente na região do pescoço). Contém um número único de identificação que qualquer leitor microchip pode acessar. Por Que é Essencial Identificação permanente — diferente de coleira, não pode ser perdido Recuperação de animais perdidos — veterinários e abrigos leem o chip Apoio à comprovação de posse — auxilia na identificação individual em caso de furto ou disputa Registro internacional — chips ISO são lidos mundialmente O Cadastro Nacional A implantação do chip deve ser acompanhada do cadastro do número em sistema de rastreabilidade (SINAPETS ou similar). Verifique se o criador fez esse cadastro com seus dados — ou peça para atualizar para o seu nome após a compra. Documentos Que Você Deve Receber na Compra Checklist completo do que um criador responsável deve fornecer: Registro CBKC do filhote (ou comprovante de solicitação em andamento) Carteira de vacinação com vacinas aplicadas, datas e assinatura do veterinário responsável Resultado dos exames feitos antes da entrega — consulta veterinária e hemograma completo, por escrito Número do microchip e comprovante de implantação Contrato de compra e venda com garantias descritas Histórico de vermifugação Informações sobre os pais (nomes, registros, histórico de saúde) Transferência de Propriedade: Como Funciona Quando você compra um filhote registrado no CBKC, o registro inicial está em nome do criador. A transferência para seu nome é feita pelo criador mediante taxa à CBKC. Passo a passo: O criador solicita a transferência à CBKC após a venda Você recebe o pedigree definitivo com seu nome como proprietário O pedigree é emitido em papel especial com código de verificação Caso o criador não faça a transferência, você pode solicitá-la diretamente ao CBKC com a nota fiscal ou contrato de compra. O Que Fazer se Recebeu Documentação Falsa Se houver divergência ou suspeita de falsidade documental, confirme inicialmente os dados com a entidade emissora. Persistindo indícios de fraude, procure os órgãos de defesa do consumidor ou autoridades competentes para orientação e providências cabíveis. Verifique o número no site do CBKC Se não constar, peça esclarecimento formal ao criador e confirme os dados com a entidade emissora Persistindo a divergência, comunique o CBKC Procure os órgãos de defesa do consumidor ou as autoridades competentes para orientação sobre as providências cabíveis Comprar sem verificação prévia da documentação é o principal erro de quem cai em golpes. Pedigree e Microchip Garantem Saúde? Não. O pedigree documenta o registro genealógico e a linhagem declarada perante a entidade emissora — não é garantia de saúde. Um cão pode ter pedigree e ter predisposições genéticas para doenças. O que dá para conferir sobre a saúde do filhote: Consulta veterinária e exames laboratoriais apresentados na entrega Carteira de vacinação assinada por médico-veterinário e histórico de vermifugação Exames dos reprodutores, quando o criador os tiver realizado Transparência do criador sobre o que existe e o que não existe Por Que Alguns Criadores Não Registram Existem razões legítimas para atrasos de registro (burocracia do CBKC), mas desculpas recorrentes para não registrar geralmente indicam: Cão não é de raça pura Criador não tem registro de canil ativo Tentativa de economizar nas taxas às custas do comprador Exija o compromisso de registro em contrato, com prazo e penalidade em caso de descumprimento. Perguntas Frequentes sobre Documentação O que é pedigree do Lulu da Pomerânia? É o documento oficial emitido pelo CBKC que registra a linhagem genealógica do animal por pelo menos 3 gerações. Ele documenta a ascendência declarada perante a entidade emissora e permite rastrear os ancestrais — não é um atestado de saúde nem substitui laudos veterinários. Como verificar se o registro CBKC do Spitz Alemão Anão é verdadeiro? Acesse o site do CBKC (cbkc.org) e busque pelo número de registro fornecido. Se o animal não constar, o documento é inválido. O microchip do Spitz Alemão Anão substitui o pedigree? Não. São documentos com funções diferentes. O microchip auxilia na identificação individual e na rastreabilidade do animal. O pedigree documenta o registro genealógico e a linhagem declarada do animal perante a entidade emissora. Ambos são importantes e complementares. Posso registrar meu Spitz Alemão Anão sem pedigree dos pais? Não é possível registrar como raça pura sem pedigree de ambos os pais. Sem essa documentação, o cão pode ter microchip como animal sem raça definida, mas não terá pedigree oficial. Todos os nossos filhotes saem com documentação completa e transferência de propriedade incluída. Saiba mais →FontesReferências consultadas para as afirmações técnicas deste artigo.Raças reconhecidas pela CBKC — CBKC — Confederação Brasileira de CinofiliaPadrão FCI nº 97 — German Spitz (Spitz Alemão) — FCI — Fédération Cynologique InternationaleWSAVA Microchip Identification Guidelines — WSAVA — World Small Animal Veterinary Association🐾Conheça a vitrine de filhotes da By Império DogFotos reais por cor e sexo · registro oficial, consulta veterinária, hemograma completo e contrato inclusos. Consulte as opções atuais pelo WhatsApp.Falar com a criadoraVer a vitrine →Quero receber recomendaçõesNome completo *WhatsApp *Somente números com DDD — ex: 11999887766CidadeEstadoSelecione...ACALAPAMBACEDFESGOMAMTMSMGPAPBPRPEPIRJRNRSRORRSCSPSETOSexo do filhoteSelecione...MachoFêmeaTanto fazCor preferidaPrazo para aquisiçãoSelecione...Imediato (até 15 dias)Até 1 mês2 a 3 mesesMais de 3 mesesConte-nos maisLi e aceito a Política de Privacidade e autorizo o uso dos meus dados para contato sobre os filhotes. *⚡ Atendimento humano todos os dias, das 8h às 22h·🐾 Atendemos famílias em todo o BrasilQuero conhecer as opções atuaisSeus dados são protegidos conforme a LGPD. Entraremos em contato preferencialmente pelo WhatsApp informado, sem spam.Leia tambémComo escolher um criador confiávelCritérios para comparar canis, informações e documentos.Leia tambémComo comprar com segurançaO que conferir no atendimento, no contrato e antes de reservar.Leia tambémQuanto custa um Lulu da Pomerânia?Veja fotos, vídeos e valores individuais na vitrine. Confirme as opções atuais com a equipe.Newsletter · Tutores premiumReceba o guia exclusivo do 1.º ano do SpitzNutrição, comportamento, rotinas e saúde — direto no seu e-mail. Sem spam.Seu melhor e-mailQuero receberPronto para uma conversa sob consulta?Atendimento humano, todos os dias das 8h às 22h, para tirar dúvidas sobre as opções atuais.Conversar agoraFilhotes sob consultaVeja as cores e os sexos com que o canil trabalha, com o valor de partida de cada combinação.Acessar agoraProcesso completoConheça cada etapa: contato, documentação, reserva em contrato, entrega e acompanhamento pós-venda.Acessar agoraFAQ do tutorTransparência sobre investimento, logística, nutrição e convivência com outras espécies.Acessar agoraArtigos relacionados1 minNomes para Lulu da Pomerânia: Ideias para Fêmeas e MachosIdeias de nomes para Lulu da Pomerânia e Spitz Alemão: fêmeas, machos e sugestões por cor, com um roteiro simples para escolher em família.12 de set. de 20261 minCores do Spitz Alemão Anão: Qual é a Mais Cara?Particolor, laranja, creme, preto ou branco: entenda as cores do Spitz Alemão Anão e como consultar o valor individual de cada filhote.25 de mai. de 20261 minSpitz Alemão Anão é Bom para Apartamento? A Resposta Direta da CriadoraO Spitz Alemão Anão se adapta bem a apartamento, mas exige cuidados específicos. A criadora explica o que funciona e o que evitar.25 de mai. de 20261 minGuia Definitivo do Spitz Alemão AnãoTudo sobre filhotes, cuidados, saúde, alimentação, grooming, adestramento e compra responsável do Spitz Alemão Anão.07 de set. de 2025Pronto para dar o próximo passo?Cada filhote tem uma família esperando por ele.Conversa sem pressão. Apresento os disponíveis, respondo suas dúvidas e ajudo você a escolher com calma.Conversar agora — sem compromissoBy Império DogSpitz Alemão Anão — criado com responsabilidade, acompanhamento veterinário e suporte da criadora depois da entrega.contato@byimperiodog.com.br(11) 9 6863-3239Perfil no GoogleAvaliar no GoogleNavegaçãoInícioFilhotesGaleria de vídeosGuiasBlogProcessoContatoA raçaSpitz Alemão AnãoLulu da PomerâniaPomeranianFilhote de SpitzSpitz Alemão BrancoSpitz Alemão PretoSpitz Alemão Baby FaceNinhadasComo ComprarEntrega em todo o BrasilSuporteFAQ do tutorPolítica de privacidadeTermos de usoPolítica editorialPreferências de cookiesCriação responsável✓Registro oficial incluso✓Consulta veterinária e hemograma✓Mentoria pós-venda✓Criando desde 2013✓Bragança Paulista, SP© 2013–2026 By Império Dog. Todos os direitos reservados.Spitz Alemão Anão — acompanhamento veterinário e suporte direto com a criadora."
+    },
+    {
+      "url": "https://byimperiodog.com.br/sitemaps/images.xml",
+      "finalUrl": "https://byimperiodog.com.br/sitemaps/images.xml",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:16.858Z",
+      "fetchMs": 482,
+      "bytes": 17421,
+      "title": "",
+      "xRobots": null,
+      "headings": [],
+      "schemas": [],
+      "links": [],
+      "images": [],
+      "videos": [],
+      "text": "https://byimperiodog.com.br/filhotes/spitz-alemao-anao-branco-femeahttps://byimperiodog.com.br/filhotes/branco/branco-femea-jardim-20260926-04.jpgSpitz Alemão Anão Branco Fêmeahttps://byimperiodog.com.br/filhotes/branco/branco-femea-jardim-20260926-01.jpgSpitz Alemão Anão Branco Fêmeahttps://byimperiodog.com.br/filhotes/branco/branco-femea-jardim-20260926-02.jpgSpitz Alemão Anão Branco Fêmeahttps://byimperiodog.com.br/filhotes/branco/branco-femea-jardim-20260926-03.jpgSpitz Alemão Anão Branco Fêmeahttps://byimperiodog.com.br/filhotes/branco/branco-femea-jardim-20260926-05.jpgSpitz Alemão Anão Branco Fêmea https://byimperiodog.com.br/filhotes/spitz-alemao-anao-creme-femeahttps://byimperiodog.com.br/filhotes/creme/creme-femea-01.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-filhote-flores-05.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-filhote-jardim-04.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-filhote-flores-04.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-filhote-jardim-03.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-femea-02.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-femea-03.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-filhote-flores-01.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-femea-flores-03.jpgLulu da Pomerânia Creme Fêmeahttps://byimperiodog.com.br/filhotes/creme/creme-femea-flores-04.jpgLulu da Pomerânia Creme Fêmea https://byimperiodog.com.br/filhotes/spitz-alemao-anao-preto-femeahttps://byimperiodog.com.br/filhotes/preto/preto-femea-jardim-20260926-01.jpgSpitz Alemão Anão Preto Fêmeahttps://byimperiodog.com.br/filhotes/preto/preto-femea-jardim-20260926-02.jpgSpitz Alemão Anão Preto Fêmeahttps://byimperiodog.com.br/filhotes/preto/preto-femea-jardim-20260926-03.jpgSpitz Alemão Anão Preto Fêmea https://byimperiodog.com.br/filhotes/spitz-alemao-anao-laranja-femeahttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-brinquedos-04.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-brinquedos-01.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-brinquedos-02.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-brinquedos-03.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-brinquedos-05.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-brinquedos-06.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-brinquedos-07.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-flores-02.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-interior-01.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-jardim-01.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-jardim-02.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-jardim-03.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelhohttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-jardim-04.jpgLulu da Pomerânia Laranja Fêmea Laço Vermelho https://byimperiodog.com.br/filhotes/spitz-alemao-anao-laranja-femea-laco-rosahttps://byimperiodog.com.br/filhotes/laranja/laranja-femea-01.jpgSpitz Alemão Anão Laranja Fêmea Laço Rosa https://byimperiodog.com.br/filhotes/spitz-alemao-anao-creme-machohttps://byimperiodog.com.br/filhotes/creme/creme-macho-01.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-filhote-flores-06.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-filhote-jardim-01.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-filhote-folha-01.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-filhote-flores-02.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-filhote-jardim-05.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-macho-02.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-macho-flores-01.jpgSpitz Alemão Anão Creme Machohttps://byimperiodog.com.br/filhotes/creme/creme-filhote-jardim-02.jpgSpitz Alemão Anão Creme Macho https://byimperiodog.com.br/filhotes/spitz-alemao-anao-preto-machohttps://byimperiodog.com.br/filhotes/preto/preto-00.jpegLulu da Pomerânia Preto Machohttps://byimperiodog.com.br/filhotes/preto/preto-01.jpgLulu da Pomerânia Preto Machohttps://byimperiodog.com.br/filhotes/preto/preto-filhote-jardim-01.jpgLulu da Pomerânia Preto Machohttps://byimperiodog.com.br/filhotes/preto/preto-filhote-flores-01.jpgLulu da Pomerânia Preto Machohttps://byimperiodog.com.br/filhotes/preto/preto-filhote-jardim-03.jpgLulu da Pomerânia Preto Machohttps://byimperiodog.com.br/filhotes/preto/preto-filhote-flores-08.jpgLulu da Pomerânia Preto Machohttps://byimperiodog.com.br/filhotes/preto/preto-filhote-flores-07.jpgLulu da Pomerânia Preto Machohttps://byimperiodog.com.br/filhotes/preto/preto-filhote-jardim-02.jpgLulu da Pomerânia Preto Macho https://byimperiodog.com.br/filhotes/spitz-alemao-anao-laranja-machohttps://byimperiodog.com.br/filhotes/laranja/laranja-macho-flores-01.jpgSpitz Alemão Anão Laranja Machohttps://byimperiodog.com.br/filhotes/laranja/laranja-macho-flores-02.jpgSpitz Alemão Anão Laranja Machohttps://byimperiodog.com.br/filhotes/laranja/laranja-macho-01.jpgSpitz Alemão Anão Laranja Machohttps://byimperiodog.com.br/filhotes/laranja/laranja-macho-jardim-01.jpgSpitz Alemão Anão Laranja Machohttps://byimperiodog.com.br/filhotes/laranja/laranja-macho-02.jpgSpitz Alemão Anão Laranja Machohttps://byimperiodog.com.br/filhotes/laranja/laranja-macho-flores-03.jpgSpitz Alemão Anão Laranja Machohttps://byimperiodog.com.br/filhotes/laranja/laranja-macho-flores-04.jpgSpitz Alemão Anão Laranja Macho https://byimperiodog.com.br/filhotes/spitz-alemao-anao-wolf-sable-femeahttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-femea-01.jpgSpitz Cinza-Lobo (Wolf Sable) Fêmeahttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-femea-abeto-01.jpgSpitz Cinza-Lobo (Wolf Sable) Fêmeahttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-femea-abeto-02.jpgSpitz Cinza-Lobo (Wolf Sable) Fêmeahttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-femea-abeto-03.jpgSpitz Cinza-Lobo (Wolf Sable) Fêmeahttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-femea-jardim-01.jpgSpitz Cinza-Lobo (Wolf Sable) Fêmea https://byimperiodog.com.br/filhotes/spitz-alemao-anao-wolf-sable-machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-filhote-jardim-04.jpgSpitz Cinza-Lobo (Wolf Sable) Machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-filhote-flores-02.jpgSpitz Cinza-Lobo (Wolf Sable) Machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-filhote-jardim-02.jpgSpitz Cinza-Lobo (Wolf Sable) Machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-macho-abeto-01.jpgSpitz Cinza-Lobo (Wolf Sable) Machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-macho-abeto-02.jpgSpitz Cinza-Lobo (Wolf Sable) Machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-filhote-jardim-01.jpgSpitz Cinza-Lobo (Wolf Sable) Machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-filhote-jardim-03.jpgSpitz Cinza-Lobo (Wolf Sable) Machohttps://byimperiodog.com.br/filhotes/wolf-sable/wolf-sable-macho-01.jpgSpitz Cinza-Lobo (Wolf Sable) Macho https://byimperiodog.com.br/galeria/apresentacao-canilhttps://byimperiodog.com.br/filhotes/videos/posters/apresentacao-canil.webpPor dentro da By Império Dog: apresentação do canil https://byimperiodog.com.br/galeria/creme-duplahttps://byimperiodog.com.br/filhotes/videos/posters/creme-dupla.webpDois Spitz Alemão Anão creme: fofura em dobro https://byimperiodog.com.br/galeria/laranja-femea-jardimhttps://byimperiodog.com.br/filhotes/videos/posters/laranja-femea-jardim.webpSpitz Alemão Anão laranja fêmea explorando o jardim https://byimperiodog.com.br/galeria/laranja-macho-gramadohttps://byimperiodog.com.br/filhotes/videos/posters/laranja-macho-gramado.webpLulu da Pomerânia laranja macho brincando no gramado https://byimperiodog.com.br/galeria/laranja-macho-jardimhttps://byimperiodog.com.br/filhotes/videos/posters/laranja-macho-jardim.webpSpitz laranja macho no jardim: energia e curiosidade https://byimperiodog.com.br/galeria/ninhada-creme-01https://byimperiodog.com.br/filhotes/videos/posters/ninhada-creme-01.webpNinhada de Spitz creme: filhotes juntos em vídeo https://byimperiodog.com.br/galeria/ninhada-jun22-01https://byimperiodog.com.br/filhotes/videos/posters/ninhada-jun22-01.webpNinhada de Lulu da Pomerânia — junho de 2022, parte 1 https://byimperiodog.com.br/galeria/ninhada-jun22-02https://byimperiodog.com.br/filhotes/videos/posters/ninhada-jun22-02.webpNinhada de Lulu da Pomerânia — junho de 2022, parte 2 https://byimperiodog.com.br/galeria/ninhada-laranja-01https://byimperiodog.com.br/filhotes/videos/posters/ninhada-laranja-01.webpNinhada de Spitz laranja em movimento https://byimperiodog.com.br/galeria/spitz-anaohttps://byimperiodog.com.br/filhotes/videos/posters/spitz-anao.webpSpitz Alemão Anão em movimento: conheça a raça https://byimperiodog.com.br/galeria/spitz-brancohttps://byimperiodog.com.br/filhotes/videos/posters/spitz-branco.webpLulu da Pomerânia branco: pelagem e movimento https://byimperiodog.com.br/galeria/spitz-cremehttps://byimperiodog.com.br/filhotes/videos/posters/spitz-creme.webpSpitz creme em movimento: veja de perto https://byimperiodog.com.br/galeria/spitz-laranja-machohttps://byimperiodog.com.br/filhotes/videos/posters/spitz-laranja-macho.webpLulu da Pomerânia laranja macho em movimento"
+    },
+    {
+      "url": "https://byimperiodog.com.br/sitemaps/posts.xml",
+      "finalUrl": "https://byimperiodog.com.br/sitemaps/posts.xml",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:16.984Z",
+      "fetchMs": 609,
+      "bytes": 9461,
+      "title": "",
+      "xRobots": null,
+      "headings": [],
+      "schemas": [],
+      "links": [],
+      "images": [],
+      "videos": [],
+      "text": "https://byimperiodog.com.br/blog/nomes-lulu-da-pomerania2026-09-12T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/cores-spitz-alemao-anao-qual-mais-cara2026-09-14T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/cores-spitz-alemao-anao-qual-mais-cara.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-bom-para-apartamento2026-05-25T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/guia-spitz-alemao2025-09-07T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/guia-spitz-alemao.jpg https://byimperiodog.com.br/blog/adestramento-spitz-alemao-anao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/adestramento-spitz-alemao-anao.jpg https://byimperiodog.com.br/blog/alimentacao-spitz-alemao-anao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/alimentacao-spitz-alemao-anao.jpg https://byimperiodog.com.br/blog/como-escolher-canil-spitz-alemao2026-09-14T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/cuidados-pelo-spitz-alemao-anao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/cuidados-pelo-spitz-alemao-anao.jpg https://byimperiodog.com.br/blog/documentacao-registro-spitz-alemao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/lulu-pomerania-ou-spitz-alemao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/preco-spitz-alemao-anao2026-09-14T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/preco-spitz-alemao-anao.jpg https://byimperiodog.com.br/blog/quanto-custa-manter-spitz-alemao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/quanto-custa-manter-spitz-alemao.jpg https://byimperiodog.com.br/blog/saude-spitz-alemao-anao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/saude-spitz-alemao-anao.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-ansiedade-separacao2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-ansiedade-separacao.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-braganca-paulista2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-com-criancas2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-creme2026-09-14T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-creme.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-dentes2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-dentes.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-entrega-brasil2026-09-24T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-exercicios-passeios2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-exercicios-passeios.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-filhote-primeiros-dias2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-idoso-adulto-solo2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-latido2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-latido.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-macho-ou-femea2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-outros-animais2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-peso-desenvolvimento2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-peso-desenvolvimento.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-preto2026-09-14T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-preto.jpg https://byimperiodog.com.br/blog/spitz-alemao-anao-temperamento2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-vs-pinscher-chihuahua2026-09-14T00:00:00.000Zweekly0.7https://byimperiodog.com.br/spitz-hero-desktop.webp https://byimperiodog.com.br/blog/spitz-alemao-anao-wolf-sable2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/spitz-alemao-anao-wolf-sable.jpg https://byimperiodog.com.br/blog/vacinas-spitz-alemao-anao-filhote2025-06-01T00:00:00.000Zweekly0.7https://byimperiodog.com.br/images/blog/vacinas-spitz-alemao-anao-filhote.jpg"
+    },
+    {
+      "url": "https://byimperiodog.com.br/sitemaps/videos.xml",
+      "finalUrl": "https://byimperiodog.com.br/sitemaps/videos.xml",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:23.145Z",
+      "fetchMs": 6769,
+      "bytes": 9534,
+      "title": "",
+      "xRobots": null,
+      "headings": [],
+      "schemas": [],
+      "links": [],
+      "images": [],
+      "videos": [],
+      "text": "https://byimperiodog.com.br/galeria/apresentacao-canil https://byimperiodog.com.br/filhotes/videos/posters/apresentacao-canil.webpPor dentro da By Império Dog: apresentação do canilConheça a By Império Dog e veja em vídeo o trabalho dedicado ao Spitz Alemão Anão em Bragança Paulista, SP.https://byimperiodog.com.br/filhotes/videos/apresentacao-canil.mp492026-05-25yesno https://byimperiodog.com.br/galeria/creme-dupla https://byimperiodog.com.br/filhotes/videos/posters/creme-dupla.webpDois Spitz Alemão Anão creme: fofura em dobroDois filhotes de Spitz Alemão Anão creme juntos, mostrando de perto a pelagem clara e o jeito curioso da raça.https://byimperiodog.com.br/filhotes/videos/creme-dupla.mp4572026-05-25yesno https://byimperiodog.com.br/galeria/laranja-femea-jardim https://byimperiodog.com.br/filhotes/videos/posters/laranja-femea-jardim.webpSpitz Alemão Anão laranja fêmea explorando o jardimUma fêmea laranja de Lulu da Pomerânia caminhando e explorando o jardim em um vídeo natural, sem filtros.https://byimperiodog.com.br/filhotes/videos/laranja-femea-jardim.mp4242026-05-25yesno https://byimperiodog.com.br/galeria/laranja-macho-gramado https://byimperiodog.com.br/filhotes/videos/posters/laranja-macho-gramado.webpLulu da Pomerânia laranja macho brincando no gramadoUm Spitz Alemão Anão laranja macho em movimento no gramado, filmado ao ar livre e em luz natural.https://byimperiodog.com.br/filhotes/videos/laranja-macho-gramado.mp472026-08-26yesno https://byimperiodog.com.br/galeria/laranja-macho-jardim https://byimperiodog.com.br/filhotes/videos/posters/laranja-macho-jardim.webpSpitz laranja macho no jardim: energia e curiosidadeVeja um macho laranja de Spitz Alemão Anão brincando e explorando o espaço externo da By Império Dog.https://byimperiodog.com.br/filhotes/videos/laranja-macho-jardim.mp4262026-05-25yesno https://byimperiodog.com.br/galeria/ninhada-creme-01 https://byimperiodog.com.br/filhotes/videos/posters/ninhada-creme-01.webpNinhada de Spitz creme: filhotes juntos em vídeoUma ninhada de filhotes creme reunida, com movimentos e interação registrados em vídeo pela By Império Dog.https://byimperiodog.com.br/filhotes/videos/ninhada-creme-01.mp4152026-05-25yesno https://byimperiodog.com.br/galeria/ninhada-jun22-01 https://byimperiodog.com.br/filhotes/videos/posters/ninhada-jun22-01.webpNinhada de Lulu da Pomerânia — junho de 2022, parte 1Primeiro vídeo da ninhada de Spitz Alemão Anão registrada em junho de 2022.https://byimperiodog.com.br/filhotes/videos/ninhada-jun22-01.mp4242026-05-25yesno https://byimperiodog.com.br/galeria/ninhada-jun22-02 https://byimperiodog.com.br/filhotes/videos/posters/ninhada-jun22-02.webpNinhada de Lulu da Pomerânia — junho de 2022, parte 2Segundo vídeo da ninhada de Spitz Alemão Anão registrada em junho de 2022.https://byimperiodog.com.br/filhotes/videos/ninhada-jun22-02.mp4192026-05-25yesno https://byimperiodog.com.br/galeria/ninhada-laranja-01 https://byimperiodog.com.br/filhotes/videos/posters/ninhada-laranja-01.webpNinhada de Spitz laranja em movimentoFilhotes laranja de Spitz Alemão Anão juntos em um registro natural da ninhada.https://byimperiodog.com.br/filhotes/videos/ninhada-laranja-01.mp4292026-05-25yesno https://byimperiodog.com.br/galeria/spitz-anao https://byimperiodog.com.br/filhotes/videos/posters/spitz-anao.webpSpitz Alemão Anão em movimento: conheça a raçaVeja de perto o porte, a pelagem e os movimentos do Spitz Alemão Anão, também conhecido como Lulu da Pomerânia.https://byimperiodog.com.br/filhotes/videos/spitz-anao.mp4152026-05-25yesno https://byimperiodog.com.br/galeria/spitz-branco https://byimperiodog.com.br/filhotes/videos/posters/spitz-branco.webpLulu da Pomerânia branco: pelagem e movimentoUm Spitz Alemão Anão branco em movimento, com destaque para a pelagem clara e volumosa.https://byimperiodog.com.br/filhotes/videos/spitz-branco.mp4152026-05-25yesno https://byimperiodog.com.br/galeria/spitz-creme https://byimperiodog.com.br/filhotes/videos/posters/spitz-creme.webpSpitz creme em movimento: veja de pertoVídeo de um Spitz Alemão Anão creme em movimento, mostrando a tonalidade e o volume da pelagem.https://byimperiodog.com.br/filhotes/videos/spitz-creme.mp4602026-05-25yesno https://byimperiodog.com.br/galeria/spitz-laranja-macho https://byimperiodog.com.br/filhotes/videos/posters/spitz-laranja-macho.webpLulu da Pomerânia laranja macho em movimentoVeja de perto um macho laranja de Spitz Alemão Anão em um vídeo real da By Império Dog.https://byimperiodog.com.br/filhotes/videos/spitz-laranja-macho.mp4152026-05-25yesno"
+    },
+    {
+      "url": "https://flordotijuco.com.br/blog/",
+      "finalUrl": "https://flordotijuco.com.br/blog/",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:23.291Z",
+      "fetchMs": 142,
+      "bytes": 186243,
+      "title": "Blog - Canil Flor do Tijuco",
+      "canonical": "https://flordotijuco.com.br/blog/",
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "xRobots": null,
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Blog Spitz Alemão - O melhor e mais completooo"
+        },
+        {
+          "level": "H3",
+          "text": "Filhote Spitz Alemão Bad Bunny"
+        },
+        {
+          "level": "H3",
+          "text": "Filhote Spitz Alemão Francesca"
+        },
+        {
+          "level": "H3",
+          "text": "Filhote Spitz Alemão Georgia"
+        },
+        {
+          "level": "H3",
+          "text": "Filhote Spitz Alemão Jack"
+        },
+        {
+          "level": "H2",
+          "text": "Contatos"
+        },
+        {
+          "level": "H2",
+          "text": "Atendimento de Terça a Sábado das 9 as 16hs"
+        },
+        {
+          "level": "H2",
+          "text": "** Somente com agendamento prévio"
+        },
+        {
+          "level": "H2",
+          "text": "Institucional"
+        },
+        {
+          "level": "H2",
+          "text": "Criação desde 1996"
+        }
+      ],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": [
+                "Article",
+                "BlogPosting"
+              ],
+              "@id": "https://flordotijuco.com.br/blog/#article",
+              "isPartOf": {
+                "@id": "https://flordotijuco.com.br/blog/"
+              },
+              "author": {
+                "name": "viniciusK",
+                "@id": "https://flordotijuco.com.br/#/schema/person/ad45848ede8149d8c8734216bcd455d9"
+              },
+              "headline": "Blog",
+              "datePublished": "2025-01-29T17:16:08+00:00",
+              "dateModified": "2025-11-12T23:41:34+00:00",
+              "mainEntityOfPage": {
+                "@id": "https://flordotijuco.com.br/blog/"
+              },
+              "wordCount": 91,
+              "publisher": {
+                "@id": "https://flordotijuco.com.br/#organization"
+              },
+              "image": {
+                "@id": "https://flordotijuco.com.br/blog/#primaryimage"
+              },
+              "thumbnailUrl": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-filhotes-a-venda.jpg",
+              "inLanguage": "pt-BR"
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://flordotijuco.com.br/blog/",
+              "url": "https://flordotijuco.com.br/blog/",
+              "name": "Blog - Canil Flor do Tijuco",
+              "isPartOf": {
+                "@id": "https://flordotijuco.com.br/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://flordotijuco.com.br/blog/#primaryimage"
+              },
+              "image": {
+                "@id": "https://flordotijuco.com.br/blog/#primaryimage"
+              },
+              "thumbnailUrl": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-filhotes-a-venda.jpg",
+              "datePublished": "2025-01-29T17:16:08+00:00",
+              "dateModified": "2025-11-12T23:41:34+00:00",
+              "description": "Blog completo sobre Spitz Alemão: cuidados, temperamento, saúde e tudo que você precisa para seu companheiro de quatro patas.",
+              "breadcrumb": {
+                "@id": "https://flordotijuco.com.br/blog/#breadcrumb"
+              },
+              "inLanguage": "pt-BR",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://flordotijuco.com.br/blog/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "pt-BR",
+              "@id": "https://flordotijuco.com.br/blog/#primaryimage",
+              "url": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-filhotes-a-venda.jpg",
+              "contentUrl": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-filhotes-a-venda.jpg",
+              "width": 1024,
+              "height": 1024,
+              "caption": "banner-filhotes-a-venda"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://flordotijuco.com.br/blog/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://flordotijuco.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Blog"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://flordotijuco.com.br/#website",
+              "url": "https://flordotijuco.com.br/",
+              "name": "Canil Flor do Tijuco",
+              "description": "Criação especializada de Spitz Alemão. Tradição e Qualidade fazem a diferença. Tenha a melhor experiência com nosso canil. Tenha um filhote Flor do Tijuco.",
+              "publisher": {
+                "@id": "https://flordotijuco.com.br/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://flordotijuco.com.br/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "pt-BR"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://flordotijuco.com.br/#organization",
+              "name": "Canil Flor do Tijuco",
+              "url": "https://flordotijuco.com.br/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "pt-BR",
+                "@id": "https://flordotijuco.com.br/#/schema/logo/image/",
+                "url": "https://flordotijuco.com.br/wp-content/uploads/2024/12/cropped-modelo-novo-logo-3.png",
+                "contentUrl": "https://flordotijuco.com.br/wp-content/uploads/2024/12/cropped-modelo-novo-logo-3.png",
+                "width": 471,
+                "height": 235,
+                "caption": "Canil Flor do Tijuco"
+              },
+              "image": {
+                "@id": "https://flordotijuco.com.br/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/canilflordotijuco",
+                "https://www.instagram.com/canilflordotijuco/",
+                "https://www.youtube.com/@CanilFlordoTijucoOficial"
+              ]
+            },
+            {
+              "@type": "Person",
+              "@id": "https://flordotijuco.com.br/#/schema/person/ad45848ede8149d8c8734216bcd455d9",
+              "name": "viniciusK",
+              "image": {
+                "@type": "ImageObject",
+                "inLanguage": "pt-BR",
+                "@id": "https://secure.gravatar.com/avatar/4f524d498c51271cd72ae0e6ba2d069c0de77dba0e60307c5da8749fba184fcf?s=96&d=mm&r=g",
+                "url": "https://secure.gravatar.com/avatar/4f524d498c51271cd72ae0e6ba2d069c0de77dba0e60307c5da8749fba184fcf?s=96&d=mm&r=g",
+                "contentUrl": "https://secure.gravatar.com/avatar/4f524d498c51271cd72ae0e6ba2d069c0de77dba0e60307c5da8749fba184fcf?s=96&d=mm&r=g",
+                "caption": "viniciusK"
+              },
+              "sameAs": [
+                "https://flordotijuco.com.br"
+              ],
+              "url": "https://flordotijuco.com.br/author/viniciusk/"
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://flordotijuco.com.br/blog/#content",
+          "text": "Pular para o conteúdo principal"
+        },
+        {
+          "href": "https://flordotijuco.com.br/",
+          "text": "Home"
+        },
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20a%20respeito%20dos%20filhotes%20de%20Spitz%20Alem%C3%A3o.",
+          "text": "(11) 99822-0003"
+        },
+        {
+          "href": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/",
+          "text": "Quem Somos"
+        },
+        {
+          "href": "https://flordotijuco.com.br/sobre-a-raca/",
+          "text": "Sobre a Raça"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://flordotijuco.com.br/filhotes-a-venda/",
+          "text": "Pomerânia"
+        },
+        {
+          "href": "https://flordotijuco.com.br/galeria-de-fotos/",
+          "text": "Galeria de Fotos"
+        },
+        {
+          "href": "https://flordotijuco.com.br/duvidas-frequentes/",
+          "text": "Dúvidas Frequentes"
+        },
+        {
+          "href": "https://flordotijuco.com.br/doacoes/",
+          "text": "Doações"
+        },
+        {
+          "href": "https://flordotijuco.com.br/contato/",
+          "text": "Contato"
+        },
+        {
+          "href": "https://flordotijuco.com.br/filhote-spitz-alemao-bad-bunny/",
+          "text": "Filhote Spitz Alemão Bad Bunny"
+        },
+        {
+          "href": "https://flordotijuco.com.br/filhote-spitz-alemao-francesca/",
+          "text": "Filhote Spitz Alemão Francesca"
+        },
+        {
+          "href": "https://flordotijuco.com.br/filhote-spitz-alemao-georgia/",
+          "text": "Filhote Spitz Alemão Georgia"
+        },
+        {
+          "href": "https://flordotijuco.com.br/filhote-spitz-alemao-jack/",
+          "text": "Filhote Spitz Alemão Jack"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/2/",
+          "text": "Próximo »"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/3/",
+          "text": "Página3"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/4/",
+          "text": "Página4"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/5/",
+          "text": "Página5"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/6/",
+          "text": "Página6"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/7/",
+          "text": "Página7"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/8/",
+          "text": "Página8"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/9/",
+          "text": "Página9"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/10/",
+          "text": "Página10"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/11/",
+          "text": "Página11"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/12/",
+          "text": "Página12"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/13/",
+          "text": "Página13"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/14/",
+          "text": "Página14"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/15/",
+          "text": "Página15"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/16/",
+          "text": "Página16"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/17/",
+          "text": "Página17"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/18/",
+          "text": "Página18"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/19/",
+          "text": "Página19"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/20/",
+          "text": "Página20"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/21/",
+          "text": "Página21"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/22/",
+          "text": "Página22"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/23/",
+          "text": "Página23"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/24/",
+          "text": "Página24"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/25/",
+          "text": "Página25"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/alimentacao/",
+          "text": "alimentação"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/castracao/",
+          "text": "castração"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/coprofagia-canina/",
+          "text": "coprofagia canina"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/cores-spitz-alemao/",
+          "text": "cores spitz alemao"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/cuidados-spitz-alemao/",
+          "text": "cuidados spitz alemão"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/curiosidades/",
+          "text": "curiosidades"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/dicas-importantes/",
+          "text": "dicas importantes"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/diferenca-macho-e-femea/",
+          "text": "diferença macho e fêmea"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/filhote-a-venda/",
+          "text": "filhote a venda"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/filhote-vendido/",
+          "text": "filhote vendido"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/filhotes/",
+          "text": "filhotes"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/informacoes/",
+          "text": "informações"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/preco-spitz-alemao/",
+          "text": "preço spitz alemão"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/saude/",
+          "text": "saude"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/spitz-alemao/",
+          "text": "spitz alemão"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/tosa/",
+          "text": "tosa"
+        },
+        {
+          "href": "https://flordotijuco.com.br/category/uncategorized/",
+          "text": "Uncategorized"
+        },
+        {
+          "href": "https://flordotijuco.com.br/filhote-spitz-alemao-hailey/",
+          "text": "Filhote Spitz Alemão Hailey"
+        },
+        {
+          "href": "https://wa.me/5511996452925?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20desenvolvimento%20de%20sites%20otimizados.",
+          "text": "SiteDesenvolvido por Vinicius Kishimoto | Gestor de Tráfego | Faça seu site e alavanque suas vendas | especializado em criadores"
+        },
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20sobre%20os%20filhotes%20de%20Spitz%20Alem%C3%A3o",
+          "text": "Quero saber sobre os filhotes"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2024/12/modelo-novo-logo-3.png",
+          "alt": "logo canil flor do tijuco"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2026/08/bad-bunny-macho-blacktan-spitz-alemao-CAPA.jpg",
+          "alt": "filhote de spitz alemão sp"
+        },
+        {
+          "src": "https://secure.gravatar.com/avatar/4f524d498c51271cd72ae0e6ba2d069c0de77dba0e60307c5da8749fba184fcf?s=128&d=mm&r=g",
+          "alt": "viniciusK"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2026/08/francesca-femea-spitz-alemao-2541-CAPA.jpg",
+          "alt": "filhote spitz alemão"
+        },
+        {
+          "src": "https://secure.gravatar.com/avatar/4f524d498c51271cd72ae0e6ba2d069c0de77dba0e60307c5da8749fba184fcf?s=128&d=mm&r=g",
+          "alt": "viniciusK"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2026/08/georgia-femea-spitz-alemao-branco-laranja-2524-CAPA.jpg",
+          "alt": "filhote de spitz alemão"
+        },
+        {
+          "src": "https://secure.gravatar.com/avatar/4f524d498c51271cd72ae0e6ba2d069c0de77dba0e60307c5da8749fba184fcf?s=128&d=mm&r=g",
+          "alt": "viniciusK"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2026/08/jack-macho-spitz-alemao-laranja-2531-CAPA.jpg",
+          "alt": "spitz alemao"
+        },
+        {
+          "src": "https://secure.gravatar.com/avatar/4f524d498c51271cd72ae0e6ba2d069c0de77dba0e60307c5da8749fba184fcf?s=128&d=mm&r=g",
+          "alt": "viniciusK"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-filhotes-a-venda.jpg",
+          "alt": "banner-filhotes-a-venda"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2024/12/modelo-novo-logo-3.png",
+          "alt": "logo canil flor do tijuco"
+        }
+      ],
+      "videos": [],
+      "text": "Pular para o conteúdo principal Canil Flor do Tijuco Atendimento de Terça a Sábado das 10 as 16 hs – Estamos em Cotia/SP Reserva/Atendimento Menu Home O Canil Sobre a Raça Blog Filhotes à Venda Galeria Dúvidas Doações Contato Blog Spitz Alemão - O melhor e mais completooo O BLOG mais completo sobre a raça Spitz Alemão só podeira ser do FLOR DO TIJUCO!!! Descubra tudo sobre essa raça encantadora que conquista corações com sua pelagem exuberante, energia contagiante e lealdade incomparável. Se você é apaixonado por Spitz Alemão (Lulu da Pomerânia) ou quer conhecer mais sobre essa incrível companhia, este blog é o lugar certo para você! 🐾✨ filhote a venda Filhote Spitz Alemão Bad Bunny FILHOTE DE SPITZ ALEMÃO À VENDA Nosso site é atualizado constantemente, portanto se você está vendo essa página é porque esse filhote encontra-se disponível e LEIA MAIS >> filhote vendido Filhote Spitz Alemão Francesca FILHOTE DE SPITZ ALEMÃO À VENDA Nosso site é atualizado constantemente, portanto se você está vendo essa página é porque esse filhote encontra-se disponível e LEIA MAIS >> filhote vendido Filhote Spitz Alemão Georgia FILHOTE DE SPITZ ALEMÃO À VENDA Nosso site é atualizado constantemente, portanto se você está vendo essa página é porque esse filhote encontra-se disponível e LEIA MAIS >> filhote vendido Filhote Spitz Alemão Jack FILHOTE DE SPITZ ALEMÃO À VENDA Nosso site é atualizado constantemente, portanto se você está vendo essa página é porque esse filhote encontra-se disponível e LEIA MAIS >> « Anterior Página1 Página2 Página3 Página4 Página5 Página6 Página7 Página8 Página9 Página10 Página11 Página12 Página13 Página14 Página15 Página16 Página17 Página18 Página19 Página20 Página21 Página22 Página23 Página24 Página25 Próximo » Falar com criador Categorias alimentação (2) castração (2) coprofagia canina (1) cores spitz alemao (14) cuidados spitz alemão (9) curiosidades (7) dicas importantes (12) diferença macho e fêmea (1) filhote a venda (4) filhote vendido (59) filhotes (40) informações (12) preço spitz alemão (1) saude (11) spitz alemão (26) tosa (1) Uncategorized (13) Pesquisar Assunto Procurar: FLOR DO TIJUCO Criando a raça SPITZ ALEMÃO desde 1996 Posts recentes Filhote Spitz Alemão Bad Bunny Filhote Spitz Alemão Francesca Filhote Spitz Alemão Georgia Filhote Spitz Alemão Jack Filhote Spitz Alemão Hailey Canil Flor do Tijuco – Esteja a um passo a frente, tenha um TIJUQUINHO Contatos (11) 99822-0003 contato@flordotijuco.com.br Cotia/SP Atendimento de Terça a Sábado das 9 as 16hs ** Somente com agendamento prévio Institucional Home Quem Somos Sobre a Raça Blog Filhotes à Venda Galeria de Fotos Dúvidas Frequentes Contato Criação desde 1996 Spitz Alemão Spitz Alemão Anão Spitz Alemão Pequeno Lulu da Pomerânia Pomerânia Canil Flor do Tijuco- Copyright ® 2025Todos os direitos reservados Política de Privacidade SiteDesenvolvido por Vinicius Kishimoto | Gestor de Tráfego | Faça seu site e alavanque suas vendas | especializado em criadores Quero saber sobre os filhotes 1 Atendimento Flor do Tijuco Olá,Gostaria de saber sobre nossos filhotes de Spitz Alemão? Abrir bate-papo"
+    },
+    {
+      "url": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/",
+      "finalUrl": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/",
+      "status": 200,
+      "checkedAt": "2026-11-03T20:41:23.879Z",
+      "fetchMs": 731,
+      "bytes": 165412,
+      "title": "Somos o Flor do Tijuco - Canil Flor do Tijuco",
+      "canonical": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/",
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "xRobots": null,
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Somos o Canil Flor do Tijuco"
+        },
+        {
+          "level": "H2",
+          "text": "Contatos"
+        },
+        {
+          "level": "H2",
+          "text": "Atendimento de Terça a Sábado das 9 as 16hs"
+        },
+        {
+          "level": "H2",
+          "text": "** Somente com agendamento prévio"
+        },
+        {
+          "level": "H2",
+          "text": "Institucional"
+        },
+        {
+          "level": "H2",
+          "text": "Criação desde 1996"
+        }
+      ],
+      "schemas": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": [
+                "WebPage",
+                "AboutPage"
+              ],
+              "@id": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/",
+              "url": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/",
+              "name": "Somos o Flor do Tijuco - Canil Flor do Tijuco",
+              "isPartOf": {
+                "@id": "https://flordotijuco.com.br/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/#primaryimage"
+              },
+              "image": {
+                "@id": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/#primaryimage"
+              },
+              "thumbnailUrl": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-spitz-alemao-somos-o-canil-flor-do-tijuco-2048x900-1-1.jpg",
+              "datePublished": "2025-01-02T17:09:07+00:00",
+              "dateModified": "2025-11-12T23:40:32+00:00",
+              "description": "Conheça quem somos no Canil Flor do Tijuco: paixão por Spitz Alemão, ética na criação e compromisso com lares responsáveis.",
+              "breadcrumb": {
+                "@id": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/#breadcrumb"
+              },
+              "inLanguage": "pt-BR",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://flordotijuco.com.br/somos-o-flor-do-tijuco/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "pt-BR",
+              "@id": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/#primaryimage",
+              "url": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-spitz-alemao-somos-o-canil-flor-do-tijuco-2048x900-1-1.jpg",
+              "contentUrl": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-spitz-alemao-somos-o-canil-flor-do-tijuco-2048x900-1-1.jpg",
+              "width": 2048,
+              "height": 900,
+              "caption": "banner-sobre-o-canil-flor-do-tijuco"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Início",
+                  "item": "https://flordotijuco.com.br/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Somos o Flor do Tijuco"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://flordotijuco.com.br/#website",
+              "url": "https://flordotijuco.com.br/",
+              "name": "Canil Flor do Tijuco",
+              "description": "Criação especializada de Spitz Alemão. Tradição e Qualidade fazem a diferença. Tenha a melhor experiência com nosso canil. Tenha um filhote Flor do Tijuco.",
+              "publisher": {
+                "@id": "https://flordotijuco.com.br/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://flordotijuco.com.br/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "pt-BR"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://flordotijuco.com.br/#organization",
+              "name": "Canil Flor do Tijuco",
+              "url": "https://flordotijuco.com.br/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "pt-BR",
+                "@id": "https://flordotijuco.com.br/#/schema/logo/image/",
+                "url": "https://flordotijuco.com.br/wp-content/uploads/2024/12/cropped-modelo-novo-logo-3.png",
+                "contentUrl": "https://flordotijuco.com.br/wp-content/uploads/2024/12/cropped-modelo-novo-logo-3.png",
+                "width": 471,
+                "height": 235,
+                "caption": "Canil Flor do Tijuco"
+              },
+              "image": {
+                "@id": "https://flordotijuco.com.br/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/canilflordotijuco",
+                "https://www.instagram.com/canilflordotijuco/",
+                "https://www.youtube.com/@CanilFlordoTijucoOficial"
+              ]
+            }
+          ]
+        }
+      ],
+      "links": [
+        {
+          "href": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/#content",
+          "text": "Pular para o conteúdo principal"
+        },
+        {
+          "href": "https://flordotijuco.com.br/",
+          "text": "Home"
+        },
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20a%20respeito%20dos%20filhotes%20de%20Spitz%20Alem%C3%A3o.",
+          "text": "(11) 99822-0003"
+        },
+        {
+          "href": "https://flordotijuco.com.br/somos-o-flor-do-tijuco/",
+          "text": "Quem Somos"
+        },
+        {
+          "href": "https://flordotijuco.com.br/sobre-a-raca/",
+          "text": "Sobre a Raça"
+        },
+        {
+          "href": "https://flordotijuco.com.br/blog/",
+          "text": "Blog"
+        },
+        {
+          "href": "https://flordotijuco.com.br/filhotes-a-venda/",
+          "text": "Pomerânia"
+        },
+        {
+          "href": "https://flordotijuco.com.br/galeria-de-fotos/",
+          "text": "Galeria de Fotos"
+        },
+        {
+          "href": "https://flordotijuco.com.br/duvidas-frequentes/",
+          "text": "Dúvidas Frequentes"
+        },
+        {
+          "href": "https://flordotijuco.com.br/doacoes/",
+          "text": "Doações"
+        },
+        {
+          "href": "https://flordotijuco.com.br/contato/",
+          "text": "Contato"
+        },
+        {
+          "href": "https://wa.me/5511996452925?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20desenvolvimento%20de%20sites%20otimizados.",
+          "text": "SiteDesenvolvido por Vinicius Kishimoto | Gestor de Tráfego | Faça seu site e alavanque suas vendas | especializado em criadores"
+        },
+        {
+          "href": "https://wa.me/5511998220003?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Gostaria%20de%20saber%20sobre%20os%20filhotes%20de%20Spitz%20Alem%C3%A3o",
+          "text": "Quero saber sobre os filhotes"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2024/12/modelo-novo-logo-3.png",
+          "alt": "logo canil flor do tijuco"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2025/01/banner-spitz-alemao-somos-o-canil-flor-do-tijuco-2048x900-1-1.jpg",
+          "alt": "banner-sobre-o-canil-flor-do-tijuco"
+        },
+        {
+          "src": "https://flordotijuco.com.br/wp-content/uploads/2024/12/modelo-novo-logo-3.png",
+          "alt": "logo canil flor do tijuco"
+        }
+      ],
+      "videos": [],
+      "text": "Pular para o conteúdo principal Canil Flor do Tijuco Atendimento de Terça a Sábado das 10 as 16 hs – Estamos em Cotia/SP Reserva/Atendimento Menu Home O Canil Sobre a Raça Blog Filhotes à Venda Galeria Dúvidas Doações Contato Somos o Canil Flor do Tijuco Investir em um filhote de qualidade, com genética confiável e criado com responsabilidade, faz toda a diferença na experiência e na felicidade da nova família.”Nós do Flor do Tijuco iremos lhe proporcionar a melhor experiência com a raça Spitz Alemão também conhecida como Lulu da Pomerânia.Cuidado, Amor e Respeito são a base do nosso trabalho!Nossa história começou com uma grande paixão pelo amor aos animais e o desejo de compartilhar essa paixão com o mundo. Inicialmente, surgimos sem grandes pretensões, apenas como um hobby. No entanto, foi ao conhecer a Bruninha, nossa primeira matriz de Spitz Alemão, que nos apaixonamos completamente. Seu jeitinho carinhoso e a forma sutil de se aproximar, como se ela pudesse ler nossos pensamentos, nos cativou profundamente. Sua delicadeza, respeito pelas regras da casa e o carinho com os outros cães nos encantaram a ponto de decidirmos seguir em frente e adquirir mais exemplares como ela. Muitos desses cães vieram de importações, pois naquela época havia poucos bons criadores de Spitz Alemão.Mas não pense que nosso caminho foi fácil. Muito pelo contrário, tivemos que abrir mão de muitas coisas, como natais em família, réveillons, feriados e até mesmo viagens. Quantas noites passamos em claro, amamentando ou cuidando de filhotes mais frágeis… Mas a recompensa vem com o tempo, e a satisfação de ver nossos cães saudáveis e bem cuidados é indescritível. A vida de criador sério não é fácil, mas a recompensa de ver o trabalho árduo resultando em cães saudáveis e com um ótimo temperamento tem um sabor único.Tudo vale a pena quando o sonho é grande! Criar filhotes bonitos, saudáveis e com temperamento exemplar não é tarefa simples; exige dedicação, paciência e muito trabalho. No entanto, a experiência adquirida ao longo de todos esses anos nos deu uma profunda compreensão da criação de cães e nos consolidou como especialistas na raça Spitz Alemão no Brasil. Se me perguntarem qual é o segredo do Canil Flor do Tijuco, posso afirmar com certeza que o nosso maior diferencial sempre foi o AMOR e o RESPEITO PELOS ANIMAIS.Temos o compromisso de oferecer o melhor todos os dias!Nós, do Canil Flor do Tijuco, cuidamos para que nossos filhotes não sejam apenas bonitos, mas também tenham o temperamento, a beleza e a saúde aprimorados por anos de dedicação. Sabemos que para muitos de nossos clientes, o cão é um verdadeiro membro da família, e é com esse carinho que cuidamos de cada um de nossos filhotes. Desde 1996, temos nos dedicado de corpo e alma para garantir que nossos cães deixem uma marca eterna no coração de nossos clientes, sendo lembrados como o melhor cão que já tiveram. Canil Flor do Tijuco – Esteja a um passo a frente, tenha um TIJUQUINHO Contatos (11) 99822-0003 contato@flordotijuco.com.br Cotia/SP Atendimento de Terça a Sábado das 9 as 16hs ** Somente com agendamento prévio Institucional Home Quem Somos Sobre a Raça Blog Filhotes à Venda Galeria de Fotos Dúvidas Frequentes Contato Criação desde 1996 Spitz Alemão Spitz Alemão Anão Spitz Alemão Pequeno Lulu da Pomerânia Pomerânia Canil Flor do Tijuco- Copyright ® 2025Todos os direitos reservados Política de Privacidade SiteDesenvolvido por Vinicius Kishimoto | Gestor de Tráfego | Faça seu site e alavanque suas vendas | especializado em criadores Quero saber sobre os filhotes 1 Atendimento Flor do Tijuco Olá,Gostaria de saber sobre nossos filhotes de Spitz Alemão? Abrir bate-papo"
+    }
+  ],
+  "depths": {
+    "https://byimperiodog.com.br/": 0
+  }
+}

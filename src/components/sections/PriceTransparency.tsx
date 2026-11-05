@@ -24,8 +24,10 @@ const SEXES = [
   {
     label: "Macho",
     highlight: false,
-    note: "Preço varia conforme a cor. O temperamento é o típico da raça e não depende do sexo.",
-    colors: LINHAS_FORMATADAS.map((linha) => ({ cor: linha.label, valor: linha.macho })),
+    note: "As combinações masculinas publicadas atualmente são creme e preto.",
+    colors: LINHAS_FORMATADAS.flatMap((linha) =>
+      linha.macho ? [{ cor: linha.label, valor: linha.macho }] : []
+    ),
   },
   {
     label: "Fêmea",
@@ -37,8 +39,10 @@ const SEXES = [
     // cima de um preço aberto estraga justamente o que a seção promete no
     // título, que é não ter letra miúda.
     highlight: true,
-    note: "A fêmea custa mais que o macho em todas as cores. O valor de um filhote específico é confirmado no atendimento.",
-    colors: LINHAS_FORMATADAS.map((linha) => ({ cor: linha.label, valor: linha.femea })),
+    note: "As fêmeas laranja, creme, preta e branca publicadas custam R$ 8.500.",
+    colors: LINHAS_FORMATADAS.flatMap((linha) =>
+      linha.femea ? [{ cor: linha.label, valor: linha.femea }] : []
+    ),
   },
 ];
 
@@ -59,7 +63,7 @@ export default function PriceTransparency() {
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-zinc-600">
           Cada filhote sai daqui documentado, examinado e acompanhado. O valor inclui tudo — sem cobranças surpresa depois.
-          Os números da tabela são o ponto de partida de cada cor e sexo; o valor de um filhote específico é confirmado no atendimento.
+          Os números abaixo são os valores publicados de cada combinação, sem cobranças surpresa.
         </p>
       </div>
 
@@ -99,12 +103,9 @@ export default function PriceTransparency() {
                 sem nenhuma medição por trás. */}
             <h3 className="text-lg font-bold text-zinc-900">{s.label}</h3>
             <p className="mt-1 text-sm text-zinc-500">{s.note}</p>
-            {/* Cabeçalho da coluna de valores. A tabela mostrava o número
-                sozinho e ele era lido como preço fechado; o que a tabela
-                declara é o piso de cada combinação de cor e sexo. Dizer isso
-                uma vez por card evita repetir "a partir de" dez vezes. */}
+            {/* Cabeçalho da coluna de valores exatos publicados. */}
             <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Valores a partir de
+              Valores publicados
             </p>
             <ul className="mt-2 divide-y divide-zinc-100">
               {s.colors.map((c) => (

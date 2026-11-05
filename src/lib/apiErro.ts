@@ -14,17 +14,15 @@
 // resposta.
 import { NextResponse } from "next/server";
 
+import { createLogger } from "@/lib/logger";
+
+const logger = createLogger("api:error");
+
 export const MENSAGEM_ERRO_PUBLICA = "Não foi possível concluir a solicitação.";
 
 /** Registra o erro no log do servidor, onde ele continua util para depurar. */
 export function registrarErro(contexto: string, erro: unknown): void {
-  const detalhe =
-    erro instanceof Error
-      ? `${erro.name}: ${erro.message}`
-      : typeof erro === "object" && erro !== null && "message" in erro
-        ? String((erro as { message: unknown }).message)
-        : String(erro);
-  console.error(`[${contexto}]`, detalhe);
+  logger.error("Falha controlada em rota", { contexto, error: erro });
 }
 
 /**

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
@@ -16,7 +17,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 //
 // Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
 // Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve "R$ 9.500" com espaco comum. Os dois sao identicos na
+// resto do site escreve valores com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
@@ -30,7 +31,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // `getBadgesForPuppy` ("Muito procurado", "Ultimas unidades nessa cor"),
 // derivados de um `score` sintetizado ali mesmo a partir de `leadCount`. Os
 // tres anunciavam escassez que ninguem media. O card agora e o que sempre foi
-// de fato: a foto real de uma combinacao de cor e sexo, com o preco-base dela.
+// de fato: a foto real de uma combinacao de cor e sexo, com o valor publicado.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -113,10 +114,11 @@ export default function StaticPuppyCard({
         >
           <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
             {cover && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={cover}
                 alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
+                fill
+                sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1023px) 46vw, (max-width: 1279px) 30vw, 290px"
                 // As fotos sao verticais e o filhote raramente esta no mesmo
                 // lugar do quadro: quem posa no colo fica no alto, quem posa na
                 // grama fica embaixo. O 28% fixo servia para o primeiro caso e
@@ -169,7 +171,7 @@ export default function StaticPuppyCard({
             )}
           </div>
 
-          {/* Preço — ponto de partida da combinação, não etiqueta do animal da foto */}
+          {/* Preço exato da ficha comercial publicada. */}
           <div className="mt-auto flex flex-col gap-0.5">
             <span className="text-xl font-extrabold text-[var(--accent-ink)]">
               {price ? formatarPreco(price) : "Sob consulta"}
@@ -189,7 +191,7 @@ export default function StaticPuppyCard({
               className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white shadow-sm"
               emojis="paw"
               count={14}
-              aria-label={`Consultar opções de ${corLabel} ${sexLabel} pelo WhatsApp`}
+              aria-label={`Consultar opções atuais de ${corLabel} ${sexLabel} pelo WhatsApp`}
             >
               <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
               Consultar opções atuais

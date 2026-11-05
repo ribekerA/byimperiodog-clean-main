@@ -12,7 +12,6 @@ function getGoogleScopes(provider: ProviderKey): string[] {
   // default GA4 scopes
   return [
     "https://www.googleapis.com/auth/analytics.readonly",
-    "https://www.googleapis.com/auth/analytics.edit", // optional, remove if RO only
   ];
 }
 
@@ -73,8 +72,9 @@ async function refreshGoogleToken(refreshToken: string): Promise<OAuthTokens> {
 
 async function listGoogleAnalyticsResources(tokens: OAuthTokens): Promise<Resource[]> {
   try {
-    // Fetch GA4 properties via Analytics Admin API
-    const res = await fetch("https://analyticsadmin.googleapis.com/v1beta/properties", {
+    // accountSummaries lista somente contas/propriedades visíveis ao usuário e
+    // não exige o escopo de edição.
+    const res = await fetch("https://analyticsadmin.googleapis.com/v1beta/accountSummaries?pageSize=200", {
       headers: {
         Authorization: `${tokens.tokenType || "Bearer"} ${tokens.accessToken}`,
       },
@@ -84,12 +84,15 @@ async function listGoogleAnalyticsResources(tokens: OAuthTokens): Promise<Resour
       return [];
     }
     const json = await res.json();
-    const properties = json.properties || [];
-    return properties.map((p: any) => ({
-      id: p.name?.split("/").pop() || p.name,
-      name: p.displayName || p.name,
-      extra: { measurementId: p.measurementId, propertyType: p.propertyType },
-    }));
+    const accounts = Array.isArray(json.accountSummaries) ? json.accountSummaries : [];
+    return accounts.flatMap((account: any) =>
+      (Array.isArray(account.propertySummaries) ? account.propertySummaries : []).map((property: any) => ({
+        id: property.property?.split("/").pop() || property.property,
+        name: property.displayName || property.property,
+        type: "ga4_property",
+        meta: { account: account.displayName || account.account || "" },
+      })),
+    );
   } catch (err) {
     console.error("Error listing GA properties:", err);
     return [];

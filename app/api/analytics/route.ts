@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   // frequencia -- um laco de curl enchia `analytics_events` de graca. 120 por
   // minuto cobre com folga uma pagina que dispara todas as Web Vitals mais os
   // eventos proprios, em varias abas.
-  const bloqueio = limiteDeTaxa(req, 'analytics', 120);
+  const bloqueio = await limiteDeTaxa(req, 'analytics', 120);
   if (bloqueio) return bloqueio;
 
   const lido = await corpoJson<Record<string, unknown>>(req, 8 * 1024);
@@ -146,13 +146,11 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET agregador simples: requer x-admin-token
+// GET agregador simples: requer sessão administrativa assinada.
 export async function GET(req: NextRequest) {
-  const tokenHeader = req.headers.get('x-admin-token');
-  const adminToken = process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN;
-  if (!adminToken || tokenHeader !== adminToken) {
-    return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
-  }
+  const { requireAdminApi } = await import('@/lib/adminAuth');
+  const guard = requireAdminApi(req, { permission: 'dashboard:read' });
+  if (guard) return guard;
 
   const searchParams = req.nextUrl.searchParams;
   const windowParam = (searchParams.get('window') || '24h').toLowerCase();

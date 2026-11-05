@@ -1,0 +1,150 @@
+﻿ M .env.example
+ M app/(admin)/admin/(auth)/login/page.tsx
+ M app/(admin)/admin/(protected)/blog/editor/wizard/page.tsx
+ M app/(admin)/admin/(protected)/contracts/page.tsx
+ M app/(public)/contract/[code]/documento/page.tsx
+ M app/(public)/contract/[code]/page.tsx
+ M app/(public)/filhotes/[slug]/page.tsx
+ M app/(public)/filhotes/page.tsx
+ M app/(public)/page.tsx
+ M app/(public)/preco-spitz-anao/page.tsx
+ M app/(public)/spitz-alemao-branco/page.tsx
+ M app/(public)/spitz-alemao/page.tsx
+ M app/api/admin/ai/session/[id]/bundle/route.ts
+ M app/api/admin/ai/session/[id]/route.ts
+ M app/api/admin/analytics/kpi/route.ts
+ M app/api/admin/analytics/leads_series/route.ts
+ M app/api/admin/analytics/sources/route.ts
+ M app/api/admin/blog/media/upload/route.ts
+ M app/api/admin/blog/publish/route.ts
+ M app/api/admin/blog/unpublish/route.ts
+ M app/api/admin/contracts/[id]/zapsign/route.ts
+ M app/api/admin/contracts/route.ts
+ M app/api/admin/login/route.ts
+ M app/api/admin/logout/route.ts
+ M app/api/admin/puppies/upload/route.ts
+ M app/api/admin/revalidate/route.ts
+ M app/api/admin/webhooks/[id]/route.ts
+ M app/api/admin/webhooks/[id]/test/route.ts
+ M app/api/admin/webhooks/route.ts
+ M app/api/ai/captions/route.ts
+ M app/api/ai/recommend/route.ts
+ M app/api/ai/seo/route.ts
+ M app/api/analytics/route.ts
+ M app/api/blog/comments/route.ts
+ M app/api/blog/generate/route.ts
+ M app/api/blog/import/route.ts
+ M app/api/catalog/ai/telemetry/route.ts
+ M app/api/contract/route.ts
+ M app/api/gamification/claim/route.ts
+ M app/api/integrations/[provider]/callback/route.ts
+ M app/api/integrations/[provider]/login/route.ts
+ M app/api/integrations/[provider]/resources/route.ts
+ M app/api/integrations/list/route.ts
+ M app/api/leads/route.ts
+ M app/api/matchmaker/route.ts
+ M app/api/media-likes/toggle/route.ts
+ M app/api/newsletter/route.ts
+ M app/api/qa/route.ts
+ M app/api/reviews/route.ts
+ M app/api/rum/route.ts
+ M app/api/settings/tracking/route.ts
+ M app/api/tracking/select/route.ts
+ M app/api/tracking/settings/route.ts
+ M app/api/transcribe/route.ts
+ M app/api/webhooks/zapsign/route.ts
+ M app/api/whatsapp/webhook/route.ts
+ M app/sitemaps/images.xml/route.ts
+ M content/guides/index.ts
+ M content/posts/como-escolher-canil-spitz-alemao.mdx
+ M content/posts/cores-spitz-alemao-anao-qual-mais-cara.mdx
+ M content/posts/guia-spitz-alemao.mdx
+ M content/posts/preco-spitz-alemao-anao.mdx
+ M content/posts/spitz-alemao-anao-braganca-paulista.mdx
+ M content/posts/spitz-alemao-anao-creme.mdx
+ M content/posts/spitz-alemao-anao-preto.mdx
+ M content/posts/spitz-alemao-anao-vs-pinscher-chihuahua.mdx
+ M content/posts/spitz-alemao-anao-wolf-sable.mdx
+ M content/puppies-static.ts
+ M lighthouserc.json
+ M netlify.toml
+ M netlify/functions/add-puppy.js
+ M next-env.d.ts
+ M next.config.mjs
+ M package.json
+ M proxy.ts
+ M reports/a11y-contrast.md
+ M scripts/a11y-contrast.mjs
+ M scripts/catalog-audit.mts
+ M scripts/content-guard.mjs
+ M scripts/lib/seo-checks.ts
+ M scripts/showcase-audit.mts
+ M src/components/ContractForm.tsx
+ M src/components/NotifyMeButton.tsx
+ M src/components/WhatsAppFloat.tsx
+ M src/components/blog/BlogCTAs.tsx
+ M src/components/blog/Comments.tsx
+ M src/components/catalog/PuppyDetailPanel.tsx
+ M src/components/catalog/PuppyStickyFloatingCTA.tsx
+ M src/components/catalog/StaticCatalog.tsx
+ M src/components/catalog/StaticPuppyCard.tsx
+ M src/components/clientPhotoScenes.ts
+ M src/components/color-page/ColorPageContent.tsx
+ M src/components/sections/AiMatchmakerChat.tsx
+ M src/components/sections/ColorGallery.tsx
+ M src/components/sections/NinhadaAlert.tsx
+ M src/components/sections/PriceTransparency.tsx
+ M src/domain/pricing.ts
+ M src/lib/_generated-lastmod.ts
+ M src/lib/_generated-posts.ts
+ M src/lib/adminAuth.ts
+ M src/lib/adminFetch.ts
+ M src/lib/adminFetchSSR.ts
+ M src/lib/adminSession.ts
+ M src/lib/adminSessionNode.ts
+ M src/lib/apiErro.ts
+ M src/lib/catalog-utils.ts
+ M src/lib/errors.ts
+ M src/lib/limitePublico.ts
+ M src/lib/logger.ts
+ M src/lib/rateLimit.ts
+ M src/lib/rbac.ts
+ M src/lib/supabaseAnon.ts
+ M src/lib/tracking/integrations.ts
+ M src/lib/tracking/providers/facebook.ts
+ M src/lib/tracking/providers/google.ts
+ M src/lib/tracking/resources.ts
+ M src/lib/uploadValidation.ts
+ M src/lib/webhooks/dispatcher.ts
+ M src/lib/whatsapp.ts
+ M src/lib/whatsapp/agent.ts
+ M tests/e2e/smoke.spec.ts
+ M tests/e2e/tracking.spec.ts
+ M tests/e2e/whatsapp-tracking.spec.ts
+ M tests/pricing-guard.test.ts
+ M tests/publish.endpoint.test.ts
+ M tests/publish.happy.test.ts
+ M tests/unit/price-format-guard.test.ts
+ M tests/unit/rbac.test.ts
+ M tests/unit/rotas-de-escrita.test.ts
+ M tests/unit/sitemaps.test.ts
+ M tests/uploadValidation.test.ts
+ M vercel.json
+?? .next-validation/
+?? src/components/blog/NewsletterSignup.tsx
+?? src/lib/adminLoginThrottle.ts
+?? src/lib/contractAccess.ts
+?? src/lib/safeOutboundUrl.ts
+?? src/lib/tracking/tokenCrypto.ts
+?? supabase/migrations/20260828130000_admin_login_throttle.sql
+?? supabase/migrations/20260828140000_security_and_lgpd_hardening.sql
+?? supabase/migrations/20260828150000_public_rate_limits.sql
+?? tests/unit/admin-auth-security.test.ts
+?? tests/unit/admin-login-throttle.test.ts
+?? tests/unit/contract-access.test.ts
+?? tests/unit/integration-token-crypto.test.ts
+?? tests/unit/logger-redaction.test.ts
+?? tests/unit/proxy-admin-auth.test.ts
+?? tests/unit/public-rate-limit.test.ts
+?? tests/unit/safe-outbound-url.test.ts
+?? tests/unit/whatsapp-messages.test.ts

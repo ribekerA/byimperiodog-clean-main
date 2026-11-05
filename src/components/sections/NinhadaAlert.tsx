@@ -6,14 +6,10 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
-// Particolor faltava aqui. É uma das cinco cores divulgadas e tem tabela de
-// preço própria em src/domain/pricing.ts; quem procurava particolor não tinha
-// como dizer isso neste formulário e caía em "Qualquer cor".
 const CORES = [
   { value: "branco", label: "Branco" },
   { value: "creme", label: "Creme" },
   { value: "laranja", label: "Laranja" },
-  { value: "particolor", label: "Particolor" },
   { value: "preto", label: "Preto" },
   { value: "qualquer", label: "Qualquer cor" },
 ];

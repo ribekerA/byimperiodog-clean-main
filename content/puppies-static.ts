@@ -25,15 +25,14 @@
 // Preço: a tabela-base e os valores definidos para páginas específicas vivem
 // em src/domain/pricing.ts. Os `priceCents` daqui aplicam uma dessas regras, e
 // tests/pricing-guard.test.ts confere um contra o outro. Nos cards e nas
-// páginas de filhote, o valor é publicado sem o prefixo "a partir de".
+// páginas de filhote, o valor é publicado de forma exata, sem prefixo.
 //
 // Esta linha já creditou a conferência ao content-guard do prebuild, que não a
 // fazia: este arquivo está na lista de SKIP do guard, e o que ele procura é o
-// preço em prosa ("R$ 9.500"), nunca os centavos guardados aqui.
+// preço em prosa, nunca os centavos guardados aqui.
 //
-// `divulgar: false` tira a entrada das vitrines públicas sem apagar a sua
-// página: o Cinza-Lobo saiu da comunicação, mas as URLs que já estavam
-// indexadas continuam respondendo até que se decida o que fazer com elas.
+// `divulgar: false` preserva somente o registro editorial e as mídias. Essas
+// entradas não geram ficha, vitrine, preço, CTA nem URL comercial pública.
 
 export const staticPuppies = [
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
@@ -313,45 +312,6 @@ export const staticPuppies = [
     isFeatured: true,
   },
 
-  // ─── SPITZ LARANJA MACHO ────────────────────────────────────────────────────
-  {
-    id: "spitz-laranja-macho-01",
-    name: "Spitz Laranja Macho",
-    slug: "spitz-alemao-anao-laranja-macho",
-    title: "Spitz Alemão Anão Laranja Macho | By Império Dog",
-    color: "laranja",
-    cor: "Laranja",
-    sex: "male",
-    gender: "male",
-    breed: "Spitz Alemão Anão",
-    size: "mini",
-    city: "braganca-paulista",
-    state: "SP",
-    images: [
-      "/filhotes/laranja/laranja-macho-flores-01.jpg",
-      "/filhotes/laranja/laranja-macho-flores-02.jpg",
-      "/filhotes/laranja/laranja-macho-01.jpg",
-      "/filhotes/laranja/laranja-macho-jardim-01.jpg",
-      "/filhotes/laranja/laranja-macho-02.jpg",
-      "/filhotes/laranja/laranja-macho-flores-03.jpg",
-      "/filhotes/laranja/laranja-macho-flores-04.jpg",
-      "/filhotes/videos/spitz-laranja-macho.mp4",
-      "/filhotes/videos/laranja-macho-jardim.mp4",
-      "/filhotes/videos/ninhada-laranja-01.mp4",
-    ],
-    // Macho Laranja — faixa baixa de macho (Cinza-Lobo/Laranja) → R$ 6.500
-    price_cents: 650000,
-    priceCents: 650000,
-    currency: "BRL",
-    description:
-      "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
-    hasPedigree: true,
-    vaccinationStatus: "up-to-date",
-    hasMicrochip: false,
-    isHighlighted: false,
-    isFeatured: true,
-  },
-
   // ─── SPITZ WOLF SABLE FÊMEA ─────────────────────────────────────────────────
   {
     id: "spitz-wolf-sable-femea-01",
@@ -379,9 +339,9 @@ export const staticPuppies = [
       "/filhotes/wolf-sable/wolf-sable-femea-abeto-03.jpg",
       "/filhotes/wolf-sable/wolf-sable-femea-jardim-01.jpg",
     ],
-    // Cinza-Lobo Fêmea — preço único de fêmea → R$ 8.500
-    price_cents: 850000,
-    priceCents: 850000,
+    // Registro editorial sem oferta comercial.
+    price_cents: 0,
+    priceCents: 0,
     currency: "BRL",
     description:
       "Fêmea Cinza-Lobo (Wolf Sable) — coloração bicolor com máscara cinza sobre base laranja, reconhecida pela FCI. Cor não divulgada pela By Império Dog.",
@@ -419,9 +379,9 @@ export const staticPuppies = [
       "/filhotes/videos/wolf-sable-jardim.mp4",
       "/filhotes/videos/spitz-anao.mp4",
     ],
-    // Cinza-Lobo Macho — faixa baixa de macho (Cinza-Lobo/Laranja) → R$ 6.500
-    price_cents: 650000,
-    priceCents: 650000,
+    // Registro editorial sem oferta comercial.
+    price_cents: 0,
+    priceCents: 0,
     currency: "BRL",
     description:
       "Macho Cinza-Lobo (Wolf Sable) — coloração bicolor cinza e laranja, padrão reconhecido pela FCI. Cor não divulgada pela By Império Dog.",
@@ -437,10 +397,8 @@ export const staticPuppies = [
  * O catálogo como as vitrines genéricas devem enxergá-lo.
  *
  * Home, /filhotes, páginas de sexo, cidades, quiz, banner do blog e agente do
- * WhatsApp listam "os filhotes disponíveis" — e é aí que o Cinza-Lobo não pode
- * mais aparecer. Já quem responde por uma URL específica (a página do filhote,
- * a página da cor, o sitemap) continua lendo `staticPuppies` direto, senão uma
- * página indexada passaria a devolver 404 ou a abrir vazia.
+ * WhatsApp leem sempre esta constante. Nenhum consumidor público — incluindo
+ * página de cor, ficha e sitemap — deve ler `staticPuppies` diretamente.
  */
 export const puppiesPublicados = staticPuppies
   .filter((p) => (p as { divulgar?: boolean }).divulgar !== false)

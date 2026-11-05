@@ -7,7 +7,12 @@ import crypto from 'crypto';
 
 import { createClient } from '@supabase/supabase-js';
 
+import { createLogger } from '@/lib/logger';
+import { validatePublicHttpsUrl } from '@/lib/safeOutboundUrl';
 import type { WebhookEvent, WebhookPayload, Webhook } from '@/types/webhooks';
+
+const logger = createLogger('webhooks:dispatcher');
+const MAX_WEBHOOK_PAYLOAD_BYTES = 256 * 1024;
 
 // Cliente criado na primeira chamada, nao no import: `createClient` lanca
 // excecao se a URL ou a service role key faltarem, e um throw no escopo do
@@ -58,7 +63,7 @@ export async function dispatchWebhookEvent(
       .contains('events', [event]);
 
     if (error) {
-      console.error('Error fetching webhooks:', error);
+      logger.error('Falha ao buscar webhooks', { error });
       return;
     }
 
@@ -81,7 +86,7 @@ export async function dispatchWebhookEvent(
       )
     );
   } catch (error) {
-    console.error('Error dispatching webhook event:', error);
+    logger.error('Falha ao disparar evento', { error });
   }
 }
 
@@ -100,12 +105,14 @@ async function deliverWebhook(
     attempts++;
 
     try {
-      const signature = generateSignature(
-        JSON.stringify(payload),
-        webhook.secret || ''
-      );
+      const serializedPayload = JSON.stringify(payload);
+      if (Buffer.byteLength(serializedPayload, 'utf8') > MAX_WEBHOOK_PAYLOAD_BYTES) {
+        throw new Error('WebhookPayloadTooLarge');
+      }
+      const signature = generateSignature(serializedPayload, webhook.secret || '');
 
-      const response = await fetch(webhook.url, {
+      const safeUrl = await validatePublicHttpsUrl(webhook.url);
+      const response = await fetch(safeUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -113,11 +120,14 @@ async function deliverWebhook(
           'X-Webhook-Event': payload.event,
           'User-Agent': 'ByImperioDog-Webhook/1.0',
         },
-        body: JSON.stringify(payload),
+        body: serializedPayload,
         signal: AbortSignal.timeout(options.timeout),
+        redirect: 'error',
       });
 
-      const responseBody = await response.text();
+      // Conteúdo arbitrário do destino não é lido nem persistido: ele pode ser
+      // enorme ou ecoar PII, tokens e HTML hostil.
+      try { await response.body?.cancel(); } catch { /* conexão já encerrada */ }
 
       // Registrar entrega
       await supabaseAdminClient().from('webhook_deliveries').insert({
@@ -126,7 +136,7 @@ async function deliverWebhook(
         payload,
         status: response.ok ? 'success' : 'failed',
         response_status: response.status,
-        response_body: responseBody.substring(0, 1000),
+        response_body: response.ok ? null : `HTTP ${response.status}`,
         attempts,
         delivered_at: new Date().toISOString(),
       });
@@ -163,7 +173,7 @@ async function deliverWebhook(
     event: payload.event,
     payload,
     status: 'failed',
-    response_body: lastError?.message || 'Unknown error',
+    response_body: lastError ? lastError.name : 'DeliveryError',
     attempts,
   });
 

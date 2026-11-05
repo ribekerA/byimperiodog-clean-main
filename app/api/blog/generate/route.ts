@@ -1,9 +1,10 @@
 export const dynamic = "force-dynamic";
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
+import { requireAdminApi } from "@/lib/adminAuth";
 import { erroPublico } from "@/lib/apiErro";
 import { createLogger } from "@/lib/logger";
+import { hasServiceRoleKey, supabaseAdmin } from "@/lib/supabaseAdmin";
 
 const logger = createLogger("api:blog:generate");
 
@@ -16,13 +17,6 @@ type GenerateBody = {
   slug?: string; // opcional; se não vier, criaremos um a partir do título
   content_mdx?: string; // se já vier pronto, não chama IA
 };
-
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key) throw new Error("Supabase não configurado");
-  return createClient(url, key);
-}
 
 function slugify(input: string) {
   return input
@@ -53,11 +47,13 @@ async function generateWithOpenAI(topic: string, outline?: string) {
 
 export async function POST(req: Request) {
   try {
-    const token = req.headers.get("x-admin-token") || "";
-    const required = process.env.ADMIN_TOKEN || process.env.DEBUG_TOKEN || "";
-    if (!required || token !== required) {
-      return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+    const guard = requireAdminApi(req, { permission: "blog:write" });
+    if (guard) return guard;
+    const contentLength = Number(req.headers.get("content-length") || "0");
+    if (Number.isFinite(contentLength) && contentLength > 1024 * 1024) {
+      return NextResponse.json({ error: "Payload grande demais" }, { status: 413 });
     }
+    if (!hasServiceRoleKey()) return NextResponse.json({ error: "Serviço indisponível" }, { status: 503 });
 
     const body = (await req.json()) as GenerateBody;
     if (!body.content_mdx && !body.topic) {
@@ -79,7 +75,7 @@ export async function POST(req: Request) {
     if (h1Match) title = h1Match[1].trim();
     const slug = body.slug || slugify(title);
 
-    const supabase = getSupabase();
+    const supabase = supabaseAdmin();
     const exists = await supabase.from("blog_posts").select("id").eq("slug", slug).maybeSingle();
     if (exists.data) {
       return NextResponse.json({ error: "Slug já existente" }, { status: 409 });

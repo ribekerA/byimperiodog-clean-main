@@ -24,6 +24,7 @@ test.beforeEach(async ({ page }) => {
       writable: true,
       value: (...args: CapturedGtag) => captured.push(args),
     });
+    window.dataLayer = [];
 
     window.addEventListener("DOMContentLoaded", () => {
       document.addEventListener(
@@ -72,11 +73,18 @@ test("todos os links de contato da home ficam instrumentados e um clique gera um
 
   await page.locator('[data-wa-placement="hero"][data-analytics="whatsapp-click"]').first().click();
 
-  const events = await page.evaluate(() =>
-    ((window as unknown as { __capturedGtag: CapturedGtag[] }).__capturedGtag ?? [])
+  const events = await page.evaluate(() => {
+    const pelaTagDireta = (
+      (window as unknown as { __capturedGtag: CapturedGtag[] }).__capturedGtag ?? []
+    )
       .filter((args) => args[0] === "event" && args[1] === "whatsapp_click")
-      .map((args) => args[2]),
-  );
+      .map((args) => args[2]);
+    const peloGtm = (
+      (window as unknown as { dataLayer?: Array<Record<string, unknown>> }).dataLayer ?? []
+    ).filter((entry) => entry.event === "whatsapp_click");
+
+    return [...pelaTagDireta, ...peloGtm];
+  });
   expect(events).toHaveLength(1);
   expect(events[0]).toMatchObject({
     channel: "whatsapp",

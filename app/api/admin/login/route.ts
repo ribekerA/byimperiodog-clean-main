@@ -1,37 +1,72 @@
 export const dynamic = "force-dynamic";
-import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { clearAdminLoginAttempts, consumeAdminLoginAttempt } from "@/lib/adminLoginThrottle";
 import { ADMIN_SESSION_COOKIE, ADMIN_SESSION_MAX_AGE, signAdminSession } from "@/lib/adminSession";
-import { rateLimit } from "@/lib/rateLimit";
-import { normalizeRole, serializeRoleCookie } from "@/lib/rbac";
+import { createLogger } from "@/lib/logger";
+import { isAdminRole } from "@/lib/rbac";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { supabaseAnon } from "@/lib/supabaseAnon";
+import { createSupabaseAuthClient } from "@/lib/supabaseAnon";
+
+const logger = createLogger("admin:login");
+const GENERIC_AUTH_ERROR = "Credenciais inválidas";
+
+function json(body: Record<string, unknown>, status: number, headers?: HeadersInit) {
+  const response = NextResponse.json(body, { status, headers });
+  response.headers.set("Cache-Control", "no-store, max-age=0");
+  response.headers.set("Pragma", "no-cache");
+  return response;
+}
+
+function allowedAdminEmails(): Set<string> {
+  const configured = process.env.ADMIN_ALLOWED_EMAILS || "byimperiodog@gmail.com";
+  return new Set(configured.split(",").map((value) => value.trim().toLowerCase()).filter(Boolean));
+}
 
 export async function POST(req: Request) {
-  const requestHeaders = await headers();
-  const ip = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  const rl = rateLimit(`admin-login:${ip}`, 10, 60_000);
-  if (!rl.allowed) {
-    return NextResponse.json({ error: "Muitas tentativas. Aguarde um minuto e tente novamente." }, { status: 429 });
+  const contentLength = Number(req.headers.get("content-length") || "0");
+  if (Number.isFinite(contentLength) && contentLength > 4096) {
+    return json({ error: "Requisição inválida" }, 413);
+  }
+  if (!req.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
+    return json({ error: "Conteúdo inválido" }, 415);
   }
 
   const { email, password } = (await req.json().catch(() => ({}))) as { email?: string; password?: string };
-  if (!email || !password) {
-    return NextResponse.json({ error: "Credenciais obrigatorias" }, { status: 400 });
+  const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
+  if (!normalizedEmail || normalizedEmail.length > 254 || typeof password !== "string" || !password || password.length > 1024) {
+    return json({ error: GENERIC_AUTH_ERROR }, 401);
   }
 
-  // Login via Supabase Auth (email/senha)
-  const anon = supabaseAnon();
-  const { data: authData, error: authError } = await (anon.auth as any).signInWithPassword({
-    email: email.trim(),
-    password,
-  });
-  if (authError || !authData?.user) {
-    return NextResponse.json({ error: "Credenciais invalidas" }, { status: 401 });
+  const throttle = await consumeAdminLoginAttempt(req, normalizedEmail);
+  if (!throttle.allowed) {
+    return json(
+      { error: "Muitas tentativas. Aguarde e tente novamente." },
+      429,
+      { "Retry-After": String(throttle.retryAfterSeconds) },
+    );
   }
 
-  // Verifica se usuario esta na tabela admin_users
+  let authData: Awaited<ReturnType<NonNullable<ReturnType<typeof createSupabaseAuthClient>>["auth"]["signInWithPassword"]>>["data"];
+  try {
+    const anon = createSupabaseAuthClient();
+    if (!anon) {
+      return json({ error: "Autenticação indisponível" }, 503);
+    }
+    const result = await anon.auth.signInWithPassword({ email: normalizedEmail, password });
+    if (result.error || !result.data?.user) return json({ error: GENERIC_AUTH_ERROR }, 401);
+    authData = result.data;
+  } catch (error) {
+    logger.error("Falha ao consultar o provedor de autenticacao", { error: String(error) });
+    return json({ error: "Autenticação indisponível" }, 503);
+  }
+
+  const authenticatedEmail = String(authData.user.email || "").trim().toLowerCase();
+  const emailConfirmed = Boolean(authData.user.email_confirmed_at || authData.user.confirmed_at);
+  if (!emailConfirmed || authenticatedEmail !== normalizedEmail || !allowedAdminEmails().has(authenticatedEmail)) {
+    return json({ error: GENERIC_AUTH_ERROR }, 401);
+  }
+
   const { data: adminRow, error: adminError } = await supabaseAdmin()
     .from("admin_users")
     .select("role")
@@ -39,10 +74,11 @@ export async function POST(req: Request) {
     .maybeSingle();
 
   if (adminError) {
-    return NextResponse.json({ error: "Erro ao validar permissoes" }, { status: 500 });
+    logger.error("Falha ao validar admin_users", { error: adminError.message });
+    return json({ error: "Autenticação indisponível" }, 503);
   }
-  if (!adminRow) {
-    return NextResponse.json({ error: "Acesso negado" }, { status: 403 });
+  if (!adminRow || !isAdminRole(adminRow.role)) {
+    return json({ error: GENERIC_AUTH_ERROR }, 401);
   }
 
   // Cookies de sessao admin
@@ -51,69 +87,33 @@ export async function POST(req: Request) {
     (authData.user.user_metadata?.full_name as string | undefined) ||
     authData.user.email?.split("@")[0] ||
     "Admin";
-  const role = normalizeRole(adminRow.role);
+  const role = adminRow.role;
 
   let sessionToken: string;
   try {
     sessionToken = await signAdminSession({
       userId: authData.user.id,
-      email: authData.user.email ?? email,
+      email: authenticatedEmail,
       name: displayName,
       role,
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Configuracao de sessao admin ausente (ADMIN_SESSION_SECRET)" },
-      { status: 500 }
-    );
+    logger.error("ADMIN_SESSION_SECRET ausente ou fraco", { error: String(error) });
+    return json({ error: "Autenticação indisponível" }, 503);
   }
 
-  const res = NextResponse.json({ ok: true });
-  const cookieStore = await cookies();
-  cookieStore.set(ADMIN_SESSION_COOKIE, sessionToken, {
+  await clearAdminLoginAttempts(req, normalizedEmail);
+
+  const res = json({ ok: true }, 200);
+  res.cookies.set(ADMIN_SESSION_COOKIE, sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    // Lax é necessário para o retorno GET do OAuth do Google; mutações do
+    // painel têm validação de Origin/Sec-Fetch-Site no proxy.
     sameSite: "lax",
     path: "/",
     maxAge: ADMIN_SESSION_MAX_AGE,
+    priority: "high",
   });
-
-  cookieStore.set("admin_auth", "1", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookieStore.set("adm", "true", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookieStore.set("admin_email", authData.user.email ?? email, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookieStore.set("admin_name", displayName, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  cookieStore.set("admin_user_id", authData.user.id, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 8,
-  });
-  const roleCookie = serializeRoleCookie(role);
-  cookieStore.set(roleCookie.name, roleCookie.value, roleCookie.options);
   return res;
 }

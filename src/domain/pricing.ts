@@ -16,8 +16,9 @@
  * scripts/content-guard.mjs, que roda no prebuild e derruba o build se algum
  * texto divergir.
  *
- * Regra de negócio: a fêmea custa mais que o macho em todas as cores. O menor
- * valor de uma cor é sempre o do macho — é isso que sustenta o "a partir de".
+ * A tabela descreve apenas as combinações publicadas hoje. Combinação retirada
+ * da vitrine não recebe preço genérico: isso impediria o site de continuar
+ * oferecendo, por texto, um filhote que a responsável mandou remover.
  */
 
 /**
@@ -28,11 +29,9 @@
  * intocadas — apagá-las ou redirecioná-las é decisão de quem responde pelo SEO,
  * não efeito colateral de uma mudança de tabela.
  *
- * O Particolor entrou na tabela e por isso entrou aqui: é a partir desta lista
- * que o teste de regressão exige preço oficial para todo filhote publicado.
- * Uma cor com filhote na vitrine e sem linha na tabela não tem valor a cobrar.
+ * Particolor saiu da comunicação comercial por decisão da responsável.
  */
-export const CORES_DIVULGADAS = ["particolor", "laranja", "creme", "preto", "branco"] as const;
+export const CORES_DIVULGADAS = ["creme", "preto", "laranja", "branco"] as const;
 
 export type CorDivulgada = (typeof CORES_DIVULGADAS)[number];
 export type Sexo = "macho" | "femea";
@@ -41,8 +40,8 @@ export type LinhaDaTabela = {
   /** Nome como o visitante lê. */
   label: string;
   /** Valor em centavos — a unidade que o resto do projeto já usa. */
-  macho: number;
-  femea: number;
+  macho: number | null;
+  femea: number | null;
 };
 
 /**
@@ -50,15 +49,14 @@ export type LinhaDaTabela = {
  * visitante (do mais acessível ao mais caro).
  */
 export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
-  particolor: { label: "Particolor", macho: 550000, femea: 650000 },
-  laranja: { label: "Laranja", macho: 650000, femea: 850000 },
   creme: { label: "Creme", macho: 750000, femea: 850000 },
   preto: { label: "Preto", macho: 750000, femea: 850000 },
-  branco: { label: "Branco", macho: 850000, femea: 950000 },
+  laranja: { label: "Laranja", macho: null, femea: 850000 },
+  branco: { label: "Branco", macho: null, femea: 850000 },
 };
 
 /**
- * Formata centavos como o site escreve: "R$ 6.500", sem centavos.
+ * Formata centavos como o site escreve: "R$ 7.500", sem centavos.
  *
  * O separador entre "R$" e o número é escrito aqui de propósito, em vez de
  * sair do `style: "currency"` do Intl: aquele formato usa espaço estreito sem
@@ -71,7 +69,11 @@ export function formatarPreco(cents: number): string {
 
 /** Preço de uma combinação cor/sexo, em centavos. */
 export function precoDe(cor: CorDivulgada, sexo: Sexo): number {
-  return TABELA_DE_PRECOS[cor][sexo];
+  const valor = TABELA_DE_PRECOS[cor][sexo];
+  if (valor === null) {
+    throw new Error(`Combinação sem oferta publicada: ${cor}/${sexo}`);
+  }
+  return valor;
 }
 
 /**
@@ -94,39 +96,17 @@ export function precoDoFilhote(cor: CorDivulgada, sexo: Sexo, slug: string): num
 }
 
 /**
- * Menor valor real da cor — o que pode ser anunciado como "a partir de".
- *
- * Card genérico de cor, sem sexo definido, usa este número.
+ * Menor valor entre as combinações publicadas da cor.
  */
-export function aPartirDe(cor: CorDivulgada): number {
+export function menorPrecoPublicadoDaCor(cor: CorDivulgada): number {
   const linha = TABELA_DE_PRECOS[cor];
-  return Math.min(linha.macho, linha.femea);
+  const valores = [linha.macho, linha.femea].filter((valor): valor is number => valor !== null);
+  return Math.min(...valores);
 }
 
-/**
- * "A partir de R$ 6.500" — a forma como todo preço é publicado na vitrine.
- *
- * Esta função existe porque a regra mudou em 26/08/2026. Antes, o card de um
- * filhote específico já sabia o sexo e por isso publicava o valor cravado, sem
- * "a partir de". Só que a foto continua no ar depois que aquele animal sai, e
- * a página passa a representar a combinação de cor e sexo, não mais um
- * indivíduo — o valor exato depende de linhagem, idade e do que existir no
- * atendimento. Publicar um número fechado para uma página permanente é
- * prometer um preço que ninguém garantiu.
- *
- * Recebe centavos porque quem chama já tem o valor da combinação em mãos
- * (`precoDe`, ou o `priceCents` da vitrine, que o pricing-guard confere contra
- * a tabela). O texto é montado sobre {@link formatarPreco} pelo mesmo motivo
- * de sempre: um único formato de "R$" no site inteiro.
- */
-export function textoAPartirDe(cents: number): string {
-  return `A partir de ${formatarPreco(cents)}`;
-}
-
-const TODOS_OS_VALORES = Object.values(TABELA_DE_PRECOS).flatMap((linha) => [
-  linha.macho,
-  linha.femea,
-]);
+const TODOS_OS_VALORES = Object.values(TABELA_DE_PRECOS)
+  .flatMap((linha) => [linha.macho, linha.femea])
+  .filter((valor): valor is number => valor !== null);
 
 /**
  * Faixa pública. Derivada da matriz, nunca escrita na mão: se um valor da
@@ -140,7 +120,7 @@ export const FAIXA_PUBLICA = {
   ),
 } as const;
 
-/** "R$ 5.500 a R$ 9.500" — a forma como a faixa é escrita em prosa. */
+/** Faixa dos valores publicados, já formatada para a comunicação pública. */
 export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a ${formatarPreco(
   FAIXA_PUBLICA.maxCents
 )}`;
@@ -154,20 +134,13 @@ export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a $
  * não fala de documentação, de saúde nem de pós-venda, que têm perguntas
  * próprias.
  */
-/**
- * "particolor R$ 5.500; laranja R$ 6.500; creme e preto R$ 7.500; branco
- * R$ 8.500" — as cores de um sexo, agrupadas por valor e em ordem crescente.
- *
- * A versão anterior desta lista era escrita à mão dentro da resposta, uma cor
- * de cada vez. Foi assim que entrar uma quinta cor na tabela virou trabalho de
- * reescrever texto: o Particolor existiria na matriz e continuaria fora da
- * frase. Agora o que a tabela ganha ou perde aparece aqui sozinho.
- */
+/** Cores de cada sexo, agrupadas por valor e em ordem crescente. */
 function enumerarPorSexo(sexo: Sexo): string {
   const porValor = new Map<number, string[]>();
 
   for (const cor of CORES_DIVULGADAS) {
-    const valor = precoDe(cor, sexo);
+    const valor = TABELA_DE_PRECOS[cor][sexo];
+    if (valor === null) continue;
     porValor.set(valor, [...(porValor.get(valor) ?? []), TABELA_DE_PRECOS[cor].label.toLowerCase()]);
   }
 
@@ -178,24 +151,28 @@ function enumerarPorSexo(sexo: Sexo): string {
 }
 
 export const RESPOSTA_QUANTO_CUSTA =
-  `Os filhotes de Spitz Alemão Anão saem a partir de ${formatarPreco(FAIXA_PUBLICA.minCents)}, ` +
-  `chegando a ${formatarPreco(FAIXA_PUBLICA.maxCents)} conforme sexo e cor — cada valor abaixo é ` +
-  `o ponto de partida da combinação. Machos: ${enumerarPorSexo("macho")}. Fêmeas: ${enumerarPorSexo("femea")}. ` +
+  `Os valores publicados dos filhotes de Spitz Alemão Anão vão de ${formatarPreco(FAIXA_PUBLICA.minCents)} ` +
+  `a ${formatarPreco(FAIXA_PUBLICA.maxCents)}. Machos: ${enumerarPorSexo("macho")}. ` +
+  `Fêmeas: ${enumerarPorSexo("femea")}. ` +
   "A disponibilidade é informada no atendimento.";
 
 /**
  * Diferença entre fêmea e macho na mesma cor, em centavos — ou `null` quando a
  * matriz deixar de ter uma diferença única.
  *
- * Nasce da tabela em vez de "R$ 1.000" digitado numa FAQ. Hoje as cinco cores
- * têm o mesmo degrau; no dia em que uma linha andar sozinha, esta constante
+ * Nasce da tabela em vez de "R$ 1.000" digitado numa FAQ. Hoje as combinações
+ * comparáveis têm o mesmo degrau; no dia em que uma linha andar sozinha, esta constante
  * vira `null` e a frase troca de forma automaticamente, em vez de continuar
  * afirmando um número que parou de valer.
  */
 export const DIFERENCA_FEMEA_MACHO: number | null = (() => {
-  const degraus = new Set(
-    CORES_DIVULGADAS.map((cor) => precoDe(cor, "femea") - precoDe(cor, "macho"))
-  );
+  const degraus = new Set<number>();
+  for (const cor of CORES_DIVULGADAS) {
+    const linha = TABELA_DE_PRECOS[cor];
+    if (linha.macho !== null && linha.femea !== null) {
+      degraus.add(linha.femea - linha.macho);
+    }
+  }
   return degraus.size === 1 ? [...degraus][0] : null;
 })();
 
@@ -216,10 +193,9 @@ export const DIFERENCA_FEMEA_MACHO: number | null = (() => {
  */
 export const RESPOSTA_MACHO_VS_FEMEA =
   (DIFERENCA_FEMEA_MACHO !== null
-    ? `A fêmea custa ${formatarPreco(DIFERENCA_FEMEA_MACHO)} a mais que o macho da mesma cor. `
-    : "A fêmea custa mais que o macho em todas as cores. ") +
-  "Cada valor abaixo é o ponto de partida da combinação de cor e sexo, e o valor de um filhote " +
-  `específico é confirmado no atendimento. Machos: ${enumerarPorSexo("macho")}. ` +
+    ? `Nas cores com os dois sexos publicados, a fêmea custa ${formatarPreco(DIFERENCA_FEMEA_MACHO)} a mais que o macho. `
+    : "Os valores variam conforme a combinação publicada. ") +
+  `Machos: ${enumerarPorSexo("macho")}. ` +
   `Fêmeas: ${enumerarPorSexo("femea")}.`;
 
 /**
@@ -237,8 +213,8 @@ export const RESPOSTA_MACHO_VS_FEMEA =
  * então a frase se multiplicava por três.
  */
 export const RESPOSTA_PRETO =
-  `O Spitz Alemão Anão preto sai a partir de ${formatarPreco(TABELA_DE_PRECOS.preto.macho)} para machos e ` +
-  `${formatarPreco(TABELA_DE_PRECOS.preto.femea)} para fêmeas. ` +
+  `O Spitz Alemão Anão preto custa ${formatarPreco(precoDe("preto", "macho"))} para machos e ` +
+  `${formatarPreco(precoDe("preto", "femea"))} para fêmeas. ` +
   "As opções atuais são confirmadas no atendimento.";
 
 /**
@@ -255,7 +231,8 @@ export const CARDS_POR_FAIXA = (["macho", "femea"] as const).flatMap((sexo) => {
   const cardsPorValor = new Map<number, string[]>();
 
   for (const cor of CORES_DIVULGADAS) {
-    const valor = precoDe(cor, sexo);
+    const valor = TABELA_DE_PRECOS[cor][sexo];
+    if (valor === null) continue;
     cardsPorValor.set(valor, [...(cardsPorValor.get(valor) ?? []), TABELA_DE_PRECOS[cor].label]);
   }
 
@@ -271,7 +248,7 @@ export const CARDS_POR_FAIXA = (["macho", "femea"] as const).flatMap((sexo) => {
 export const LINHAS_FORMATADAS = CORES_DIVULGADAS.map((cor) => ({
   cor,
   label: TABELA_DE_PRECOS[cor].label,
-  macho: formatarPreco(TABELA_DE_PRECOS[cor].macho),
-  femea: formatarPreco(TABELA_DE_PRECOS[cor].femea),
-  aPartirDe: formatarPreco(aPartirDe(cor)),
+  macho: TABELA_DE_PRECOS[cor].macho === null ? null : formatarPreco(TABELA_DE_PRECOS[cor].macho),
+  femea: TABELA_DE_PRECOS[cor].femea === null ? null : formatarPreco(TABELA_DE_PRECOS[cor].femea),
+  valor: formatarPreco(menorPrecoPublicadoDaCor(cor)),
 }));

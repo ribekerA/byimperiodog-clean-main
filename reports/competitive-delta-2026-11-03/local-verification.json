@@ -1,0 +1,13 @@
+{
+  "reservation": {
+    "status": "passed",
+    "url": "http://localhost:3103/reserve-seu-filhote",
+    "overflow": false
+  },
+  "reviews": {
+    "reviewY": 8680,
+    "catalogY": 1041,
+    "pageHeight": 15824,
+    "cards": 33
+  }
+}

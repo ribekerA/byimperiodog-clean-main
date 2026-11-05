@@ -50,7 +50,7 @@ export const URLS_CRITICAS: readonly string[] = [
   "/filhotes/spitz-alemao-anao-laranja-femea",
   "/filhotes/spitz-alemao-anao-laranja-femea-laco-rosa",
   "/filhotes/spitz-alemao-anao-preto-femea",
-  "/filhotes/spitz-alemao-anao-laranja-macho",
+  "/filhotes/spitz-alemao-anao-creme-macho",
   "/preco-spitz-anao",
   "/blog",
   "/blog/preco-spitz-alemao-anao",

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { matchesCatalogQuery, parseCatalogQuery } from "@/lib/catalog-query";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 import StaticPuppyCard from "./StaticPuppyCard";
@@ -50,13 +51,16 @@ const SEX_OPTIONS = [
 
 // Rótulo amigável para cores cujo slug não serve como texto. Está vazio porque
 // toda cor divulgada tem slug de uma palavra só — o `capitalize` do fallback dá
-// conta delas, particolor incluído. A entrada do cinza-lobo saiu com a cor.
+// conta delas. Entradas retiradas da comunicação não entram nesta coleção.
 const COLOR_LABELS: Record<string, string> = {};
 
 export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
   const HeroHeading = headingLevel === 2 ? "h2" : "h1";
   const [filterColor, setFilterColor] = useState("");
   const [filterSex, setFilterSex] = useState("");
+  const [query, setQuery] = useState("");
+  const parsedQuery = useMemo(() => parseCatalogQuery(query), [query]);
+  const clearFilters = () => { setFilterColor(""); setFilterSex(""); setQuery(""); };
 
   const colors = useMemo(() => {
     const set = new Set<string>();
@@ -75,16 +79,16 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
 
         if (filterColor && pColor !== filterColor) return false;
         if (filterSex && pSex !== filterSex) return false;
-        return true;
+        return matchesCatalogQuery(p, parsedQuery);
       })
       .sort((a, b) => {
         const precoA = a.priceCents ?? a.price_cents ?? Number.MAX_SAFE_INTEGER;
         const precoB = b.priceCents ?? b.price_cents ?? Number.MAX_SAFE_INTEGER;
         return precoA - precoB;
       });
-  }, [puppies, filterColor, filterSex]);
+  }, [puppies, filterColor, filterSex, parsedQuery]);
 
-  const hasFilters = Boolean(filterColor || filterSex);
+  const hasFilters = Boolean(filterColor || filterSex || query);
 
   const baseWaEmpty = buildWhatsAppLink({
     message: "Olá! Vi a vitrine do site e gostaria de conhecer as opções atuais de Spitz Alemão Anão.",
@@ -110,6 +114,27 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
       {/* ── Filter bar ─────────────────────────────────────────────────────── */}
       <div className="mb-6 space-y-3 sm:mb-8">
+        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 sm:p-6">
+          <label htmlFor="catalog-query" className="block text-lg font-semibold text-zinc-900">O que você procura?</label>
+          <p id="catalog-query-help" className="mt-2 text-sm text-zinc-700">Busque por cor, sexo ou valor publicado. Exemplo: fêmea branca até R$ 7.500. Você também pode combinar os filtros abaixo.</p>
+          <input id="catalog-query" type="search" maxLength={240} value={query}
+            onChange={(event) => setQuery(event.target.value)} aria-describedby="catalog-query-help catalog-query-result"
+            placeholder="Quero uma fêmea branca" className="mt-4 min-h-12 w-full rounded-xl border border-zinc-400 bg-white px-4 py-3 text-base text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700" />
+          <p id="catalog-query-result" role="status" aria-live="polite" className="mt-3 text-sm text-zinc-700">
+            {parsedQuery.unsupported ? "Não consegui interpretar esse pedido. Tente uma cor, sexo ou valor máximo, ou use os filtros. "
+              : query.trim() ? `${filtered.length} referência(s) na vitrine para esse pedido. ` : ""}
+            A vitrine não confirma estoque. Consulte a disponibilidade atual pelo WhatsApp.
+          </p>
+          {parsedQuery.topic && (
+            <p className="mt-3 text-sm text-zinc-700">
+              {parsedQuery.topic === "location" ? "Estamos em Bragança Paulista/SP. Combine os detalhes de uma visita com a equipe. "
+                : parsedQuery.topic === "reservation" ? "Confirme o filhote e as condições de reserva com a equipe antes de pagar. "
+                : "Consulte com a equipe os documentos e registros do filhote específico. "}
+              <a href={parsedQuery.topic === "location" ? "/contato" : parsedQuery.topic === "reservation" ? "/reserve-seu-filhote" : "/blog/documentacao-registro-spitz-alemao"} className="font-semibold text-emerald-800 underline">Saiba mais</a>
+            </p>
+          )}
+          {query.trim() && <a href={waEmpty} target="_blank" rel="noreferrer" className="mt-3 inline-flex min-h-11 items-center font-semibold text-emerald-800 underline">Confirmar opções atuais pelo WhatsApp</a>}
+        </div>
         {/* Aviso de vitrine — curto, no lugar onde ficava o contador de estoque */}
         <p className="text-sm leading-relaxed text-zinc-500">
           Estas são fotos reais das combinações de cor e sexo com que trabalhamos.{" "}
@@ -127,6 +152,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
           <button
             type="button"
             onClick={() => setFilterColor("")}
+            aria-pressed={!filterColor}
             className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
               !filterColor ? "bg-zinc-900 text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
             }`}
@@ -138,6 +164,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
               key={c}
               type="button"
               onClick={() => setFilterColor(c === filterColor ? "" : c)}
+              aria-pressed={filterColor === c}
               className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
                 COLOR_LABELS[c] ? "" : "capitalize"
               } ${
@@ -155,6 +182,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
               key={o.value}
               type="button"
               onClick={() => setFilterSex(filterSex === o.value ? "" : o.value)}
+              aria-pressed={filterSex === o.value}
               className={`shrink-0 rounded-full px-3.5 py-2 text-xs font-semibold transition ${
                 filterSex === o.value ? "bg-violet-600 text-white" : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
               }`}
@@ -166,7 +194,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
           {hasFilters && (
             <button
               type="button"
-              onClick={() => { setFilterColor(""); setFilterSex(""); }}
+              onClick={clearFilters}
               className="shrink-0 rounded-full border border-zinc-200 px-3.5 py-2 text-xs font-semibold text-zinc-500 transition hover:bg-zinc-100 active:scale-95"
             >
               ✕ Limpar
@@ -213,7 +241,7 @@ export default function StaticCatalog({ puppies, headingLevel = 1 }: Props) {
             {hasFilters && (
               <button
                 type="button"
-                onClick={() => { setFilterColor(""); setFilterSex(""); }}
+                onClick={clearFilters}
                 className="rounded-full border border-zinc-300 px-5 py-2.5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100"
               >
                 Limpar filtros

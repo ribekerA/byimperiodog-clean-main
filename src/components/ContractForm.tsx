@@ -7,7 +7,7 @@ import SignaturePad from "@/components/SignaturePad";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Props = { code: string; puppyName?: string; puppyColor?: string; puppySex?: string };
+type Props = { code: string; accessToken: string; puppyName?: string; puppyColor?: string; puppySex?: string };
 type Step  = "form" | "sending" | "success" | "error";
 type FileState = { file: File } | null;
 
@@ -41,7 +41,7 @@ function FileInput({ label, hint, name, value, onChange }: {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
-export default function ContractForm({ code, puppyName, puppyColor, puppySex }: Props) {
+export default function ContractForm({ code, accessToken, puppyName, puppyColor, puppySex }: Props) {
   const [step,      setStep]      = useState<Step>("form");
   const [error,     setError]     = useState<string | null>(null);
   const [hemograma, setHemograma] = useState<FileState>(null);
@@ -74,6 +74,7 @@ export default function ContractForm({ code, puppyName, puppyColor, puppySex }: 
 
     const form = new FormData();
     form.append("code", code);
+    form.append("access_token", accessToken);
     form.append("payload", JSON.stringify({
       // Comprador
       nome,

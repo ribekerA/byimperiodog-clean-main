@@ -69,7 +69,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "O padrão da raça admite várias cores. As cinco divulgadas pela By Império Dog são Particolor, Laranja, Creme, Preto e Branco. O padrão também admite marrom e preto e castanho, entre outras. A cor não altera temperamento nem saúde.",
+      "O padrão da raça admite várias cores. As quatro divulgadas atualmente pela By Império Dog são Laranja, Creme, Preto e Branco. O padrão também admite outras tonalidades. A cor, isoladamente, não determina temperamento nem saúde.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
