@@ -33,7 +33,7 @@ export default function ReviewCarousel({ children }: { children: ReactNode }) {
       </div>
       {/* Foco permite rolar a região com as setas do teclado. */}
       {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-      <ul ref={ref} id={id} tabIndex={0} aria-label="Depoimentos de clientes" className="flex snap-x snap-mandatory gap-5 overflow-x-auto rounded-2xl pb-5 [scrollbar-width:thin] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-800">
+      <ul ref={ref} id={id} tabIndex={0} aria-label="Depoimentos de clientes" className="flex snap-x snap-mandatory gap-5 overflow-x-auto rounded-2xl pb-5 [scrollbar-width:thin] [&>li]:basis-full sm:[&>li]:basis-[calc((100%_-_1.25rem)/2)] xl:[&>li]:basis-[calc((100%_-_2.5rem)/3)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-800">
         {children}
       </ul>
       <p className="mt-3 text-xs leading-relaxed text-zinc-600">Uma seleção de avaliações do Google e relatos enviados pelas famílias. Cada card identifica sua origem. Consulte todas as avaliações e os dados atuais no Google.</p>

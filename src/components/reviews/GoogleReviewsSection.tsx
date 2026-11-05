@@ -2,7 +2,18 @@ import { googleReviewSnapshot } from "@/content/google-reviews";
 import { GOOGLE_BUSINESS_PROFILE_URL } from "@/domain/config";
 
 /** Resumo conferido nos prints da proprietária, sem inferir média da amostra. */
-export default function GoogleReviewsSection() {
+export default function GoogleReviewsSection({ compact = false }: { compact?: boolean }) {
+  if (compact) return (
+    <div data-google-review-summary="compact" className="flex max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-2xl border border-white/25 bg-zinc-950/75 px-4 py-2 text-sm text-white">
+      <a href="#family-stories-heading" className="inline-flex min-h-11 flex-wrap items-center justify-center gap-2 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+        <span aria-hidden="true" className="text-amber-400">★</span>
+        <strong>{googleReviewSnapshot.rating.toLocaleString("pt-BR")} / 5</strong>
+        <span>· {googleReviewSnapshot.total} avaliações no Google</span>
+        <span className="sr-only"> — ver avaliações nesta página; conferido em {googleReviewSnapshot.checkedAtLabel}</span>
+      </a>
+      <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Conferir no Google<span className="sr-only"> (abre em nova aba)</span></a>
+    </div>
+  );
   return (
     <aside aria-labelledby="google-reviews-heading" className="rounded-2xl border border-[#dadce0] bg-white px-6 py-7 text-center shadow-sm lg:mt-16">
         <h3 id="google-reviews-heading" className="text-lg font-medium text-[#202124]">Resumo das avaliações</h3>

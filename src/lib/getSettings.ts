@@ -1,5 +1,7 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
+import "server-only";
+
 export type SiteSettings = {
   gtm_id?: string | null;
   ga4_id?: string | null;
@@ -11,16 +13,13 @@ export type SiteSettings = {
   hotjar_id?: string | null;           // Ex.: 1234567
   clarity_id?: string | null;          // Ex.: a1b2c3d4e5
   meta_domain_verify?: string | null;  // meta code p/ verificação de domínio
-  // tokens CAPI **não** são expostos no client:
-  fb_capi_token?: string | null;
-  tiktok_api_token?: string | null;
 };
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   const supa = supabaseAdmin();
   const { data, error } = await supa
     .from("site_settings")
-    .select("*")
+    .select("gtm_id,ga4_id,google_ads_id,google_ads_label,meta_pixel_id,pinterest_tag_id,tiktok_pixel_id,hotjar_id,clarity_id,meta_domain_verify")
     .eq("id", 1)
     .single();
 

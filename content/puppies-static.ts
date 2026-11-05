@@ -25,20 +25,56 @@
 // Preço: a tabela-base e os valores definidos para páginas específicas vivem
 // em src/domain/pricing.ts. Os `priceCents` daqui aplicam uma dessas regras, e
 // tests/pricing-guard.test.ts confere um contra o outro. Nos cards e nas
-// páginas de filhote, o valor é publicado de forma exata, sem prefixo.
+// páginas de filhote, o valor é publicado sem o prefixo "a partir de".
 //
 // Esta linha já creditou a conferência ao content-guard do prebuild, que não a
 // fazia: este arquivo está na lista de SKIP do guard, e o que ele procura é o
-// preço em prosa, nunca os centavos guardados aqui.
+// preço em prosa ("R$ 8.500"), nunca os centavos guardados aqui.
 //
-// `divulgar: false` preserva somente o registro editorial e as mídias. Essas
-// entradas não geram ficha, vitrine, preço, CTA nem URL comercial pública.
+// `divulgar: false` tira a entrada das vitrines públicas sem apagar a sua
+// página: o Cinza-Lobo saiu da comunicação, mas as URLs que já estavam
+// indexadas continuam respondendo até que se decida o que fazer com elas.
 
-export const staticPuppies = [
+import { CORES_DIVULGADAS, precoDoFilhote, type CorDivulgada } from "../src/domain/pricing";
+
+const referenciasVisuais = [
+  // Macho branco cadastrado com fotos e preço confirmados em 05/11/2026.
+  {
+    id: "spitz-branco-macho-20261105",
+    name: "Spitz Alemão Branco Macho",
+    slug: "spitz-alemao-anao-branco-macho",
+    title: "Spitz Alemão Branco Macho | By Império Dog",
+    color: "branco",
+    cor: "Branco",
+    sex: "male",
+    gender: "male",
+    breed: "Spitz Alemão",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/branco/branco-macho-20261105-01.jpg",
+      "/filhotes/branco/branco-macho-20261105-02.jpg",
+      "/filhotes/branco/branco-macho-20261105-03.jpg",
+      "/filhotes/branco/branco-macho-20261105-04.jpg",
+      "/filhotes/branco/branco-macho-20261105-05.jpg",
+      "/filhotes/branco/branco-macho-20261105-06.jpg",
+      "/filhotes/branco/branco-macho-20261105-07.jpg",
+      "/filhotes/branco/branco-macho-20261105-08.jpg",
+      "/filhotes/branco/branco-macho-20261105-09.jpg",
+      "/filhotes/branco/branco-macho-20261105-10.jpg",
+      "/filhotes/branco/branco-macho-20261105-11.jpg",
+    ],
+    currency: "BRL",
+    description:
+      "Filhote de Spitz Alemão macho branco, fotografado no gramado. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva deste filhote.",
+    isHighlighted: true,
+    isFeatured: true,
+  },
+
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-branco-femea-01",
-    name: "Spitz Branco Fêmea",
+    name: "Spitz Alemão Anão Branco Fêmea",
     slug: "spitz-alemao-anao-branco-femea",
     title: "Spitz Alemão Anão Branco Fêmea | By Império Dog",
     color: "branco",
@@ -49,24 +85,20 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
-    // images[0] é a capa do card e do modal. A responsável escolheu a foto da
-    // dupla no gramado como capa; as outras seguem a ordem em que ela enviou.
-    // O .mp4 fica no fim: o componente separa foto de vídeo por extensão e usa
-    // photos[0] como pôster, então a posição do vídeo no array não muda a capa.
+    // Lote atual enviado em 26/09/2026. A primeira foto é a capa; os cinco
+    // vídeos foram processados sem faixa de áudio antes da publicação.
     images: [
-      "/filhotes/branco/branco-femea-dupla-jardim-01.jpg",
-      "/filhotes/branco/branco-femea-jardim-01.jpg",
-      "/filhotes/branco/branco-femea-colo-01.jpg",
-      "/filhotes/branco/branco-femea-jardim-02.jpg",
-      "/filhotes/branco/branco-femea-jardim-03.jpg",
-      "/filhotes/branco/branco-femea-jardim-04.jpg",
-      "/filhotes/branco/branco-femea-jardim-05.jpg",
-      "/filhotes/branco/branco-femea-jardim-06.jpg",
-      "/filhotes/branco/branco-femea-jardim-07.jpeg",
+      "/filhotes/branco/branco-femea-jardim-20260926-04.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-01.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-02.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-03.jpg",
+      "/filhotes/branco/branco-femea-jardim-20260926-05.jpg",
+      "/filhotes/videos/branco-femea-jardim-20260926-01.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-02.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-03.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-04.mp4",
+      "/filhotes/videos/branco-femea-jardim-20260926-05.mp4",
     ],
-    // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Branca fotografada em luz natural no jardim. Pelagem de aparência branca e uniforme; consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -75,12 +107,13 @@ export const staticPuppies = [
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
+    catalogPriority: 110,
   },
 
   // ─── SPITZ CREME FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-creme-femea-01",
-    name: "Spitz Creme Fêmea",
+    name: "Lulu da Pomerânia Creme Fêmea",
     slug: "spitz-alemao-anao-creme-femea",
     title: "Spitz Alemão Anão Creme Fêmea | By Império Dog",
     color: "creme",
@@ -105,9 +138,6 @@ export const staticPuppies = [
       "/filhotes/videos/spitz-creme.mp4",
       "/filhotes/videos/ninhada-creme-01.mp4",
     ],
-    // Fêmea Creme — preço único de fêmea → R$ 8.500
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Creme de pelagem clara e uniforme. Registro oficial, protocolo vacinal em dia conforme a idade e mentoria pós-venda inclusos. Consulte a disponibilidade e as condições da reserva.",
@@ -121,7 +151,7 @@ export const staticPuppies = [
   // ─── SPITZ PRETO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-preto-femea-01",
-    name: "Spitz Preto Fêmea",
+    name: "Spitz Alemão Anão Preto Fêmea",
     slug: "spitz-alemao-anao-preto-femea",
     title: "Spitz Alemão Anão Preto Fêmea | By Império Dog",
     color: "preto",
@@ -132,20 +162,17 @@ export const staticPuppies = [
     size: "mini",
     city: "braganca-paulista",
     state: "SP",
+    // Lote atual enviado em 26/09/2026. A primeira foto é a capa; os quatro
+    // vídeos foram processados sem faixa de áudio antes da publicação.
     images: [
-      "/filhotes/preto/preto-filhote-flores-01.jpg",
-      "/filhotes/preto/preto-filhote-jardim-01.jpg",
-      "/filhotes/preto/preto-filhote-flores-04.jpg",
-      "/filhotes/preto/preto-filhote-jardim-04.jpg",
-      "/filhotes/preto/preto-filhote-flores-05.jpg",
-      "/filhotes/preto/preto-filhote-jardim-03.jpg",
-      "/filhotes/preto/preto-filhote-2024-jardim-01.jpg",
-      "/filhotes/preto/preto-filhote-2024-jardim-02.jpg",
-      "/filhotes/videos/spitz-anao.mp4",
+      "/filhotes/preto/preto-femea-jardim-20260926-01.jpg",
+      "/filhotes/preto/preto-femea-jardim-20260926-02.jpg",
+      "/filhotes/preto/preto-femea-jardim-20260926-03.jpg",
+      "/filhotes/videos/preto-femea-jardim-20260926-01.mp4",
+      "/filhotes/videos/preto-femea-jardim-20260926-02.mp4",
+      "/filhotes/videos/preto-femea-jardim-20260926-03.mp4",
+      "/filhotes/videos/preto-femea-jardim-20260926-04.mp4",
     ],
-    // Fêmea Preta — preço único de fêmea → R$ 8.500
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Preta de pelagem escura e brilhante, estrutura compacta. Registro oficial, consulta veterinária e hemograma completo. Consulte a disponibilidade e as condições da reserva.",
@@ -154,12 +181,13 @@ export const staticPuppies = [
     hasMicrochip: false,
     isHighlighted: true,
     isFeatured: true,
+    catalogPriority: 100,
   },
 
   // ─── SPITZ LARANJA FÊMEA ────────────────────────────────────────────────────
   {
     id: "spitz-laranja-femea-01",
-    name: "Spitz Laranja Fêmea Laço Vermelho",
+    name: "Lulu da Pomerânia Laranja Fêmea Laço Vermelho",
     slug: "spitz-alemao-anao-laranja-femea",
     title: "Spitz Alemão Anão Laranja Fêmea Laço Vermelho | By Império Dog",
     color: "laranja",
@@ -189,9 +217,6 @@ export const staticPuppies = [
       "/filhotes/laranja/laranja-femea-jardim-04.jpg",
       "/filhotes/videos/laranja-femea-jardim.mp4",
     ],
-    // Valor definido para esta página em PRECO_POR_SLUG.
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Laranja fotografada com laço vermelho, em galeria exclusiva e diferente da fêmea de laço rosa. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
@@ -205,7 +230,7 @@ export const staticPuppies = [
   // ─── SPITZ LARANJA FÊMEA — LAÇO ROSA ───────────────────────────────────────
   {
     id: "spitz-laranja-femea-laco-rosa-01",
-    name: "Spitz Laranja Fêmea Laço Rosa",
+    name: "Spitz Alemão Anão Laranja Fêmea Laço Rosa",
     slug: "spitz-alemao-anao-laranja-femea-laco-rosa",
     title: "Spitz Alemão Anão Laranja Fêmea Laço Rosa | By Império Dog",
     color: "laranja",
@@ -219,8 +244,6 @@ export const staticPuppies = [
     // Esta é a única foto desta fêmea disponível no acervo atual. Ela não é a
     // mesma fêmea do laço vermelho e não compartilha mídia com a outra ficha.
     images: ["/filhotes/laranja/laranja-femea-01.jpg"],
-    price_cents: 850000,
-    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Laranja fotografada com laço rosa, em enquadramento individual. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
@@ -234,7 +257,7 @@ export const staticPuppies = [
   // ─── SPITZ CREME MACHO ──────────────────────────────────────────────────────
   {
     id: "spitz-creme-macho-01",
-    name: "Spitz Creme Macho",
+    name: "Spitz Alemão Anão Creme Macho",
     slug: "spitz-alemao-anao-creme-macho",
     title: "Spitz Alemão Anão Creme Macho | By Império Dog",
     color: "creme",
@@ -258,9 +281,6 @@ export const staticPuppies = [
       "/filhotes/videos/spitz-branco.mp4",
       "/filhotes/videos/creme-dupla.mp4",
     ],
-    // Macho Creme — faixa alta de macho (Creme/Preto) → R$ 7.500
-    price_cents: 750000,
-    priceCents: 750000,
     currency: "BRL",
     description:
       "Macho Creme com estrutura compacta dentro do padrão FCI nº 97 (altura na cernelha de 21 cm ± 3 cm). Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
@@ -274,7 +294,7 @@ export const staticPuppies = [
   // ─── SPITZ PRETO MACHO ──────────────────────────────────────────────────────
   {
     id: "spitz-preto-macho-01",
-    name: "Spitz Preto Macho",
+    name: "Lulu da Pomerânia Preto Macho",
     slug: "spitz-alemao-anao-preto-macho",
     title: "Spitz Alemão Anão Preto Macho | By Império Dog",
     color: "preto",
@@ -299,12 +319,45 @@ export const staticPuppies = [
       "/filhotes/preto/preto-filhote-jardim-02.jpg",
       "/filhotes/videos/spitz-anao.mp4",
     ],
-    // Macho Preto — faixa alta de macho (Creme/Preto) → R$ 7.500
-    price_cents: 750000,
-    priceCents: 750000,
     currency: "BRL",
     description:
       "Macho Preto de pelagem escura e brilhante, estrutura compacta. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
+    hasPedigree: true,
+    vaccinationStatus: "up-to-date",
+    hasMicrochip: false,
+    isHighlighted: false,
+    isFeatured: true,
+  },
+
+  // ─── SPITZ LARANJA MACHO ────────────────────────────────────────────────────
+  {
+    id: "spitz-laranja-macho-01",
+    name: "Spitz Alemão Anão Laranja Macho",
+    slug: "spitz-alemao-anao-laranja-macho",
+    title: "Spitz Alemão Anão Laranja Macho | By Império Dog",
+    color: "laranja",
+    cor: "Laranja",
+    sex: "male",
+    gender: "male",
+    breed: "Spitz Alemão Anão",
+    size: "mini",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/laranja/laranja-macho-flores-01.jpg",
+      "/filhotes/laranja/laranja-macho-flores-02.jpg",
+      "/filhotes/laranja/laranja-macho-01.jpg",
+      "/filhotes/laranja/laranja-macho-jardim-01.jpg",
+      "/filhotes/laranja/laranja-macho-02.jpg",
+      "/filhotes/laranja/laranja-macho-flores-03.jpg",
+      "/filhotes/laranja/laranja-macho-flores-04.jpg",
+      "/filhotes/videos/spitz-laranja-macho.mp4",
+      "/filhotes/videos/laranja-macho-jardim.mp4",
+      "/filhotes/videos/ninhada-laranja-01.mp4",
+    ],
+    currency: "BRL",
+    description:
+      "Macho Laranja de coloração viva e pelagem densa. Acompanhamento veterinário e hemograma completo. Registro oficial incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
@@ -339,9 +392,9 @@ export const staticPuppies = [
       "/filhotes/wolf-sable/wolf-sable-femea-abeto-03.jpg",
       "/filhotes/wolf-sable/wolf-sable-femea-jardim-01.jpg",
     ],
-    // Registro editorial sem oferta comercial.
-    price_cents: 0,
-    priceCents: 0,
+    // Cinza-Lobo Fêmea — preço único de fêmea → R$ 8.500
+    price_cents: 850000,
+    priceCents: 850000,
     currency: "BRL",
     description:
       "Fêmea Cinza-Lobo (Wolf Sable) — coloração bicolor com máscara cinza sobre base laranja, reconhecida pela FCI. Cor não divulgada pela By Império Dog.",
@@ -376,12 +429,11 @@ export const staticPuppies = [
       "/filhotes/wolf-sable/wolf-sable-filhote-jardim-01.jpg",
       "/filhotes/wolf-sable/wolf-sable-filhote-jardim-03.jpg",
       "/filhotes/wolf-sable/wolf-sable-macho-01.jpg",
-      "/filhotes/videos/wolf-sable-jardim.mp4",
-      "/filhotes/videos/spitz-anao.mp4",
+        "/filhotes/videos/wolf-sable-jardim.mp4",
     ],
-    // Registro editorial sem oferta comercial.
-    price_cents: 0,
-    priceCents: 0,
+    // Cinza-Lobo Macho — faixa baixa de macho (Cinza-Lobo/Laranja) → R$ 6.500
+    price_cents: 650000,
+    priceCents: 650000,
     currency: "BRL",
     description:
       "Macho Cinza-Lobo (Wolf Sable) — coloração bicolor cinza e laranja, padrão reconhecido pela FCI. Cor não divulgada pela By Império Dog.",
@@ -393,16 +445,31 @@ export const staticPuppies = [
   },
 ];
 
+/** Snapshot comercial derivado, sem cópia manual dos preços divulgados. */
+export const staticPuppies = referenciasVisuais.map((referencia) => {
+  const cor = referencia.color as CorDivulgada;
+  const valor = CORES_DIVULGADAS.includes(cor)
+    ? precoDoFilhote(cor, referencia.sex === "female" ? "femea" : "macho", referencia.slug)
+    : referencia.price_cents; // Preserva apenas referências não divulgadas fora da matriz.
+  if (valor === undefined) throw new Error(`Referência sem preço: ${referencia.slug}`);
+  return { ...referencia, priceCents: valor, price_cents: valor };
+});
+
 /**
  * O catálogo como as vitrines genéricas devem enxergá-lo.
  *
  * Home, /filhotes, páginas de sexo, cidades, quiz, banner do blog e agente do
- * WhatsApp leem sempre esta constante. Nenhum consumidor público — incluindo
- * página de cor, ficha e sitemap — deve ler `staticPuppies` diretamente.
+ * WhatsApp listam "os filhotes disponíveis" — e é aí que o Cinza-Lobo não pode
+ * mais aparecer. Já quem responde por uma URL específica (a página do filhote,
+ * a página da cor, o sitemap) continua lendo `staticPuppies` direto, senão uma
+ * página indexada passaria a devolver 404 ou a abrir vazia.
  */
 export const puppiesPublicados = staticPuppies
   .filter((p) => (p as { divulgar?: boolean }).divulgar !== false)
   .sort((a, b) => {
+    const prioridadeA = (a as { catalogPriority?: number }).catalogPriority ?? 0;
+    const prioridadeB = (b as { catalogPriority?: number }).catalogPriority ?? 0;
+    if (prioridadeA !== prioridadeB) return prioridadeB - prioridadeA;
     const precoA = a.priceCents ?? a.price_cents ?? Number.MAX_SAFE_INTEGER;
     const precoB = b.priceCents ?? b.price_cents ?? Number.MAX_SAFE_INTEGER;
     return precoA - precoB;

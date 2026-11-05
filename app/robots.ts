@@ -46,9 +46,9 @@ export default function robots(): MetadataRoute.Robots {
       liberado("Googlebot-Image"),
       liberado("Bingbot"),
 
-      // ── Crawlers de BUSCA com IA ──────────────────────────────────────────
-      // Estes alimentam resposta com citação e link. São o que interessa para
-      // aparecer como fonte.
+      // ── Busca e recuperação solicitada pelo usuário ──────────────────────
+      // SearchBot indexa; User recupera sob solicitação. ChatGPT-User e
+      // Perplexity-User podem não aplicar robots.txt: acesso privado exige auth.
       liberado("OAI-SearchBot"),     // índice de busca do ChatGPT
       liberado("ChatGPT-User"),      // busca disparada pelo usuário no ChatGPT
       liberado("PerplexityBot"),     // índice de busca da Perplexity
@@ -58,13 +58,11 @@ export default function robots(): MetadataRoute.Robots {
 
       // ── Crawlers de TREINAMENTO / grounding ───────────────────────────────
       // Separados de propósito: são outra decisão de negócio. Hoje estão
-      // liberados porque conteúdo do canil em base de modelo ajuda a marca a
-      // ser lembrada; bloquear qualquer um destes NÃO tira o site da busca com
-      // IA, que depende dos grupos de cima.
+      // liberados por política preexistente, preservada nesta auditoria.
+      // Isso não garante lembrança da marca, citação ou posição em buscadores.
       liberado("GPTBot"),            // treinamento OpenAI
-      liberado("Google-Extended"),   // Gemini / grounding do AI Overviews
+      liberado("Google-Extended"),   // Gemini/Vertex: treino e grounding; não controla Search ou AI Overviews
       liberado("ClaudeBot"),         // treinamento Anthropic
-      liberado("anthropic-ai"),
       liberado("CCBot"),             // Common Crawl — insumo de vários modelos
       liberado("Applebot-Extended"),
 

@@ -162,16 +162,17 @@ function Stars({ count }: { count: number }) {
 
 export default function TextTestimonials() {
   return (
-    <section aria-labelledby="family-stories-heading" className="border-y border-[#dadce0] bg-[#f8f9fa] py-10 sm:py-14">
+    <section aria-labelledby="family-stories-heading" className="relative overflow-hidden border-y border-[#dadce0] bg-[#f8f9fa] py-10 sm:py-14">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-10">
         <div className="mb-8 border-b border-[#dadce0] pb-6 sm:mb-9">
           <p className="text-sm text-[#5f6368]">By Império Dog</p>
-          <h2 id="family-stories-heading" className="mt-2 text-3xl font-semibold leading-tight tracking-tight text-[#202124] sm:text-4xl">Avaliações de quem já nos conhece</h2>
+          <h2 id="family-stories-heading" className="mt-2 scroll-mt-24 text-3xl font-semibold leading-tight tracking-tight text-[#202124] sm:text-4xl">Avaliações de quem já nos conhece</h2>
           <p className="mt-3 text-sm text-[#5f6368]">Avaliações publicadas no Google e experiências compartilhadas pelas famílias.</p>
         </div>
         <div className="grid items-start gap-7 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-9">
           <GoogleReviewsSection />
           <ReviewCarousel>
+            <GoogleReviewCards />
             <li data-review-source="family-photo" className="flex w-[90%] shrink-0 snap-start flex-col gap-3 rounded-xl border border-[#dadce0] bg-white p-5 shadow-sm sm:w-[310px]">
               <p className="text-sm font-semibold text-[#202124]">Emily e PomPom</p>
               <p className="text-xs text-[#5f6368]">São José dos Campos, SP</p>
@@ -181,7 +182,6 @@ export default function TextTestimonials() {
               </a>
               <p className="text-xs text-[#5f6368]">Foto compartilhada pela família</p>
             </li>
-            <GoogleReviewCards />
         {TESTIMONIALS.map((t) => (
           <li
             key={t.id}

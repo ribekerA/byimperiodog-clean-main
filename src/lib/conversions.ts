@@ -185,7 +185,7 @@ export function trackGenerateLead(options?: {
   if (typeof window === "undefined") return false;
 
   try {
-    if (!getCurrentConsent().marketing) return false;
+    if (!getCurrentConsent().analytics) return false;
   } catch {
     return false;
   }
@@ -194,7 +194,7 @@ export function trackGenerateLead(options?: {
     ...(options?.contexto ?? {}),
     ...(options?.value !== undefined ? { value: options.value, currency: "BRL" } : {}),
     ...(options?.transactionId ? { transaction_id: options.transactionId } : {}),
-  });
+  }, { mirrorPixels: false });
   return true;
 }
 

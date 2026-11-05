@@ -1,102 +1,57 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { acceptAllConsent, rejectAllConsent } from "@/lib/consent";
-import { captureClickId, getClickId } from "@/lib/gclid";
+import { acceptAllConsent, rejectAllConsent } from '@/lib/consent';
+import { captureClickId, getClickAttribution, getClickId } from '@/lib/gclid';
 
-const STORAGE_KEY = "bid_click_id";
-const SESSION_KEY = "bid_click_id_sessao";
-
-describe("click id de mídia paga", () => {
+const KEY = 'bid_click_ids_v2';
+describe('atribuição tipada de mídia paga', () => {
   beforeEach(() => {
-    localStorage.clear();
-    sessionStorage.clear();
-    window.history.replaceState({}, "", "/");
-    vi.restoreAllMocks();
-  });
-
-  it.each(["gclid", "wbraid", "gbraid"])("captura %s da query string", (key) => {
-    window.history.replaceState({}, "", `/?${key}=click-123`);
-
-    captureClickId();
-
-    expect(getClickId()).toBe("click-123");
-  });
-
-  it("prioriza gclid quando mais de um identificador está presente", () => {
-    window.history.replaceState({}, "", "/?wbraid=braid-1&gclid=gclid-1");
-
-    captureClickId();
-
-    expect(getClickId()).toBe("gclid-1");
-  });
-
-  it("descarta identificador com mais de 90 dias", () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ id: "antigo", timestamp: Date.now() - 91 * 24 * 60 * 60 * 1000 }),
-    );
-
-    expect(getClickId()).toBeNull();
-    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
-  });
-
-  it("descarta timestamp inválido no futuro", () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ id: "futuro", timestamp: Date.now() + 60_000 }),
-    );
-
-    expect(getClickId()).toBeNull();
-    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
-  });
-
-  it("não lança quando o storage está bloqueado", () => {
-    vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
-      throw new Error("blocked");
-    });
-
-    expect(() => captureClickId()).not.toThrow();
-    expect(getClickId()).toBeNull();
-  });
-
-  // O gclid identifica um clique de anúncio: guardá-lo por 90 dias é
-  // armazenamento de publicidade e depende de escolha. Sem consentimento ele
-  // vale só para esta visita — o suficiente para o formulário enviado agora
-  // registrar de onde a pessoa veio, sem deixar rastro de 90 dias.
-  it("sem consentimento de marketing, não persiste por 90 dias", () => {
-    rejectAllConsent();
-    window.history.replaceState({}, "", "/?gclid=sem-consentimento");
-
-    captureClickId();
-
-    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
-    expect(sessionStorage.getItem(SESSION_KEY)).toBe("sem-consentimento");
-    expect(getClickId()).toBe("sem-consentimento");
-  });
-
-  it("com consentimento de marketing, persiste por 90 dias", () => {
+    vi.restoreAllMocks(); localStorage.clear(); sessionStorage.clear();
+    window.history.replaceState({}, '', '/');
     acceptAllConsent();
-    window.history.replaceState({}, "", "/?gclid=com-consentimento");
-
-    captureClickId();
-
-    const guardado = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
-    expect(guardado?.id).toBe("com-consentimento");
-    expect(getClickId()).toBe("com-consentimento");
   });
-
-  it("promove o identificador da sessão quando o consentimento vem depois", () => {
+  it.each(['gclid', 'wbraid', 'gbraid'])('preserva o tipo %s', (type) => {
+    window.history.replaceState({}, '', '/?' + type + '=click-123');
+    captureClickId();
+    expect(getClickAttribution()).toEqual({ [type]: 'click-123' });
+    expect(getClickId()).toBe(type === 'gclid' ? 'click-123' : null);
+  });
+  it('preserva identificadores simultâneos sem misturar tipos', () => {
+    window.history.replaceState({}, '', '/?gclid=google-1&wbraid=web-1&gbraid=app-1'); captureClickId();
+    expect(getClickAttribution()).toEqual({ gclid: 'google-1', wbraid: 'web-1', gbraid: 'app-1' });
+  });
+  it('não armazena nem lê sem consentimento de marketing', () => {
     rejectAllConsent();
-    window.history.replaceState({}, "", "/?gclid=aceito-depois");
-    captureClickId();
-    expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
-
-    // O visitante navegou para outra página e só então aceitou os cookies.
-    window.history.replaceState({}, "", "/filhotes");
-    acceptAllConsent();
-    captureClickId();
-
-    const guardado = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "null");
-    expect(guardado?.id).toBe("aceito-depois");
+    window.history.replaceState({}, '', '/?gclid=refused'); captureClickId();
+    expect(getClickId()).toBeNull();
+    expect(localStorage.getItem(KEY)).toBeNull();
+    expect(sessionStorage.getItem(KEY)).toBeNull();
+  });
+  it('revogação apaga os armazenamentos e impede leitura', () => {
+    window.history.replaceState({}, '', '/?gclid=accepted'); captureClickId(); rejectAllConsent();
+    expect(getClickAttribution()).toEqual({});
+    expect(localStorage.getItem(KEY)).toBeNull();
+    expect(sessionStorage.getItem(KEY)).toBeNull();
+  });
+  it.each([Date.now() - 91 * 86400000, Date.now() + 600000, 'invalid'])('rejeita timestamp inválido %s', (timestamp) => {
+    localStorage.setItem(KEY, JSON.stringify({ ids: { gclid: 'old' }, timestamp }));
+    expect(getClickId()).toBeNull(); expect(localStorage.getItem(KEY)).toBeNull();
+  });
+  it('não migra o valor legado sem tipo', () => {
+    localStorage.setItem('bid_click_id', JSON.stringify({ id: 'unknown', timestamp: Date.now() }));
+    sessionStorage.setItem('bid_click_id_sessao', 'unknown'); captureClickId();
+    expect(getClickId()).toBeNull();
+    expect(localStorage.getItem('bid_click_id')).toBeNull();
+    expect(sessionStorage.getItem('bid_click_id_sessao')).toBeNull();
+  });
+  it('não renova retenção a cada navegação', () => {
+    window.history.replaceState({}, '', '/?gclid=click-1'); captureClickId();
+    const previous = localStorage.getItem(KEY);
+    window.history.replaceState({}, '', '/filhotes'); captureClickId();
+    expect(localStorage.getItem(KEY)).toBe(previous);
+  });
+  it('não lança com storage bloqueado', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked'); });
+    expect(() => captureClickId()).not.toThrow(); expect(getClickId()).toBeNull();
   });
 });

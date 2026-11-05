@@ -8,11 +8,13 @@ import {
   ClientOnlyPuppyStickyFloatingCTA,
 } from "@/components/catalog/PuppyClientOnly";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
+import { RelatedPages } from "@/components/common/RelatedPages";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { TiltCard } from "@/components/motion/TiltCard";
 import ViewEventTracker from "@/components/ViewEventTracker";
-import { puppiesPublicados } from "@/content/puppies-static";
+import { staticPuppies } from "@/content/puppies-static";
+import { puppySearchCopy } from "@/content/puppy-search-copy";
 import { formatarPreco } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { focoDaFoto } from "@/lib/photo-focus";
@@ -44,7 +46,7 @@ type Props = { params: Promise<{ slug: string }> };
 // ─── Static params ────────────────────────────────────────────────────────────
 
 export function generateStaticParams() {
-  return puppiesPublicados.map((p) => ({ slug: p.slug }));
+  return staticPuppies.map((p) => ({ slug: p.slug }));
 }
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -56,6 +58,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
   const corLabel = (puppy as any).cor ?? puppy.color ?? "";
+  const searchCopy = puppySearchCopy(puppy);
   // O título repetia cor e sexo duas vezes ("Spitz Cinza-Lobo (Wolf Sable)
   // Fêmea — Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo Fêmea"): 109
   // caracteres com o sufixo da marca, cortado na busca e com a palavra "Spitz"
@@ -67,11 +70,16 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   // estar ali. Nos nomes curtos ele ajuda quem pesquisa por "Lulu"; nos longos
   // o próprio nome do filhote já diz cor, sexo e raça.
   const tituloCompleto = `${puppy.name} — Lulu da Pomerânia`;
-  const title = tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
+  const priceCents = (puppy as any).priceCents ?? (puppy as any).price_cents;
+  const title = searchCopy
+    ? puppy.slug === "spitz-alemao-anao-preto-macho"
+      ? `${searchCopy.heading} | Referência visual`
+      : `${searchCopy.heading} | ${formatarPreco(priceCents)}`
+    : tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??
     `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
-  const descricaoBusca = resumirParaBusca(description);
+  const descricaoBusca = resumirParaBusca(searchCopy?.metadataDescription ?? description);
   const firstImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
   // A rota /og/filhote/[slug] nunca chegou a devolver imagem: quebrava no
@@ -149,6 +157,7 @@ export default async function PuppyPage(props: Props) {
   const sexSlug   = puppy.sex === "female" ? "femea" : "macho";
   const corLabel  = (puppy as any).cor ?? puppy.color ?? "";
   const colorSlug = (puppy.color ?? (puppy as any).cor ?? "").toLowerCase();
+  const searchCopy = puppySearchCopy(puppy);
   const description =
     (puppy as any).description ??
     `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
@@ -170,7 +179,7 @@ export default async function PuppyPage(props: Props) {
     { name: puppy.name,  url: `${SITE_URL}/filhotes/${puppy.slug}` },
   ]);
 
-  const related = puppiesPublicados
+  const related = staticPuppies
     .filter((p) => p.slug !== puppy.slug && p.color === puppy.color)
     .slice(0, 3);
 
@@ -189,7 +198,7 @@ export default async function PuppyPage(props: Props) {
       <div className="mx-auto max-w-6xl px-4 py-6 pb-28 sm:px-6 sm:py-8 lg:px-10 lg:pb-16">
 
         {/* ── Breadcrumb ─────────────────────────────────────────────────── */}
-        <nav aria-label="Navegação estrutural" className="mb-6">
+        <nav aria-label="Navegação estrutural" className="mb-3 sm:mb-6">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500">
             <li><Link href="/" className="hover:text-emerald-700 hover:underline">Início</Link></li>
             <li aria-hidden="true" className="text-zinc-300">/</li>
@@ -200,9 +209,26 @@ export default async function PuppyPage(props: Props) {
         </nav>
 
         {/* ── Grid principal ─────────────────────────────────────────────── */}
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+        <div className="grid gap-5 lg:grid-cols-2 lg:items-start lg:gap-x-10">
+
+          <div className="min-w-0 lg:col-start-2 lg:row-start-1">
+            <PuppyDetailPanel
+              summaryOnly
+              name={puppy.name}
+              heading={searchCopy?.heading}
+              corLabel={corLabel}
+              colorSlug={colorSlug}
+              sexLabel={sexLabel}
+              sexSlug={sexSlug}
+              priceCents={puppy.priceCents ?? puppy.price_cents}
+              description={description}
+              waLink={waLink}
+              slug={puppy.slug}
+            />
+          </div>
 
           {/* Galeria cinematográfica */}
+          <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2">
           <PuppyCinematicGallery
             images={puppy.images ?? []}
             puppyName={puppy.name}
@@ -210,15 +236,18 @@ export default async function PuppyPage(props: Props) {
             puppySex={sexLabel}
             puppyId={puppy.slug}
           />
+          </div>
 
           {/* Painel de detalhes */}
           {/* `min-w-0`: a coluna da galeria já tinha, esta não. Sem ela a
               trilha do grid cresce até o min-content do conteúdo mais rígido
               do painel, e qualquer texto que não quebre volta a estourar a
               largura da tela no celular. */}
-          <div className="flex min-w-0 flex-col gap-4">
+          <div className="flex min-w-0 flex-col gap-4 lg:col-start-2 lg:row-start-2">
             <PuppyDetailPanel
+              detailsOnly
               name={puppy.name}
+              heading={searchCopy?.heading}
               corLabel={corLabel}
               colorSlug={colorSlug}
               sexLabel={sexLabel}
@@ -229,6 +258,74 @@ export default async function PuppyPage(props: Props) {
               slug={puppy.slug}
             />
           </div>
+        </div>
+
+        {searchCopy && (
+          <section
+            className="mt-12 rounded-3xl border border-zinc-200 bg-white px-5 py-8 shadow-sm sm:mt-16 sm:px-8"
+            aria-labelledby="search-landing-heading"
+          >
+            <div className="mx-auto max-w-4xl">
+              <h2
+                id="search-landing-heading"
+                className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl"
+              >
+                {searchCopy.sectionTitle}
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-zinc-700">
+                {searchCopy.introduction}
+              </p>
+
+              <div className="mt-7 grid gap-4 sm:grid-cols-3">
+                <div className="rounded-2xl bg-zinc-50 p-4">
+                  <h3 className="font-semibold text-zinc-900">Valor transparente</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                    {puppy.slug === "spitz-alemao-anao-preto-macho"
+                      ? "O valor cadastrado é uma referência; consulte o preço individual das opções atuais antes de reservar."
+                      : `${formatarPreco((puppy as any).priceCents ?? (puppy as any).price_cents)} publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.`}
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-zinc-50 p-4">
+                  <h3 className="font-semibold text-zinc-900">Saúde e documentação</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                    Registro oficial, consulta veterinária, hemograma completo e protocolo vacinal em dia conforme a idade.
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-zinc-50 p-4">
+                  <h3 className="font-semibold text-zinc-900">Atendimento direto</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                    Atendimento em Bragança Paulista, SP, com possibilidade de visita ou videochamada e suporte após a entrega.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-7 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5">
+                <h3 className="font-semibold text-zinc-900">Como confirmar a disponibilidade?</h3>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+                  As fotos permanecem como referência real da combinação de cor e sexo. Fale com a equipe para conhecer as opções atuais antes de reservar.
+                </p>
+                <a
+                  href={waLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-wa-placement="product_detail"
+                  data-wa-puppy={puppy.slug}
+                  className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                >
+                  Consultar opções atuais no WhatsApp
+                </a>
+              </div>
+            </div>
+          </section>
+        )}
+
+        <div className="mt-12">
+          <RelatedPages links={[
+            { href: `/filhotes/cor/${colorSlug}`, label: `Compare os filhotes ${corLabel}`, desc: "Veja outras referências desta cor e seus valores." },
+            { href: "/filhotes", label: "Veja a vitrine de filhotes", desc: "Compare fotos, vídeos e valores individuais; confirme as opções atuais no atendimento." },
+            { href: "/comprar-spitz-anao", label: "Como comprar e reservar", desc: "Conheça as etapas e os documentos antes de decidir." },
+            { href: "/blog/spitz-alemao-anao-entrega-brasil", label: "Entrega para todo o Brasil", desc: "Entenda documentação, transporte e atendimento para outros estados." },
+          ]} />
         </div>
 
         {/* ── Avaliações das famílias ────────────────────────────────────── */}

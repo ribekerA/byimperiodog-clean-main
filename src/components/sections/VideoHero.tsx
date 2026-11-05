@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { FOUNDING_YEAR } from "@/domain/config";
@@ -22,7 +22,7 @@ const waHero = buildWhatsAppLink({
 // Palavras do título — cada uma entra com stagger individual
 const HEADLINE_WORDS = ["Spitz", "Alemão", "Anão"];
 
-export default function VideoHero() {
+export default function VideoHero({ reviewSummary }: { reviewSummary?: ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoState, setVideoState] = useState<"loading" | "playing" | "paused" | "error">("paused");
   const [videoRequested, setVideoRequested] = useState(false);
@@ -103,12 +103,12 @@ export default function VideoHero() {
       aria-labelledby="hero-heading"
     >
       {/* ── Fundo ────────────────────────────────────────────────────────────── */}
-      <div className="absolute inset-0">
+      <div className="relative aspect-[1400/933] w-full shrink-0 sm:absolute sm:inset-0 sm:aspect-auto">
         {/* Video */}
         {videoRequested && showVideo && (
           <video
             ref={videoRef}
-            className={`absolute inset-0 z-10 h-full w-full object-cover transition-opacity duration-500 ${
+            className={`absolute inset-0 z-10 h-full w-full object-contain transition-opacity duration-500 sm:object-cover ${
               videoVisible ? "opacity-100" : "opacity-0"
             }`}
             src="/filhotes/videos/apresentacao-canil.mp4"
@@ -130,7 +130,7 @@ export default function VideoHero() {
             fetchPriority="high"
             quality={75}
             sizes="100vw"
-            className="object-cover object-[center_65%] lg:object-[center_75%]"
+            className="object-contain object-center sm:object-cover sm:object-[center_65%] lg:object-[center_75%]"
             aria-hidden="true"
           />
         )}
@@ -146,7 +146,7 @@ export default function VideoHero() {
 
       {/* ── Overlays de gradiente ────────────────────────────────────────────── */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0 hidden sm:block"
         style={{
           background:
             "linear-gradient(to bottom, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.08) 35%, rgba(0,0,0,0.16) 72%, rgba(0,0,0,0.46) 100%)",
@@ -154,7 +154,7 @@ export default function VideoHero() {
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0 hidden sm:block"
         style={{
           background: "radial-gradient(ellipse at center, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.48) 32%, rgba(0,0,0,0.08) 76%, transparent 100%)",
         }}
@@ -167,7 +167,7 @@ export default function VideoHero() {
           type="button"
           onClick={handlePlayClick}
           aria-label="Reproduzir vídeo"
-          className="absolute right-5 bottom-24 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          className="absolute right-5 top-5 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:bottom-24 sm:top-auto"
         >
           <svg className="h-5 w-5 translate-x-0.5" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M6 3.5l7 4.5-7 4.5V3.5z" />
@@ -256,6 +256,8 @@ export default function VideoHero() {
               Ver a vitrine de filhotes
             </Link>
           </div>
+
+          {reviewSummary}
 
           {/* Trust bar — números */}
           <div className="mt-2 flex flex-col items-center gap-2 sm:mt-3">

@@ -22,7 +22,7 @@ import { optimizePuppyCardImage } from "@/lib/optimize-image";
 //
 // Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
 // Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve valores com espaco comum. Os dois sao identicos na
+// resto do site escreve "R$ 8.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
@@ -92,6 +92,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
           {/* ── Mobile: barra inferior ─────────────────────────────────────── */}
           <motion.div
             className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-100 bg-white/96 px-4 py-3 backdrop-blur-md lg:hidden"
+            style={{ bottom: 'var(--consent-banner-height, 0px)' }}
             initial={{ y: reduced ? 0 : 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: reduced ? 0 : 80, opacity: 0 }}

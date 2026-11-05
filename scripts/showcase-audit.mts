@@ -76,7 +76,7 @@ for (const p of puppies) {
   const sexo = SEXO_DA_TABELA[sexoBruto];
   if (!sexo) continue;
 
-  const linha = (TABELA_DE_PRECOS as Record<string, Record<string, number | null>>)[cor];
+  const linha = (TABELA_DE_PRECOS as Record<string, Record<string, number>>)[cor];
   if (!linha) {
     critica(slug, `cor "${cor}" esta publicada e nao tem linha em TABELA_DE_PRECOS`);
     continue;
@@ -101,25 +101,15 @@ for (const p of puppies) {
   }
 }
 
-// -- toda combinacao precificada precisa existir na vitrine -------------------
+// -- toda cor divulgada precisa de preco nos dois sexos -----------------------
 for (const cor of CORES_DIVULGADAS) {
-  const linha = (TABELA_DE_PRECOS as Record<string, Record<string, number | null>>)[cor];
+  const linha = (TABELA_DE_PRECOS as Record<string, Record<string, number>>)[cor];
   if (!linha) {
     critica(cor, "cor divulgada sem linha em TABELA_DE_PRECOS");
     continue;
   }
-  const combinacoes = (["macho", "femea"] as const).filter(
-    (sexo) => typeof linha[sexo] === "number",
-  );
-  if (combinacoes.length === 0) {
-    critica(cor, "cor divulgada sem nenhuma combinacao comercial precificada");
-  }
-  for (const sexo of combinacoes) {
-    const sexDoCatalogo = sexo === "femea" ? "female" : "male";
-    const existe = puppies.some(
-      (p) => publicado(p) && p.color === cor && p.sex === sexDoCatalogo,
-    );
-    if (!existe) critica(cor, `tem preco de ${sexo}, mas nenhuma ficha publicada dessa combinacao`);
+  for (const sexo of ["macho", "femea"]) {
+    if (typeof linha[sexo] !== "number") critica(cor, `sem preco de ${sexo} na tabela`);
   }
 }
 

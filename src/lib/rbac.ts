@@ -41,6 +41,8 @@ const ROLE_PERMISSIONS: Record<AdminRole, readonly AdminPermission[]> = {
 export function normalizeRole(role?: string | null): AdminRole {
   if (!role) return DEFAULT_ROLE;
   const normalized = role.trim().toLowerCase();
+  // Legacy server-side admin_users rows use this explicit role.
+  if (normalized === "admin") return "owner";
   if (normalized === "owner" || normalized === "editor" || normalized === "viewer") {
     return normalized;
   }

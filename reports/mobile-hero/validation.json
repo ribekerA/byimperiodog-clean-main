@@ -1,0 +1,40 @@
+{
+  "base": "http://localhost:3104",
+  "results": [
+    {
+      "width": 320,
+      "height": 213.25,
+      "fit": "contain",
+      "ratio": 1.5023474178403755,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 259.90625,
+      "fit": "contain",
+      "ratio": 1.5,
+      "overflow": false
+    },
+    {
+      "width": 430,
+      "height": 286.5625,
+      "fit": "contain",
+      "ratio": 1.5034965034965035,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "height": 927,
+      "fit": "cover",
+      "ratio": 1.5,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "height": 913,
+      "fit": "cover",
+      "ratio": 1.5015641293013555,
+      "overflow": false
+    }
+  ]
+}

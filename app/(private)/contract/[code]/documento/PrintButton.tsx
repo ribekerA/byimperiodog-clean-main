@@ -1,5 +1,6 @@
 "use client";
 
+/** Disponível apenas após a autorização server-side da página. */
 export function PrintButton() {
   return (
     <button

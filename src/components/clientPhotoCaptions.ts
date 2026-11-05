@@ -16,6 +16,7 @@ export type ClientPhotoCaption = {
 };
 
 const CLIENT_PHOTO_CAPTIONS: Record<string, ClientPhotoCaption> = {
+  "emily-pompom.jpg": { name: "Emily e PomPom", city: "São José dos Campos, SP" },
   "ronaldo-braganca-paulista.jpeg": { name: "Ronaldo", city: "Bragança Paulista, SP" },
   "bruno-familia-jundiai.jpeg": { name: "Bruno e família", city: "Jundiaí, SP" },
   "ana-paula-jundiai.jpeg": { name: "Ana Paula", city: "Jundiaí, SP" },

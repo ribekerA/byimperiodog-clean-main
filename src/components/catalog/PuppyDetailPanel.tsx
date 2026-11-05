@@ -42,7 +42,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 //
 // Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
 // Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve valores com espaco comum. Os dois sao identicos na
+// resto do site escreve "R$ 8.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
@@ -51,6 +51,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 interface Props {
   name: string;
+  heading?: string;
   corLabel: string;
   colorSlug: string;
   sexLabel: string;
@@ -59,6 +60,8 @@ interface Props {
   description: string;
   waLink: string;
   slug: string;
+  summaryOnly?: boolean;
+  detailsOnly?: boolean;
 }
 
 // ─── Configurações ────────────────────────────────────────────────────────────
@@ -84,6 +87,7 @@ const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
 
 export default function PuppyDetailPanel({
   name,
+  heading,
   corLabel,
   colorSlug,
   sexLabel,
@@ -92,17 +96,21 @@ export default function PuppyDetailPanel({
   description,
   waLink,
   slug,
+  summaryOnly = false,
+  detailsOnly = false,
 }: Props) {
   const trackedWaLink = useWhatsAppLink(waLink);
   const price = formatPrice(priceCents);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
+
+      {!detailsOnly && <>
 
       {/* ── Taxonomia ────────────────────────────────────────────────────── */}
       <motion.div
         className="flex flex-wrap items-center gap-2"
-        initial={{ opacity: 0, y: 12 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: EASE, delay: 0.1 }}
       >
@@ -123,15 +131,15 @@ export default function PuppyDetailPanel({
 
       {/* ── Nome ─────────────────────────────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: EASE, delay: 0.18 }}
       >
         <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          {name}
+          {heading ?? name}
         </h1>
         <p className="mt-1 text-sm text-zinc-500">
-          Spitz Alemão Anão · Bragança Paulista, SP
+          Lulu da Pomerânia · Bragança Paulista, SP
         </p>
       </motion.div>
 
@@ -139,27 +147,25 @@ export default function PuppyDetailPanel({
       {price && (
         <motion.div
           className="flex flex-wrap items-end gap-3"
-          initial={{ opacity: 0, scale: 0.97 }}
+          initial={false}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.26 }}
         >
           <div>
             <p className="text-3xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
+            {slug === "spitz-alemao-anao-preto-macho" && (
+              <p className="mt-1 text-sm text-zinc-600">Valor cadastrado desta referência visual; não confirma uma oferta disponível. Consulte o preço e as opções atuais no atendimento.</p>
+            )}
             <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, consulta veterinária e mentoria inclusos</p>
           </div>
         </motion.div>
       )}
 
-      {/* ── Descrição ────────────────────────────────────────────────────── */}
-      <ScrollReveal variant="fadeIn" delay={0.08}>
-        <p className="text-base leading-relaxed text-zinc-700">{description}</p>
-      </ScrollReveal>
-
       {/* ── CTA principal ────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-2">
         <motion.div
           className="flex items-center gap-3"
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.36 }}
         >
@@ -207,6 +213,11 @@ export default function PuppyDetailPanel({
         </p>
       </div>
 
+      </>}
+
+      {!summaryOnly && <>
+      <p className="text-base leading-relaxed text-zinc-700">{description}</p>
+
       {/* ── Incluído no valor ────────────────────────────────────────────── */}
       <ScrollReveal variant="fadeUp" delay={0.05}>
         <div>
@@ -249,6 +260,7 @@ export default function PuppyDetailPanel({
           ))}
         </div>
       </ScrollReveal>
+      </>}
     </div>
   );
 }

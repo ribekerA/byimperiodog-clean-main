@@ -1,13 +1,23 @@
 # Runbook operacional — GTM, GA4, Google Ads e WhatsApp
 
-Atualizado em 27/08/2026. O código está implantado e a versão 16 do GTM está ativa. Não alterar campanhas nem republicar o contêiner sem aprovação humana explícita.
+Atualizado em 13/09/2026. GTM versão 18 publicado; o detalhamento da versão 16 abaixo é histórico. Não alterar campanhas nem republicar o contêiner sem aprovação humana explícita.
+
+## Correções de 13/09/2026
+
+- GTM 18: a tag Pinterest agora exige `ad_storage`, `ad_user_data` e `ad_personalization`. Publicação isolada, partindo da versão 17, sem publicar mudanças de outros workspaces.
+- Navegador em produção: sem consentimento não carrega Google/Pinterest; apenas analytics não carrega Pinterest; marketing autorizado mantém o carregamento. Requisições de coleta foram interceptadas na homologação.
+- GA4: fuso alterado para `America/Sao_Paulo`; removido valor padrão fictício de US$ 1 do evento-chave `whatsapp_click`. Não se reescrevem as séries históricas nem se transforma clique em receita.
+- Código: hosts locais e previews não inicializam as tags; recusar/revogar remove armazenamento conhecido e recarrega a página quando bibliotecas já estavam carregadas.
+- Identificadores publicitários: armazenamento tipado e consentido; valores antigos sem tipo são descartados, não reinterpretados. O campo existente `gclid` recebe apenas GCLID. Persistência WBRAID/GBRAID no CRM e importações offline continuam pendentes da validação do banco.
+- Formulários: conversão somente após resposta `{ ok: true, id: string }`; erro HTTP/JSON incompleto não conta como lead.
+- Plano e limites: [execução da auditoria](../execution-2026-09-13.md). Backups brutos permanecem locais e não devem ser versionados.
 
 ## Inventário confirmado
 
 | Plataforma | Identificação |
 |---|---|
 | GTM | conta `By Imperio Dog`, container `GTM-NM5P94W8` |
-| GTM publicado | versão 16 |
+| GTM publicado | versão 18 |
 | Backup | `docs/analytics/gtm-GTM-NM5P94W8-version-14-backup-2026-08-27.json` |
 | GA4 | conta/propriedade `339-484-5796` / `WEB Analytics` |
 | Web stream | `By Imperio Dog - Site`, `G-WZ9RQKW48Z` |

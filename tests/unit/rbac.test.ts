@@ -19,6 +19,7 @@ describe("rbac helpers", () => {
     expect(normalizeRole(undefined)).toBe(DEFAULT_ROLE);
     expect(normalizeRole("squad")).toBe(DEFAULT_ROLE);
     expect(DEFAULT_ROLE).toBe("viewer");
+    expect(normalizeRole("admin")).toBe("owner"); // alias do schema legado
   });
 
   it("valida permissões por role", () => {
@@ -45,5 +46,8 @@ describe("rbac helpers", () => {
     expect(permissionForAdminRequest("/api/admin/settings", "POST")).toBe("settings:write");
     expect(permissionForAdminRequest("/api/admin/leads", "PATCH")).toBe("cadastros:write");
     expect(permissionForAdminRequest("/api/admin/settings", "GET")).toBe("settings:write");
+  });
+  it("getClientAdminRole falha com privilégio mínimo", () => {
+    expect(getClientAdminRole()).toBe(DEFAULT_ROLE);
   });
 });

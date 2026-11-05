@@ -1,16 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { formatarPreco, menorPrecoPublicadoDaCor, type CorDivulgada } from "@/domain/pricing";
+import { type CorDivulgada } from "@/domain/pricing";
 
-// Esta vitrine mostra as quatro cores escolhidas para a home. Cores fora da
-// comunicação comercial não entram nesta coleção. O
+// Esta vitrine mostra as quatro cores escolhidas para a home. Cinza-Lobo já não
+// era divulgado e o Particolor foi retirado daqui por decisão comercial. O
 // valor de cada card vem de domain/pricing em vez de ser digitado no componente.
 //
 // A ordem é a da tabela de preços, do valor mais acessível ao mais caro: quem
 // chega por esta seção lê os cards antes de abrir a tabela, e as duas listas
 // discordarem de ordem faz a mais barata parecer estar em lugares diferentes.
 const COLORS = [
+  {
+    slug: "laranja",
+    cor: "laranja",
+    label: "Laranja",
+    tagline: "A cor icônica da raça",
+    image: "/filhotes/laranja/laranja-femea-01.jpg",
+    glowColor: "rgba(249,115,22,0.18)",
+  },
   {
     slug: "creme",
     cor: "creme",
@@ -26,14 +34,6 @@ const COLORS = [
     tagline: "Pelagem preta uniforme",
     image: "/filhotes/preto/preto-filhote-flores-01.jpg",
     glowColor: "rgba(161,161,170,0.12)",
-  },
-  {
-    slug: "laranja",
-    cor: "laranja",
-    label: "Laranja",
-    tagline: "A cor icônica da raça",
-    image: "/filhotes/laranja/laranja-femea-01.jpg",
-    glowColor: "rgba(249,115,22,0.18)",
   },
   {
     slug: "branco",
@@ -63,7 +63,7 @@ export default function ColorGallery() {
             As cores do Spitz Alemão Anão
           </h2>
           <p className="mt-3 text-zinc-400">
-            Veja o valor e as fotos reais de cada cor divulgada atualmente.
+            Cada cor tem o seu valor de partida. Clique para ver as fotos reais de cada uma.
           </p>
         </div>
 
@@ -108,7 +108,7 @@ export default function ColorGallery() {
                   <p className="text-[10px] font-bold uppercase tracking-widest text-white/55">{cor.tagline}</p>
                   <p className="mt-0.5 text-lg font-bold text-white">{cor.label}</p>
                   <p className="mt-0.5 text-sm font-semibold text-emerald-400">
-                    {formatarPreco(menorPrecoPublicadoDaCor(cor.cor))}
+                    Consulte fotos e valores individuais
                   </p>
                 </div>
 

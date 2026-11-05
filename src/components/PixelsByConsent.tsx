@@ -9,6 +9,7 @@ import {
   type ConsentPreferences,
 } from "@/lib/consent";
 import { GOOGLE_ADS_READY_EVENT, registerAdsAccount } from "@/lib/conversions";
+import { isProductionTrackingHost } from '@/lib/tracking-host';
 
 export interface PixelsProps {
   isAdminRoute: boolean;
@@ -70,7 +71,7 @@ export default function PixelsByConsent(props: PixelsProps) {
     });
   }, [isAdminRoute, props.ADS_ID, props.ADS_LABEL, props.ADS_WHATSAPP_LABEL, props.useGTM]);
 
-  if (isAdminRoute) return null;
+  if (isAdminRoute || !isProductionTrackingHost()) return null;
 
   const { analytics, marketing } = consent;
   // Basic consent mode: optional libraries are not downloaded before the

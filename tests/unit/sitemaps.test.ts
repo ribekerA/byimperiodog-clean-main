@@ -224,13 +224,15 @@ describe("sitemap de vídeos", () => {
 });
 
 describe("regressão comercial", () => {
-  // A ordem acompanha a tabela comercial: primeiro as cores com macho a
-  // R$ 7.500, depois as combinações publicadas somente a R$ 8.500.
-  it("mantém exatamente as quatro cores divulgadas", () => {
+  // A ordem acompanha a tabela comercial de src/domain/pricing.ts, que é o que
+  // o site publica. Particolor entrou na matriz divulgada; este teste existe
+  // para que uma mudança de oferta seja deliberada, não silenciosa.
+  it("mantém exatamente as cinco cores divulgadas", () => {
     expect([...CORES_DIVULGADAS]).toEqual([
+      "particolor",
+      "laranja",
       "creme",
       "preto",
-      "laranja",
       "branco",
     ]);
   });

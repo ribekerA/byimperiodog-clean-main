@@ -9,7 +9,7 @@ type PricingResult = {
   price_min_cents: number;
   price_ideal_cents: number;
   price_max_cents: number;
-  prob_sale_at_current: number;
+  prob_sale_at_current: number | null;
   alert: string;
   reasoning: string;
 };
@@ -65,18 +65,18 @@ export default function PricingBadge({ puppyId, currentPriceCents }: Props) {
         ) : (
           <span>✦</span>
         )}
-        IA Preço
+        Tabela Pix
       </button>
 
       {open && (
         <div className="absolute left-0 top-full z-50 mt-1.5 w-72 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-xl">
           {loading ? (
             <div className="flex items-center gap-2 text-sm text-zinc-500">
-              <Loader2 className="h-4 w-4 animate-spin" /> Analisando demanda...
+              <Loader2 className="h-4 w-4 animate-spin" /> Consultando tabela...
             </div>
           ) : data ? (
             <div className="space-y-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Sugestão de preço — IA</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-zinc-400">Referência comercial — Pix</p>
 
               <div className="grid grid-cols-3 gap-2 text-center">
                 <div className="rounded-xl bg-zinc-50 p-2">
@@ -110,7 +110,7 @@ export default function PricingBadge({ puppyId, currentPriceCents }: Props) {
               </div>
 
               <p className="text-[10px] text-zinc-400">
-                Prob. de venda no preço atual: {Math.round(data.prob_sale_at_current * 100)}%
+                Probabilidade de venda: não estimada. O preço não comprova demanda.
               </p>
             </div>
           ) : (

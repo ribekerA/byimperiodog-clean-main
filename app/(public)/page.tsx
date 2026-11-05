@@ -35,14 +35,7 @@ export const metadata: Metadata = {
   // para caber inteira, mantendo "Lulu da Pomerânia" — que sai do título por
   // falta de espaço, mas é o nome pelo qual a raça é de fato pesquisada.
   description:
-    "Canil de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo. Enviamos para todo o Brasil.",
-  keywords: [
-    "Spitz Alemão Anão", "Lulu da Pomerânia", "Pomeranian",
-    "filhote Spitz Alemão", "canil Bragança Paulista",
-    "canil Spitz Alemão SP", "Lulu da Pomerânia à venda SP",
-    "comprar Spitz Alemão Anão", "canil confiável Spitz",
-    "registro oficial Spitz Alemão Anão", "Lulu da Pomerânia interior SP",
-  ],
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Veja fotos, preços, documentação e atendimento para famílias de todo o Brasil.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -67,7 +60,7 @@ export const metadata: Metadata = {
 //
 // Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
 // Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve valores com espaco comum. Os dois sao identicos na
+// resto do site escreve "R$ 8.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
@@ -83,7 +76,6 @@ const RACE_LINKS = [
   // existisse em lugar nenhum do código — e viraria "2027" sozinho na virada do
   // ano. Era também a origem do "Preços 2025" reprovado na auditoria anterior:
   // mesma linha, ano diferente. Sem data, o rótulo não envelhece.
-  { emoji: "💰", label: "Tabela de Preços",                                   href: "/preco-spitz-anao",          desc: "Valores por cor e sexo — sem surpresas" },
   { emoji: "🛡️", label: "Como Comprar com Segurança", href: "/comprar-spitz-anao",         desc: "Guia passo a passo para não cair em golpes" },
   { emoji: "🍼", label: "Filhote de Spitz Alemão",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
   { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, exames e red flags para evitar" },
@@ -152,7 +144,45 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── 3. FILHOTES EM DESTAQUE ─────────────────────────────────────────── */}
+        {/* Apresentação e diferenciais antes das avaliações. */}
+        <section className="home-deferred-section bg-white py-14 sm:py-28 overflow-hidden" aria-labelledby="diff-heading">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+
+            <div className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Criação responsável</p>
+              <h2 id="diff-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                Por que a By Império Dog?
+              </h2>
+              <p className="mt-3 text-zinc-600 text-sm sm:text-base">
+                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {DIFFERENTIALS.map(({ emoji, title, body }) => (
+                <div key={title}>
+                  <div className="group flex h-full gap-3 sm:gap-4 rounded-2xl border border-zinc-100 bg-white p-4 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md">
+                    <div
+                      className="mt-0.5 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-lg sm:text-xl transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110"
+                      aria-hidden="true"
+                    >
+                      {emoji}
+                    </div>
+                    {/* <dl> e não <div>: dt/dd só são válidos dentro de uma lista
+                        de descrição. O preflight do Tailwind zera a margem de <dl>
+                        igual à de <div>, então o render é idêntico. */}
+                    <dl>
+                      <dt className="text-sm font-bold text-zinc-900 sm:text-base">{title}</dt>
+                      <dd className="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-600">{body}</dd>
+                    </dl>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Vitrine de filhotes. */}
         <section className="home-deferred-section bg-[var(--bg)] py-14 sm:py-28 overflow-hidden" aria-labelledby="featured-heading">
           <div className="mx-auto max-w-7xl">
 
@@ -312,44 +342,6 @@ export default function HomePage() {
           <ColorGallery />
         </div>
 
-        {/* ── 5. DIFERENCIAIS ─────────────────────────────────────────────────── */}
-        <section className="home-deferred-section bg-white py-14 sm:py-28 overflow-hidden" aria-labelledby="diff-heading">
-          <div className="mx-auto max-w-7xl px-5 sm:px-8">
-
-            <div className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Criação responsável</p>
-              <h2 id="diff-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-                Por que a By Império Dog?
-              </h2>
-              <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {DIFFERENTIALS.map(({ emoji, title, body }) => (
-                <div key={title}>
-                  <div className="group flex h-full gap-3 sm:gap-4 rounded-2xl border border-zinc-100 bg-white p-4 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-md">
-                    <div
-                      className="mt-0.5 flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-lg sm:text-xl transition-all duration-300 group-hover:bg-emerald-100 group-hover:scale-110"
-                      aria-hidden="true"
-                    >
-                      {emoji}
-                    </div>
-                    {/* <dl> e não <div>: dt/dd só são válidos dentro de uma lista
-                        de descrição. O preflight do Tailwind zera a margem de <dl>
-                        igual à de <div>, então o render é idêntico. */}
-                    <dl>
-                      <dt className="text-sm font-bold text-zinc-900 sm:text-base">{title}</dt>
-                      <dd className="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-600">{body}</dd>
-                    </dl>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* ── 6. AI MATCHMAKER ────────────────────────────────────────────────── */}
         <div className="home-deferred-section bg-[var(--bg)]">
           <ClientOnlyAiMatchmakerChat />
@@ -357,12 +349,10 @@ export default function HomePage() {
 
         {/* ── 7. PROVA SOCIAL ─────────────────────────────────────────────────── */}
         <div className="home-deferred-section bg-white overflow-hidden">
-          <div>
-            <TextTestimonials />
-          </div>
           <div className="border-t border-zinc-100 pb-4">
             <ClientOnlyTestimonials title="Álbum das famílias" />
           </div>
+          <TextTestimonials />
         </div>
 
         {/* ── 8. TRANSPARÊNCIA DE PREÇO ───────────────────────────────────────── */}
@@ -418,16 +408,16 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl px-5 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Conteúdo educativo</p>
             <h2 className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
-              Prepare-se para receber seu filhote
+              Preço, escolha e rotina do Lulu da Pomerânia
             </h2>
             <p className="mt-3 text-zinc-600">
-              Guias escritos por quem cria desde {FOUNDING_YEAR}: alimentação, cuidados, documentação e muito mais.
+              Compare cores e valores, conheça os cuidados e veja como preparar a chegada do filhote. Os guias estão organizados por assunto para ajudar em cada etapa.
             </p>
             <Link
               href="/guias"
               className="mt-6 inline-flex items-center gap-2 rounded-full border-2 border-zinc-200 px-7 py-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 hover:scale-[1.02]"
             >
-              Ver todos os guias →
+              Explorar todos os assuntos →
             </Link>
           </div>
         </div>

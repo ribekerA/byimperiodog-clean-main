@@ -303,7 +303,6 @@ export function buildLocalBusinessLD() {
     // anunciando uma faixa que a página já desmentiu.
     priceRange: `${formatarPreco(FAIXA_PUBLICA.minCents)} – ${formatarPreco(FAIXA_PUBLICA.maxCents)}`,
     currenciesAccepted: "BRL",
-    paymentAccepted: "PIX, transferência bancária, cartão de crédito",
     foundingDate: String(FOUNDING_YEAR),
     image: [
       // Era /og/home.jpg, que respondia 404 — o Google descarta a imagem do

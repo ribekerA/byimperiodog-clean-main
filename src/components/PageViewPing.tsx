@@ -3,13 +3,14 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 import { trackPageView, isAdminRoute } from "@/lib/tracking";
+import { isProductionTrackingHost } from '@/lib/tracking-host';
 
 export default function PageViewPing(props: Record<string, any>) {
   const pathname = usePathname();
 
   useEffect(() => {
     // Don't track pageviews from admin routes
-    if (isAdminRoute(pathname)) {
+    if (isAdminRoute(pathname) || !isProductionTrackingHost()) {
       return;
     }
 

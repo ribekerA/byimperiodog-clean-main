@@ -2,9 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
+import { ConsultaFilhotes, DiferencaPrecosSexo, FaixaPrecos, PrecoFilhote, TabelaPrecos } from '@/components/blog/CommercialPricing';
 import { getImageSize } from "@/lib/_generated-image-sizes";
 
 export const mdxComponents = {
+  TabelaPrecos,
+  FaixaPrecos,
+  PrecoFilhote,
+  DiferencaPrecosSexo,
+  ConsultaFilhotes,
   // Links use Next.js Link for internal routes; external fall back to <a>
   a: function A({ href = "", children, ...props }: any) {
     const isInternal = href?.startsWith("/") || href?.startsWith(process.env.NEXT_PUBLIC_SITE_URL || "");
@@ -103,4 +109,3 @@ export const mdxComponents = {
 };
 
 export default mdxComponents;
-

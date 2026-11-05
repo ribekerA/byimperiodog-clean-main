@@ -19,14 +19,19 @@
 // pode mudar de foto sem que o valor deixe de valer para a foto antiga, e um
 // filhote vindo do banco (sem entrada aqui) simplesmente cai no padrão.
 const FOCO_POR_FOTO: Record<string, string> = {
+  "/filhotes/branco/branco-macho-20261105-01.jpg": "50% 48%",
   // Duas fêmeas no gramado, pequenas no quadro: o corte quadrado só funciona
   // centrado nelas, senão vira foto de grama.
   "/filhotes/branco/branco-femea-dupla-jardim-01.jpg": "50% 55%",
+  // Nova fêmea com corações rosas, sentada no gramado.
+  "/filhotes/branco/branco-femea-coracoes-20260912-01.jpg": "50% 55%",
   // Filhote grande no quadro; 35% é o limite antes de o selo encostar na
   // franja e de as patas saírem.
   "/filhotes/creme/creme-femea-01.jpg": "50% 35%",
   // Filhote no colo, cabeça no alto do quadro: é a foto de onde veio o padrão.
   "/filhotes/preto/preto-filhote-flores-01.jpg": "50% 28%",
+  // Nova fêmea com flores rosas: o corpo está na metade inferior do retrato.
+  "/filhotes/preto/preto-femea-flores-rosas-20260912-01.jpg": "50% 75%",
   // Sentada na grama, com meio metro de árvore acima da cabeça.
   "/filhotes/laranja/laranja-femea-jardim-04.jpg": "50% 78%",
   // No colo, entre as flores vermelhas: a 28% sobrava folhagem no topo e o

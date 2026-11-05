@@ -76,6 +76,9 @@ const REGRAS_CONTEXTUAIS = [
     permitidos: [
       // Texto juridico: a clausula 3.2 fala de laudo apresentado PELO COMPRADOR.
       "app/(public)/contract/[code]/documento/page.tsx",
+      // A rota foi movida para o grupo privado; a cláusula continua exigindo
+      // documento apresentado PELO COMPRADOR, sem promessa comercial do canil.
+      "app/(private)/contract/[code]/documento/page.tsx",
       // LGPD: descreve com quem os dados sao compartilhados, nao promete documento.
       "app/(public)/politica-de-privacidade/page.tsx",
       // Educativo: o que exigir de um criador qualquer, concorrentes inclusive.
@@ -93,6 +96,9 @@ const REGRAS_CONTEXTUAIS = [
       "app/(admin)/admin/(protected)/contracts/page.tsx",
       "app/api/contract/route.ts",
       "src/components/ContractForm.tsx",
+      // Identificadores internos do upload contratual; não são copy pública.
+      "src/lib/contract-security.ts",
+      "tests/lib/contract-security.test.ts",
       // Palavra que o CLIENTE digita no WhatsApp: e gatilho de busca, nao promessa.
       "src/lib/whatsapp/agent.ts",
       // Depoimento de cliente: reescrever a fala de alguem seria falsificacao.
@@ -134,6 +140,9 @@ const PATTERNS_TO_IGNORE = [
   // Relatorios de ferramentas repetem mensagens e trechos do codigo-fonte;
   // nao sao conteudo entregue ao visitante.
   /reports/,
+  // Evidências exportadas de Analytics/Search Console contêm consultas reais
+  // dos usuários; não são texto publicado nem promessa comercial do site.
+  /\.audit-evidence/,
   // Prompts e anotacoes locais desta maquina; nao versionado, nao servido.
   /scratchpad/,
   /playwright-report/,

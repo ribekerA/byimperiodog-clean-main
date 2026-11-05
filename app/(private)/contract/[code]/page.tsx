@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import ContractForm from "@/components/ContractForm";
 import { verifyContractAccessToken } from "@/lib/contractAccess";
+import { contractCanBeFilled, validContractCode } from "@/lib/contract-security";
 import { rateLimit } from "@/lib/rateLimit";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -32,21 +33,10 @@ async function fetchContract(code: string): Promise<{ contract: ContractRow; pup
       .select("id,code,status,puppy_id,signed_at,expires_at")
       .eq("code", code)
       .maybeSingle();
-    let contract = initialContract;
-
-    // Fallback enquanto a migração de expires_at (sql/migration_contracts_expires_at.sql) não roda em produção.
-    if (error && String(error.message).includes("expires_at")) {
-      ({ data: contract } = await sb
-        .from("contracts")
-        .select("id,code,status,puppy_id,signed_at")
-        .eq("code", code)
-        .maybeSingle());
-    }
-
-    if (!contract) return null;
+    const contract = initialContract;
+    if (error || !contract) return null;
     const row = contract as ContractRow;
-    // Só o link de preenchimento expira — uma vez assinado, o contrato vira documento permanente (garantia de saúde etc.).
-    if (row.status !== "assinado" && row.expires_at && new Date(row.expires_at).getTime() < Date.now()) return null;
+    if (!contractCanBeFilled(row)) return null;
 
     const { data: puppy } = await sb
       .from("puppies")
@@ -64,6 +54,7 @@ export default async function ContractPage(props: { params: Promise<{ code: stri
   const params = await props.params;
   const { token = "" } = await props.searchParams;
   if (!verifyContractAccessToken(params.code, token)) notFound();
+  if (!validContractCode(params.code)) notFound();
   const ip = (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   const rl = rateLimit(`contract-view:${ip}`, 30, 60_000);
   if (!rl.allowed) notFound();
@@ -124,9 +115,9 @@ export default async function ContractPage(props: { params: Promise<{ code: stri
 
       {/* Rodapé de confiança */}
       <div className="mt-8 flex flex-wrap justify-center gap-4 text-xs text-zinc-500">
-        <span>🔒 Dados protegidos (LGPD)</span>
+        <span>🔒 Acesso por link privado</span>
         <span>📄 Contrato digital</span>
-        <span>🩺 Garantia de saúde</span>
+        <span>Condições conforme o contrato</span>
       </div>
     </div>
   );

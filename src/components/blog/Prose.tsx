@@ -20,10 +20,11 @@ export default function Prose({ className, children, spacious = false, ...rest }
         'prose-h2:text-2xl prose-h2:tracking-tight prose-h2:mt-12 prose-h2:mb-4',
         'prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3',
         'prose-h4:text-lg prose-h4:mt-6 prose-h4:mb-2',
-        // Links com melhor contraste
-        'prose-a:text-emerald-700 dark:prose-a:text-emerald-400',
+        // O fundo público permanece claro mesmo com preferência dark do SO.
+        // Verde-400 nesse fundo media 1,77:1; manter o verde-700 legível.
+        'prose-a:text-emerald-700',
         'prose-a:font-medium prose-a:underline prose-a:decoration-emerald-600/30',
-        'hover:prose-a:decoration-emerald-600 dark:hover:prose-a:decoration-emerald-400',
+        'hover:prose-a:decoration-emerald-600',
         // Imagens
         'prose-img:rounded-xl prose-img:border prose-img:border-[var(--border)] prose-img:shadow-md',
         // Citações

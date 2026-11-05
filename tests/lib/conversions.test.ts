@@ -22,9 +22,9 @@ vi.mock("@/lib/tracking", () => ({
   safePushToDataLayer: vi.fn(),
 }));
 
-const consent = (marketing: boolean) => ({
+const consent = (marketing: boolean, analytics = true) => ({
   necessary: true,
-  analytics: true,
+  analytics,
   marketing,
   functional: true,
 });
@@ -45,14 +45,20 @@ describe("conversões de lead", () => {
     delete (window as unknown as { gtag?: unknown }).gtag;
   });
 
-  it("não envia nada sem consentimento de marketing", () => {
+  it("não envia conversão do Ads sem consentimento de marketing", () => {
     const gtag = vi.fn();
     (window as unknown as { gtag: typeof gtag }).gtag = gtag;
     vi.mocked(getCurrentConsent).mockReturnValue(consent(false));
 
     expect(trackAdsConversion("lead-label")).toBe(false);
-    expect(trackGenerateLead()).toBe(false);
     expect(gtag).not.toHaveBeenCalled();
+    expect(safePushToDataLayer).not.toHaveBeenCalled();
+  });
+
+  it("não envia generate_lead sem consentimento de analytics", () => {
+    vi.mocked(getCurrentConsent).mockReturnValue(consent(true, false));
+
+    expect(trackGenerateLead()).toBe(false);
     expect(safePushToDataLayer).not.toHaveBeenCalled();
   });
 
@@ -86,9 +92,11 @@ describe("conversões de lead", () => {
 
   it("publica generate_lead mesmo sem label do Ads configurado", () => {
     expect(trackGenerateLead({ contexto: { lead_source: "formulario" } })).toBe(true);
-    expect(safePushToDataLayer).toHaveBeenCalledWith("generate_lead", {
-      lead_source: "formulario",
-    });
+    expect(safePushToDataLayer).toHaveBeenCalledWith(
+      "generate_lead",
+      { lead_source: "formulario" },
+      { mirrorPixels: false },
+    );
   });
 
   it("usa o label registrado no admin e não duplica generate_lead", () => {

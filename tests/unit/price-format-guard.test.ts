@@ -45,7 +45,7 @@ const EXCECOES: ReadonlyArray<{ prefixo: string; motivo: string }> = [
   { prefixo: "src/components/puppies/", motivo: "campo de preço mascarado do admin" },
   { prefixo: "src/lib/price.ts", motivo: "máscara de digitação usada só pelo formulário do admin" },
   { prefixo: "src/lib/contractPdf.ts", motivo: "documento financeiro: exige centavos" },
-  { prefixo: "app/(public)/contract/", motivo: "documento do contrato assinado: exige centavos" },
+  { prefixo: "app/(private)/contract/", motivo: "documento privado do contrato assinado: exige centavos" },
 ];
 
 /** Remove comentários para que a nota que registra a correção não se acuse. */

@@ -8,6 +8,7 @@ import {
   rejectAllConsent,
   hasConsent,
   getCurrentConsent,
+  requiresConsentReload,
   type ConsentPreferences,
   type ConsentState,
 } from '@/lib/consent';
@@ -91,6 +92,22 @@ describe('Consent Management', () => {
   });
 
   describe('saveConsent', () => {
+    it('limpa identificadores locais de publicidade ao revogar marketing', () => {
+      acceptAllConsent();
+      localStorage.setItem('bid_click_id', 'old');
+      sessionStorage.setItem('bid_click_ids_v2', 'old');
+      document.cookie = '_pin_test=old; Path=/';
+      rejectAllConsent();
+      expect(localStorage.getItem('bid_click_id')).toBeNull();
+      expect(sessionStorage.getItem('bid_click_ids_v2')).toBeNull();
+      expect(document.cookie).not.toContain('_pin_test=');
+    });
+
+    it('recarrega apenas quando permissões de bibliotecas já carregadas mudam', () => {
+      expect(requiresConsentReload(DEFAULT_CONSENT, { ...DEFAULT_CONSENT, analytics: true })).toBe(false);
+      expect(requiresConsentReload({ ...DEFAULT_CONSENT, analytics: true }, { ...DEFAULT_CONSENT, analytics: true, marketing: true })).toBe(true);
+      expect(requiresConsentReload({ ...DEFAULT_CONSENT, marketing: true }, DEFAULT_CONSENT)).toBe(true);
+    });
     it('deve salvar as preferências no localStorage', () => {
       const preferences: ConsentPreferences = {
         necessary: true,

@@ -1,17 +1,21 @@
-import { puppiesPublicados as publicados } from "@/content/puppies-static";
-import { CORES_DIVULGADAS, RESPOSTA_PRETO } from "@/domain/pricing";
+import { puppiesPublicados as publicados, staticPuppies } from "@/content/puppies-static";
+import { CORES_DIVULGADAS, RESPOSTA_PRETO, RESPOSTA_MACHO_VS_FEMEA, respostaPrecoCor } from "@/domain/pricing";
 
-export type CatalogItem = (typeof import("@/content/puppies-static").staticPuppies)[number];
+export type CatalogItem = (typeof staticPuppies)[number];
 
 // ALL_COLORS carrega o wolf-sable de propósito: é daqui que saem os
 // `generateStaticParams` de /filhotes/cor/[cor] e as entradas do sitemap. Tirar
 // o wolf-sable desta lista faria uma URL indexada devolver 404, que é
 // exatamente o que não se faz sem decisão de quem responde pelo SEO.
 //
+// O particolor entrou pelo outro lado: ele é divulgado, então CORES_EXIBIDAS já
+// o coloca no seletor de cores. Sem a entrada aqui, esse link levaria a uma rota
+// que generateStaticParams não gera — link novo apontando para 404.
 export const ALL_COLORS = [
   "branco",
   "creme",
   "laranja",
+  "particolor",
   "preto",
   "wolf-sable",
 ] as const;
@@ -37,7 +41,7 @@ export const SEX_DOMAIN_TO_URL: Record<string, string> = { female: "femea", male
 export { puppiesPublicados } from "@/content/puppies-static";
 
 export function getPuppyBySlug(slug: string): CatalogItem | undefined {
-  return publicados.find((p) => p.slug === slug);
+  return staticPuppies.find((p) => p.slug === slug);
 }
 
 export function getPuppiesByColor(color: string): CatalogItem[] {
@@ -98,7 +102,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Tom visualmente mais neutro que o creme claro",
       "Fotos e vídeos em luz natural ajudam a comparar as tonalidades",
       "A cor da pelagem não determina comportamento, inteligência ou saúde",
-      "Valor atual publicado para a fêmea branca: R$ 8.500",
+      "Valor individual conforme o filhote e a oferta atual",
     ],
     faqs: [
       {
@@ -109,7 +113,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Branco?",
         answer:
-          "A fêmea branca publicada na vitrine custa R$ 8.500. As opções atuais são confirmadas no atendimento.",
+          respostaPrecoCor("branco"),
       },
       {
         question: "A cor branca muda o temperamento ou a saúde do Spitz?",
@@ -129,7 +133,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, consulta veterinária, hemograma completo e contrato.",
     h1: "Spitz Alemão Anão Creme",
     intro:
-      "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. Na tabela atual da By Império Dog, o macho creme fica acima do laranja, junto com o preto. Consulte as opções atuais pelo WhatsApp.",
+      "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. O preço é definido individualmente, sem uma ordem fixa entre cores. Consulte as opções atuais pelo WhatsApp.",
     characteristics: [
       "Pelagem densa cor creme/marfim uniforme sem manchas",
       "Olhos escuros expressivos e focinho amendoado",
@@ -141,12 +145,12 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço de um Spitz Alemão Anão Creme?",
         answer:
-          "Na By Império Dog, o Macho Creme é R$ 7.500 e a Fêmea Creme é R$ 8.500. A disponibilidade é informada no atendimento.",
+          respostaPrecoCor("creme"),
       },
       {
-        question: "Por que o Spitz Creme é mais caro que o laranja?",
+        question: "O Spitz Creme é sempre mais caro que o laranja?",
         answer:
-          "Na tabela atual da By Império Dog o creme fica acima do laranja, junto com o preto: R$ 7.500 para macho e R$ 8.500 para fêmea. É uma diferença de tabela entre as cores, e não de cuidado: consulta veterinária, hemograma, documentação e contrato são os mesmos em qualquer cor.",
+          respostaPrecoCor("creme") + " Compare as fichas individuais; o preço não comprova qualidade ou saúde.",
       },
       {
         question: "O Spitz Creme perde muito pelo?",
@@ -178,7 +182,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Qual o preço do Spitz Alemão Anão Laranja?",
         answer:
-          "As duas fêmeas laranja publicadas na vitrine custam R$ 8.500 cada. As opções atuais são confirmadas no atendimento.",
+          respostaPrecoCor("laranja"),
       },
       {
         question: "Spitz Laranja é dócil com crianças?",
@@ -197,6 +201,43 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       },
     ],
   },
+  particolor: {
+    seoTitle: "Spitz Alemão Anão Particolor — Filhotes",
+    metaDescription:
+      "Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas. Consulte opções e valores individuais.",
+    h1: "Spitz Alemão Anão Particolor",
+    intro:
+      `O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.`,
+    characteristics: [
+      "Base branca com manchas definidas de outra cor — o desenho é único em cada filhote",
+      "Coloração reconhecida pelo padrão FCI nº 97 da raça",
+      "Temperamento típico da raça — a cor não altera o comportamento",
+      "Tamanho dentro do padrão FCI nº 97 (21 cm ± 3 cm na cernelha (altura))",
+      "Valor individual, sem preço mínimo obrigatório pela cor",
+    ],
+    faqs: [
+      {
+        question: "Qual o preço do Spitz Alemão Anão Particolor?",
+        answer:
+          respostaPrecoCor("particolor"),
+      },
+      {
+        question: "O que é um Spitz Particolor?",
+        answer:
+          "Particolor descreve a pelagem de base branca com manchas de outra cor bem delimitadas, e não uma mistura gradual de tons. O desenho das manchas muda de filhote para filhote — dois particolores da mesma ninhada nunca têm a mesma distribuição.",
+      },
+      {
+        question: "O Particolor é aceito pelo padrão da raça?",
+        answer:
+          "Sim. O particolor consta entre as colorações previstas no padrão FCI nº 97 do Spitz Alemão. O que o padrão pede é que as manchas sejam bem distribuídas sobre a base branca.",
+      },
+      {
+        question: "As manchas do Particolor mudam com o tempo?",
+        answer:
+          "O desenho das manchas se mantém, mas a intensidade da cor dentro delas pode clarear ou escurecer até a pelagem adulta se firmar, entre 6 e 12 meses. É o mesmo comportamento das demais cores da raça.",
+      },
+    ],
+  },
   preto: {
     seoTitle: "Spitz Alemão Anão Preto — Filhotes",
     metaDescription:
@@ -208,7 +249,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Pelagem preta brilhante uniforme sem manchas ou degradê",
       "Expressão marcante com contraste visual único",
       "Pelo, subpelo e pele escuros, sem manchas brancas",
-      "Mesma faixa de preço do creme na tabela atual",
+      "Preço individual conforme a oferta atual",
       "Temperamento típico da raça — a cor não altera o comportamento",
     ],
     faqs: [
@@ -256,7 +297,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "A By Império Dog trabalha com Cinza-Lobo?",
         answer:
-          "O Cinza-Lobo não faz parte das cores divulgadas pela By Império Dog. As cores divulgadas atualmente são Laranja, Creme, Preto e Branco, com os valores publicados na página de preços.",
+          "O Cinza-Lobo não faz parte das cores divulgadas pela By Império Dog. As cores oferecidas são Particolor, Laranja, Creme, Preto e Branco, com valores individuais consultados na vitrine e no atendimento.",
       },
       {
         question: "O Spitz Cinza-Lobo muda de cor com o tempo?",
@@ -295,8 +336,8 @@ export const SEX_SEO: Record<string, SexSeo> = {
       "Temperamento típico da raça — o sexo não define o comportamento",
       "Pelagem densa e volumosa na fase adulta",
       "Convive bem em família quando a socialização é feita com calma",
-      "Preço superior ao macho em todas as cores",
-      "Cio a cada 6-8 meses (castração orientada pela criadora)",
+      "Preço individual, sem diferença fixa em relação ao macho",
+      "Intervalo entre cios variável; cuidados e castração orientados pelo médico-veterinário",
     ],
     faqs: [
       {
@@ -307,12 +348,12 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Spitz Fêmea é mais cara que Macho?",
         answer:
-          "Nas combinações publicadas atualmente, as fêmeas custam R$ 8.500. Os machos creme e preto custam R$ 7.500. As opções atuais são confirmadas no atendimento.",
+          RESPOSTA_MACHO_VS_FEMEA,
       },
       {
         question: "Posso castrar a Spitz Fêmea?",
         answer:
-          "Sim. A criadora orienta sobre o momento ideal para castração — geralmente após o primeiro cio. A castração não afeta o temperamento e previne problemas de saúde como piometra.",
+          "A decisão e o momento da castração devem ser definidos com o médico-veterinário, considerando cada animal. Benefícios, riscos e possíveis efeitos comportamentais precisam de avaliação individual; não há uma regra universal após o primeiro cio.",
       },
       {
         question: "A Spitz Fêmea pode viver em apartamento?",
@@ -327,12 +368,12 @@ export const SEX_SEO: Record<string, SexSeo> = {
       "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
     h1: "Spitz Alemão Anão Macho",
     intro:
-      "O Spitz Macho tem porte compacto dentro do padrão FCI e pelagem densa, e é a opção com o melhor custo-benefício dentro da raça. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",
+      "O Spitz Macho tem porte compacto dentro do padrão FCI e pelagem densa, e deve ser escolhido considerando as características individuais e a rotina da família. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",
     characteristics: [
       "Temperamento típico da raça — o sexo não define o comportamento",
       "Pelagem densa e volumosa — presença marcante",
       "Porte dentro do padrão FCI: 21 cm ± 3 cm na cernelha",
-      "Melhor custo-benefício dentro da raça",
+      "Compare características e valor individual",
       "Convive bem em família quando a socialização é feita com calma",
     ],
     faqs: [
@@ -349,7 +390,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Qual a diferença de preço entre Macho e Fêmea?",
         answer:
-          "O Macho é R$ 1.000 mais barato que a Fêmea da mesma cor, sem qualquer diferença de qualidade, saúde ou documentação.",
+          "Não existe diferença fixa de preço entre macho e fêmea. Consulte o valor individual e as condições de cada filhote.",
       },
       {
         question: "O Macho Spitz é bom para crianças?",

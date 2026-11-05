@@ -1,0 +1,16 @@
+[
+  {
+    "width": 390,
+    "search": "passed",
+    "whatsappHref": "passed, not clicked",
+    "overflow": false,
+    "accessibilityViolations": []
+  },
+  {
+    "width": 1280,
+    "search": "passed",
+    "whatsappHref": "passed, not clicked",
+    "overflow": false,
+    "accessibilityViolations": []
+  }
+]

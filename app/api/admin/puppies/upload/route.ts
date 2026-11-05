@@ -7,8 +7,10 @@ import sharp from 'sharp';
 import { z } from 'zod';
 
 import { requireAdmin } from '@/lib/adminAuth';
+import { BodyTooLargeError, readBoundedFormData } from '@/lib/bounded-body';
+import { InvalidPublicImage, validatePublicImage } from '@/lib/image-upload-security';
+import { corpoJson } from '@/lib/limitePublico';
 import { rateLimit } from '@/lib/limiter';
-import { safeAction } from '@/lib/safeAction';
 import { supabaseAdmin, hasServiceRoleKey } from '@/lib/supabaseAdmin';
 import {
   ALLOWED_IMAGE_MIME,
@@ -16,9 +18,7 @@ import {
   MAX_IMAGE_BYTES,
   MAX_GIF_BYTES,
   MAX_VIDEO_BYTES,
-  detectMediaMime,
   inferExtFromMime,
-  mediaMimeMatchesClaim,
   sanitizeFilename
 } from '@/lib/uploadValidation';
 
@@ -29,7 +29,7 @@ const bodySchema = z.object({
   upsert: z.boolean().optional(),
 });
 
-async function processUpload({ buf, mime, filename, wantUpsert }:{ buf:Buffer; mime:string; filename?:string; wantUpsert:boolean; }){
+async function processUpload({ buf, mime, filename, wantUpsert, b64Fallback }:{ buf:Buffer; mime:string; filename?:string; wantUpsert:boolean; b64Fallback?:string; }){
   // Determinar se é imagem ou vídeo
   const isVideo = ALLOWED_VIDEO_MIME.has(mime);
   const isImage = ALLOWED_IMAGE_MIME.has(mime);
@@ -42,9 +42,10 @@ async function processUpload({ buf, mime, filename, wantUpsert }:{ buf:Buffer; m
   if (buf.byteLength <= 0 || buf.byteLength > maxBytes) {
     return NextResponse.json({ error: 'arquivo-muito-grande', maxBytes, tipo: isVideo ? 'video' : 'imagem' }, { status: 413 });
   }
-  const detectedMime = detectMediaMime(buf);
-  if (!mediaMimeMatchesClaim(detectedMime, mime)) {
-    return NextResponse.json({ error: 'conteudo-do-arquivo-invalido' }, { status: 415 });
+
+  if (isImage) {
+    try { await validatePublicImage(buf, mime); }
+    catch { return NextResponse.json({ error: 'imagem-invalida' }, { status: 400 }); }
   }
 
   const ext = inferExtFromMime(mime);
@@ -79,14 +80,25 @@ async function processUpload({ buf, mime, filename, wantUpsert }:{ buf:Buffer; m
     }
   }
   if (!hasServiceRoleKey()) {
-    return NextResponse.json({ error: 'armazenamento-indisponivel' }, { status: 503 });
+    // modo offline: devolve data URL se fornecida como fallback, ou ecoa
+    const urlData = b64Fallback || `data:${mime};base64,${buf.toString('base64')}`;
+    let thumbDataUrl = urlData;
+    if (thumbBuf) {
+      const b64thumb = `data:image/webp;base64,${thumbBuf.toString('base64')}`;
+      thumbDataUrl = b64thumb;
+    }
+    return NextResponse.json({ ok: true, url: urlData, thumb: thumbDataUrl, offline: true, upsert: wantUpsert });
   }
 
   const s = supabaseAdmin();
   const { error } = await s.storage.from('puppies').upload(path, buf, { contentType: mime, upsert: wantUpsert });
   if (error) {
     const msg = (error.message || '').toLowerCase();
-    if (msg.includes('supabase_offline_stub')) return NextResponse.json({ error: 'armazenamento-indisponivel' }, { status: 503 });
+    if (msg.includes('supabase_offline_stub')) {
+      const urlData = b64Fallback || `data:${mime};base64,${buf.toString('base64')}`;
+      return NextResponse.json({ ok: true, url: urlData, thumb: urlData, offline: true, upsert: wantUpsert });
+    }
+    // Nao devolver error.message: expoe detalhes do storage ao cliente admin.
     return NextResponse.json({ error: 'falha-no-armazenamento' }, { status: 500 });
   }
   let thumbUrl: string | null = null;
@@ -102,26 +114,23 @@ async function processUpload({ buf, mime, filename, wantUpsert }:{ buf:Buffer; m
   return NextResponse.json({ ok: true, url: pub.publicUrl, thumb: thumbUrl, upsert: wantUpsert });
 }
 
-const execute = safeAction({
-  schema: bodySchema,
-  handler: async (body, { req }) => {
+async function execute(req: Request) {
+    const read = await corpoJson<unknown>(req, Math.ceil(MAX_VIDEO_BYTES * 4 / 3) + 64 * 1024);
+    if (read.resposta) return read.resposta;
+    const parsed = bodySchema.safeParse(read.dados);
+    if (!parsed.success) return NextResponse.json({ error: 'dados-invalidos' }, { status: 400 });
+    const body = parsed.data;
     const urlObj = new URL(req.url);
     const wantUpsert = urlObj.searchParams.get('upsert') === '1' || body.upsert === true;
     const b64 = body.dataBase64;
     const match = /^data:(.*?);base64,(.*)$/.exec(b64) || [null, null, b64];
     const mime = match[1] || 'image/png';
     const buf = Buffer.from(match[2]!, 'base64');
-    return processUpload({ buf, mime, filename: body.filename, wantUpsert });
-  },
-});
+    return processUpload({ buf, mime, filename: body.filename, wantUpsert, b64Fallback: b64 });
+}
 
 export async function POST(req: NextRequest){
   const auth = requireAdmin(req); if(auth) return auth;
-  const contentLength = Number(req.headers.get('content-length') || '0');
-  const maxRequestBytes = Math.ceil(MAX_VIDEO_BYTES * 4 / 3) + 4096;
-  if (Number.isFinite(contentLength) && contentLength > maxRequestBytes) {
-    return NextResponse.json({ error: 'arquivo-muito-grande' }, { status: 413 });
-  }
   // Limit uploads to prevent abuse: 6/min per IP
   try { await rateLimit(req as unknown as Request, { identifier: 'admin-puppies-upload', limit: 6, windowMs: 60_000 }); } catch {
     return NextResponse.json({ error:'rate-limit' },{ status:429 });
@@ -131,7 +140,7 @@ export async function POST(req: NextRequest){
   const ct = req.headers.get('content-type') || '';
   if (ct.startsWith('multipart/form-data')) {
     try {
-      const form = await req.formData();
+      const form = await readBoundedFormData(req, MAX_VIDEO_BYTES + 64 * 1024);
       const file = form.get('file');
       const upsert = form.get('upsert');
       const wantUpsert = String(upsert) === '1' || String(upsert).toLowerCase() === 'true';
@@ -142,11 +151,16 @@ export async function POST(req: NextRequest){
       const mime = file.type || 'application/octet-stream';
       const filename = (form.get('filename') as string) || file.name || 'upload';
       return await processUpload({ buf: arr, mime, filename, wantUpsert });
-    } catch {
-      return NextResponse.json({ error: 'falha-ao-processar-formdata' }, { status: 400 });
+    } catch (e: unknown) {
+      return NextResponse.json({ error: 'falha-ao-processar-formdata' }, { status: e instanceof BodyTooLargeError ? 413 : 400 });
     }
   }
 
   // Fallback para JSON (compatibilidade)
-  return execute(req as unknown as Request);
+  try { return await execute(req as unknown as Request); }
+  catch (error) {
+    return NextResponse.json({ error: 'falha-no-upload' }, {
+      status: error instanceof BodyTooLargeError ? 413 : error instanceof InvalidPublicImage ? 400 : 500,
+    });
+  }
 }

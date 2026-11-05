@@ -29,6 +29,8 @@ function resolveMessage(pathname: string): string {
     return "Olá! Vi o Spitz Alemão Anão Preto no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/laranja"))
     return "Olá! Vi o Spitz Alemão Anão Laranja no site da By Império Dog e gostaria de saber disponibilidade.";
+  if (pathname.startsWith("/filhotes/cor/particolor"))
+    return "Olá! Vi o Spitz Alemão Anão Particolor no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/sexo/femea"))
     return "Olá! Tenho interesse em uma fêmea de Spitz Alemão Anão. Pode me informar disponibilidade?";
   if (pathname.startsWith("/filhotes/sexo/macho"))
@@ -38,7 +40,7 @@ function resolveMessage(pathname: string): string {
   if (pathname === "/filhotes")
     return "Olá! Estou vendo o catálogo da By Império Dog e gostaria de saber disponibilidade de filhotes.";
   if (pathname.startsWith("/preco-spitz-anao"))
-    return "Olá! Vi a tabela de preços no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi os filhotes no site da By Império Dog e gostaria de confirmar disponibilidade e valor.";
   if (pathname.startsWith("/comprar-spitz-anao"))
     return "Olá! Estou interessado em comprar um Spitz Alemão Anão da By Império Dog. Pode me ajudar?";
   if (pathname.startsWith("/criador-spitz-confiavel"))

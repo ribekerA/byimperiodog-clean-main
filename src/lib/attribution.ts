@@ -11,6 +11,8 @@
  * completa de canal no relatório de conversões.
  */
 
+import { getCurrentConsent } from '@/lib/consent';
+
 export interface TouchData {
   utm_source?: string;
   utm_medium?: string;
@@ -28,7 +30,17 @@ function readUtmFromUrl(): TouchData | null {
   if (typeof window === "undefined") return null;
   const params = new URLSearchParams(window.location.search);
   const source = params.get("utm_source");
-  if (!source) return null;
+  if (!source) {
+    const referrer = document.referrer;
+    if (!referrer) return { utm_source: "direct", utm_medium: "none", landing_page: window.location.pathname, timestamp: new Date().toISOString() };
+    try {
+      const host = new URL(referrer).hostname.toLowerCase();
+      if (host === window.location.hostname.toLowerCase()) return null;
+      const engines: Record<string, string> = { "google.": "google", "bing.com": "bing", "duckduckgo.com": "duckduckgo", "yahoo.": "yahoo", "ecosia.org": "ecosia" };
+      const match = Object.entries(engines).find(([domain]) => host.includes(domain));
+      return { utm_source: match?.[1] ?? host, utm_medium: match ? "organic" : "referral", landing_page: window.location.pathname, timestamp: new Date().toISOString() };
+    } catch { return null; }
+  }
   return {
     utm_source: source,
     utm_medium: params.get("utm_medium") ?? undefined,
@@ -41,6 +53,7 @@ function readUtmFromUrl(): TouchData | null {
 }
 
 export function captureAttribution(): void {
+  if (!getCurrentConsent().analytics) return;
   try {
     const utmData = readUtmFromUrl();
     if (!utmData) return;
@@ -54,6 +67,7 @@ export function captureAttribution(): void {
 }
 
 export function getFirstTouch(): TouchData | null {
+  if (!getCurrentConsent().analytics) return null;
   try {
     const raw = localStorage.getItem(FIRST_TOUCH_KEY);
     return raw ? (JSON.parse(raw) as TouchData) : null;
@@ -63,6 +77,7 @@ export function getFirstTouch(): TouchData | null {
 }
 
 export function getLastTouch(): TouchData | null {
+  if (!getCurrentConsent().analytics) return null;
   try {
     const raw = localStorage.getItem(LAST_TOUCH_KEY);
     return raw ? (JSON.parse(raw) as TouchData) : null;
@@ -80,9 +95,11 @@ export function getAttributionParams(): Record<string, string> {
     if (first?.utm_source) result.first_utm_source = first.utm_source;
     if (first?.utm_medium) result.first_utm_medium = first.utm_medium;
     if (first?.utm_campaign) result.first_utm_campaign = first.utm_campaign;
+    if (first?.landing_page) result.first_landing_page = first.landing_page;
     if (last?.utm_source) result.last_utm_source = last.utm_source;
     if (last?.utm_medium) result.last_utm_medium = last.utm_medium;
     if (last?.utm_campaign) result.last_utm_campaign = last.utm_campaign;
+    if (last?.landing_page) result.last_landing_page = last.landing_page;
   } catch {
     // silencioso
   }

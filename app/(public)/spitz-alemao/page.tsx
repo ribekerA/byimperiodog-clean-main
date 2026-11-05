@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   // 76 caracteres com o sufixo da marca. "Características" é a palavra mais
   // cara do título e a que menos gente digita — sai ela, ficam raça, preço e
   // cuidados, que são as três consultas reais. O H1 da página não muda.
-  title: "Spitz Alemão Anão — Raça, Preço e Cuidados",
+  title: "Spitz Alemão Anão — Características, Porte e Cuidados",
   description:
     // 184 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 150, agora com "Lulu da Pomerânia".
-    "Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto, cuidados e preço. Criadora em Bragança Paulista, SP.",
+      "Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto e cuidados. Guia da raça por criadora em Bragança Paulista, SP.",
   keywords: [
     "Spitz Alemão Anão",
     "Spitz Alemão características",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Spitz Alemão Anão — Tudo Sobre a Raça | By Império Dog",
-    description: "Origem, características, temperamento, cores, cuidados e preços do Spitz Alemão Anão.",
+    description: "Origem, características, temperamento, cores, porte e cuidados do Spitz Alemão Anão.",
     type: "article",
   },
 };
@@ -69,7 +69,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão?",
     answer:
-      "O padrão da raça admite várias cores. As quatro divulgadas atualmente pela By Império Dog são Laranja, Creme, Preto e Branco. O padrão também admite outras tonalidades. A cor, isoladamente, não determina temperamento nem saúde.",
+      "O padrão da raça admite várias cores. As cinco divulgadas pela By Império Dog são Particolor, Laranja, Creme, Preto e Branco. O padrão também admite marrom e preto e castanho, entre outras. A cor não altera temperamento nem saúde.",
   },
   {
     question: "O Spitz Alemão Anão é hipoalergênico?",
@@ -188,7 +188,7 @@ export default function SpitzAlemaoPage() {
         <ul className="space-y-3">
           {[
             { t: "Escovação", b: "Pelo menos 3–4 vezes por semana. Evita nós, controla a muda e mantém a pelagem fluffy saudável. Em época de muda (2× ao ano), aumente para diário." },
-            { t: "Banho", b: "A cada 15–21 dias, com shampoo específico para pelagem dupla. Secagem completa é obrigatória — pelo úmido favorece fungos." },
+            { t: "Banho", b: "Frequência conforme rotina e condições da pele, com produtos próprios para cães e secagem cuidadosa. Alterações na pele exigem orientação veterinária." },
             { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Império Dog orienta sobre a alimentação por fase no acompanhamento pós-venda." },
             { t: "Exercício", b: "2 passeios curtos por dia (15–20 min cada) são suficientes. Não suporta calor intenso — evite saídas no pico do calor." },
             { t: "Dentes", b: "Raças pequenas são propensas a tartaro. Escovação 2–3× por semana + petiscos dentais. Consulta veterinária anual para limpeza profissional." },
@@ -276,7 +276,7 @@ export default function SpitzAlemaoPage() {
       <RelatedPages links={[
         { label: "Lulu da Pomerânia",         href: "/lulu-da-pomerania",        desc: "Guia completo + preços atualizados" },
         { label: "Filhote de Spitz Alemão",   href: "/filhote-de-spitz-alemao",  desc: "Como escolher e cuidar do filhote" },
-        { label: "Tabela de Preços",          href: "/preco-spitz-anao",         desc: "Valores por cor e sexo" },
+        { label: "Filhotes e Valores",        href: "/filhotes",                 desc: "Fotos, vídeos e valores individuais" },
       ]} />
 
       <nav aria-label="Navegação estrutural">

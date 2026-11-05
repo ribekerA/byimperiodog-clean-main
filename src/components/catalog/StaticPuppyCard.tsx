@@ -17,7 +17,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 //
 // Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
 // Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve valores com espaco comum. Os dois sao identicos na
+// resto do site escreve "R$ 8.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
@@ -31,7 +31,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // `getBadgesForPuppy` ("Muito procurado", "Ultimas unidades nessa cor"),
 // derivados de um `score` sintetizado ali mesmo a partir de `leadCount`. Os
 // tres anunciavam escassez que ninguem media. O card agora e o que sempre foi
-// de fato: a foto real de uma combinacao de cor e sexo, com o valor publicado.
+// de fato: a foto real de uma combinacao de cor e sexo, com o preco-base dela.
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -112,13 +112,16 @@ export default function StaticPuppyCard({
           tabIndex={-1}
           aria-hidden="true"
         >
-          <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
+          <div className="relative aspect-square overflow-hidden bg-zinc-100 sm:aspect-[4/5]">
             {cover && (
               <Image
                 src={cover}
-                alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
                 fill
                 sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1023px) 46vw, (max-width: 1279px) 30vw, 290px"
+                quality={75}
+                priority={priority}
+                fetchPriority={priority ? "high" : undefined}
+                alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
                 // As fotos sao verticais e o filhote raramente esta no mesmo
                 // lugar do quadro: quem posa no colo fica no alto, quem posa na
                 // grama fica embaixo. O 28% fixo servia para o primeiro caso e
@@ -127,7 +130,6 @@ export default function StaticPuppyCard({
                 // foi medido.
                 className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.07]"
                 style={{ objectPosition: focoDaFoto(cover) }}
-                loading={priority ? "eager" : "lazy"}
               />
             )}
 
@@ -171,7 +173,7 @@ export default function StaticPuppyCard({
             )}
           </div>
 
-          {/* Preço exato da ficha comercial publicada. */}
+          {/* Preço — ponto de partida da combinação, não etiqueta do animal da foto */}
           <div className="mt-auto flex flex-col gap-0.5">
             <span className="text-xl font-extrabold text-[var(--accent-ink)]">
               {price ? formatarPreco(price) : "Sob consulta"}

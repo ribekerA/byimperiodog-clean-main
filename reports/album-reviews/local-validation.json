@@ -1,0 +1,41 @@
+{
+  "base": "http://localhost:3104",
+  "results": [
+    {
+      "width": 390,
+      "positions": {
+        "album": {
+          "top": 9963.546875,
+          "bottom": 11310.671875
+        },
+        "reviews": {
+          "top": 11326.671875,
+          "bottom": 13022.109375
+        }
+      },
+      "heroSummary": 0,
+      "albumPhoto": "loaded; opens and closes",
+      "googleCards": 33,
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "positions": {
+        "album": {
+          "top": 5684.015625,
+          "bottom": 6803.03125
+        },
+        "reviews": {
+          "top": 6819.03125,
+          "bottom": 7949.890625
+        }
+      },
+      "heroSummary": 0,
+      "albumPhoto": "loaded; opens and closes",
+      "googleCards": 33,
+      "overflow": false,
+      "violations": []
+    }
+  ]
+}

@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
+import { getCurrentConsent } from '@/lib/consent';
+import { isProductionTrackingHost } from '@/lib/tracking-host';
+
+vi.mock('@/lib/tracking-host', () => ({ isProductionTrackingHost: vi.fn(() => true) }));
+vi.mock('@/lib/consent', () => ({ getCurrentConsent: vi.fn(() => ({ necessary: true, analytics: true, marketing: false, functional: false })) }));
+
 const ORIGINAL_ENV = { ...process.env };
 
 type FetchSpy = ReturnType<typeof vi.fn>;
@@ -24,6 +30,8 @@ describe('analytics client (analytics.ts)', () => {
   let beaconSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
+    vi.mocked(isProductionTrackingHost).mockReturnValue(true);
+    vi.mocked(getCurrentConsent).mockReturnValue({ necessary: true, analytics: true, marketing: false, functional: false });
     restoreEnv();
     setProd(true);
     // reset globals
@@ -61,6 +69,24 @@ describe('analytics client (analytics.ts)', () => {
     await flushMicrotasks();
     expect(beaconSpy).not.toHaveBeenCalled();
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('não coleta em host de teste mesmo quando FORCE está configurado', async () => {
+    process.env.NEXT_PUBLIC_FORCE_ANALYTICS = '1';
+    vi.mocked(isProductionTrackingHost).mockReturnValue(false);
+    const { logEvent } = await load();
+    logEvent('preview');
+    await flushMicrotasks();
+    expect(beaconSpy).not.toHaveBeenCalled();
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('não coleta depois que analytics é recusado', async () => {
+    vi.mocked(getCurrentConsent).mockReturnValue({ necessary: true, analytics: false, marketing: false, functional: false });
+    const { logEvent } = await load();
+    logEvent('recusado');
+    await flushMicrotasks();
+    expect(beaconSpy).not.toHaveBeenCalled();
   });
 
   it('skips in dev without FORCE', async () => {
@@ -144,4 +170,3 @@ describe('analytics client (analytics.ts)', () => {
     expect(beaconSpy).toHaveBeenCalled();
   });
 });
-

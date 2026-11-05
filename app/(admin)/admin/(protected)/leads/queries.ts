@@ -2,11 +2,11 @@ import { buildLeadAdvisor, summarizePriorities, type LeadAdvisorSnapshot, type L
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import type { Database } from "@/types/supabase";
 
+import { LEAD_STATUS_OPTIONS, type LeadStatus } from "./lead-status";
+export { LEAD_STATUS_OPTIONS, type LeadStatus } from "./lead-status";
+
 const DEFAULT_PAGE_SIZE = 40;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-
-export const LEAD_STATUS_OPTIONS = ["novo", "em_contato", "fechado", "perdido"] as const;
-export type LeadStatus = (typeof LEAD_STATUS_OPTIONS)[number];
 
 const STATUS_ALIAS: Record<string, LeadStatus> = {
   novo: "novo",

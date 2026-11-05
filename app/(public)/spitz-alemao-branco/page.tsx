@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
+import { respostaPrecoCor } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
 
@@ -65,7 +66,7 @@ const FAQS = [
   {
     question: "Qual é o preço do Spitz Alemão Anão Branco?",
     answer:
-      "A fêmea branca publicada no catálogo custa R$ 8.500. Não há macho branco publicado atualmente.",
+      respostaPrecoCor("branco"),
   },
   {
     question: "A pelagem branca define temperamento ou saúde?",
@@ -186,11 +187,11 @@ export default function SpitzAlemaoBrancoPage() {
           Preço e disponibilidade do Spitz Branco
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-zinc-700">
-          A fêmea branca publicada no catálogo custa R$ 8.500. Não há macho branco publicado atualmente.
+          {respostaPrecoCor("branco")}
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/preco-spitz-anao" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-zinc-900 px-6 text-sm font-semibold text-white transition hover:bg-zinc-700">
-            Ver tabela de preços
+          <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-zinc-900 px-6 text-sm font-semibold text-white transition hover:bg-zinc-700">
+            Ver filhotes e valores
           </Link>
           <Link href="/filhotes/cor/branco" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-zinc-300 bg-white px-6 text-sm font-semibold text-zinc-800 transition hover:bg-zinc-50">
             Ver filhotes brancos
@@ -244,7 +245,7 @@ export default function SpitzAlemaoBrancoPage() {
 
       <RelatedPages links={[
         { label: "Filhotes Brancos", href: "/filhotes/cor/branco", desc: "Catálogo atualizado por cor" },
-        { label: "Tabela de Preços", href: "/preco-spitz-anao", desc: "Valores por cor e sexo" },
+        { label: "Filhotes e Valores", href: "/filhotes", desc: "Fotos, vídeos e valores individuais" },
         { label: "Spitz Alemão Anão", href: "/spitz-alemao", desc: "Guia completo da raça" },
       ]} />
 

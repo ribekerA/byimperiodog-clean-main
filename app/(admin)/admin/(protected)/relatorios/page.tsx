@@ -20,6 +20,9 @@ type LeadRow = {
   utm_campaign?: string | null;
   page?: string | null;
   page_slug?: string | null;
+  status?: string | null;
+  source?: string | null;
+  referer?: string | null;
 };
 
 type PlatformStat = {
@@ -37,6 +40,7 @@ async function fetchStats(): Promise<{
   totalThisMonth: number;
   topPages: { page: string; count: number }[];
   recentLeads: LeadRow[];
+  organicPages: { page: string; leads: number; sales: number }[];
 }> {
   try {
     const sb = supabaseAdmin();
@@ -46,13 +50,13 @@ async function fetchStats(): Promise<{
 
     const { data: leads } = await sb
       .from("leads")
-      .select("id,created_at,utm_source,utm_medium,utm_campaign,page,page_slug")
+      .select("id,created_at,utm_source,utm_medium,utm_campaign,page,page_slug,status,source,referer")
       .gte("created_at", since.toISOString())
       .order("created_at", { ascending: false })
       .limit(2000);
 
     if (!leads) {
-      return { byPlatform: [], total: 0, totalThisMonth: 0, topPages: [], recentLeads: [] };
+      return { byPlatform: [], total: 0, totalThisMonth: 0, topPages: [], recentLeads: [], organicPages: [] };
     }
 
     const now = new Date();
@@ -90,15 +94,31 @@ async function fetchStats(): Promise<{
       .sort((a, b) => b.count - a.count)
       .slice(0, 10);
 
+    const organic = leads.filter((lead: LeadRow) =>
+      lead.utm_medium?.toLowerCase() === "organic" ||
+      ["google", "bing", "duckduckgo", "yahoo", "ecosia", "site_org"].includes((lead.utm_source ?? lead.source ?? "").toLowerCase()) ||
+      /google\.|bing\.|duckduckgo\.|yahoo\.|ecosia\./i.test(lead.referer ?? "")
+    );
+    const organicMap = new Map<string, { leads: number; sales: number }>();
+    for (const lead of organic) {
+      const page = lead.page ?? lead.page_slug ?? "(desconhecida)";
+      const row = organicMap.get(page) ?? { leads: 0, sales: 0 };
+      row.leads += 1;
+      if (["fechado", "venda", "vendido"].includes((lead.status ?? "").toLowerCase())) row.sales += 1;
+      organicMap.set(page, row);
+    }
+    const organicPages = [...organicMap.entries()].map(([page, values]) => ({ page, ...values })).sort((a, b) => b.leads - a.leads).slice(0, 15);
+
     return {
       byPlatform,
       total: leads.length,
       totalThisMonth,
       topPages,
       recentLeads: leads.slice(0, 15),
+      organicPages,
     };
   } catch {
-    return { byPlatform: [], total: 0, totalThisMonth: 0, topPages: [], recentLeads: [] };
+    return { byPlatform: [], total: 0, totalThisMonth: 0, topPages: [], recentLeads: [], organicPages: [] };
   }
 }
 
@@ -136,7 +156,7 @@ const UTM_GUIDE = [
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export default async function RelatoriosPage() {
-  const { byPlatform, total, totalThisMonth, topPages, recentLeads } = await fetchStats();
+  const { byPlatform, total, totalThisMonth, topPages, recentLeads, organicPages } = await fetchStats();
 
   return (
     <div className="space-y-8 pb-12">
@@ -232,6 +252,20 @@ export default async function RelatoriosPage() {
                   </tr>
                 ))
               )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="mb-1 text-lg font-semibold text-[var(--text)]">Resultado orgânico por página de entrada</h2>
+        <p className="mb-3 text-sm text-[var(--text-muted)]">Leads enviados pelo formulário e vendas marcadas no CRM. Cliques no WhatsApp não são contabilizados como receita.</p>
+        <div className="overflow-auto rounded-2xl border border-[var(--border)]">
+          <table className="w-full text-sm">
+            <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500"><tr><th className="px-4 py-3 text-left">Página orgânica</th><th className="px-4 py-3 text-right">Leads</th><th className="px-4 py-3 text-right">Vendas</th><th className="px-4 py-3 text-right">Conversão</th></tr></thead>
+            <tbody className="divide-y divide-[var(--border)] bg-white">
+              {organicPages.map((row) => <tr key={row.page}><td className="px-4 py-3 font-mono text-xs">{row.page}</td><td className="px-4 py-3 text-right font-bold text-[var(--brand)]">{row.leads}</td><td className="px-4 py-3 text-right">{row.sales}</td><td className="px-4 py-3 text-right">{pct(row.sales, row.leads)}</td></tr>)}
+              {!organicPages.length && <tr><td colSpan={4} className="px-4 py-6 text-center text-zinc-400">Nenhum lead orgânico atribuído no período.</td></tr>}
             </tbody>
           </table>
         </div>

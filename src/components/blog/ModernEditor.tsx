@@ -34,6 +34,7 @@ export function ModernEditor({ content, onChange, placeholder = "Digite seu cont
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        link: false, // Configured explicitly below; do not register the extension twice.
         heading: {
           levels: [1, 2, 3],
         },

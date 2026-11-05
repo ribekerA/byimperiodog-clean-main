@@ -26,6 +26,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
 import { getClickId } from "@/lib/gclid";
+import { confirmedLeadId } from "@/lib/lead-confirmation";
 import { focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -75,7 +76,7 @@ function stripMatches(text: string): string {
 //
 // Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
 // Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve valores com espaco comum. Os dois sao identicos na
+// resto do site escreve "R$ 8.500" com espaco comum. Os dois sao identicos na
 // tela e diferentes como texto: a pagina do filhote publicava o preco com
 // U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
 // texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
@@ -102,11 +103,10 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
   const [done,      setDone]      = useState(false);
   const [sending,   setSending]   = useState(false);
   const [failed,    setFailed]    = useState(false);
-  const [consent,   setConsent]   = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (nome.trim().length < 2 || telefone.replace(/\D/g, "").length < 10 || !consent) return;
+    if (nome.trim().length < 2 || telefone.replace(/\D/g, "").length < 10) return;
     setSending(true);
     setFailed(false);
     const ok = await onSubmit(nome.trim(), telefone.replace(/\D/g, ""));
@@ -161,21 +161,9 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
           className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm focus:border-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-300/40"
           required
         />
-        <label className="flex items-start gap-2 text-[11px] leading-relaxed text-zinc-600">
-          <input
-            type="checkbox"
-            checked={consent}
-            onChange={(event) => setConsent(event.target.checked)}
-            className="mt-0.5 h-4 w-4"
-            required
-          />
-          <span>
-            Li a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline">Política de Privacidade</a> e autorizo o contato pelo WhatsApp.
-          </span>
-        </label>
         <button
           type="submit"
-          disabled={sending || !consent}
+          disabled={sending}
           className="rounded-xl bg-emerald-600 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:opacity-60"
         >
           {sending ? "Enviando..." : "Quero ser contactada pela criadora"}
@@ -815,13 +803,10 @@ export default function AiMatchmakerChat() {
                     // Nome e telefone entregues aqui valem o mesmo que o
                     // formulário da página: é lead, e a conversão do Ads
                     // precisa contar. O id da API vira transaction_id.
-                    const leadId = await res
-                      .json()
-                      .then((corpo: { id?: string | null }) => corpo?.id ?? null)
-                      .catch(() => null);
+                    const leadId = await confirmedLeadId(res);
 
-                    trackLeadFormSubmit("ai-matchmaker");
-                    trackLeadAdsConversion({ transactionId: leadId ?? undefined });
+                    trackLeadFormSubmit("ai-matchmaker", leadId);
+                    trackLeadAdsConversion({ transactionId: leadId });
                     rememberLeadConversion(leadId);
 
                     setLeadSubmitted(true);

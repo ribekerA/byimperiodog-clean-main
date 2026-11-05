@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import StaticCatalog from "@/components/catalog/StaticCatalog";
-import { RelatedPages } from "@/components/common/RelatedPages";
+import { SearchTopicDirectory } from "@/components/common/SearchTopicDirectory";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { RESPOSTA_MACHO_VS_FEMEA } from "@/domain/pricing";
 import { buildItemListLD, buildBreadcrumbLD, buildCollectionPageLD } from "@/lib/structured-data";
@@ -18,7 +18,7 @@ const CATALOG_FAQS = [
   {
     question: "Com quais cores de Spitz Alemão Anão a By Império Dog trabalha?",
     answer:
-      "As quatro cores divulgadas atualmente são Laranja, Creme, Preto e Branco. As opções atuais de cada cor são confirmadas no atendimento.",
+      "São cinco cores divulgadas: Particolor, Laranja, Creme, Preto e Branco. O preço é individual e não segue uma ordem obrigatória por cor. As opções atuais de cada cor são confirmadas no atendimento.",
   },
   {
     question: "Qual a diferença de preço entre Spitz Alemão Anão Fêmea e Macho?",
@@ -43,10 +43,10 @@ const CATALOG_FAQS = [
 // deste arquivo carregava "filhotes Spitz Alemão Anão disponíveis" e
 // "Lulu da Pomerânia à venda" — a mesma promessa, no lugar onde ninguém a lê.
 export const metadata: Metadata = {
-  title:       "Filhotes Spitz Alemão Anão: Valores",
+  title:       "Filhotes de Spitz e Lulu: Cores, Sexos e Preços",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
-  description: "Filhotes de Spitz Alemão Anão nas cores Laranja, Creme, Preto e Branco, com valores de R$ 7.500 e R$ 8.500. Bragança Paulista, SP.",
+  description: "Compare fotos e preços de filhotes Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo. Consulte opções atuais com a By Império Dog em Bragança Paulista.",
   alternates: { canonical: "/filhotes" },
   openGraph: {
     title:       "Filhotes de Spitz Alemão Anão — By Império Dog",
@@ -64,7 +64,7 @@ export default function FilhotesPage() {
     path: "/filhotes",
     name: "Vitrine de filhotes de Spitz Alemão Anão — By Império Dog",
     description:
-      "Fotos reais das cores e dos sexos divulgados pela By Império Dog, com o valor publicado de cada combinação.",
+      "Fotos reais das cores e dos sexos com que a By Império Dog trabalha, com o valor de partida de cada combinação.",
     image: "/spitz-hero-desktop.webp",
     itemListId: `${SITE_URL}/filhotes#itemlist`,
   });
@@ -80,15 +80,12 @@ export default function FilhotesPage() {
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       <StaticCatalog puppies={puppiesPublicados as any[]} />
-      <div className="mx-auto max-w-5xl px-5 pb-10 sm:px-8">
-        <RelatedPages links={[
-          { href: "/spitz-alemao", label: "Conheça o Spitz Alemão", desc: "Características e relação com o nome Lulu da Pomerânia." },
-          { href: "/preco-spitz-anao", label: "Entenda os preços individuais", desc: "Consulte os valores e confirme as condições de cada filhote." },
-          { href: "/guias", label: "Cuidados e adaptação", desc: "Prepare a casa e a rotina para receber um filhote." },
-          { href: "/comprar-spitz-anao", label: "Como comprar com segurança", desc: "Informações para avaliar sua escolha antes de reservar." },
-          { href: "/faq-do-tutor", label: "Perguntas frequentes", desc: "Encontre respostas para suas dúvidas." },
-          { href: "/contato", label: "Converse com a equipe", desc: "Atendimento em Bragança Paulista, São Paulo." },
-        ]} />
+
+      <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-8">
+        <SearchTopicDirectory clusters={["compra", "escolha"]} currentPath="/filhotes" />
+        <Link href="/guias" className="mt-6 inline-flex min-h-11 items-center text-sm font-semibold text-emerald-700 underline underline-offset-4">
+          Explore também os guias de rotina, cuidados e transporte
+        </Link>
       </div>
 
       {/* Caminho de clique para as páginas de estado, que até aqui só existiam

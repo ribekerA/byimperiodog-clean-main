@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
 import { getCurrentConsent, type ConsentPreferences } from '@/lib/consent';
+import { isProductionTrackingHost } from '@/lib/tracking-host';
 
 interface ConsentGatedPixelsProps {
   facebookPixelId: string | null;
@@ -28,7 +29,7 @@ export default function ConsentGatedPixels({ facebookPixelId, tiktokPixelId }: C
     return () => window.removeEventListener('consentUpdated', handleConsentUpdated);
   }, []);
 
-  if (!marketingConsent) return null;
+  if (!marketingConsent || !isProductionTrackingHost()) return null;
 
   return (
     <>

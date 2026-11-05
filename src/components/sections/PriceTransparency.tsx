@@ -1,5 +1,4 @@
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { LINHAS_FORMATADAS } from "@/domain/pricing";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const INCLUDED = [
@@ -20,32 +19,6 @@ const INCLUDED = [
 // versão anterior listava um card por cor com o valor digitado ao lado, e foi
 // assim que a fêmea laranja ficou parada em R$ 8.500 enquanto a tabela
 // comercial já dizia outra coisa.
-const SEXES = [
-  {
-    label: "Macho",
-    highlight: false,
-    note: "As combinações masculinas publicadas atualmente são creme e preto.",
-    colors: LINHAS_FORMATADAS.flatMap((linha) =>
-      linha.macho ? [{ cor: linha.label, valor: linha.macho }] : []
-    ),
-  },
-  {
-    label: "Fêmea",
-    // `highlight` era o selo "Maior procura" sobre este card, e a nota terminava
-    // em "a disponibilidade pode mudar rapidamente conforme as reservas".
-    // Nenhuma das duas se sustenta: procura é afirmação de mercado que ninguém
-    // aqui mediu, e o site não publica estoque — a página é vitrine permanente,
-    // e a disponibilidade real só existe no atendimento. Pressa fabricada em
-    // cima de um preço aberto estraga justamente o que a seção promete no
-    // título, que é não ter letra miúda.
-    highlight: true,
-    note: "As fêmeas laranja, creme, preta e branca publicadas custam R$ 8.500.",
-    colors: LINHAS_FORMATADAS.flatMap((linha) =>
-      linha.femea ? [{ cor: linha.label, valor: linha.femea }] : []
-    ),
-  },
-];
-
 const waLink = buildWhatsAppLink({
   message: "Olá! Quero conhecer as opções atuais e entender os próximos passos para reservar.",
   utmSource: "site",
@@ -63,7 +36,7 @@ export default function PriceTransparency() {
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-zinc-600">
           Cada filhote sai daqui documentado, examinado e acompanhado. O valor inclui tudo — sem cobranças surpresa depois.
-          Os números abaixo são os valores publicados de cada combinação, sem cobranças surpresa.
+          O valor aparece somente na ficha de cada filhote atualmente divulgado.
         </p>
       </div>
 
@@ -83,40 +56,6 @@ export default function PriceTransparency() {
             </li>
           ))}
         </ul>
-      </div>
-
-      {/* Sexes + pricing */}
-      <div className="mt-6 grid gap-5 sm:grid-cols-2">
-        {SEXES.map((s) => (
-          <div
-            key={s.label}
-            className={`relative rounded-2xl border p-6 sm:p-8 ${
-              s.highlight
-                ? "border-emerald-200 bg-emerald-50 shadow-md"
-                : "border-zinc-200 bg-white shadow-sm"
-            }`}
-          >
-            {/* Aqui havia um selo "Maior procura" pendurado no topo do card da
-                fêmea. O destaque visual continua — é a coluna de valor mais
-                alto, e separar as duas colunas ajuda a ler. O que saiu foi a
-                legenda, que transformava decisão de layout em dado de mercado
-                sem nenhuma medição por trás. */}
-            <h3 className="text-lg font-bold text-zinc-900">{s.label}</h3>
-            <p className="mt-1 text-sm text-zinc-500">{s.note}</p>
-            {/* Cabeçalho da coluna de valores exatos publicados. */}
-            <p className="mt-4 text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              Valores publicados
-            </p>
-            <ul className="mt-2 divide-y divide-zinc-100">
-              {s.colors.map((c) => (
-                <li key={c.cor} className="flex items-center justify-between py-2 text-sm">
-                  <span className="font-medium text-zinc-700">{c.cor}</span>
-                  <span className={`font-bold ${s.highlight ? "text-[var(--accent-ink)] text-base" : "text-emerald-700"}`}>{c.valor}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
       </div>
 
       {/* CTA */}

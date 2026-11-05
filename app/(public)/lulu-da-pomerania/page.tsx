@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
-import { CARDS_POR_FAIXA, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
+import { RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
@@ -11,7 +11,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania`;
 
 export const metadata: Metadata = {
-  title: "Lulu da Pomerânia — Guia da Raça e Preço",
+  title: "Lulu da Pomerânia — Temperamento, Porte e Pelagem",
   description:
     // Tinha "preços em ${CURRENT_YEAR}" — mesma data dinâmica dos outros rótulos.
     // Aproveitei para encurtar: com o ano, a description passava de 190 caracteres
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Lulu da Pomerânia — Guia Completo da Raça | By Império Dog",
-    description: "Características, preços, cuidados e onde comprar Lulu da Pomerânia com segurança.",
+    description: "Temperamento, porte, pelagem e rotina do Lulu da Pomerânia, nome popular do Spitz Alemão Anão.",
     type: "article",
   },
 };
@@ -64,7 +64,7 @@ const FAQS = [
   {
     question: "O Lulu da Pomerânia precisa de banho frequente?",
     answer:
-      "A cada 15–21 dias é o ideal. A pelagem densa pode reter odores e sujeira se o intervalo for muito longo. A secagem completa após o banho é obrigatória — pelo úmido por horas favorece fungos e dermatites.",
+      "A frequência depende da rotina e das condições da pele e da pelagem, sem um intervalo ideal para todos os cães. Use produtos próprios para cães e seque bem a pelagem; em caso de alterações na pele, procure orientação do médico-veterinário.",
   },
 ];
 
@@ -155,18 +155,9 @@ export default function LuluDaPomeraniaPage() {
       <section aria-labelledby="precos-heading" className="rounded-3xl border border-emerald-100 bg-emerald-50/40 p-6 sm:p-8 space-y-4">
         <h2 id="precos-heading" className="text-2xl font-bold text-zinc-900">Quanto custa um Lulu da Pomerânia?</h2>
         <p className="text-sm text-zinc-700">
-          Na By Império Dog os preços são:
+          {RESPOSTA_QUANTO_CUSTA}
         </p>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {CARDS_POR_FAIXA.map((p) => (
-            <div key={p.rotulo} className="rounded-xl bg-white border border-zinc-200 p-4">
-              <p className="text-xs text-zinc-500 uppercase tracking-wide">valor da tabela</p>
-              <p className="text-xl font-bold text-emerald-700">{p.valor}</p>
-              <p className="text-sm text-zinc-600">{p.rotulo}</p>
-            </div>
-          ))}
-        </div>
-        <p className="text-xs text-zinc-500">Inclui registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/preco-spitz-anao" className="underline hover:text-emerald-700">Ver tabela completa →</Link></p>
+        <p className="text-xs text-zinc-500">Inclui registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/filhotes" className="underline hover:text-emerald-700">Ver filhotes e valores →</Link></p>
       </section>
 
       {/* FAQ */}
@@ -216,7 +207,7 @@ export default function LuluDaPomeraniaPage() {
 
       <RelatedPages links={[
         { label: "Spitz Alemão Anão",       href: "/spitz-alemao",         desc: "Ficha técnica, origem e temperamento" },
-        { label: "Tabela de Preços Atualizada", href: "/preco-spitz-anao", desc: "Valores por cor e sexo em detalhe" },
+        { label: "Filhotes e Valores", href: "/filhotes", desc: "Fotos, vídeos e valores individuais" },
         { label: "Como Comprar com Segurança", href: "/comprar-spitz-anao", desc: "Guia passo a passo para não cair em golpes" },
       ]} />
 

@@ -6,10 +6,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { buttonVariants } from "@/components/ui/button";
+import { getFirstTouch, getLastTouch } from "@/lib/attribution";
 import { cn } from "@/lib/cn";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
 import { getClickId } from "@/lib/gclid";
+import { confirmedLeadId } from "@/lib/lead-confirmation";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 type LeadFormContext = {
@@ -41,13 +43,13 @@ const schema = z.object({
     .enum(["macho", "femea", "tanto_faz"], {
       errorMap: () => ({ message: "Selecione uma preferência" }),
     })
-    .optional(),
+    .optional().or(z.literal("")).transform((value) => value || undefined),
   cor_preferida: z.string().optional(),
   prazo_aquisicao: z
     .enum(["imediato", "1_mes", "2_3_meses", "3_mais"], {
       errorMap: () => ({ message: "Selecione um prazo" }),
     })
-    .optional(),
+    .optional().or(z.literal("")).transform((value) => value || undefined),
   mensagem: z.string().optional(),
   gclid: z.string().optional(),
   consent_lgpd: z.literal(true, {
@@ -101,6 +103,13 @@ export default function LeadForm({ context, className }: Props) {
     try {
       const payload = {
         ...data,
+        page: window.location.pathname,
+        utm_source: getLastTouch()?.utm_source ?? getFirstTouch()?.utm_source,
+        utm_medium: getLastTouch()?.utm_medium ?? getFirstTouch()?.utm_medium,
+        utm_campaign: getLastTouch()?.utm_campaign ?? getFirstTouch()?.utm_campaign,
+        first_landing_page: getFirstTouch()?.landing_page,
+        // Releitura no envio: uma revogação após abrir o formulário deve valer aqui.
+        gclid: getClickId(),
         consent_timestamp: new Date().toISOString(),
         consent_version: "1.0",
         page_type: context?.pageType,
@@ -124,18 +133,14 @@ export default function LeadForm({ context, className }: Props) {
         throw new Error(errorMsg);
       }
 
-      trackLeadFormSubmit("lead-form-main");
-
       // Este é o momento em que o lead existe de verdade — e por isso o único
       // lugar onde a conversão do Ads pode disparar. O id devolvido pela API
       // vai como transaction_id para o Ads reconhecer o mesmo lead caso ele
       // seja contado de novo por outro caminho.
-      const leadId = await response
-        .json()
-        .then((corpo: { id?: string | null }) => corpo?.id ?? null)
-        .catch(() => null);
+      const leadId = await confirmedLeadId(response);
 
-      trackLeadAdsConversion({ transactionId: leadId ?? undefined });
+      trackLeadFormSubmit("lead-form-main", leadId);
+      trackLeadAdsConversion({ transactionId: leadId });
       rememberLeadConversion(leadId);
 
       setStatus("success");

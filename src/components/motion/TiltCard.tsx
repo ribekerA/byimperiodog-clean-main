@@ -51,6 +51,8 @@ export function TiltCard({
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
+  const motionEnabled = !reduced && !isCoarsePointer;
+
   // Valores brutos
   const rawRotateX = useMotionValue(0);
   const rawRotateY = useMotionValue(0);
@@ -74,7 +76,7 @@ export function TiltCard({
   );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (reduced) return;
+    if (!motionEnabled) return;
     const el = ref.current;
     if (!el) return;
 
@@ -93,7 +95,7 @@ export function TiltCard({
   };
 
   const handleMouseEnter = () => {
-    if (reduced) return;
+    if (!motionEnabled) return;
     scale.set(1.03);
     glareOpacity.set(0.4);
   };
@@ -105,33 +107,31 @@ export function TiltCard({
     glareOpacity.set(0);
   };
 
-  // Sem animação no reduced-motion ou em dispositivos touch — só renderiza os filhos normalmente
-  if (reduced || isCoarsePointer) {
-    return <div className={className}>{children}</div>;
-  }
-
+  // A estrutura deve ser a mesma antes e depois de detectar touch/reduced-motion.
+  // Trocar este wrapper por outro ramo desmontava a imagem já renderizada no
+  // servidor, atrasando sua pintura no celular. Só os efeitos são desligados.
   return (
     /* Perspectiva no wrapper pai para o efeito 3D funcionar */
-    <div style={{ perspective: "900px" }} className={className}>
+    <div style={{ perspective: motionEnabled ? "900px" : undefined }} className={className}>
       <motion.div
         ref={ref}
-        style={{
+        style={motionEnabled ? {
           rotateX,
           rotateY,
           scale: springScale,
           transformStyle: "preserve-3d",
           willChange: "transform",
-        }}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        } : { transform: "none" }}
+        onMouseMove={motionEnabled ? handleMouseMove : undefined}
+        onMouseEnter={motionEnabled ? handleMouseEnter : undefined}
+        onMouseLeave={motionEnabled ? handleMouseLeave : undefined}
         className="relative h-full w-full"
       >
         {/* Conteúdo do card */}
         {children}
 
         {/* Brilho especular — camada flutuante que segue o mouse */}
-        <motion.div
+        {motionEnabled && <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 rounded-2xl"
           style={{
@@ -139,17 +139,17 @@ export function TiltCard({
             opacity: glareOpacity,
             zIndex: 10,
           }}
-        />
+        />}
 
         {/* Glow na borda inferior — color-matched com o filhote */}
-        <motion.div
+        {motionEnabled && <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-300"
           style={{
             boxShadow: `0 16px 48px ${glowColor}, 0 4px 16px ${glowColor}`,
           }}
           whileHover={{ opacity: 1 }}
-        />
+        />}
       </motion.div>
     </div>
   );

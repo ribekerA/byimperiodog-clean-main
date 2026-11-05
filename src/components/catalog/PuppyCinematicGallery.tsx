@@ -12,7 +12,9 @@
  *  • Zoom hint no hover
  */
 
+import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { MediaLikeButton } from "@/components/media/MediaLikeButton";
@@ -20,7 +22,7 @@ import { VideoReelsPlayer, type ReelItem } from "@/components/media/VideoReelsPl
 import { mediaIdDeArquivo } from "@/domain/media-registry";
 import { useMediaLikes } from "@/hooks/useMediaLikes";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
-import { optimizePuppyGalleryImage, optimizePuppyThumb } from "@/lib/optimize-image";
+import { optimizePuppyGalleryImage } from "@/lib/optimize-image";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
@@ -119,6 +121,7 @@ export default function PuppyCinematicGallery({
   const [showVideo,   setShowVideo]   = useState(false);
   const [videoIdx,    setVideoIdx]    = useState(0);
   const [lightbox,    setLightbox]    = useState(false);
+  const lightboxOpener = useRef<HTMLElement | null>(null);
   const [swipeHint,   setSwipeHint]   = useState(true);
 
   // Player vertical — só no celular. A tela em si é o VideoReelsPlayer, o
@@ -227,7 +230,10 @@ export default function PuppyCinematicGallery({
   }, [navigate]);
   const onClickGallery = useCallback(() => {
     if (didSwipe.current) { didSwipe.current = false; return; }
-    if (!showVideo) setLightbox(true);
+    if (!showVideo) {
+      lightboxOpener.current = document.activeElement as HTMLElement | null;
+      setLightbox(true);
+    }
   }, [showVideo]);
 
   // ── Keyboard ─────────────────────────────────────────────────────────────
@@ -242,14 +248,7 @@ export default function PuppyCinematicGallery({
     return () => window.removeEventListener("keydown", onKey);
   }, [lightbox, navigate]);
 
-  // ── Lock scroll do lightbox ──────────────────────────────────────────────
-  // O player de vídeo tranca a rolagem por conta própria; se os dois mexessem
-  // no mesmo `body.style.overflow` um destrancaria o outro ao fechar.
-  useEffect(() => {
-    if (lightbox) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
-    return () => { document.body.style.overflow = ""; };
-  }, [lightbox]);
+  // O Dialog cuida do foco e da rolagem, sem disputar o overflow com o vídeo.
 
   // ── Drag swipe handler ────────────────────────────────────────────────────
   const onDragEnd = useCallback(
@@ -265,60 +264,47 @@ export default function PuppyCinematicGallery({
 
       {/* ── Imagem principal ─────────────────────────────────────────────── */}
       <div
-        role="button"
-        tabIndex={0}
+        role="group"
+        aria-label={`Fotos e vídeos de ${puppyName}`}
         // As fotos dos filhotes sao verticais. Num quadro 4/3 (deitado) o
         // `object-cover` cortava cabeca e patas e sobrava so uma faixa do meio.
-        // 4/5 acompanha o formato da foto e o `object-contain` abaixo mostra a
-        // imagem inteira — o fundo escuro faz a sobra parecer proposital.
-        className="group relative aspect-[4/5] cursor-zoom-in overflow-hidden rounded-2xl bg-zinc-900 shadow-xl ring-1 ring-zinc-900/8 sm:aspect-square"
-        onClick={onClickGallery}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            onClickGallery();
-          }
-        }}
+        // O quadro quadrado reduz a altura no celular; object-contain mantém
+        // a foto inteira, sem cortar cabeça ou patas.
+        className="group relative aspect-square overflow-hidden rounded-2xl bg-zinc-900 shadow-xl ring-1 ring-zinc-900/8"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        {/* Fundo desfocado. As fotos vao de 0.56 a 0.96 de proporcao, entao
-            nenhuma caixa fixa cabe em todas: ou corta as altas ou sobra nas
-            quadradas. O `object-contain` abaixo mostra a foto inteira e esta
-            camada preenche a sobra com a propria imagem borrada, no lugar de
-            duas faixas pretas mortas. Usa a miniatura, que ja foi baixada
-            para a tira de baixo — nao custa download novo.
-            Vale tambem para o video inline do desktop: ele e 9:16 dentro de
-            uma caixa quadrada, entao sobra faixa dos dois lados. */}
-        {photos[showVideo ? 0 : selectedIdx] && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={
-              optimizePuppyThumb(photos[showVideo ? 0 : selectedIdx]) ||
-              photos[showVideo ? 0 : selectedIdx]
-            }
-            alt=""
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0 h-full w-full scale-125 object-cover blur-2xl brightness-[0.55] saturate-150"
-          />
+        {/* Fundo CSS: preserva a foto inteira sem baixar outra imagem decorativa. */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-zinc-700 via-zinc-900 to-zinc-800" aria-hidden="true" />
+        {!showVideo && (
+          <button type="button" onClick={onClickGallery} aria-label={`Ampliar foto de ${puppyName}`} className="absolute inset-0 z-[2] cursor-zoom-in rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-white" />
         )}
 
         <AnimatePresence custom={direction} mode="popLayout" initial={false}>
           {!showVideo && photos[selectedIdx] && (
-            <motion.img
+            <motion.div
               // A `key` continua sendo a URL original: e ela que da identidade
-              // ao frame para o AnimatePresence. So o `src` e redimensionado.
+              // ao frame para o AnimatePresence. Next Image gera AVIF/WebP e
+              // srcset responsivo; antes a foto original inteira era baixada.
               key={photos[selectedIdx]}
-              src={optimizePuppyGalleryImage(photos[selectedIdx]) || photos[selectedIdx]}
-              alt={alt}
-              className="relative z-[1] h-full w-full object-contain"
+              className="relative z-[1] h-full w-full"
               custom={direction}
               variants={VARS}
               initial="enter"
               animate="center"
               exit="exit"
-              loading="eager"
-            />
+            >
+              <Image
+                src={photos[selectedIdx]}
+                alt={alt}
+                fill
+                sizes="(min-width: 1024px) 560px, 100vw"
+                quality={75}
+                priority={selectedIdx === 0}
+                fetchPriority={selectedIdx === 0 ? "high" : "auto"}
+                className="object-contain"
+              />
+            </motion.div>
           )}
         </AnimatePresence>
 
@@ -419,7 +405,7 @@ export default function PuppyCinematicGallery({
         {!showVideo && (
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); setLightbox(true); }}
+            onClick={(e) => { e.stopPropagation(); onClickGallery(); }}
             // Celular nao tem hover: preso em `opacity-0 group-hover` este
             // aviso nunca aparecia justamente para quem so pode tocar.
             className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-medium text-white/90 opacity-100 backdrop-blur-sm transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
@@ -512,15 +498,15 @@ export default function PuppyCinematicGallery({
               whileHover={{ opacity: 1, scale: 1.04 }}
               whileTap={{ scale: 0.94 }}
             >
-              {/* Miniatura aparece com 62px; sem o resize cada uma das nove
-                  baixava a foto original inteira. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={optimizePuppyThumb(img) || img}
+              {/* Miniatura aparece com 62px. Next Image entrega uma variante
+                  pequena em AVIF/WebP, sem baixar a foto original de 900px. */}
+              <Image
+                src={img}
                 alt=""
-                className="h-full w-full object-cover"
-                loading="lazy"
-                decoding="async"
+                fill
+                sizes="62px"
+                quality={75}
+                className="object-cover"
                 aria-hidden="true"
               />
             </motion.button>
@@ -547,13 +533,13 @@ export default function PuppyCinematicGallery({
               whileTap={{ scale: 0.94 }}
             >
               {photos[0] && (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  src={optimizePuppyThumb(photos[0]) || photos[0]}
+                <Image
+                  src={photos[0]}
                   alt=""
-                  className="h-full w-full object-cover brightness-[0.6]"
-                  loading="lazy"
-                  decoding="async"
+                  fill
+                  sizes="62px"
+                  quality={75}
+                  className="object-cover brightness-[0.6]"
                   aria-hidden="true"
                 />
               )}
@@ -578,19 +564,23 @@ export default function PuppyCinematicGallery({
       )}
 
       {/* ── Lightbox ─────────────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {lightbox && (
+      <Dialog.Root open={lightbox} onOpenChange={setLightbox}>
+        <Dialog.Portal>
+          <Dialog.Content asChild aria-describedby={undefined}
+            onCloseAutoFocus={(event) => {
+              event.preventDefault();
+              if (lightboxOpener.current?.isConnected) lightboxOpener.current.focus();
+            }}>
           <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/96"
+            className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/[0.96]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.22 }}
             onClick={() => setLightbox(false)}
-            role="dialog"
-            aria-modal="true"
-            aria-label={`Galeria de ${puppyName}`}
+            data-wa-safe-zone
           >
+            <Dialog.Title className="sr-only">Galeria de {puppyName}</Dialog.Title>
             {/* Conteúdo — não fechar ao clicar aqui */}
             <motion.div
               className="relative flex max-h-screen max-w-[95vw] items-center justify-center"
@@ -609,7 +599,7 @@ export default function PuppyCinematicGallery({
                   key={`lb-${photos[selectedIdx]}`}
                   src={photos[selectedIdx]}
                   alt={`${alt} — foto ${selectedIdx + 1}`}
-                  className="max-h-[90vh] max-w-[90vw] select-none rounded-lg object-contain shadow-2xl"
+                  className="max-h-[85dvh] max-w-[90vw] select-none rounded-lg object-contain shadow-2xl"
                   custom={direction}
                   variants={VARS}
                   initial="enter"
@@ -655,7 +645,7 @@ export default function PuppyCinematicGallery({
               type="button"
               aria-label="Fechar galeria"
               onClick={() => setLightbox(false)}
-              className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="absolute right-[max(1rem,env(safe-area-inset-right))] top-[max(1rem,env(safe-area-inset-top))] flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               whileHover={{ scale: 1.1, rotate: 90 }}
               whileTap={{ scale: 0.88 }}
               transition={{ type: "spring", stiffness: 400, damping: 20 }}
@@ -687,8 +677,9 @@ export default function PuppyCinematicGallery({
               </div>
             )}
           </motion.div>
-        )}
-      </AnimatePresence>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
 
       {/* ── Player vertical de vídeo (celular) ───────────────────────────── */}
       {reelsOpen && videos.length > 0 && (

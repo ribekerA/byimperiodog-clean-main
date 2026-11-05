@@ -4,6 +4,8 @@ import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { TABELA_DE_PRECOS } from "../src/domain/pricing.ts";
+
 const targets = process.argv.slice(2);
 
 const files =
@@ -76,21 +78,23 @@ const frontmatterEnd = (source) => {
 // src/domain/pricing.ts virou a fonte única dos números que o site MOSTRA, mas
 // prosa não importa constante: um .mdx escreve "R$ 8.500" à mão e ninguém
 // percebe quando a tabela muda. Foi assim que a fêmea laranja ficou anunciada
-// por um valor antigo em três artigos depois da alteração comercial.
+// por R$ 8.500 em três artigos depois de passar para R$ 7.500.
 //
-// A tabela está repetida aqui de propósito: este script roda no prebuild, antes
-// do Next existir, e não resolve o alias "@/". A dupla é conferida pelo teste
-// tests/pricing-guard.test.ts, que quebra se as duas divergirem.
-const PRECOS_DA_TABELA = new Set([7500, 8500]);
+// Node 24 (produção/CI) lê o módulo TypeScript sem aliases. Nenhuma cópia da matriz.
+const PRECOS_DA_TABELA = new Set(
+  Object.values(TABELA_DE_PRECOS)
+    .flatMap(({ macho, femea }) => [macho, femea])
+    .map((cents) => cents / 100)
+);
 
 // Faixa em que um número solto é, quase certamente, preço de filhote. Abaixo de
 // R$ 5.500 estão custo de manutenção, vacina e consulta; acima de R$ 20.000 não
 // existe nada no site. Dentro da faixa, valor fora da tabela é erro — inclusive
 // os R$ 10.500 que sobraram da tabela antiga.
 //
-// O piso permanece em 5.500 para que valores comerciais antigos de 5.500 e
-// 6.500 também sejam reprovados. tests/pricing-guard.test.ts cobra que todos os
-// valores atuais caibam dentro desta janela.
+// O piso desceu de 6.000 para 5.500 junto com a entrada do Particolor: o menor
+// valor da tabela precisa CABER na janela, senão o guard deixaria de inspecionar
+// justamente o preço novo. tests/pricing-guard.test.ts cobra essa relação.
 const FAIXA_DE_PRECO_DE_FILHOTE = { min: 5500, max: 20000 };
 
 // A única exceção real: o total do primeiro ano de manutenção, que o próprio
@@ -111,11 +115,6 @@ const PRECO_PATTERN = /R\$\s*(\d{1,3}(?:\.\d{3})+)/g;
 // quebraria página no ar, decisão de quem responde pelo SEO e não efeito
 // colateral de uma mudança de tabela.
 const CINZA_LOBO_PATTERN = /cinza[-\s]lobo|wolf\s+sable/gi;
-
-// A cor retirada da comunicação comercial não pode reaparecer em páginas ou
-// artigos por cópia antiga. Arquivos internos de classificação ficam fora do
-// escopo deste guard e podem continuar reconhecendo o termo em mensagens.
-const PARTICOLOR_PATTERN = /particolor(?:es|ida|idas)?/gi;
 
 // O artigo dedicado é uma URL indexada e continua no ar até haver decisão
 // explícita sobre ela. É o único arquivo em que a cor pode ser escrita.
@@ -204,10 +203,6 @@ for (const file of files) {
     for (const match of raw.matchAll(CINZA_LOBO_PATTERN)) {
       violations.push(`${file}: "${match[0]}" — a cor não é mais divulgada.`);
     }
-  }
-
-  for (const match of raw.matchAll(PARTICOLOR_PATTERN)) {
-    violations.push(`${file}: "${match[0]}" — a cor foi retirada da comunicação comercial.`);
   }
 
   for (const match of raw.matchAll(CERNELHA_PATTERN)) {

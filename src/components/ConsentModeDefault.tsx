@@ -55,7 +55,7 @@ const INLINE_SCRIPT = `
     var bruto = localStorage.getItem(${JSON.stringify(CONSENT_STORAGE_KEY)});
     if(bruto){
       var salvo = JSON.parse(bruto);
-      if(salvo && salvo.version === ${JSON.stringify(CONSENT_POLICY_VERSION)}){
+      if(salvo && salvo.version === ${JSON.stringify(CONSENT_POLICY_VERSION)} && ['necessary','analytics','marketing','functional'].every(function(key){return typeof salvo[key] === 'boolean';})){
         gtag('consent','update',{
           ad_storage: salvo.marketing ? 'granted' : 'denied',
           ad_user_data: salvo.marketing ? 'granted' : 'denied',

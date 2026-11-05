@@ -1,197 +1,90 @@
 #!/usr/bin/env node
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 
-/**
- * PSI Validation Script
- * Testa PageSpeed Insights em URLs principais e valida SEO isolation
- */
-
-import { writeFile } from "fs/promises";
-import path from "path";
-
-// Configuração
-const DOMAIN = process.env.VERCEL_URL || process.argv[2] || "https://byimperiodog.vercel.app";
-const PSI_API_KEY = process.env.PSI_API_KEY || ""; // Opcional, mas evita rate limit
-
-const URLS = [
-  { name: "Home", path: "/" },
-  { name: "Blog", path: "/blog" },
-  { name: "Filhotes", path: "/filhotes" },
-  { name: "Sobre", path: "/sobre" },
+export const AUDIT_PATHS = [
+  "/", "/filhotes", "/filhotes/spitz-alemao-anao-branco-femea",
+  "/reserve-seu-filhote", "/blog/preco-spitz-alemao-anao", "/filhotes/sao-paulo",
 ];
 
-const ADMIN_URLS = [
-  { name: "Admin Dashboard", path: "/admin" },
-  { name: "Admin Wizard", path: "/admin/cadastros/wizard" },
-];
-
-const TARGETS = {
-  mobile: { performance: 95, seo: 100, accessibility: 100 },
-  desktop: { performance: 100, seo: 100, accessibility: 100 },
-  lcp: 2500, // ms
-  cls: 0.1,
-};
-
-/**
- * Fetch PSI data
- */
-async function testPSI(url, strategy = "mobile") {
-  const apiUrl = new URL("https://www.googleapis.com/pagespeedonline/v5/runPagespeed");
-  apiUrl.searchParams.set("url", url);
-  apiUrl.searchParams.set("strategy", strategy);
-  apiUrl.searchParams.set("category", "performance");
-  apiUrl.searchParams.set("category", "seo");
-  apiUrl.searchParams.set("category", "accessibility");
-
-  if (PSI_API_KEY) {
-    apiUrl.searchParams.set("key", PSI_API_KEY);
+export function psiURL(url, strategy, key = "") {
+  const api = new URL("https://www.googleapis.com/pagespeedonline/v5/runPagespeed");
+  api.searchParams.set("url", url);
+  api.searchParams.set("strategy", strategy);
+  for (const category of ["performance", "seo", "accessibility", "best-practices"]) {
+    api.searchParams.append("category", category);
   }
+  if (key) api.searchParams.set("key", key);
+  return api;
+}
 
-  console.log(`🔍 Testing ${strategy}: ${url}`);
-
-  const response = await fetch(apiUrl.toString());
-  if (!response.ok) {
-    throw new Error(`PSI API error: ${response.status} ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  const { lighthouseResult } = data;
-
+export function summarizeLighthouse(lhr) {
+  const number = (id) => lhr?.audits?.[id]?.numericValue ?? null;
+  const score = (id) => {
+    const value = lhr?.categories?.[id]?.score;
+    return typeof value === "number" ? Math.round(value * 100) : null;
+  };
   return {
-    performance: Math.round(lighthouseResult.categories.performance.score * 100),
-    seo: Math.round(lighthouseResult.categories.seo.score * 100),
-    accessibility: Math.round(lighthouseResult.categories.accessibility.score * 100),
-    lcp: lighthouseResult.audits["largest-contentful-paint"].numericValue,
-    cls: lighthouseResult.audits["cumulative-layout-shift"].numericValue,
-    fid: lighthouseResult.audits["max-potential-fid"]?.numericValue || 0,
+    source: "Lighthouse laboratory; INP requires field data",
+    fetchedAt: lhr?.fetchTime ?? null,
+    version: lhr?.lighthouseVersion ?? null,
+    finalUrl: lhr?.finalDisplayedUrl ?? lhr?.finalUrl ?? null,
+    performance: score("performance"), seo: score("seo"),
+    accessibility: score("accessibility"), bestPractices: score("best-practices"),
+    lcpMs: number("largest-contentful-paint"), cls: number("cumulative-layout-shift"),
+    tbtMs: number("total-blocking-time"), inpMs: null,
+    runtimeError: lhr?.runtimeError ?? null,
   };
 }
 
-/**
- * Validate SEO isolation headers
- */
-async function validateAdminHeaders(url) {
-  console.log(`🔒 Validating headers: ${url}`);
-
-  try {
-    const response = await fetch(url, { method: "HEAD" });
-    const robotsTag = response.headers.get("x-robots-tag");
-
-    return {
-      url,
-      hasNoindex: robotsTag?.toLowerCase().includes("noindex"),
-      robotsTag,
-      statusCode: response.status,
-    };
-  } catch (error) {
-    return {
-      url,
-      hasNoindex: false,
-      error: error.message,
-    };
-  }
+export function summarizeField(experience) {
+  const metrics = experience?.metrics;
+  if (!metrics || !Object.keys(metrics).length) return { status: "SEM DADOS SUFICIENTES" };
+  return {
+    status: "CrUX p75", id: experience.id, overallCategory: experience.overall_category,
+    lcpMs: metrics.LARGEST_CONTENTFUL_PAINT_MS?.percentile ?? null,
+    inpMs: metrics.INTERACTION_TO_NEXT_PAINT?.percentile ?? null,
+    // PSI exposes this metric multiplied by 100, unlike Lighthouse.
+    cls: typeof metrics.CUMULATIVE_LAYOUT_SHIFT_SCORE?.percentile === "number"
+      ? metrics.CUMULATIVE_LAYOUT_SHIFT_SCORE.percentile / 100 : null,
+  };
 }
 
-/**
- * Main execution
- */
 async function main() {
-  console.log("🚀 PSI Validation Started");
-  console.log(`📍 Domain: ${DOMAIN}\n`);
-
-  const results = {
-    timestamp: new Date().toISOString(),
-    domain: DOMAIN,
-    public: [],
-    admin: [],
-    summary: { passed: 0, failed: 0, warnings: 0 },
-  };
-
-  // Test public URLs
-  console.log("📊 Testing Public URLs\n");
-  for (const { name, path: urlPath } of URLS) {
-    const fullUrl = `${DOMAIN}${urlPath}`;
-
-    try {
-      const mobile = await testPSI(fullUrl, "mobile");
-      const desktop = await testPSI(fullUrl, "desktop");
-
-      const passed =
-        mobile.performance >= TARGETS.mobile.performance &&
-        desktop.performance >= TARGETS.desktop.performance &&
-        mobile.lcp <= TARGETS.lcp &&
-        mobile.cls <= TARGETS.cls;
-
-      results.public.push({
-        name,
-        url: fullUrl,
-        mobile,
-        desktop,
-        passed,
-      });
-
-      if (passed) {
-        results.summary.passed++;
-        console.log(`✅ ${name}: PASSED`);
-      } else {
-        results.summary.failed++;
-        console.log(`❌ ${name}: FAILED`);
+  const domain = new URL(process.argv[2] || process.env.PSI_ORIGIN || "https://byimperiodog.com.br").origin;
+  const directory = path.resolve(process.env.PSI_OUTPUT_DIR || ".audit-evidence/psi");
+  await mkdir(directory, { recursive: true });
+  const report = { testedAt: new Date().toISOString(), domain, results: [] };
+  for (const route of AUDIT_PATHS) {
+    for (const strategy of ["mobile", "desktop"]) {
+      const url = domain + route;
+      const result = { url, strategy };
+      try {
+        const response = await fetch(psiURL(url, strategy, process.env.PSI_API_KEY), { signal: AbortSignal.timeout(90000) });
+        if (!response.ok) throw new Error(`PSI HTTP ${response.status}`);
+        const data = await response.json();
+        const filename = `${route === "/" ? "home" : route.slice(1).replaceAll("/", "_")}-${strategy}.json`;
+        await writeFile(path.join(directory, filename), JSON.stringify(data, null, 2));
+        if (!data.lighthouseResult) throw new Error("PSI returned no Lighthouse result");
+        Object.assign(result, {
+          status: data.lighthouseResult.runtimeError ? "ERROR" : "MEASURED",
+          laboratory: summarizeLighthouse(data.lighthouseResult),
+          fieldUrl: summarizeField(data.loadingExperience),
+          fieldOrigin: summarizeField(data.originLoadingExperience),
+          raw: filename,
+        });
+      } catch (error) {
+        Object.assign(result, { status: "NÃO MEDIDO", error: error.message });
       }
-
-      console.log(`   Mobile: ${mobile.performance} | Desktop: ${desktop.performance} | LCP: ${Math.round(mobile.lcp)}ms | CLS: ${mobile.cls.toFixed(3)}\n`);
-
-      // Rate limit protection
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    } catch (error) {
-      console.error(`❌ Error testing ${name}:`, error.message);
-      results.summary.failed++;
+      report.results.push(result);
+      console.log(`${strategy} ${route}: ${result.status}`);
+      await writeFile(path.join(directory, "summary.json"), JSON.stringify(report, null, 2));
     }
   }
-
-  // Validate admin SEO isolation
-  console.log("\n🔒 Validating Admin SEO Isolation\n");
-  for (const { name, path: urlPath } of ADMIN_URLS) {
-    const fullUrl = `${DOMAIN}${urlPath}`;
-
-    try {
-      const headerCheck = await validateAdminHeaders(fullUrl);
-      results.admin.push(headerCheck);
-
-      if (headerCheck.hasNoindex) {
-        console.log(`✅ ${name}: noindex header confirmed`);
-      } else {
-        console.log(`⚠️  ${name}: Missing noindex header!`);
-        results.summary.warnings++;
-      }
-    } catch (error) {
-      console.error(`❌ Error validating ${name}:`, error.message);
-      results.summary.warnings++;
-    }
-  }
-
-  // Generate report
-  const reportPath = path.join(process.cwd(), "reports", "psi-validation-latest.json");
-  await writeFile(reportPath, JSON.stringify(results, null, 2), "utf-8");
-
-  console.log(`\n📄 Report saved: ${reportPath}`);
-
-  // Summary
-  console.log("\n" + "=".repeat(60));
-  console.log("📊 VALIDATION SUMMARY");
-  console.log("=".repeat(60));
-  console.log(`✅ Passed: ${results.summary.passed}/${URLS.length}`);
-  console.log(`❌ Failed: ${results.summary.failed}/${URLS.length}`);
-  console.log(`⚠️  Warnings: ${results.summary.warnings}`);
-
-  if (results.summary.failed === 0 && results.summary.warnings === 0) {
-    console.log("\n🎉 ALL TESTS PASSED!");
-    process.exit(0);
-  } else {
-    console.log("\n⚠️  SOME TESTS FAILED OR WARNINGS PRESENT");
-    process.exit(1);
-  }
+  if (report.results.some((result) => result.status !== "MEASURED")) process.exitCode = 1;
 }
 
-main().catch((error) => {
-  console.error("💥 Fatal error:", error);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  main().catch((error) => { console.error(error.message); process.exitCode = 1; });
+}
