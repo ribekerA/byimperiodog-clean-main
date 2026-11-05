@@ -210,7 +210,10 @@ export function WhatsAppFloat() {
       data-wa-cta="true"
       data-wa-placement="floating_button"
       className={[
-        // Position — bottom-safe usa env(safe-area-inset-bottom) para Dynamic Island / home bar do iOS
+        // Position — bottom-safe soma env(safe-area-inset-bottom) (Dynamic Island /
+        // home bar do iOS) com --consent-banner-height, senão o banner de cookies
+        // cobre este botão inteiro no celular. z-9998 fica abaixo do banner de
+        // propósito: quem tem de sair da frente é o botão, não o consentimento.
         "fixed bottom-safe right-5 z-[9998]",
         // Size — 56×56 (WCAG touch target)
         "flex h-14 w-14 items-center justify-center rounded-full",
