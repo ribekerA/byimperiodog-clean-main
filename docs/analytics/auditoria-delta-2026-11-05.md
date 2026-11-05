@@ -173,7 +173,12 @@ Nada aqui mexe em conversão principal do Ads sem sua autorização expressa.
 - **Posição:** `origin/main` está 1 commit à frente desta branch — o próprio merge commit. Todo o conteúdo da branch está em `main`
 - **Alterações de P1:** na working tree, **não commitadas e não publicadas** — 4 arquivos (3 de código, 1 de teste), +124 / −121 linhas
 - **Working tree:** `M next-env.d.ts` — sujo por causa do dev server (`./.next/types/` virou `./.next/dev/types/`). O `typecheck` passa com as duas variantes; é ruído, **e não deve ser commitado**
-- **Testes rodados:** `npm run check:all` (typecheck, vitest, encoding, banned-words, catalog:audit, showcase:audit, truth:guard, lint) e o arquivo de teste do tracker, 14 passando. **Não declaro o projeto validado:** o portão Playwright (`npm run test:e2e`) e o `npm run build` são separados, e as seções D/P2–P5 não foram executadas nem testadas
+- **Portões rodados, todos verdes:**
+  - `npm run check:all` — typecheck, vitest, encoding, banned-words, catalog:audit, showcase:audit, truth:guard, lint. **603 testes passando**, 3 ignorados, 88 arquivos
+  - `npm run build` — compilou em 17,8s, **149 páginas estáticas** geradas
+  - o smoke como a CI roda, `PLAYWRIGHT_WEB_SERVER="npm run start" npx playwright test tests/e2e/smoke.spec.ts --project=chromium` — **22 passando, 0 falhando**
+- **Ressalva sobre o e2e:** `npm run test:e2e` sem variável cai em `npm run dev` (`playwright.config.ts:34`) e roda os três navegadores e todos os specs — escopo que a CI não checa. Nesse modo dão 26 falhas: `smoke.spec.ts:300` e `:400` retornam 404 em `/filhotes/cor/<cor>` **mesmo com todas as cinco cores presentes em `COLOR_SEO`**, e `tracking.spec.ts` reprova em bloco. Os dois 404 do smoke não se reproduzem na saída de produção (o mesmo spec passa contra `npm run start`); os de `tracking.spec.ts` **não foram reconferidos** e a CI também não os roda. Nenhuma das 26 falhas está em arquivo que esta mudança toca, e `whatsapp-tracking.spec.ts` passou
+- **Não declaro o projeto validado:** P2 a P5 não foram executadas nem testadas, e o container GTM vivo segue não inspecionado
 
 ### Riscos e limites desta auditoria
 
