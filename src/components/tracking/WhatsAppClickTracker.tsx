@@ -57,11 +57,17 @@ const PLACEMENTS_LEGADOS: Record<string, WhatsAppPlacement> = {
 /**
  * Link de contato x link de compartilhamento.
  *
- * `ShareButtons` também aponta para wa.me, mas para `wa.me/?text=` — sem
+ * `blog/ShareButtons` também aponta para wa.me, mas para `wa.me/?text=` — sem
  * número, porque quem escolhe o destinatário é o visitante. Isso é
  * compartilhar um artigo, não iniciar atendimento: contar como conversão de
  * WhatsApp inflaria o Ads com gente que nunca falou com o canil. Exigir o
  * número do canil no href separa os dois casos por estrutura, não por adivinha.
+ *
+ * Isto cobre só o que é <a>. O caso sem href está em `ehBotaoDeContato`, e já
+ * vazou uma vez: o botão de compartilhar do blog carregava `data-wa-cta`,
+ * caía no ramo que dispensa o href e era contado como lead. Mexer em um dos
+ * dois sem olhar o outro reabre o buraco — por isso `ehGatilhoDeContato` é a
+ * única porta, usada tanto para anotar quanto para disparar.
  */
 function ehLinkDeContato(href: string): boolean {
   if (!href) return false;
@@ -84,6 +90,27 @@ function ehLinkDeContato(href: string): boolean {
     return numero.length > 0 && numero.endsWith(DIGITOS_DO_CANIL.slice(-11));
   }
   return false;
+}
+
+/**
+ * O CTA que não é <a> só conta como contato se disser que é.
+ *
+ * `data-wa-cta="true"` existe para o botão que abre o WhatsApp por
+ * `window.open` e não tem href para casar — o flutuante. Mas o atributo
+ * sozinho não distingue intenção: um botão de compartilhar também abre o
+ * WhatsApp. `data-track-event="share_*"` é a declaração explícita de que
+ * aquele toque é compartilhamento, e compartilhamento nunca é lead.
+ */
+function ehBotaoDeContato(elemento: HTMLElement): boolean {
+  if (elemento.dataset.waCta !== "true") return false;
+  return !(elemento.dataset.trackEvent ?? "").startsWith("share");
+}
+
+/** Única porta de decisão: anotar e disparar não podem discordar. */
+function ehGatilhoDeContato(gatilho: HTMLElement): boolean {
+  return gatilho instanceof HTMLAnchorElement
+    ? ehLinkDeContato(gatilho.getAttribute("href") ?? "")
+    : ehBotaoDeContato(gatilho);
 }
 
 function lerPlacement(elemento: Element): WhatsAppPlacement {
@@ -121,11 +148,7 @@ function lerPuppySlug(elemento: Element): string | null {
 export default function WhatsAppClickTracker() {
   useEffect(() => {
     function anotarGatilho(gatilho: HTMLElement) {
-      const ehAncora = gatilho instanceof HTMLAnchorElement;
-      const ehContato = ehAncora
-        ? ehLinkDeContato(gatilho.getAttribute("href") ?? "")
-        : gatilho.dataset.waCta === "true";
-      if (ehContato && !gatilho.dataset.analytics) {
+      if (ehGatilhoDeContato(gatilho) && !gatilho.dataset.analytics) {
         gatilho.dataset.analytics = "whatsapp-click";
       }
     }
@@ -160,10 +183,7 @@ export default function WhatsAppClickTracker() {
       // WhatsApp por window.open e não tem href para casar.
       const gatilho = alvo.closest<HTMLElement>('a[href],[data-wa-cta="true"]');
       if (!gatilho) return;
-
-      const ehAncora = gatilho instanceof HTMLAnchorElement;
-      if (ehAncora && !ehLinkDeContato(gatilho.getAttribute("href") ?? "")) return;
-      if (!ehAncora && gatilho.dataset.waCta !== "true") return;
+      if (!ehGatilhoDeContato(gatilho)) return;
       anotarGatilho(gatilho);
 
       try {
