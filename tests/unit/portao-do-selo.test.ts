@@ -61,6 +61,16 @@ describe("o arquivo que esta no ar", () => {
     expect(avaliarSeloDisponivel(SELO_FIXO_EM, semComentarios(bruto))).toBeNull();
   });
 
+  // O selo saiu em 06/11/2026 a pedido da responsavel, sem nada no lugar. O
+  // resto deste arquivo continua valendo como regra para o caso de ele voltar,
+  // mas o portao aceita o selo e nao o exige: sem este teste, recoloca-lo seria
+  // silencioso.
+  it("o card nao traz mais o selo", () => {
+    const bruto = readFileSync(join(process.cwd(), SELO_FIXO_EM), "utf8");
+    const codigo = semComentarios(bruto);
+    expect(codigo).not.toMatch(/Dispon[ií]vel/);
+    expect(codigo).not.toContain("selo-disponivel");
+  });
 
   it("o card nao escreve destino de filhote nenhum", () => {
     const bruto = readFileSync(join(process.cwd(), SELO_FIXO_EM), "utf8");

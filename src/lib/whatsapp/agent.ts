@@ -59,7 +59,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "registro incluso",
-    a: "Sim! Todos os nossos filhotes têm registro oficial incluso no valor, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O pedigree é emitido pela CBKC ou por clube filiado, dentro do sistema FCI.",
+    a: "Sim! Todos os filhotes que apresentamos têm registro oficial incluso no valor, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O pedigree é emitido pela CBKC ou por clube filiado, dentro do sistema FCI.",
   },
   {
     q: "entrega transporte frete envio",
@@ -67,7 +67,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "cor raça spitz pomerania lulu",
-    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Divulgamos atualmente as cores particolor, laranja, creme, preto, branco, chocolate e merle. A equipe confirma as opções atuais no atendimento.",
+    a: "Somos especialistas em Spitz Alemão Anão (Lulu da Pomerânia). Divulgamos atualmente as cores particolor, laranja, creme, preto, branco, chocolate e merle. A equipe confirma as opções atuais no atendimento.",
   },
   {
     q: "reserva como reservar entrada",
@@ -171,7 +171,7 @@ function skillResponderFaq(text: string): string | null {
 function skillSaudacao(name?: string): string {
   const firstName = name ? ` ${name.trim().split(" ")[0]}` : "";
   return (
-    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — criação familiar de Spitz Alemão Anão (Lulu da Pomerânia).\n\n` +
+    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — atendimento especializado em Spitz Alemão Anão (Lulu da Pomerânia).\n\n` +
     `Como posso te ajudar hoje?\n\n` +
     `1️⃣ Ver a vitrine de filhotes\n` +
     `2️⃣ Saber sobre preços e condições\n` +

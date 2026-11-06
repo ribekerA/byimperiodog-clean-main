@@ -50,7 +50,7 @@ const FAQS = [
   {
     question: "O Baby Face é mais caro?",
     answer:
-      "Alguns criadores cobram mais pelo apelo estético. Porém, a By Império Dog não seleciona reprodutores com base em conformação achatada extrema — priorizamos saúde, temperamento e padrão FCI. Nossos filhotes têm o perfil 'foxface' saudável, com faces arredondadas naturais que vêm da linha genética, sem exageros estruturais.",
+      "Alguns criadores cobram mais pelo apelo estético. Porém, a By Império Dog não escolhe filhotes com base em conformação achatada extrema — priorizamos saúde, temperamento e padrão FCI. Os filhotes que apresentamos têm o perfil 'foxface' saudável, com faces arredondadas naturais, sem exageros estruturais.",
   },
   {
     question: "Como identificar um Baby Face legítimo vs marketing enganoso?",
@@ -118,7 +118,7 @@ export default function SpitzAlemaobabyFacePage() {
           ))}
         </ul>
         <p className="text-xs text-zinc-500">
-          A By Império Dog prioriza saúde e padrão racial. Nossos filhotes têm conformação facial saudável com aparência naturalmente arredondada sem os riscos da braquicefalia extrema.
+          A By Império Dog prioriza saúde e padrão racial. Os filhotes que apresentamos têm conformação facial saudável com aparência naturalmente arredondada sem os riscos da braquicefalia extrema.
         </p>
       </section>
 
@@ -154,7 +154,7 @@ export default function SpitzAlemaobabyFacePage() {
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">Ver filhotes saudáveis da By Império Dog</h2>
-        <p className="mt-2 text-sm text-zinc-600">Filhotes com aparência naturalmente arredondada, saúde documentada e criação responsável.</p>
+        <p className="mt-2 text-sm text-zinc-600">Filhotes com aparência naturalmente arredondada, saúde documentada e atendimento especializado.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
             Ver catálogo de filhotes

@@ -115,7 +115,7 @@ export default async function SexLandingPage(props: Props) {
           </h2>
           {puppies.length > 0 && (
             <p className="mb-6 text-sm text-zinc-500">
-              Fotos reais de {seo.h1.toLowerCase()} criados pela By Império Dog.{" "}
+              Fotos reais de {seo.h1.toLowerCase()} apresentados pela By Império Dog.{" "}
               <span className="font-medium text-zinc-700">
                 Consulte as opções atuais pelo WhatsApp.
               </span>

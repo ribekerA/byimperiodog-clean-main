@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description:
     // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
     // vir do FOUNDING_YEAR como no resto do site.
-    `A história da By Império Dog: desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com criação familiar e registro oficial.`,
+    `A história da By Império Dog: desde ${FOUNDING_YEAR} dedicada ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com atendimento especializado e registro oficial.`,
   keywords: [
     "criador Spitz Alemão Anão confiável",
     "canil Lulu da Pomerânia Bragança Paulista",
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/sobre`,
-    title: `Sobre a By Império Dog — criando Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}`,
+    title: `Sobre a By Império Dog — especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}`,
     description:
-      `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda.`,
+      `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Acompanhamento veterinário, registro oficial e mentoria pós-venda.`,
   },
 };
 
@@ -98,7 +98,7 @@ const VALUES = [
     icon: Heart,
     title: "Vínculo com a família",
     description:
-      "Os filhotes convivem dentro de casa, ao lado da família — com música, vozes, crianças e afeto no dia a dia.",
+      "Enquanto estão conosco, os filhotes convivem dentro de casa, ao lado da família — com música, vozes, crianças e afeto no dia a dia.",
     color: "bg-emerald-50 text-emerald-700 border-emerald-100",
   },
   {
@@ -155,7 +155,7 @@ const DIFERENCIAIS = [
   },
   {
     label: "Socialização",
-    us: "Filhotes que convivem dentro de casa, com a rotina da família",
+    us: "Enquanto estão conosco, os filhotes convivem dentro de casa, com a rotina da família",
     check: "Pergunte onde os filhotes passam o dia e com quem convivem",
   },
 ] as const;
@@ -178,7 +178,7 @@ export default function SobrePage() {
   const webPageLd = buildWebPageLD({
     path: "/sobre",
     name: "Sobre a By Império Dog",
-    description: `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda em Bragança Paulista.`,
+    description: `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Acompanhamento veterinário, registro oficial e mentoria pós-venda em Bragança Paulista.`,
   });
 
 
@@ -205,9 +205,9 @@ export default function SobrePage() {
             Comecei em {FOUNDING_YEAR} por amor à raça.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-zinc-300 sm:text-xl">
-            Hoje, cada filhote que sai daqui carrega{" "}
+            Hoje, cada filhote que apresentamos conta com{" "}
             <strong className="text-emerald-400">mais de uma década de aprendizado</strong>,
-            afeto e responsabilidade genética.
+            afeto e responsabilidade.
           </p>
           <p className="mt-4 max-w-xl text-zinc-400 leading-relaxed">
             A By Império Dog nasceu em Bragança Paulista, SP, de uma paixão genuína pelo
@@ -375,7 +375,7 @@ export default function SobrePage() {
             Veja a vitrine de filhotes
           </h2>
           <p className="mt-4 text-emerald-100">
-            Cada ninhada é única. Não deixe para amanhã a conversa que pode mudar a vida da sua família.
+            Cada filhote é único. Não deixe para amanhã a conversa que pode mudar a vida da sua família.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link

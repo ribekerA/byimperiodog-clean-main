@@ -439,12 +439,6 @@ body.admin-shell [data-site-shell="cta"] {
   }
   @media (min-width: 640px) { .cartao-filhote { border-width: 2px; border-radius: 24px; } }
   .cartao-filhote-foto { position: relative; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 0 0 calc(18 * var(--c)) calc(18 * var(--c)); background: #1c4a2c; }
-  .selo-disponivel {
-    position: absolute; top: max(6px, calc(10 * var(--c))); left: max(6px, calc(12 * var(--c))); display: inline-flex; align-items: center; gap: max(3px, calc(6 * var(--c)));
-    padding: max(2.5px, calc(6 * var(--c))) max(6px, calc(14 * var(--c))) max(2.5px, calc(6 * var(--c))) max(3px, calc(8 * var(--c)));
-    border-radius: 999px; background: #0a4f2c; color: #fff; font-size: max(10px, calc(18 * var(--c))); font-weight: 600; line-height: 1.1; pointer-events: none;
-  }
-  .selo-disponivel svg { width: max(11px, calc(20 * var(--c))); height: max(11px, calc(20 * var(--c))); flex: none; }
   .cartao-filhote-coracao { position: absolute; top: 0; right: 0; }
   .cartao-filhote-coracao button { padding: max(8px, calc(10 * var(--c))); color: #fff; background: transparent; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
   .cartao-filhote-coracao button:hover { color: #fff; background: transparent; }

@@ -38,20 +38,13 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // tres anunciavam escassez que ninguem media. O card agora e o que sempre foi
 // de fato: a foto real de uma combinacao de cor e sexo, com o preco-base dela.
 //
-// O selo verde "Disponivel" voltou em 05/11/2026 -- por decisao da
-// responsavel, e sabendo o que ele e.
-//
-// Eu levantei a objecao antes de aplicar: o campo que daria lastro a esse selo
-// (`status` no arquivo estatico) nao e reescrito a cada venda, e status real
-// exigiria a fonte `puppy-status` do Supabase, que nao chega ate este
-// componente. Ela respondeu "em todos, mesmo sem fonte", ciente de que o selo
-// aparece tambem em filhote ja vendido. Entao ele e fixo e decorativo, e nao
-// le campo nenhum -- e importante que seja fixo: um selo que lesse `status`
-// pareceria informado e estaria errado nos mesmos casos, so que em silencio.
-// O aviso que diz a verdade continua na propria pagina, logo acima da grade:
-// "A vitrine nao confirma estoque. Consulte a disponibilidade atual pelo
-// WhatsApp." Se um dia `puppy-status` chegar ate aqui, e este selo que passa
-// a ler dela.
+// Um selo verde "Disponivel" fixo, sem fonte, voltou em 05/11/2026 e saiu de
+// novo em 06/11/2026, as duas vezes por decisao da responsavel. Nada ocupa o
+// lugar dele. Se um dia voltar, que seja lido de `puppy-status`, a fonte real,
+// que hoje nao chega ate este componente: o campo `status` do arquivo estatico
+// nao e reescrito a cada venda. O aviso continua na propria pagina, logo acima
+// da grade: "A vitrine nao confirma estoque. Consulte a disponibilidade atual
+// pelo WhatsApp."
 
 // O cartao destaca so o valor no PIX: a linha "ou 3x" saiu por pedido da
 // responsavel em 06/11/2026. Parcelamento se confirma no atendimento.
@@ -167,14 +160,6 @@ export default function StaticPuppyCard({
               />
             )}
           </Link>
-          {/* Selo fixo de proposito: ver a nota no topo do arquivo. */}
-          <span className="selo-disponivel">
-            <svg viewBox="0 0 20 20" aria-hidden="true">
-              <circle cx="10" cy="10" r="10" fill="#2fbf5b" />
-              <path d="M5.5 10.4l3 3 6-6.4" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Disponível
-          </span>
           <div className="cartao-filhote-coracao">
             <HeartBurstButton puppyId={id} size={20} />
           </div>

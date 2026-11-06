@@ -98,7 +98,7 @@ export default function GaleriaPage() {
             {/* "estrutura" prometia instalações que não existem — mesmo caso da
                 legenda do primeiro vídeo. Fica só o que os vídeos mostram. */}
             <p className="mt-4 text-lg text-zinc-300">
-              Vídeos reais dos filhotes e das ninhadas da By Império Dog.
+              Vídeos reais de filhotes e ninhadas apresentados pela By Império Dog.
               Sem filtro — exatamente como eles são.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

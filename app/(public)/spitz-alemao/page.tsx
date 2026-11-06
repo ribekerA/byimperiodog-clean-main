@@ -65,7 +65,7 @@ const FAQS = [
   {
     question: "O Spitz Alemão (Lulu da Pomerânia) late muito?",
     answer:
-      "O Spitz Alemão Anão (Lulu da Pomerânia) tem instinto de alerta — tende a latir para estímulos externos. Porém, com socialização adequada desde filhote (como fazemos na By Império Dog), o latido excessivo é muito reduzido. Filhotes criados em ambiente familiar e com estimulação correta têm comportamento tranquilo.",
+      "O Spitz Alemão Anão (Lulu da Pomerânia) tem instinto de alerta — tende a latir para estímulos externos. Porém, com socialização adequada desde filhote, o latido excessivo é muito reduzido. Filhotes criados em ambiente familiar e com estimulação correta têm comportamento tranquilo.",
   },
   {
     question: "Quais são as cores do Spitz Alemão Anão (Lulu da Pomerânia)?",

@@ -558,7 +558,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   Desde {FOUNDING_YEAR}
                 </p>
                 <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  criando a raça
+                  especialistas na raça
                 </p>
               </motion.div>
 
@@ -679,7 +679,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             </h2>
             {puppies.length > 0 && (
               <p className="mt-2 text-zinc-500">
-                Fotos reais de filhotes {seo.h1} criados pela By Império Dog.{" "}
+                Fotos reais de filhotes {seo.h1} apresentados pela By Império Dog.{" "}
                 <span className="font-medium text-zinc-700">
                   Consulte as opções atuais pelo WhatsApp.
                 </span>

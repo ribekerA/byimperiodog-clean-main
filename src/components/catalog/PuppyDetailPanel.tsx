@@ -259,7 +259,7 @@ export default function PuppyDetailPanel({
       <ScrollReveal variant="fadeIn" delay={0.1}>
         <div className="flex flex-wrap items-center gap-4 rounded-xl border border-zinc-100 bg-zinc-50/60 px-4 py-3">
           {[
-            { icon: "🏆", text: `Criando desde ${FOUNDING_YEAR}` },
+            { icon: "🏆", text: `Especialistas desde ${FOUNDING_YEAR}` },
             { icon: "📄", text: "Contrato de compra e venda" },
             // "Entregamos em todo o Brasil" descrevia uma operacao de transporte que
             // o canil nao tem. O alcance e verdade; a operacao e do tutor.

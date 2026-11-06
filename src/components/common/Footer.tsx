@@ -105,7 +105,7 @@ export default function Footer() {
             </span>
           </Link>
           <p>
-            Spitz Alemão Anão (Lulu da Pomerânia) — criado com responsabilidade, acompanhamento veterinário e suporte da criadora depois da entrega.
+            Spitz Alemão Anão (Lulu da Pomerânia) — atendimento especializado, acompanhamento veterinário e suporte da criadora depois da entrega.
           </p>
           <address>
             <a href={`mailto:contato@byimperiodog.com.br`}>contato@byimperiodog.com.br</a>
@@ -156,9 +156,9 @@ export default function Footer() {
         </nav>
 
         <div className="rp-coluna rp-coluna-criacao">
-          <h3>Criação responsável</h3>
+          <h3>Nosso compromisso</h3>
           <ul className="rp-selos">
-            {["Registro oficial incluso", "Consulta veterinária e hemograma", "Mentoria pós-venda", `Criando desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
+            {["Registro oficial incluso", "Consulta veterinária e hemograma", "Mentoria pós-venda", `Especialistas desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
               <li key={item}>
                 <span aria-hidden="true">✓</span>
                 {item}

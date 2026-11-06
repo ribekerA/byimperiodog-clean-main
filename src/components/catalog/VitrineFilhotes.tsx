@@ -40,7 +40,7 @@ const PILARES: { icone: Icone; texto: string }[] = [
 ];
 
 const COMPROMISSOS: { icone: Icone; texto: string }[] = [
-  { icone: Award, texto: "Criação responsável e ética" },
+  { icone: Award, texto: "Compromisso com o bem-estar" },
   { icone: PataIcon, texto: "Filhotes com alto padrão" },
   { icone: Heart, texto: "Todo o carinho que você e seu pet merecem" },
 ];

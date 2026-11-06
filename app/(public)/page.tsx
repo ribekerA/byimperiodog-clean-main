@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     url: "/",
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
-      `Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos. Criação desde ${FOUNDING_YEAR}, com contrato.`,
+      `Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos. Especialistas desde ${FOUNDING_YEAR}, com contrato.`,
     // `/og/home.jpg` nunca existiu: a pasta public/og/ não existe no repositório
     // e o arquivo respondia 404. Toda pré-visualização de link da home saía sem
     // imagem. Agora aponta para o arquivo real de 1200x630.
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
-    description: "Criação responsável em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos.",
+    description: "Atendimento especializado em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos.",
     images: [OG_DEFAULT_IMAGE.url],
   },
 };

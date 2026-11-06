@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     // Tinha "preços em ${CURRENT_YEAR}" — mesma data dinâmica dos outros rótulos.
     // Aproveitei para encurtar: com o ano, a description passava de 190 caracteres
     // e o Google cortava antes de "Bragança Paulista".
-    "Guia do Lulu da Pomerânia (Spitz Alemão Anão): características, temperamento, preços, cuidados e cores. Criação responsável em Bragança Paulista, SP.",
+    "Guia do Lulu da Pomerânia (Spitz Alemão Anão): características, temperamento, preços, cuidados e cores. Atendimento especializado em Bragança Paulista, SP.",
   keywords: [
     "Lulu da Pomerânia",
     "Lulu da Pomerânia preço",

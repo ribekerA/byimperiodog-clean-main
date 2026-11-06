@@ -69,7 +69,7 @@ export async function GET() {
   const corpo = [
     `# ${BRAND.name}`,
     "",
-    `> Criação de ${breed.official} (${breed.alternative}) em ${BRAND.headquarters.city}/` +
+    `> Criadora especializada em ${breed.official} (${breed.alternative}) em ${BRAND.headquarters.city}/` +
       `${BRAND.headquarters.state}, Brasil, em atividade desde ${FOUNDING_YEAR}. O site publica o ` +
       `catálogo com fotos dos filhotes, valores a partir de ${min} nos machos e ${max} nas fêmeas, no PIX, e ` +
       `artigos sobre a raça. Entregas em todo o Brasil via transporte aéreo, ` +
@@ -133,7 +133,7 @@ export async function GET() {
     "",
     "## O canil",
     "",
-    linha("Sobre a By Império Dog", "/sobre", "história, critérios de criação e o que acompanha cada filhote"),
+    linha("Sobre a By Império Dog", "/sobre", "história, cuidados e o que acompanha cada filhote"),
     linha("Contato", "/contato", `WhatsApp e ${BRAND.contact.email}`),
     linha("Criador confiável", "/criador-spitz-confiavel", "como avaliar um canil antes de comprar"),
     linha("Canil no interior de SP", "/canil-spitz-alemao-interior-sp"),

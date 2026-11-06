@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Canil Spitz Alemão Anão (Lulu da Pomerânia) — Interior de SP | By Império Dog",
-    description: `Criação responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, no interior de SP, desde ${FOUNDING_YEAR}.`,
+    description: `Atendimento especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, no interior de SP, desde ${FOUNDING_YEAR}.`,
     type: "website",
   },
 };

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     title: "Criador Confiável de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog, Bragança Paulista SP",
     description:
-      `Criação responsável desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo. Saiba como identificar um criador confiável.`,
+      `Criadora especializada desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo. Saiba como identificar um criador confiável.`,
     type: "article",
   },
 };
@@ -87,7 +87,7 @@ const PAGE_FAQS = [
   {
     question: "Qual o melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR} e entrega registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria pós-venda. Peça essa mesma lista a qualquer criador antes de decidir.`,
+      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, atua com Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR} e entrega registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria pós-venda. Peça essa mesma lista a qualquer criador antes de decidir.`,
   },
   {
     question: "Como saber se um criador de Spitz Alemão Anão (Lulu da Pomerânia) é confiável?",
@@ -136,7 +136,7 @@ export default function CriadorConfiavelPage() {
 
       {/* ── HERO ── */}
       <header className="faixa-topo space-y-4">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável desde {FOUNDING_YEAR}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Especialistas desde {FOUNDING_YEAR}</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Criador de Spitz Alemão Anão (Lulu da Pomerânia) confiável em SP
         </h1>
@@ -183,7 +183,7 @@ export default function CriadorConfiavelPage() {
         className="rounded-3xl border border-emerald-100 bg-emerald-50/40 p-6 sm:p-8 space-y-4"
       >
         <h2 id="byid-heading" className="text-2xl font-bold text-zinc-900">
-          By Império Dog — criação familiar em Bragança Paulista, SP
+          By Império Dog — atendimento especializado em Bragança Paulista, SP
         </h2>
         <p className="text-sm text-zinc-700 sm:text-base">
           Fundada em {FOUNDING_YEAR} pela família Império, somos especializados exclusivamente em Spitz Alemão Anão (Lulu da Pomerânia). Os filhotes da By Império Dog são acompanhados por médico-veterinário e entregues com a documentação descrita em contrato. O atendimento é individual, direto com a criadora.

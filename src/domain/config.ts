@@ -83,7 +83,7 @@ export const BRAND = {
   schema: {
     alternateNames: ["Canil By Império Dog", "Império Dog"],
     description:
-      `By Império Dog, em Bragança Paulista, SP, com criação de Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Filhotes vacinados e vermifugados, com consulta veterinária, hemograma completo e pedigree.`,
+      `By Império Dog, em Bragança Paulista, SP, especializada em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Filhotes vacinados e vermifugados, com consulta veterinária, hemograma completo e pedigree.`,
     knowsAbout: [
       "Spitz Alemão Anão",
       "Lulu da Pomerânia",

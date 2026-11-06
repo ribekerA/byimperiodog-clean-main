@@ -13,7 +13,7 @@ const faqItems = [
   {
     question: "Como preparamos cada Spitz Alemão Anão (Lulu da Pomerânia) antes da nova família?",
     answer:
-      "Os filhotes crescem em convívio familiar, com contato cotidiano com pessoas e com os sons normais de uma casa, enriquecimento ambiental supervisionado e acompanhamento veterinário. O objetivo é que o Spitz Alemão Anão (Lulu da Pomerânia) chegue com autoconfiança e rotina estável.",
+      "Enquanto estão conosco, os filhotes vivem em convívio familiar, com contato cotidiano com pessoas e com os sons normais de uma casa, enriquecimento ambiental supervisionado e acompanhamento veterinário. O objetivo é que o Spitz Alemão Anão (Lulu da Pomerânia) chegue com autoconfiança e rotina estável.",
   },
   {
     question: "Qual o porte adulto esperado do Spitz Alemão Anão (Lulu da Pomerânia)?",
@@ -21,7 +21,7 @@ const faqItems = [
       // "laudos veterinários com curva de peso" prometia um documento que não
       // existe: a entrega tem carteira de vacinação, histórico de vermifugação,
       // laudo de saúde e hemograma, como já diz a resposta sobre exames.
-      "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão. Buscamos estrutura saudável, pelagem densa e equilíbrio entre energia e docilidade na escolha dos reprodutores. Na entrega compartilhamos a consulta veterinária e o hemograma completo do filhote e orientamos os ajustes de alimentação para cada fase.",
+      "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão. Buscamos estrutura saudável, pelagem densa e equilíbrio entre energia e docilidade na escolha dos reprodutores e dos filhotes que apresentamos. Na entrega compartilhamos a consulta veterinária e o hemograma completo do filhote e orientamos os ajustes de alimentação para cada fase.",
   },
   {
     question: "Quais cuidados manter nas primeiras 48 horas em casa?",
