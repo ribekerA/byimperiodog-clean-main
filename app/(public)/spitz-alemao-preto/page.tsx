@@ -87,7 +87,7 @@ export default function SpitzAlemaoPretoPage() {
           Spitz Alemão Anão (Lulu da Pomerânia) Preto — características, padrão e preço
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          O preto é uma das cores reconhecidas no padrão do Spitz Alemão Anão (Lulu da Pomerânia) e uma das cinco com que a By Império Dog trabalha. Sai com registro oficial e a mesma documentação das demais cores. Consulte as opções atuais pelo WhatsApp.
+          O preto é uma das cores reconhecidas no padrão do Spitz Alemão Anão (Lulu da Pomerânia) e uma das sete com que a By Império Dog trabalha. Sai com registro oficial e a mesma documentação das demais cores. Consulte as opções atuais pelo WhatsApp.
         </p>
       </header>
 

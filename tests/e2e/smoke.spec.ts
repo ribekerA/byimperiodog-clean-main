@@ -421,7 +421,7 @@ test.describe("Portao das superficies criticas", () => {
   });
 
   test("particolor tem pagina propria e nao cai no tema de outra cor", async ({ page }) => {
-    // O particolor e uma das cinco cores divulgadas em src/domain/pricing.ts e
+    // O particolor e uma das cores divulgadas em src/domain/pricing.ts e
     // tem pagina mesmo sem ficha publicada no momento -- uma cor da tabela sem
     // pagina deixaria a tabela prometendo o que o site nao mostra.
     //
@@ -440,6 +440,38 @@ test.describe("Portao das superficies criticas", () => {
     expect(corpo, "a pagina do particolor voltou a cair no tema do creme").not.toContain(
       "Pelagem cor de marfim",
     );
+  });
+
+  // Chocolate e Merle entraram sem foto de filhote. O que nao pode acontecer e a
+  // ilustracao passar por foto: ela precisa da legenda visivel, e o "Fotos reais"
+  // das outras cores nao pode aparecer aqui.
+  for (const { cor, selo } of [
+    { cor: "chocolate", selo: "Pelagem marrom uniforme" },
+    { cor: "merle", selo: "Pelagem com manchas marmorizadas" },
+  ]) {
+    test(`${cor} tem pagina propria e identifica a ilustracao`, async ({ page }) => {
+      const resposta = await page.goto(`/filhotes/cor/${cor}`);
+      expect(resposta!.status()).toBe(200);
+      await expect(page.locator("h1").first()).toBeVisible();
+
+      const corpo = await page.locator("body").innerText();
+      expect(corpo).toContain(selo);
+      expect(corpo, `${cor} caiu no tema do creme`).not.toContain("Pelagem cor de marfim");
+      expect(corpo).toContain("Ilustração da pelagem, não é foto de filhote.");
+      expect(corpo, `${cor} promete foto real sem ter foto`).not.toContain("Fotos reais");
+      await expect(page.locator(`img[src="/images/cores/${cor}-ilustracao.svg"]`)).toHaveAttribute(
+        "alt",
+        /^Ilustração da pelagem/,
+      );
+    });
+  }
+
+  test("a pagina do Merle nao cita o padrao FCI nem saude da cor", async ({ page }) => {
+    await page.goto("/filhotes/cor/merle");
+    const corpo = await page.locator("body").innerText();
+    expect(corpo).not.toMatch(/padrão FCI/i);
+    expect(corpo).not.toMatch(/inteligência ou saúde/i);
+    expect(corpo).toContain("CBKC");
   });
 
   test("/blog lista artigos", async ({ page }) => {

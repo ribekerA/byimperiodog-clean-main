@@ -67,7 +67,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "cor raça spitz pomerania lulu",
-    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Divulgamos atualmente as cores laranja, creme, preto e branco. A equipe confirma as opções atuais no atendimento.",
+    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Divulgamos atualmente as cores particolor, laranja, creme, preto, branco, chocolate e merle. A equipe confirma as opções atuais no atendimento.",
   },
   {
     q: "reserva como reservar entrada",

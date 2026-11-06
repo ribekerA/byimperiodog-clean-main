@@ -27,7 +27,7 @@ import { COLOR_SEO, CORES_EXIBIDAS, type CatalogItem, type ColorSeo, formatPrice
 
 // O particolor não tinha tema.
 //
-// Ele é uma das cinco cores divulgadas (src/domain/pricing.ts), tem página, tem
+// Ele é uma das cores divulgadas (src/domain/pricing.ts), tem página, tem
 // COLOR_SEO próprio e tem filhote na vitrine — mas caía no `?? THEMES.creme` lá
 // embaixo. O resultado é que /filhotes/cor/particolor abria com a foto de um
 // filhote creme no hero, o selo "✨ Pelagem cor de marfim" e a amostra de cor
@@ -113,6 +113,37 @@ const THEMES = {
     swatchCss:    "bg-zinc-900 ring-zinc-600",
     heroImg:      "/filhotes/preto/preto-filhote-flores-01.jpg",
   },
+  // Chocolate e Merle ainda não têm foto de filhote: o heroImg é uma ilustração,
+  // identificada na imagem e na legenda (ver ILUSTRACAO_DA_COR). Quando a foto
+  // real chegar, troque o heroImg e retire a cor de ILUSTRACAO_DA_COR.
+  chocolate: {
+    heroGradient: "bg-gradient-to-br from-amber-100 via-orange-50 to-stone-100",
+    heroDark:     false,
+    sectionBg:    "bg-stone-50",
+    accentText:   "text-amber-900",
+    accentBg:     "bg-amber-900",
+    accentLight:  "bg-amber-100",
+    accentBorder: "border-amber-200",
+    progressBar:  "bg-amber-800",
+    badge:        "🤎 Pelagem marrom uniforme",
+    badgeCss:     "bg-amber-900 text-amber-50 ring-1 ring-amber-800",
+    swatchCss:    "bg-amber-900 ring-amber-700",
+    heroImg:      "/images/cores/chocolate-ilustracao.svg",
+  },
+  merle: {
+    heroGradient: "bg-gradient-to-br from-slate-200 via-slate-100 to-zinc-50",
+    heroDark:     false,
+    sectionBg:    "bg-slate-50",
+    accentText:   "text-slate-700",
+    accentBg:     "bg-slate-700",
+    accentLight:  "bg-slate-200",
+    accentBorder: "border-slate-200",
+    progressBar:  "bg-slate-600",
+    badge:        "🎨 Pelagem com manchas marmorizadas",
+    badgeCss:     "bg-slate-700 text-slate-50 ring-1 ring-slate-600",
+    swatchCss:    "bg-gradient-to-br from-slate-300 via-slate-500 to-slate-900 ring-slate-400",
+    heroImg:      "/images/cores/merle-ilustracao.svg",
+  },
   "wolf-sable": {
     heroGradient: "bg-gradient-to-br from-zinc-300 via-zinc-100/80 to-zinc-50",
     heroDark:     false,
@@ -130,6 +161,17 @@ const THEMES = {
 } as const;
 
 type ColorKey = keyof typeof THEMES;
+
+// Cores cujo hero é uma ilustração. A entrada aqui é o que faz a página avisar
+// que não é foto: legenda visível, alt próprio e sem o "Fotos reais" do resumo.
+const ILUSTRACAO_DA_COR: Readonly<Record<string, { alt: string }>> = {
+  chocolate: {
+    alt: "Ilustração da pelagem chocolate do Spitz Alemão Anão (Lulu da Pomerânia). Não é foto de filhote.",
+  },
+  merle: {
+    alt: "Ilustração da pelagem merle do Spitz Alemão Anão (Lulu da Pomerânia). Não é foto de filhote.",
+  },
+};
 
 // ─── Temperamento da raça ─────────────────────────────────────────────────────
 
@@ -292,6 +334,7 @@ interface Props {
 
 export default function ColorPageContent({ color, seo, puppies, waLink }: Props) {
   const theme    = THEMES[color as ColorKey] ?? THEMES.creme;
+  const ilustracao = ILUSTRACAO_DA_COR[color];
   const reduced  = useReducedMotion();
   const { heroDark } = theme;
   const trackedWaLink = useWhatsAppLink(waLink);
@@ -400,7 +443,8 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 priceMin > 0
                   ? { value: formatPrice(priceMin), label: "" }
                   : null,
-                { value: "Fotos reais", label: "de cada filhote" },
+                // Numa cor que só tem ilustração, "Fotos reais" seria falso.
+                ilustracao ? null : { value: "Fotos reais", label: "de cada filhote" },
                 { value: "Registro oficial", label: "incluso" },
                 { value: "Mentoria", label: "pós-venda" },
               ]
@@ -465,7 +509,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={theme.heroImg}
-                  alt={`${seo.h1} — By Império Dog`}
+                  alt={ilustracao?.alt ?? `${seo.h1} — By Império Dog`}
                   className="aspect-[3/4] w-full object-cover"
                   loading="eager"
                 />
@@ -517,6 +561,17 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   criando a raça
                 </p>
               </motion.div>
+
+              {/* Fora do card da imagem para não ficar atrás do selo "Incluso". */}
+              {ilustracao && (
+                <p
+                  className={`mt-3 text-center text-xs sm:mt-8 ${
+                    heroDark ? "text-zinc-400" : "text-zinc-600"
+                  }`}
+                >
+                  Ilustração da pelagem, não é foto de filhote.
+                </p>
+              )}
             </div>
           </motion.div>
         </div>
@@ -562,7 +617,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
               <p className="mt-6 text-sm leading-relaxed text-zinc-500">
                 O temperamento descrito acima é característico da raça. A cor da
                 pelagem é uma característica estética e não determina
-                comportamento, inteligência ou saúde — cada filhote tem a sua
+                comportamento nem inteligência — cada filhote tem a sua
                 individualidade.
               </p>
             </div>

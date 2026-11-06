@@ -49,8 +49,8 @@ export const guides: Guide[] = [
       {
         heading: "As diferenças entre as cores",
         paragraphs: [
-          "Na tabela atual da By Império Dog são divulgadas cinco cores, e cada valor é o ponto de partida daquela combinação de cor e sexo. O branco é a mais cara nos dois sexos; creme e preto ficam no mesmo patamar, acima do laranja; o laranja é o mais conhecido da raça e o de maior disponibilidade ao longo do ano; o particolor, de base branca com manchas definidas, abre a tabela.",
-          "A cor não influencia o temperamento nem a saúde — influencia apenas a disponibilidade e, consequentemente, o preço. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
+          "A By Império Dog divulga sete cores: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. A cor não muda o valor de partida, que depende do sexo: machos a partir de R$ 4.500 e fêmeas a partir de R$ 6.500 no PIX. O laranja é o mais conhecido da raça; o particolor tem base branca com manchas definidas; o chocolate é a pelagem marrom; o merle tem manchas marmorizadas.",
+          "A cor não influencia o temperamento. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
         ],
       },
       {

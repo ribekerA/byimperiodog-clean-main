@@ -35,8 +35,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 
 const NOME_DA_COR: Record<string, string> = {
   branco: "Branco",
+  chocolate: "Chocolate",
   creme: "Creme",
   laranja: "Laranja",
+  merle: "Merle",
+  particolor: "Particolor",
   preto: "Preto",
 };
 
@@ -96,8 +99,10 @@ export async function GET() {
     // CORES_EXIBIDAS, nao ALL_COLORS: o indice lista o que esta sendo
     // divulgado. As URLs de cor fora dessa lista continuam no ar e acessiveis,
     // so nao sao mais anunciadas aqui.
+    // "filhotes desta cor no catalogo" era falso para Chocolate e Merle, que
+    // sao divulgadas mas ainda nao tem ficha publicada.
     ...CORES_EXIBIDAS.map((cor) =>
-      linha(NOME_DA_COR[cor] ?? cor, `/filhotes/cor/${cor}`, "filhotes desta cor no catálogo")
+      linha(NOME_DA_COR[cor] ?? cor, `/filhotes/cor/${cor}`, "página desta cor")
     ),
     "",
     "## Filhotes por estado",

@@ -44,7 +44,7 @@ const CHARACTERISTICS = [
   { label: "Peso adulto (referência prática)", value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
-  { label: "Cores na By Império Dog", value: "Laranja, Creme, Preto, Branco" },
+  { label: "Cores na By Império Dog", value: "Particolor, Laranja, Creme, Preto, Branco, Chocolate, Merle" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
   { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
@@ -69,7 +69,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O padrão da raça admite várias cores. As cinco divulgadas pela By Império Dog são Particolor, Laranja, Creme, Preto e Branco. O padrão também admite marrom e preto e castanho, entre outras. A cor não altera temperamento nem saúde.",
+      "O padrão da raça admite várias cores, entre elas marrom e preto e castanho. A By Império Dog divulga sete: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. A cor não altera o temperamento.",
   },
   {
     question: "O Spitz Alemão Anão (Lulu da Pomerânia) é hipoalergênico?",
@@ -214,6 +214,9 @@ export default function SpitzAlemaoPage() {
             // duas afirmações de escassez, nenhuma verificável, num card que só
             // deveria descrever a cor.
             { cor: "Preto",      slug: "preto",      desc: "Pelagem preta uniforme e brilhante, com subpelo e pele escuros." },
+            { cor: "Particolor", slug: "particolor", desc: "Base branca com manchas definidas de outra cor." },
+            { cor: "Chocolate",  slug: "chocolate",  desc: "Pelagem marrom uniforme, também chamada de chocolate." },
+            { cor: "Merle",      slug: "merle",      desc: "Pelagem com manchas marmorizadas, com desenho único em cada filhote." },
           ].map((c) => (
             <Link
               key={c.cor}

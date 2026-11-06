@@ -33,8 +33,11 @@
  * O Particolor entrou na tabela e por isso entrou aqui: é a partir desta lista
  * que o teste de regressão exige preço oficial para todo filhote publicado.
  * Uma cor com filhote na vitrine e sem linha na tabela não tem valor a cobrar.
+ *
+ * Chocolate e Merle entraram por decisão da responsável em 06/11/2026. Ainda não
+ * têm filhote publicado: PRECO_POR_SLUG continua sendo a lista real de ofertas.
  */
-export const CORES_DIVULGADAS = ["particolor", "laranja", "creme", "preto", "branco"] as const;
+export const CORES_DIVULGADAS = ["particolor", "laranja", "creme", "preto", "branco", "chocolate", "merle"] as const;
 
 export type CorDivulgada = (typeof CORES_DIVULGADAS)[number];
 export type Sexo = "macho" | "femea";
@@ -61,6 +64,8 @@ export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
   creme: { label: "Creme", macho: PISO_MACHO, femea: PISO_FEMEA },
   preto: { label: "Preto", macho: PISO_MACHO, femea: PISO_FEMEA },
   branco: { label: "Branco", macho: PISO_MACHO, femea: PISO_FEMEA },
+  chocolate: { label: "Chocolate", macho: PISO_MACHO, femea: PISO_FEMEA },
+  merle: { label: "Merle", macho: PISO_MACHO, femea: PISO_FEMEA },
 };
 
 /**

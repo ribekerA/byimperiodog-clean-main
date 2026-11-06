@@ -10,11 +10,14 @@ export type CatalogItem = (typeof staticPuppies)[number];
 //
 // O particolor entrou pelo outro lado: ele é divulgado, então CORES_EXIBIDAS já
 // o coloca no seletor de cores. Sem a entrada aqui, esse link levaria a uma rota
-// que generateStaticParams não gera — link novo apontando para 404.
+// que generateStaticParams não gera — link novo apontando para 404. O mesmo vale
+// para chocolate e merle, que entraram na divulgação em 06/11/2026.
 export const ALL_COLORS = [
   "branco",
+  "chocolate",
   "creme",
   "laranja",
+  "merle",
   "particolor",
   "preto",
   "wolf-sable",
@@ -274,6 +277,81 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       },
     ],
   },
+  chocolate: {
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate — Filhotes",
+    metaDescription:
+      "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate em Bragança Paulista, SP. Pelagem marrom uniforme e registro oficial. Consulte opções e valores individuais.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate",
+    intro:
+      "O Chocolate é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem marrom uniforme. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.",
+    characteristics: [
+      "Pelagem marrom, também chamada de chocolate",
+      "Marrom consta entre as cores previstas no padrão FCI nº 97 da raça",
+      "Temperamento típico da raça — a cor não altera o comportamento",
+      "Tamanho dentro do padrão FCI nº 97 (21 cm ± 3 cm na cernelha (altura))",
+      "A cor não muda o valor de partida",
+    ],
+    faqs: [
+      {
+        question: "Qual o preço do Spitz Alemão Anão (Lulu da Pomerânia) Chocolate?",
+        answer: respostaPrecoCor("chocolate"),
+      },
+      {
+        question: "Chocolate e marrom são a mesma cor?",
+        answer:
+          "Sim. Chocolate é o nome popular da pelagem marrom, que aparece como marrom no padrão FCI nº 97 do Spitz Alemão (Lulu da Pomerânia).",
+      },
+      {
+        question: "O Chocolate tem registro?",
+        answer:
+          "Sim. Todo filhote da By Império Dog sai com registro oficial e pedigree, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
+      },
+      {
+        question: "Como vejo um filhote Chocolate?",
+        answer:
+          "As fotos desta cor ainda não foram publicadas. Fale com a equipe pelo WhatsApp para conhecer as opções atuais no atendimento.",
+      },
+    ],
+  },
+  // A página do Merle cita a CBKC porque o dono confirmou em 06/11/2026 que o
+  // registro sai por ela. Isso não confirma que o padrão FCI aceite a cor, então
+  // aqui não se diz que o Merle está no padrão nem que a cor não pesa na saúde.
+  merle: {
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Merle — Filhotes",
+    metaDescription:
+      "Spitz Alemão Anão (Lulu da Pomerânia) Merle em Bragança Paulista, SP. Pelagem com manchas marmorizadas e registro CBKC. Consulte opções e valores individuais.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Merle",
+    intro:
+      "O Merle é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem com manchas marmorizadas, com registro emitido pela CBKC. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.",
+    characteristics: [
+      "Pelagem com manchas marmorizadas — o desenho é único em cada filhote",
+      "Registro emitido pela CBKC",
+      "Temperamento típico da raça — cada filhote tem a sua individualidade",
+      "Porte de referência da variedade anã: 21 cm ± 3 cm na cernelha (altura)",
+      "A cor não muda o valor de partida",
+    ],
+    faqs: [
+      {
+        question: "Qual o preço do Spitz Alemão Anão (Lulu da Pomerânia) Merle?",
+        answer: respostaPrecoCor("merle"),
+      },
+      {
+        question: "O que é um Lulu da Pomerânia Merle?",
+        answer:
+          "Merle descreve a pelagem com manchas marmorizadas, irregulares, sobre um tom mais claro. O desenho muda de filhote para filhote.",
+      },
+      {
+        question: "O Merle tem registro?",
+        answer:
+          "Sim. O registro do Merle é emitido pela CBKC, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
+      },
+      {
+        question: "Como vejo um filhote Merle?",
+        answer:
+          "As fotos desta cor ainda não foram publicadas. Fale com a equipe pelo WhatsApp para conhecer as opções atuais no atendimento.",
+      },
+    ],
+  },
   "wolf-sable": {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable)",
     metaDescription:
@@ -297,7 +375,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "A By Império Dog trabalha com Cinza-Lobo?",
         answer:
-          "O Cinza-Lobo não faz parte das cores divulgadas pela By Império Dog. As cores oferecidas são Particolor, Laranja, Creme, Preto e Branco, com valores individuais consultados na vitrine e no atendimento.",
+          "O Cinza-Lobo não faz parte das cores divulgadas pela By Império Dog. As cores oferecidas são Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle, com valores individuais consultados na vitrine e no atendimento.",
       },
       {
         question: "O Spitz Cinza-Lobo muda de cor com o tempo?",

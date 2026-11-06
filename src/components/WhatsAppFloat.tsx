@@ -31,6 +31,10 @@ function resolveMessage(pathname: string): string {
     return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Laranja no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/particolor"))
     return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Particolor no site da By Império Dog e gostaria de saber disponibilidade.";
+  if (pathname.startsWith("/filhotes/cor/chocolate"))
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Chocolate no site da By Império Dog e gostaria de saber disponibilidade.";
+  if (pathname.startsWith("/filhotes/cor/merle"))
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Merle no site da By Império Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/sexo/femea"))
     return "Olá! Tenho interesse em uma fêmea de Spitz Alemão Anão (Lulu da Pomerânia). Pode me informar disponibilidade?";
   if (pathname.startsWith("/filhotes/sexo/macho"))

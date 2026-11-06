@@ -227,13 +227,15 @@ describe("regressão comercial", () => {
   // A ordem acompanha a tabela comercial de src/domain/pricing.ts, que é o que
   // o site publica. Particolor entrou na matriz divulgada; este teste existe
   // para que uma mudança de oferta seja deliberada, não silenciosa.
-  it("mantém exatamente as cinco cores divulgadas", () => {
+  it("mantém exatamente as sete cores divulgadas", () => {
     expect([...CORES_DIVULGADAS]).toEqual([
       "particolor",
       "laranja",
       "creme",
       "preto",
       "branco",
+      "chocolate",
+      "merle",
     ]);
   });
 
