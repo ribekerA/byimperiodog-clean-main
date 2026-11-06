@@ -14,10 +14,10 @@ export const metadata: Metadata = {
   // mostrou data nem cor prevista, e "filhotes reserváveis" numa que não lista
   // filhote. `keywords` saiu junto: o Google ignora a meta keywords desde 2009,
   // e nenhuma busca interna deste site lê esse campo.
-  title: "Ninhadas Spitz Alemão: Lista de Interesse",
-  description: "Entre na lista de interesse para ser avisado sobre as próximas ninhadas de Spitz Alemão Anão em Bragança Paulista, SP. Conte qual cor e qual sexo você procura.",
+  title: "Ninhadas Spitz Alemão (Lulu da Pomerânia): Lista de Interesse",
+  description: "Entre na lista de interesse para ser avisado sobre as próximas ninhadas de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Conte qual cor e qual sexo você procura.",
   alternates: { canonical: "/ninhadas" },
-  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Lista de interesse para as próximas ninhadas de Spitz Alemão Anão." },
+  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Lista de interesse para as próximas ninhadas de Spitz Alemão Anão (Lulu da Pomerânia)." },
 };
 
 const _FAQS = [
@@ -52,7 +52,7 @@ export default function NinhadasPage() {
       <script id="ld-ninhadas-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-ninhadas-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <h1 className="text-3xl font-bold">Ninhadas e lista de interesse</h1>
         <p className="text-zinc-600">Entre na lista de interesse para receber aviso por WhatsApp sobre as próximas ninhadas.</p>
       </header>

@@ -15,19 +15,19 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  // Com "(Lulu da Pomerânia)" o title batia em 89 caracteres somando o sufixo
-  // da marca e o Google cortava o estado. O sinônimo continua na description.
-  title: "Filhotes Spitz Alemão Anão no Rio de Janeiro",
+  // O nome da raça vai inteiro por decisão de 06/11/2026, mesmo que o Google
+  // corte o estado no fim do título.
+  title: "Filhotes Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro",
   description:
     // 185 caracteres: o Google cortava a lista de regiões atendidas, que é o
     // que essa página tem de próprio. Reescrita em 159.
-    "Filhotes de Spitz Alemão Anão para famílias do Rio de Janeiro: capital, Niterói, região metropolitana e interior. Transporte sob consulta.",
+    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) para famílias do Rio de Janeiro: capital, Niterói, região metropolitana e interior. Transporte sob consulta.",
   alternates: { canonical: canonical("/filhotes/rio-de-janeiro") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/rio-de-janeiro"),
-    title: "Filhotes de Spitz Alemão Anão no Rio de Janeiro",
-    description: "Spitz Alemão Anão para famílias do RJ. Transporte sob consulta de destino, idade e condições do filhote.",
+    title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro",
+    description: "Spitz Alemão Anão (Lulu da Pomerânia) para famílias do RJ. Transporte sob consulta de destino, idade e condições do filhote.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933 }],
   },
 };
@@ -82,15 +82,15 @@ const faqRJ = [
       "Sim. Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, consulta veterinária antes da entrega, hemograma completo e contrato.",
   },
   {
-    question: "Spitz Alemão Anão se adapta bem ao clima do Rio?",
+    question: "Spitz Alemão Anão (Lulu da Pomerânia) se adapta bem ao clima do Rio?",
     answer:
-      "Sim! Apesar da pelagem farta, o Spitz Alemão Anão se adapta muito bem ao clima carioca. Recomendamos manter o filhote em ambientes frescos nas horas mais quentes e garantir acesso constante a água. A tosa higiênica ajuda no conforto.",
+      "Sim! Apesar da pelagem farta, o Spitz Alemão Anão (Lulu da Pomerânia) se adapta muito bem ao clima carioca. Recomendamos manter o filhote em ambientes frescos nas horas mais quentes e garantir acesso constante a água. A tosa higiênica ajuda no conforto.",
   },
 ];
 
 export default function FilhotesRioDeJaneiroPage() {
   const waText =
-    "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão disponíveis no Rio de Janeiro.";
+    "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis no Rio de Janeiro.";
   const waLink = `${WA_LINK}?text=${encodeURIComponent(waText)}`;
 
   // Uma empresa so no grafo. Cada pagina de estado emitia um LocalBusiness
@@ -101,7 +101,7 @@ export default function FilhotesRioDeJaneiroPage() {
   // pagina e aponta para aquele no, em vez de inventar uma filial.
   const webPageLd = buildWebPageLD({
     path: "/filhotes/rio-de-janeiro",
-    name: "Filhotes de Spitz Alemão Anão no Rio de Janeiro",
+    name: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro",
     // Mesma imagem do og:image desta pagina: primaryImageOfPage e og:image
     // apontando para arquivos diferentes e um sinal contraditorio.
     image: "/spitz-hero-desktop.webp",
@@ -136,14 +136,14 @@ export default function FilhotesRioDeJaneiroPage() {
 
       <div className="bg-[var(--bg)] pb-24 pt-16">
         {/* Hero Section */}
-        <section className="mx-auto max-w-6xl px-5 text-center">
+        <section className="faixa-topo mx-auto max-w-6xl px-5 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-1.5 text-sm font-semibold">
-            <MapPin className="h-4 w-4 text-[var(--brand)]" />
+            <MapPin className="h-4 w-4 text-[var(--marca-texto)]" />
             Atendemos todo o Rio de Janeiro
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
-            Filhotes de Spitz Alemão Anão
-            <span className="block text-[var(--brand)]">no Rio de Janeiro (RJ)</span>
+            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
+            <span className="block text-[var(--marca-texto)]">no Rio de Janeiro (RJ)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
             Spitz Alemão Anão (Lulu da Pomerânia) para famílias da capital, Niterói, região metropolitana e interior do RJ.
@@ -154,10 +154,10 @@ export default function FilhotesRioDeJaneiroPage() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "gap-2 bg-[#25D366] hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal bg-[#25D366] py-2 text-center hover:bg-[#20BA5A]")}
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Falar com a Criadora
+              Vamos conversar sobre o seu novo amor
             </a>
             <Link href="#vitrine" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
               Ver a Vitrine de Filhotes
@@ -176,7 +176,7 @@ export default function FilhotesRioDeJaneiroPage() {
                 key={city}
                 className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4"
               >
-                <CheckCircle className="h-5 w-5 flex-shrink-0 text-[var(--brand)]" />
+                <CheckCircle className="h-5 w-5 flex-shrink-0 text-[var(--marca-texto)]" />
                 <span className="font-medium text-[var(--text)]">{city}</span>
               </div>
             ))}
@@ -188,7 +188,7 @@ export default function FilhotesRioDeJaneiroPage() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Truck className="h-8 w-8 text-[var(--brand)]" />
+                <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
               <p className="text-sm text-[var(--text-muted)]">
@@ -197,21 +197,21 @@ export default function FilhotesRioDeJaneiroPage() {
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Shield className="h-8 w-8 text-[var(--brand)]" />
+                <Shield className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Registro oficial</h3>
               <p className="text-sm text-[var(--text-muted)]">Todos os filhotes com registro oficial</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Star className="h-8 w-8 text-[var(--brand)]" />
+                <Star className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Criação Especializada</h3>
-              <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão como única raça, em Bragança Paulista (SP)</p>
+              <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão (Lulu da Pomerânia) como única raça, em Bragança Paulista (SP)</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Phone className="h-8 w-8 text-[var(--brand)]" />
+                <Phone className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-muted)]">Contato direto com a criadora pelo WhatsApp</p>
@@ -232,9 +232,8 @@ export default function FilhotesRioDeJaneiroPage() {
           {/* PuppiesGrid busca o catálogo no Supabase pelo navegador, então o
               HTML servido nestas três páginas saía sem filhote nenhum: o Google
               indexava uma seção vazia e o visitante via a página em branco até o
-              fetch responder. StaticCatalog é o mesmo componente de /filhotes e
-              já chega renderizado do servidor. */}
-          <StaticCatalog puppies={puppiesPublicados as any[]} headingLevel={2} />
+              fetch responder. StaticCatalog já chega renderizado do servidor. */}
+          <StaticCatalog puppies={puppiesPublicados as any[]} />
         </section>
 
         {/* FAQ */}
@@ -250,7 +249,7 @@ export default function FilhotesRioDeJaneiroPage() {
               >
                 <summary className="flex cursor-pointer items-start justify-between gap-4 font-semibold text-[var(--text)] marker:content-none">
                   <span>{item.question}</span>
-                  <span className="flex-shrink-0 text-[var(--brand)] transition-transform group-open:rotate-180">▼</span>
+                  <span className="flex-shrink-0 text-[var(--marca-texto)] transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <p className="mt-4 text-[var(--text-muted)]">{item.answer}</p>
               </details>
@@ -261,7 +260,7 @@ export default function FilhotesRioDeJaneiroPage() {
         {/* CTA Final */}
         <section className="mx-auto mt-20 max-w-4xl px-5 text-center">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
-            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão no Rio de Janeiro?</h2>
+            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão (Lulu da Pomerânia) no Rio de Janeiro?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-muted)]">
               Fale com nossa equipe e consulte as opções de transporte para sua cidade no RJ
             </p>

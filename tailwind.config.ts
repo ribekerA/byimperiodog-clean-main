@@ -1,6 +1,18 @@
 import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 
+// Cada degrau aponta para uma variavel. Os valores e os papeis (fundo, texto,
+// borda) estao em app/globals.css, na parte do tema.
+const escala = (variavel: string) =>
+  Object.fromEntries(
+    [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].map((n) => [n, `rgb(var(--${variavel}-${n}) / <alpha-value>)`]),
+  );
+const textoZinc = escala("tz");
+const textoEmerald = escala("te");
+const bordaZinc = escala("bz");
+const bordaEmerald = escala("be");
+const fundoBranco = "rgb(var(--branco-fundo) / <alpha-value>)";
+
 export default {
   content: [
     "./app/**/*.{ts,tsx}",
@@ -8,7 +20,15 @@ export default {
   ],
 theme: {
     extend: {
+      backgroundColor: { white: fundoBranco },
+      gradientColorStops: { white: fundoBranco },
+      textColor: { zinc: textoZinc, emerald: textoEmerald, brand: "var(--marca-texto)" },
+      placeholderColor: { zinc: textoZinc, emerald: textoEmerald },
+      borderColor: { DEFAULT: "rgb(var(--borda-padrao) / <alpha-value>)", zinc: bordaZinc, emerald: bordaEmerald },
+      ringColor: { zinc: bordaZinc, emerald: bordaEmerald },
+      outlineColor: { zinc: bordaZinc, emerald: textoEmerald },
       colors: {
+        // Os valores abaixo agora moram em --re-* e --rz-* (app/globals.css).
         // O emerald-600 do Tailwind (#059669) reprova em WCAG AA nos dois
         // papeis em que este site o usa: como texto sobre fundo claro mede
         // 3,48:1 e como fundo de botao com texto branco mede 3,77:1 -- o
@@ -18,7 +38,7 @@ theme: {
         // por cima e no minimo 4,74:1 como texto sobre qualquer fundo claro
         // do site. Continua mais claro que o emerald-700 (#047857), entao
         // todo `hover:bg-emerald-700` segue visivelmente mais escuro.
-        emerald: { 600: "#047c59" },
+        emerald: escala("e"), // #047c59 no 600
 
         // Mesmo problema no cinza dos textos secundarios. O zinc-500 do
         // Tailwind (#71717a) mede 4,83:1 sobre branco puro, mas o site quase
@@ -26,7 +46,7 @@ theme: {
         // #eff6ff, #fef2f2. Sobre esses fundos ele cai para 4,41-4,45:1 e
         // reprova por uma casa decimal. #6b6b73 e o mesmo cinza quatro pontos
         // mais escuro: 4,81:1 no pior fundo claro do site.
-        zinc: { 500: "#6b6b73" },
+        zinc: escala("z"), // #6b6b73 no 500
         brand: "var(--brand)",
         brandForeground: "var(--brand-foreground)",
         brandContrast: "var(--brand-contrast)",
@@ -129,9 +149,9 @@ theme: {
         '.text-on-whatsapp': { color: 'var(--whatsapp-contrast)' },
         '.text-muted-strong': { color: 'var(--text-muted)', fontWeight: '500' },
         /* Focus ring utilities (AA): use outline to avoid box shifts */
-        '.focus-ring': { outline: '2px solid var(--brand)', outlineOffset: '2px' },
+        '.focus-ring': { outline: '2px solid var(--marca-texto)', outlineOffset: '2px' },
         '.focus-ring-accent': { outline: '2px solid var(--accent)', outlineOffset: '2px' },
-        '.focus-ring-inset': { boxShadow: '0 0 0 2px var(--surface), 0 0 0 4px var(--brand)' },
+        '.focus-ring-inset': { boxShadow: '0 0 0 2px var(--surface), 0 0 0 4px var(--marca-texto)' },
       })
       addVariant('focus-visible', '&:focus-visible')
     }

@@ -85,7 +85,7 @@ export default function ConsentBanner() {
   return (
       <div
         ref={bannerRef}
-        className="fixed bottom-0 left-0 right-0 z-[9999] max-h-[85dvh] overflow-y-auto bg-white border-t border-gray-200 shadow-2xl"
+        className="fixed bottom-0 left-0 right-0 z-[9999] max-h-[85dvh] overflow-y-auto bg-white border-t border-zinc-200 shadow-2xl"
         role="dialog"
         aria-labelledby="consent-title"
         aria-describedby="cookie-consent-description"
@@ -97,10 +97,10 @@ export default function ConsentBanner() {
               <div className="flex items-start gap-3 flex-1">
                 <Cookie className="h-6 w-6 text-brand shrink-0 mt-1" aria-hidden="true" />
                 <div>
-                  <h2 id="consent-title" className="text-lg font-semibold text-gray-900">
+                  <h2 id="consent-title" className="text-lg font-semibold text-zinc-900">
                     Cookies e privacidade
                   </h2>
-                  <p id="cookie-consent-description" className="mt-1 text-sm text-gray-600 leading-relaxed">
+                  <p id="cookie-consent-description" className="mt-1 text-sm text-zinc-600 leading-relaxed">
                     Cookies opcionais de análise e marketing só com sua escolha. Aceite, rejeite ou personalize.{' '}
                     <Link
                       href="/politica-de-privacidade"
@@ -116,14 +116,14 @@ export default function ConsentBanner() {
               <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
                 <button
                   onClick={() => setShowSettings(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
                 >
                   <Settings className="h-4 w-4" aria-hidden="true" />
                   Preferências
                 </button>
                 <button
                   onClick={handleRejectAll}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
+                  className="px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
                 >
                   Rejeitar
                 </button>
@@ -139,30 +139,30 @@ export default function ConsentBanner() {
             // Configurações detalhadas
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h2 id="consent-title" className="text-lg font-semibold text-gray-900">
+                <h2 id="consent-title" className="text-lg font-semibold text-zinc-900">
                   Preferências de Cookies
                 </h2>
                 <button
                   onClick={() => setShowSettings(false)}
-                  className="p-2 text-gray-500 hover:text-gray-700 rounded-lg hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                  className="p-2 text-zinc-500 hover:text-zinc-700 rounded-lg hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                   aria-label="Fechar configurações"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
-              <p id="cookie-consent-description" className="text-sm text-gray-600">Você pode mudar sua escolha a qualquer momento. Alterar permissões de tags já carregadas recarrega a página para aplicar a preferência.</p>
+              <p id="cookie-consent-description" className="text-sm text-zinc-600">Você pode mudar sua escolha a qualquer momento. Alterar permissões de tags já carregadas recarrega a página para aplicar a preferência.</p>
               <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-2">
                 {/* Necessários */}
-                <div className="flex items-start justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="flex items-start justify-between p-4 bg-zinc-50 rounded-lg border border-zinc-200">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-gray-900">Necessários</h3>
-                      <span className="text-xs px-2 py-0.5 bg-gray-200 text-gray-700 rounded-full">
+                      <h3 className="font-semibold text-zinc-900">Necessários</h3>
+                      <span className="text-xs px-2 py-0.5 bg-zinc-200 text-zinc-700 rounded-full">
                         Sempre ativo
                       </span>
                     </div>
-                    <p className="mt-1 text-sm text-gray-600">
+                    <p className="mt-1 text-sm text-zinc-600">
                       Essenciais para o funcionamento do site (autenticação, carrinho, segurança).
                     </p>
                   </div>
@@ -176,10 +176,10 @@ export default function ConsentBanner() {
                 </div>
 
                 {/* Funcionais */}
-                <div className="flex items-start justify-between p-4 bg-white rounded-lg border border-gray-200">
+                <div className="flex items-start justify-between p-4 bg-white rounded-lg border border-zinc-200">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">Funcionais</h3>
-                    <p className="mt-1 text-sm text-gray-600">
+                    <h3 className="font-semibold text-zinc-900">Funcionais</h3>
+                    <p className="mt-1 text-sm text-zinc-600">
                       Lembram suas preferências (tema, idioma) para melhorar sua experiência.
                     </p>
                   </div>
@@ -190,7 +190,7 @@ export default function ConsentBanner() {
                   >
                     <div
                       className={`relative w-11 h-6 rounded-full transition ${
-                        preferences.functional ? 'bg-brand' : 'bg-gray-300'
+                        preferences.functional ? 'bg-brand' : 'bg-zinc-300'
                       }`}
                     >
                       <div
@@ -203,10 +203,10 @@ export default function ConsentBanner() {
                 </div>
 
                 {/* Analytics */}
-                <div className="flex items-start justify-between p-4 bg-white rounded-lg border border-gray-200">
+                <div className="flex items-start justify-between p-4 bg-white rounded-lg border border-zinc-200">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">Analytics</h3>
-                    <p className="mt-1 text-sm text-gray-600">
+                    <h3 className="font-semibold text-zinc-900">Analytics</h3>
+                    <p className="mt-1 text-sm text-zinc-600">
                       Nos ajudam a entender como você usa o site (Google Analytics, Hotjar, Clarity).
                     </p>
                   </div>
@@ -217,7 +217,7 @@ export default function ConsentBanner() {
                   >
                     <div
                       className={`relative w-11 h-6 rounded-full transition ${
-                        preferences.analytics ? 'bg-brand' : 'bg-gray-300'
+                        preferences.analytics ? 'bg-brand' : 'bg-zinc-300'
                       }`}
                     >
                       <div
@@ -230,10 +230,10 @@ export default function ConsentBanner() {
                 </div>
 
                 {/* Marketing */}
-                <div className="flex items-start justify-between p-4 bg-white rounded-lg border border-gray-200">
+                <div className="flex items-start justify-between p-4 bg-white rounded-lg border border-zinc-200">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">Marketing</h3>
-                    <p className="mt-1 text-sm text-gray-600">
+                    <h3 className="font-semibold text-zinc-900">Marketing</h3>
+                    <p className="mt-1 text-sm text-zinc-600">
                       Permitem anúncios personalizados (Facebook, TikTok, Pinterest, LinkedIn).
                     </p>
                   </div>
@@ -244,7 +244,7 @@ export default function ConsentBanner() {
                   >
                     <div
                       className={`relative w-11 h-6 rounded-full transition ${
-                        preferences.marketing ? 'bg-brand' : 'bg-gray-300'
+                        preferences.marketing ? 'bg-brand' : 'bg-zinc-300'
                       }`}
                     >
                       <div
@@ -257,10 +257,10 @@ export default function ConsentBanner() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-gray-200">
+              <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-zinc-200">
                 <button
                   onClick={handleRejectAll}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
+                  className="px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
                 >
                   Rejeitar Todos
                 </button>

@@ -310,7 +310,7 @@ export default function WizardPage() {
               onChange={(e) => setTopic(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && topic.trim() && handleOutline()}
               className={inputCls}
-              placeholder="Ex.: Guia completo de cuidados com Spitz Alemão Anão"
+              placeholder="Ex.: Guia completo de cuidados com Spitz Alemão Anão (Lulu da Pomerânia)"
             />
           </Field>
           <div className="flex items-center gap-2.5">

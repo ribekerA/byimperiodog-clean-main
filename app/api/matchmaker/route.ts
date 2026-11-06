@@ -15,6 +15,7 @@ import OpenAI from "openai";
 
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { RESPOSTA_MACHO_VS_FEMEA } from "@/domain/pricing";
 import { formatPrice } from "@/lib/catalog-utils";
 import { corpoJson, limiteDeTaxa } from "@/lib/limitePublico";
 
@@ -49,11 +50,11 @@ ${buildCatalogTable()}
 
 SOBRE AS CORES (aparência e preço — nunca temperamento, nunca estoque):
 - A cor da pelagem não define temperamento, docilidade nem adaptação a crianças.
-- Os valores exibidos são fechados, sem o prefixo "a partir de".
-- Branco: pelagem de aparência branca e uniforme; a fêmea publicada custa R$ 8.500.
-- Creme: pelagem cor de marfim; macho por R$ 7.500 e fêmea por R$ 8.500.
-- Laranja: a cor clássica da raça; as duas fêmeas publicadas custam R$ 8.500.
-- Preto: macho por R$ 7.500 e fêmea por R$ 8.500.
+- ${RESPOSTA_MACHO_VS_FEMEA}
+- Branco: pelagem de aparência branca e uniforme.
+- Creme: pelagem cor de marfim.
+- Laranja: a cor clássica da raça.
+- Preto: pelagem preta.
 
 FRETE/ENTREGA: o tutor retira em Bragança Paulista (SP) ou contrata transporte especializado; valor e prazo dependem do destino
 PARCELAMENTO: consultar condições com a equipe via WhatsApp
@@ -65,7 +66,7 @@ PARCELAMENTO: consultar condições com a equipe via WhatsApp
 // assinou "By Império Dog", e quem continua a conversa no WhatsApp é a
 // criadora. Um nome próprio inventado cria uma pessoa que a família nunca vai
 // encontrar. O chat passa a falar em nome do canil.
-const SYSTEM_PROMPT = `Você responde pelo chat do site da By Império Dog — um canil especializado em Spitz Alemão Anão em Bragança Paulista, SP, em atividade desde ${FOUNDING_YEAR}, que atende famílias em todo o Brasil.
+const SYSTEM_PROMPT = `Você responde pelo chat do site da By Império Dog — um canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, em atividade desde ${FOUNDING_YEAR}, que atende famílias em todo o Brasil.
 
 Você conversa com pessoas interessadas em levar um filhote para casa. Sua missão é tirar todas as dúvidas com clareza e, no momento certo, convidar a pessoa a deixar o contato para continuar a conversa com a criadora pelo WhatsApp.
 

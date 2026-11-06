@@ -12,6 +12,6 @@ describe('Preços comerciais nos artigos', () => {
   });
   it('usa o valor atual da laranja fêmea no FAQ', () => {
     render(<PrecoFilhote cor="laranja" sexo="femea" />);
-    expect(screen.getByText('R$ 7.500')).toBeInTheDocument();
+    expect(screen.getByText('R$ 6.500')).toBeInTheDocument();
   });
 });

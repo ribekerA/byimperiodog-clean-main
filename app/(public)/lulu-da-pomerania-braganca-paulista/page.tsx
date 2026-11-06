@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Lulu da Pomerânia em Bragança Paulista SP — By Império Dog",
-    description: `Criação familiar de Spitz Alemão Anão desde ${FOUNDING_YEAR}. Atende Bragança Paulista e todo o Brasil.`,
+    description: `Criação familiar de Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Atende Bragança Paulista e todo o Brasil.`,
     type: "website",
   },
 };
@@ -56,7 +56,7 @@ const FAQS = [
       "A possibilidade e o formato da visita são combinados diretamente com a criadora pelo WhatsApp. Quando a visita não for viável, o interessado pode solicitar documentação e outras formas de verificação antes de decidir.",
   },
   {
-    question: "Bragança Paulista tem outros canis de Spitz Alemão?",
+    question: "Bragança Paulista tem outros canis de Spitz Alemão (Lulu da Pomerânia)?",
     answer:
       `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e mentoria pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
   },
@@ -79,7 +79,7 @@ export default function LuluBragancaPage() {
       <script id="ld-bp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-bp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Bragança Paulista · Interior de SP</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Lulu da Pomerânia em Bragança Paulista, SP
@@ -159,7 +159,7 @@ export default function LuluBragancaPage() {
 
       <RelatedPages links={[
         { label: "Canil — Interior de SP",      href: "/canil-spitz-alemao-interior-sp", desc: "Cidades atendidas no interior paulista" },
-        { label: "Spitz Alemão Anão — A Raça",  href: "/spitz-alemao",                   desc: "Características, cores e temperamento" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia) — A Raça",  href: "/spitz-alemao",                   desc: "Características, cores e temperamento" },
         { label: "Ver a Vitrine de Filhotes",   href: "/filhotes",                        desc: "Fotos reais por cor e sexo, com o valor de partida" },
       ]} />
 

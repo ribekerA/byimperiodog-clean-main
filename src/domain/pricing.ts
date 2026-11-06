@@ -16,8 +16,10 @@
  * scripts/content-guard.mjs, que roda no prebuild e derruba o build se algum
  * texto divergir.
  *
- * Regra vigente: cada referência possui preço individual em PRECO_POR_SLUG.
- * A matriz legada permanece por compatibilidade interna, não como regra de oferta.
+ * Regra vigente, definida pela responsável em 05/11/2026: todo macho parte de
+ * R$ 4.500 e toda fêmea parte de R$ 6.500, no PIX, em qualquer cor. A matriz e
+ * PRECO_POR_SLUG repetem esses dois valores para que card, ficha, JSON-LD,
+ * parcelamento e llms.txt publiquem o mesmo número.
  */
 
 /**
@@ -45,16 +47,20 @@ export type LinhaDaTabela = {
   femea: number;
 };
 
+/** Os dois valores públicos, em centavos. Decisão da responsável de 05/11/2026. */
+export const PISO_MACHO = 450000;
+export const PISO_FEMEA = 650000;
+
 /**
  * A matriz. Valores em centavos, na ordem em que a tabela é apresentada ao
- * visitante (do mais acessível ao mais caro).
+ * visitante. Desde 05/11/2026 a cor não muda o valor.
  */
 export const TABELA_DE_PRECOS: Record<CorDivulgada, LinhaDaTabela> = {
-  particolor: { label: "Particolor", macho: 550000, femea: 650000 },
-  laranja: { label: "Laranja", macho: 650000, femea: 750000 },
-  creme: { label: "Creme", macho: 750000, femea: 850000 },
-  preto: { label: "Preto", macho: 850000, femea: 950000 },
-  branco: { label: "Branco", macho: 950000, femea: 1050000 },
+  particolor: { label: "Particolor", macho: PISO_MACHO, femea: PISO_FEMEA },
+  laranja: { label: "Laranja", macho: PISO_MACHO, femea: PISO_FEMEA },
+  creme: { label: "Creme", macho: PISO_MACHO, femea: PISO_FEMEA },
+  preto: { label: "Preto", macho: PISO_MACHO, femea: PISO_FEMEA },
+  branco: { label: "Branco", macho: PISO_MACHO, femea: PISO_FEMEA },
 };
 
 /**
@@ -83,31 +89,22 @@ export function precoDeCadastro(cor?: string | null, sexo?: string | null): numb
 }
 
 /**
- * Valores definidos para páginas específicas da vitrine.
+ * O valor publicado de cada página da vitrine.
  *
- * O slug identifica o preço individual. Cor e sexo não determinam preços novos.
- * Card, página e validações usam exatamente o mesmo número cadastrado.
+ * O slug continua sendo a lista de ofertas: referência que sai de divulgação não
+ * tem entrada aqui e não recebe preço. O valor é o do sexo declarado no slug.
  */
-// Revisão 14/09/2026: as quatro entradas anteriores repetiam a matriz antiga
-// em páginas de REFERÊNCIA, não ofertas individuais com desconto. A nova
-// matriz oficial as substitui. O mecanismo permanece para exceções genuínas.
 export const PRECO_POR_SLUG: Readonly<Record<string, number>> = {
-  // Macho branco: preço individual informado pela responsável em 05/11/2026.
-  "spitz-alemao-anao-branco-macho": 450000,
-  // Revisado pela responsável em 05/11/2026 (era 750000).
-  "spitz-alemao-anao-branco-femea": 650000,
-  // Fêmea preta do lote fotografado em 26/09/2026.
-  "spitz-alemao-anao-preto-femea": 950000,
-  // Revisado pela responsável em 05/11/2026 (era 850000).
-  "spitz-alemao-anao-creme-femea": 650000,
-  "spitz-alemao-anao-laranja-femea": 750000,
-  "spitz-alemao-anao-laranja-femea-laco-rosa": 750000,
-  // Revisado pela responsável em 05/11/2026 (era 750000).
-  "spitz-alemao-anao-creme-macho": 550000,
-  // Revisado pela responsável em 05/11/2026 (era 850000).
-  "spitz-alemao-anao-preto-macho": 650000,
-  // Revisado pela responsável em 05/11/2026 (era 650000).
-  "spitz-alemao-anao-laranja-macho": 450000,
+  "spitz-alemao-anao-branco-macho": PISO_MACHO,
+  "spitz-alemao-anao-branco-femea": PISO_FEMEA,
+  "spitz-alemao-anao-branco-femea-2": PISO_FEMEA,
+  "spitz-alemao-anao-preto-femea": PISO_FEMEA,
+  "spitz-alemao-anao-creme-femea": PISO_FEMEA,
+  "spitz-alemao-anao-laranja-femea": PISO_FEMEA,
+  "spitz-alemao-anao-laranja-femea-laco-rosa": PISO_FEMEA,
+  "spitz-alemao-anao-creme-macho": PISO_MACHO,
+  "spitz-alemao-anao-preto-macho": PISO_MACHO,
+  "spitz-alemao-anao-laranja-macho": PISO_MACHO,
 };
 
 /** Preço individual cadastrado; ausência de valor não vira preço por cor/sexo. */
@@ -140,15 +137,71 @@ export function aPartirDe(cor: CorDivulgada): number {
  *
  * Recebe centavos porque quem chama já tem o valor da combinação em mãos
  * (`precoDe`, ou o `priceCents` da vitrine, que o pricing-guard confere contra
- * a tabela). O texto é montado sobre {@link formatarPreco} pelo mesmo motivo
- * de sempre: um único formato de "R$" no site inteiro.
+ * a tabela). O texto é montado sobre {@link formatarPrecoComCentavos} pelo mesmo
+ * motivo de sempre: um único formato de preço publicado no site inteiro.
  */
 export function textoAPartirDe(cents: number): string {
-  return `A partir de ${formatarPreco(cents)}`;
+  return `${PREFIXO_A_PARTIR_DE} ${formatarPrecoComCentavos(cents)}`;
 }
 
 /**
- * "A partir de R$ 6.500 no PIX" — a forma como o preço aparece na vitrine.
+ * As três partes da frase, para quem precisa dar pesos visuais diferentes.
+ *
+ * A referência aprovada em 05/11/2026 desenha o card com o número grande em
+ * ouro e "no PIX" numa linha miúda embaixo. Montar isso exigia escrever
+ * "A partir de" e "no PIX" dentro do componente — e aí passariam a existir
+ * duas origens para a mesma frase, que é exatamente a divergência que este
+ * módulo foi criado para impedir (o card e a ficha já publicaram o mesmo
+ * preço com separadores diferentes). Aqui as partes e o texto corrido saem
+ * das mesmas duas constantes; tests/unit/pisos-publicados.test.ts cobra que
+ * juntar as partes com um espaço devolva exatamente textoAPartirDeNoPix,
+ * que é a forma que o portão e2e exige na tela.
+ */
+export const PREFIXO_A_PARTIR_DE = "A partir de";
+export const SUFIXO_NO_PIX = "no PIX";
+
+/**
+ * "R$ 4.500,00" — com centavos, como o preço aparece no card, na ficha e na home.
+ *
+ * Montado à mão, e não com Intl style "currency", pela razão de sempre: aquele
+ * formato separa "R$" do número com espaço sem quebra (U+00A0) e nenhuma
+ * checagem de texto consegue ligar os dois valores.
+ * tests/unit/price-format-guard.test.ts cobre essa proibição.
+ */
+export function formatarPrecoComCentavos(cents: number): string {
+  const inteiro = Math.floor(cents / 100).toLocaleString("pt-BR");
+  const centavos = String(cents % 100).padStart(2, "0");
+  return `R$ ${inteiro},${centavos}`;
+}
+
+export function partesDoPrecoNoPix(cents: number): {
+  prefixo: string;
+  valor: string;
+  sufixo: string;
+} {
+  return { prefixo: PREFIXO_A_PARTIR_DE, valor: formatarPrecoComCentavos(cents), sufixo: SUFIXO_NO_PIX };
+}
+
+/**
+ * As partes do preço no cartão de /filhotes: "A partir de", "R$ 6.500", "no Pix".
+ *
+ * É o desenho aprovado em 06/11/2026 para essa página, sem centavos. Só ela usa
+ * esta forma; a home, as fichas e os demais cartões seguem com {@link partesDoPrecoNoPix}.
+ * O valor continua sendo o mesmo número, e tests/e2e/smoke.spec.ts cobra a frase.
+ */
+export function partesDoPrecoDaVitrine(cents: number): {
+  prefixo: string;
+  valor: string;
+  sufixo: string;
+} {
+  return { prefixo: PREFIXO_A_PARTIR_DE, valor: formatarPreco(cents), sufixo: "no Pix" };
+}
+
+/**
+ * "A partir de R$ 6.500,00 no PIX" — a forma como o preço aparece na vitrine.
+ * Os centavos entraram por pedido da responsável em 06/11/2026, junto com a
+ * retirada da linha "ou 3x": o cartão destaca só o valor no PIX, e parcelamento
+ * se confirma no atendimento.
  *
  * A condição de pagamento passou a ser publicada por decisão da responsável em
  * 05/11/2026: o valor cadastrado é o do PIX, e dizer isso evita que alguém
@@ -161,17 +214,126 @@ export function textoAPartirDe(cents: number): string {
  * cada um escrever o seu próprio texto.
  */
 export function textoAPartirDeNoPix(cents: number): string {
-  return `${textoAPartirDe(cents)} no PIX`;
+  return `${textoAPartirDe(cents)} ${SUFIXO_NO_PIX}`;
 }
 
-const TODOS_OS_VALORES = Object.values(TABELA_DE_PRECOS).flatMap((linha) => [
-  linha.macho,
-  linha.femea,
-]);
+/**
+ * Fração do valor individual que a reserva representa, conforme contrato.
+ *
+ * Autorizada pela responsável em 05/11/2026 para publicação. Fica como número
+ * porque o percentual e o valor em reais têm de sair da mesma fonte: a reserva
+ * escrita "50%" num lugar e calculada em outro é exatamente o tipo de par que
+ * já divergiu neste projeto.
+ */
+export const RESERVA_FRACAO = 0.5;
+
+/** Valor da reserva daquele filhote, em centavos. */
+export function reservaDe(cents: number): number {
+  return Math.round(cents * RESERVA_FRACAO);
+}
 
 /**
- * Faixa pública. Derivada da matriz, nunca escrita na mão: se um valor da
- * tabela mudar, a faixa acompanha no mesmo commit.
+ * "Reserva: R$ 2.250 — 50% do valor, conforme contrato".
+ *
+ * Diz de quem é a regra. A reserva não é uma condição que o site oferece por
+ * conta própria: ela está no contrato de compra e venda, e a frase aponta para
+ * lá em vez de soar como promoção.
+ */
+export function textoReserva(cents: number): string {
+  const percentual = Math.round(RESERVA_FRACAO * 100);
+  return `Reserva: ${formatarPreco(reservaDe(cents))} — ${percentual}% do valor, conforme contrato`;
+}
+
+/**
+ * O sexo que o próprio slug da oferta declara.
+ *
+ * Não existe campo de sexo em PRECO_POR_SLUG, e inventar um segundo cadastro
+ * para repetir o que o slug já diz seria criar a divergência que este módulo
+ * existe para impedir. A ordem do teste importa: "-femea-laco-rosa" contém
+ * "-femea" e nenhum slug mistura os dois.
+ */
+function sexoDaOferta(slug: string): Sexo | null {
+  if (slug.includes("-femea")) return "femea";
+  if (slug.includes("-macho")) return "macho";
+  return null;
+}
+
+/**
+ * As ofertas que existem hoje — uma linha por filhote com preço cadastrado.
+ *
+ * PRECO_POR_SLUG é a lista de ofertas reais: as duas referências que saíram de
+ * divulgação não têm entrada aqui. Por isso é desta lista, e não da matriz
+ * legada, que sai qualquer "a partir de" publicado.
+ */
+export const OFERTAS_ATUAIS = Object.entries(PRECO_POR_SLUG).map(([slug, cents]) => ({
+  slug,
+  cents,
+  sexo: sexoDaOferta(slug),
+}));
+
+/**
+ * Menor valor que existe hoje para o sexo — ou `null` quando não há oferta.
+ *
+ * Isto é o que autoriza a frase "Machos a partir de R$ 4.500 no PIX" na
+ * vitrine: o número é o mínimo das ofertas vigentes, calculado a cada build.
+ * Se o último macho daquele valor sair da lista, a frase sobe sozinha; se não
+ * sobrar macho nenhum, a função devolve `null` e o bloco não é publicado, em
+ * vez de anunciar um piso que ninguém pode cumprir.
+ */
+export function pisoPorSexo(sexo: Sexo): number | null {
+  const valores = OFERTAS_ATUAIS.filter((o) => o.sexo === sexo).map((o) => o.cents);
+  return valores.length > 0 ? Math.min(...valores) : null;
+}
+
+/**
+ * O slug de uma oferta que está exatamente no piso daquele sexo.
+ *
+ * Existe para que o cartão de piso aponte para um filhote de verdade em vez de
+ * abrir um link genérico: quem lê "a partir de R$ 4.500" pode clicar e ver o
+ * animal que custa isso. Normalmente mais de um filhote empata no piso; a
+ * escolha é a ordem de PRECO_POR_SLUG, estável entre builds, e o cartão diz
+ * "um dos filhotes neste valor" justamente porque não é o único.
+ *
+ * Devolve `null` quando não há oferta — e então o cartão não é publicado.
+ */
+function ofertaNoPiso(sexo: Sexo): string | null {
+  const piso = pisoPorSexo(sexo);
+  if (piso === null) return null;
+  return OFERTAS_ATUAIS.find((o) => o.sexo === sexo && o.cents === piso)?.slug ?? null;
+}
+
+/**
+ * Os dois pisos, já com rótulo e texto, na ordem em que a vitrine os mostra.
+ *
+ * Sai pronto daqui porque o mesmo par aparece na home e em /filhotes, e um par
+ * de números repetido em dois componentes é um par de números que divergem.
+ * Sexo sem oferta não gera cartão.
+ */
+export const PISOS_POR_SEXO = (["macho", "femea"] as const)
+  .map((sexo) => ({
+    sexo,
+    rotulo: sexo === "macho" ? "Machos" : "Fêmeas",
+    cents: pisoPorSexo(sexo),
+    slug: ofertaNoPiso(sexo),
+  }))
+  .filter(
+    (piso): piso is { sexo: Sexo; rotulo: string; cents: number; slug: string } =>
+      piso.cents !== null && piso.slug !== null,
+  );
+
+const TODOS_OS_VALORES = OFERTAS_ATUAIS.map((oferta) => oferta.cents);
+
+/**
+ * Faixa pública. Derivada das ofertas vigentes, nunca escrita na mão.
+ *
+ * Até 05/11/2026 esta faixa nascia de TABELA_DE_PRECOS, a matriz legada por
+ * cor e sexo — e a matriz deixou de ser regra de oferta quando cada filhote
+ * passou a ter preço individual. O resultado é que o site anunciava
+ * "R$ 5.500 – R$ 10.500" em cinco páginas e no llms.txt, nas duas pontas
+ * erradas, enquanto a vitrine praticava R$ 4.500 a R$ 9.500. Os dois extremos
+ * eram valores que ninguém podia cobrar: o mínimo afastava quem cabia, o
+ * máximo prometia um teto acima do praticado, e o JSON-LD levava os dois ao
+ * Google. Agora a faixa é o mínimo e o máximo do que está à venda.
  */
 export const FAIXA_PUBLICA = {
   minCents: Math.min(...TODOS_OS_VALORES),
@@ -206,10 +368,11 @@ export const FAIXA_PUBLICA_TEXTO = `${formatarPreco(FAIXA_PUBLICA.minCents)} a $
  */
 
 
+const TEXTO_DOS_PISOS = `Os machos partem de ${formatarPreco(PISO_MACHO)} e as fêmeas de ${formatarPreco(PISO_FEMEA)} no PIX`;
+
 export const RESPOSTA_QUANTO_CUSTA =
-  "Cada filhote possui seu preço individual, conforme suas características e a oferta atual. " +
-  "Consulte o valor na ficha do filhote e confirme disponibilidade e condições de pagamento no atendimento. " +
-  "Não há preço fixo ou mínimo obrigatório por cor ou sexo.";
+  `${TEXTO_DOS_PISOS}, em qualquer cor. ` +
+  "Consulte a ficha do filhote e confirme disponibilidade e condições de pagamento no atendimento.";
 
 /**
  * Diferença entre fêmea e macho na mesma cor, em centavos — ou `null` quando a
@@ -243,8 +406,8 @@ export const DIFERENCA_FEMEA_MACHO: number | null = (() => {
  * de partida por sexo.
  */
 export const RESPOSTA_MACHO_VS_FEMEA =
-  "Não existe diferença fixa de preço entre machos e fêmeas. O valor é individual: " +
-  "uma fêmea não é necessariamente mais cara que um macho. Compare as fichas e a oferta atual no atendimento.";
+  `${TEXTO_DOS_PISOS}. A cor não muda esse valor de partida. ` +
+  "Confirme disponibilidade e condições de pagamento no atendimento.";
 
 /**
  * Resposta oficial sobre o preto.
@@ -261,8 +424,9 @@ export const RESPOSTA_MACHO_VS_FEMEA =
  * então a frase se multiplicava por três.
  */
 export function respostaPrecoCor(cor: CorDivulgada): string {
-  return `O preço do Spitz Alemão Anão ${TABELA_DE_PRECOS[cor].label.toLowerCase()} varia conforme o filhote e a oferta atual. ` +
-    "A cor não estabelece um valor fixo ou mínimo. Consulte a ficha individual e confirme disponibilidade e condições no atendimento.";
+  const { label, macho, femea } = TABELA_DE_PRECOS[cor];
+  return `O Spitz Alemão Anão (Lulu da Pomerânia) ${label.toLowerCase()} parte de ${formatarPreco(macho)} nos machos e de ${formatarPreco(femea)} nas fêmeas, no PIX. ` +
+    "Consulte a ficha do filhote e confirme disponibilidade e condições no atendimento.";
 }
 export const RESPOSTA_PRETO = respostaPrecoCor("preto");
 

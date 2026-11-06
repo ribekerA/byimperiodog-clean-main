@@ -55,6 +55,8 @@ const CENAS: Record<string, ClientPhotoScene> = {
   "cliente8-byimperiodog.jpeg": { cores: ["preto"], caes: 1 },
   "cliente9-byimperiodog.jpeg": { cores: ["laranja"], caes: 1 },
   "fernanda.jpeg": { cores: ["laranja"], caes: 1 },
+  "jeeh-souza-theo-2.webp": { cores: ["preto"], caes: 1 },
+  "jeeh-souza-theo.webp": { cores: ["laranja", "preto"], caes: 2 },
   "joao.jpeg": { cores: ["laranja"], caes: 2 },
   "livia.jpeg": { cores: ["preto"], caes: 1 },
   "lucas.jpeg": { cores: ["laranja"], caes: 1 },
@@ -89,7 +91,8 @@ function listar(itens: readonly string[]): string {
 // índice sai do próprio nome do arquivo. Isso importa mais do que parece — um
 // alt sorteado a cada render sai diferente no servidor e no cliente, quebra a
 // hidratação e ainda muda de uma visita para a outra.
-const FORMAS_DA_RACA = ["Spitz Alemão Anão", "Lulu da Pomerânia", "Spitz"] as const;
+// Ordem de 06/11/2026: "Spitz Alemão" nunca aparece sem "Lulu da Pomerânia".
+const FORMAS_DA_RACA = ["Spitz Alemão Anão (Lulu da Pomerânia)", "Lulu da Pomerânia", "Spitz"] as const;
 
 /** Índice estável a partir do nome do arquivo: mesma foto, sempre a mesma forma. */
 function formaDaRaca(base: string): string {

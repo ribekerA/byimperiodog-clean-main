@@ -60,7 +60,7 @@ export default function ColorGallery() {
               seções diferentes com o mesmo título confundem quem lê e quem
               indexa. Aqui o título passa a dizer o que a seção é: as cores. */}
           <h2 id="colors-heading" className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            As cores do Spitz Alemão Anão
+            As cores do Spitz Alemão Anão (Lulu da Pomerânia)
           </h2>
           <p className="mt-3 text-zinc-400">
             Cada cor tem o seu valor de partida. Clique para ver as fotos reais de cada uma.
@@ -81,7 +81,7 @@ export default function ColorGallery() {
                 <div className="relative aspect-[3/4] overflow-hidden">
                   <Image
                     src={cor.image}
-                    alt={`Spitz Alemão Anão ${cor.label}`}
+                    alt={`Spitz Alemão Anão (Lulu da Pomerânia) ${cor.label}`}
                     fill
                     sizes="(max-width: 1024px) calc(50vw - 28px), 231px"
                     className="object-cover transition duration-500 group-hover:scale-108"

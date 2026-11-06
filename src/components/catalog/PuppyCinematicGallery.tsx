@@ -22,6 +22,7 @@ import { VideoReelsPlayer, type ReelItem } from "@/components/media/VideoReelsPl
 import { mediaIdDeArquivo } from "@/domain/media-registry";
 import { useMediaLikes } from "@/hooks/useMediaLikes";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
 import { optimizePuppyGalleryImage } from "@/lib/optimize-image";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -165,7 +166,7 @@ export default function PuppyCinematicGallery({
   );
 
   const baseWaLink = buildWhatsAppLink({
-    message: `Olá! Vi o vídeo do ${puppyName} (Spitz Alemão Anão ${puppyColor} ${puppySex}) no site e quero saber sobre disponibilidade.`,
+    message: `Olá! Vi o vídeo de ${descricaoDoFilhote(puppyName, puppyColor, puppySex)} no site e quero saber sobre disponibilidade.`,
     utmSource: "site",
     utmMedium: "galeria-video",
     utmCampaign: "puppy_video",
@@ -178,7 +179,7 @@ export default function PuppyCinematicGallery({
   const reelItems: ReelItem[] = videos.map((v) => ({
     src: v,
     title: puppyName,
-    description: `Spitz Alemão Anão · ${puppyColor} · ${puppySex}`,
+    description: `Spitz Alemão Anão (Lulu da Pomerânia) · ${puppyColor} · ${puppySex}`,
     waLink,
     poster: photos[0] ? optimizePuppyGalleryImage(photos[0]) || photos[0] : undefined,
     mediaId: mediaIdDeArquivo(v) ?? undefined,
@@ -199,7 +200,7 @@ export default function PuppyCinematicGallery({
     return () => clearTimeout(t);
   }, [swipeHint]);
 
-  const alt = `${puppyName} — Spitz Alemão Anão ${puppyColor} ${puppySex}`;
+  const alt = descricaoDoFilhote(puppyName, puppyColor, puppySex);
 
   // ── Navegação ────────────────────────────────────────────────────────────
   const navigate = useCallback(

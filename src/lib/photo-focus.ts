@@ -46,6 +46,28 @@ const FOCO_POR_FOTO: Record<string, string> = {
   "/filhotes/preto/preto-01.jpg": "50% 70%",
 };
 
+// Capas quadradas com o filhote inteiro, geradas por
+// scripts/gerar-capas-dos-cartoes.mjs. A chave é a primeira foto da galeria. No
+// creme macho e no laranja macho a capa vem de outra foto da mesma galeria, porque
+// a primeira corta o animal ou não cabe no quadrado sem faixas largas.
+const CAPA_QUADRADA: Record<string, string> = {
+  "/filhotes/branco/branco-macho-20261105-01.jpg": "/images/cartoes/branco-macho-20261105-01.webp",
+  "/filhotes/branco/branco-femea-jardim-20260926-04.jpg": "/images/cartoes/branco-femea-jardim-20260926-04.webp",
+  "/filhotes/branco/branco-femea-20261106-01.jpg": "/images/cartoes/branco-femea-20261106-01.webp",
+  "/filhotes/creme/creme-femea-01.jpg": "/images/cartoes/creme-femea-01.webp",
+  "/filhotes/creme/creme-macho-01.jpg": "/images/cartoes/creme-filhote-flores-02.webp",
+  "/filhotes/laranja/laranja-femea-brinquedos-04.jpg": "/images/cartoes/laranja-femea-brinquedos-04.webp",
+  "/filhotes/laranja/laranja-femea-01.jpg": "/images/cartoes/laranja-femea-01.webp",
+  "/filhotes/laranja/laranja-macho-flores-01.jpg": "/images/cartoes/laranja-macho-02.webp",
+  "/filhotes/preto/preto-00.jpeg": "/images/cartoes/preto-00.webp",
+  "/filhotes/preto/preto-femea-jardim-20260926-01.jpg": "/images/cartoes/preto-femea-jardim-20260926-01.webp",
+};
+
+/** Capa quadrada do cartão, se a primeira foto da galeria tiver uma. */
+export function capaDoCartao(src: string | undefined | null): string | undefined {
+  return src ? CAPA_QUADRADA[src] : undefined;
+}
+
 /** Padrão de quem não foi medido: mantém o comportamento que o site já tinha. */
 export const FOCO_PADRAO = "50% 28%";
 

@@ -124,7 +124,7 @@ export function buildSeoTitle(post: BlogPost) {
 }
 
 export function buildSeoDescription(post: BlogPost) {
-  return post.seo_description || post.excerpt || "Conhecimento premium para tutores de Spitz Alemão Anão.";
+  return post.seo_description || post.excerpt || "Conhecimento premium para tutores de Spitz Alemão Anão (Lulu da Pomerânia).";
 }
 
 export function extractContextFromTags(tags?: string[] | null) {

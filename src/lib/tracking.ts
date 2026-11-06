@@ -163,7 +163,7 @@ export function buildWebsiteLD(_siteUrl: string) {
     name: "By Império Dog",
     alternateName: "Canil By Império Dog — Spitz Alemão Anão",
     description:
-      "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão.",
+      "Site da By Império Dog com conteúdos e filhotes de Spitz Alemão Anão (Lulu da Pomerânia).",
     url: `${clean}/`,
     inLanguage: "pt-BR",
     publisher: { "@id": `${clean}/#business` },

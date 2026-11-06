@@ -2,7 +2,7 @@
 import * as React from 'react';
 
 const MOCK = [
-  { id:'p1', title:'Cuidados com Spitz Alemão', slug:'/blog/cuidados-com-spitz' },
+  { id:'p1', title:'Cuidados com Spitz Alemão (Lulu da Pomerânia)', slug:'/blog/cuidados-com-spitz' },
   { id:'p2', title:'Alimentação ideal para filhotes', slug:'/blog/alimentacao-filhotes' },
   { id:'p3', title:'Guia de vacinação', slug:'/blog/guia-vacinacao' },
 ];

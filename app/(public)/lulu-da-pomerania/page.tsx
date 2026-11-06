@@ -99,7 +99,7 @@ export default function LuluDaPomeraniaPage() {
       <script id="ld-lulu-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       {/* HERO */}
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Guia completo da raça</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Lulu da Pomerânia — tudo que você precisa saber
@@ -115,7 +115,7 @@ export default function LuluDaPomeraniaPage() {
           Lulu da Pomerânia, Spitz Alemão Anão e Pomeranian — são o mesmo cão
         </h2>
         <p className="mt-2 text-sm text-emerald-800 leading-relaxed">
-          O <strong>Lulu da Pomerânia</strong> é o nome mais popular no Brasil para esta raça. Oficialmente, pela FCI, a raça se chama <strong>Spitz Alemão Anão</strong>. No mundo inteiro é conhecido como <strong>Pomeranian</strong> (em inglês). Outros nomes usados: <em>Spitz Anão</em>, <em>Mini Spitz</em>, <em>Pomerânio</em>. Todos referem-se ao mesmo cão compacto, fofo e cheio de personalidade.
+          O <strong>Lulu da Pomerânia</strong> é o nome mais popular no Brasil para esta raça, que pela FCI se chama oficialmente <strong>Spitz Alemão Anão</strong>. No mundo inteiro é conhecido como <strong>Pomeranian</strong> (em inglês). Outros nomes usados: <em>Spitz Anão</em>, <em>Mini Spitz</em>, <em>Pomerânio</em>. Todos referem-se ao mesmo cão compacto, fofo e cheio de personalidade.
         </p>
       </section>
 
@@ -206,7 +206,7 @@ export default function LuluDaPomeraniaPage() {
       </section>
 
       <RelatedPages links={[
-        { label: "Spitz Alemão Anão",       href: "/spitz-alemao",         desc: "Ficha técnica, origem e temperamento" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia)",       href: "/spitz-alemao",         desc: "Ficha técnica, origem e temperamento" },
         { label: "Filhotes e Valores", href: "/filhotes", desc: "Fotos, vídeos e valores individuais" },
         { label: "Como Comprar com Segurança", href: "/comprar-spitz-anao", desc: "Guia passo a passo para não cair em golpes" },
       ]} />

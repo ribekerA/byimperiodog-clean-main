@@ -29,7 +29,7 @@ function slugify(input: string) {
 async function generateWithOpenAI(topic: string, outline?: string) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return null;
-  const system = "Você é um redator SEO sênior focado em Spitz Alemão Anão.";
+  const system = "Você é um redator SEO sênior focado em Spitz Alemão Anão (Lulu da Pomerânia).";
   const user = `Gere um post em MDX sobre: ${topic}.
   ${outline ? `Siga este outline: ${outline}` : "Inclua introdução, seções práticas, lista de dicas e conclusão."
   }

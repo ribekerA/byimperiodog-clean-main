@@ -67,7 +67,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "cor raça spitz pomerania lulu",
-    a: "Criamos Spitz Alemão Anão. Divulgamos atualmente as cores laranja, creme, preto e branco. A equipe confirma as opções atuais no atendimento.",
+    a: "Criamos Spitz Alemão Anão (Lulu da Pomerânia). Divulgamos atualmente as cores laranja, creme, preto e branco. A equipe confirma as opções atuais no atendimento.",
   },
   {
     q: "reserva como reservar entrada",
@@ -171,7 +171,7 @@ function skillResponderFaq(text: string): string | null {
 function skillSaudacao(name?: string): string {
   const firstName = name ? ` ${name.trim().split(" ")[0]}` : "";
   return (
-    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — criação familiar de Spitz Alemão Anão.\n\n` +
+    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — criação familiar de Spitz Alemão Anão (Lulu da Pomerânia).\n\n` +
     `Como posso te ajudar hoje?\n\n` +
     `1️⃣ Ver a vitrine de filhotes\n` +
     `2️⃣ Saber sobre preços e condições\n` +

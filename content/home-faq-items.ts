@@ -28,14 +28,14 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
     answer: RESPOSTA_QUANTO_CUSTA,
   },
   {
-    question: "O Spitz Alemão Anão é bom para apartamento?",
+    question: "O Spitz Alemão Anão (Lulu da Pomerânia) é bom para apartamento?",
     answer:
-      "Sim. O Spitz Alemão Anão é uma das raças mais adaptadas à vida em apartamento. Com cernelha (altura) de 21 cm ± 3 cm conforme o padrão FCI nº 97, ele se sente bem em espaços compactos desde que tenha passeios diários e estimulação mental. O Spitz Alemão Anão é uma raça alerta e pode ser vocal. Socialização, enriquecimento ambiental e treinamento consistente ajudam no controle dos latidos.",
+      "Sim. O Spitz Alemão Anão (Lulu da Pomerânia) é uma das raças mais adaptadas à vida em apartamento. Com cernelha (altura) de 21 cm ± 3 cm conforme o padrão FCI nº 97, ele se sente bem em espaços compactos desde que tenha passeios diários e estimulação mental. O Spitz Alemão Anão (Lulu da Pomerânia) é uma raça alerta e pode ser vocal. Socialização, enriquecimento ambiental e treinamento consistente ajudam no controle dos latidos.",
   },
   {
-    question: "Qual melhor canil de Spitz Alemão Anão em Bragança Paulista e interior de SP?",
+    question: "Qual melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista e interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis, e desconfie de quem se anuncia como o melhor. O que dá para comparar é objetivo: registro oficial, contrato por escrito, acompanhamento veterinário e o que o criador apresenta antes do pagamento. A By Império Dog é um canil familiar especializado em Spitz Alemão Anão em Bragança Paulista, SP, cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
+      `Não existe um ranking oficial de canis, e desconfie de quem se anuncia como o melhor. O que dá para comparar é objetivo: registro oficial, contrato por escrito, acompanhamento veterinário e o que o criador apresenta antes do pagamento. A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
   },
   {
     question: "Qual a diferença entre Spitz Alemão Anão e Lulu da Pomerânia?",
@@ -43,7 +43,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
       "São nomes para a mesma raça. 'Lulu da Pomerânia' é o nome popular usado no Brasil, enquanto 'Spitz Alemão Anão' é a denominação oficial reconhecida pela FCI (Fédération Cynologique Internationale). Quando você busca um desses nomes, está procurando o mesmo cachorro — o pequeno e fofo de pelagem densa e orelhas pontudas.",
   },
   {
-    question: "Spitz Alemão Anão preto é difícil de encontrar? É mais caro?",
+    question: "Spitz Alemão Anão (Lulu da Pomerânia) preto é difícil de encontrar? É mais caro?",
     // Mesma resposta da página da cor e da /spitz-alemao-preto — vem de
     // domain/pricing para as três não divergirem quando a tabela mudar.
     answer: RESPOSTA_PRETO,

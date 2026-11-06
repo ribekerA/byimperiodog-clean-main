@@ -40,7 +40,7 @@ export default function PoliticaEditorialPage() {
     <div className="mx-auto w-full max-w-3xl px-4 py-12 text-[var(--text)]">
       <SeoJsonLd data={[breadcrumb, webPage]} />
 
-      <header className="mb-8">
+      <header className="faixa-topo mb-8">
         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-emerald-600">Transparência</p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight">Política Editorial e Metodologia</h1>
         <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-muted)]">
@@ -53,7 +53,7 @@ export default function PoliticaEditorialPage() {
         <h2>Quem escreve</h2>
         <p>
           Os conteúdos são produzidos com apoio de ferramentas de tecnologia e revisados pela equipe da By Império Dog antes
-          da publicação, com base na experiência prática da criação responsável do Spitz Alemão Anão. Quando aplicável,
+          da publicação, com base na experiência prática da criação responsável do Spitz Alemão Anão (Lulu da Pomerânia). Quando aplicável,
           citamos profissionais especializados (veterinária, adestramento, genética).
         </p>
 

@@ -8,8 +8,8 @@ export async function POST(req:Request){
   const lido = await corpoJson<{ title?: unknown }>(req, 4 * 1024);
   if (lido.resposta) return lido.resposta;
   const title = typeof lido.dados.title === 'string'
-    ? lido.dados.title.trim().slice(0, 180) || 'Spitz Alemão'
-    : 'Spitz Alemão';
+    ? lido.dados.title.trim().slice(0, 180) || 'Spitz Alemão (Lulu da Pomerânia)'
+    : 'Spitz Alemão (Lulu da Pomerânia)';
   return NextResponse.json({ ok:true, captions: [
     `🐾 ${title}: energia, companheirismo e charme em miniatura! #SpitzAlemao` ,
     `${title}: guia rápido de cuidados e amor diário. Conheça mais no blog!`,

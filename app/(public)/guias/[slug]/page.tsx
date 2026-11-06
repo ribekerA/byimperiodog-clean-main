@@ -50,7 +50,7 @@ export default async function GuidePage(props: Props) {
     { name: "Início", url: `${SITE_URL}/` },
     { name: "Guias", url: `${SITE_URL}/guias` },
     { name: guide.title, url: `${SITE_URL}/guias/${guide.slug}` },
-  ]);
+  ]);
 
   const waLink = buildWhatsAppLink({
     message: `Olá! Li o guia "${guide.title}" e quero saber mais sobre as opções atuais.`,
@@ -65,9 +65,10 @@ export default async function GuidePage(props: Props) {
   return (
     <>
       <script id="ld-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
-      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+        <div className="faixa-topo mb-10">
         {/* Breadcrumb */}
         <nav aria-label="Navegação estrutural" className="mb-6">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500">
@@ -80,7 +81,7 @@ export default async function GuidePage(props: Props) {
         </nav>
 
         {/* Article header */}
-        <header className="mb-10">
+        <header>
           <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl leading-tight">
             {guide.title}
           </h1>
@@ -100,6 +101,7 @@ export default async function GuidePage(props: Props) {
             <span>By Império Dog</span>
           </div>
         </header>
+        </div>
 
         {/* Article body */}
         <article className="prose prose-zinc prose-lg max-w-none prose-headings:font-bold prose-a:text-emerald-700 prose-a:no-underline hover:prose-a:underline">
@@ -145,7 +147,7 @@ export default async function GuidePage(props: Props) {
               className="inline-flex min-h-[52px] items-center gap-2.5 rounded-xl bg-emerald-600 px-7 text-base font-semibold text-white shadow-lg transition hover:bg-emerald-500"
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
             <Link
               href="/filhotes"

@@ -26,6 +26,7 @@ import {
   TABELA_DE_PRECOS,
   formatarPreco,
   precoDoFilhote,
+  textoAPartirDeNoPix,
 } from "../../src/domain/pricing";
 
 const WA_NUMERO = "5511968633239";
@@ -166,7 +167,8 @@ test.describe("Smoke publico", () => {
   });
 
   /**
-   * O valor na vitrine aparece como "A partir de R$ X no PIX".
+   * O valor em /filhotes aparece como "A partir de R$ X no Pix", no desenho
+   * aprovado em 06/11/2026. As outras paginas seguem com "R$ X,00 no PIX".
    *
    * Esta asercao ja foi o contrario. Em 27/08/2026 a auditoria de conversao
    * registrou "os valores de filhote sao exibidos sem 'A partir de'" e o portao
@@ -202,8 +204,8 @@ test.describe("Smoke publico", () => {
     for (const card of cards) {
       expect(
         card.texto,
-        `${card.href ?? "card sem href"} nao mostra o valor como "A partir de R$ X no PIX"`,
-      ).toMatch(/A partir de R\$\s*[\d.]+ no PIX/);
+        `${card.href ?? "card sem href"} nao mostra o valor como "A partir de R$ X no Pix"`,
+      ).toMatch(/A partir de R\$\s*[\d.]+ no Pix/);
     }
   });
 
@@ -308,7 +310,7 @@ test.describe("Smoke publico", () => {
       const menorValor = Math.min(...filhotesDaCor.map((filhote) => filhote.priceCents));
       const esperado = formatarPreco(menorValor);
       expect(corpo, `/filhotes/cor/${linha.cor} nao mostra ${esperado}`).toContain(esperado);
-      expect(corpo).toContain(`A partir de ${esperado} no PIX`);
+      expect(corpo).toContain(textoAPartirDeNoPix(menorValor));
     }
 
     const inexistente = await page.goto("/filhotes/este-filhote-nunca-existiu");
@@ -350,6 +352,7 @@ test.describe("Portao das superficies criticas", () => {
   /** Vitrines citadas pelo nome, com a linha da tabela que cada uma deve exibir. */
   const VITRINES = [
     { slug: "spitz-alemao-anao-branco-femea", cor: "branco", sexo: "femea" },
+    { slug: "spitz-alemao-anao-branco-femea-2", cor: "branco", sexo: "femea" },
     { slug: "spitz-alemao-anao-laranja-femea", cor: "laranja", sexo: "femea" },
     { slug: "spitz-alemao-anao-laranja-femea-laco-rosa", cor: "laranja", sexo: "femea" },
     { slug: "spitz-alemao-anao-preto-femea", cor: "preto", sexo: "femea" },
@@ -373,8 +376,8 @@ test.describe("Portao das superficies criticas", () => {
       // portao da vitrine, acima, sobre a decisao anterior que isto substitui.
       expect(
         corpo,
-        `${vitrine.slug} nao mostra o valor como "A partir de ${esperado} no PIX"`,
-      ).toContain(`A partir de ${esperado} no PIX`);
+        `${vitrine.slug} nao mostra o valor como "A partir de ${esperado},00 no PIX"`,
+      ).toContain(`A partir de ${esperado},00 no PIX`);
     });
   }
 

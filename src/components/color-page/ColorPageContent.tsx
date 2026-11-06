@@ -14,15 +14,14 @@
 
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { type ComponentProps, useRef, useState } from "react";
 
+import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { COLOR_SEO, CORES_EXIBIDAS, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
-import { focoDaFoto } from "@/lib/photo-focus";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Temas por cor ────────────────────────────────────────────────────────────
 
@@ -37,7 +36,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const THEMES = {
   branco: {
-    heroGradient: "bg-gradient-to-br from-white via-zinc-50 to-stone-100",
+    heroGradient: "bg-gradient-to-br from-white via-zinc-50 to-zinc-100",
     heroDark:     false,
     sectionBg:    "bg-zinc-50",
     accentText:   "text-zinc-700",
@@ -51,7 +50,7 @@ const THEMES = {
     heroImg:      "/filhotes/branco/branco-femea-jardim-01.jpg",
   },
   creme: {
-    heroGradient: "bg-gradient-to-br from-amber-50 via-orange-50/40 to-zinc-50",
+    heroGradient: "bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-50",
     heroDark:     false,
     sectionBg:    "bg-amber-50/50",
     accentText:   "text-amber-700",
@@ -65,7 +64,7 @@ const THEMES = {
     heroImg:      "/filhotes/creme/creme-femea-01.jpg",
   },
   laranja: {
-    heroGradient: "bg-gradient-to-br from-orange-100 via-amber-50/60 to-zinc-50",
+    heroGradient: "bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-50",
     heroDark:     false,
     sectionBg:    "bg-orange-50/50",
     accentText:   "text-orange-600",
@@ -82,7 +81,7 @@ const THEMES = {
     heroImg:      "/filhotes/laranja/laranja-femea-01.jpg",
   },
   particolor: {
-    heroGradient: "bg-gradient-to-br from-white via-amber-50/50 to-zinc-100",
+    heroGradient: "bg-gradient-to-br from-white via-zinc-50 to-zinc-100",
     heroDark:     false,
     sectionBg:    "bg-amber-50/40",
     accentText:   "text-amber-700",
@@ -115,17 +114,17 @@ const THEMES = {
     heroImg:      "/filhotes/preto/preto-filhote-flores-01.jpg",
   },
   "wolf-sable": {
-    heroGradient: "bg-gradient-to-br from-stone-300 via-stone-100/80 to-zinc-50",
+    heroGradient: "bg-gradient-to-br from-zinc-300 via-zinc-100/80 to-zinc-50",
     heroDark:     false,
-    sectionBg:    "bg-stone-50",
-    accentText:   "text-stone-700",
-    accentBg:     "bg-stone-700",
-    accentLight:  "bg-stone-200",
-    accentBorder: "border-stone-200",
-    progressBar:  "bg-stone-600",
+    sectionBg:    "bg-zinc-50",
+    accentText:   "text-zinc-700",
+    accentBg:     "bg-zinc-700",
+    accentLight:  "bg-zinc-200",
+    accentBorder: "border-zinc-200",
+    progressBar:  "bg-zinc-600",
     badge:        "🐺 Bicolor reconhecida pela FCI",
-    badgeCss:     "bg-stone-200 text-stone-800 ring-1 ring-stone-300",
-    swatchCss:    "bg-stone-400 ring-stone-500",
+    badgeCss:     "bg-zinc-200 text-zinc-800 ring-1 ring-zinc-300",
+    swatchCss:    "bg-zinc-400 ring-zinc-500",
     heroImg:      "/filhotes/wolf-sable/wolf-sable-femea-01.jpg",
   },
 } as const;
@@ -192,110 +191,6 @@ function TraitItem({
         <p className="text-sm leading-relaxed text-zinc-600">{desc}</p>
       </div>
     </motion.div>
-  );
-}
-
-// ─── PuppyCard ────────────────────────────────────────────────────────────────
-
-function PuppyCard({ puppy }: { puppy: CatalogItem }) {
-  const img = puppy.images.find((i) => !i.endsWith(".mp4")) ?? puppy.images[0];
-  const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
-  const corLabel = (puppy as Record<string, unknown>).cor as string ?? puppy.color;
-  const priceCents =
-    ((puppy as Record<string, unknown>).priceCents as number) ??
-    ((puppy as Record<string, unknown>).price_cents as number) ??
-    0;
-  const baseWaLink = buildWhatsAppLink({
-    message:      `Olá! Vi ${puppy.name} na página de ${corLabel} do site e gostaria de conhecer as opções atuais dessa combinação de cor e sexo.`,
-    utmSource:    "site",
-    utmMedium:    "color_page",
-    utmCampaign:  "filhote_cor",
-    utmContent:   puppy.slug,
-  });
-  const waLink = useWhatsAppLink(baseWaLink);
-
-  return (
-    <motion.article
-      className="group relative flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-900/5 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:ring-emerald-200"
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
-        {/* 4/5 em vez de 4/3: num quadro deitado o corte descartava 26% do
-            topo e 26% da base da foto vertical — sobrava so o peito do filhote. */}
-        <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
-          {img && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={img}
-              alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
-              // Recorte medido por foto (src/lib/photo-focus).
-              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-              style={{ objectPosition: focoDaFoto(img) }}
-              loading="lazy"
-            />
-          )}
-          {/* Overlay on hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          {/* O selo "Disponível" / "Reservado" saiu daqui em 26/08/2026. A
-              página de cor é uma referência visual permanente daquela cor: a
-              foto continua no ar depois que aquele animal sai, e o selo passava
-              a mentir no dia seguinte à venda. Sexo fica — é taxonomia. */}
-          <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
-            {sexLabel}
-          </span>
-        </div>
-      </Link>
-
-      <div className="flex flex-1 flex-col gap-3 p-4">
-        <div>
-          <Link
-            href={`/filhotes/cor/${puppy.color}`}
-            className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:text-emerald-600 transition"
-          >
-            {corLabel}
-          </Link>
-          <Link href={`/filhotes/${puppy.slug}`}>
-            <h3 className="mt-0.5 text-base font-bold text-zinc-900 transition group-hover:text-emerald-700">
-              {puppy.name}
-            </h3>
-          </Link>
-        </div>
-
-        <div className="mt-auto space-y-3">
-          {priceCents > 0 && (
-            <div>
-              <p className="text-lg font-extrabold leading-snug text-[var(--accent-ink)]">
-                {formatPrice(priceCents)}
-              </p>
-              <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
-            </div>
-          )}
-          <PawConfettiButton
-            href={waLink}
-            data-wa-placement="puppy_card"
-            data-wa-puppy={puppy.slug}
-            rel="noreferrer"
-            target="_blank"
-            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow transition hover:bg-emerald-700 hover:scale-[1.02]"
-            emojis="mixed"
-            count={12}
-            aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${puppy.name}`}
-          >
-            <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span className="text-center">Consultar opções atuais</span>
-          </PawConfettiButton>
-          <Link
-            href={`/filhotes/${puppy.slug}`}
-            className="block text-center text-xs font-medium text-zinc-500 hover:text-emerald-600 transition"
-          >
-            Ver galeria completa →
-          </Link>
-        </div>
-      </div>
-    </motion.article>
   );
 }
 
@@ -420,7 +315,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
     <>
       {/* ── 1. HERO ───────────────────────────────────────────────────────────── */}
       <section
-        className={`relative overflow-hidden ${theme.heroGradient} py-12 sm:py-28`}
+        className={`faixa-topo faixa-topo-lado relative overflow-hidden ${theme.heroGradient} py-12 sm:py-28`}
         aria-labelledby="color-h1"
       >
         {/* Decorative blur orb */}
@@ -736,11 +631,17 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
           </motion.div>
 
           {puppies.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <ul className="grade-filhotes">
               {puppies.map((puppy) => (
-                <PuppyCard key={puppy.slug} puppy={puppy} />
+                <li key={puppy.slug}>
+                  <StaticPuppyCard
+                    {...(puppy as ComponentProps<typeof StaticPuppyCard>)}
+                    waMedium="color_page"
+                    waCampaign="filhote_cor"
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
           ) : (
             <motion.div
               className="mx-auto max-w-lg rounded-3xl bg-zinc-50 p-12 text-center ring-1 ring-zinc-200"
@@ -808,7 +709,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
       </section>
 
       {/* ── 6. CTA FINAL ─────────────────────────────────────────────────────── */}
-      <section className="bg-emerald-600 py-16">
+      <section className="zona-escura bg-emerald-600 py-16">
         <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}

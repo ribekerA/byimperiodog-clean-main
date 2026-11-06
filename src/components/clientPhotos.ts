@@ -2,6 +2,16 @@
 export type ClientPhoto = { src: string; width: number; height: number };
 const CLIENT_PHOTOS: readonly ClientPhoto[] = [
   {
+    "src": "/clientes/jeeh-souza-theo.webp",
+    "width": 1304,
+    "height": 1738
+  },
+  {
+    "src": "/clientes/jeeh-souza-theo-2.webp",
+    "width": 978,
+    "height": 1738
+  },
+  {
     "src": "/clientes/emily-pompom.jpg",
     "width": 718,
     "height": 1236

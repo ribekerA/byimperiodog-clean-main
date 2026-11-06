@@ -11,7 +11,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.b
 export const metadata: Metadata = {
   title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia",
   description:
-    "Assista a vídeos reais de Spitz Alemão Anão: filhotes creme, laranja e branco, ninhadas e a By Império Dog em Bragança Paulista, SP.",
+    "Assista a vídeos reais de Spitz Alemão Anão (Lulu da Pomerânia): filhotes creme, laranja e branco, ninhadas e a By Império Dog em Bragança Paulista, SP.",
   keywords: [
     "vídeos Spitz Alemão Anão",
     "galeria Lulu da Pomerânia",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/galeria`,
     title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia | By Império Dog",
     description:
-      "Veja filhotes, ninhadas e Spitz Alemão Anão em movimento em vídeos reais da By Império Dog.",
+      "Veja filhotes, ninhadas e Spitz Alemão Anão (Lulu da Pomerânia) em movimento em vídeos reais da By Império Dog.",
   },
 };
 
@@ -81,7 +81,7 @@ export default function GaleriaPage() {
 
       <div className="min-h-screen bg-zinc-950 pb-24">
         {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950 via-zinc-900 to-zinc-950 px-5 py-20 text-center sm:py-28">
+        <section className="faixa-topo relative overflow-hidden bg-gradient-to-b from-emerald-950 via-zinc-900 to-zinc-950 px-5 py-20 text-center sm:py-28">
           <div className="pointer-events-none absolute inset-0 opacity-20"
             style={{
               backgroundImage: "radial-gradient(circle at 30% 50%, #059669 0%, transparent 60%), radial-gradient(circle at 70% 50%, #065f46 0%, transparent 60%)",

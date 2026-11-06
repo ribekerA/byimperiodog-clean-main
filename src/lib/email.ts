@@ -24,7 +24,7 @@ function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
     <div style="background:linear-gradient(135deg,#052e2b,#0d5c49);padding:32px 24px;text-align:center;">
       <p style="margin:0;font-size:28px;">🐾</p>
       <h1 style="margin:8px 0 0;color:#fff;font-size:22px;font-weight:700;">By Império Dog</h1>
-      <p style="margin:4px 0 0;color:rgba(255,255,255,.7);font-size:13px;">Spitz Alemão Anão · Criação Premium</p>
+      <p style="margin:4px 0 0;color:rgba(255,255,255,.7);font-size:13px;">Spitz Alemão Anão (Lulu da Pomerânia) · Criação Premium</p>
     </div>
 
     <div style="padding:28px 24px;">
@@ -39,7 +39,7 @@ function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
         <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#166534;">Enquanto isso, você pode:</p>
         <ul style="margin:8px 0 0;padding-left:18px;font-size:13px;color:#166534;line-height:1.8;">
           <li>Ver o catálogo completo em <a href="https://byimperiodog.com.br/filhotes" style="color:#166534;">byimperiodog.com.br/filhotes</a></li>
-          <li>Ler nosso guia de cuidados com Spitz Alemão</li>
+          <li>Ler nosso guia de cuidados com Spitz Alemão (Lulu da Pomerânia)</li>
           <li>Falar diretamente no WhatsApp abaixo</li>
         </ul>
       </div>

@@ -29,7 +29,7 @@ export default function NinhadaAlert() {
           // disponibilidade". Lista de espera é uma fila sobre estoque, e o
           // aviso era uma promessa de que alguém avisaria. O que a pessoa faz
           // aqui é contar o que procura; o retorno acontece na conversa.
-          message: `Olá! Sou ${name.trim()} e procuro um Spitz Alemão Anão ${cor === "qualquer" ? "de qualquer cor" : `da cor ${CORES.find((c) => c.value === cor)?.label ?? cor}`}. Gostaria de conhecer as opções atuais.`,
+          message: `Olá! Sou ${name.trim()} e procuro um Spitz Alemão Anão (Lulu da Pomerânia) ${cor === "qualquer" ? "de qualquer cor" : `da cor ${CORES.find((c) => c.value === cor)?.label ?? cor}`}. Gostaria de conhecer as opções atuais.`,
           utmSource: "site",
           utmMedium: "ninhada_alert",
           utmCampaign: "lista_espera",

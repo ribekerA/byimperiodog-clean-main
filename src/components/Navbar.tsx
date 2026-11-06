@@ -79,7 +79,7 @@ export default function Navbar() {
           <Image src="/byimperiologo.svg" alt="Logotipo By Império Dog" width={32} height={32} className="h-8 w-8" />
           <div className="flex flex-col leading-tight">
             <span className="truncate">By Império Dog</span>
-            <span className="hidden text-xs font-normal text-[var(--text-muted)] sm:block">Criação especializada em Spitz Alemão Anão</span>
+            <span className="hidden text-xs font-normal text-[var(--text-muted)] sm:block">Criação especializada em Spitz Alemão Anão (Lulu da Pomerânia)</span>
           </div>
         </Link>
 
@@ -89,7 +89,7 @@ export default function Navbar() {
             const cls = classNames(
               "relative min-h-[48px] flex items-center px-2 text-[15px] font-medium tracking-wide transition-all duration-200 ease-in-out hover:-translate-y-0.5",
               active
-                ? "text-[var(--brand)] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-[var(--brand)]"
+                ? "text-[var(--marca-texto)] after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-[var(--brand)]"
                 : "text-zinc-700 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 rounded"
             );
             return (
@@ -154,7 +154,7 @@ export default function Navbar() {
                         const active = isActive(link.href, pathname, hash);
                         const cls = classNames(
                           "relative rounded-md px-4 py-3 text-base font-medium min-h-[48px] flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2",
-                          active ? "bg-zinc-100 text-[var(--brand)]" : "text-zinc-700 hover:bg-zinc-50"
+                          active ? "bg-zinc-100 text-[var(--marca-texto)]" : "text-zinc-700 hover:bg-zinc-50"
                         );
                         return (
                           <li key={link.href}>

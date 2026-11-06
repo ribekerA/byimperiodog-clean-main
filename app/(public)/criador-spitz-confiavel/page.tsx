@@ -12,12 +12,12 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
 
 export const metadata: Metadata = {
-  title: "Criador de Spitz Alemão Anão Confiável em SP",
+  title: "Criador de Spitz Alemão Anão (Lulu da Pomerânia) Confiável em SP",
   description:
     // 256 caracteres: o Google mostra ~160 e cortava a frase no meio. Reescrita
     // em 153 sem perder nenhum termo de busca — só a repetição do que já está
     // no title e no H1.
-    `Como escolher um criador confiável de Spitz Alemão Anão: o que exigir, como evitar golpes e o que a By Império Dog entrega desde ${FOUNDING_YEAR}.`,
+    `Como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia): o que exigir, como evitar golpes e o que a By Império Dog entrega desde ${FOUNDING_YEAR}.`,
   keywords: [
     "criador Spitz Alemão Anão confiável SP",
     "melhor canil Lulu da Pomerânia interior SP",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/criador-spitz-confiavel" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Criador Confiável de Spitz Alemão Anão — By Império Dog, Bragança Paulista SP",
+    title: "Criador Confiável de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog, Bragança Paulista SP",
     description:
       `Criação responsável desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo. Saiba como identificar um criador confiável.`,
     type: "article",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
 // Sem "Avaliação 5.0 ★": não existe plataforma pública de avaliações
 // verificadas do canil, então qualquer média exibida aqui seria inventada.
 const CREDENTIALS = [
-  { label: "Desde",        value: String(FOUNDING_YEAR), note: "Criação especializada em Spitz Alemão Anão" },
+  { label: "Desde",        value: String(FOUNDING_YEAR), note: "Criação especializada em Spitz Alemão Anão (Lulu da Pomerânia)" },
   { label: "Atendimento",  value: "Todo o Brasil", note: "Envio e acompanhamento para famílias de qualquer estado" },
   { label: "Registro",     value: "Incluso", note: "Emissão e entrega conforme o prazo da entidade responsável" },
   { label: "Mentoria",     value: "Pós-venda", note: "Suporte direto com a criadora após a entrega" },
@@ -84,12 +84,12 @@ const WHAT_MAKES_RESPONSIBLE = [
 
 const PAGE_FAQS = [
   {
-    question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
+    question: "Qual o melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão desde ${FOUNDING_YEAR} e entrega registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria pós-venda. Peça essa mesma lista a qualquer criador antes de decidir.`,
+      `Não existe um ranking oficial de canis — o que dá para comparar é o que cada criador entrega por escrito. A By Império Dog fica em Bragança Paulista, SP, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR} e entrega registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário, contrato e mentoria pós-venda. Peça essa mesma lista a qualquer criador antes de decidir.`,
   },
   {
-    question: "Como saber se um criador de Spitz Alemão Anão é confiável?",
+    question: "Como saber se um criador de Spitz Alemão Anão (Lulu da Pomerânia) é confiável?",
     answer:
       "Um criador confiável: tem presença online consistente com histórico real de filhotes, fornece registro oficial (não apenas prometido), apresenta o acompanhamento veterinário do filhote, informa com transparência como a criação pode ser verificada, tem contrato por escrito que descreve as condições e oferece suporte pós-venda. Desconfie de preços muito abaixo da média sem explicação, de quem não informa como verificar a criação e de documentação incompleta.",
   },
@@ -101,7 +101,7 @@ const PAGE_FAQS = [
   {
     question: "Quantos anos de experiência tem a By Império Dog?",
     answer:
-      `A By Império Dog iniciou a criação de Spitz Alemão Anão em ${FOUNDING_YEAR} e se dedica exclusivamente à raça desde então. Ao longo desse período, atendeu famílias em todo o Brasil com filhotes documentados e com suporte pós-venda.`,
+      `A By Império Dog iniciou a criação de Spitz Alemão Anão (Lulu da Pomerânia) em ${FOUNDING_YEAR} e se dedica exclusivamente à raça desde então. Ao longo desse período, atendeu famílias em todo o Brasil com filhotes documentados e com suporte pós-venda.`,
   },
   {
     question: "Qual a diferença entre um canil e um criador responsável?",
@@ -134,13 +134,13 @@ export default function CriadorConfiavelPage() {
       <script id="ld-criador-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       {/* ── HERO ── */}
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação responsável desde {FOUNDING_YEAR}</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Criador de Spitz Alemão Anão confiável em SP
+          Criador de Spitz Alemão Anão (Lulu da Pomerânia) confiável em SP
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Aprenda a diferenciar um criador responsável de um irresponsável, conheça os critérios que definem uma criação séria e veja o que a By Império Dog entrega por escrito — criação de Spitz Alemão Anão no interior de São Paulo desde {FOUNDING_YEAR}.
+          Aprenda a diferenciar um criador responsável de um irresponsável, conheça os critérios que definem uma criação séria e veja o que a By Império Dog entrega por escrito — criação de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo desde {FOUNDING_YEAR}.
         </p>
       </header>
 
@@ -161,7 +161,7 @@ export default function CriadorConfiavelPage() {
       {/* ── O QUE FAZ UM CRIADOR RESPONSÁVEL ── */}
       <section aria-labelledby="responsavel-heading" className="space-y-6">
         <h2 id="responsavel-heading" className="text-2xl font-bold text-zinc-900">
-          O que define um criador de Spitz Alemão Anão realmente responsável?
+          O que define um criador de Spitz Alemão Anão (Lulu da Pomerânia) realmente responsável?
         </h2>
         <p className="text-sm text-zinc-600 sm:text-base">
           Não basta ter filhotes bonitos ou um canil com câmeras. Um criador responsável demonstra compromisso em cada etapa — antes, durante e depois da venda.
@@ -270,7 +270,7 @@ export default function CriadorConfiavelPage() {
               rel="noreferrer"
               className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50"
             >
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
           )}
         </div>
@@ -280,7 +280,7 @@ export default function CriadorConfiavelPage() {
       <RelatedPages links={[
         { label: "Como Comprar com Segurança",  href: "/comprar-spitz-anao",       desc: "Guia passo a passo para a compra segura" },
         { label: "Filhotes e Valores",                                 href: "/filhotes",                 desc: "Fotos, vídeos e valores individuais" },
-        { label: "Spitz Alemão Anão — A Raça",  href: "/spitz-alemao",             desc: "Tudo sobre temperamento e cuidados" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia) — A Raça",  href: "/spitz-alemao",             desc: "Tudo sobre temperamento e cuidados" },
       ]} />
 
       <nav aria-label="Navegação estrutural">

@@ -32,11 +32,11 @@ type BlogCardPost = {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
-  comportamento: { bg: "bg-violet-50",  text: "text-violet-700"  },
-  saude:         { bg: "bg-emerald-50", text: "text-emerald-700" },
-  preco:         { bg: "bg-amber-50",   text: "text-amber-700"   },
-  cuidados:      { bg: "bg-sky-50",     text: "text-sky-700"     },
-  raca:          { bg: "bg-rose-50",    text: "text-rose-700"    },
+  comportamento: { bg: "bg-[var(--accent)]", text: "text-[var(--accent-foreground)]" },
+  saude:         { bg: "bg-[var(--accent)]", text: "text-[var(--accent-foreground)]" },
+  preco:         { bg: "bg-[var(--accent)]", text: "text-[var(--accent-foreground)]" },
+  cuidados:      { bg: "bg-[var(--accent)]", text: "text-[var(--accent-foreground)]" },
+  raca:          { bg: "bg-[var(--accent)]", text: "text-[var(--accent-foreground)]" },
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -71,15 +71,9 @@ function deriveCategory(post: BlogCardPost): string | null {
 
 // ─── Placeholder image ────────────────────────────────────────────────────────
 
-function CoverPlaceholder({ category }: { category: string | null }) {
-  const c = category ? CATEGORY_COLORS[category] : null;
+function CoverPlaceholder() {
   return (
-    <div
-      className={`flex h-full w-full flex-col items-center justify-center gap-2 ${
-        c ? `${c.bg}` : "bg-emerald-50"
-      }`}
-      aria-hidden
-    >
+    <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-emerald-50" aria-hidden>
       <span className="text-4xl opacity-40">🐾</span>
     </div>
   );
@@ -96,7 +90,7 @@ export function FeaturedBlogCard({ post }: { post: BlogCardPost }) {
   const catLabel  = category ? (CATEGORY_LABELS[category] ?? category) : null;
 
   const waLink = buildWhatsAppLink({
-    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão.`,
+    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão (Lulu da Pomerânia).`,
     utmSource:  "site", utmMedium: "blog_featured", utmCampaign: "blog_lead", utmContent: post.slug,
   });
 
@@ -155,7 +149,7 @@ export function FeaturedBlogCard({ post }: { post: BlogCardPost }) {
               blurDataURL={BLUR_DATA_URL}
             />
           ) : (
-            <CoverPlaceholder category={category} />
+            <CoverPlaceholder />
           )}
           <span className="absolute left-3 top-3 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white shadow-sm">
             ✨ Destaque
@@ -177,7 +171,7 @@ export default function BlogCard({ post }: { post: BlogCardPost }) {
   const catLabel  = category ? (CATEGORY_LABELS[category] ?? category) : null;
 
   const waLink = buildWhatsAppLink({
-    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão.`,
+    message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão (Lulu da Pomerânia).`,
     utmSource:  "site", utmMedium: "blog_card", utmCampaign: "blog_lead", utmContent: post.slug,
   });
 
@@ -198,7 +192,7 @@ export default function BlogCard({ post }: { post: BlogCardPost }) {
             decoding="async"
           />
         ) : (
-          <CoverPlaceholder category={category} />
+          <CoverPlaceholder />
         )}
         {catLabel && cat && (
           <span className={`absolute left-2.5 top-2.5 rounded-full px-2.5 py-1 text-[10px] font-bold shadow-sm ${cat.bg} ${cat.text}`}>

@@ -35,14 +35,14 @@ const SELLING_POINTS = [
 // "10+ anos" envelhece sozinho e conflitava com "13 anos" em outras páginas.
 // O ano de fundação é fato fixo e não precisa de manutenção.
 const STATS = [
-  { value: `Desde ${FOUNDING_YEAR}`, label: "criando Spitz Alemão Anão" },
+  { value: `Desde ${FOUNDING_YEAR}`, label: "criando Spitz Alemão Anão (Lulu da Pomerânia)" },
   { value: "Todo o Brasil", label: "área de atendimento" },
   { value: "24h", label: "suporte humano dedicado" },
 ] as const;
 
 const primaryWhatsApp = buildWhatsAppLink({
   message:
-    "Olá! Quero saber quais Spitz Alemão Anão estão disponíveis na By Império Dog.",
+    "Olá! Quero saber quais Spitz Alemão Anão (Lulu da Pomerânia) estão disponíveis na By Império Dog.",
   utmSource: "site",
   utmMedium: "hero",
   utmCampaign: "hero_primary_cta",
@@ -162,7 +162,7 @@ export default function HeroSection() {
             <div className="relative aspect-[4/3]">
               <Image
                 src={heroDesktop}
-                alt="Filhote de Spitz Alemão Anão creme no colo da criadora, em sala clara com tapete branco"
+                alt="Filhote de Spitz Alemão Anão (Lulu da Pomerânia) creme no colo da criadora, em sala clara com tapete branco"
                 fill
                 priority
                 fetchPriority="high"

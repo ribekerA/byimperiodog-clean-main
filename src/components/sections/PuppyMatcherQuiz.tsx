@@ -1,11 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { type ComponentProps, useState } from "react";
 
+import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -92,8 +91,6 @@ export default function PuppyMatcherQuiz() {
   });
   const waLink = useWhatsAppLink(baseWaLink);
 
-  const coverImg = match?.images?.find((img: string) => !img.endsWith(".mp4")) ?? match?.images?.[0];
-  const matchPrice = match?.priceCents ?? match?.price_cents;
 
   return (
     <section className="mx-auto max-w-2xl px-4 py-16 sm:px-6" aria-labelledby="quiz-heading">
@@ -106,7 +103,7 @@ export default function PuppyMatcherQuiz() {
           Encontre o filhote que combina com suas preferências
         </h2>
         <p className="mt-3 text-zinc-600">
-          Spitz Alemão Anão. 3 perguntas rápidas para filtrar
+          Spitz Alemão Anão (Lulu da Pomerânia). 3 perguntas rápidas para filtrar
           a vitrine por cor e sexo.
         </p>
       </div>
@@ -215,50 +212,12 @@ export default function PuppyMatcherQuiz() {
           </p>
 
           {match ? (
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-              {/* Foto */}
-              {coverImg && (
-                <Link href={`/filhotes/${match.slug}`} className="shrink-0 block">
-                  <div className="relative mx-auto h-40 w-40 overflow-hidden rounded-2xl bg-zinc-100 sm:h-44 sm:w-44">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={coverImg} alt={match.name} className="h-full w-full object-cover transition hover:scale-105" />
-                    {/* O selo verde "Disponível" saiu daqui: a foto continua publicada depois que o filhote encontra a família dele. */}
-                  </div>
-                </Link>
-              )}
-
-              {/* Info */}
-              <div className="flex flex-1 flex-col gap-3">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">{match.cor ?? match.color}</p>
-                  <h3 className="mt-0.5 text-xl font-bold text-zinc-900">{match.name}</h3>
-                  <p className="mt-1 text-sm text-zinc-600">
-                    {match.sex === "female" ? "Fêmea" : "Macho"} · Spitz Alemão Anão · Bragança Paulista, SP
-                  </p>
-                </div>
-                {matchPrice > 0 && (
-                  <p className="text-lg font-extrabold leading-snug text-[var(--accent-ink)]">
-                    {textoAPartirDeNoPix(matchPrice)}
-                  </p>
-                )}
-                <div className="flex flex-col gap-2">
-                  <a
-                    href={waLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex min-h-[48px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-5 text-sm font-bold text-white shadow-md transition hover:bg-emerald-700"
-                  >
-                    <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                    Consultar opções atuais
-                  </a>
-                  <Link
-                    href={`/filhotes/${match.slug}`}
-                    className="text-center text-xs font-medium text-zinc-500 hover:text-emerald-600 hover:underline"
-                  >
-                    Ver galeria completa →
-                  </Link>
-                </div>
-              </div>
+            <div className="mx-auto max-w-[300px]">
+              <StaticPuppyCard
+                {...(match as ComponentProps<typeof StaticPuppyCard>)}
+                waMedium="quiz"
+                waCampaign="matcher_quiz"
+              />
             </div>
           ) : (
             /* Sem match — fallback */

@@ -12,12 +12,15 @@ test.beforeEach(async ({ context, baseURL }) => {
   });
 });
 
-test("catálogo prioriza somente a primeira foto sem trocar a capa", async ({ page }) => {
+// Desde o redesenho da vitrine (06/11/2026) a maior imagem da dobra é a foto do
+// topo, não a do primeiro cartão: a prioridade mudou de dono, continua sendo uma só.
+test("catálogo prioriza somente a foto do topo sem trocar a capa", async ({ page }) => {
   await page.goto("/filhotes");
+  await expect(page.locator("main img.vt-topo-foto")).toHaveAttribute("fetchpriority", "high");
+  await expect(page.locator('main img[fetchpriority="high"]')).toHaveCount(1);
   const photos = page.locator("main article img");
-  await expect(photos.first()).toHaveAttribute("fetchpriority", "high");
   await expect(photos.first()).toHaveAttribute("src", /branco-femea-jardim-20260926-04/);
-  await expect(page.locator('main article img[fetchpriority="high"]')).toHaveCount(1);
+  await expect(photos.first()).toHaveAttribute("loading", "lazy");
   await expect(photos.nth(1)).toHaveAttribute("loading", "lazy");
 });
 
@@ -28,7 +31,8 @@ for (const colorScheme of ["light", "dark"] as const) {
     await page.getByRole("button", { name: "Rejeitar", exact: true }).click();
     const link = page.locator(".prose a.link-brand").first();
     await link.scrollIntoViewIfNeeded();
-    await expect(link).toHaveCSS("color", "rgb(4, 120, 87)");
+    // Verde da paleta creme (#17663d). Quem cobra a legibilidade é o axe, logo abaixo.
+    await expect(link).toHaveCSS("color", "rgb(23, 102, 61)");
     await page.addScriptTag({ path: require.resolve("axe-core/axe.min.js") });
     const violations = await page.evaluate(async () => {
       const axe = (window as unknown as { axe: { run: (node: Document, options: unknown) => Promise<AxeResults> } }).axe;

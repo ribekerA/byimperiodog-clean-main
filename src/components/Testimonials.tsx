@@ -79,7 +79,7 @@ export default function Testimonials({
       return `${caption.name}, de ${caption.city}, com ${sujeito}`;
     }
     if (caes) return `Família cliente da By Império Dog com ${caes}`;
-    return "Família cliente da By Império Dog com o seu Spitz Alemão Anão";
+    return "Família cliente da By Império Dog com o seu Spitz Alemão Anão (Lulu da Pomerânia)";
   }, []);
 
   const abrir = useCallback((i: number, gatilho: HTMLButtonElement | null) => {

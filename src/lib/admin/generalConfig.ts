@@ -17,7 +17,7 @@ export type GeneralSettings = {
 
 export const GENERAL_DEFAULTS: GeneralSettings = {
   brand_name: "By Império Dog",
-  brand_tagline: "Curadoria premium de Spitz Alemão",
+  brand_tagline: "Curadoria premium de Spitz Alemão (Lulu da Pomerânia)",
   contact_email: "",
   contact_phone: "",
   instagram: "",
@@ -29,9 +29,9 @@ export const GENERAL_DEFAULTS: GeneralSettings = {
   template_followup: "Tudo bem? Ainda tem interesse no Spitz? Posso esclarecer dúvidas ou ajustar o valor/entrega.",
   followup_rules: "Responder em até 2 horas no horário de atendimento; até 2 follow-ups em 24h; sem prazo artificial de validade.",
   avg_response_minutes: 30,
-  seo_title_default: "By Império Dog • Spitz Alemão Anão",
+  seo_title_default: "By Império Dog • Spitz Alemão Anão (Lulu da Pomerânia)",
   seo_description_default:
-    "Filhotes de Spitz Alemão Anão com curadoria premium, saúde garantida e entrega segura. Veja cores, preços e vídeos.",
+    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) com curadoria premium, saúde garantida e entrega segura. Veja cores, preços e vídeos.",
   seo_meta_tags: "spitz, lulu da pomerânia, filhotes, criação responsável",
 };
 

@@ -21,7 +21,7 @@ try{
   await page.getByRole('button',{name:'Ver foto 1',exact:true}).click();
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await page.evaluate(()=>scrollTo(0,0));await page.addStyleTag({content:'nextjs-portal{display:none!important}'});await page.screenshot({path:`${out}/${base.includes('localhost')?'local':'live'}-detail-${width}.png`});
-  await page.goto(`${base}/filhotes`,{waitUntil:'networkidle',timeout:120000});
+  await page.goto(`${base}/filhotes/sao-paulo`,{waitUntil:'networkidle',timeout:120000});
   await page.getByLabel('O que você procura?',{exact:true}).fill('macho branco até 4500');
   const cards=page.locator('article').filter({has:page.locator(`[data-wa-puppy="${slug}"]`)});await expect(cards).toHaveCount(1);await expect(cards).toContainText('R$ 4.500');
   await expect(page.locator('#catalog-query-result')).toContainText('1 referência');

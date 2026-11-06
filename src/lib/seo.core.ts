@@ -34,7 +34,7 @@ function canonicalOnCurrentDomain(value: string | undefined, fallback: string): 
 
 /** Metadados base do site público (home / institucionais). */
 export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
-  const title = overrides.title || { default: 'Spitz Alemão Anão | By Império Dog', template: '%s | By Império Dog' };
+  const title = overrides.title || { default: 'Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog', template: '%s | By Império Dog' };
   const description = overrides.description || 'Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com consulta veterinária, hemograma completo e pedigree.';
   return {
     metadataBase: new URL(SITE_ORIGIN),
@@ -66,7 +66,7 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
     openGraph: {
       type: 'website',
       siteName: 'By Império Dog',
-      images: [{ url: '/spitz-hero-desktop.webp', width: 1400, height: 933, alt: 'Spitz Alemão Anão — By Império Dog' }],
+      images: [{ url: '/spitz-hero-desktop.webp', width: 1400, height: 933, alt: 'Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog' }],
       ...overrides.openGraph,
     },
     twitter: { card: 'summary_large_image', ...(overrides.twitter || {}) },
@@ -91,7 +91,7 @@ export function baseBlogMetadata(overrides: Partial<Metadata> = {}): Metadata {
     twitter: {
       card: 'summary_large_image',
   title: 'Blog | By Império Dog',
-      description: 'Conteúdo sobre Spitz Alemão Anão e bem-estar.',
+      description: 'Conteúdo sobre Spitz Alemão Anão (Lulu da Pomerânia) e bem-estar.',
       ...(overrides.twitter || {}),
     },
     ...overrides,
@@ -179,7 +179,7 @@ export function blogJsonLdOrg() {
     '@type': 'Blog',
   name: 'By Império Dog - Blog',
     url: canonical('/blog'),
-    description: 'Artigos sobre Spitz Alemão Anão, cuidados, rotina e qualidade de vida.'
+    description: 'Artigos sobre Spitz Alemão Anão (Lulu da Pomerânia), cuidados, rotina e qualidade de vida.'
   };
 }
 

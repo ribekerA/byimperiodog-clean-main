@@ -89,7 +89,7 @@ export default function PomeranianPage() {
       <script id="ld-pom-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       {/* HERO */}
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Raça — guia completo</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           Pomeranian no Brasil — o que você precisa saber
@@ -116,7 +116,7 @@ export default function PomeranianPage() {
         <h2 id="escolha-pomeranian" className="text-2xl font-bold text-zinc-900">Antes de escolher seu Pomeranian</h2>
         <p>Compare a cor e o sexo na <Link href="/filhotes" className="underline">vitrine com fotos e vídeos reais</Link>. As galerias são referências permanentes: confirme quais opções podem ser reservadas no atendimento.</p>
         <p>Na conversa com a equipe, confira o valor do filhote, o contrato, a documentação entregue e as condições de transporte para sua cidade. Visitas e videochamadas podem ser combinadas com a criadora.</p>
-        <Link href="/guias/como-escolher-spitz-alemao-anao" className="inline-block font-medium text-emerald-800 underline">Ler o guia para escolher um Spitz Alemão Anão</Link>
+        <Link href="/guias/como-escolher-spitz-alemao-anao" className="inline-block font-medium text-emerald-800 underline">Ler o guia para escolher um Spitz Alemão Anão (Lulu da Pomerânia)</Link>
       </section>
 
       {/* Características */}
@@ -193,14 +193,14 @@ export default function PomeranianPage() {
               rel="noreferrer"
               className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50"
             >
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
           )}
         </div>
       </section>
 
       <RelatedPages links={[
-        { label: "Spitz Alemão Anão — Raça Completa", href: "/spitz-alemao",        desc: "Nome oficial FCI: tudo sobre a raça" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia) — Raça Completa", href: "/spitz-alemao",        desc: "Nome oficial FCI: tudo sobre a raça" },
         { label: "Lulu da Pomerânia",                 href: "/lulu-da-pomerania",   desc: "Guia completo em português" },
         { label: "Filhotes e Valores",                href: "/filhotes",            desc: "Fotos, vídeos e valores individuais" },
       ]} />

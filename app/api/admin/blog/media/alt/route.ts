@@ -15,7 +15,7 @@ export async function POST(req:Request){
     if(!media) return NextResponse.json({ ok:false, error:'not found' },{ status:404 });
     // Gerador super simples (pode evoluir para visão ou IA):
     const base = hint || media.file_path.split('/').pop()?.replace(/[-_]/g,' ').replace(/\.[a-z0-9]+$/i,'') || 'spitz alemao';
-    const alt = ('Spitz Alemão '+ base).slice(0,140);
+    const alt = ('Spitz Alemão (Lulu da Pomerânia) '+ base).slice(0,140);
     await sb.from('media_assets').update({ alt }).eq('id', media_id);
     return NextResponse.json({ ok:true, alt });
   } catch(e:any){

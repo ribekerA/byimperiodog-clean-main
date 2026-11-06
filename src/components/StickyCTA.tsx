@@ -14,7 +14,7 @@ interface StickyCTAProps {
 
 export default function StickyCTA({
   href,
-  label = "Falar com a criadora",
+  label = "Vamos conversar sobre o seu novo amor",
   scrollThreshold = 300,
 }: StickyCTAProps) {
   const [visible, setVisible] = useState(false);

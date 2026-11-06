@@ -30,6 +30,11 @@ const ITEM_VARIANTS: Variants = {
   },
 };
 
+const ITEM_VARIANTS_INSTANT: Variants = {
+  hidden: ITEM_VARIANTS.hidden,
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0 } },
+};
+
 // ─── StaggerContainer ──────────────────────────────────────────────────────────
 
 interface StaggerContainerProps {
@@ -51,16 +56,13 @@ export function StaggerContainer({
 }: StaggerContainerProps) {
   const reduced = useReducedMotion();
 
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
-
+  // Sempre o mesmo elemento: ver a nota em ScrollReveal. Com menos movimento, sem cascata.
   const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: stagger,
-        delayChildren: delay,
+        staggerChildren: reduced ? 0 : stagger,
+        delayChildren: reduced ? 0 : delay,
       },
     },
   };
@@ -90,8 +92,9 @@ interface StaggerItemProps {
  * As variantes são herdadas automaticamente via Framer Motion context.
  */
 export function StaggerItem({ children, className }: StaggerItemProps) {
+  const reduced = useReducedMotion();
   return (
-    <motion.div className={className} variants={ITEM_VARIANTS}>
+    <motion.div className={className} variants={reduced ? ITEM_VARIANTS_INSTANT : ITEM_VARIANTS}>
       {children}
     </motion.div>
   );

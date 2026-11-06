@@ -71,7 +71,7 @@ test("todos os links de contato da home ficam instrumentados e um clique gera um
   );
   expect(before).toBe(0);
 
-  await page.locator('[data-wa-placement="hero"][data-analytics="whatsapp-click"]').first().click();
+  await page.locator('[data-wa-placement="featured_home"][data-analytics="whatsapp-click"]').first().click();
 
   const events = await page.evaluate(() => {
     const pelaTagDireta = (
@@ -88,7 +88,8 @@ test("todos os links de contato da home ficam instrumentados e um clique gera um
   expect(events).toHaveLength(1);
   expect(events[0]).toMatchObject({
     channel: "whatsapp",
-    cta_location: "hero",
+    // `featured_home` não está no vocabulário de WHATSAPP_PLACEMENTS: vira `content`.
+    cta_location: "content",
     page_path: "/",
     content_type: "home",
   });

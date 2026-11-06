@@ -12,11 +12,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/comprar-spitz-anao`;
 
 export const metadata: Metadata = {
-  title: "Como Comprar Spitz Alemão Anão com Segurança",
+  title: "Como Comprar Spitz Alemão Anão (Lulu da Pomerânia) com Segurança",
   description:
     // 226 caracteres: o Google cortava a partir de "como evitar golpes".
     // Reescrita em 141.
-    "Como comprar um filhote de Spitz Alemão Anão com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
+    "Como comprar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
   keywords: [
     "comprar Spitz Alemão Anão",
     "onde comprar Lulu da Pomerânia confiável",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/comprar-spitz-anao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Como Comprar Spitz Alemão Anão com Segurança — By Império Dog",
+    title: "Como Comprar Spitz Alemão Anão (Lulu da Pomerânia) com Segurança — By Império Dog",
     description:
       "Guia completo: o que exigir, documentos obrigatórios, sinais de alerta e como funciona a compra na By Império Dog. Bragança Paulista, SP.",
     type: "article",
@@ -66,12 +66,12 @@ const STEPS = [
 
 const PAGE_FAQS = [
   {
-    question: "Onde comprar Spitz Alemão Anão com segurança?",
+    question: "Onde comprar Spitz Alemão Anão (Lulu da Pomerânia) com segurança?",
     answer:
       `A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com criação responsável desde ${FOUNDING_YEAR}. Os filhotes saem com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, histórico de vermifugação, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
   },
   {
-    question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão?",
+    question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
       "Os documentos essenciais são: registro oficial, comprovação da consulta veterinária e do hemograma, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, histórico de vermifugação, nota fiscal e contrato de compra e venda. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme com o criador o que consta no contrato. Peça para conferir todos esses itens antes de fechar a compra.",
   },
@@ -91,7 +91,7 @@ const PAGE_FAQS = [
       "A compra é formalizada por contrato escrito, apresentado antes do pagamento. Ele descreve o filhote, o valor, as condições de entrega e as obrigações de cada parte. Leia as cláusulas completas antes de assinar e peça esclarecimento sobre qualquer ponto. As garantias e demais direitos assegurados ao consumidor pela legislação aplicável valem independentemente do que o contrato preveja.",
   },
   {
-    question: "Como evitar golpes ao comprar Spitz Alemão Anão pela internet?",
+    question: "Como evitar golpes ao comprar Spitz Alemão Anão (Lulu da Pomerânia) pela internet?",
     answer:
       "Verifique: presença consistente nas redes sociais com histórico de filhotes, avaliações reais de clientes (não só prints), registro oficial verificável, contrato detalhado e transparência sobre como a criação pode ser verificada. Valores muito diferentes da média podem justificar uma verificação mais cuidadosa das condições da oferta e da documentação.",
   },
@@ -121,10 +121,10 @@ export default function ComprarSpitzPage() {
       <script id="ld-comprar-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       {/* ── HERO ── */}
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Guia de compra segura</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Como comprar um Spitz Alemão Anão com segurança
+          Como comprar um Spitz Alemão Anão (Lulu da Pomerânia) com segurança
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
           Um guia completo para quem quer comprar um filhote de Lulu da Pomerânia sem cair em armadilhas: documentos obrigatórios, sinais de alerta, como funciona a entrega e o que esperar de um criador responsável.
@@ -173,7 +173,7 @@ export default function ComprarSpitzPage() {
             <ul className="space-y-2">
               {CHECKLIST_NO.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-zinc-700">
-                  <span className="mt-0.5 text-red-500" aria-hidden>✗</span>
+                  <span className="mt-0.5 text-red-700" aria-hidden>✗</span>
                   {item}
                 </li>
               ))}
@@ -241,7 +241,7 @@ export default function ComprarSpitzPage() {
               rel="noreferrer"
               className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50"
             >
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
           )}
         </div>
@@ -252,7 +252,7 @@ export default function ComprarSpitzPage() {
         { label: "Como funciona a reserva", href: "/reserve-seu-filhote", desc: "Consulte as etapas e as condições de reserva" },
         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel",  desc: "O que exigir antes de fechar negócio" },
         { label: "Entrega para todo o Brasil", href: "/blog/spitz-alemao-anao-entrega-brasil", desc: "Documentos, etapas e logística para outros estados" },
-        { label: "Filhote de Spitz Alemão",              href: "/filhote-de-spitz-alemao",  desc: "Primeiros cuidados e o que verificar" },
+        { label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",              href: "/filhote-de-spitz-alemao",  desc: "Primeiros cuidados e o que verificar" },
       ]} />
 
       <nav aria-label="Navegação estrutural">

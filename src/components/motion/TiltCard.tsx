@@ -51,7 +51,11 @@ export function TiltCard({
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const motionEnabled = !reduced && !isCoarsePointer;
+  // O servidor nao conhece a preferencia de movimento. Ate montar, o cliente
+  // desenha igual a ele; so depois desliga o efeito.
+  const [montado, setMontado] = useState(false);
+  useEffect(() => setMontado(true), []);
+  const motionEnabled = !(montado && reduced) && !isCoarsePointer;
 
   // Valores brutos
   const rawRotateX = useMotionValue(0);

@@ -15,23 +15,23 @@ export async function POST(req: Request) {
     const posts = [
       {
         slug: "como-cuidar-do-seu-spitz-alemao-anao",
-        title: "Como cuidar do seu Spitz Alemão Anão",
+        title: "Como cuidar do seu Spitz Alemão Anão (Lulu da Pomerânia)",
         subtitle: "Dicas práticas para os primeiros meses",
         excerpt:
-          "Guia rápido para alimentação, higiene, vacinas e rotina do seu Spitz Alemão Anão.",
+          "Guia rápido para alimentação, higiene, vacinas e rotina do seu Spitz Alemão Anão (Lulu da Pomerânia).",
         cover_url: "/spitz-hero-desktop.webp",
         content_mdx:
           "# Alimentação\n\n- Ração de qualidade para filhotes\n- 3 a 4 pequenas refeições\n- Água fresca sempre disponível\n\n## Higiene e escovação\n\nEscove 2–3x por semana e use produtos próprios para pets.\n\n## Rotina e enriquecimento\n\nPasseios curtos, brinquedos interativos e reforço positivo.\n",
         status: "published",
         published_at: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString(),
-        seo_title: "Como cuidar do seu Spitz Alemão Anão | Dicas essenciais",
+        seo_title: "Como cuidar do seu Spitz Alemão Anão (Lulu da Pomerânia) | Dicas essenciais",
         seo_description:
-          "Alimentação, higiene, vacinas e rotina para os primeiros meses do seu Spitz Alemão Anão.",
+          "Alimentação, higiene, vacinas e rotina para os primeiros meses do seu Spitz Alemão Anão (Lulu da Pomerânia).",
         og_image_url: "/spitz-hero-desktop.webp",
       },
       {
         slug: "spitz-alemao-anao-personalidade-e-convivio",
-        title: "Spitz Alemão Anão: personalidade e convívio",
+        title: "Spitz Alemão Anão (Lulu da Pomerânia): personalidade e convívio",
         subtitle: null,
         excerpt: "Temperamento, socialização e dicas para conviver bem com crianças, idosos e outros pets.",
         cover_url: "/spitz-hero-mobile.png",
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         status: "published",
         published_at: new Date(new Date().getTime() - 15 * 24 * 60 * 60 * 1000).toISOString(),
         seo_title: "Spitz Anão: personalidade e convívio",
-        seo_description: "Veja como é a personalidade do Spitz Alemão Anão e como conviver bem em família.",
+        seo_description: "Veja como é a personalidade do Spitz Alemão Anão (Lulu da Pomerânia) e como conviver bem em família.",
         og_image_url: "/spitz-hero-mobile.png",
       },
     ];

@@ -7,7 +7,7 @@ import { baseSiteMetadata, canonical } from "@/lib/seo.core";
 export const metadata: Metadata = baseSiteMetadata({
   title: "Buscar filhotes e conteúdos",
   description:
-    "Pesquise no site da By Império Dog: filhotes de Spitz Alemão Anão disponíveis, guias de criação, saúde e rotina, e artigos do blog.",
+    "Pesquise no site da By Império Dog: filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis, guias de criação, saúde e rotina, e artigos do blog.",
   alternates: { canonical: canonical("/search") },
   robots: { index: false },
 });
@@ -43,7 +43,7 @@ async function SearchResults({ q }: { q: string }) {
       </ul>
     );
   } catch {
-    return <p className="text-sm text-rose-600">Erro ao buscar. Tente novamente.</p>;
+    return <p className="text-sm text-rose-700">Erro ao buscar. Tente novamente.</p>;
   }
 }
 
@@ -53,7 +53,9 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-16 md:py-20">
-      <h1 className="text-2xl font-bold tracking-tight">Busca</h1>
+      <div className="faixa-topo">
+        <h1 className="text-2xl font-bold tracking-tight">Busca</h1>
+      </div>
       <form
         className="mt-6 flex gap-3"
         action="/search"

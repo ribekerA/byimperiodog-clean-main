@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   // 76 caracteres com o sufixo da marca. "Características" é a palavra mais
   // cara do título e a que menos gente digita — sai ela, ficam raça, preço e
   // cuidados, que são as três consultas reais. O H1 da página não muda.
-  title: "Spitz Alemão Anão — Características, Porte e Cuidados",
+  title: "Spitz Alemão Anão (Lulu da Pomerânia) — Características, Porte e Cuidados",
   description:
     // 184 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 150, agora com "Lulu da Pomerânia".
-      "Spitz Alemão Anão: origem, características, temperamento, cores, tamanho adulto e cuidados. Guia da raça por criadora em Bragança Paulista, SP.",
+      "Spitz Alemão Anão (Lulu da Pomerânia): origem, características, temperamento, cores, tamanho adulto e cuidados. Guia da raça por criadora em Bragança Paulista, SP.",
   keywords: [
     "Spitz Alemão Anão",
     "Spitz Alemão características",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/spitz-alemao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Spitz Alemão Anão — Tudo Sobre a Raça | By Império Dog",
-    description: "Origem, características, temperamento, cores, porte e cuidados do Spitz Alemão Anão.",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) — Tudo Sobre a Raça | By Império Dog",
+    description: "Origem, características, temperamento, cores, porte e cuidados do Spitz Alemão Anão (Lulu da Pomerânia).",
     type: "article",
   },
 };
@@ -52,29 +52,29 @@ const CHARACTERISTICS = [
 
 const FAQS = [
   {
-    question: "O Spitz Alemão Anão é bom para apartamento?",
+    question: "O Spitz Alemão Anão (Lulu da Pomerânia) é bom para apartamento?",
     answer:
-      "Sim, é uma das raças mais adaptadas à vida em apartamento. Com altura na cernelha de 21 cm ± 3 cm conforme o padrão FCI nº 97, o Spitz Alemão Anão ocupa pouco espaço, não precisa de grandes áreas para se exercitar e adapta-se bem à rotina de apartamento desde que tenha passeios diários e estimulação mental.",
+      "Sim, é uma das raças mais adaptadas à vida em apartamento. Com altura na cernelha de 21 cm ± 3 cm conforme o padrão FCI nº 97, o Spitz Alemão Anão (Lulu da Pomerânia) ocupa pouco espaço, não precisa de grandes áreas para se exercitar e adapta-se bem à rotina de apartamento desde que tenha passeios diários e estimulação mental.",
   },
   {
-    question: "Quanto tempo de vida tem o Spitz Alemão Anão?",
+    question: "Quanto tempo de vida tem o Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O Spitz Alemão Anão tem expectativa de vida de 12 a 16 anos, o que é alta para cães de pequeno porte. Com alimentação adequada, acompanhamento veterinário regular e criação responsável (sem problemas genéticos), muitos chegam aos 15 anos.",
+      "O Spitz Alemão Anão (Lulu da Pomerânia) tem expectativa de vida de 12 a 16 anos, o que é alta para cães de pequeno porte. Com alimentação adequada, acompanhamento veterinário regular e criação responsável (sem problemas genéticos), muitos chegam aos 15 anos.",
   },
   {
-    question: "O Spitz Alemão late muito?",
+    question: "O Spitz Alemão (Lulu da Pomerânia) late muito?",
     answer:
-      "O Spitz Alemão Anão tem instinto de alerta — tende a latir para estímulos externos. Porém, com socialização adequada desde filhote (como fazemos na By Império Dog), o latido excessivo é muito reduzido. Filhotes criados em ambiente familiar e com estimulação correta têm comportamento tranquilo.",
+      "O Spitz Alemão Anão (Lulu da Pomerânia) tem instinto de alerta — tende a latir para estímulos externos. Porém, com socialização adequada desde filhote (como fazemos na By Império Dog), o latido excessivo é muito reduzido. Filhotes criados em ambiente familiar e com estimulação correta têm comportamento tranquilo.",
   },
   {
-    question: "Quais são as cores do Spitz Alemão Anão?",
+    question: "Quais são as cores do Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
       "O padrão da raça admite várias cores. As cinco divulgadas pela By Império Dog são Particolor, Laranja, Creme, Preto e Branco. O padrão também admite marrom e preto e castanho, entre outras. A cor não altera temperamento nem saúde.",
   },
   {
-    question: "O Spitz Alemão Anão é hipoalergênico?",
+    question: "O Spitz Alemão Anão (Lulu da Pomerânia) é hipoalergênico?",
     answer:
-      "Não. O Spitz Alemão Anão tem pelagem densa e dupla, e solta pelos — especialmente em épocas de muda. Não é indicado para pessoas com alergias graves a pelos de cachorro. A escovação frequente (3–4 vezes por semana) minimiza a dispersão de pelos pelo ambiente.",
+      "Não. O Spitz Alemão Anão (Lulu da Pomerânia) tem pelagem densa e dupla, e solta pelos — especialmente em épocas de muda. Não é indicado para pessoas com alergias graves a pelos de cachorro. A escovação frequente (3–4 vezes por semana) minimiza a dispersão de pelos pelo ambiente.",
   },
   {
     question: "Qual a diferença entre Spitz Alemão e Lulu da Pomerânia?",
@@ -86,12 +86,12 @@ const FAQS = [
 export default function SpitzAlemaoPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão Anão e gostaria de saber mais sobre as opções atuais.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão Anão (Lulu da Pomerânia) e gostaria de saber mais sobre as opções atuais.")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
-    { name: "Spitz Alemão Anão", url: PAGE_URL },
+    { name: "Spitz Alemão Anão (Lulu da Pomerânia)", url: PAGE_URL },
   ]);
   // O no de sinonimos era um SEGUNDO <script> declarando "@type": "Article"
   // sem headline, sem url e sem data nenhuma — dois Article concorrentes na
@@ -116,10 +116,10 @@ export default function SpitzAlemaoPage() {
       <script id="ld-spitz-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
       {/* HERO */}
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Raça completa</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Spitz Alemão Anão — tudo sobre a raça
+          Spitz Alemão Anão (Lulu da Pomerânia) — tudo sobre a raça
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
           O Spitz Alemão Anão (também chamado de Lulu da Pomerânia ou Pomeranian) é uma das raças de cães de pequeno porte mais procuradas do Brasil. Nesta página você encontra tudo: origem, características, temperamento, cuidados e o que esperar da criação responsável.
@@ -155,12 +155,12 @@ export default function SpitzAlemaoPage() {
 
       {/* Origem */}
       <section aria-labelledby="origem-heading" className="space-y-3">
-        <h2 id="origem-heading" className="text-2xl font-bold text-zinc-900">Origem do Spitz Alemão Anão</h2>
+        <h2 id="origem-heading" className="text-2xl font-bold text-zinc-900">Origem do Spitz Alemão Anão (Lulu da Pomerânia)</h2>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          O Spitz Alemão Anão descende dos <strong>Spitz nórdicos</strong>, cães utilizados como pastores e companheiros na região da Pomerânia (atual fronteira entre Alemanha e Polônia). No século XIX, a raça foi refinada na Inglaterra, onde a Rainha Vitória criou exemplares — o que contribuiu para a redução do porte para o que conhecemos hoje como &ldquo;Anão&rdquo;. O nome popular &ldquo;Lulu da Pomerânia&rdquo; vem exatamente desta região histórica.
+          O Spitz Alemão Anão (Lulu da Pomerânia) descende dos <strong>Spitz nórdicos</strong>, cães utilizados como pastores e companheiros na região da Pomerânia (atual fronteira entre Alemanha e Polônia). No século XIX, a raça foi refinada na Inglaterra, onde a Rainha Vitória criou exemplares — o que contribuiu para a redução do porte para o que conhecemos hoje como &ldquo;Anão&rdquo;. O nome popular &ldquo;Lulu da Pomerânia&rdquo; vem exatamente desta região histórica.
         </p>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          Hoje, a raça é reconhecida internacionalmente pela <strong>FCI (Fédération Cynologique Internationale)</strong> como Spitz Alemão Anão, sendo criada e registrada com padrão racial definido — pelagem, estrutura, temperamento e cores reconhecidas.
+          Hoje, o Lulu da Pomerânia é reconhecido internacionalmente pela <strong>FCI (Fédération Cynologique Internationale)</strong> como Spitz Alemão Anão, sendo criado e registrado com padrão racial definido — pelagem, estrutura, temperamento e cores reconhecidas.
         </p>
       </section>
 
@@ -169,7 +169,7 @@ export default function SpitzAlemaoPage() {
         <h2 id="temperamento-heading" className="text-2xl font-bold text-zinc-900">Temperamento</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
-            { title: "Alegre e extrovertido", body: "O Spitz Alemão Anão tem personalidade forte e expressiva. É comunicativo, gosta de interação com pessoas e não é um cão indiferente — demonstra afeto ativamente." },
+            { title: "Alegre e extrovertido", body: "O Spitz Alemão Anão (Lulu da Pomerânia) tem personalidade forte e expressiva. É comunicativo, gosta de interação com pessoas e não é um cão indiferente — demonstra afeto ativamente." },
             { title: "Inteligente e treinável", body: "Aprende comandos rapidamente. Responde muito bem ao treino positivo e consegue aprender truques complexos, o que o torna estimulante de se treinar." },
             { title: "Alerta e curioso", body: "Tem instinto de alerta herdado dos ancestrais. Presta atenção em tudo ao redor — sons, movimentos, novidades. A socialização desde filhote ajuda a lidar melhor com barulhos e situações novas." },
             { title: "Vínculo forte com a família", body: "Cria laços profundos com seu núcleo familiar. Tende a preferir um ou dois membros da família, mas é afetuoso com todos." },
@@ -204,7 +204,7 @@ export default function SpitzAlemaoPage() {
 
       {/* Cores */}
       <section aria-labelledby="cores-heading" className="space-y-4">
-        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores do Spitz Alemão Anão na By Império Dog</h2>
+        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores do Spitz Alemão Anão (Lulu da Pomerânia) na By Império Dog</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Branco",     slug: "branco",     desc: "Pelagem de aparência branca e uniforme. Fotos em luz natural ajudam a diferenciar do creme claro." },
@@ -259,7 +259,7 @@ export default function SpitzAlemaoPage() {
 
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
-        <h2 className="text-xl font-bold text-zinc-900">Ver filhotes de Spitz Alemão Anão disponíveis</h2>
+        <h2 className="text-xl font-bold text-zinc-900">Ver filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis</h2>
         <p className="mt-2 text-sm text-zinc-600">Catálogo atualizado com fotos, sexo, cor e valor de cada filhote.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
@@ -267,7 +267,7 @@ export default function SpitzAlemaoPage() {
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
           )}
         </div>
@@ -275,7 +275,7 @@ export default function SpitzAlemaoPage() {
 
       <RelatedPages links={[
         { label: "Lulu da Pomerânia",         href: "/lulu-da-pomerania",        desc: "Guia completo + preços atualizados" },
-        { label: "Filhote de Spitz Alemão",   href: "/filhote-de-spitz-alemao",  desc: "Como escolher e cuidar do filhote" },
+        { label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",   href: "/filhote-de-spitz-alemao",  desc: "Como escolher e cuidar do filhote" },
         { label: "Filhotes e Valores",        href: "/filhotes",                 desc: "Fotos, vídeos e valores individuais" },
       ]} />
 
@@ -283,7 +283,7 @@ export default function SpitzAlemaoPage() {
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
-          <li className="font-medium text-zinc-600" aria-current="page">Spitz Alemão Anão</li>
+          <li className="font-medium text-zinc-600" aria-current="page">Spitz Alemão Anão (Lulu da Pomerânia)</li>
         </ol>
       </nav>
     </div>

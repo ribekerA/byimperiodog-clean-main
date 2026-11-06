@@ -42,11 +42,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const CATEGORY_COLORS: Record<string, string> = {
   canil: "bg-emerald-900/60 text-emerald-300 border-emerald-800",
-  creme: "bg-amber-900/60 text-amber-300 border-amber-800",
-  laranja: "bg-orange-900/60 text-orange-300 border-orange-800",
-  ninhada: "bg-violet-900/60 text-violet-300 border-violet-800",
-  raça: "bg-blue-900/60 text-blue-300 border-blue-800",
-  branco: "bg-zinc-800/60 text-zinc-200 border-zinc-700",
+  creme: "bg-emerald-900/60 text-emerald-300 border-emerald-800",
+  laranja: "bg-emerald-900/60 text-emerald-300 border-emerald-800",
+  ninhada: "bg-emerald-900/60 text-emerald-300 border-emerald-800",
+  raça: "bg-emerald-900/60 text-emerald-300 border-emerald-800",
+  branco: "bg-emerald-900/60 text-emerald-300 border-emerald-800",
 };
 
 function waFor(video: GalleryVideo) {

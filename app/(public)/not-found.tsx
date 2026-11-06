@@ -25,7 +25,7 @@ const DESTINOS = [
 export default function NotFound() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-5 py-20 sm:px-8">
-      <header className="space-y-3">
+      <header className="faixa-topo space-y-3">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--text-muted)]">
           Erro 404
         </p>

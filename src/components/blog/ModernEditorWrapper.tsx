@@ -429,10 +429,10 @@ export default function ModernEditorWrapper({ post }: ModernEditorWrapperProps) 
               <p className="text-lg text-blue-600 hover:underline">
                 {watch("metaTitle") || title || "Título do Post"}
               </p>
-              <p className="text-xs text-green-700">
+              <p className="text-xs text-emerald-700">
                 https://byimperiodog.com.br/blog/{slug || "url-do-post"}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-zinc-600">
                 {watch("metaDescription") || watch("excerpt") || "Descrição do post aparecerá aqui..."}
               </p>
             </div>

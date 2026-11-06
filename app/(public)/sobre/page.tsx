@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description:
     // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
     // vir do FOUNDING_YEAR como no resto do site.
-    `A história da By Império Dog: desde ${FOUNDING_YEAR} criando Spitz Alemão Anão em Bragança Paulista, SP, com criação familiar e registro oficial.`,
+    `A história da By Império Dog: desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com criação familiar e registro oficial.`,
   keywords: [
     "criador Spitz Alemão Anão confiável",
     "canil Lulu da Pomerânia Bragança Paulista",
@@ -39,9 +39,9 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/sobre`,
-    title: `Sobre a By Império Dog — criando Spitz Alemão Anão desde ${FOUNDING_YEAR}`,
+    title: `Sobre a By Império Dog — criando Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}`,
     description:
-      `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda.`,
+      `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda.`,
   },
 };
 
@@ -81,7 +81,7 @@ const TIMELINE = [
     year: "Hoje",
     title: "Famílias em todo o Brasil",
     description:
-      "Hoje, famílias espalhadas pelo Brasil confiam na By Império Dog para escolher seu Spitz Alemão Anão. E cada uma recebe mentoria pós-venda.",
+      "Hoje, famílias espalhadas pelo Brasil confiam na By Império Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria pós-venda.",
     emoji: "💚",
   },
 ] as const;
@@ -99,21 +99,21 @@ const VALUES = [
     title: "Vínculo com a família",
     description:
       "Os filhotes convivem dentro de casa, ao lado da família — com música, vozes, crianças e afeto no dia a dia.",
-    color: "bg-rose-50 text-rose-700 border-rose-100",
+    color: "bg-emerald-50 text-emerald-700 border-emerald-100",
   },
   {
     icon: CheckCircle,
     title: "Saúde acompanhada",
     description:
       "Hemograma e acompanhamento veterinário antes da entrega. Saúde não é opcional.",
-    color: "bg-blue-50 text-blue-700 border-blue-100",
+    color: "bg-emerald-50 text-emerald-700 border-emerald-100",
   },
   {
     icon: Users,
     title: "Suporte pós-venda",
     description:
       "Você não fica sozinho depois da entrega. Atendimento direto por WhatsApp com a criadora para tirar dúvidas quando precisar.",
-    color: "bg-violet-50 text-violet-700 border-violet-100",
+    color: "bg-emerald-50 text-emerald-700 border-emerald-100",
   },
 ] as const;
 
@@ -178,7 +178,7 @@ export default function SobrePage() {
   const webPageLd = buildWebPageLD({
     path: "/sobre",
     name: "Sobre a By Império Dog",
-    description: `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda em Bragança Paulista.`,
+    description: `Desde ${FOUNDING_YEAR} criando Spitz Alemão Anão (Lulu da Pomerânia) com responsabilidade. Metodologia familiar, registro oficial e mentoria pós-venda em Bragança Paulista.`,
   });
 
 
@@ -188,7 +188,7 @@ export default function SobrePage() {
       <script id="ld-webpage-sobre" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
 
       {/* ── Hero pessoal ─────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">
+      <section className="faixa-topo relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">
         <div
           className="pointer-events-none absolute inset-0 opacity-20"
           style={{
@@ -211,7 +211,7 @@ export default function SobrePage() {
           </p>
           <p className="mt-4 max-w-xl text-zinc-400 leading-relaxed">
             A By Império Dog nasceu em Bragança Paulista, SP, de uma paixão genuína pelo
-            Spitz Alemão Anão. Não somos uma fábrica de filhotes —
+            Spitz Alemão Anão (Lulu da Pomerânia). Não somos uma fábrica de filhotes —
             somos uma família que escolheu fazer isso com seriedade.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -222,7 +222,7 @@ export default function SobrePage() {
               className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 transition px-6 py-3 text-sm font-semibold text-white shadow-lg"
             >
               <WAIcon size={18} aria-hidden />
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
             <Link
               href="/filhotes"

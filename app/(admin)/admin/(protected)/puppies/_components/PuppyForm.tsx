@@ -448,8 +448,8 @@ export default function PuppyForm({
       {
         id: "conversao",
         title: "Conversão",
-        short: `${name}: Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel}. Consulte a disponibilidade.`,
-        long: `Conheça ${name}, Spitz Alemão Anão ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel}. Fale com a equipe para confirmar disponibilidade, documentação e condições de entrega, ou solicitar fotos e vídeos atuais.`,
+        short: `${name}: Spitz Alemão Anão (Lulu da Pomerânia) ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel}. Consulte a disponibilidade.`,
+        long: `Conheça ${name}, Spitz Alemão Anão (Lulu da Pomerânia) ${colorLabel}, ${sexLabel}. Valor de referência: ${priceLabel}. Fale com a equipe para confirmar disponibilidade, documentação e condições de entrega, ou solicitar fotos e vídeos atuais.`,
       },
       {
         id: "tecnico",
@@ -468,7 +468,7 @@ export default function PuppyForm({
       variants.push({
         id: `social-${copySeed}`,
         title: "Social",
-        short: `Veja fotos e vídeos de ${name}: Spitz Alemão Anão ${colorLabel}, ${sexLabel}.`,
+        short: `Veja fotos e vídeos de ${name}: Spitz Alemão Anão (Lulu da Pomerânia) ${colorLabel}, ${sexLabel}.`,
         long: `Quer conhecer ${name}? Peça fotos e vídeos atuais e tire dúvidas sobre a convivência com crianças e outros animais. Confirme as condições individuais com a equipe. Valor de referência: ${priceLabel}.`,
       });
     }

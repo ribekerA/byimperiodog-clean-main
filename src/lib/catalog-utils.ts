@@ -91,10 +91,10 @@ export type ColorSeo = {
 
 export const COLOR_SEO: Record<string, ColorSeo> = {
   branco: {
-    seoTitle: "Spitz Alemão Anão Branco — Filhotes",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Branco — Filhotes",
     metaDescription:
-      "Conheça o Spitz Alemão Anão Branco, entenda a diferença visual para o creme claro e veja fotos reais da cor na vitrine da By Império Dog.",
-    h1: "Spitz Alemão Anão Branco",
+      "Conheça o Spitz Alemão Anão (Lulu da Pomerânia) Branco, entenda a diferença visual para o creme claro e veja fotos reais da cor na vitrine da By Império Dog.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Branco",
     intro:
       "O Spitz Branco tem pelagem de aparência branca e uniforme. Já o creme claro apresenta um tom mais quente, que pode lembrar marfim ou champanhe. Luz, câmera e fase da pelagem podem alterar a percepção da cor; por isso a comparação deve ser feita com imagens atuais e em luz natural.",
     characteristics: [
@@ -111,7 +111,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
           "O branco tem aparência visualmente neutra, enquanto o creme claro apresenta um fundo mais quente, próximo de marfim ou champanhe. Iluminação e câmera podem aproximar as duas tonalidades nas fotos, então vale comparar vídeos atuais em luz natural.",
       },
       {
-        question: "Qual o preço do Spitz Alemão Anão Branco?",
+        question: "Qual o preço do Spitz Alemão Anão (Lulu da Pomerânia) Branco?",
         answer:
           respostaPrecoCor("branco"),
       },
@@ -128,10 +128,10 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   creme: {
-    seoTitle: "Spitz Alemão Anão Creme — Filhotes",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Creme — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, consulta veterinária, hemograma completo e contrato.",
-    h1: "Spitz Alemão Anão Creme",
+      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, consulta veterinária, hemograma completo e contrato.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Creme",
     intro:
       "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. O preço é definido individualmente, sem uma ordem fixa entre cores. Consulte as opções atuais pelo WhatsApp.",
     characteristics: [
@@ -143,7 +143,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
     faqs: [
       {
-        question: "Qual o preço de um Spitz Alemão Anão Creme?",
+        question: "Qual o preço de um Spitz Alemão Anão (Lulu da Pomerânia) Creme?",
         answer:
           respostaPrecoCor("creme"),
       },
@@ -165,10 +165,10 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   laranja: {
-    seoTitle: "Spitz Alemão Anão Laranja — Filhotes",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, consulta veterinária, hemograma completo e contrato.",
-    h1: "Spitz Alemão Anão Laranja",
+      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, consulta veterinária, hemograma completo e contrato.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja",
     intro:
       "O Spitz Laranja é a cor mais icônica e reconhecida da raça no mundo. Sua pelagem vibrante está dentro do padrão FCI. Ideal para famílias que amam um cão com personalidade marcante e presença visual.",
     characteristics: [
@@ -180,14 +180,14 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
     faqs: [
       {
-        question: "Qual o preço do Spitz Alemão Anão Laranja?",
+        question: "Qual o preço do Spitz Alemão Anão (Lulu da Pomerânia) Laranja?",
         answer:
           respostaPrecoCor("laranja"),
       },
       {
         question: "Spitz Laranja é dócil com crianças?",
         answer:
-          "Sim. O Spitz Alemão Anão tem temperamento equilibrado e afetivo, e a cor não muda isso. Com socialização em ambiente familiar e orientação de ambientação — como a praticada na By Império Dog — convive bem com crianças de qualquer idade.",
+          "Sim. O Spitz Alemão Anão (Lulu da Pomerânia) tem temperamento equilibrado e afetivo, e a cor não muda isso. Com socialização em ambiente familiar e orientação de ambientação — como a praticada na By Império Dog — convive bem com crianças de qualquer idade.",
       },
       {
         question: "Spitz Laranja é diferente de Lulu da Pomerânia?",
@@ -202,10 +202,10 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   particolor: {
-    seoTitle: "Spitz Alemão Anão Particolor — Filhotes",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Particolor — Filhotes",
     metaDescription:
       "Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas. Consulte opções e valores individuais.",
-    h1: "Spitz Alemão Anão Particolor",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Particolor",
     intro:
       `O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.`,
     characteristics: [
@@ -217,7 +217,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
     faqs: [
       {
-        question: "Qual o preço do Spitz Alemão Anão Particolor?",
+        question: "Qual o preço do Spitz Alemão Anão (Lulu da Pomerânia) Particolor?",
         answer:
           respostaPrecoCor("particolor"),
       },
@@ -229,7 +229,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "O Particolor é aceito pelo padrão da raça?",
         answer:
-          "Sim. O particolor consta entre as colorações previstas no padrão FCI nº 97 do Spitz Alemão. O que o padrão pede é que as manchas sejam bem distribuídas sobre a base branca.",
+          "Sim. O particolor consta entre as colorações previstas no padrão FCI nº 97 do Spitz Alemão (Lulu da Pomerânia). O que o padrão pede é que as manchas sejam bem distribuídas sobre a base branca.",
       },
       {
         question: "As manchas do Particolor mudam com o tempo?",
@@ -239,10 +239,10 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   preto: {
-    seoTitle: "Spitz Alemão Anão Preto — Filhotes",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Preto — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão Preto em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
-    h1: "Spitz Alemão Anão Preto",
+      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Preto em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Preto",
     intro:
       "O Spitz Preto tem pelagem preta brilhante, estrutura compacta e expressão marcante. No padrão da raça o preto é uma cor sólida: pelo, subpelo e pele escuros, sem manchas brancas. Consulte as opções atuais pelo WhatsApp.",
     characteristics: [
@@ -254,7 +254,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
     faqs: [
       {
-        question: "Qual o preço do Spitz Alemão Anão Preto?",
+        question: "Qual o preço do Spitz Alemão Anão (Lulu da Pomerânia) Preto?",
         answer: RESPOSTA_PRETO,
       },
       {
@@ -275,12 +275,12 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
   },
   "wolf-sable": {
-    seoTitle: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable)",
     metaDescription:
-      "O que é o Cinza-Lobo (Wolf Sable) no Spitz Alemão Anão: como a coloração se forma e o que diz o padrão da FCI. Cor não divulgada pela By Império Dog.",
-    h1: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable)",
+      "O que é o Cinza-Lobo (Wolf Sable) no Spitz Alemão Anão (Lulu da Pomerânia): como a coloração se forma e o que diz o padrão da FCI. Cor não divulgada pela By Império Dog.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable)",
     intro:
-      "O Cinza-Lobo (Wolf Sable) é a coloração bicolor do Spitz Alemão Anão, com máscara facial cinza sobre base laranja que lembra o padrão do lobo. É reconhecida pela FCI como cor oficial.",
+      "O Cinza-Lobo (Wolf Sable) é a coloração bicolor do Spitz Alemão Anão (Lulu da Pomerânia), com máscara facial cinza sobre base laranja que lembra o padrão do lobo. É reconhecida pela FCI como cor oficial.",
     characteristics: [
       "Coloração bicolor: base laranja com pontas cinza/pretas (sable)",
       "Máscara facial escura — padrão único inconfundível",
@@ -290,7 +290,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
     ],
     faqs: [
       {
-        question: "O que é Cinza-Lobo (Wolf Sable) no Spitz Alemão Anão?",
+        question: "O que é Cinza-Lobo (Wolf Sable) no Spitz Alemão Anão (Lulu da Pomerânia)?",
         answer:
           "Cinza-Lobo (ou Wolf Sable) descreve uma coloração bicolor onde cada pelo tem base laranja e ponta escura (cinza ou preta), criando o efeito 'lobo'. É uma cor reconhecida oficialmente pela FCI no padrão da raça.",
       },
@@ -326,10 +326,10 @@ export type SexSeo = {
 
 export const SEX_SEO: Record<string, SexSeo> = {
   femea: {
-    seoTitle: "Spitz Alemão Anão Fêmea — Filhotes",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Fêmea — Filhotes",
     metaDescription:
-      "Filhotes fêmea de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
-    h1: "Spitz Alemão Anão Fêmea",
+      "Filhotes fêmea de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Fêmea",
     intro:
       "A Spitz Fêmea tem pelagem densa e porte compacto dentro do padrão FCI. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",
     characteristics: [
@@ -363,10 +363,10 @@ export const SEX_SEO: Record<string, SexSeo> = {
     ],
   },
   macho: {
-    seoTitle: "Spitz Alemão Anão Macho — Filhotes",
+    seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Macho — Filhotes",
     metaDescription:
-      "Filhotes macho de Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
-    h1: "Spitz Alemão Anão Macho",
+      "Filhotes macho de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
+    h1: "Spitz Alemão Anão (Lulu da Pomerânia) Macho",
     intro:
       "O Spitz Macho tem porte compacto dentro do padrão FCI e pelagem densa, e deve ser escolhido considerando as características individuais e a rotina da família. O temperamento é o típico da raça e varia de filhote para filhote — quem define o comportamento adulto é a genética somada à socialização e à rotina de cada família, não o sexo.",
     characteristics: [
@@ -390,7 +390,7 @@ export const SEX_SEO: Record<string, SexSeo> = {
       {
         question: "Qual a diferença de preço entre Macho e Fêmea?",
         answer:
-          "Não existe diferença fixa de preço entre macho e fêmea. Consulte o valor individual e as condições de cada filhote.",
+          RESPOSTA_MACHO_VS_FEMEA,
       },
       {
         question: "O Macho Spitz é bom para crianças?",

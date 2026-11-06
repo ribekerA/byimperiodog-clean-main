@@ -41,9 +41,9 @@ const referenciasVisuais = [
   // Macho branco cadastrado com fotos e preço confirmados em 05/11/2026.
   {
     id: "spitz-branco-macho-20261105",
-    name: "Spitz Alemão Branco Macho",
+    name: "Spitz Alemão (Lulu da Pomerânia) Branco Macho",
     slug: "spitz-alemao-anao-branco-macho",
-    title: "Spitz Alemão Branco Macho | By Império Dog",
+    title: "Spitz Alemão (Lulu da Pomerânia) Branco Macho | By Império Dog",
     color: "branco",
     cor: "Branco",
     sex: "male",
@@ -66,7 +66,7 @@ const referenciasVisuais = [
     ],
     currency: "BRL",
     description:
-      "Filhote de Spitz Alemão macho branco, fotografado no gramado. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva deste filhote.",
+      "Filhote de Spitz Alemão (Lulu da Pomerânia) macho branco, fotografado no gramado. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva deste filhote.",
     isHighlighted: true,
     isFeatured: true,
   },
@@ -74,9 +74,9 @@ const referenciasVisuais = [
   // ─── SPITZ BRANCO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-branco-femea-01",
-    name: "Spitz Alemão Anão Branco Fêmea",
+    name: "Spitz Alemão Anão (Lulu da Pomerânia) Branco Fêmea",
     slug: "spitz-alemao-anao-branco-femea",
-    title: "Spitz Alemão Anão Branco Fêmea | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco Fêmea | By Império Dog",
     color: "branco",
     cor: "Branco",
     sex: "female",
@@ -115,7 +115,7 @@ const referenciasVisuais = [
     id: "spitz-creme-femea-01",
     name: "Lulu da Pomerânia Creme Fêmea",
     slug: "spitz-alemao-anao-creme-femea",
-    title: "Spitz Alemão Anão Creme Fêmea | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Creme Fêmea | By Império Dog",
     color: "creme",
     cor: "Creme",
     sex: "female",
@@ -151,9 +151,9 @@ const referenciasVisuais = [
   // ─── SPITZ PRETO FÊMEA ──────────────────────────────────────────────────────
   {
     id: "spitz-preto-femea-01",
-    name: "Spitz Alemão Anão Preto Fêmea",
+    name: "Spitz Alemão Anão (Lulu da Pomerânia) Preto Fêmea",
     slug: "spitz-alemao-anao-preto-femea",
-    title: "Spitz Alemão Anão Preto Fêmea | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Preto Fêmea | By Império Dog",
     color: "preto",
     cor: "Preto",
     sex: "female",
@@ -187,9 +187,9 @@ const referenciasVisuais = [
   // ─── SPITZ LARANJA FÊMEA ────────────────────────────────────────────────────
   {
     id: "spitz-laranja-femea-01",
-    name: "Lulu da Pomerânia Laranja Fêmea Laço Vermelho",
+    name: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja Fêmea",
     slug: "spitz-alemao-anao-laranja-femea",
-    title: "Spitz Alemão Anão Laranja Fêmea Laço Vermelho | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja Fêmea | By Império Dog",
     color: "laranja",
     cor: "Laranja",
     sex: "female",
@@ -219,7 +219,7 @@ const referenciasVisuais = [
     ],
     currency: "BRL",
     description:
-      "Fêmea Laranja fotografada com laço vermelho, em galeria exclusiva e diferente da fêmea de laço rosa. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
+      "Fêmea Laranja em galeria exclusiva, com fotos e vídeo. Registro oficial e acompanhamento veterinário. Consulte a disponibilidade e as condições da reserva.",
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
@@ -227,12 +227,42 @@ const referenciasVisuais = [
     isFeatured: false,
   },
 
+  // ─── LULU BRANCO ANÃO FÊMEA — 06/11/2026 ───────────────────────────────────
+  // Não é a mesma fêmea de `spitz-alemao-anao-branco-femea` e não compartilha
+  // mídia com ela. As fotos recebidas mostravam dois filhotes brancos: aqui só
+  // entra o de focinho rosado; a segunda foto foi recortada para tirar o outro.
+  {
+    id: "spitz-branco-femea-20261106",
+    name: "Lulu da Pomerânia Branco Anão Fêmea",
+    slug: "spitz-alemao-anao-branco-femea-2",
+    title: "Lulu da Pomerânia Branco Anão Fêmea | By Império Dog",
+    color: "branco",
+    cor: "Branco",
+    sex: "female",
+    gender: "female",
+    breed: "Spitz Alemão Anão",
+    size: "mini",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/branco/branco-femea-20261106-01.jpg",
+      "/filhotes/branco/branco-femea-20261106-02.jpg",
+      "/filhotes/branco/branco-femea-20261106-03.jpg",
+      "/filhotes/branco/branco-femea-20261106-04.jpg",
+    ],
+    currency: "BRL",
+    description:
+      "Filhote de Lulu da Pomerânia (Spitz Alemão Anão) fêmea branca, fotografada no gramado. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva desta fêmea.",
+    isHighlighted: true,
+    isFeatured: true,
+  },
+
   // ─── SPITZ LARANJA FÊMEA — LAÇO ROSA ───────────────────────────────────────
   {
     id: "spitz-laranja-femea-laco-rosa-01",
-    name: "Spitz Alemão Anão Laranja Fêmea Laço Rosa",
+    name: "Lulu da Pomerânia Laranja Fêmea",
     slug: "spitz-alemao-anao-laranja-femea-laco-rosa",
-    title: "Spitz Alemão Anão Laranja Fêmea Laço Rosa | By Império Dog",
+    title: "Lulu da Pomerânia Laranja Fêmea | By Império Dog",
     color: "laranja",
     cor: "Laranja",
     sex: "female",
@@ -246,7 +276,7 @@ const referenciasVisuais = [
     images: ["/filhotes/laranja/laranja-femea-01.jpg"],
     currency: "BRL",
     description:
-      "Fêmea Laranja fotografada com laço rosa, em enquadramento individual. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+      "Fêmea Laranja em enquadramento individual. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
     hasPedigree: true,
     vaccinationStatus: "up-to-date",
     hasMicrochip: false,
@@ -257,9 +287,9 @@ const referenciasVisuais = [
   // ─── SPITZ CREME MACHO ──────────────────────────────────────────────────────
   {
     id: "spitz-creme-macho-01",
-    name: "Spitz Alemão Anão Creme Macho",
+    name: "Spitz Alemão Anão (Lulu da Pomerânia) Creme Macho",
     slug: "spitz-alemao-anao-creme-macho",
-    title: "Spitz Alemão Anão Creme Macho | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Creme Macho | By Império Dog",
     color: "creme",
     cor: "Creme",
     sex: "male",
@@ -296,7 +326,7 @@ const referenciasVisuais = [
     id: "spitz-preto-macho-01",
     name: "Lulu da Pomerânia Preto Macho",
     slug: "spitz-alemao-anao-preto-macho",
-    title: "Spitz Alemão Anão Preto Macho | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Preto Macho | By Império Dog",
     color: "preto",
     cor: "Preto",
     sex: "male",
@@ -332,9 +362,9 @@ const referenciasVisuais = [
   // ─── SPITZ LARANJA MACHO ────────────────────────────────────────────────────
   {
     id: "spitz-laranja-macho-01",
-    name: "Spitz Alemão Anão Laranja Macho",
+    name: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja Macho",
     slug: "spitz-alemao-anao-laranja-macho",
-    title: "Spitz Alemão Anão Laranja Macho | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja Macho | By Império Dog",
     color: "laranja",
     cor: "Laranja",
     sex: "male",
@@ -370,7 +400,7 @@ const referenciasVisuais = [
     id: "spitz-wolf-sable-femea-01",
     name: "Spitz Cinza-Lobo (Wolf Sable) Fêmea",
     slug: "spitz-alemao-anao-wolf-sable-femea",
-    title: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) Fêmea | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable) Fêmea | By Império Dog",
     color: "wolf-sable",
     cor: "Cinza-Lobo",
     sex: "female",
@@ -410,7 +440,7 @@ const referenciasVisuais = [
     id: "spitz-wolf-sable-macho-01",
     name: "Spitz Cinza-Lobo (Wolf Sable) Macho",
     slug: "spitz-alemao-anao-wolf-sable-macho",
-    title: "Spitz Alemão Anão Cinza-Lobo (Wolf Sable) Macho | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable) Macho | By Império Dog",
     color: "wolf-sable",
     cor: "Cinza-Lobo",
     sex: "male",

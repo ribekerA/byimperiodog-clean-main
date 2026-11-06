@@ -241,20 +241,11 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   }));
 
   return (
-    <div className="relative mx-auto w-full max-w-6xl px-4 pt-6 pb-16 sm:pt-8 sm:pb-20 lg:pt-10">
+    <div className="relative mx-auto w-full max-w-6xl px-4 pb-16 sm:pb-20">
       <PageViewPing pageType="blog" />
       <SeoJsonLd data={structuredData} />
       <ReadingProgress />
       <FloatingReadCTA whatsappUrl={sidebarWhatsappUrl} />
-
-      <Breadcrumbs
-        className="mb-8"
-        items={[
-          { label: "Início", href: "/" },
-          { label: "Blog", href: "/blog" },
-          { label: post.title.length > 55 ? post.title.slice(0, 55) + "…" : post.title, href: `/blog/${post.slug}` },
-        ]}
-      />
 
       {/* Grid de 2 colunas no desktop: o sumário é um bloco próprio, renderizado
           UMA única vez no DOM (antes havia uma cópia "mobile" e outra "sidebar"). */}
@@ -263,10 +254,16 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
         className="flex flex-col gap-8 lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start lg:gap-x-12 lg:gap-y-8"
       >
 
-        {/* ── Bloco 1: cabeçalho + capa + compartilhar ── */}
-        <div className="w-full min-w-0 lg:col-start-1 lg:row-start-1">
-
-          {/* Header — constrained to reading measure */}
+        {/* ── Faixa do topo: trilha + título, na largura toda da grade ── */}
+        <div className="faixa-topo lg:col-span-2 lg:row-start-1">
+          <Breadcrumbs
+            className="mb-8"
+            items={[
+              { label: "Início", href: "/" },
+              { label: "Blog", href: "/blog" },
+              { label: post.title.length > 80 ? post.title.slice(0, 80) + "…" : post.title, href: `/blog/${post.slug}` },
+            ]}
+          />
           <div className="mx-auto w-full max-w-[72ch]">
             <header>
               {/* Category badge */}
@@ -320,6 +317,10 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
               </div>
             </header>
           </div>
+        </div>
+
+        {/* ── Bloco 1: capa + compartilhar ── */}
+        <div className="w-full min-w-0 lg:col-start-1 lg:row-start-2">
 
           {/* Hero image — full column width for visual impact */}
           {post.cover_url ? (
@@ -355,7 +356,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
         </div>
 
         {/* ── Bloco 2: sumário (instância única) + CTA lateral ── */}
-        <div className="w-full min-w-0 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:max-w-[16rem]">
+        <div className="w-full min-w-0 lg:col-start-2 lg:row-start-2 lg:row-span-2 lg:max-w-[16rem]">
           {compiled?.toc ? <TocPanel toc={compiled.toc} /> : null}
           <div className="hidden lg:block">
             <StickyArticleCTA whatsappUrl={sidebarWhatsappUrl} />
@@ -363,7 +364,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
         </div>
 
         {/* ── Bloco 3: corpo do artigo ── */}
-        <div className="mx-auto w-full min-w-0 max-w-[72ch] space-y-8 sm:space-y-10 lg:col-start-1 lg:row-start-2">
+        <div className="mx-auto w-full min-w-0 max-w-[72ch] space-y-8 sm:space-y-10 lg:col-start-1 lg:row-start-3">
 
             {/* Article body */}
             <Prose>

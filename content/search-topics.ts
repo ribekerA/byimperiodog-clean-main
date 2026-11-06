@@ -28,12 +28,12 @@ export const SEARCH_CLUSTERS: readonly { id: SearchCluster; title: string; descr
 export const SEARCH_TOPICS: readonly SearchTopic[] = [
   {
     id: "canil", cluster: "compra", href: "/", label: "Canil By Império Dog",
-    description: "Conheça a criação de Spitz Alemão Anão em Bragança Paulista.",
+    description: "Conheça a criação de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista.",
     queries: ["By Império Dog", "canil Spitz Alemão", "canil Lulu da Pomerânia"],
     supportingPaths: ["/sobre", "/contato"], related: ["criador", "filhotes", "preco"],
   },
   {
-    id: "filhotes", cluster: "compra", href: "/filhotes", label: "Filhotes de Spitz Alemão Anão",
+    id: "filhotes", cluster: "compra", href: "/filhotes", label: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)",
     description: "Fotos reais, cores, sexos e preços da vitrine de Lulu da Pomerânia.",
     queries: ["filhotes de Spitz Alemão", "filhotes de Lulu da Pomerânia"],
     supportingPaths: ["/ninhadas"], related: ["preco", "comprar", "femea"],
@@ -68,7 +68,7 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     supportingPaths: ["/blog/quanto-custa-manter-spitz-alemao"], related: ["preco", "alimentacao", "chegada"],
   },
   {
-    id: "spitz", cluster: "raca", href: "/spitz-alemao", label: "Spitz Alemão: características da raça",
+    id: "spitz", cluster: "raca", href: "/spitz-alemao", label: "Spitz Alemão (Lulu da Pomerânia): características da raça",
     description: "Conheça a raça e os cuidados para escolher com informação.",
     queries: ["Spitz Alemão", "Spitz Alemão Anão"],
     supportingPaths: ["/blog/guia-spitz-alemao", "/blog/spitz-alemao-anao-vs-pinscher-chihuahua"], related: ["nomes-raca", "temperamento", "filhotes"],
@@ -110,7 +110,7 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     queries: ["filhote Spitz branco preço", "Lulu da Pomerânia branco valor"], related: ["preco", "creme", "femea"],
   },
   {
-    id: "preto", cluster: "escolha", href: "/spitz-alemao-preto", label: "Spitz Alemão preto",
+    id: "preto", cluster: "escolha", href: "/spitz-alemao-preto", label: "Spitz Alemão (Lulu da Pomerânia) preto",
     description: "Conheça a pelagem preta e as referências publicadas.",
     queries: ["Spitz Alemão preto", "Lulu da Pomerânia preto"],
     supportingPaths: ["/blog/spitz-alemao-anao-preto"], related: ["preto-catalogo", "preco", "femea"],
@@ -195,7 +195,7 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     supportingPaths: ["/blog/spitz-alemao-anao-filhote-primeiros-dias"], related: ["alimentacao", "cuidados", "custo-mensal"],
   },
   {
-    id: "alimentacao", cluster: "cuidados", href: "/guias/spitz-alemao-anao-alimentacao", label: "Alimentação do Spitz Alemão",
+    id: "alimentacao", cluster: "cuidados", href: "/guias/spitz-alemao-anao-alimentacao", label: "Alimentação do Spitz Alemão (Lulu da Pomerânia)",
     description: "Orientações de rotina para conversar com o médico-veterinário.",
     queries: ["alimentação Spitz Alemão", "ração Lulu da Pomerânia"],
     supportingPaths: ["/blog/alimentacao-spitz-alemao-anao"], related: ["custo-mensal", "chegada", "cuidados"],

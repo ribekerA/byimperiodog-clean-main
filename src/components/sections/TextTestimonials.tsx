@@ -162,30 +162,30 @@ function Stars({ count }: { count: number }) {
 
 export default function TextTestimonials() {
   return (
-    <section aria-labelledby="family-stories-heading" className="relative overflow-hidden border-y border-[#dadce0] bg-[#f8f9fa] py-10 sm:py-14">
+    <section aria-labelledby="family-stories-heading" className="relative overflow-hidden border-y border-[var(--border)] bg-[var(--bg-2)] py-10 sm:py-14">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-10">
-        <div className="mb-8 border-b border-[#dadce0] pb-6 sm:mb-9">
-          <p className="text-sm text-[#5f6368]">By Império Dog</p>
-          <h2 id="family-stories-heading" className="mt-2 scroll-mt-24 text-3xl font-semibold leading-tight tracking-tight text-[#202124] sm:text-4xl">Avaliações de quem já nos conhece</h2>
-          <p className="mt-3 text-sm text-[#5f6368]">Avaliações publicadas no Google e experiências compartilhadas pelas famílias.</p>
+        <div className="mb-8 border-b border-[var(--border)] pb-6 sm:mb-9">
+          <p className="text-sm text-[var(--text-muted)]">By Império Dog</p>
+          <h2 id="family-stories-heading" className="mt-2 scroll-mt-24 text-3xl font-semibold leading-tight tracking-tight text-[var(--text)] sm:text-4xl">Avaliações de quem já nos conhece</h2>
+          <p className="mt-3 text-sm text-[var(--text-muted)]">Avaliações publicadas no Google e experiências compartilhadas pelas famílias.</p>
         </div>
         <div className="grid items-start gap-7 lg:grid-cols-[260px_minmax(0,1fr)] lg:gap-9">
           <GoogleReviewsSection />
           <ReviewCarousel>
             <GoogleReviewCards />
-            <li data-review-source="family-photo" className="flex w-[90%] shrink-0 snap-start flex-col gap-3 rounded-xl border border-[#dadce0] bg-white p-5 shadow-sm sm:w-[310px]">
-              <p className="text-sm font-semibold text-[#202124]">Emily e PomPom</p>
-              <p className="text-xs text-[#5f6368]">São José dos Campos, SP</p>
-              <a href="/clientes/emily-pompom.jpg" target="_blank" rel="noopener noreferrer" className="rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1967d2]">
-                <Image src="/clientes/emily-pompom.jpg" alt="Emily com o filhote PomPom no colo" width={718} height={1236} sizes="(max-width: 639px) 80vw, 268px" className="h-auto w-full rounded-lg" />
-                <span className="mt-2 inline-block min-h-11 content-center text-sm text-[#1967d2]">Ampliar foto<span className="sr-only"> de Emily e PomPom (abre em nova aba)</span></span>
+            <li data-review-source="family-photo" className="flex w-[90%] shrink-0 snap-start flex-col gap-3 rounded-xl border border-[var(--border)] bg-white p-5 shadow-sm sm:w-[310px]">
+              <p className="text-sm font-semibold text-[var(--text)]">Emily e PomPom</p>
+              <p className="text-xs text-[var(--text-muted)]">São José dos Campos, SP</p>
+              <a href="/clientes/emily-pompom.jpg" target="_blank" rel="noopener noreferrer" className="rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]">
+                <Image src="/clientes/emily-pompom.jpg" alt="Emily com o filhote PomPom no colo" width={718} height={1236} sizes="(max-width: 639px) 80vw, 268px" className="aspect-[4/3] w-full rounded-lg object-cover object-[50%_48%]" />
+                <span className="mt-2 inline-block min-h-11 content-center text-sm text-[var(--accent-ink)]">Ampliar foto<span className="sr-only"> de Emily e PomPom (abre em nova aba)</span></span>
               </a>
-              <p className="text-xs text-[#5f6368]">Foto compartilhada pela família</p>
+              <p className="text-xs text-[var(--text-muted)]">Foto compartilhada pela família</p>
             </li>
         {TESTIMONIALS.map((t) => (
           <li
             key={t.id}
-            className="w-[90%] shrink-0 snap-start flex flex-col gap-4 rounded-xl border border-[#dadce0] bg-white p-5 shadow-sm sm:w-[310px]"
+            className="w-[90%] shrink-0 snap-start flex flex-col gap-4 rounded-xl border border-[var(--border)] bg-white p-5 shadow-sm sm:w-[310px]"
           >
             {/* Sem nota, sem estrelas. O cartão começa pela aspa e continua
                 legível — melhor do que cinco estrelas que ninguém deu. */}

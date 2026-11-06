@@ -11,7 +11,7 @@ const PAGE_URL = `${SITE_URL}/alimentacao`;
 const guide = guides.find((g) => g.slug.includes("alimentacao")) ?? guides[0];
 
 export const metadata: Metadata = {
-  title: "Alimentação do Spitz Alemão Anão",
+  title: "Alimentação do Spitz Alemão Anão (Lulu da Pomerânia)",
   description: guide.metaDescription,
   keywords: ["alimentacao spitz alemao", "racao lulu da pomerania", "dieta filhote spitz"],
   // Esta pagina reaproveita integralmente o corpo do guia /guias/spitz-alemao-anao-alimentacao.
@@ -34,8 +34,8 @@ export default function AlimentacaoPage() {
       <script id="ld-alim-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-alim-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="space-y-3">
-        <h1 className="text-3xl font-bold">Alimentação do Spitz Alemão</h1>
+      <header className="faixa-topo space-y-3">
+        <h1 className="text-3xl font-bold">Alimentação do Spitz Alemão (Lulu da Pomerânia)</h1>
         <p className="text-zinc-600">{guide.excerpt}</p>
       </header>
 

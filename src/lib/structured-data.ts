@@ -2,6 +2,7 @@ import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
 import { lastmodFor } from "@/lib/_generated-lastmod";
 import type { CatalogItem } from "@/lib/catalog-utils";
+import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
 
 const SITE_URL = BRAND.urls.site;
 
@@ -106,7 +107,7 @@ export function buildVitrinePageLD(puppy: CatalogItem) {
     "@id": i === 0 ? `${url}#primaryimage` : `${url}#image-${i + 1}`,
     url: `${SITE_URL}${img}`,
     contentUrl: `${SITE_URL}${img}`,
-    caption: `${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`,
+    caption: descricaoDoFilhote(puppy.name, corLabel, sexLabel),
     ...(i === 0 ? { representativeOfPage: true } : {}),
   }));
 
@@ -144,7 +145,7 @@ export function buildItemListLD(puppies: CatalogItem[]) {
     "@context": "https://schema.org",
     "@type":    "ItemList",
     "@id":      `${SITE_URL}/filhotes#itemlist`,
-    name:       "Vitrine de filhotes de Spitz Alemão Anão — By Império Dog",
+    name:       "Vitrine de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
     url:        `${SITE_URL}/filhotes`,
     numberOfItems: puppies.length,
     itemListElement: puppies.map((p, i) => ({
@@ -349,7 +350,7 @@ export function buildLocalBusinessLD() {
         "@type": "Offer",
         name: "Filhote de Spitz Alemão Anão — Lulu da Pomerânia",
         description:
-          "Filhote de Spitz Alemão Anão vacinado e vermifugado, com consulta veterinária, hemograma completo e pedigree. Atendimento com base em Bragança Paulista, SP.",
+          "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) vacinado e vermifugado, com consulta veterinária, hemograma completo e pedigree. Atendimento com base em Bragança Paulista, SP.",
         priceCurrency: "BRL",
         url: `${SITE_URL}/filhotes`,
         areaServed: { "@type": "Country", name: "Brasil" },

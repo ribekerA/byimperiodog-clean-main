@@ -16,7 +16,7 @@ function guess(u: string): "image" | "video" {
 export default function PuppyGallery({
   slides,
   images,
-  alt = "Filhote Spitz Alemão Anão",
+  alt = "Filhote Spitz Alemão Anão (Lulu da Pomerânia)",
   puppyId,
 }: {
   slides?: Slide[];

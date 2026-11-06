@@ -4,13 +4,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
+import { PixIcon } from "@/components/icons/PixIcon";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { TiltCard } from "@/components/motion/TiltCard";
-import { textoAPartirDeNoPix } from "@/domain/pricing";
+import {
+  partesDoPrecoNoPix,
+  textoAPartirDeNoPix,
+} from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
-import { focoDaFoto } from "@/lib/photo-focus";
+import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
+import { capaDoCartao, focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // Formatacao de preco vem do dominio, nao daqui.
@@ -32,8 +37,34 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // derivados de um `score` sintetizado ali mesmo a partir de `leadCount`. Os
 // tres anunciavam escassez que ninguem media. O card agora e o que sempre foi
 // de fato: a foto real de uma combinacao de cor e sexo, com o preco-base dela.
+//
+// O selo verde "Disponivel" voltou em 05/11/2026 -- por decisao da
+// responsavel, e sabendo o que ele e.
+//
+// Eu levantei a objecao antes de aplicar: o campo que daria lastro a esse selo
+// (`status` no arquivo estatico) nao e reescrito a cada venda, e status real
+// exigiria a fonte `puppy-status` do Supabase, que nao chega ate este
+// componente. Ela respondeu "em todos, mesmo sem fonte", ciente de que o selo
+// aparece tambem em filhote ja vendido. Entao ele e fixo e decorativo, e nao
+// le campo nenhum -- e importante que seja fixo: um selo que lesse `status`
+// pareceria informado e estaria errado nos mesmos casos, so que em silencio.
+// O aviso que diz a verdade continua na propria pagina, logo acima da grade:
+// "A vitrine nao confirma estoque. Consulte a disponibilidade atual pelo
+// WhatsApp." Se um dia `puppy-status` chegar ate aqui, e este selo que passa
+// a ler dela.
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
+// O cartao destaca so o valor no PIX: a linha "ou 3x" saiu por pedido da
+// responsavel em 06/11/2026. Parcelamento se confirma no atendimento.
+
+// O cartao unico.
+//
+// Em 05/11/2026 a responsavel pediu um cartao so em todo o projeto, no desenho
+// do mockup. Home, vitrine, paginas de cor e de sexo, relacionados, quiz e chat
+// usam este componente; os tamanhos vem de `.cartao-filhote`, em globals.css, e
+// acompanham a largura do proprio cartao, nao a da tela. O prazo de reserva e a
+// galeria saem do cartao e ficam na ficha do filhote.
+
+// ─── Tipos ───────────────────────────────────────────────────────
 
 type StaticPuppyCardProps = {
   id: string;
@@ -46,11 +77,18 @@ type StaticPuppyCardProps = {
   priceCents?: number;
   price_cents?: number;
   images: string[];
-  description?: string;
   priority?: boolean;
+  /**
+   * De onde o card esta sendo renderizado. O markup e um so, e estes campos
+   * preservam a origem no relatorio: sem eles, os cliques de todas as paginas
+   * cairiam na mesma linha do analytics.
+   */
+  waMedium?: string;
+  waPlacement?: string;
+  waCampaign?: string;
 };
 
-// ─── Mapas de cor ─────────────────────────────────────────────────────────────
+// ─── Mapas de cor ────────────────────────────────────────────────
 
 /** Glow colorido por pelagem do filhote */
 const COLOR_GLOW: Record<string, string> = {
@@ -62,7 +100,7 @@ const COLOR_GLOW: Record<string, string> = {
 };
 const DEFAULT_GLOW = "rgba(52,211,153,0.30)";
 
-// ─── Componente ───────────────────────────────────────────────────────────────
+// ─── Componente ──────────────────────────────────────────────────
 
 export default function StaticPuppyCard({
   id,
@@ -75,8 +113,10 @@ export default function StaticPuppyCard({
   priceCents,
   price_cents,
   images,
-  description,
   priority = false,
+  waMedium = "catalog_card",
+  waPlacement = "puppy_card",
+  waCampaign = "filhote_card",
 }: StaticPuppyCardProps) {
   const corLabel = cor ?? color ?? "";
   const corKey = (color ?? cor ?? "").toLowerCase();
@@ -85,129 +125,98 @@ export default function StaticPuppyCard({
     sexRaw === "female" || sexRaw === "femea" ? "Fêmea" :
     sexRaw === "male"   || sexRaw === "macho" ? "Macho" : "";
   const price = priceCents ?? price_cents;
-  const cover = images.find((img) => !img.endsWith(".mp4")) ?? images[0];
-  const glowColor  = COLOR_GLOW[corKey] ?? DEFAULT_GLOW;
+  const foto = images.find((img) => !img.endsWith(".mp4")) ?? images[0];
+  const capa = capaDoCartao(foto);
+  const glowColor = COLOR_GLOW[corKey] ?? DEFAULT_GLOW;
+  const segundaLinha = [corLabel, sexLabel].filter(Boolean).join(" • ");
+  const partes = price ? partesDoPrecoNoPix(price) : null;
 
   const baseWaLink = useMemo(
     () =>
       buildWhatsAppLink({
         message: `Olá! Vi no site a galeria de ${corLabel} ${sexLabel} e gostaria de conhecer as opções atuais.`,
         utmSource: "site",
-        utmMedium: "catalog_card",
-        utmCampaign: "filhote_card",
+        utmMedium: waMedium,
+        utmCampaign: waCampaign,
         utmContent: slug,
       }),
-    [corLabel, sexLabel, slug]
+    [corLabel, sexLabel, slug, waMedium, waCampaign],
   );
   const waLink = useWhatsAppLink(baseWaLink);
 
   return (
-    <TiltCard glowColor={glowColor} maxTilt={9} className="h-full">
-      <article className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-zinc-900/6 h-full">
-
-        {/* ── Foto (full-bleed, aspect 4/5) ──────────────────────────────────── */}
-        <Link
-          href={`/filhotes/${slug}`}
-          aria-label={`Ver galeria de ${name}`}
-          tabIndex={-1}
-          aria-hidden="true"
-        >
-          <div className="relative aspect-square overflow-hidden bg-zinc-100 sm:aspect-[4/5]">
-            {cover && (
+    <TiltCard glowColor={glowColor} maxTilt={6} className="h-full">
+      <article className="cartao-filhote group">
+        {/* O coracao fica fora do Link da foto: botao dentro de link e HTML
+            invalido e o leitor de tela anuncia os dois juntos. */}
+        <div className="cartao-filhote-foto">
+          <Link href={`/filhotes/${slug}`} tabIndex={-1} aria-hidden="true" className="absolute inset-0">
+            {foto && (
               <Image
-                src={cover}
+                src={capa ?? foto}
                 fill
-                sizes="(max-width: 639px) calc(100vw - 32px), (max-width: 1023px) 46vw, (max-width: 1279px) 30vw, 290px"
+                sizes="(min-width: 1180px) 370px, (min-width: 640px) 31vw, 92vw"
                 quality={75}
                 priority={priority}
                 fetchPriority={priority ? "high" : undefined}
-                alt={`${name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
-                // As fotos sao verticais e o filhote raramente esta no mesmo
-                // lugar do quadro: quem posa no colo fica no alto, quem posa na
-                // grama fica embaixo. O 28% fixo servia para o primeiro caso e
-                // deixava o segundo no rodape do card. Agora vem medido foto a
-                // foto (src/lib/photo-focus), com o 28% de padrao para quem nao
-                // foi medido.
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.07]"
-                style={{ objectPosition: focoDaFoto(cover) }}
+                alt={descricaoDoFilhote(name, corLabel, sexLabel)}
+                className="object-cover transition duration-500 group-hover:scale-[1.05]"
+                // A capa quadrada ja vem enquadrada; sem ela vale o recorte medido
+                // foto a foto (src/lib/photo-focus).
+                style={capa ? undefined : { objectPosition: focoDaFoto(foto) }}
               />
             )}
-
-            {/* Gradiente inferior para legibilidade do glass panel */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: "linear-gradient(to bottom, rgba(0,0,0,0) 35%, rgba(0,0,0,0.65) 100%)",
-              }}
-              aria-hidden="true"
-            />
-
-            {/* Sexo — top-right. Taxonomia, nao estoque: e o que a foto mostra. */}
-            {sexLabel && (
-              <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
-                {sexLabel}
-              </span>
-            )}
-          </div>
-        </Link>
-
-        {/* ── Glass info panel ────────────────────────────────────────────────── */}
-        <div className="flex flex-1 flex-col gap-3 p-4 backdrop-blur-sm">
-          {/* Nome e cor */}
-          <div>
-            {corLabel && (
-              <Link
-                href={`/filhotes/cor/${corKey}`}
-                className="text-xs font-semibold uppercase tracking-widest text-zinc-500 transition hover:text-emerald-700"
-              >
-                {corLabel}
-              </Link>
-            )}
-            <Link href={`/filhotes/${slug}`}>
-              <h3 className="mt-0.5 text-base font-bold text-zinc-900 transition-colors group-hover:text-emerald-700">
-                {name}
-              </h3>
-            </Link>
-            {description && (
-              <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-zinc-500">{description}</p>
-            )}
-          </div>
-
-          {/* Preço — ponto de partida da combinação, não etiqueta do animal da foto */}
-          <div className="mt-auto flex flex-col gap-0.5">
-            <span className="text-base font-extrabold text-[var(--accent-ink)]">
-              {price ? textoAPartirDeNoPix(price) : "Sob consulta"}
-            </span>
-            <span className="text-[10px] font-medium text-zinc-500">Documentação inclusa</span>
-          </div>
-
-          {/* CTA — sempre o mesmo: quem informa o que existe hoje é o atendimento */}
-          <div className="flex items-center gap-2">
-            <PawConfettiButton
-              href={waLink}
-              data-wa-placement="puppy_card"
-              data-wa-puppy={slug}
-              rel="noreferrer"
-              target="_blank"
-              wrapperClassName="flex-1"
-              className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white shadow-sm"
-              emojis="paw"
-              count={14}
-              aria-label={`Consultar opções atuais de ${corLabel} ${sexLabel} pelo WhatsApp`}
-            >
-              <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
-              Consultar opções atuais
-            </PawConfettiButton>
-            <HeartBurstButton puppyId={id} size={18} className="h-11 w-11 shrink-0" aria-label={`Curtir ${name}`} />
-          </div>
-
-          <Link
-            href={`/filhotes/${slug}`}
-            aria-label={`Ver galeria e detalhes de ${name}`}
-            className="text-center text-xs font-medium text-zinc-500 transition hover:text-emerald-700 hover:underline"
-          >
-            Ver galeria e detalhes →
           </Link>
+          {/* Selo fixo de proposito: ver a nota no topo do arquivo. */}
+          <span className="selo-disponivel">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="10" r="10" fill="#2fbf5b" />
+              <path d="M5.5 10.4l3 3 6-6.4" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Disponível
+          </span>
+          <div className="cartao-filhote-coracao">
+            <HeartBurstButton puppyId={id} size={20} />
+          </div>
+        </div>
+
+        <div className="cartao-filhote-painel">
+          <h3 className="cartao-filhote-nome">
+            <Link href={`/filhotes/${slug}`} aria-label={`Ver galeria e detalhes de ${name}`}>
+              <span>Spitz Alemão Anão (Lulu da Pomerânia)</span>{" "}
+              <span>{segundaLinha}</span>
+            </Link>
+          </h3>
+
+          {/* Os {" "} entre os spans nao sao enfeite: sem eles o textContent
+              viraria "A partir deR$ 4.500,00no PIX" e o portao e2e de
+              smoke.spec.ts, que casa a forma completa, nao a encontraria. */}
+          {price && partes ? (
+            <p className="cartao-filhote-preco" aria-label={textoAPartirDeNoPix(price)}>
+              <span className="cartao-filhote-prefixo">{partes.prefixo}</span>{" "}
+              <strong>{partes.valor}</strong>{" "}
+              <span className="cartao-filhote-pix"><PixIcon />{partes.sufixo}</span>
+            </p>
+          ) : (
+            <p className="cartao-filhote-preco"><strong>Sob consulta</strong></p>
+          )}
+
+          {/* CTA — sempre o mesmo: quem informa o que existe hoje e o atendimento */}
+          <PawConfettiButton
+            href={waLink}
+            data-wa-placement={waPlacement}
+            data-wa-puppy={slug}
+            rel="noreferrer"
+            target="_blank"
+            wrapperClassName="cartao-filhote-acao-caixa"
+            className="cartao-filhote-acao"
+            emojis="paw"
+            count={14}
+            aria-label={`Consultar opções atuais de ${corLabel} ${sexLabel} pelo WhatsApp`}
+          >
+            <WhatsAppIcon className="cartao-filhote-acao-icone" aria-hidden="true" />
+            Consultar
+          </PawConfettiButton>
         </div>
       </article>
     </TiltCard>

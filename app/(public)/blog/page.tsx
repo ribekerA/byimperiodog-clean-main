@@ -52,16 +52,16 @@ type PublicPost = {
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Blog | Guia do Spitz Alemão Anão",
+  title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia)",
   description:
-    `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão: cuidados, rotina, comportamento, saúde preventiva e preços.`,
+    `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão (Lulu da Pomerânia): cuidados, rotina, comportamento, saúde preventiva e preços.`,
   alternates: { canonical: "/blog" },
   openGraph: {
     type: "website",
     url: "/blog",
-    title: "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão",
+    title: "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
-      "Pilares evergreen sobre saúde, rotina e comportamento do Spitz Alemão Anão.",
+      "Pilares evergreen sobre saúde, rotina e comportamento do Spitz Alemão Anão (Lulu da Pomerânia).",
     // Sem `images` aqui o Next 14 não herda o opengraph-image do segmento: a
     // página saía com og:title e nenhum og:image. Era a única URL do sitemap
     // ainda sem imagem de compartilhamento.
@@ -93,9 +93,9 @@ export default async function BlogListPage() {
     reading_minutes: post.content_mdx ? estimateReadingTime(post.content_mdx) : null,
   }));
 
-  const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão";
+  const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)";
   const metaDescStr =
-    `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão.`;
+    `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão (Lulu da Pomerânia).`;
 
   const blogSchema = buildBlogSchema({
     url: siteBase,
@@ -296,7 +296,7 @@ function BlogFooterSection() {
       <section className="rounded-3xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-8 text-center text-white sm:p-10">
         <h2 className="text-2xl font-bold">Pronto para conhecer um filhote?</h2>
         <p className="mt-3 text-emerald-100">
-          Criamos Spitz Alemão Anão desde {FOUNDING_YEAR}, com registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda.
+          Criamos Spitz Alemão Anão (Lulu da Pomerânia) desde {FOUNDING_YEAR}, com registro oficial, consulta veterinária, hemograma completo e mentoria pós-venda.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
@@ -309,7 +309,7 @@ function BlogFooterSection() {
             href="/contato"
             className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition"
           >
-            Falar com a criadora
+            Vamos conversar sobre o seu novo amor
           </Link>
         </div>
       </section>

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
+
 type Props = {
   images: string[];
   puppyName: string;
@@ -16,7 +18,7 @@ export default function PuppyGallery({ images, puppyName, puppyColor, puppySex }
   const [selected, setSelected] = useState(photos[0] ?? null);
   const [showVideo, setShowVideo] = useState(false);
 
-  const alt = `${puppyName} — Spitz Alemão Anão ${puppyColor} ${puppySex}`;
+  const alt = descricaoDoFilhote(puppyName, puppyColor, puppySex);
 
   return (
     <div className="flex flex-col gap-3 lg:sticky lg:top-24">

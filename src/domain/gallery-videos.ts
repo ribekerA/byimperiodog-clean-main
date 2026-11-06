@@ -72,18 +72,18 @@ export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   definir(
     "apresentacao-canil",
     "Por dentro da By Império Dog: apresentação do canil",
-    "Conheça a By Império Dog e veja em vídeo o trabalho dedicado ao Spitz Alemão Anão em Bragança Paulista, SP.",
+    "Conheça a By Império Dog e veja em vídeo o trabalho dedicado ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
     "canil"
   ),
   definir(
     "creme-dupla",
-    "Dois Spitz Alemão Anão creme: fofura em dobro",
-    "Dois filhotes de Spitz Alemão Anão creme juntos, mostrando de perto a pelagem clara e o jeito curioso da raça.",
+    "Dois Spitz Alemão Anão (Lulu da Pomerânia) creme: fofura em dobro",
+    "Dois filhotes de Spitz Alemão Anão (Lulu da Pomerânia) creme juntos, mostrando de perto a pelagem clara e o jeito curioso da raça.",
     "creme"
   ),
   definir(
     "laranja-femea-jardim",
-    "Spitz Alemão Anão laranja fêmea explorando o jardim",
+    "Spitz Alemão Anão (Lulu da Pomerânia) laranja fêmea explorando o jardim",
     "Uma fêmea laranja de Lulu da Pomerânia caminhando e explorando o jardim em um vídeo natural, sem filtros.",
     "laranja"
   ),
@@ -93,14 +93,14 @@ export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   definir(
     "laranja-macho-gramado",
     "Lulu da Pomerânia laranja macho brincando no gramado",
-    "Um Spitz Alemão Anão laranja macho em movimento no gramado, filmado ao ar livre e em luz natural.",
+    "Um Spitz Alemão Anão (Lulu da Pomerânia) laranja macho em movimento no gramado, filmado ao ar livre e em luz natural.",
     "laranja",
     "2026-08-26"
   ),
   definir(
     "laranja-macho-jardim",
     "Spitz laranja macho no jardim: energia e curiosidade",
-    "Veja um macho laranja de Spitz Alemão Anão brincando e explorando o espaço externo da By Império Dog.",
+    "Veja um macho laranja de Spitz Alemão Anão (Lulu da Pomerânia) brincando e explorando o espaço externo da By Império Dog.",
     "laranja"
   ),
   definir(
@@ -112,43 +112,43 @@ export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   definir(
     "ninhada-jun22-01",
     "Ninhada de Lulu da Pomerânia — junho de 2022, parte 1",
-    "Primeiro vídeo da ninhada de Spitz Alemão Anão registrada em junho de 2022.",
+    "Primeiro vídeo da ninhada de Spitz Alemão Anão (Lulu da Pomerânia) registrada em junho de 2022.",
     "ninhada"
   ),
   definir(
     "ninhada-jun22-02",
     "Ninhada de Lulu da Pomerânia — junho de 2022, parte 2",
-    "Segundo vídeo da ninhada de Spitz Alemão Anão registrada em junho de 2022.",
+    "Segundo vídeo da ninhada de Spitz Alemão Anão (Lulu da Pomerânia) registrada em junho de 2022.",
     "ninhada"
   ),
   definir(
     "ninhada-laranja-01",
     "Ninhada de Spitz laranja em movimento",
-    "Filhotes laranja de Spitz Alemão Anão juntos em um registro natural da ninhada.",
+    "Filhotes laranja de Spitz Alemão Anão (Lulu da Pomerânia) juntos em um registro natural da ninhada.",
     "ninhada"
   ),
   definir(
     "spitz-anao",
-    "Spitz Alemão Anão em movimento: conheça a raça",
+    "Spitz Alemão Anão (Lulu da Pomerânia) em movimento: conheça a raça",
     "Veja de perto o porte, a pelagem e os movimentos do Spitz Alemão Anão, também conhecido como Lulu da Pomerânia.",
     "raça"
   ),
   definir(
     "spitz-branco",
     "Lulu da Pomerânia branco: pelagem e movimento",
-    "Um Spitz Alemão Anão branco em movimento, com destaque para a pelagem clara e volumosa.",
+    "Um Spitz Alemão Anão (Lulu da Pomerânia) branco em movimento, com destaque para a pelagem clara e volumosa.",
     "branco"
   ),
   definir(
     "spitz-creme",
     "Spitz creme em movimento: veja de perto",
-    "Vídeo de um Spitz Alemão Anão creme em movimento, mostrando a tonalidade e o volume da pelagem.",
+    "Vídeo de um Spitz Alemão Anão (Lulu da Pomerânia) creme em movimento, mostrando a tonalidade e o volume da pelagem.",
     "creme"
   ),
   definir(
     "spitz-laranja-macho",
     "Lulu da Pomerânia laranja macho em movimento",
-    "Veja de perto um macho laranja de Spitz Alemão Anão em um vídeo real da By Império Dog.",
+    "Veja de perto um macho laranja de Spitz Alemão Anão (Lulu da Pomerânia) em um vídeo real da By Império Dog.",
     "laranja"
   ),
   // O video da femea branca (spitz-femea-branco.mp4) estava aqui e saiu: o

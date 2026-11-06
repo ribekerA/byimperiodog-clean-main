@@ -129,7 +129,7 @@ export default function NewWebStoryPage() {
 
                     setFormData({ ...formData, ...updates });
                   }}
-                  placeholder="Ex: Filhote Spitz Alemão Branco"
+                  placeholder="Ex: Filhote Spitz Alemão (Lulu da Pomerânia) Branco"
                   className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                 />
                 <p className="mt-1 text-xs text-[var(--text-muted)]">

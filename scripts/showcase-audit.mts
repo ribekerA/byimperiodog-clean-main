@@ -10,7 +10,10 @@
  *   showcase:audit  o contrato COMERCIAL da vitrine — preco batendo com a
  *                   tabela unica, foto de um filhote representando um so
  *                   filhote, campo de estoque nao vazando para o publico,
- *                   nenhum selo de status e nenhuma Offer no codigo publico.
+ *                   nenhum selo que LEIA status e nenhuma Offer no codigo
+ *                   publico. "Reservado" e "Vendido" seguem proibidos em
+ *                   qualquer arquivo publico; "Disponivel" tem uma excecao
+ *                   unica e vigiada, descrita na secao 4.
  *
  * A pergunta que este script responde: o site continua sendo uma vitrine
  * permanente de fotos reais, ou alguem o transformou de novo num sistema de
@@ -33,6 +36,12 @@ import {
   formatarPreco,
   precoDoFilhote,
 } from "@/domain/pricing";
+
+import {
+  DESTINO_DE_FILHOTE,
+  avaliarSeloDisponivel,
+  semComentarios,
+} from "./lib/texto-de-status";
 
 type Registro = Record<string, unknown>;
 
@@ -220,11 +229,12 @@ for (const p of puppies) {
 // "Disponivel" carimbado sobre a foto principal, e um `Product` com
 // `offers.availability: InStock` numa pagina que continua no ar depois que o
 // filhote encontra a familia dele.
-
-/** Comentario nao vai para o HTML. Sem tirar, as proprias notas de remocao
- *  ("removido em 26/08/2026 ... InStock") acusariam o arquivo que as explica. */
-const semComentarios = (fonte: string): string =>
-  fonte.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/[^\n]*/g, "$1");
+//
+// As regras de texto de status -- o que "Reservado"/"Vendido" tem de
+// diferente de "Disponivel", a excecao de 05/11/2026 para o selo fixo e as
+// quatro condicoes que a mantem honesta -- estao inteiras em
+// scripts/lib/texto-de-status.ts, junto das funcoes que as aplicam, porque la
+// tests/unit/portao-do-selo.test.ts consegue alcanca-las.
 
 const PASTAS = ["app", "src"];
 const IGNORAR = [
@@ -295,7 +305,6 @@ if (fontes.length === 0) {
   critica("codigo", "nenhum arquivo de app/ ou src/ foi lido -- auditoria sem evidencia");
 }
 
-const SELO_DE_STATUS = /["'>]\s*(Dispon[ií]vel|Reservado|Vendido)\s*["'<]/;
 const OFERTA = /schema\.org\/(InStock|OutOfStock|LimitedAvailability|SoldOut)/;
 const PRODUTO = /["']@type["']\s*:\s*["']Product["']/;
 
@@ -308,10 +317,13 @@ for (const rel of fontes) {
   const bruto = readFileSync(join(RAIZ, rel), "utf8");
   const fonte = semComentarios(bruto);
 
-  if (SELO_DE_STATUS.test(fonte)) {
-    const trecho = (fonte.match(SELO_DE_STATUS) ?? [""])[0].trim();
-    critica(normalizado, `status de filhote como texto na tela: ${trecho}`);
+  if (DESTINO_DE_FILHOTE.test(fonte)) {
+    const trecho = (fonte.match(DESTINO_DE_FILHOTE) ?? [""])[0].trim();
+    critica(normalizado, `destino de filhote como texto na tela: ${trecho}`);
   }
+
+  const falhaDoSelo = avaliarSeloDisponivel(normalizado, fonte);
+  if (falhaDoSelo) critica(normalizado, falhaDoSelo);
   if (/\bStatusBadge\b/.test(fonte)) {
     critica(normalizado, "importa StatusBadge -- o selo e de uso interno (admin)");
   }

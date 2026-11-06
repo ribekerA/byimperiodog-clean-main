@@ -29,13 +29,14 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+import { PixIcon } from "@/components/icons/PixIcon";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { textoAPartirDeNoPix } from "@/domain/pricing";
+import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoReserva } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 // Formatacao de preco vem do dominio, nao daqui.
@@ -152,11 +153,22 @@ export default function PuppyDetailPanel({
           transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.26 }}
         >
           <div>
-            <p className="text-2xl font-extrabold text-[var(--accent-ink)]" aria-label={`Preço: ${price}`}>{price}</p>
+            <p className="preco-premium text-3xl sm:text-4xl" aria-label={`Preço: ${price}`}>
+              <span className="block text-base font-semibold">{partesDoPrecoNoPix(priceCents ?? 0).prefixo}</span>{" "}
+              <span className="whitespace-nowrap">{partesDoPrecoNoPix(priceCents ?? 0).valor}</span>{" "}
+              <span className="inline-flex items-center gap-1.5 whitespace-nowrap align-middle text-base font-semibold"><PixIcon size={18} />{partesDoPrecoNoPix(priceCents ?? 0).sufixo}</span>
+            </p>
             {slug === "spitz-alemao-anao-preto-macho" && (
               <p className="mt-1 text-sm text-zinc-600">Valor cadastrado desta referência visual; não confirma uma oferta disponível. Consulte o preço e as opções atuais no atendimento.</p>
             )}
+            {/* A reserva de 50% é cláusula de contrato, não promoção: por isso
+                aparece junto do preço, calculada sobre o valor deste filhote
+                (domain/pricing.textoReserva) e não como número escrito à mão. */}
+            {priceCents != null && priceCents > 0 && (
+              <p className="mt-1 text-sm font-medium text-[var(--text-muted)]">{textoReserva(priceCents)}</p>
+            )}
             <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, consulta veterinária e mentoria inclusos</p>
+            <p className="mt-0.5 text-xs text-zinc-500">Parcelamento e condições confirmados no atendimento</p>
           </div>
         </motion.div>
       )}

@@ -15,6 +15,9 @@ import sharp from 'sharp';
 // de a imagem chegar, o que evita o layout pulando durante o carregamento.
 const LARGURA_PADRAO = 1000;
 const ALTURA_PADRAO = 1250;
+// Fotos recém-enviadas: aparecem na primeira seleção do álbum, nesta ordem.
+const PRIMEIRAS = ['jeeh-souza-theo.webp', 'jeeh-souza-theo-2.webp', 'emily-pompom.jpg'];
+const ordem = (n) => { const i = PRIMEIRAS.indexOf(n); return i === -1 ? PRIMEIRAS.length : i; };
 
 async function main() {
   const publicDir = path.resolve('public', 'clientes');
@@ -24,8 +27,7 @@ async function main() {
       .filter((e) => e.isFile())
       .map((e) => e.name)
       .filter((n) => /\.(jpe?g|png|webp|avif)$/i.test(n))
-      // A foto recém-enviada aparece também na primeira seleção do álbum.
-      .sort((a, b) => Number(b === 'emily-pompom.jpg') - Number(a === 'emily-pompom.jpg') || a.localeCompare(b, 'pt-BR'));
+      .sort((a, b) => ordem(a) - ordem(b) || a.localeCompare(b, 'pt-BR'));
 
     const list = [];
     for (const n of files) {

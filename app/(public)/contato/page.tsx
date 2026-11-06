@@ -41,7 +41,7 @@ const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://youtube.com/
 export const metadata: Metadata = {
   title: "Contato — Fale direto com a criadora",
   description:
-    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão em Bragança Paulista, SP.",
+    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
   alternates: { canonical: `${SITE_URL}/contato` },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
@@ -123,7 +123,7 @@ export default function ContatoPage() {
       <ViewEventTracker tipo="contato" />
 
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">
+      <section className="faixa-topo relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-20 sm:py-28">
         <div
           className="pointer-events-none absolute inset-0 opacity-20"
           style={{
@@ -197,7 +197,7 @@ export default function ContatoPage() {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col gap-4 rounded-2xl border border-pink-100 bg-pink-50 p-6 transition hover:border-pink-300 hover:shadow-md"
+              className="group flex flex-col gap-4 rounded-2xl border border-emerald-100 bg-emerald-50 p-6 transition hover:border-emerald-400 hover:shadow-md"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 text-white">
                 <Instagram className="h-6 w-6" aria-hidden />
@@ -207,9 +207,9 @@ export default function ContatoPage() {
                 <p className="mt-1 text-sm text-zinc-500">
                   Fotos e vídeos dos filhotes
                 </p>
-                <p className="mt-2 text-sm font-semibold text-pink-700">@byimperiodog</p>
+                <p className="mt-2 text-sm font-semibold text-emerald-700">@byimperiodog</p>
               </div>
-              <span className="mt-auto text-xs font-semibold text-pink-700 group-hover:underline">
+              <span className="mt-auto text-xs font-semibold text-emerald-700 group-hover:underline">
                 Ver perfil →
               </span>
             </a>
@@ -217,7 +217,7 @@ export default function ContatoPage() {
             {/* E-mail */}
             <a
               href={`mailto:${EMAIL}`}
-              className="group flex flex-col gap-4 rounded-2xl border border-blue-100 bg-blue-50 p-6 transition hover:border-blue-300 hover:shadow-md"
+              className="group flex flex-col gap-4 rounded-2xl border border-emerald-100 bg-emerald-50 p-6 transition hover:border-emerald-400 hover:shadow-md"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white">
                 <Mail className="h-6 w-6" aria-hidden />
@@ -227,9 +227,9 @@ export default function ContatoPage() {
                 <p className="mt-1 text-sm text-zinc-500">
                   Para dúvidas não urgentes e documentação
                 </p>
-                <p className="mt-2 text-sm font-semibold text-blue-700 break-all">{EMAIL}</p>
+                <p className="mt-2 text-sm font-semibold text-emerald-700 break-all">{EMAIL}</p>
               </div>
-              <span className="mt-auto text-xs font-semibold text-blue-700 group-hover:underline">
+              <span className="mt-auto text-xs font-semibold text-emerald-700 group-hover:underline">
                 Enviar e-mail →
               </span>
             </a>
@@ -327,7 +327,7 @@ export default function ContatoPage() {
               href={YOUTUBE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-4 rounded-2xl border border-red-100 bg-red-50 px-5 py-4 transition hover:border-red-300 hover:shadow-sm"
+              className="group flex items-center gap-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-5 py-4 transition hover:border-emerald-400 hover:shadow-sm"
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-600 text-white">
                 <Youtube className="h-5 w-5" aria-hidden />
@@ -336,7 +336,7 @@ export default function ContatoPage() {
                 <p className="text-sm font-bold text-zinc-900">YouTube</p>
                 <p className="text-xs text-zinc-500 truncate">Vídeos dos filhotes e do canil</p>
               </div>
-              <span className="text-xs text-red-700 group-hover:underline shrink-0">Ver canal →</span>
+              <span className="text-xs text-emerald-700 group-hover:underline shrink-0">Ver canal →</span>
             </a>
 
             {/* Phone */}

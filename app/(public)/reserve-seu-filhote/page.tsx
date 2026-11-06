@@ -14,17 +14,17 @@ import { buildWebPageLD } from "@/lib/structured-data";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
 
 export const metadata: Metadata = {
-  title: "Reserve seu Filhote de Spitz Alemão Anão",
+  title: "Reserve seu Filhote de Spitz Alemão Anão (Lulu da Pomerânia)",
   description:
     // 188 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 142, agora com "Lulu da Pomerânia".
-    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão, com registro oficial e suporte direto com a criadora.",
+    "Garanta prioridade de escolha na próxima ninhada de Spitz Alemão Anão (Lulu da Pomerânia), com registro oficial e suporte direto com a criadora.",
   alternates: { canonical: "/reserve-seu-filhote" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: "/reserve-seu-filhote",
-    title: "Reserve seu Filhote de Spitz Alemão Anão | By Império Dog",
+    title: "Reserve seu Filhote de Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog",
     description:
       "Processo de reserva transparente: conversa inicial, sinal, acompanhamento até a entrega e suporte pós-venda.",
   },
@@ -118,7 +118,7 @@ const faqEntries = [
 export default function ReserveSeuFilhotePage() {
   const trimmedPhone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = trimmedPhone ? `https://wa.me/${trimmedPhone}` : process.env.NEXT_PUBLIC_WA_LINK ?? "#";
-  const waMessage = "Olá! Quero reservar um filhote de Spitz Alemão Anão e conhecer o processo completo.";
+  const waMessage = "Olá! Quero reservar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) e conhecer o processo completo.";
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
@@ -131,7 +131,7 @@ export default function ReserveSeuFilhotePage() {
 
   const webPageLd = buildWebPageLD({
     path: "/reserve-seu-filhote",
-    name: "Reserve seu Filhote de Spitz Alemão Anão",
+    name: "Reserve seu Filhote de Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
       "Prioridade de escolha entre os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis, com processo transparente e suporte pós-venda.",
   });
@@ -143,12 +143,12 @@ export default function ReserveSeuFilhotePage() {
       <script id="ld-webpage-reserve" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl space-y-6 px-5 py-16 text-center sm:text-left">
-        <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--brand)]">
+      <section className="faixa-topo mx-auto max-w-6xl space-y-6 px-5 py-16 text-center sm:text-left">
+        <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--marca-texto)]">
           🐾 Reserve com Prioridade
         </span>
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          Garanta seu Filhote de Spitz Alemão Anão com Processo Transparente
+          Garanta seu Filhote de Spitz Alemão Anão (Lulu da Pomerânia) com Processo Transparente
         </h1>
         <p className="max-w-3xl text-base text-[var(--text-muted)] sm:text-lg">
           Reserve e acompanhe o processo até a entrega, com as condições descritas em contrato.
@@ -160,17 +160,17 @@ export default function ReserveSeuFilhotePage() {
             rel="noopener noreferrer"
             className={cn(
               buttonVariants({ variant: "solid", size: "lg" }),
-              "h-12 rounded-full bg-[var(--accent)] px-6 text-[var(--accent-foreground)] shadow-md hover:brightness-110"
+              "!h-auto min-h-12 rounded-full bg-[var(--accent)] px-6 py-2 text-center text-[var(--accent-foreground)] shadow-md !whitespace-normal hover:brightness-110"
             )}
           >
             <WAIcon size={18} className="mr-2 inline h-4 w-4" aria-hidden />
-            Falar com a criadora agora
+            Vamos conversar sobre o seu novo amor
           </a>
           <Link
             href={routes.filhotes}
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
-              "h-12 rounded-full border-[var(--brand)] px-6 text-[var(--brand)] hover:bg-[var(--surface-2)]"
+              "h-12 rounded-full border-[var(--brand)] px-6 text-[var(--marca-texto)] hover:bg-[var(--surface-2)]"
             )}
           >
             Ver a vitrine de filhotes
@@ -184,7 +184,7 @@ export default function ReserveSeuFilhotePage() {
         <div className="grid gap-4 md:grid-cols-2">
           {benefits.map((benefit) => (
             <article key={benefit.title} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">
-              <benefit.icon className="h-6 w-6 text-[var(--brand)]" aria-hidden />
+              <benefit.icon className="h-6 w-6 text-[var(--marca-texto)]" aria-hidden />
               <h3 className="mt-4 text-lg font-semibold text-[var(--text)]">{benefit.title}</h3>
               <p className="mt-2 text-sm text-[var(--text-muted)]">{benefit.description}</p>
             </article>
@@ -240,7 +240,7 @@ export default function ReserveSeuFilhotePage() {
       {/* CTA Final */}
       <section className="mx-auto max-w-5xl px-5 py-16">
         <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center shadow-sm sm:p-10">
-          <h2 className="text-2xl font-semibold text-[var(--text)]">Pronto para reservar seu Spitz Alemão Anão?</h2>
+          <h2 className="text-2xl font-semibold text-[var(--text)]">Pronto para reservar seu Spitz Alemão Anão (Lulu da Pomerânia)?</h2>
           <p className="mt-3 text-sm text-[var(--text-muted)]">
             Entre em contato agora para receber o checklist completo, condições de reserva e próximos passos.
           </p>

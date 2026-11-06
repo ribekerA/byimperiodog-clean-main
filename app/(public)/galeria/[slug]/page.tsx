@@ -120,7 +120,7 @@ export default async function GaleriaVideoPage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 px-5 py-10 text-white sm:py-16">
+    <div className="px-5 py-10 sm:py-16">
       <script
         id="ld-video"
         type="application/ld+json"
@@ -138,6 +138,7 @@ export default async function GaleriaVideoPage({ params }: Props) {
       />
 
       <article className="mx-auto max-w-5xl">
+        <div className="faixa-topo">
         <Link
           href="/galeria"
           className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-emerald-300 transition hover:text-emerald-200"
@@ -146,7 +147,7 @@ export default async function GaleriaVideoPage({ params }: Props) {
           Voltar à galeria de vídeos
         </Link>
 
-        <header className="mt-6 max-w-3xl">
+        <header className="mx-auto mt-6 max-w-3xl">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-emerald-400">
             Vídeo real · By Império Dog
           </p>
@@ -157,8 +158,9 @@ export default async function GaleriaVideoPage({ params }: Props) {
             {video.description}
           </p>
         </header>
+        </div>
 
-        <div className="mt-8 overflow-hidden rounded-3xl border border-zinc-800 bg-black shadow-2xl">
+        <div className="mt-8 overflow-hidden rounded-3xl border border-zinc-300 bg-black shadow-2xl">
           {/* Os arquivos não possuem diálogo falado; o título e a descrição
               visíveis fornecem a alternativa textual equivalente. */}
           <video
@@ -172,10 +174,10 @@ export default async function GaleriaVideoPage({ params }: Props) {
           />
         </div>
 
-        <section className="mt-8 rounded-3xl border border-emerald-900/70 bg-emerald-950/40 p-6 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-8">
+        <section className="mt-8 rounded-3xl border border-zinc-300 bg-white p-6 shadow-sm sm:flex sm:items-center sm:justify-between sm:gap-8 sm:p-8">
           <div>
             <h2 className="text-xl font-bold">Quer conhecer os filhotes atuais?</h2>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-300">
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-700">
               Fale diretamente com a criadora para consultar opções, valores e como funciona a reserva.
             </p>
           </div>

@@ -30,8 +30,7 @@ export default function PriceTransparency() {
   return (
     <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-10" aria-labelledby="price-heading">
       <div className="mb-12 text-center">
-        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-600">Sem letras miúdas</p>
-        <h2 id="price-heading" className="mt-2 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+        <h2 id="price-heading" className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
           O que você recebe com cada filhote
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-zinc-600">

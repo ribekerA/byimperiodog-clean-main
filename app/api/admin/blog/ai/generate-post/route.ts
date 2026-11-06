@@ -122,7 +122,7 @@ export async function POST(req: Request) {
   // 4. Persist
   await updateSession({ phase:'finalize', progress:85 });
   try {
-    const { slug, insertedId, cover_url } = await persistPost({ title, excerpt, mdx, seo_title, seo_description, status: body.status, scheduled_at: body.scheduled_at, generateImage: body.generateImage, coverPrompt: `Foto realista 16:9 filhote Spitz Alemão ${topic}`, coverAlt: `Filhote Spitz Alemão - ${topic}`, extras: { contentBlocks, readingTime, faqItems } });
+    const { slug, insertedId, cover_url } = await persistPost({ title, excerpt, mdx, seo_title, seo_description, status: body.status, scheduled_at: body.scheduled_at, generateImage: body.generateImage, coverPrompt: `Foto realista 16:9 filhote Spitz Alemão ${topic}`, coverAlt: `Filhote Spitz Alemão (Lulu da Pomerânia) - ${topic}`, extras: { contentBlocks, readingTime, faqItems } });
     if (tags && tags.length) { try { await persistTags(insertedId, tags); } catch {} }
     await updateSession({ phase:'done', progress:100, status:'completed', post_id: insertedId });
     logAdminAction({ route:'/api/admin/blog/ai/generate-post', method:'POST', action:'generate_post', payload:{ topic, post_id: insertedId } });
@@ -136,7 +136,7 @@ export async function POST(req: Request) {
 
 function buildOutline(_scope: string): SectionOutline[] {
   const base: SectionOutline[] = [
-    { id: 'intro', heading: 'Introdução', goal: 'Contextualizar o tema e relação com Spitz Alemão Anão.'},
+    { id: 'intro', heading: 'Introdução', goal: 'Contextualizar o tema e relação com Spitz Alemão Anão (Lulu da Pomerânia).'},
     { id: 'historia', heading: 'História e Origem', goal: 'Breve origem e evolução da raça.'},
     { id: 'fisicas', heading: 'Características Físicas', goal: 'Tamanho, pelagem, longevidade.'},
     { id: 'temperamento', heading: 'Temperamento (Filhote vs Adulto)', goal: 'Comparar fases comportamentais.'},
@@ -177,14 +177,14 @@ function composeMDX(topic: string, sections: {heading:string; content:string}[])
 
 function buildTitle(topic: string, scope: string): string {
   const clean = sanitizeTopic(topic);
-  if (scope === 'filhote') return `Guia Filhote de Spitz Alemão: ${clean}`;
-  if (scope === 'adulto') return `Spitz Alemão Adulto: ${clean}`;
-  return `Guia Completo Spitz Alemão: ${clean}`;
+  if (scope === 'filhote') return `Guia Filhote de Spitz Alemão (Lulu da Pomerânia): ${clean}`;
+  if (scope === 'adulto') return `Spitz Alemão (Lulu da Pomerânia) Adulto: ${clean}`;
+  return `Guia Completo Spitz Alemão (Lulu da Pomerânia): ${clean}`;
 }
 
 function buildExcerpt(mdx: string, topic: string): string {
   const plain = mdx.replace(/[-#>*`_]/g,' ').replace(/\s+/g,' ').trim();
-  return (plain.slice(0, 155) || `Tudo sobre ${topic} no contexto do Spitz Alemão.`);
+  return (plain.slice(0, 155) || `Tudo sobre ${topic} no contexto do Spitz Alemão (Lulu da Pomerânia).`);
 }
 
 function buildTags(kw?: string[]): string[] { return Array.from(new Set([ 'Spitz Alemão','Lulu da Pomerânia','filhote','guia', ...(kw||[])] )).slice(0,8); }
@@ -218,7 +218,7 @@ function sanitizeTopic(t: string){
 function refineMDX(mdx: string, topic: string){
   let out = mdx;
   // Remover citações literais exageradas do título
-  out = out.replace(/Guia Completo Spitz Alemão:\s+"([^"]+)"/gi,(_m,inner)=>`Guia Completo Spitz Alemão: ${inner}`);
+  out = out.replace(/Guia Completo Spitz Alemão \(Lulu da Pomerânia\):\s+"([^"]+)"/gi,(_m,inner)=>`Guia Completo Spitz Alemão (Lulu da Pomerânia): ${inner}`);
   out = out.replace(/"Assunto do artigo"/gi, sanitizeTopic(topic));
   // Enriquecer seções muito curtas (< 40 palavras)
   out = out.replace(/^(##\s+[^\n]+)\n([^#\n]{0,240})$/gm,(match, heading, body)=>{
@@ -252,7 +252,7 @@ function ensureFAQMinimum(mdx: string): string {
   if (qMatches.length >= 5) return mdx;
   const needed = 5 - qMatches.length;
   const samples = [
-    { q: 'Spitz Alemão late muito?', a: 'Pode vocalizar; treino de reforço positivo ajuda a reduzir.' },
+    { q: 'Spitz Alemão (Lulu da Pomerânia) late muito?', a: 'Pode vocalizar; treino de reforço positivo ajuda a reduzir.' },
     { q: 'Quando trocar ração de filhote para adulto?', a: 'Em geral aos 12 meses, com orientação veterinária.' },
     { q: 'Precisa de muito exercício?', a: 'Exercício moderado diário e enriquecimento mental já satisfazem.' },
     { q: 'Perde muito pelo?', a: 'Trocas sazonais; escovação regular minimiza acúmulo.' },

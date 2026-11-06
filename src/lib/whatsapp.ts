@@ -59,13 +59,13 @@ export function buildWhatsAppLink(options?: WhatsAppLinkOptions): string {
 }
 
 export const WHATSAPP_MESSAGES = {
-  default: "Olá! Tenho interesse em um Spitz Alemão Anão.",
+  default: "Olá! Tenho interesse em um Spitz Alemão Anão (Lulu da Pomerânia).",
   blog: (postTitle: string) =>
     `Olá! Li o artigo "${postTitle}" no blog da By Império Dog e fiquei com algumas dúvidas.`,
   filhotes: (puppyName?: string) =>
     puppyName
       ? `Olá! Quero saber mais sobre o Spitz ${puppyName}. Poderia me enviar disponibilidade e valores?`
-      : "Olá! Quero conversar sobre os Spitz Alemão Anão sob consulta.",
+      : "Olá! Quero conversar sobre os Spitz Alemão Anão (Lulu da Pomerânia) sob consulta.",
   contato: "Olá! Gostaria de tirar dúvidas sobre o processo By Império Dog.",
   sobre: "Olá! Quero conhecer mais sobre a criadora e o acompanhamento pós-venda.",
 } as const;

@@ -4,7 +4,7 @@ import { execSync } from "node:child_process";
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { TABELA_DE_PRECOS } from "../src/domain/pricing.ts";
+import { PRECO_POR_SLUG, TABELA_DE_PRECOS } from "../src/domain/pricing.ts";
 
 const targets = process.argv.slice(2);
 
@@ -81,10 +81,16 @@ const frontmatterEnd = (source) => {
 // por R$ 8.500 em três artigos depois de passar para R$ 7.500.
 //
 // Node 24 (produção/CI) lê o módulo TypeScript sem aliases. Nenhuma cópia da matriz.
+// Em 05/11/2026 a matriz deixou de ser a unica origem. Quem define oferta e
+// PRECO_POR_SLUG: a vitrine praticava R$ 4.500 num filhote que a matriz nao
+// tinha, e o guard, lendo so a matriz, reprovaria o numero verdadeiro assim que
+// a janela descesse ate ele. Os dois entram no conjunto -- a matriz porque
+// ainda sustenta prosa antiga por cor, as ofertas porque sao o que se cobra.
 const PRECOS_DA_TABELA = new Set(
-  Object.values(TABELA_DE_PRECOS)
-    .flatMap(({ macho, femea }) => [macho, femea])
-    .map((cents) => cents / 100)
+  [
+    ...Object.values(TABELA_DE_PRECOS).flatMap(({ macho, femea }) => [macho, femea]),
+    ...Object.values(PRECO_POR_SLUG),
+  ].map((cents) => cents / 100)
 );
 
 // Faixa em que um número solto é, quase certamente, preço de filhote. Abaixo de
@@ -92,16 +98,23 @@ const PRECOS_DA_TABELA = new Set(
 // existe nada no site. Dentro da faixa, valor fora da tabela é erro — inclusive
 // os R$ 10.500 que sobraram da tabela antiga.
 //
-// O piso desceu de 6.000 para 5.500 junto com a entrada do Particolor: o menor
-// valor da tabela precisa CABER na janela, senão o guard deixaria de inspecionar
-// justamente o preço novo. tests/pricing-guard.test.ts cobra essa relação.
-const FAIXA_DE_PRECO_DE_FILHOTE = { min: 5500, max: 20000 };
+// O piso desceu de 6.000 para 5.500 junto com a entrada do Particolor e de 5.500
+// para 4.500 em 05/11/2026, quando a faixa pública passou a vir das ofertas reais:
+// o menor valor realmente praticado precisa CABER na janela, senão o guard deixaria
+// de inspecionar justamente o preço novo. tests/pricing-guard.test.ts cobra essa relação.
+const FAIXA_DE_PRECO_DE_FILHOTE = { min: 4500, max: 20000 };
 
-// A única exceção real: o total do primeiro ano de manutenção, que o próprio
-// texto marca como "sem o filhote". Fica escrito aqui em vez de sair da faixa
-// para que, se a frase mudar, alguém releia a frase em vez de o guard calar.
+// As exceções reais: números na faixa que o próprio texto marca como não sendo
+// o preço do filhote. Ficam escritos aqui em vez de sair da faixa para que, se a
+// frase mudar, alguém releia a frase em vez de o guard calar.
+//
+// Os R$ 5.000 entraram em 05/11/2026 junto com a descida do piso para 4.500:
+// antes estavam abaixo da janela e o guard nem os lia. Nenhum deles é preço de
+// animal — são "R$ 5.000–7.000/ano" de manutenção (duas vezes no artigo) e a
+// reserva de emergência "de R$ 2.000 a R$ 5.000" recomendada no guia.
 const PRECOS_QUE_NAO_SAO_FILHOTE = new Map([
-  ["content/posts/quanto-custa-manter-spitz-alemao.mdx", new Set([6000])],
+  ["content/posts/quanto-custa-manter-spitz-alemao.mdx", new Set([5000, 6000])],
+  ["content/guides/index.ts", new Set([5000])],
 ]);
 
 const PRECO_PATTERN = /R\$\s*(\d{1,3}(?:\.\d{3})+)/g;
@@ -162,11 +175,10 @@ for (const file of files) {
   const fmHasSynonym =
     fmEnd > 0 && /lulu\s+da\s+pomerania/i.test(normalize(raw.slice(0, fmEnd)));
 
-  // A apresentação vale uma vez por arquivo. Exigir o sinônimo colado em cada
-  // menção transformava a regra em ordem de repetir a mesma palavra dezenas de
-  // vezes na mesma página — que é o oposto do que ela quer garantir. Basta que
-  // o texto diga, em algum trecho, que Spitz Alemão Anão e Lulu da Pomerânia
-  // são o mesmo cão; da segunda menção em diante o leitor já sabe.
+  // Este portão cobra só o piso: cada arquivo apresenta o sinônimo ao menos uma
+  // vez. Desde 06/11/2026 a regra editorial é mais forte, por decisão do dono:
+  // toda frase com Spitz Alemão leva Lulu da Pomerânia. Medir frase aqui daria
+  // falso alarme em tags e palavras-chave, então essa parte é revisão, não portão.
   const mencoesDaRaca = [...raw.matchAll(BREED_PATTERN)];
   if (mencoesDaRaca.length) {
     const apresentaOSinonimo = mencoesDaRaca.some((match) => {

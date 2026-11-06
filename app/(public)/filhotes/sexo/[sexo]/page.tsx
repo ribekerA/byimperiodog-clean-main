@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ComponentProps } from "react";
 
+import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { ALL_SEXES, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
-import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -49,7 +49,7 @@ export default async function SexLandingPage(props: Props) {
   ]);
 
   const waLink = buildWhatsAppLink({
-    message: `Olá! Vi a vitrine de ${seo.h1} Spitz Alemão Anão no site e gostaria de conhecer as opções atuais e os valores.`,
+    message: `Olá! Vi a vitrine de ${seo.h1} Spitz Alemão Anão (Lulu da Pomerânia) no site e gostaria de conhecer as opções atuais e os valores.`,
     utmSource: "site",
     utmMedium: "sex_page",
     utmCampaign: "filhote_sexo",
@@ -63,6 +63,7 @@ export default async function SexLandingPage(props: Props) {
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10">
+        <div className="faixa-topo">
         {/* Breadcrumb */}
         <nav aria-label="Navegação estrutural" className="mb-6">
           <ol className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500">
@@ -75,7 +76,7 @@ export default async function SexLandingPage(props: Props) {
         </nav>
 
         {/* Header */}
-        <header className="max-w-2xl">
+        <header className="mx-auto max-w-2xl">
           <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">{seo.h1}</h1>
           <p className="mt-4 text-lg leading-relaxed text-zinc-600">{seo.intro}</p>
 
@@ -89,6 +90,7 @@ export default async function SexLandingPage(props: Props) {
             Consultar opções atuais
           </a>
         </header>
+        </div>
 
         {/* Characteristics */}
         <section className="mt-12" aria-labelledby="char-heading">
@@ -121,46 +123,16 @@ export default async function SexLandingPage(props: Props) {
           )}
 
           {puppies.length > 0 ? (
-            <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {puppies.map((puppy) => {
-                const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
-                const corLabel = (puppy as any).cor ?? puppy.color ?? "";
-                const img = puppy.images?.find((i: string) => !i.endsWith(".mp4"));
-                return (
-                  <li key={puppy.slug}>
-                    <Link
-                      href={`/filhotes/${puppy.slug}`}
-                      className="group block overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm transition hover:shadow-md"
-                    >
-                      {/* 4/5 acompanha o formato vertical da foto; no 4/3
-                          deitado o recorte cortava cabeca e patas do filhote. */}
-                      <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
-                        {img && (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img
-                            src={img}
-                            alt={`Filhote ${puppy.name}`}
-                            // Recorte medido por foto (src/lib/photo-focus).
-                            className="h-full w-full object-cover transition group-hover:scale-105"
-                            style={{ objectPosition: focoDaFoto(img) }}
-                            loading="lazy"
-                          />
-                        )}
-                      </div>
-                      <div className="p-4">
-                        <div className="mb-1 flex items-center gap-2">
-                          <span className="text-xs uppercase tracking-widest text-zinc-500">{corLabel}</span>
-                        </div>
-                        <p className="font-semibold text-zinc-900">{puppy.name}</p>
-                        <p className="mt-0.5 text-sm text-zinc-500">{sexLabel}</p>
-                        {(puppy as any).priceCents > 0 && (
-                          <p className="mt-1 text-sm font-bold leading-snug text-emerald-700">{textoAPartirDeNoPix((puppy as any).priceCents)}</p>
-                        )}
-                      </div>
-                    </Link>
-                  </li>
-                );
-              })}
+            <ul className="grade-filhotes">
+              {puppies.map((puppy) => (
+                <li key={puppy.slug}>
+                  <StaticPuppyCard
+                    {...(puppy as ComponentProps<typeof StaticPuppyCard>)}
+                    waMedium="sex_page"
+                    waCampaign="filhote_sexo"
+                  />
+                </li>
+              ))}
             </ul>
           ) : (
             <div className="rounded-2xl border border-zinc-100 bg-zinc-50 p-8 text-center">

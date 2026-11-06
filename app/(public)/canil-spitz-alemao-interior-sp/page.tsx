@@ -11,11 +11,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/canil-spitz-alemao-interior-sp`;
 
 export const metadata: Metadata = {
-  title: "Canil de Spitz Alemão Anão no Interior de SP",
+  title: "Canil de Spitz Alemão Anão (Lulu da Pomerânia) no Interior de SP",
   description:
     // 219 caracteres: o Google cortava justamente a lista de cidades, que é o
     // que essa página tem de próprio. Reescrita em 157.
-    "Canil de Spitz Alemão Anão no interior de São Paulo, em Bragança Paulista. Atende Campinas, Sorocaba, São José dos Campos e todo o estado.",
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo, em Bragança Paulista. Atende Campinas, Sorocaba, São José dos Campos e todo o estado.",
   keywords: [
     "canil Spitz Alemão interior SP",
     "canil Lulu da Pomerânia interior São Paulo",
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/canil-spitz-alemao-interior-sp" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Canil Spitz Alemão Anão — Interior de SP | By Império Dog",
-    description: `Criação responsável de Spitz Alemão Anão em Bragança Paulista, no interior de SP, desde ${FOUNDING_YEAR}.`,
+    title: "Canil Spitz Alemão Anão (Lulu da Pomerânia) — Interior de SP | By Império Dog",
+    description: `Criação responsável de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, no interior de SP, desde ${FOUNDING_YEAR}.`,
     type: "website",
   },
 };
@@ -52,9 +52,9 @@ const CITIES = [
 
 const FAQS = [
   {
-    question: "Qual o melhor canil de Spitz Alemão Anão no interior de SP?",
+    question: "Qual o melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis. O que dá para verificar é o que cada criador entrega: registro oficial, consulta veterinária, exames laboratoriais, carteira de vacinação assinada pelo médico-veterinário e contrato. A By Império Dog fica em Bragança Paulista, cria Spitz Alemão Anão desde ${FOUNDING_YEAR} e entrega todos esses itens. Peça a mesma lista a qualquer criador antes de decidir.`,
+      `Não existe um ranking oficial de canis. O que dá para verificar é o que cada criador entrega: registro oficial, consulta veterinária, exames laboratoriais, carteira de vacinação assinada pelo médico-veterinário e contrato. A By Império Dog fica em Bragança Paulista, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR} e entrega todos esses itens. Peça a mesma lista a qualquer criador antes de decidir.`,
   },
   {
     question: "Vocês entregam em Campinas, Sorocaba e outras cidades do interior?",
@@ -67,7 +67,7 @@ const FAQS = [
       "Bragança Paulista fica a aproximadamente 90 km de Campinas (cerca de 1h de carro). É facilmente acessível pela Rodovia D. Pedro I (SP-065). Para tutores de Campinas, Jundiaí, Atibaia, Itatiba e cidades vizinhas, é uma opção próxima.",
   },
   {
-    question: "Existe algum canil de Spitz Alemão Anão em Campinas?",
+    question: "Existe algum canil de Spitz Alemão Anão (Lulu da Pomerânia) em Campinas?",
     answer:
       "Há criadores na região de Campinas, mas a recomendação é sempre verificar procedência, registro oficial, acompanhamento veterinário e suporte pós-venda antes de qualquer decisão. A By Império Dog, em Bragança Paulista, entrega esse conjunto documentado.",
   },
@@ -81,12 +81,12 @@ const FAQS = [
 export default function CanilInteriorSPPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi que vocês são referência de canil de Spitz Alemão no interior de SP. Pode me informar sobre disponibilidade de filhotes?")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi que vocês são referência de canil de Spitz Alemão (Lulu da Pomerânia) no interior de SP. Pode me informar sobre disponibilidade de filhotes?")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
-    { name: "Canil Spitz Alemão — Interior SP", url: PAGE_URL },
+    { name: "Canil Spitz Alemão (Lulu da Pomerânia) — Interior SP", url: PAGE_URL },
   ]);
   const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
 
@@ -95,10 +95,10 @@ export default function CanilInteriorSPPage() {
       <script id="ld-isp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-isp-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Criação especializada no interior de São Paulo</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Canil Spitz Alemão Anão no Interior de SP — By Império Dog
+          Canil Spitz Alemão Anão (Lulu da Pomerânia) no Interior de SP — By Império Dog
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
           Se você mora no interior de São Paulo e procura um criador responsável de Spitz Alemão Anão (Lulu da Pomerânia), a By Império Dog fica em Bragança Paulista e cria a raça desde {FOUNDING_YEAR}.
@@ -111,7 +111,7 @@ export default function CanilInteriorSPPage() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[
             { v: String(FOUNDING_YEAR), l: "Fundação" },
-            { v: "Spitz Alemão Anão", l: "Raça exclusiva" },
+            { v: "Spitz Alemão Anão (Lulu da Pomerânia)", l: "Raça exclusiva" },
             { v: "Contrato", l: "Compra e venda por escrito" },
             { v: "Incluso", l: "Registro oficial" },
           ].map((c) => (
@@ -177,7 +177,7 @@ export default function CanilInteriorSPPage() {
 
       <RelatedPages links={[
         { label: "Lulu da Pomerânia em Bragança Paulista", href: "/lulu-da-pomerania-braganca-paulista", desc: "Localização, visitas e como chegar" },
-        { label: "Spitz Alemão Anão — A Raça",            href: "/spitz-alemao",                        desc: "Características, temperamento e cuidados" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia) — A Raça",            href: "/spitz-alemao",                        desc: "Características, temperamento e cuidados" },
         { label: "Ver a Vitrine de Filhotes",             href: "/filhotes",                            desc: "Fotos reais por cor e sexo, com o valor de partida" },
       ]} />
 
@@ -185,7 +185,7 @@ export default function CanilInteriorSPPage() {
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
-          <li className="font-medium text-zinc-600" aria-current="page">Canil Spitz Alemão — Interior SP</li>
+          <li className="font-medium text-zinc-600" aria-current="page">Canil Spitz Alemão (Lulu da Pomerânia) — Interior SP</li>
         </ol>
       </nav>
     </div>

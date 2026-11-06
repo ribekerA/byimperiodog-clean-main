@@ -10,11 +10,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/filhote-de-spitz-alemao`;
 
 export const metadata: Metadata = {
-  title: "Filhote de Spitz Alemão — Escolha e Primeiros Cuidados",
+  title: "Filhote de Spitz Alemão (Lulu da Pomerânia) — Escolha e Primeiros Cuidados",
   description:
     // 192 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 155, agora com "Lulu da Pomerânia".
-      "Filhote de Spitz Alemão Anão: como escolher, adaptar a casa e organizar alimentação, vacinação, socialização e primeiros cuidados.",
+      "Filhote de Spitz Alemão Anão (Lulu da Pomerânia): como escolher, adaptar a casa e organizar alimentação, vacinação, socialização e primeiros cuidados.",
   keywords: [
     "filhote de Spitz Alemão Anão",
     "filhote Lulu da Pomerânia",
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/filhote-de-spitz-alemao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Filhote de Spitz Alemão Anão — Guia Completo | By Império Dog",
-    description: "Como escolher, o que verificar e os primeiros cuidados com um filhote de Spitz Alemão Anão.",
+    title: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — Guia Completo | By Império Dog",
+    description: "Como escolher, o que verificar e os primeiros cuidados com um filhote de Spitz Alemão Anão (Lulu da Pomerânia).",
     type: "article",
   },
 };
@@ -45,7 +45,7 @@ const FIRST_DAYS = [
 
 const FAQS = [
   {
-    question: "Quando o filhote de Spitz Alemão pode ir para o novo lar?",
+    question: "Quando o filhote de Spitz Alemão (Lulu da Pomerânia) pode ir para o novo lar?",
     answer:
       "A comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável. Do ponto de vista do desenvolvimento, filhotes separados cedo demais da mãe e da ninhada têm maior risco de problemas comportamentais, imunológicos e de socialização — por isso criadores responsáveis não antecipam a entrega por pressão do comprador.",
   },
@@ -60,12 +60,12 @@ const FAQS = [
       "Pergunte: (1) O filhote tem registro oficial? (2) Quais exames foram feitos? (3) Qual o protocolo de vacinação e o que consta na carteira? (4) Como a criação pode ser verificada? (5) Tem contrato de venda, e o que ele descreve? (6) Qual o suporte após a entrega? Um criador responsável responde todas essas perguntas sem dificuldade.",
   },
   {
-    question: "O filhote de Spitz Alemão Anão é difícil de adestrar?",
+    question: "O filhote de Spitz Alemão Anão (Lulu da Pomerânia) é difícil de adestrar?",
     answer:
       "Não — é uma das raças mais inteligentes e treináveis de pequeno porte. Aprende comandos rápido com reforço positivo. O maior desafio é o treino de higiene (xixi no lugar certo), que exige consistência e paciência nas primeiras semanas. Filhotes bem socializados desde filhote têm muito menos problemas comportamentais.",
   },
   {
-    question: "Quando o filhote de Spitz Alemão pode sair para passear?",
+    question: "Quando o filhote de Spitz Alemão (Lulu da Pomerânia) pode sair para passear?",
     answer:
       "Só após completar o ciclo vacinal básico — geralmente entre 14 e 16 semanas de vida. Antes disso, o sistema imunológico ainda está em formação e o filhote está vulnerável a doenças como parvovirose e cinomose. Consulte o veterinário para a liberação final.",
   },
@@ -74,13 +74,13 @@ const FAQS = [
 export default function FilhoteDeSpitzPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Tenho interesse em um filhote de Spitz Alemão Anão da By Império Dog. Pode me informar disponibilidade?")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Tenho interesse em um filhote de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog. Pode me informar disponibilidade?")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
-    { name: "Filhote de Spitz Alemão", url: PAGE_URL },
+    { name: "Filhote de Spitz Alemão (Lulu da Pomerânia)", url: PAGE_URL },
   ]);
   const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
 
@@ -89,10 +89,10 @@ export default function FilhoteDeSpitzPage() {
       <script id="ld-fil-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-fil-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Guia completo para novos tutores</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Filhote de Spitz Alemão Anão — como escolher, cuidar e onde comprar
+          Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — como escolher, cuidar e onde comprar
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
           Um guia prático para quem está pensando em ter um filhote de Spitz Alemão Anão (Lulu da Pomerânia): o que verificar antes de comprar, os primeiros dias em casa e o que esperar nos primeiros meses.
@@ -101,7 +101,7 @@ export default function FilhoteDeSpitzPage() {
 
       {/* Como escolher */}
       <section aria-labelledby="escolher-heading" className="space-y-4">
-        <h2 id="escolher-heading" className="text-2xl font-bold text-zinc-900">Como escolher um filhote de Spitz Alemão Anão</h2>
+        <h2 id="escolher-heading" className="text-2xl font-bold text-zinc-900">Como escolher um filhote de Spitz Alemão Anão (Lulu da Pomerânia)</h2>
         <p className="text-sm text-zinc-700 sm:text-base">
           A escolha começa muito antes de ver o filhote — começa com a <strong>escolha do criador</strong>. Um filhote saudável, equilibrado e bem socializado é resultado direto de uma criação responsável. Avalie:
         </p>
@@ -180,14 +180,14 @@ export default function FilhoteDeSpitzPage() {
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
           )}
         </div>
       </section>
 
       <RelatedPages links={[
-        { label: "Spitz Alemão Anão — Raça Completa", href: "/spitz-alemao",              desc: "Tudo sobre a raça antes de decidir" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia) — Raça Completa", href: "/spitz-alemao",              desc: "Tudo sobre a raça antes de decidir" },
         { label: "Como Comprar com Segurança",        href: "/comprar-spitz-anao",         desc: "Passo a passo para não errar" },
         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel", desc: "Documentação, exames e red flags" },
       ]} />
@@ -198,7 +198,7 @@ export default function FilhoteDeSpitzPage() {
           <li aria-hidden>/</li>
           <li><Link href="/filhotes" className="hover:text-emerald-700">Filhotes</Link></li>
           <li aria-hidden>/</li>
-          <li className="font-medium text-zinc-600" aria-current="page">Filhote de Spitz Alemão</li>
+          <li className="font-medium text-zinc-600" aria-current="page">Filhote de Spitz Alemão (Lulu da Pomerânia)</li>
         </ol>
       </nav>
     </div>

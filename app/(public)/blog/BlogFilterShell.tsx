@@ -86,7 +86,7 @@ export default function BlogFilterShell({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-16 sm:py-20">
+      <section className="faixa-topo relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-zinc-900 px-5 py-16 sm:py-20">
         <div
           className="pointer-events-none absolute inset-0 opacity-30"
           style={{

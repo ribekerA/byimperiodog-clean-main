@@ -10,9 +10,9 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/spitz-alemao-baby-face`;
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Baby Face — O que É e Preço",
+  title: "Spitz Alemão (Lulu da Pomerânia) Baby Face — O que É e Preço",
   description:
-    "O Spitz Alemão Baby Face tem focinho curto e aparência infantil. O que é, se a FCI reconhece, preço, cuidados e como identificar um filhote legítimo.",
+    "O Spitz Alemão (Lulu da Pomerânia) Baby Face tem focinho curto e aparência infantil. O que é, se a FCI reconhece, preço, cuidados e como identificar um filhote legítimo.",
   keywords: [
     "Spitz Alemão Baby Face",
     "Lulu da Pomerânia Baby Face",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/spitz-alemao-baby-face" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Spitz Alemão Baby Face — O que é e Como Identificar | By Império Dog",
+    title: "Spitz Alemão (Lulu da Pomerânia) Baby Face — O que é e Como Identificar | By Império Dog",
     description: "O que é o Baby Face, por que não é reconhecido pela FCI, cuidados especiais e preço.",
     type: "article",
   },
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
 
 const FAQS = [
   {
-    question: "O que é o Spitz Alemão Baby Face?",
+    question: "O que é o Spitz Alemão (Lulu da Pomerânia) Baby Face?",
     answer:
-      "O 'Baby Face' é um tipo de Spitz Alemão Anão com focinho visivelmente mais curto e achatado, olhos maiores e aparência facial mais infantil ('cara de bebê'). Não é uma raça separada — é uma variação fenotípica dentro do Spitz Alemão Anão. Em inglês, também chamado de 'Extreme Bear Face' ou 'Teddy Face'.",
+      "O 'Baby Face' é um tipo de Spitz Alemão Anão (Lulu da Pomerânia) com focinho visivelmente mais curto e achatado, olhos maiores e aparência facial mais infantil ('cara de bebê'). Não é uma raça separada — é uma variação fenotípica dentro do Spitz Alemão Anão (Lulu da Pomerânia). Em inglês, também chamado de 'Extreme Bear Face' ou 'Teddy Face'.",
   },
   {
     question: "O Baby Face é reconhecido pela FCI?",
@@ -42,7 +42,7 @@ const FAQS = [
       "Não. O padrão oficial da FCI prevê focinho proporcional ao crânio, com perfil de 'raposa'. O Baby Face com focinho muito curto foge do padrão oficial e cães com essa conformação não devem ser usados para reprodução por criadores responsáveis registrados. A demanda é alta por conta do apelo estético, mas a conformação achatada pode causar problemas respiratórios (BOAS).",
   },
   {
-    question: "O Spitz Alemão Baby Face tem problemas de saúde?",
+    question: "O Spitz Alemão (Lulu da Pomerânia) Baby Face tem problemas de saúde?",
     answer:
       "Sim, existe risco aumentado de Síndrome Obstrutiva das Vias Aéreas Braquicefálicas (BOAS) — problemas respiratórios decorrentes da compressão das estruturas do focinho. Cães com focinho muito curto podem roncar, ter dificuldade de respirar em exercício e calor. Criadores responsáveis não priorizam o Baby Face excessivo exatamente por esses riscos.",
   },
@@ -61,12 +61,12 @@ const FAQS = [
 export default function SpitzAlemaobabyFacePage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão Baby Face no site da By Império Dog. Pode me dar mais informações sobre as opções atuais?")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão (Lulu da Pomerânia) Baby Face no site da By Império Dog. Pode me dar mais informações sobre as opções atuais?")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
-    { name: "Spitz Alemão Baby Face", url: PAGE_URL },
+    { name: "Spitz Alemão (Lulu da Pomerânia) Baby Face", url: PAGE_URL },
   ]);
   const articleLd  = buildArticleLD({ url: PAGE_URL, title: metadata.title as string, description: metadata.description as string });
 
@@ -75,13 +75,13 @@ export default function SpitzAlemaobabyFacePage() {
       <script id="ld-bf-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-bf-article"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="space-y-4">
+      <header className="faixa-topo space-y-4">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Entenda antes de comprar</p>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-          Spitz Alemão Baby Face — o que é, riscos e o que saber antes de comprar
+          Spitz Alemão (Lulu da Pomerânia) Baby Face — o que é, riscos e o que saber antes de comprar
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          O termo "Baby Face" virou marketing popular no mercado de Spitz Alemão Anão. Mas o que significa de verdade, quais os riscos de saúde envolvidos e o que buscar para ter um cão bonito <em>e</em> saudável?
+          O termo "Baby Face" virou marketing popular no mercado de Spitz Alemão Anão (Lulu da Pomerânia). Mas o que significa de verdade, quais os riscos de saúde envolvidos e o que buscar para ter um cão bonito <em>e</em> saudável?
         </p>
       </header>
 
@@ -89,7 +89,7 @@ export default function SpitzAlemaobabyFacePage() {
       <section aria-labelledby="oque-bf-heading" className="space-y-4">
         <h2 id="oque-bf-heading" className="text-2xl font-bold text-zinc-900">O que é o Baby Face?</h2>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
-          O "Baby Face" ou "Bear Face" refere-se a Spitz Alemão Anão com focinho mais curto que o padrão oficial, criando uma aparência facial mais arredondada e "infantil". Surgiu como tendência estética — especialmente no Japão — e se popularizou nas redes sociais pelo visual fofo exagerado.
+          O "Baby Face" ou "Bear Face" refere-se a Spitz Alemão Anão (Lulu da Pomerânia) com focinho mais curto que o padrão oficial, criando uma aparência facial mais arredondada e "infantil". Surgiu como tendência estética — especialmente no Japão — e se popularizou nas redes sociais pelo visual fofo exagerado.
         </p>
         <p className="text-sm text-zinc-700 leading-relaxed sm:text-base">
           Importante: <strong>não é uma variedade racial reconhecida</strong> pela FCI. O padrão oficial prevê focinho de "raposa" (foxface), proporcional ao crânio. Cães com conformação achatada demais fogem do padrão e têm maior predisposição a problemas respiratórios.
@@ -111,7 +111,7 @@ export default function SpitzAlemaobabyFacePage() {
             "Em casos graves, necessidade de cirurgia corretiva",
           ].map((item) => (
             <li key={item} className="flex items-start gap-2">
-              <span className="mt-0.5 text-amber-600">⚠</span>
+              <span className="mt-0.5 text-amber-800">⚠</span>
               {item}
             </li>
           ))}
@@ -160,15 +160,15 @@ export default function SpitzAlemaobabyFacePage() {
           </Link>
           {phone && (
             <a href={waHref} target="_blank" rel="noreferrer" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
-              Falar com a criadora
+              Vamos conversar sobre o seu novo amor
             </a>
           )}
         </div>
       </section>
 
       <RelatedPages links={[
-        { label: "Spitz Alemão Anão — Raça Completa", href: "/spitz-alemao",             desc: "Padrão oficial, temperamento e cuidados" },
-        { label: "Filhote de Spitz Alemão",           href: "/filhote-de-spitz-alemao",  desc: "Como escolher um filhote saudável" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia) — Raça Completa", href: "/spitz-alemao",             desc: "Padrão oficial, temperamento e cuidados" },
+        { label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",           href: "/filhote-de-spitz-alemao",  desc: "Como escolher um filhote saudável" },
         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel", desc: "O que exigir antes de comprar" },
       ]} />
 
@@ -176,7 +176,7 @@ export default function SpitzAlemaobabyFacePage() {
         <ol className="flex flex-wrap items-center gap-1.5 text-xs text-zinc-500">
           <li><Link href="/" className="hover:text-emerald-700">Início</Link></li>
           <li aria-hidden>/</li>
-          <li className="font-medium text-zinc-600" aria-current="page">Spitz Alemão Baby Face</li>
+          <li className="font-medium text-zinc-600" aria-current="page">Spitz Alemão (Lulu da Pomerânia) Baby Face</li>
         </ol>
       </nav>
     </div>

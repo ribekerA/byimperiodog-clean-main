@@ -42,7 +42,7 @@ export default function PoliticaDePrivacidadePage() {
       <script id="ld-privacidade-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
     <div className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
-      <header className="space-y-3">
+      <header className="faixa-topo space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600">LGPD</p>
         <h1 className="text-4xl font-bold text-zinc-900">Política de Privacidade</h1>
         <p className="text-lg text-zinc-600">
@@ -94,7 +94,7 @@ export default function PoliticaDePrivacidadePage() {
       <section id="finalidades" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Finalidades e base legal</h2>
         <p className="text-zinc-600">
-          Utilizamos os dados para garantir alinhamento entre o tutor e o Spitz Alemão Anão, cumprir obrigações
+          Utilizamos os dados para garantir alinhamento entre o tutor e o Spitz Alemão Anão (Lulu da Pomerânia), cumprir obrigações
           legais e oferecer suporte contínuo. As principais finalidades são:
         </p>
         <ol className="list-decimal space-y-2 pl-6 text-zinc-600">
@@ -114,7 +114,7 @@ export default function PoliticaDePrivacidadePage() {
             envio é opcional, independe da aquisição e pode ser cancelado a qualquer momento, sem prejuízo do atendimento.
           </li>
           <li>
-            Cumprir exigências fiscais, sanitárias e de transporte do Spitz Alemão Anão (cumprimento de obrigação
+            Cumprir exigências fiscais, sanitárias e de transporte do Spitz Alemão Anão, o Lulu da Pomerânia (cumprimento de obrigação
             legal).
           </li>
         </ol>
@@ -138,7 +138,7 @@ export default function PoliticaDePrivacidadePage() {
               confirmou nao existir. O atendimento veterinario existe; a parceria
               institucional, nao. */}
           <li>Médicos-veterinários e clínicas responsáveis pelos exames, laudos e vacinas do filhote.</li>
-          <li>Serviços de transporte especializado para entrega do Spitz Alemão Anão.</li>
+          <li>Serviços de transporte especializado para entrega do Spitz Alemão Anão (Lulu da Pomerânia).</li>
           <li>
             Provedores de hospedagem, banco de dados e comunicação utilizados para operar o site e registrar
             atendimentos, sujeitos aos termos e às políticas de privacidade de cada fornecedor.

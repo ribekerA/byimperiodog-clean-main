@@ -44,7 +44,7 @@ export default function HomeFAQ() {
             Tudo que você precisa saber antes de escolher
           </h2>
           <p className="mt-3 text-sm text-zinc-600">
-            Respostas diretas para as perguntas mais comuns sobre o Spitz Alemão Anão e sobre nosso atendimento.
+            Respostas diretas para as perguntas mais comuns sobre o Spitz Alemão Anão (Lulu da Pomerânia) e sobre nosso atendimento.
           </p>
         </div>
 
@@ -89,7 +89,7 @@ export default function HomeFAQ() {
             Nossa criadora responde pessoalmente no WhatsApp, todos os dias das 8h às 22h.
           </p>
           <a
-            href="https://wa.me/5511968633239?text=Ol%C3%A1!+Tenho+uma+d%C3%BAvida+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o."
+            href="https://wa.me/5511968633239?text=Ol%C3%A1!+Tenho+uma+d%C3%BAvida+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o+(Lulu+da+Pomer%C3%A2nia)."
             target="_blank"
             rel="noreferrer"
             className="mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-700 active:scale-95"

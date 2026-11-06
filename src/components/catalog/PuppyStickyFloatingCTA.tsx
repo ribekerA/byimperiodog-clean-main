@@ -12,9 +12,10 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
+import { PixIcon } from "@/components/icons/PixIcon";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
-import { textoAPartirDeNoPix } from "@/domain/pricing";
+import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoReserva } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 
@@ -148,9 +149,17 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
             <div className="p-4">
               {/* Preço */}
               {price && (
-                <div className="mb-3 flex items-center justify-between">
-                  <p className="text-base font-extrabold text-[var(--accent-ink)]">{price}</p>
-                  <p className="text-xs text-zinc-500">Documentação inclusa</p>
+                <div className="mb-3">
+                  <p className="preco-premium text-xl">
+                    <span className="block text-xs font-semibold">{partesDoPrecoNoPix(priceCents ?? 0).prefixo}</span>{" "}
+                    <span className="whitespace-nowrap">{partesDoPrecoNoPix(priceCents ?? 0).valor}</span>{" "}
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap align-middle text-xs font-semibold"><PixIcon size={14} />{partesDoPrecoNoPix(priceCents ?? 0).sufixo}</span>
+                  </p>
+                  {/* O valor viaja junto do botão: quem rola até o fim da
+                      ficha decide com o preço à vista, não com a memória dele. */}
+                  {priceCents != null && priceCents > 0 && (
+                    <p className="mt-0.5 text-[11px] leading-snug text-[var(--text-muted)]">{textoReserva(priceCents)}</p>
+                  )}
                 </div>
               )}
 
@@ -160,7 +169,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
                 data-wa-placement="floating_button"
                 rel="noreferrer"
                 target="_blank"
-                className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white shadow hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[var(--brand)] px-4 text-sm font-bold text-[var(--brand-foreground)] shadow transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]"
                 emojis="mixed"
                 count={14}
                 aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${name}`}

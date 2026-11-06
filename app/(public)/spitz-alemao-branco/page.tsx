@@ -13,9 +13,9 @@ const PAGE_URL = `${SITE_URL}/spitz-alemao-branco`;
 const WHITE_FEMALE_IMAGE = "/filhotes/branco/branco-femea-jardim-01.jpg";
 
 export const metadata: Metadata = {
-  title: "Spitz Alemão Anão Branco ou Creme",
+  title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco ou Creme",
   description:
-    "Entenda a diferença entre Spitz Alemão Anão Branco e creme claro, como comparar a pelagem e onde consultar filhotes, preços e disponibilidade.",
+    "Entenda a diferença entre Spitz Alemão Anão (Lulu da Pomerânia) Branco e creme claro, como comparar a pelagem e onde consultar filhotes, preços e disponibilidade.",
   keywords: [
     "Spitz Alemão branco",
     "Spitz Alemão Anão branco",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "/spitz-alemao-branco" },
   openGraph: {
-    title: "Spitz Alemão Anão Branco: diferenças do creme claro",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco: diferenças do creme claro",
     description:
       "Veja como comparar branco e creme claro e consulte o catálogo atualizado de filhotes da By Império Dog.",
     url: PAGE_URL,
@@ -39,13 +39,13 @@ export const metadata: Metadata = {
         url: WHITE_FEMALE_IMAGE,
         width: 900,
         height: 1600,
-        alt: "Filhote fêmea de Spitz Alemão Anão Branco no jardim",
+        alt: "Filhote fêmea de Spitz Alemão Anão (Lulu da Pomerânia) Branco no jardim",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Spitz Alemão Anão Branco: diferenças do creme claro",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco: diferenças do creme claro",
     description:
       "Como comparar as tonalidades e consultar filhotes, preços e disponibilidade.",
     images: [WHITE_FEMALE_IMAGE],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 
 const FAQS = [
   {
-    question: "Qual é a diferença entre Spitz Alemão Branco e creme claro?",
+    question: "Qual é a diferença entre Spitz Alemão (Lulu da Pomerânia) Branco e creme claro?",
     answer:
       "O branco tem aparência visualmente neutra. O creme claro apresenta um fundo mais quente, próximo de marfim ou champanhe. Luz ambiente, balanço de branco da câmera e tela podem aproximar as duas tonalidades em fotos, então a comparação deve incluir imagens atuais em luz natural.",
   },
@@ -64,7 +64,7 @@ const FAQS = [
       "Não necessariamente. Um creme muito claro pode parecer branco em determinadas condições de luz ou edição. Por isso, uma foto isolada não basta para diferenciar as tonalidades com segurança.",
   },
   {
-    question: "Qual é o preço do Spitz Alemão Anão Branco?",
+    question: "Qual é o preço do Spitz Alemão Anão (Lulu da Pomerânia) Branco?",
     answer:
       respostaPrecoCor("branco"),
   },
@@ -95,7 +95,7 @@ export default function SpitzAlemaoBrancoPage() {
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
     { name: "Filhotes", url: `${SITE_URL}/filhotes` },
-    { name: "Spitz Alemão Branco", url: PAGE_URL },
+    { name: "Spitz Alemão (Lulu da Pomerânia) Branco", url: PAGE_URL },
   ]);
   const articleLd = buildArticleLD({
     url: PAGE_URL,
@@ -110,13 +110,13 @@ export default function SpitzAlemaoBrancoPage() {
       <script id="ld-branco-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-branco-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="grid items-center gap-8 sm:grid-cols-[1fr_280px]">
+      <header className="faixa-topo faixa-topo-lado grid items-center gap-8 sm:grid-cols-[1fr_280px]">
         <div className="space-y-4">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
             Cor da pelagem
           </p>
           <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-            Spitz Alemão Anão Branco: como diferenciar do creme claro
+            Spitz Alemão Anão (Lulu da Pomerânia) Branco: como diferenciar do creme claro
           </h1>
           <p className="text-base leading-relaxed text-zinc-600 sm:text-lg">
             Branco e creme claro podem parecer semelhantes em fotografias, mas não são a mesma descrição de cor. A diferença está principalmente no fundo visual da pelagem: neutro no branco e mais quente no creme.
@@ -125,7 +125,7 @@ export default function SpitzAlemaoBrancoPage() {
         <figure className="overflow-hidden rounded-3xl bg-zinc-100 shadow-xl">
           <Image
             src={WHITE_FEMALE_IMAGE}
-            alt="Filhote fêmea de Spitz Alemão Anão Branco fotografada em luz natural no jardim"
+            alt="Filhote fêmea de Spitz Alemão Anão (Lulu da Pomerânia) Branco fotografada em luz natural no jardim"
             width={900}
             height={1600}
             sizes="(max-width: 639px) 100vw, 280px"
@@ -246,7 +246,7 @@ export default function SpitzAlemaoBrancoPage() {
       <RelatedPages links={[
         { label: "Filhotes Brancos", href: "/filhotes/cor/branco", desc: "Catálogo atualizado por cor" },
         { label: "Filhotes e Valores", href: "/filhotes", desc: "Fotos, vídeos e valores individuais" },
-        { label: "Spitz Alemão Anão", href: "/spitz-alemao", desc: "Guia completo da raça" },
+        { label: "Spitz Alemão Anão (Lulu da Pomerânia)", href: "/spitz-alemao", desc: "Guia completo da raça" },
       ]} />
 
       <nav aria-label="Navegação estrutural">
@@ -255,7 +255,7 @@ export default function SpitzAlemaoBrancoPage() {
           <li aria-hidden="true">/</li>
           <li><Link href="/filhotes" className="hover:text-emerald-700">Filhotes</Link></li>
           <li aria-hidden="true">/</li>
-          <li className="font-medium text-zinc-600" aria-current="page">Spitz Alemão Branco</li>
+          <li className="font-medium text-zinc-600" aria-current="page">Spitz Alemão (Lulu da Pomerânia) Branco</li>
         </ol>
       </nav>
     </div>

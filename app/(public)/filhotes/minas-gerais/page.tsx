@@ -15,17 +15,17 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || "551196
 const WA_LINK = `https://wa.me/${WA_PHONE}`;
 
 export const metadata: Metadata = {
-  // Com "(Lulu da Pomerânia)" o title batia em 87 caracteres somando o sufixo
-  // da marca e o Google cortava o estado. O sinônimo continua na description.
-  title: "Filhotes de Spitz Alemão Anão em Minas Gerais",
+  // O nome da raça vai inteiro por decisão de 06/11/2026, mesmo que o Google
+  // corte o estado no fim do título.
+  title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais",
   description:
-    "Filhotes de Spitz Alemão Anão para famílias de Minas Gerais. Consulte as opções de transporte para BH, Uberlândia, Juiz de Fora e sua cidade.",
+    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) para famílias de Minas Gerais. Consulte as opções de transporte para BH, Uberlândia, Juiz de Fora e sua cidade.",
   alternates: { canonical: canonical("/filhotes/minas-gerais") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/minas-gerais"),
-    title: "Filhotes de Spitz Alemão Anão em Minas Gerais",
-    description: "Spitz Alemão Anão para famílias de MG. Transporte sob consulta de destino, idade e condições do filhote.",
+    title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais",
+    description: "Spitz Alemão Anão (Lulu da Pomerânia) para famílias de MG. Transporte sob consulta de destino, idade e condições do filhote.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933 }],
   },
 };
@@ -80,14 +80,14 @@ const faqMG = [
       "Todos os filhotes vêm com registro oficial, protocolo vacinal em dia conforme a idade do filhote — com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes —, vermifugação em dia, consulta veterinária antes da entrega, hemograma completo, contrato, manual do tutor e suporte pós-venda via WhatsApp. Também fornecemos orientação sobre alimentação e cuidados.",
   },
   {
-    question: "Qual o tamanho e peso do Spitz Alemão Anão adulto?",
+    question: "Qual o tamanho e peso do Spitz Alemão Anão (Lulu da Pomerânia) adulto?",
     answer:
       "O padrão FCI nº 97 define a cernelha (altura) em 21 cm ± 3 cm e determina que o peso seja proporcional ao tamanho do cão — na prática, adultos costumam ficar entre 1,5 kg e 3,5 kg. São cães de porte pequeno, perfeitos para apartamentos e casas em MG.",
   },
 ];
 
 export default function FilhotesMinasGeraisPage() {
-  const waText = "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão disponíveis em Minas Gerais.";
+  const waText = "Olá! Gostaria de informações sobre filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis em Minas Gerais.";
   const waLink = `${WA_LINK}?text=${encodeURIComponent(waText)}`;
 
   // Uma empresa so no grafo. Cada pagina de estado emitia um LocalBusiness
@@ -98,7 +98,7 @@ export default function FilhotesMinasGeraisPage() {
   // pagina e aponta para aquele no, em vez de inventar uma filial.
   const webPageLd = buildWebPageLD({
     path: "/filhotes/minas-gerais",
-    name: "Filhotes de Spitz Alemão Anão em Minas Gerais",
+    name: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais",
     // Mesma imagem do og:image desta pagina: primaryImageOfPage e og:image
     // apontando para arquivos diferentes e um sinal contraditorio.
     image: "/spitz-hero-desktop.webp",
@@ -133,14 +133,14 @@ export default function FilhotesMinasGeraisPage() {
 
       <div className="bg-[var(--bg)] pb-24 pt-16">
         {/* Hero Section */}
-        <section className="mx-auto max-w-6xl px-5 text-center">
+        <section className="faixa-topo mx-auto max-w-6xl px-5 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-1.5 text-sm font-semibold">
-            <MapPin className="h-4 w-4 text-[var(--brand)]" />
+            <MapPin className="h-4 w-4 text-[var(--marca-texto)]" />
             Atendemos todo Minas Gerais
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
-            Filhotes de Spitz Alemão Anão
-            <span className="block text-[var(--brand)]">em Minas Gerais (MG)</span>
+            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
+            <span className="block text-[var(--marca-texto)]">em Minas Gerais (MG)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
             Spitz Alemão Anão (Lulu da Pomerânia) para famílias de BH, Uberlândia, Juiz de Fora e Minas Gerais.
@@ -151,10 +151,10 @@ export default function FilhotesMinasGeraisPage() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "gap-2 bg-[#25D366] hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal bg-[#25D366] py-2 text-center hover:bg-[#20BA5A]")}
             >
               <WhatsAppIcon className="h-5 w-5" />
-              Falar com a Criadora
+              Vamos conversar sobre o seu novo amor
             </a>
             <Link href="#vitrine" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
               Ver a Vitrine de Filhotes
@@ -173,7 +173,7 @@ export default function FilhotesMinasGeraisPage() {
                 key={city}
                 className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4"
               >
-                <CheckCircle className="h-5 w-5 flex-shrink-0 text-[var(--brand)]" />
+                <CheckCircle className="h-5 w-5 flex-shrink-0 text-[var(--marca-texto)]" />
                 <span className="font-medium text-[var(--text)]">{city}</span>
               </div>
             ))}
@@ -185,7 +185,7 @@ export default function FilhotesMinasGeraisPage() {
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Truck className="h-8 w-8 text-[var(--brand)]" />
+                <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
               <p className="text-sm text-[var(--text-muted)]">
@@ -194,21 +194,21 @@ export default function FilhotesMinasGeraisPage() {
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Shield className="h-8 w-8 text-[var(--brand)]" />
+                <Shield className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Registro oficial</h3>
               <p className="text-sm text-[var(--text-muted)]">Todos os filhotes com registro oficial</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Star className="h-8 w-8 text-[var(--brand)]" />
+                <Star className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Criação Especializada</h3>
-              <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão como única raça, em Bragança Paulista (SP)</p>
+              <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão (Lulu da Pomerânia) como única raça, em Bragança Paulista (SP)</p>
             </div>
             <div className="text-center">
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Phone className="h-8 w-8 text-[var(--brand)]" />
+                <Phone className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-muted)]">Contato direto com a criadora pelo WhatsApp</p>
@@ -229,9 +229,8 @@ export default function FilhotesMinasGeraisPage() {
           {/* PuppiesGrid busca o catálogo no Supabase pelo navegador, então o
               HTML servido nestas três páginas saía sem filhote nenhum: o Google
               indexava uma seção vazia e o visitante via a página em branco até o
-              fetch responder. StaticCatalog é o mesmo componente de /filhotes e
-              já chega renderizado do servidor. */}
-          <StaticCatalog puppies={puppiesPublicados as any[]} headingLevel={2} />
+              fetch responder. StaticCatalog já chega renderizado do servidor. */}
+          <StaticCatalog puppies={puppiesPublicados as any[]} />
         </section>
 
         {/* FAQ */}
@@ -247,7 +246,7 @@ export default function FilhotesMinasGeraisPage() {
               >
                 <summary className="flex cursor-pointer items-start justify-between gap-4 font-semibold text-[var(--text)] marker:content-none">
                   <span>{item.question}</span>
-                  <span className="flex-shrink-0 text-[var(--brand)] transition-transform group-open:rotate-180">▼</span>
+                  <span className="flex-shrink-0 text-[var(--marca-texto)] transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <p className="mt-4 text-[var(--text-muted)]">{item.answer}</p>
               </details>
@@ -258,7 +257,7 @@ export default function FilhotesMinasGeraisPage() {
         {/* CTA Final */}
         <section className="mx-auto mt-20 max-w-4xl px-5 text-center">
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
-            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão em Minas Gerais?</h2>
+            <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão (Lulu da Pomerânia) em Minas Gerais?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-muted)]">
               Fale com nossa equipe e consulte as opções de transporte para sua cidade em MG
             </p>

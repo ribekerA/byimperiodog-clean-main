@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Termos de Uso",
     description:
-      "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão Anão.",
+      "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão Anão (Lulu da Pomerânia).",
     path,
     // /og/termos-uso.jpg não existe (a pasta public/og/ nunca foi criada) e
     // respondia 404. Sem `images`, entra a imagem padrão do site.
@@ -43,7 +43,7 @@ export default function TermosDeUsoPage() {
       <script id="ld-termos-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
     <div className="mx-auto max-w-4xl space-y-12 px-6 py-16 text-zinc-800">
-      <header className="space-y-3">
+      <header className="faixa-topo space-y-3">
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600">Condições legais</p>
         <h1 className="text-4xl font-bold text-zinc-900">Termos de Uso</h1>
         <p className="text-lg text-zinc-600">
@@ -66,7 +66,7 @@ export default function TermosDeUsoPage() {
       <section id="fornecedor" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Identificação do fornecedor</h2>
         <p className="text-zinc-600">
-          O site é operado pela By Império Dog, criadora de Spitz Alemão Anão sediada em Bragança
+          O site é operado pela By Império Dog, criadora de Spitz Alemão Anão (Lulu da Pomerânia) sediada em Bragança
           Paulista/SP. O atendimento ao consumidor — dúvidas, reclamações, exercício de direitos e suporte pós-entrega — é
           prestado pelos canais abaixo:
         </p>
@@ -90,7 +90,7 @@ export default function TermosDeUsoPage() {
       <section id="escopo" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Escopo dos serviços</h2>
         <p className="text-zinc-600">
-          Disponibilizamos conteúdos educativos e orientações gerais de pós-entrega do Spitz Alemão Anão. As
+          Disponibilizamos conteúdos educativos e orientações gerais de pós-entrega do Spitz Alemão Anão (Lulu da Pomerânia). As
           informações têm caráter informativo e não substituem consulta com médico-veterinário ou outro profissional habilitado.
         </p>
       </section>
@@ -99,7 +99,7 @@ export default function TermosDeUsoPage() {
         <h2 className="text-2xl font-semibold text-zinc-900">Responsabilidades do tutor</h2>
         <p className="text-zinc-600">
           O tutor compromete-se a fornecer informações verídicas, seguir orientações sanitárias, manter consultas preventivas e
-          garantir ambiente seguro para o Spitz Alemão Anão. O eventual descumprimento de condições expressamente
+          garantir ambiente seguro para o Spitz Alemão Anão (Lulu da Pomerânia). O eventual descumprimento de condições expressamente
           previstas no contrato poderá ser considerado na análise de garantias contratuais, conforme o caso e o
           nexo com o problema apresentado, sem prejuízo das garantias e demais direitos assegurados pela
           legislação.

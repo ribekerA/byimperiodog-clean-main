@@ -370,7 +370,7 @@ export default function LeadForm({ context, className }: Props) {
             aria-invalid={errors.consent_lgpd ? "true" : "false"}
             aria-required="true"
             aria-describedby="consent-description"
-            className="mt-0.5 h-4 w-4 rounded border-[var(--border)] text-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]/40"
+            className="mt-0.5 h-4 w-4 rounded border-[var(--border)] text-[var(--marca-texto)] focus:ring-2 focus:ring-[var(--brand)]/40"
           />
           <label htmlFor="contato-consent" className="text-xs leading-relaxed text-[var(--text-muted)]" id="consent-description">
             Li e aceito a{" "}
@@ -378,7 +378,7 @@ export default function LeadForm({ context, className }: Props) {
               href="/politica-de-privacidade"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[var(--brand)] underline hover:no-underline"
+              className="text-[var(--marca-texto)] underline hover:no-underline"
             >
               Política de Privacidade
             </a>{" "}

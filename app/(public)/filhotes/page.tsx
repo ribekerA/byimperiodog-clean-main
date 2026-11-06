@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import StaticCatalog from "@/components/catalog/StaticCatalog";
+import VitrineFilhotes from "@/components/catalog/VitrineFilhotes";
 import { SearchTopicDirectory } from "@/components/common/SearchTopicDirectory";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { RESPOSTA_MACHO_VS_FEMEA } from "@/domain/pricing";
@@ -16,12 +16,12 @@ const CATALOG_FAQS = [
       "Use a vitrine desta página para identificar a cor e o sexo que você procura e fale com a equipe pelo WhatsApp: é no atendimento que as opções atuais são confirmadas e a reserva é fechada. A entrega inclui registro oficial, carteira de vacinação, consulta veterinária e hemograma completo; a identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
-    question: "Com quais cores de Spitz Alemão Anão a By Império Dog trabalha?",
+    question: "Com quais cores de Spitz Alemão Anão (Lulu da Pomerânia) a By Império Dog trabalha?",
     answer:
       "São cinco cores divulgadas: Particolor, Laranja, Creme, Preto e Branco. O preço é individual e não segue uma ordem obrigatória por cor. As opções atuais de cada cor são confirmadas no atendimento.",
   },
   {
-    question: "Qual a diferença de preço entre Spitz Alemão Anão Fêmea e Macho?",
+    question: "Qual a diferença de preço entre Spitz Alemão Anão (Lulu da Pomerânia) Fêmea e Macho?",
     // Os dez valores estavam escritos à mão aqui, e a frase ainda explicava a
     // diferença "por conta da maior procura" — número duplicado da tabela mais
     // uma afirmação de mercado que ninguém mediu. Agora a resposta é montada em
@@ -49,10 +49,10 @@ export const metadata: Metadata = {
   description: "Compare fotos e preços de filhotes Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo. Consulte opções atuais com a By Império Dog em Bragança Paulista.",
   alternates: { canonical: "/filhotes" },
   openGraph: {
-    title:       "Filhotes de Spitz Alemão Anão — By Império Dog",
+    title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
     description: "Vitrine de filhotes com registro oficial, consulta veterinária e hemograma completo. Bragança Paulista, SP.",
     type:        "website",
-    images:      [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933, alt: "Filhotes de Spitz Alemão Anão da By Império Dog" }],
+    images:      [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933, alt: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog" }],
   },
 };
 
@@ -62,7 +62,7 @@ export default function FilhotesPage() {
   // é. O CollectionPage é o nó dono, e os dois se referenciam pelo @id.
   const collectionLd = buildCollectionPageLD({
     path: "/filhotes",
-    name: "Vitrine de filhotes de Spitz Alemão Anão — By Império Dog",
+    name: "Vitrine de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
     description:
       "Fotos reais das cores e dos sexos com que a By Império Dog trabalha, com o valor de partida de cada combinação.",
     image: "/spitz-hero-desktop.webp",
@@ -79,7 +79,7 @@ export default function FilhotesPage() {
       <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
-      <StaticCatalog puppies={puppiesPublicados as any[]} />
+      <VitrineFilhotes puppies={puppiesPublicados as any[]} />
 
       <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-8">
         <SearchTopicDirectory clusters={["compra", "escolha"]} currentPath="/filhotes" />

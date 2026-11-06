@@ -16,7 +16,7 @@ import { FOUNDING_YEAR } from "@/domain/config";
 
 export const runtime = "nodejs";
 
-export const alt = "By Império Dog — Spitz Alemão Anão | Criação responsável em Bragança Paulista, SP";
+export const alt = "By Império Dog — Spitz Alemão Anão (Lulu da Pomerânia) | Criação responsável em Bragança Paulista, SP";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -84,7 +84,7 @@ export default function Image() {
             padding: "0 40px",
           }}
         >
-          Spitz Alemão Anão
+          Spitz Alemão Anão (Lulu da Pomerânia)
         </div>
 
         {/* Subtitle */}

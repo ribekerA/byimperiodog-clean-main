@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ComponentProps } from "react";
 
 import PuppyCinematicGallery from "@/components/catalog/PuppyCinematicGallery";
 import {
@@ -8,16 +9,14 @@ import {
   ClientOnlyPuppyStickyFloatingCTA,
 } from "@/components/catalog/PuppyClientOnly";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
+import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
-import { TiltCard } from "@/components/motion/TiltCard";
 import ViewEventTracker from "@/components/ViewEventTracker";
-import { staticPuppies } from "@/content/puppies-static";
+import { puppiesPublicados, staticPuppies } from "@/content/puppies-static";
 import { puppySearchCopy } from "@/content/puppy-search-copy";
 import { formatarPreco, textoAPartirDeNoPix } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
-import { focoDaFoto } from "@/lib/photo-focus";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildVitrinePageLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -69,12 +68,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   // cortava exatamente em cima do sinônimo — que era a única razão de ele
   // estar ali. Nos nomes curtos ele ajuda quem pesquisa por "Lulu"; nos longos
   // o próprio nome do filhote já diz cor, sexo e raça.
-  const tituloCompleto = `${puppy.name} — Lulu da Pomerânia`;
+  const tituloCompleto = /lulu da pomer/i.test(puppy.name) ? puppy.name : `${puppy.name} — Lulu da Pomerânia`;
   const priceCents = (puppy as any).priceCents ?? (puppy as any).price_cents;
   const title = searchCopy
     ? puppy.slug === "spitz-alemao-anao-preto-macho"
       ? `${searchCopy.heading} | Referência visual`
-      : `${searchCopy.heading} | ${formatarPreco(priceCents)}`
+      : `${searchCopy.heading} | a partir de ${formatarPreco(priceCents)}`
     : tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??
@@ -135,17 +134,6 @@ function resumirParaBusca(texto: string, limite = 158) {
   return cortado.slice(0, cortado.lastIndexOf(" ")).replace(/[,;:—-]$/, "") + "…";
 }
 
-// ─── Mapa de cor → glow (TiltCard dos relacionados) ──────────────────────────
-
-const COLOR_GLOW: Record<string, string> = {
-  creme:        "rgba(243,181,98,0.45)",
-  laranja:      "rgba(249,115,22,0.40)",
-  preto:        "rgba(161,161,170,0.30)",
-  "wolf-sable": "rgba(99,102,241,0.35)",
-  branco:       "rgba(255,255,255,0.30)",
-};
-const DEFAULT_GLOW = "rgba(52,211,153,0.30)";
-
 // ─── Página ────────────────────────────────────────────────────────────────────
 
 export default async function PuppyPage(props: Props) {
@@ -179,7 +167,7 @@ export default async function PuppyPage(props: Props) {
     { name: puppy.name,  url: `${SITE_URL}/filhotes/${puppy.slug}` },
   ]);
 
-  const related = staticPuppies
+  const related = puppiesPublicados
     .filter((p) => p.slug !== puppy.slug && p.color === puppy.color)
     .slice(0, 3);
 
@@ -281,7 +269,7 @@ export default async function PuppyPage(props: Props) {
                   <h3 className="font-semibold text-zinc-900">Valor transparente</h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600">
                     {puppy.slug === "spitz-alemao-anao-preto-macho"
-                      ? "O valor cadastrado é uma referência; consulte o preço individual das opções atuais antes de reservar."
+                      ? "O valor cadastrado é uma referência; consulte o preço das opções atuais antes de reservar."
                       : `${textoAPartirDeNoPix((puppy as any).priceCents ?? (puppy as any).price_cents)}, publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.`}
                   </p>
                 </div>
@@ -343,71 +331,17 @@ export default async function PuppyPage(props: Props) {
               </h2>
             </ScrollReveal>
 
-            <StaggerContainer stagger={0.1} delay={0.05} margin="-40px">
-              <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
-                {related.map((rel) => {
-                  const relSex    = rel.sex === "female" ? "Fêmea" : "Macho";
-                  const relCor    = (rel as any).cor ?? rel.color ?? "";
-                  const relCorKey = (rel.color ?? relCor).toLowerCase();
-                  const relImg    = rel.images?.find((img: string) => !img.endsWith(".mp4"));
-                  const glowColor = COLOR_GLOW[relCorKey] ?? DEFAULT_GLOW;
-
-                  return (
-                    // O <li> vem POR FORA do StaggerItem, que renderiza uma
-                    // <div>. Invertido, a <ul> passava a conter <div> direto e
-                    // o <li> ficava dentro dela: o leitor de tela deixava de
-                    // anunciar "lista de N itens" e o cascateamento continua
-                    // igual, porque o framer-motion propaga variante por
-                    // contexto de React, nao por vizinhanca no DOM.
-                    <li key={rel.slug}>
-                      <StaggerItem>
-                        <TiltCard glowColor={glowColor} maxTilt={7}>
-                          <Link
-                            href={`/filhotes/${rel.slug}`}
-                            className="group block overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm transition hover:shadow-md"
-                          >
-                            <div className="relative aspect-square w-full overflow-hidden bg-zinc-100">
-                              {relImg && (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
-                                  src={relImg}
-                                  alt={`Filhote ${rel.name}`}
-                                  // Recorte medido por foto (src/lib/photo-focus):
-                                  // aqui o quadro e quadrado e a foto e vertical, entao
-                                  // sobra ainda menos margem para errar a ancora.
-                                  className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.06]"
-                                  style={{ objectPosition: focoDaFoto(relImg) }}
-                                  loading="lazy"
-                                />
-                              )}
-                              <div
-                                className="absolute inset-0"
-                                style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.45) 100%)" }}
-                                aria-hidden="true"
-                              />
-                              {/* right-3 + line-clamp: nomes longos como "Spitz
-                                  Cinza-Lobo (Wolf Sable) Femea" saiam do card e
-                                  eram cortados no meio da palavra pelo overflow. */}
-                              <span className="absolute bottom-2 left-3 right-3 line-clamp-2 text-sm font-bold text-white drop-shadow">
-                                {rel.name}
-                              </span>
-                            </div>
-                            <div className="p-3">
-                              <p className="text-sm text-zinc-500">{relCor} · {relSex}</p>
-                              {(rel as any).priceCents > 0 && (
-                                <p className="mt-1 text-sm font-bold leading-snug text-emerald-700">
-                                  {textoAPartirDeNoPix((rel as any).priceCents)}
-                                </p>
-                              )}
-                            </div>
-                          </Link>
-                        </TiltCard>
-                      </StaggerItem>
-                    </li>
-                  );
-                })}
-              </ul>
-            </StaggerContainer>
+            <ul className="grade-filhotes">
+              {related.map((rel) => (
+                <li key={rel.slug}>
+                  <StaticPuppyCard
+                    {...(rel as ComponentProps<typeof StaticPuppyCard>)}
+                    waMedium="related_puppies"
+                    waCampaign="filhote_relacionado"
+                  />
+                </li>
+              ))}
+            </ul>
           </section>
         )}
 

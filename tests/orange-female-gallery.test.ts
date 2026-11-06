@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { staticPuppies } from "../content/puppies-static";
+import { puppySearchCopy } from "../content/puppy-search-copy";
 import { getPuppiesByColor } from "../src/lib/catalog-utils";
 
 const SLUG_LACO_VERMELHO = "spitz-alemao-anao-laranja-femea";
@@ -21,11 +22,11 @@ describe("separacao das galerias das femeas laranja", () => {
     expect(lacoVermelho?.images).not.toContain("/filhotes/laranja/laranja-femea-01.jpg");
   });
 
-  it("publica a femea do laco rosa em uma ficha exclusiva por R$ 7.500", () => {
+  it("publica a femea do laco rosa em uma ficha exclusiva por R$ 6.500", () => {
     expect(lacoRosa).toBeDefined();
     expect(lacoRosa?.images).toEqual(["/filhotes/laranja/laranja-femea-01.jpg"]);
-    expect(lacoRosa?.priceCents).toBe(750000);
-    expect(lacoRosa?.price_cents).toBe(750000);
+    expect(lacoRosa?.priceCents).toBe(650000);
+    expect(lacoRosa?.price_cents).toBe(650000);
   });
 
   it("nao compartilha nenhuma midia entre as duas fichas", () => {
@@ -41,6 +42,21 @@ describe("separacao das galerias das femeas laranja", () => {
       SLUG_LACO_ROSA,
       SLUG_LACO_VERMELHO,
     ]);
-    expect(lacoVermelho?.name).toContain("Laço Vermelho");
+  });
+
+  it("nao publica acessorio no nome, titulo ou descricao de nenhum filhote", () => {
+    for (const filhote of staticPuppies) {
+      const publicado = [filhote.name, filhote.title, filhote.description].join(" ");
+      expect(publicado, filhote.slug).not.toMatch(/la[cç]o|lacinho|gravat|bandana/i);
+      const textos = puppySearchCopy({ ...filhote, priceCents: filhote.priceCents ?? 0 });
+      expect(JSON.stringify(textos ?? {}), filhote.slug).not.toMatch(/la[cç]o|lacinho|gravat|bandana/i);
+    }
+  });
+
+  it("mantem title e description diferentes entre as duas fichas de femea laranja", () => {
+    const copia = (filhote: typeof lacoRosa) =>
+      puppySearchCopy({ ...filhote!, priceCents: filhote!.priceCents ?? 0 });
+    expect(copia(lacoRosa)?.heading).not.toBe(copia(lacoVermelho)?.heading);
+    expect(copia(lacoRosa)?.metadataDescription).not.toBe(copia(lacoVermelho)?.metadataDescription);
   });
 });

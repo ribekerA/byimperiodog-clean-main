@@ -47,7 +47,7 @@ export default function PublicError({
           href="/contato"
           className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 text-sm font-semibold text-[var(--text)] transition hover:border-emerald-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
         >
-          Falar com a criadora
+          Vamos conversar
         </Link>
       </div>
 

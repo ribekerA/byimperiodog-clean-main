@@ -68,21 +68,21 @@ export async function GET() {
     "",
     `> Criação de ${breed.official} (${breed.alternative}) em ${BRAND.headquarters.city}/` +
       `${BRAND.headquarters.state}, Brasil, em atividade desde ${FOUNDING_YEAR}. O site publica o ` +
-      `catálogo com fotos dos filhotes, valores individuais (${min} a ${max}) e ` +
+      `catálogo com fotos dos filhotes, valores a partir de ${min} nos machos e ${max} nas fêmeas, no PIX, e ` +
       `artigos sobre a raça. Entregas em todo o Brasil via transporte aéreo, ` +
       `conforme viabilidade da rota, idade e condições do filhote. Prazo, custo e requisitos ` +
       `da viagem são confirmados antes da reserva.`,
     "",
-    `O catálogo divulga ${CORES_EXIBIDAS.length} cores. Cada filhote tem preço individual, inclusive quando possui a mesma cor e sexo de outro.`,
-    "A faixa acima resume os valores publicados, não é uma tabela de preços por cor ou sexo.",
+    `O catálogo divulga ${CORES_EXIBIDAS.length} cores. A cor não muda o valor de partida.`,
+    "Os valores acima são de partida; o valor de cada filhote é confirmado no atendimento.",
     "A disponibilidade atual e as condições são confirmadas pela criadora no WhatsApp oficial.",
     "Vacinação e vermifugação conforme a idade, consulta veterinária, hemograma completo,",
     "pedigree e contrato conforme as condições informadas nas páginas oficiais.",
     "",
     "## Catálogo",
     "",
-    linha("Vitrine de filhotes", "/filhotes", "fotos e preços individuais de cada filhote"),
-    linha("Filhotes e valores", "/filhotes", `fotos, disponibilidade e valores individuais, de ${min} a ${max}`),
+    linha("Vitrine de filhotes", "/filhotes", "fotos e preços de cada filhote"),
+    linha("Filhotes e valores", "/filhotes", `fotos, disponibilidade e valores a partir de ${min} nos machos e ${max} nas fêmeas, no PIX`),
     linha("Como comprar", "/comprar-spitz-anao", "passo a passo da reserva até a entrega"),
     linha("Reservar", "/reserve-seu-filhote", "formulário de reserva"),
     linha("Ninhadas", "/ninhadas", "ninhadas atuais e previstas"),
@@ -116,10 +116,10 @@ export async function GET() {
     ),
     linha(breed.alternative, "/lulu-da-pomerania", "o mesmo cão, pelo nome mais usado no Brasil"),
     linha("Pomeranian", "/pomeranian", "o mesmo cão, pelo nome usado em inglês"),
-    linha("Filhote de Spitz Alemão", "/filhote-de-spitz-alemao"),
-    linha("Spitz Alemão branco", "/spitz-alemao-branco"),
-    linha("Spitz Alemão preto", "/spitz-alemao-preto"),
-    linha("Spitz Alemão baby face", "/spitz-alemao-baby-face", "o que o termo significa na prática"),
+    linha("Filhote de Spitz Alemão (Lulu da Pomerânia)", "/filhote-de-spitz-alemao"),
+    linha("Spitz Alemão (Lulu da Pomerânia) branco", "/spitz-alemao-branco"),
+    linha("Spitz Alemão (Lulu da Pomerânia) preto", "/spitz-alemao-preto"),
+    linha("Spitz Alemão (Lulu da Pomerânia) baby face", "/spitz-alemao-baby-face", "o que o termo significa na prática"),
     linha("Temperamento", "/temperamento"),
     linha("Cuidados", "/cuidados"),
     linha("Alimentação", "/alimentacao"),

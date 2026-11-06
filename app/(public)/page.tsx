@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { PixIcon } from "@/components/icons/PixIcon";
+import AvaliacoesRotativas from "@/components/reviews/AvaliacoesRotativas";
 import ColorGallery from "@/components/sections/ColorGallery";
+import GradeDaHome, { type FilhoteDaHome } from "@/components/sections/GradeDaHome";
 import {
   ClientOnlyAiMatchmakerChat,
   ClientOnlyTestimonials,
@@ -12,13 +14,10 @@ import HomeFAQ from "@/components/sections/HomeFAQ";
 import NinhadaAlert from "@/components/sections/NinhadaAlert";
 import PriceTransparency from "@/components/sections/PriceTransparency";
 import TextTestimonials from "@/components/sections/TextTestimonials";
-import VideoHero from "@/components/sections/VideoHero";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
-import { textoAPartirDeNoPix } from "@/domain/pricing";
-import { focoDaFoto } from "@/lib/photo-focus";
+import { PISOS_POR_SEXO, partesDoPrecoNoPix } from "@/domain/pricing";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   // O `template: '%s | By Império Dog'` fica em baseSiteMetadata, no layout do
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
   // não geravam clique, porque o nome não estava no título do resultado.
   // Escrever a marca aqui não duplica nada, justamente porque o template não
   // se aplica a esta página.
-  title: "Canil Spitz Alemão Anão em Bragança Paulista | By Império Dog",
+  title: "Canil Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista | By Império Dog",
   // A description tinha 218 caracteres. O Google corta perto de 155 (menos
   // ainda no celular, de onde vêm 90% dos cliques), então "13 anos, 180+
   // famílias. Entregamos em todo o Brasil." nunca chegava a ser lido. Encurtada
@@ -40,44 +39,32 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    title: "By Império Dog | Spitz Alemão Anão — Bragança Paulista, SP",
+    title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
-      `Canil especializado em Spitz Alemão Anão em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos. Criação desde ${FOUNDING_YEAR}, com contrato.`,
+      `Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos. Criação desde ${FOUNDING_YEAR}, com contrato.`,
     // `/og/home.jpg` nunca existiu: a pasta public/og/ não existe no repositório
     // e o arquivo respondia 404. Toda pré-visualização de link da home saía sem
     // imagem. Agora aponta para o arquivo real de 1200x630.
-    images: [{ url: OG_DEFAULT_IMAGE.url, width: OG_DEFAULT_IMAGE.width, height: OG_DEFAULT_IMAGE.height, alt: "Spitz Alemão Anão da By Império Dog, Bragança Paulista SP" }],
+    images: [{ url: OG_DEFAULT_IMAGE.url, width: OG_DEFAULT_IMAGE.width, height: OG_DEFAULT_IMAGE.height, alt: "Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog, Bragança Paulista SP" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "By Império Dog | Spitz Alemão Anão",
+    title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
     description: "Criação responsável em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos.",
     images: [OG_DEFAULT_IMAGE.url],
   },
 };
 
-// Formatacao de preco vem do dominio, nao daqui.
-//
-// Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
-// Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve "R$ 8.500" com espaco comum. Os dois sao identicos na
-// tela e diferentes como texto: a pagina do filhote publicava o preco com
-// U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
-function formatPrice(cents: number) {
-  return textoAPartirDeNoPix(cents);
-}
-
 // Links estratégicos — PageRank distribution para landing pages
 const RACE_LINKS = [
-  { emoji: "🐾", label: "Spitz Alemão Anão — A Raça", href: "/spitz-alemao",              desc: "Lulu da Pomerânia — origem, características, temperamento e cuidados" },
+  { emoji: "🐾", label: "Spitz Alemão Anão (Lulu da Pomerânia) — A Raça", href: "/spitz-alemao",              desc: "Lulu da Pomerânia — origem, características, temperamento e cuidados" },
   // O rótulo era `Tabela de Preços ${new Date().getFullYear()}`. Como o ano vinha
   // do relógio, a página publicava "Tabela de Preços 2026" sem que esse texto
   // existisse em lugar nenhum do código — e viraria "2027" sozinho na virada do
   // ano. Era também a origem do "Preços 2025" reprovado na auditoria anterior:
   // mesma linha, ano diferente. Sem data, o rótulo não envelhece.
   { emoji: "🛡️", label: "Como Comprar com Segurança", href: "/comprar-spitz-anao",         desc: "Guia passo a passo para não cair em golpes" },
-  { emoji: "🍼", label: "Filhote de Spitz Alemão",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
+  { emoji: "🍼", label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
   { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, exames e red flags para evitar" },
   { emoji: "📍", label: "Canil no Interior de SP",    href: "/canil-spitz-alemao-interior-sp", desc: "Cidades atendidas — Bragança Paulista e região" },
 ] as const;
@@ -92,14 +79,27 @@ const DIFFERENTIALS = [
   { emoji: "📋", title: "Lista de enxoval", body: "Lista de itens, alimentação e rotina entregue antes da chegada do filhote." },
 ] as const;
 
-// Prova social — barra de trust signals
-const TRUST_SIGNALS = [
-  "Registro oficial",
-  "Consulta veterinária e hemograma",
-  "Mentoria pós-venda inclusa",
-  `Criação desde ${FOUNDING_YEAR}`,
-  "Envio para todo o Brasil",
+// ── Textos e ícones do mockup de 05/11/2026, ao pé da letra ──
+//
+// `w` e `h` são as medidas reais de cada arquivo, para a página reservar o
+// espaço certo antes de o ícone chegar.
+const SELOS = [
+  { linha1: "Procedência", linha2: "confiável", icone: "/images/home/selo-procedencia.webp", w: 96, h: 96 },
+  { linha1: "Acompanhamento", linha2: "pós-reserva", icone: "/images/home/selo-acompanhamento.webp", w: 108, h: 96 },
+  { linha1: "Documentação", linha2: "orientada", icone: "/images/home/selo-documentacao.webp", w: 96, h: 96 },
+  { linha1: "Suporte", linha2: "veterinário", icone: "/images/home/selo-veterinario.webp", w: 100, h: 96 },
+  { linha1: "Atendimento", linha2: "humanizado", icone: "/images/home/selo-atendimento.webp", w: 108, h: 96 },
 ] as const;
+
+// Os três que abrem a vitrine, na ordem do mockup. A foto é a do próprio filhote:
+// a do desenho cortava as patas e não era a do animal do link.
+const ABREM_A_VITRINE = [
+  "spitz-alemao-anao-branco-macho",
+  "spitz-alemao-anao-laranja-femea",
+  "spitz-alemao-anao-preto-macho",
+];
+
+// Avaliação real e curta do perfil do Google, na íntegra.
 
 // WebSite e Organization saíram daqui: o layout público já emite os dois em
 // todas as páginas, com o mesmo @id. Emitir de novo na home criava um segundo
@@ -122,41 +122,132 @@ export default function HomePage() {
   // (26/08/2026)
   const featured = puppiesPublicados;
 
+  // Primeiro os três que abrem a vitrine; depois todos os outros.
+  const filhotesDaHome: FilhoteDaHome[] = [
+    ...ABREM_A_VITRINE.flatMap((slug) => featured.filter((p) => p.slug === slug)),
+    ...featured.filter((p) => !ABREM_A_VITRINE.includes(p.slug)),
+  ].map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    name: p.name,
+    color: p.color,
+    cor: p.cor,
+    sex: p.sex,
+    priceCents: p.priceCents,
+    price_cents: p.price_cents,
+    images: p.images,
+  }));
+
   return (
     <>
 
-      <div className="relative flex flex-col">
+      <div className="tema-verde relative flex flex-col">
 
-        {/* ── 1. HERO ─────────────────────────────────────────────────────────── */}
-        <VideoHero />
+        {/* ── A HOME DO MOCKUP DE 05/11/2026 ──────────────────────────────────
+            Da primeira dobra até a faixa de avaliações, a home é o mockup: mesma
+            ordem, mesmas frases e mesmas imagens, por decisão da responsável
+            ("idêntica a esse mockup, fielmente, imagens, escritas, tudo").
 
-        {/* ── 2. SOCIAL PROOF BAR ────────────────────────────────────────────── */}
-        <div className="border-b border-zinc-100 bg-white py-5 overflow-hidden">
-          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-10 gap-y-2 px-5 text-sm text-zinc-500">
-            {TRUST_SIGNALS.map((signal) => (
-              <div key={signal}>
-                <span className="flex items-center gap-1.5">
-                  <span className="text-emerald-700" aria-hidden="true">✓</span>
-                  {signal}
-                </span>
-              </div>
-            ))}
+            Três coisas não seguem o desenho ao pé da letra, de propósito:
+            - os valores dos cartões vêm de PRECO_POR_SLUG (ver StaticPuppyCard);
+            - a citação e o retrato do mockup não existem: a faixa publica uma
+              avaliação real do perfil do Google;
+            - "Lulu da Pomerânia" segue no H1 só para leitor de tela e índice.
+
+            As medidas estão em `--u`, o pixel do mockup (ver `.hm` em
+            globals.css). O que vinha depois continua depois. */}
+        <div className="hm">
+
+          <section className="hm-topo" aria-labelledby="hero-heading">
+            <div className="hm-topo-foto">
+              <Image
+                src="/images/home/topo-quatro.webp"
+                alt="Quatro filhotes de Spitz Alemão Anão, o Lulu da Pomerânia: branco, laranja, preto e creme."
+                fill
+                priority
+                fetchPriority="high"
+                quality={80}
+                sizes="(min-width: 1180px) 1180px, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="hm-topo-texto">
+              <h1 id="hero-heading" className="hm-titulo">
+                Spitz Alemão Anão
+                {" "}<span className="hm-titulo-lulu">(Lulu da Pomerânia)</span>
+              </h1>
+              <p className="hm-exclusivos">
+                <Image src="/images/home/pata-esq.webp" alt="" width={88} height={76} unoptimized loading="eager" />
+                <span>Filhotes Exclusivos</span>
+                <Image src="/images/home/pata-dir.webp" alt="" width={88} height={76} unoptimized loading="eager" />
+              </p>
+              <p className="hm-chamada">Escolha o seu novo companheiro hoje mesmo!</p>
+            </div>
+          </section>
+
+          <div className="hm-corpo">
+            {/* O VALOR não é digitado: PISOS_POR_SEXO é o menor preço cadastrado
+                por sexo, e sem oferta naquele valor a pílula não é publicada. */}
+            <section aria-labelledby="pisos-heading">
+              <h2 id="pisos-heading" className="sr-only">Valores a partir de, por sexo</h2>
+              <ul className="hm-miolo hm-pilulas">
+                {PISOS_POR_SEXO.map((piso) => {
+                  const partes = partesDoPrecoNoPix(piso.cents);
+                  const [inteiro, centavos] = partes.valor.split(",");
+                  return (
+                    <li key={piso.sexo}>
+                      <Link href={`/filhotes/sexo/${piso.sexo}`} className={`hm-pilula ${piso.sexo === "macho" ? "hm-pilula-macho" : "hm-pilula-femea"}`}>
+                        <span className="hm-pilula-topo">
+                          <strong>{piso.rotulo}</strong>{" "}<span>{partes.prefixo}</span>
+                        </span>{" "}
+                        <span className="hm-pilula-meio">
+                          {piso.sexo === "macho" ? (
+                            <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                              <circle cx="24" cy="36" r="18" />
+                              <path d="M37 23 54 6M38 6h16v16" />
+                            </svg>
+                          ) : (
+                            <svg viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="6.5" strokeLinecap="round" aria-hidden="true">
+                              <circle cx="30" cy="20" r="16" />
+                              <path d="M30 36v22M19 47h22" />
+                            </svg>
+                          )}
+                          <span className="hm-pilula-valor">{inteiro}<span className="hm-pilula-centavos">,{centavos}</span></span>
+                        </span>{" "}
+                        <span className="hm-pilula-pix"><PixIcon />{partes.sufixo}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+
+            <ul className="hm-miolo hm-selos">
+              {SELOS.map((selo) => (
+                <li key={selo.linha1}>
+                  <Image src={selo.icone} alt="" width={selo.w} height={selo.h} unoptimized loading="eager" />
+                  <span>{selo.linha1}{" "}<br />{selo.linha2}</span>
+                </li>
+              ))}
+            </ul>
+
+            <section aria-labelledby="featured-heading">
+              <h2 id="featured-heading" className="sr-only">Conheça os filhotes</h2>
+              <GradeDaHome filhotes={filhotesDaHome} />
+            </section>
+
+            <AvaliacoesRotativas className="hm-avaliacoes" />
           </div>
         </div>
 
-        {/* Apresentação e diferenciais antes das avaliações. */}
-        <section className="home-deferred-section bg-white py-14 sm:py-28 overflow-hidden" aria-labelledby="diff-heading">
+        {/* Os seis diferenciais explicam por extenso o que os cinco selos do topo
+            dizem em duas palavras. Ficaram aqui, logo depois da composição do
+            mockup, e a frase de abertura veio junto. */}
+        <section className="home-deferred-section overflow-hidden bg-[var(--bg-2)] py-14 sm:py-20" aria-label="Como a By Império Dog trabalha">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
-
-            <div className="mx-auto mb-8 sm:mb-12 max-w-2xl text-center">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">Criação responsável</p>
-              <h2 id="diff-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-                Por que a By Império Dog?
-              </h2>
-              <p className="mt-3 text-zinc-600 text-sm sm:text-base">
-                Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
-              </p>
-            </div>
+            <p className="mx-auto mb-10 max-w-2xl text-center text-sm text-[var(--text-muted)] sm:text-base">
+              Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
+            </p>
 
             <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {DIFFERENTIALS.map(({ emoji, title, body }) => (
@@ -178,161 +269,6 @@ export default function HomePage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Vitrine de filhotes. */}
-        <section className="home-deferred-section bg-[var(--bg)] py-14 sm:py-28 overflow-hidden" aria-labelledby="featured-heading">
-          <div className="mx-auto max-w-7xl">
-
-            {/* Header da seção */}
-            <div className="mx-auto mb-8 max-w-xl px-5 text-center sm:mb-12 sm:px-8">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-700">
-                Vitrine
-              </p>
-              <h2 id="featured-heading" className="mt-3 text-2xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
-                Conheça os filhotes
-              </h2>
-              <p className="mt-3 text-sm text-zinc-600 sm:text-base">
-                Fotos reais das cores e dos sexos de Spitz Alemão Anão com que a By Império Dog
-                trabalha, com acompanhamento veterinário e a documentação descrita em contrato.{" "}
-                <span className="font-medium text-zinc-700">
-                  Consulte as opções atuais pelo WhatsApp.
-                </span>
-              </p>
-            </div>
-
-            {/* ── Lista de filhotes — UMA única instância no DOM ──────────────
-                Uma coluna no celular, um filhote por vez ocupando a largura
-                toda; 2 colunas a partir de sm e 4 a partir de lg.
-
-                Já foi carrossel horizontal aqui. A ideia era boa em teoria —
-                cabe muito card em pouca tela — e ruim na prática por três
-                motivos que só aparecem no aparelho: o deslize lateral disputa
-                com a rolagem vertical da página e com o gesto de "voltar" do
-                navegador; o card encolhia para 80% da tela, e a foto junto,
-                que é o que vende; e o que não está na primeira posição some,
-                então metade do plantel dependia de a pessoa adivinhar que
-                havia mais coisa à direita. Empilhado, o dedo faz o gesto que
-                já ia fazer e cada filhote chega em tamanho de vitrine. */}
-            <div className="px-5 sm:px-8">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
-                {featured.map((puppy) => {
-                  const corLabel = (puppy as any).cor ?? puppy.color ?? "";
-                  const sexRaw = puppy.sex ?? (puppy as any).gender ?? "";
-                  const sexLabel = sexRaw === "female" ? "Fêmea" : sexRaw === "male" ? "Macho" : "";
-                  const cover = puppy.images.find((img: string) => !img.endsWith(".mp4")) ?? puppy.images[0];
-                  const price = (puppy as any).priceCents ?? (puppy as any).price_cents;
-                  const waLink = buildWhatsAppLink({
-                    // A conversa começa pela combinação de cor e sexo, não por
-                    // "quero exatamente o cachorro da foto": a foto é referência
-                    // visual permanente, e quem confirma o que existe hoje é o
-                    // atendimento.
-                    message: `Olá! Vi ${puppy.name} (${corLabel} ${sexLabel}) na vitrine do site e gostaria de conhecer as opções atuais dessa combinação.`,
-                    utmSource: "site",
-                    utmMedium: "featured_home",
-                    utmCampaign: "filhotes",
-                    utmContent: puppy.id,
-                  });
-                  return (
-                    <div key={puppy.id}>
-                      <article className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-zinc-900/5 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                        <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
-                          {/* 4/5 em qualquer tela. O quadrado existia para
-                              encolher o card do carrossel e caber o botão junto
-                              na dobra; sem carrossel, a foto ganha de volta os
-                              75px que ela tinha perdido — e ela é o argumento de
-                              venda, não o enfeite. */}
-                          <div className="relative aspect-[4/5] overflow-hidden bg-zinc-100">
-                            {cover && (
-                              <Image
-                                src={cover}
-                                alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
-                                fill
-                                // O recorte vem medido por foto (src/lib/photo-focus).
-                                // Um valor unico nao serve: o filhote que posa no
-                                // colo esta no alto do quadro, o que posa na grama
-                                // esta embaixo, e o mesmo 28% que enquadra um deixa
-                                // o outro com meio card de ceu.
-                                className="object-cover transition duration-500 group-hover:scale-105"
-                                style={{ objectPosition: focoDaFoto(cover) }}
-                                sizes="(max-width: 640px) 92vw, (max-width: 1024px) 50vw, 25vw"
-                              />
-                            )}
-                            {/* O selo verde "Disponível" / âmbar "Reservado"
-                                saiu daqui. Ele lia um campo do arquivo estático
-                                que só mudava em deploy, então anunciava como
-                                disponível o filhote que já tinha saído — e
-                                anunciava estoque público numa vitrine que é
-                                referência visual, não inventário. O selo de sexo
-                                fica: sexo é taxonomia da foto, não estado
-                                comercial. (26/08/2026) */}
-                            {sexLabel && (
-                              <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-0.5 text-xs font-semibold text-white backdrop-blur-sm">
-                                {sexLabel}
-                              </span>
-                            )}
-                          </div>
-                        </Link>
-                        <div className="flex flex-1 flex-col gap-3 p-4">
-                          <div>
-                            <Link href={`/filhotes/cor/${puppy.color}`} className="text-xs font-semibold uppercase tracking-widest text-zinc-500 hover:text-emerald-700">
-                              {corLabel}
-                            </Link>
-                            <Link href={`/filhotes/${puppy.slug}`}>
-                              <h3 className="mt-0.5 text-base font-bold text-zinc-900 transition group-hover:text-emerald-700">
-                                {puppy.name}
-                              </h3>
-                            </Link>
-                          </div>
-                          <div className="mt-auto">
-                            {price > 0 && (
-                              <p className="text-base font-extrabold leading-snug text-[var(--accent-ink)]">{formatPrice(price)}</p>
-                            )}
-                            <p className="text-[10px] text-zinc-500">registro oficial incluso</p>
-                          </div>
-                          <a
-                            href={waLink}
-                            target="_blank"
-                            rel="noreferrer"
-                            /* Todos os cards repetem o mesmo rotulo e cada um abre uma
-                               conversa diferente. Sem rotulo proprio, o leitor de tela le
-                               uma fila de links iguais apontando para destinos distintos. */
-                            aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${puppy.name}`}
-                            className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 text-sm font-bold text-white transition hover:bg-emerald-800 hover:scale-[1.02] active:scale-[0.98]"
-                          >
-                            <WhatsAppIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                            <span className="text-center">Consultar opções atuais</span>
-                          </a>
-                          <Link
-                            href={`/filhotes/${puppy.slug}`}
-                            aria-label={`Ver galeria de ${puppy.name}`}
-                            className="text-center text-xs font-medium text-zinc-500 hover:text-emerald-700 hover:underline"
-                          >
-                            Ver galeria →
-                          </Link>
-                        </div>
-                      </article>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Dizia "Ver todos os filhotes disponíveis" quando a seção
-                  mostrava 4 de 7 — e continuar dizendo isso agora seria prometer
-                  uma página que não tem nada de novo, além de anunciar
-                  disponibilidade que esta página não tem como saber. O que
-                  /filhotes tem e a home não tem é o filtro por cor, então é isso
-                  que o botão oferece. */}
-              <div className="mt-8 text-center sm:mt-12">
-                <Link
-                  href="/filhotes"
-                  className="inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full border-2 border-zinc-200 px-8 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
-                >
-                  Filtrar filhotes por cor →
-                </Link>
-              </div>
             </div>
           </div>
         </section>

@@ -16,6 +16,7 @@ export function parseCatalogQuery(input: string): CatalogQuery {
     ["branco", /\bbranc[oa]s?\b/], ["preto", /\bpret[oa]s?\b/],
     ["laranja", /\blaranjas?\b/], ["creme", /\bcremes?\b/],
     ["chocolate", /\bchocolates?\b/], ["particolor", /\bparticolors?\b/],
+    ["merle", /\bmerles?\b/],
     ["wolf-sable", /\b(wolf[ -]sable|cinza[ -]lobo)\b/],
   ] as const;
   const sexes: string[] = [];

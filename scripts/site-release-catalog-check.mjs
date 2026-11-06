@@ -16,7 +16,7 @@ try {
       return route.continue();
     });
     const page = await context.newPage();
-    const response = await page.goto('http://localhost:3104/filhotes', { waitUntil: 'domcontentloaded', timeout: 120000 });
+    const response = await page.goto('http://localhost:3104/filhotes/sao-paulo', { waitUntil: 'domcontentloaded', timeout: 120000 });
     assert.equal(response.status(), 200);
     console.log(`Loaded catalog ${width}`);
     const search = page.getByLabel('O que você procura?', {exact: true});

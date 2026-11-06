@@ -11,7 +11,7 @@ const PAGE_URL = `${SITE_URL}/temperamento`;
 const guide = guides.find((g) => g.slug.includes("vs-lulu") || g.slug.includes("como-escolher")) ?? guides[0];
 
 export const metadata: Metadata = {
-  title: "Temperamento do Spitz Alemão Anão",
+  title: "Temperamento do Spitz Alemão Anão (Lulu da Pomerânia)",
   description: guide.metaDescription,
   keywords: ["temperamento spitz alemão", "temperamento lulu da pomerania", "comportamento filhote"],
   // Esta pagina reaproveita integralmente o corpo do guia /guias/spitz-alemao-anao-vs-lulu-pomerania.
@@ -34,8 +34,8 @@ export default function TemperamentoPage() {
       <script id="ld-temp-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script id="ld-temp-article" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }} />
 
-      <header className="space-y-3">
-        <h1 className="text-3xl font-bold">Temperamento do Spitz Alemão Anão</h1>
+      <header className="faixa-topo space-y-3">
+        <h1 className="text-3xl font-bold">Temperamento do Spitz Alemão Anão (Lulu da Pomerânia)</h1>
         <p className="text-zinc-600">{guide.excerpt}</p>
       </header>
 

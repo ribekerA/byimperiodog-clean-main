@@ -12,16 +12,16 @@ import {
 // Fixture independente: preços-base oficiais, em reais. Condições de pagamento
 // não são inferidas pelo código e precisam ser confirmadas no atendimento.
 const OFICIAL: [CorDivulgada, Sexo, number][] = [
-  ["particolor", "macho", 5500],
+  ["particolor", "macho", 4500],
   ["particolor", "femea", 6500],
-  ["laranja", "macho", 6500],
-  ["laranja", "femea", 7500],
-  ["creme", "macho", 7500],
-  ["creme", "femea", 8500],
-  ["preto", "macho", 8500],
-  ["preto", "femea", 9500],
-  ["branco", "macho", 9500],
-  ["branco", "femea", 10500],
+  ["laranja", "macho", 4500],
+  ["laranja", "femea", 6500],
+  ["creme", "macho", 4500],
+  ["creme", "femea", 6500],
+  ["preto", "macho", 4500],
+  ["preto", "femea", 6500],
+  ["branco", "macho", 4500],
+  ["branco", "femea", 6500],
 ];
 
 describe("verdade comercial — fixture oficial", () => {
@@ -30,11 +30,17 @@ describe("verdade comercial — fixture oficial", () => {
   });
   it("cobre as dez combinações sem inventar condição de pagamento", () => {
     expect(new Set(OFICIAL.map(([cor, sexo]) => cor + sexo)).size).toBe(10);
-    expect(FAIXA_PUBLICA.maxCents).toBe(1050000);
+    // Desde a decisão de 05/11/2026 o valor sai só do sexo: todas as cores têm
+    // os mesmos dois valores, e o teto público é o das fêmeas.
+    expect(FAIXA_PUBLICA.minCents).toBe(450000);
+    expect(FAIXA_PUBLICA.maxCents).toBe(Math.max(...Object.values(PRECO_POR_SLUG)));
   });
   it("o content-guard importa a fonte única e inspeciona a faixa inteira", () => {
     const source = readFileSync(resolve(__dirname, "../scripts/content-guard.mjs"), "utf8");
-    expect(source).toContain('import { TABELA_DE_PRECOS } from "../src/domain/pricing.ts"');
+    // O guard le as duas origens: a matriz por cor e as ofertas por slug.
+    // Sem PRECO_POR_SLUG ele reprovaria "R$ 4.500" na prosa — o menor valor
+    // realmente praticado — por nao estar na matriz.
+    expect(source).toContain('import { PRECO_POR_SLUG, TABELA_DE_PRECOS } from "../src/domain/pricing.ts"');
     const janela = source.match(/FAIXA_DE_PRECO_DE_FILHOTE = \{ min: (\d+), max: (\d+) \}/)!;
     expect(Number(janela[1])).toBeLessThanOrEqual(FAIXA_PUBLICA.minCents / 100);
     expect(Number(janela[2])).toBeGreaterThanOrEqual(FAIXA_PUBLICA.maxCents / 100);
@@ -58,12 +64,13 @@ describe("catálogo de referência derivado da fonte comercial", () => {
     expect(PRECO_POR_SLUG).toEqual({
       "spitz-alemao-anao-branco-macho": 450000,
       "spitz-alemao-anao-branco-femea": 650000,
-      "spitz-alemao-anao-preto-femea": 950000,
+      "spitz-alemao-anao-branco-femea-2": 650000,
+      "spitz-alemao-anao-preto-femea": 650000,
       "spitz-alemao-anao-creme-femea": 650000,
-      "spitz-alemao-anao-laranja-femea": 750000,
-      "spitz-alemao-anao-laranja-femea-laco-rosa": 750000,
-      "spitz-alemao-anao-creme-macho": 550000,
-      "spitz-alemao-anao-preto-macho": 650000,
+      "spitz-alemao-anao-laranja-femea": 650000,
+      "spitz-alemao-anao-laranja-femea-laco-rosa": 650000,
+      "spitz-alemao-anao-creme-macho": 450000,
+      "spitz-alemao-anao-preto-macho": 450000,
       "spitz-alemao-anao-laranja-macho": 450000,
     });
   });

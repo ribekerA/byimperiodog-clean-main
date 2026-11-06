@@ -54,7 +54,79 @@
   --brand-ring: rgba(31, 77, 58, 0.35);
 
   --ease-out: cubic-bezier(.4,0,.2,1);
+
+  /* Serifada dos títulos — diretriz visual de 05/11/2026.
+     O token existe para que nenhum componente escreva o nome da fonte: se a
+     serifada trocar, troca aqui. A pilha de reserva é a mesma do
+     next/font/google em app/fonts.ts, para o título não mudar de métrica
+     entre o primeiro quadro e a fonte carregada. */
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
 }
+
+/* ── Tema verde e dourado do site público (mockup de 05/11/2026) ────────────────
+   Um lugar só. zinc, emerald e white do Tailwind viram variáveis com papéis
+   separados: fundo (--z, --e), texto (--tz, --te) e borda (--bz, --be). Na raiz
+   elas valem a paleta original, então o admin e o privado não mudam nada; só o
+   body do layout público leva .tema-verde. Assim "text-zinc-700" continua
+   significando "texto de corpo" nos arquivos que o usam, agora em creme. */
+:root {
+  --rz-50: 250 250 250; --rz-100: 244 244 245; --rz-200: 228 228 231; --rz-300: 212 212 216; --rz-400: 161 161 170; --rz-500: 107 107 115; --rz-600: 82 82 91; --rz-700: 63 63 70; --rz-800: 39 39 42; --rz-900: 24 24 27; --rz-950: 9 9 11;
+  --re-50: 236 253 245; --re-100: 209 250 229; --re-200: 167 243 208; --re-300: 110 231 183; --re-400: 52 211 153; --re-500: 16 185 129; --re-600: 4 124 89; --re-700: 4 120 87; --re-800: 6 95 70; --re-900: 6 78 59; --re-950: 2 44 34;
+  --z-50: var(--rz-50); --z-100: var(--rz-100); --z-200: var(--rz-200); --z-300: var(--rz-300); --z-400: var(--rz-400); --z-500: var(--rz-500); --z-600: var(--rz-600); --z-700: var(--rz-700); --z-800: var(--rz-800); --z-900: var(--rz-900); --z-950: var(--rz-950);
+  --e-50: var(--re-50); --e-100: var(--re-100); --e-200: var(--re-200); --e-300: var(--re-300); --e-400: var(--re-400); --e-500: var(--re-500); --e-600: var(--re-600); --e-700: var(--re-700); --e-800: var(--re-800); --e-900: var(--re-900); --e-950: var(--re-950);
+  --tz-50: var(--rz-50); --tz-100: var(--rz-100); --tz-200: var(--rz-200); --tz-300: var(--rz-300); --tz-400: var(--rz-400); --tz-500: var(--rz-500); --tz-600: var(--rz-600); --tz-700: var(--rz-700); --tz-800: var(--rz-800); --tz-900: var(--rz-900); --tz-950: var(--rz-950);
+  --te-50: var(--re-50); --te-100: var(--re-100); --te-200: var(--re-200); --te-300: var(--re-300); --te-400: var(--re-400); --te-500: var(--re-500); --te-600: var(--re-600); --te-700: var(--re-700); --te-800: var(--re-800); --te-900: var(--re-900); --te-950: var(--re-950);
+  --bz-50: var(--rz-50); --bz-100: var(--rz-100); --bz-200: var(--rz-200); --bz-300: var(--rz-300); --bz-400: var(--rz-400); --bz-500: var(--rz-500); --bz-600: var(--rz-600); --bz-700: var(--rz-700); --bz-800: var(--rz-800); --bz-900: var(--rz-900); --bz-950: var(--rz-950);
+  --be-50: var(--re-50); --be-100: var(--re-100); --be-200: var(--re-200); --be-300: var(--re-300); --be-400: var(--re-400); --be-500: var(--re-500); --be-600: var(--re-600); --be-700: var(--re-700); --be-800: var(--re-800); --be-900: var(--re-900); --be-950: var(--re-950);
+  --branco-fundo: 255 255 255;
+  --borda-padrao: 229 231 235;
+  --marca-texto: var(--brand);
+}
+
+.tema-verde, .tema-creme :is(.faixa-topo, .zona-escura, .bg-zinc-800, .bg-zinc-900, .bg-zinc-950, .bg-emerald-700, .bg-emerald-800, .bg-emerald-900, .bg-emerald-950, .bg-brand, .bg-\[var\(--brand\)\], .bg-\[var\(--surface-dark\)\], [class*="from-emerald-9"], [class*="from-emerald-8"], [class*="from-emerald-7"], [class*="from-emerald-6"], [class*="from-zinc-9"], [class*="from-zinc-8"]) {
+  color-scheme: dark;
+  --botao-fundo: linear-gradient(180deg, #17663d, #0a3f25); --botao-borda: #e3bb64;
+  --bg: #062a18; --bg-2: #083320; --background: #062a18; --foreground: #f8f0d8;
+  --surface: #0c3a23; --surface-2: #0f4029; --surface-dark: #041f11; --surface-dark-2: #062a18;
+  --border: #8a7a45; --text: #f8f0d8; --text-muted: #d9d2bb;
+  --brand: #115a36; --accent-ink: #efc366; --marca-texto: #efc366;
+  --branco-fundo: 12 58 35; --borda-padrao: 138 122 69;
+  --z-50: 10 52 32; --z-100: 13 59 37; --z-200: 21 71 46; --z-300: 31 85 57; --z-400: 58 106 76; --z-500: 85 127 98; --z-600: 18 63 41; --z-700: 15 58 37; --z-800: 10 47 29; --z-900: 5 35 22; --z-950: 4 28 17;
+  --e-50: 15 64 41; --e-100: 19 74 47; --e-200: 26 86 56; --e-300: 42 106 71; --e-400: 47 138 92; --e-500: 15 122 85; --e-600: 4 106 76; --e-700: 5 95 68; --e-800: 10 90 60; --e-900: 8 74 49; --e-950: 5 48 31;
+  --tz-50: 255 249 232; --tz-100: 251 243 220; --tz-200: 245 236 207; --tz-300: 238 229 201; --tz-400: 217 210 187; --tz-500: 217 210 187; --tz-600: 227 220 197; --tz-700: 239 231 207; --tz-800: 248 240 216; --tz-900: 253 246 224; --tz-950: 255 249 232;
+  --te-50: 251 240 207; --te-100: 248 231 181; --te-200: 245 220 151; --te-300: 242 208 126; --te-400: 239 195 102; --te-500: 239 195 102; --te-600: 239 195 102; --te-700: 239 195 102; --te-800: 239 195 102; --te-900: 239 195 102; --te-950: 239 195 102;
+  --bz-50: 95 107 63; --bz-100: 138 122 69; --bz-200: 138 122 69; --bz-300: 138 122 69; --bz-400: 138 122 69; --bz-500: 138 122 69; --bz-600: 107 106 63; --bz-700: 95 107 63; --bz-800: 61 90 60; --bz-900: 61 90 60; --bz-950: 61 90 60;
+  --be-50: 138 122 69; --be-100: 138 122 69; --be-200: 160 140 78; --be-300: 185 154 85; --be-400: 185 154 85; --be-500: 185 154 85; --be-600: 185 154 85; --be-700: 185 154 85; --be-800: 185 154 85; --be-900: 185 154 85; --be-950: 185 154 85;
+}
+.tema-verde .prose, .tema-verde .prose.prose-zinc, .tema-verde .prose.prose-emerald, .tema-verde .prose.prose-slate, .tema-verde .prose.prose-neutral, .tema-verde .prose.prose-stone, .tema-verde .prose.prose-gray {
+  --tw-prose-body: #efe7cf; --tw-prose-headings: #efc366; --tw-prose-lead: #efe7cf; --tw-prose-links: #efc366;
+  --tw-prose-bold: #fdf6e0; --tw-prose-counters: #d9d2bb; --tw-prose-bullets: #b99a55; --tw-prose-hr: #8a7a45;
+  --tw-prose-quotes: #f8f0d8; --tw-prose-quote-borders: #b99a55; --tw-prose-captions: #d9d2bb; --tw-prose-code: #f5dc97;
+  --tw-prose-pre-code: #f8f0d8; --tw-prose-pre-bg: #041f11; --tw-prose-th-borders: #8a7a45; --tw-prose-td-borders: #5f6b3f;
+}
+body.tema-verde { background-image: radial-gradient(120% 900px at 50% 0, #0b4a2b 0%, transparent 70%); }
+
+/* Títulos: a serifada dourada do mockup. A composição da home e o cartão têm os seus. */
+.tema-verde :is(h1, h2):not(.hm *, .vt *, .cartao-filhote *, .tema-claro *) { font-family: var(--font-display); color: var(--accent-ink); }
+
+/* Sobre preenchimento claro tudo volta ao original: o cartão creme, os avisos e
+   os botões dourados não invertem. Os painéis pastel (rosa, azul, âmbar...) viram
+   o mesmo creme do cartão, para o site não ter uma cor de aviso em cada página. */
+.tema-claro,
+.tema-verde :is(.cartao-filhote, .selo-procedencia, .bg-\[var\(--accent\)\], [class^="bg-amber-50"], [class*=" bg-amber-50"], [class^="bg-amber-100"], [class*=" bg-amber-100"], [class^="bg-yellow-50"], [class*=" bg-yellow-50"], [class^="bg-yellow-100"], [class*=" bg-yellow-100"], [class^="bg-orange-50"], [class*=" bg-orange-50"], [class^="bg-orange-100"], [class*=" bg-orange-100"], [class^="bg-rose-50"], [class*=" bg-rose-50"], [class^="bg-rose-100"], [class*=" bg-rose-100"], [class^="bg-red-50"], [class*=" bg-red-50"], [class^="bg-red-100"], [class*=" bg-red-100"], [class^="bg-blue-50"], [class*=" bg-blue-50"], [class^="bg-blue-100"], [class*=" bg-blue-100"], [class^="bg-sky-50"], [class*=" bg-sky-50"], [class^="bg-sky-100"], [class*=" bg-sky-100"], [class^="bg-pink-50"], [class*=" bg-pink-50"], [class^="bg-pink-100"], [class*=" bg-pink-100"], [class^="bg-violet-50"], [class*=" bg-violet-50"], [class^="bg-violet-100"], [class*=" bg-violet-100"], [class^="bg-indigo-50"], [class*=" bg-indigo-50"], [class^="bg-indigo-100"], [class*=" bg-indigo-100"], [class^="bg-purple-50"], [class*=" bg-purple-50"], [class^="bg-purple-100"], [class*=" bg-purple-100"], [class^="bg-lime-50"], [class*=" bg-lime-50"], [class^="bg-lime-100"], [class*=" bg-lime-100"], [class^="bg-cyan-50"], [class*=" bg-cyan-50"], [class^="bg-cyan-100"], [class*=" bg-cyan-100"], [class^="bg-fuchsia-50"], [class*=" bg-fuchsia-50"], [class^="bg-fuchsia-100"], [class*=" bg-fuchsia-100"]) {
+  --text: #2a231f; --text-muted: #5a4d42; --accent-ink: #a06318; --marca-texto: #1f4d3a; --border: #e2d6c7;
+  --branco-fundo: 255 255 255; --borda-padrao: 229 231 235;
+  --z-50: var(--rz-50); --z-100: var(--rz-100); --z-200: var(--rz-200); --z-300: var(--rz-300); --z-400: var(--rz-400); --z-500: var(--rz-500); --z-600: var(--rz-600); --z-700: var(--rz-700); --z-800: var(--rz-800); --z-900: var(--rz-900); --z-950: var(--rz-950);
+  --e-50: var(--re-50); --e-100: var(--re-100); --e-200: var(--re-200); --e-300: var(--re-300); --e-400: var(--re-400); --e-500: var(--re-500); --e-600: var(--re-600); --e-700: var(--re-700); --e-800: var(--re-800); --e-900: var(--re-900); --e-950: var(--re-950);
+  --tz-50: var(--rz-50); --tz-100: var(--rz-100); --tz-200: var(--rz-200); --tz-300: var(--rz-300); --tz-400: var(--rz-400); --tz-500: var(--rz-500); --tz-600: var(--rz-600); --tz-700: var(--rz-700); --tz-800: var(--rz-800); --tz-900: var(--rz-900); --tz-950: var(--rz-950);
+  --te-50: var(--re-50); --te-100: var(--re-100); --te-200: var(--re-200); --te-300: var(--re-300); --te-400: var(--re-400); --te-500: var(--re-500); --te-600: var(--re-600); --te-700: var(--re-700); --te-800: var(--re-800); --te-900: var(--re-900); --te-950: var(--re-950);
+  --bz-50: var(--rz-50); --bz-100: var(--rz-100); --bz-200: var(--rz-200); --bz-300: var(--rz-300); --bz-400: var(--rz-400); --bz-500: var(--rz-500); --bz-600: var(--rz-600); --bz-700: var(--rz-700); --bz-800: var(--rz-800); --bz-900: var(--rz-900); --bz-950: var(--rz-950);
+  --be-50: var(--re-50); --be-100: var(--re-100); --be-200: var(--re-200); --be-300: var(--re-300); --be-400: var(--re-400); --be-500: var(--re-500); --be-600: var(--re-600); --be-700: var(--re-700); --be-800: var(--re-800); --be-900: var(--re-900); --be-950: var(--re-950);
+}
+.tema-verde :is([class^="bg-amber-50"], [class*=" bg-amber-50"], [class^="bg-amber-100"], [class*=" bg-amber-100"], [class^="bg-yellow-50"], [class*=" bg-yellow-50"], [class^="bg-yellow-100"], [class*=" bg-yellow-100"], [class^="bg-orange-50"], [class*=" bg-orange-50"], [class^="bg-orange-100"], [class*=" bg-orange-100"], [class^="bg-rose-50"], [class*=" bg-rose-50"], [class^="bg-rose-100"], [class*=" bg-rose-100"], [class^="bg-red-50"], [class*=" bg-red-50"], [class^="bg-red-100"], [class*=" bg-red-100"], [class^="bg-blue-50"], [class*=" bg-blue-50"], [class^="bg-blue-100"], [class*=" bg-blue-100"], [class^="bg-sky-50"], [class*=" bg-sky-50"], [class^="bg-sky-100"], [class*=" bg-sky-100"], [class^="bg-pink-50"], [class*=" bg-pink-50"], [class^="bg-pink-100"], [class*=" bg-pink-100"], [class^="bg-violet-50"], [class*=" bg-violet-50"], [class^="bg-violet-100"], [class*=" bg-violet-100"], [class^="bg-indigo-50"], [class*=" bg-indigo-50"], [class^="bg-indigo-100"], [class*=" bg-indigo-100"], [class^="bg-purple-50"], [class*=" bg-purple-50"], [class^="bg-purple-100"], [class*=" bg-purple-100"], [class^="bg-lime-50"], [class*=" bg-lime-50"], [class^="bg-lime-100"], [class*=" bg-lime-100"], [class^="bg-cyan-50"], [class*=" bg-cyan-50"], [class^="bg-cyan-100"], [class*=" bg-cyan-100"], [class^="bg-fuchsia-50"], [class*=" bg-fuchsia-50"], [class^="bg-fuchsia-100"], [class*=" bg-fuchsia-100"]) { background-color: #fbf3e4; }
+/* Texto sem classe própria herda o creme do body, e a variável sozinha não muda
+   um valor já herdado. Especificidade zero: qualquer utilitário text-* ganha. */
+:where(.tema-verde) :where(.tema-claro, .cartao-filhote, .selo-procedencia, .bg-\[var\(--accent\)\], [class^="bg-amber-50"], [class*=" bg-amber-50"], [class^="bg-amber-100"], [class*=" bg-amber-100"], [class^="bg-yellow-50"], [class*=" bg-yellow-50"], [class^="bg-yellow-100"], [class*=" bg-yellow-100"], [class^="bg-orange-50"], [class*=" bg-orange-50"], [class^="bg-orange-100"], [class*=" bg-orange-100"], [class^="bg-rose-50"], [class*=" bg-rose-50"], [class^="bg-rose-100"], [class*=" bg-rose-100"], [class^="bg-red-50"], [class*=" bg-red-50"], [class^="bg-red-100"], [class*=" bg-red-100"], [class^="bg-blue-50"], [class*=" bg-blue-50"], [class^="bg-blue-100"], [class*=" bg-blue-100"], [class^="bg-sky-50"], [class*=" bg-sky-50"], [class^="bg-sky-100"], [class*=" bg-sky-100"], [class^="bg-pink-50"], [class*=" bg-pink-50"], [class^="bg-pink-100"], [class*=" bg-pink-100"], [class^="bg-violet-50"], [class*=" bg-violet-50"], [class^="bg-violet-100"], [class*=" bg-violet-100"], [class^="bg-indigo-50"], [class*=" bg-indigo-50"], [class^="bg-indigo-100"], [class*=" bg-indigo-100"], [class^="bg-purple-50"], [class*=" bg-purple-50"], [class^="bg-purple-100"], [class*=" bg-purple-100"], [class^="bg-lime-50"], [class*=" bg-lime-50"], [class^="bg-lime-100"], [class*=" bg-lime-100"], [class^="bg-cyan-50"], [class*=" bg-cyan-50"], [class^="bg-cyan-100"], [class*=" bg-cyan-100"], [class^="bg-fuchsia-50"], [class*=" bg-fuchsia-50"], [class^="bg-fuchsia-100"], [class*=" bg-fuchsia-100"]) { color: var(--text); }
 
 @layer base {
   /* overflow-x: clip não cria novo stacking context (ao contrário de hidden),
@@ -106,7 +178,704 @@ body.admin-shell [data-site-shell="cta"] {
   .badge-brand { @apply badge bg-brand text-[var(--brand-foreground)]; }
   .badge-accent { @apply badge bg-accent text-[var(--accent-foreground)]; }
   .badge-outline { @apply badge border border-[var(--border)] text-[var(--text-muted)]; }
+
+  /* ------------------------------------------------------------------
+     Diretriz visual de 05/11/2026 — verde-esmeralda, dourado e creme.
+
+     Nenhuma cor nova entrou aqui: todas as classes abaixo leem os tokens
+     que já existiam em :root. O que elas acrescentam é a forma — a faixa
+     escura, a caixa de piso, o cartão com anel dourado — para que home,
+     vitrine e ficha deixem de desenhar cada uma a sua versão disso com
+     classes Tailwind soltas.
+     ------------------------------------------------------------------ */
+
+  /* Título serifado. Existe como classe e não como regra em h1/h2 porque
+     nem todo título do site é editorial: o painel administrativo e os
+     formulários continuam em DM Sans. */
+  .titulo-editorial { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; line-height: 1.12; }
+
+  /* Faixa escura do topo. O brilho é um radial discreto atrás da foto,
+     não uma imagem — some em telas pequenas sem custar byte nenhum. */
+  .secao-escura {
+    background:
+      radial-gradient(120% 90% at 50% 0%, var(--surface-dark-2) 0%, var(--surface-dark) 70%),
+      var(--surface-dark);
+    color: var(--text-light);
+  }
+  .secao-escura .titulo-editorial { color: var(--accent); }
+
+  /* As duas caixas de "a partir de". A versão sólida (ouro) marca o
+     segundo valor sem repetir o mesmo peso visual do primeiro. */
+  .piso-caixa {
+    @apply rounded-2xl px-5 py-4 text-center;
+    border: 2px solid var(--accent);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-light);
+  }
+  .piso-caixa-ouro {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+  /* O valor do piso e a frase inteira ("A partir de R$ 4.500 no PIX"), nao so o
+   numero: a 35px em serifada ela ocupava duas linhas e 132px de altura por
+   caixa, um terco da tela do celular para dois numeros. 24px cabe na mesma
+   hierarquia sem comer a dobra; leading-tight porque a frase quebra mesmo. */
+.piso-valor { font-family: var(--font-display); @apply text-2xl font-bold leading-tight sm:text-3xl; }
+
+  /* Faixa de confiança: ícone em cima, duas linhas curtas embaixo, com
+     um filete entre os itens. Sem o filete os cinco itens viram uma
+     mancha única no celular. */
+  .faixa-confianca { @apply grid gap-y-4; }
+  .faixa-confianca > * + * { border-inline-start: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+  @media (max-width: 639px) {
+    .faixa-confianca > * + * { border-inline-start: 0; }
+  }
+
+  /* Chip de filtro por cor. O estado ativo vem de aria-pressed, não de
+     uma classe extra: assim o leitor de tela e o olho leem a mesma
+     coisa, e o componente não precisa manter dois estados em paralelo. */
+  .chip-filtro {
+    @apply inline-flex items-center rounded-full px-5 py-2 text-sm font-semibold transition min-h-[44px];
+    border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    color: var(--text);
+    background: var(--surface);
+  }
+  .chip-filtro:hover { border-color: var(--accent); }
+  .chip-filtro[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-foreground); }
+  .secao-escura .chip-filtro { background: rgba(255, 255, 255, 0.06); color: var(--text-light); }
+  .secao-escura .chip-filtro[aria-pressed="true"] { background: var(--accent); color: var(--accent-foreground); }
+
+  /* Cartão do filhote. O anel dourado é 1px: a referência pedia
+     "premium", e anel grosso em cartão pequeno lê como aviso, não como
+     acabamento. */
+  .cartao-premium {
+    @apply overflow-hidden rounded-2xl bg-[var(--surface)] shadow-sm transition;
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+  }
+  .cartao-premium:hover { box-shadow: 0 10px 30px -12px rgba(31, 77, 58, 0.35); }
+
+  /* Preço do cartão. --accent-ink e não --accent: o dourado puro sobre
+     creme deu 1,81:1 no PageSpeed de 23/08/2026. */
+  /* Mesma razao do piso: no card o preco e a frase com "a partir de" e "no PIX".
+   A ficha e a barra fixa pedem o tamanho maior por classe propria. */
+.preco-premium { font-family: var(--font-display); color: var(--accent-ink); font-variant-numeric: lining-nums; @apply text-xl font-bold leading-tight sm:text-2xl; }
+
+  /* Barra de ação fixa do celular. A altura conversa com os 84px que
+     body.tem-cta-fixo já reserva no fim da página. */
+  .barra-acao-fixa {
+    @apply fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 px-4 py-3 lg:hidden;
+    background: var(--surface-dark);
+    border-top: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ------------------------------------------------------------------
+     Linguagem dourada da referência de 05/11/2026.
+
+     A imagem aprovada não é "a mesma página com ouro": ela tem um tipo de
+     ouro específico — degradê claro no meio do traço, brilho curto em volta
+     da letra, filete fino em volta das caixas. As classes abaixo são isso,
+     escritas uma vez. Nenhuma cor nova entrou: --accent e --accent-ink
+     continuam sendo os dois únicos dourados do projeto.
+     ------------------------------------------------------------------ */
+
+  /* Título do topo. O degradê corre na vertical porque é assim que a
+     referência ilumina a letra: clara na barriga, mais fechada no pé.
+     O brilho é drop-shadow e não text-shadow para acompanhar o recorte
+     da serifada em vez do retângulo da caixa. */
+  .texto-ouro {
+    background-image: linear-gradient(180deg, #fbe3a8 0%, var(--accent) 45%, #c8873a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 14px rgba(243, 181, 98, 0.35));
+  }
+  /* No modo de alto contraste do Windows o texto recortado some: o sistema
+     substitui o fundo e sobra uma letra transparente. Ali o título volta a
+     ser texto comum. */
+  @media (forced-colors: active) {
+    .texto-ouro { color: var(--accent); -webkit-text-fill-color: currentColor; filter: none; }
+  }
+
+  /* Os dois arcos dourados do fundo escuro. São bordas de um elemento
+     gigante e arredondado, não imagem: a referência os usa só como
+     contorno, e desenhá-los em CSS evita mais um arquivo no caminho
+     crítico do celular. pointer-events: none porque passam por cima do
+     conteúdo em telas largas. */
+  /* isolation abre contexto de empilhamento proprio. Sem ele os arcos de
+     z-index -1 abaixo cairiam atras do fundo verde da secao e sumiriam:
+     filho com z negativo so fica acima do fundo do pai quando o pai e um
+     contexto. */
+  .ornamento-ouro { position: relative; overflow: hidden; isolation: isolate; }
+  .ornamento-ouro::before,
+  .ornamento-ouro::after {
+    content: "";
+    position: absolute;
+    inset-inline: -40%;
+    height: 180%;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-top-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    pointer-events: none;
+    /* Atrás do conteúdo. Pseudo-elemento posicionado pinta depois do texto
+       em fluxo normal, então em 375px os arcos cruzavam por cima das duas
+       caixas de preço. z-index negativo os joga para trás do conteúdo e, por
+       causa do isolation acima, ainda à frente do fundo da seção. */
+    z-index: -1;
+  }
+  .ornamento-ouro::before { top: 12%; transform: rotate(-4deg); }
+  .ornamento-ouro::after { top: 42%; transform: rotate(3deg); opacity: 0.55; }
+  @media (prefers-reduced-motion: no-preference) { .ornamento-ouro::before { transition: none; } }
+  /* No celular a coluna é estreita e os arcos riscam o texto e as caixas de preço. */
+  @media (max-width: 639px) { .ornamento-ouro::before, .ornamento-ouro::after { display: none; } }
+
+  /* Moldura do card da referência: o filete de 1px de .cartao-premium
+     sobe para 2px e ganha um halo externo suave. Fica em classe à parte
+     para que o card da home e o da vitrine possam divergir se um dia
+     precisarem. */
+  .moldura-ouro {
+    border-width: 2px;
+    border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6) inset, 0 8px 24px -16px rgba(31, 77, 58, 0.5);
+  }
+
+  /* Preço grande do card, como na referência: o número domina e o "no
+     PIX" desce para uma linha menor. --accent-ink pela mesma razão de
+     .preco-premium — o ouro puro sobre creme mede 1,81:1. */
+  .preco-destaque {
+    font-family: var(--font-display);
+    color: var(--accent-ink);
+    @apply text-3xl font-bold leading-none sm:text-[2rem];
+  }
+
+  /* Caixa de piso com o símbolo de sexo, como na referência. O símbolo é
+     decorativo e o rótulo escrito continua ao lado, então ele sai da
+     árvore de acessibilidade em quem o usa. */
+  .piso-glifo {
+    @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-lg font-bold leading-none;
+    border: 1.5px solid currentColor;
+  }
+
+  /* ------------------------------------------------------------------
+     Home — referência de 05/11/2026
+     ------------------------------------------------------------------ */
+
+  /* Selo do topo ("Canil com procedência e suporte especializado").
+     Ouro cheio com texto --accent-foreground: 8,4:1. A versão translúcida
+     que a referência sugere mediria 2,9:1 sobre o verde escuro, e este é
+     o único texto do hero que não tem o tamanho para compensar. */
+  .selo-procedencia {
+    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold leading-snug sm:text-sm;
+    background: var(--accent);
+    color: var(--accent-foreground);
+    box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Faixa de avaliações rotativas: a mesma na home e na vitrine.
+     No celular são três andares (nota, avaliação, controles); de 768 px em diante,
+     uma linha só, como no mockup. As avaliações dividem a mesma célula da grade
+     para a faixa já nascer com a altura da mais longa. */
+  .avaliacoes-rotativas {
+    display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 14px 16px; color: #fff;
+    border: 1.5px solid #e9c873; border-radius: 18px; background: rgba(3, 26, 15, 0.88); box-shadow: 0 0 10px rgba(255, 216, 120, 0.45);
+  }
+  .ar-nota { display: flex; align-items: center; gap: 10px; }
+  .ar-nota img { width: 32px; height: auto; flex: none; }
+  .ar-nota-titulo { display: block; color: #efc366; font-weight: 700; font-size: 15px; line-height: 1.2; }
+  .ar-nota-numero { display: block; font-size: 14px; line-height: 1.25; }
+  .ar-nota-numero strong { font-weight: 700; }
+  .ar-nota-resumo { display: block; margin-top: 2px; font-size: 11px; line-height: 1.3; color: #d9d2bb; }
+  .ar-palco { display: grid; min-width: 0; align-items: center; }
+  .ar-slide { grid-area: 1 / 1; display: flex; align-items: center; gap: 12px; min-width: 0; margin: 0; visibility: hidden; opacity: 0; transition: opacity 0.4s ease, visibility 0.4s; }
+  .ar-slide[data-ativa] { visibility: visible; opacity: 1; }
+  .ar-inicial {
+    display: flex; align-items: center; justify-content: center; flex: none; width: 44px; height: 44px; border-radius: 50%;
+    border: 1.5px solid #eccd80; background: radial-gradient(circle at 35% 30%, #0f5c36, #052a18);
+    font-family: var(--font-display); font-weight: 700; font-size: 21px; color: #f3cf7c;
+  }
+  .ar-citacao { margin: 0; font-style: italic; font-size: 14px; line-height: 1.35; color: #fff; overflow-wrap: anywhere; }
+  .ar-autoria { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; margin-top: 5px; font-size: 12px; line-height: 1.3; color: #efe7cf; }
+  .ar-estrelas { color: #efc366; font-size: 14px; letter-spacing: 0.08em; line-height: 1; }
+  .ar-aviso { flex-basis: 100%; font-size: 11px; color: #d9d2bb; }
+  .ar-controles { display: flex; align-items: center; gap: 12px; }
+  .ar-botoes { display: flex; gap: 4px; }
+  .ar-botao {
+    display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+    border: 1px solid rgba(233, 200, 115, 0.6); background: transparent; color: #efc366; font-size: 22px; line-height: 1;
+    transition: background-color 0.2s ease;
+  }
+  .ar-botao:hover { background: rgba(233, 200, 115, 0.16); }
+  .ar-botao:focus-visible, .ar-link:focus-visible { outline: 2px solid #efc366; outline-offset: 2px; }
+  .ar-icone-pausa { font-size: 12px; letter-spacing: -0.05em; }
+  .ar-contagem { font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; color: #efe7cf; }
+  .ar-link { display: inline-flex; align-items: center; min-height: 40px; margin-inline-start: auto; font-size: 13px; font-weight: 600; white-space: nowrap; color: #efc366; text-decoration: underline; text-underline-offset: 3px; }
+  @media (min-width: 768px) {
+    .avaliacoes-rotativas { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: 14px 22px; border-radius: 22px; }
+    .ar-nota { padding-inline-end: 20px; border-inline-end: 1px solid rgba(226, 204, 150, 0.3); }
+    .ar-nota img { width: 44px; }
+    .ar-nota-titulo { font-size: 18px; white-space: nowrap; }
+    .ar-nota-numero { font-size: 17px; white-space: nowrap; }
+    .ar-inicial { width: 58px; height: 58px; font-size: 28px; }
+    .ar-citacao { font-size: 15px; }
+    .ar-controles { flex-direction: column; gap: 2px; }
+    .ar-link { min-height: 28px; margin-inline-start: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .ar-slide { transition: none; } }
+
+  /* Grade e cartão único de filhote: o mesmo em todas as páginas.
+     Duas colunas no celular, três a partir de 640 px. --c vale 1 px do cartão
+     do mockup (313 px de largura), então letra, botão e selo acompanham a
+     largura do próprio cartão, e não a da tela. */
+  .grade-filhotes { display: grid; grid-template-columns: minmax(0, 440px); justify-content: center; gap: 18px; list-style: none; padding: 0; }
+  @media (min-width: 640px) { .grade-filhotes { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); } }
+  .grade-filhotes > li { min-width: 0; }
+
+  .cartao-filhote {
+    --c: calc(min(100cqw, 400px) / 313);
+    container-type: inline-size; position: relative; display: flex; flex-direction: column; height: 100%; overflow: hidden; color: #17281e;
+    background: #fbf6ea; border: 1.5px solid #eccd80; border-radius: 16px; box-shadow: 0 0 10px rgba(255, 216, 120, 0.45);
+  }
+  @media (min-width: 640px) { .cartao-filhote { border-width: 2px; border-radius: 24px; } }
+  .cartao-filhote-foto { position: relative; aspect-ratio: 1 / 1; overflow: hidden; border-radius: 0 0 calc(18 * var(--c)) calc(18 * var(--c)); background: #1c4a2c; }
+  .selo-disponivel {
+    position: absolute; top: max(6px, calc(10 * var(--c))); left: max(6px, calc(12 * var(--c))); display: inline-flex; align-items: center; gap: max(3px, calc(6 * var(--c)));
+    padding: max(2.5px, calc(6 * var(--c))) max(6px, calc(14 * var(--c))) max(2.5px, calc(6 * var(--c))) max(3px, calc(8 * var(--c)));
+    border-radius: 999px; background: #0a4f2c; color: #fff; font-size: max(10px, calc(18 * var(--c))); font-weight: 600; line-height: 1.1; pointer-events: none;
+  }
+  .selo-disponivel svg { width: max(11px, calc(20 * var(--c))); height: max(11px, calc(20 * var(--c))); flex: none; }
+  .cartao-filhote-coracao { position: absolute; top: 0; right: 0; }
+  .cartao-filhote-coracao button { padding: max(8px, calc(10 * var(--c))); color: #fff; background: transparent; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
+  .cartao-filhote-coracao button:hover { color: #fff; background: transparent; }
+  .cartao-filhote-coracao button[aria-pressed="true"], .cartao-filhote-coracao button[aria-pressed="true"]:hover { color: #ff6b8a; background: transparent; }
+  .cartao-filhote-coracao svg { width: max(20px, calc(34 * var(--c))); height: max(20px, calc(34 * var(--c))); stroke-width: 1.6; }
+  .cartao-filhote-painel { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: max(8px, calc(12 * var(--c))) max(7px, calc(10 * var(--c))) max(10px, calc(14 * var(--c))); }
+  .cartao-filhote-nome { margin: 0; font-family: inherit; color: #123f27; font-weight: 700; font-size: max(12.5px, calc(23 * var(--c))); line-height: 1.22; }
+  .cartao-filhote-nome span { display: block; }
+  .cartao-filhote-nome span + span { font-size: max(12px, calc(21.5 * var(--c))); font-weight: 600; }
+  .cartao-filhote-preco { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; column-gap: max(4px, calc(8 * var(--c))); margin-top: max(5px, calc(10 * var(--c))); }
+  .cartao-filhote-preco strong { font-weight: 800; font-size: max(19px, calc(38 * var(--c))); line-height: 1.15; color: #a85c0b; font-variant-numeric: lining-nums; white-space: nowrap; }
+  .cartao-filhote-preco span { font-size: max(11px, calc(19.5 * var(--c))); color: #33392f; }
+  .cartao-filhote-preco .cartao-filhote-prefixo { flex-basis: 100%; font-size: max(11px, calc(18 * var(--c))); font-weight: 600; line-height: 1.2; }
+  .cartao-filhote-preco .cartao-filhote-pix { display: inline-flex; align-items: center; gap: max(4px, calc(5 * var(--c))); align-self: center; font-weight: 600; }
+  .cartao-filhote-pix svg { flex: none; width: max(15px, calc(21 * var(--c))); height: max(15px, calc(21 * var(--c))); }
+  .cartao-filhote-acao-caixa { width: 100%; margin-top: auto; padding-top: max(9px, calc(16 * var(--c))); }
+  .cartao-filhote-acao {
+    position: relative; display: flex; align-items: center; justify-content: center; gap: max(6px, calc(14 * var(--c))); width: 100%; min-height: max(38px, calc(60 * var(--c)));
+    border-radius: 999px; background: linear-gradient(180deg, #0f7040, #06381f); color: #fff; font-weight: 700; font-size: max(13px, calc(24 * var(--c)));
+    box-shadow: 0 2px 6px rgba(4, 40, 22, 0.35);
+  }
+  .cartao-filhote-acao::after { content: ""; position: absolute; inset: -4px 0; }
+  .cartao-filhote-acao-icone { width: max(16px, calc(32 * var(--c))); height: max(16px, calc(32 * var(--c))); flex: none; }
+
+  /* A grade na composição da home */
+  .hm-grade { margin: calc(14 * var(--u)) calc(22 * var(--u)) 0; padding: calc(10 * var(--u)) calc(4 * var(--u)) 0; }
+  .hm-ver-vitrine { margin-top: max(14px, calc(18 * var(--u))); text-align: center; }
+  .hm-ver-vitrine a { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 max(18px, calc(30 * var(--u))); border: 1.5px solid #eccd80; border-radius: 999px; color: #f8dc8e; font-weight: 700; font-size: max(13.5px, calc(22 * var(--u))); }
+  .hm-vazio { margin: calc(20 * var(--u)) calc(28 * var(--u)) 0; padding: calc(40 * var(--u)) calc(20 * var(--u)); text-align: center; border: 1px solid rgba(226, 204, 150, 0.5); border-radius: calc(26 * var(--u)); font-size: max(13px, calc(24 * var(--u))); }
+  .hm-vazio a { color: #f3cf7c; font-weight: 700; text-decoration: underline; white-space: nowrap; }
+
+  /* ── A home do mockup de 05/11/2026 ───────────────────────────────────────
+     `--u` é um pixel do mockup, que tem 1024 de largura: "42 * --u" é o que mede
+     42 na imagem. A composição inteira escala com a tela e continua sendo o
+     desenho, de 320 px a 1180 px; acima disso o fundo segue até as bordas.
+
+     `max(10px, ...)` nos textos é o único desvio de proporção: em 375 px o
+     tamanho exato do mockup daria letras de 7 px, ilegíveis no aparelho. */
+  .hm {
+    container-type: inline-size;
+    width: 100%;
+    color: #fff;
+    background:
+      radial-gradient(70% 22% at 50% 30%, rgba(24, 112, 64, 0.5), transparent 75%),
+      radial-gradient(40% 12% at 96% 44%, rgba(52, 201, 144, 0.22), transparent 75%),
+      radial-gradient(60% 24% at 8% 66%, rgba(16, 92, 56, 0.45), transparent 75%),
+      linear-gradient(112deg, transparent 58%, rgba(170, 255, 210, 0.05) 59.5%, transparent 61%),
+      linear-gradient(180deg, #041b10 0%, #052414 30%, #06301c 62%, #041f12 100%);
+  }
+  .hm > * { --u: calc(min(100cqw, 1180px) / 1024); }
+  .hm-miolo { width: calc(1024 * var(--u)); margin-inline: auto; }
+
+  /* Topo */
+  /* Os 4px cobrem o piso de legibilidade da chamada em celular de 320 px. */
+  .hm-topo { position: relative; height: calc(472 * var(--u) + 4px); overflow: hidden; }
+  .hm-topo-foto {
+    position: absolute; inset-block: 0; left: 50%; width: calc(1024 * var(--u)); transform: translateX(-50%);
+    -webkit-mask-image: linear-gradient(180deg, #000 96%, transparent);
+    mask-image: linear-gradient(180deg, #000 96%, transparent);
+  }
+  @media (min-width: 1181px) {
+    .hm-topo-foto {
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent), linear-gradient(180deg, #000 96%, transparent);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent), linear-gradient(180deg, #000 96%, transparent);
+      mask-composite: intersect;
+    }
+  }
+  .hm-topo-texto { position: absolute; inset-inline: 0; top: calc(250 * var(--u)); text-align: center; }
+  .hm-titulo {
+    font-family: var(--font-display); font-weight: 700; font-size: calc(84 * var(--u)); line-height: 1.04; white-space: nowrap;
+    background: linear-gradient(180deg, #fff0bd 12%, #f7d98c 55%, #e0ad4e 90%);
+    -webkit-background-clip: text; background-clip: text; color: #f3cf7c; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 calc(2 * var(--u)) calc(3 * var(--u)) rgba(30, 16, 0, 0.75));
+  }
+  .hm-titulo-lulu { display: block; font-size: calc(32 * var(--u)); line-height: 1.15; }
+  .hm-exclusivos {
+    display: flex; align-items: center; justify-content: center; gap: calc(12 * var(--u));
+    font-family: var(--font-playfair-italica), Georgia, serif; font-style: italic; font-weight: 700; font-size: calc(55 * var(--u)); line-height: 1.12;
+    color: #fbe9bd; text-shadow: 0 1px calc(3 * var(--u)) rgba(0, 0, 0, 0.6);
+  }
+  .hm-exclusivos img { width: calc(44 * var(--u)); height: auto; }
+  .hm-chamada { font-size: max(10.5px, calc(29 * var(--u))); line-height: 1.2; margin-top: calc(6 * var(--u)); color: #fff; }
+
+  .hm-corpo { padding-bottom: calc(22 * var(--u)); }
+
+  /* Pílulas */
+  .hm-pilulas { display: grid; grid-template-columns: 450fr 442fr; gap: calc(8 * var(--u)); padding: max(10px, calc(20 * var(--u))) calc(46 * var(--u)) 0 calc(54 * var(--u)); }
+  .hm-pilula {
+    position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: calc(152 * var(--u)); padding: calc(4 * var(--u)) calc(14 * var(--u)); text-align: center; line-height: 1.1;
+  }
+  .hm-pilula::before { content: ""; position: absolute; inset: 0 calc(8 * var(--u)); z-index: -1; transform: skewX(-6deg); border-radius: calc(40 * var(--u)); }
+  .hm-pilula-macho { color: #f8f0d8; }
+  .hm-pilula-macho::before {
+    background: linear-gradient(180deg, #06331e, #052a18);
+    border: max(1.5px, calc(3.5 * var(--u))) solid #f0d083;
+    box-shadow: 0 0 calc(20 * var(--u)) rgba(255, 216, 120, 0.85), inset 0 0 calc(10 * var(--u)) rgba(255, 216, 120, 0.2);
+  }
+  .hm-pilula-femea { color: #4a2c0a; }
+  .hm-pilula-femea::before {
+    background: linear-gradient(100deg, #e3b655 0%, #f8dd92 30%, #edc76e 55%, #f6d98b 78%, #c8962f 100%);
+    box-shadow: 0 0 calc(20 * var(--u)) rgba(255, 216, 120, 0.85);
+  }
+  .hm-pilula-topo strong { font-weight: 600; font-size: max(11px, calc(30 * var(--u))); }
+  .hm-pilula-topo span { font-size: max(9.5px, calc(22 * var(--u))); text-transform: lowercase; }
+  .hm-pilula-meio { display: flex; align-items: center; justify-content: center; gap: calc(16 * var(--u)); }
+  .hm-pilula-meio svg { width: calc(62 * var(--u)); height: calc(62 * var(--u)); flex: none; }
+  .hm-pilula-macho svg { color: #eec873; }
+  .hm-pilula-femea svg { width: calc(80 * var(--u)); height: calc(80 * var(--u)); }
+  .hm-pilula-valor { font-family: var(--font-display); font-weight: 700; font-size: calc(62 * var(--u)); line-height: 1.12; white-space: nowrap; font-variant-numeric: lining-nums; }
+  .hm-pilula-macho .hm-pilula-valor { background: linear-gradient(180deg, #fff0c0, #e6b854); -webkit-background-clip: text; background-clip: text; color: #eec873; -webkit-text-fill-color: transparent; }
+  .hm-pilula-centavos { font-size: 0.5em; }
+  .hm-pilula-pix { display: inline-flex; align-items: center; justify-content: center; gap: calc(6 * var(--u)); font-size: max(9.5px, calc(25 * var(--u))); }
+  .hm-pilula-pix svg { flex: none; width: max(11px, calc(28 * var(--u))); height: max(11px, calc(28 * var(--u))); }
+
+  /* Selos */
+  /* Cada coluna nunca fica menor que o próprio texto: os pisos de legibilidade
+     do celular não deixam uma palavra invadir a coluna vizinha. */
+  .hm-selos { display: grid; grid-template-columns: minmax(max-content, 173fr) minmax(max-content, 220fr) minmax(max-content, 192fr) minmax(max-content, 164fr) minmax(max-content, 175fr); padding: calc(16 * var(--u)) max(6px, calc(48 * var(--u))) 0 max(6px, calc(52 * var(--u))); }
+  .hm-selos li { display: flex; flex-direction: column; align-items: center; gap: calc(6 * var(--u)); text-align: center; color: #f6f1e2; font-size: max(9px, calc(19.5 * var(--u))); line-height: 1.16; }
+  .hm-selos li + li { border-inline-start: 1px solid rgba(226, 204, 150, 0.32); }
+  .hm-selos img { height: max(20px, calc(44 * var(--u))); width: auto; }
+
+  /* Filtros */
+  .hm-filtros { display: flex; flex-wrap: wrap; justify-content: center; gap: max(4px, calc(16 * var(--u))); padding: calc(22 * var(--u)) 8px 0; }
+  .hm-filtro {
+    position: relative; min-height: max(28px, calc(52 * var(--u))); padding-inline: max(7px, calc(28 * var(--u)));
+    border-radius: 999px; border: 1px solid rgba(226, 204, 150, 0.5); background: rgba(4, 34, 20, 0.75);
+    font-size: max(10.5px, calc(22 * var(--u))); font-weight: 500; color: #fff; white-space: nowrap;
+  }
+  .hm-filtro::after { content: ""; position: absolute; inset: -8px 0; }
+  .hm-filtro[aria-pressed="true"] {
+    background: linear-gradient(180deg, #f8dc8e, #e2b24d); border-color: #f8dc8e; color: #33200a; font-weight: 700;
+    box-shadow: 0 0 calc(12 * var(--u)) rgba(255, 216, 120, 0.6);
+  }
+
+  /* Com oito cores os filtros não cabem numa linha só no celular. Eles quebram em
+     duas linhas centralizadas, sem deslize lateral. O vão vertical é o da área de
+     toque de cada botão (::after), para um toque não cair no botão vizinho. */
+  @container (max-width: 640px) {
+    .hm-filtros { gap: 8px 5px; padding-inline: 6px; }
+    .hm-filtro { padding-inline: 10px; }
+    .hm-filtro::after { inset: -4px 0; }
+  }
+
+  .hm-avaliacoes { width: calc(968 * var(--u)); margin: calc(14 * var(--u)) auto 0; }
+
+  /* Cabeçalho da home, sobre a foto. Fica fora de `.hm`: mede pela tela. */
+  .hm-cabecalho { --u: calc(min(100vw, 1180px) / 1024); position: absolute; inset: 0 0 auto; z-index: 50; color: #fff; }
+  .hm-cabecalho-miolo { min-height: calc(96 * var(--u)); padding-inline: calc(22 * var(--u)) calc(16 * var(--u)); }
+  .hm-coroa { width: calc(112 * var(--u)); min-width: 36px; height: auto; flex: none; }
+  .hm-marca { display: block; text-align: center; font-family: var(--font-display); font-weight: 600; color: #fff; font-size: max(16px, calc(50 * var(--u))); line-height: 1.1; white-space: nowrap; }
+  .hm-marca sup { font-size: 0.42em; }
+  .hm-lema { display: block; text-align: center; font-family: var(--font-playfair-italica), Georgia, serif; font-style: italic; font-weight: 400; color: #f8f0d8; font-size: max(10px, calc(24 * var(--u))); letter-spacing: 0.02em; line-height: 1.15; white-space: nowrap; }
+  .hm-menu { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: max(4px, calc(10 * var(--u))); width: 44px; height: 44px; flex: none; }
+  .hm-menu > span { display: block; width: max(20px, calc(42 * var(--u))); height: max(2px, calc(5 * var(--u))); border-radius: 999px; background: #fff; }
+  .hm-desde { display: flex; align-items: center; flex: none; gap: max(1px, calc(3 * var(--u))); text-align: center; color: #f8f0d8; font-size: max(9.5px, calc(25 * var(--u))); font-weight: 500; line-height: 1.12; }
+  .hm-desde img { width: max(11px, calc(36 * var(--u))); height: auto; flex: none; }
+  .hm-desde-ano { display: block; font-family: var(--font-display); font-weight: 600; color: #e8c56f; font-size: 1.12em; font-variant-numeric: lining-nums; }
+  /* O bloco da marca fica mais perto do centro, como no mockup. */
+  @media (max-width: 1023px) { .hm-logo { margin-inline-start: calc(60 * var(--u)); } }
+  @media (min-width: 1024px) {
+    .hm-cabecalho { --u: 0.75px; background: linear-gradient(180deg, rgba(4, 24, 14, 0.85), rgba(4, 24, 14, 0)); }
+    .hm-cabecalho-miolo { padding-inline: 2.5rem; }
+  }
 }
+
+/* ── Topo da vitrine (/filhotes) ─────────────────────────────────────────────
+   Desenho aprovado em 06/11/2026, medido sobre a imagem de 1024 px de largura.
+   `--u` vale 1 px do desenho, como em `.hm`; os `max(...)` só seguram a letra em
+   tamanho legível no celular. Fica fora de @layer para o Tailwind não descartar. */
+.vt { container-type: inline-size; width: 100%; color: #fff; }
+.vt > * { --u: calc(min(100cqw, 1024px) / 1024); }
+.vt-miolo { width: calc(1024 * var(--u)); margin-inline: auto; }
+.vt-quebra { display: block; }
+
+.vt-topo { position: relative; height: calc(600 * var(--u) + 8px); overflow: hidden; background: #04200f; }
+.vt-topo-foto {
+  position: absolute; inset-block: 0; left: 50%; width: calc(1024 * var(--u)); height: 100%; max-width: none;
+  transform: translateX(-50%); object-fit: cover; object-position: right center;
+}
+.vt-topo-veu {
+  position: absolute; inset-block: 0; left: 50%; width: calc(1024 * var(--u)); transform: translateX(-50%);
+  background: linear-gradient(90deg, #04200f 0%, rgba(4, 32, 15, 0.94) 30%, rgba(4, 32, 15, 0.55) 40%, rgba(4, 32, 15, 0) 47%);
+}
+/* No computador o texto continua ao lado do filhote, como no desenho: a composição
+   inteira cresce até 1229 px, sem passar da altura da tela (92 px são o cabeçalho). */
+@media (min-width: 1025px) {
+  .vt > * { --u: calc(min(100cqw, 1229px, (100vh - 92px) * 1.7067) / 1024); }
+}
+/* Quando sobra tela dos dois lados, o corpo do filhote termina na borda da imagem:
+   o esmaecido evita um corte reto no meio da página. */
+@media (min-width: 1300px) {
+  .vt-topo-foto { -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%); mask-image: linear-gradient(90deg, #000 86%, transparent 100%); }
+}
+.vt-topo-texto { position: absolute; left: 50%; top: calc(160 * var(--u) + 6px); transform: translateX(-50%); padding-inline-start: calc(58 * var(--u)); }
+.vt-titulo { font-family: var(--font-display); font-weight: 700; font-size: calc(62 * var(--u)); line-height: 1.04; color: #fff; }
+.vt-titulo-anao {
+  display: block; flex: none; font-size: calc(92 * var(--u)); line-height: 1;
+  background: linear-gradient(95deg, #fff 8%, #f4dfa8 60%, #e3bc66 100%);
+  -webkit-background-clip: text; background-clip: text; color: #f4dfa8; -webkit-text-fill-color: transparent;
+}
+.vt-frase { margin-top: calc(14 * var(--u)); width: calc(350 * var(--u)); font-family: var(--font-display); font-size: max(11.5px, calc(35 * var(--u))); line-height: 1.14; color: #fff; }
+.vt-traco { display: block; width: calc(165 * var(--u)); height: auto; margin-top: calc(10 * var(--u)); }
+.vt-capsula {
+  display: flex; align-items: center; gap: calc(14 * var(--u)); width: max-content; white-space: nowrap;
+  margin-top: calc(18 * var(--u)); padding: calc(10 * var(--u)) calc(18 * var(--u));
+  border-radius: 999px; color: #0a2a18; font-weight: 600; font-size: max(9px, calc(23 * var(--u))); line-height: 1.15;
+  background: linear-gradient(180deg, #f8e3a8, #e3bb64 90%); box-shadow: 0 calc(3 * var(--u)) calc(10 * var(--u)) rgba(0, 0, 0, 0.35);
+}
+.vt-capsula svg { flex: none; width: calc(48 * var(--u)); height: calc(48 * var(--u)); min-width: 16px; min-height: 16px; fill: #0a3420; stroke: #f3d68f; }
+
+/* ── /filhotes abaixo do topo ────────────────────────────────────────────────
+   Desenho aprovado em 06/11/2026. O desenho foi feito para um cartão de 450 px;
+   aqui os tamanhos acompanham a largura real (`cqw`) e os pisos dos `clamp` seguram
+   a letra em tamanho legível no celular. */
+.vt-titulo-linha { display: flex; align-items: center; gap: calc(14 * var(--u)); }
+.vt-titulo-lulu { font-family: var(--font-display); font-weight: 600; font-size: max(10px, calc(27 * var(--u))); line-height: 1.1; color: #f4dfa8; }
+
+.vf { container-type: inline-size; padding-block: 18px 28px; color: #0c2a18; background: linear-gradient(180deg, #fdf8ea, #fbf3df 45%, #fdf8ea); }
+.vf-miolo { max-width: 1180px; margin-inline: auto; padding-inline: 12px; }
+
+.vf-titulo { text-align: center; text-wrap: balance; font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 8.8cqw, 46px); line-height: 1.1; color: #0a3420; }
+.vf-titulo svg { display: inline-block; vertical-align: -0.08em; width: 0.8em; height: 0.8em; color: #c9962f; }
+.vf-subtitulo { margin-top: 6px; text-align: center; text-wrap: balance; font-size: clamp(13.5px, 3.8cqw, 17px); line-height: 1.3; color: #27402f; }
+.vf-traco { display: block; width: 104px; height: auto; margin: 6px auto 0; }
+
+.vf-pilares { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; }
+.vf-pilares > li {
+  display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 9px 3px; text-align: center;
+  border: 1px solid #eedfb6; border-radius: 12px; background: #fffaf0; box-shadow: 0 1px 4px rgba(90, 66, 16, 0.08);
+  font-size: clamp(9.5px, 2.8cqw, 14px); line-height: 1.16; color: #0c2a18;
+}
+.vf-pilares svg { flex: none; width: 24px; height: 24px; color: #b98a2c; }
+
+.vf-filtros { display: flex; align-items: center; gap: 6px; margin-top: 12px; padding: 4px 12px 8px; overflow-x: auto; scrollbar-width: none; }
+.vf-filtros::-webkit-scrollbar { display: none; }
+@container (min-width: 1024px) { .vf-filtros { justify-content: safe center; } }
+.vf-filtro {
+  flex: none; min-height: 36px; padding-inline: 12px; border-radius: 999px; background: #fff; color: #0c2a18;
+  font-size: 13px; font-weight: 600; box-shadow: 0 1px 5px rgba(90, 66, 16, 0.2); transition: background-color 0.15s, color 0.15s;
+}
+.vf-filtro[aria-pressed="true"] { background: #0a3420; color: #fff; }
+.vf-filtro:focus-visible { outline: 2px solid #0a3420; outline-offset: 2px; }
+.vf-filtros-divisa { flex: none; width: 1px; height: 20px; margin-inline: 2px; background: #d6a748; }
+
+.vf-grade { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 6px; }
+.vf-grade > li { container-type: inline-size; min-width: 0; }
+@container (min-width: 640px) { .vf-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (min-width: 1024px) { .vf-grade { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+
+.vc { display: flex; flex-direction: column; gap: clamp(5px, 3cqw, 12px); height: 100%; padding: clamp(5px, 3cqw, 12px); border: 1px solid #e3c98a; border-radius: clamp(12px, 7cqw, 20px); background: #fffaf0; box-shadow: 0 2px 8px rgba(90, 66, 16, 0.12); }
+.vc-corpo { display: grid; grid-template-columns: minmax(0, 50fr) minmax(0, 50fr); gap: clamp(5px, 3cqw, 12px); flex: 1; }
+.vc-foto { position: relative; display: block; min-height: 100%; overflow: hidden; border-radius: clamp(9px, 5cqw, 14px); background: #efe6cf; }
+.vc-painel { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(3px, 2cqw, 8px); min-width: 0; }
+.vc-selo { display: flex; align-items: center; gap: 3px; padding: 2px 4px; border-radius: 6px; background: #fbe8bd; color: #6f4a0d; font-size: clamp(8px, 4.7cqw, 12.5px); line-height: 1.1; font-weight: 600; }
+.vc-selo svg { flex: none; width: 1.1em; height: 1.1em; }
+.vc-nome { font-family: var(--font-display); font-weight: 700; color: #0a3420; font-size: clamp(10.5px, 6.4cqw, 19px); line-height: 1.14; }
+.vc-nome-lulu { display: block; margin-top: 1px; font-weight: 600; color: #5b6b57; font-size: 0.78em; line-height: 1.12; }
+.vc-preco { width: 100%; margin-top: auto; }
+.vc-preco-prefixo { display: block; color: #27402f; font-size: clamp(8.5px, 5cqw, 13px); line-height: 1.2; }
+.vc-preco-caixa { display: block; margin-top: 2px; padding: 3px 2px; text-align: center; border-radius: 8px; background: #fdeecb; color: #0a3420; }
+.vc-preco-caixa strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(14px, 8.8cqw, 27px); line-height: 1.05; white-space: nowrap; font-variant-numeric: lining-nums; }
+.vc-preco-caixa span { display: block; font-size: clamp(8.5px, 5cqw, 13px); line-height: 1.15; }
+.vc-acao {
+  display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 38px; padding: 6px 8px; border-radius: 999px;
+  background: linear-gradient(180deg, #0f4a2d, #0a3420); color: #fff; font-weight: 700; font-size: clamp(11px, 6.4cqw, 16px); line-height: 1.1;
+}
+.vc-acao svg { flex: none; width: 1.25em; height: 1.25em; }
+.vc-acao svg:last-child { margin-inline-start: auto; width: 1.05em; height: 1.05em; }
+.vc-acao > span { margin-inline-start: 1px; white-space: nowrap; }
+.vc-acao:focus-visible { outline: 2px solid #0a3420; outline-offset: 2px; }
+
+.vf-vazio { display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 420px; margin: 10px auto 0; padding: 22px 16px; text-align: center; border: 1px dashed #d6a748; border-radius: 16px; background: #fffaf0; color: #27402f; font-size: 14px; line-height: 1.4; }
+.vf-vazio .vc-acao { width: 100%; max-width: 300px; font-size: 14px; }
+.vf-vazio-limpar { min-height: 36px; padding-inline: 12px; font-weight: 600; color: #0a3420; text-decoration: underline; }
+
+.vf-compromissos { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; padding-block: 10px; border-radius: 14px; background: linear-gradient(180deg, #0c3f26, #082c1a); color: #fff; }
+.vf-compromissos > li { display: flex; align-items: center; justify-content: center; gap: 5px; padding-inline: 6px; font-size: clamp(9.5px, 2.8cqw, 15px); line-height: 1.16; }
+.vf-compromissos > li + li { border-inline-start: 1px solid rgba(232, 197, 111, 0.45); }
+.vf-compromissos svg { flex: none; width: 22px; height: 22px; color: #e8c56f; }
+
+.vf-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; margin-top: 12px; padding: 8px 12px; border-radius: 999px; border: 2px solid #e3bb64;
+  background: linear-gradient(180deg, #17663d, #0a3f25); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: clamp(12.5px, 3.85cqw, 19px); line-height: 1.15; text-align: center; text-wrap: balance;
+  box-shadow: 0 4px 12px rgba(5, 30, 16, 0.3);
+}
+.vf-cta svg { flex: none; width: 24px; height: 24px; }
+.vf-cta svg:last-child { width: 18px; height: 18px; }
+.vf-cta:focus-visible { outline: 2px solid #0a3420; outline-offset: 2px; }
+
+/* Cabeçalho da vitrine: marca à esquerda, menu dourado à direita e um filete. */
+.vt-cabecalho .hm-cabecalho-miolo { min-height: calc(122 * var(--u)); padding-inline: calc(30 * var(--u)) calc(30 * var(--u)); }
+.vt-cabecalho .hm-logo { order: 1; margin-inline-start: 0; }
+.vt-cabecalho .hm-menu { order: 3; }
+.vt-cabecalho .hm-menu > span { background: #e8c56f; }
+.vt-cabecalho .hm-marca { font-size: max(16px, calc(42 * var(--u))); }
+.vt-cabecalho .hm-lema { color: #e8c56f; }
+.vt-cabecalho::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, #e8c56f 0 48%, transparent 52%); pointer-events: none; }
+/* No computador o menu tem texto: sobre o pelo claro ele não seria lido, então o
+   cabeçalho ganha fundo próprio e a foto começa abaixo dele. */
+@media (min-width: 1024px) {
+  .vt-cabecalho { background: #04200f; }
+  .vt-cabecalho::after { background: rgba(232, 197, 111, 0.5); }
+  .vt-cabecalho .hm-cabecalho-miolo { min-height: 92px; }
+  body:has(.vt-cabecalho) .vt-topo { margin-top: 92px; }
+}
+/* Entre 1024 e 1279 px a marca, o menu e o botão não cabem na mesma linha nos
+   tamanhos do desenho, e o cabeçalho estourava a tela (home e vitrine). */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hm-cabecalho { --u: 0.55px; }
+  .hm-cabecalho .hm-cabecalho-miolo { padding-inline: 1rem; gap: 0.5rem; }
+  .hm-cabecalho nav a { padding-inline: 0.45rem; font-size: 0.8125rem; }
+}
+
+/* ── Padrão visual de todas as páginas (pedido de 06/11/2026) ───────────────────
+   O desenho aprovado em /filhotes vira a regra do site: faixa verde escura no
+   topo, corpo creme, títulos serifados verde-musgo, cartões creme com filete
+   dourado. As páginas continuam escrevendo text-zinc-800, bg-white e bg-emerald-600:
+   esta classe, no <main> do layout público, só troca o que essas cores significam.
+   Cabeçalho e rodapé ficam fora do <main> e seguem na paleta escura de .tema-verde. */
+.tema-creme {
+  color-scheme: light;
+  color: #0c2a18;
+  background: linear-gradient(180deg, #fdf8ea, #fbf3df 45%, #fdf8ea);
+  /* clip, e não hidden: não cria área de rolagem, então o sticky interno continua
+     funcionando; e corta a sobra lateral e superior da .faixa-topo. */
+  overflow: clip;
+  --bg: #fdf8ea; --bg-2: #fbf3df; --background: #fdf8ea; --foreground: #0c2a18;
+  --surface: #fffaf0; --surface-2: #fbf3df;
+  --border: #e3c98a; --text: #0c2a18; --text-muted: #27402f;
+  --brand: #0a3420; --accent-ink: #0a3420; --marca-texto: #0a3420;
+  --branco-fundo: 255 250 240; --borda-padrao: 227 201 138;
+  --botao-fundo: linear-gradient(180deg, #0f4a2d, #0a3420); --botao-borda: transparent;
+  --z-50: 251 243 223; --z-100: 246 236 208; --z-200: 238 223 182; --z-300: 227 201 138; --z-400: 185 154 85; --z-500: 120 110 70; --z-600: 27 72 48; --z-700: 15 60 37; --z-800: 12 52 32; --z-900: 8 44 26; --z-950: 4 32 15;
+  --e-50: 251 240 212; --e-100: 251 232 189; --e-200: 243 214 143; --e-300: 232 197 111; --e-400: 23 102 61; --e-500: 23 102 61; --e-600: 15 74 45; --e-700: 10 52 32; --e-800: 10 52 32; --e-900: 8 44 26; --e-950: 4 32 15;
+  --tz-50: 253 248 234; --tz-100: 251 243 223; --tz-200: 238 223 182; --tz-300: 110 105 85; --tz-400: 91 107 87; --tz-500: 78 95 75; --tz-600: 39 64 47; --tz-700: 39 64 47; --tz-800: 12 42 24; --tz-900: 10 52 32; --tz-950: 4 32 15;
+  --te-50: 251 240 207; --te-100: 248 231 181; --te-200: 245 220 151; --te-300: 242 208 126; --te-400: 138 98 20; --te-500: 138 98 20; --te-600: 138 98 20; --te-700: 23 102 61; --te-800: 15 74 45; --te-900: 10 52 32; --te-950: 4 32 15;
+  --bz-50: 238 223 182; --bz-100: 238 223 182; --bz-200: 227 201 138; --bz-300: 227 201 138; --bz-400: 201 170 100; --bz-500: 201 170 100; --bz-600: 138 122 69; --bz-700: 138 122 69; --bz-800: 138 122 69; --bz-900: 138 122 69; --bz-950: 138 122 69;
+  --be-50: 238 223 182; --be-100: 238 223 182; --be-200: 227 201 138; --be-300: 214 167 72; --be-400: 214 167 72; --be-500: 214 167 72; --be-600: 214 167 72; --be-700: 214 167 72; --be-800: 214 167 72; --be-900: 214 167 72; --be-950: 214 167 72;
+}
+.tema-verde .tema-creme .prose, .tema-verde .tema-creme .prose.prose-zinc, .tema-verde .tema-creme .prose.prose-emerald, .tema-verde .tema-creme .prose.prose-slate, .tema-verde .tema-creme .prose.prose-neutral, .tema-verde .tema-creme .prose.prose-stone, .tema-verde .tema-creme .prose.prose-gray {
+  --tw-prose-body: #27402f; --tw-prose-headings: #0a3420; --tw-prose-lead: #27402f; --tw-prose-links: #17663d;
+  --tw-prose-bold: #0c2a18; --tw-prose-counters: #5b6b57; --tw-prose-bullets: #b98a2c; --tw-prose-hr: #e3c98a;
+  --tw-prose-quotes: #0c2a18; --tw-prose-quote-borders: #d6a748; --tw-prose-captions: #4e5f4b; --tw-prose-code: #0a3420;
+  --tw-prose-pre-code: #f8f0d8; --tw-prose-pre-bg: #04200f; --tw-prose-th-borders: #e3c98a; --tw-prose-td-borders: #eedfb6;
+}
+.tema-creme h3 { font-family: var(--font-display); }
+.tema-creme h2 { line-height: 1.2; text-wrap: balance; }
+.tema-creme .shadow-sm { box-shadow: 0 2px 8px rgba(90, 66, 16, 0.12); }
+/* Os botões verdes passam a ser o da vitrine; em fundo escuro ganham o filete dourado. */
+.tema-creme :is(a, button).bg-emerald-600 { background-image: var(--botao-fundo); border: 2px solid var(--botao-borda); }
+.tema-creme :is(a, button).bg-emerald-600:hover { filter: brightness(1.15); }
+/* O botão dourado antigo (formulário, avaliações, Button sólido) vira o verde da vitrine.
+   A home fica de fora: mantém a composição aprovada em 05/11/2026. */
+.tema-creme :is(a, button).bg-\[var\(--accent\)\]:not(.tema-creme > .tema-verde *) { color: #fff; background-image: var(--botao-fundo); border: 2px solid var(--botao-borda); }
+.tema-creme :is(a, button).bg-\[var\(--accent\)\]:not(.tema-creme > .tema-verde *):hover { filter: brightness(1.15); }
+/* Texto sem cor própria dentro de uma área escura: a variável sozinha não muda um
+   valor já herdado. Especificidade zero: qualquer utilitário text-* ganha. */
+:where(.tema-creme) :where(.faixa-topo, .zona-escura, .bg-zinc-800, .bg-zinc-900, .bg-zinc-950, .bg-emerald-700, .bg-emerald-800, .bg-emerald-900, .bg-emerald-950, .bg-brand, .bg-\[var\(--brand\)\], .bg-\[var\(--surface-dark\)\], [class*="from-emerald-9"], [class*="from-emerald-8"], [class*="from-emerald-7"], [class*="from-emerald-6"], [class*="from-zinc-9"], [class*="from-zinc-8"]) { color: var(--text); }
+/* A home manteve a composição escura do mockup de 05/11/2026. */
+.tema-creme > .tema-verde { color: var(--text); background: var(--bg) radial-gradient(120% 900px at 50% 0, #0b4a2b 0%, transparent 70%); }
+
+/* Faixa verde do topo. O pseudo-elemento sobra para cima e para os lados e o
+   overflow do <main> o corta: assim a faixa ocupa a tela inteira mesmo com o título
+   dentro de um contêiner estreito, sem mexer na estrutura de cada página. */
+.faixa-topo { position: relative; isolation: isolate; text-align: center; }
+:where(.faixa-topo) { padding-block: 6px 34px; }
+.faixa-topo::before { content: ""; position: absolute; z-index: -1; inset: -40rem -100vmax 0; background: linear-gradient(0deg, #0c3f26 0, #04200f 340px); border-bottom: 1px solid rgba(232, 197, 111, 0.5); }
+.faixa-topo h1 { font-size: clamp(30px, 7.8vw, 50px); line-height: 1.12; text-wrap: balance; }
+.faixa-topo h1::after { content: ""; display: block; width: 104px; height: 9px; margin: 12px auto 0; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 165 14'%3E%3Cpath d='M1 12C45 3 110 1 164 2C110 4 55 7 1 12Z' fill='%23d6a748'/%3E%3C/svg%3E") center / contain no-repeat; }
+.faixa-topo p { margin-inline: auto; max-width: 68ch; }
+/* No celular o parágrafo de abertura grande empurrava os botões para fora da dobra. */
+@media (max-width: 639px) { .faixa-topo :is(p.text-base, p.text-lg, p.text-xl) { font-size: 15.5px; line-height: 1.55; } }
+.faixa-topo .flex { justify-content: center; }
+/* Faixa com foto ao lado do texto: do tablet em diante o texto volta para a esquerda. */
+@media (min-width: 640px) {
+  .faixa-topo-lado { text-align: start; }
+  .faixa-topo-lado h1::after { margin-inline-start: 0; }
+  .faixa-topo-lado p { margin-inline: 0; }
+  .faixa-topo-lado .flex { justify-content: flex-start; }
+}
+
+/* Cabeçalho das demais páginas: o mesmo da vitrine, fixo e com fundo próprio. */
+.pg-cabecalho { position: sticky; top: 0; background: #04200f; }
+.pg-cabecalho .hm-cabecalho-miolo { min-height: 64px; }
+@media (min-width: 1024px) { .pg-cabecalho .hm-cabecalho-miolo { min-height: 76px; } }
+
+/* ── Rodapé ───────────────────────────────────────────────────────────────────── */
+.rp { color: #d9d2bb; background: #04200f; }
+.rp-chamada { padding: 52px 20px 56px; text-align: center; background: linear-gradient(180deg, #0c3f26, #082c1a); border-top: 1px solid rgba(232, 197, 111, 0.5); border-bottom: 1px solid rgba(232, 197, 111, 0.3); }
+.rp-sobretitulo { font-size: 12px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #e8c56f; }
+.tema-verde .rp .rp-titulo { margin: 12px auto 0; max-width: 24ch; color: #f8f0d8; font-weight: 700; font-size: clamp(28px, 6.6vw, 42px); line-height: 1.15; text-wrap: balance; }
+.rp-chamada .vf-traco { margin-top: 12px; }
+.rp-convite { margin: 14px auto 0; max-width: 46ch; font-size: 16px; line-height: 1.6; color: #efe7cf; }
+.rp-cta { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 56px; margin-top: 24px; padding: 8px 26px; border-radius: 999px; border: 2px solid #e3bb64; background: linear-gradient(180deg, #17663d, #0a3f25); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 17px; line-height: 1.15; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); transition: filter 0.15s; }
+.rp-cta svg { flex: none; width: 22px; height: 22px; }
+.rp-cta:hover { filter: brightness(1.15); }
+.rp :is(a, button):focus-visible { outline: 2px solid #e8c56f; outline-offset: 2px; border-radius: 4px; }
+.rp-corpo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 20px; max-width: 80rem; margin-inline: auto; padding: 44px 20px; }
+.rp-marca, .rp-coluna-raca, .rp-coluna-criacao { grid-column: 1 / -1; }
+.rp-logo { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; }
+.rp-logo img { flex: none; width: 58px; height: auto; }
+.rp-logo-nome { display: block; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.1; color: #fff; white-space: nowrap; }
+.rp-logo-nome sup { font-size: 0.42em; }
+.rp-logo-lema { display: block; text-align: center; font-family: var(--font-playfair-italica), Georgia, serif; font-style: italic; font-size: 14px; line-height: 1.2; color: #e8c56f; }
+.rp-marca p { margin-top: 14px; max-width: 42ch; font-size: 14.5px; line-height: 1.6; }
+.rp-marca address { margin-top: 8px; font-style: normal; }
+.rp-marca address a, .rp-google a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14.5px; color: #f8f0d8; }
+.rp-marca address a { display: flex; width: fit-content; }
+.rp-google { display: flex; flex-wrap: wrap; gap: 0 18px; }
+.rp-marca a:not(.rp-logo):hover, .rp-coluna :is(a, button):hover { color: #e8c56f; }
+.rp-coluna h3 { padding-bottom: 8px; margin-bottom: 6px; border-bottom: 1px solid rgba(232, 197, 111, 0.3); font-family: var(--font-display); font-weight: 700; font-size: 18px; color: #e8c56f; }
+.rp-coluna :is(a, button) { display: inline-flex; align-items: center; min-height: 44px; padding-block: 4px; font-size: 14.5px; line-height: 1.3; text-align: start; color: #efe7cf; transition: color 0.15s; }
+.rp-coluna-raca ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+.rp-selos li { display: flex; align-items: flex-start; gap: 8px; padding-block: 6px; font-size: 14.5px; line-height: 1.35; }
+.rp-selos li > span { color: #e8c56f; font-weight: 700; }
+.rp-final { border-top: 1px solid rgba(232, 197, 111, 0.3); }
+.rp-final > div { display: flex; flex-direction: column; gap: 6px; max-width: 80rem; margin-inline: auto; padding: 16px 20px; font-size: 12.5px; line-height: 1.5; color: #cfc8b0; }
+@media (min-width: 640px) {
+  .rp-corpo, .rp-final > div { padding-inline: 32px; }
+  .rp-final > div { flex-direction: row; justify-content: space-between; gap: 24px; }
+}
+@media (min-width: 1024px) {
+  .rp-corpo { grid-template-columns: 1.5fr 0.9fr 1fr 1.25fr 1.1fr; gap: 32px; padding-block: 56px 48px; }
+  .rp-marca, .rp-coluna-raca, .rp-coluna-criacao { grid-column: auto; }
+  .rp-coluna-raca ul { grid-template-columns: minmax(0, 1fr); }
+  .rp-coluna :is(a, button) { min-height: 36px; }
+}
+
 
 /* Motion helpers */
 .u-hover-card { transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out); will-change: transform; }
@@ -135,9 +904,9 @@ body.admin-shell [data-site-shell="cta"] {
   .container { max-width: 72rem; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
 }
 
-.text-brand-strong { color: var(--brand); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
-.link-brand { color: var(--brand); font-weight: 500; }
-.link-brand:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.text-brand-strong { color: var(--marca-texto); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.link-brand { color: var(--marca-texto); font-weight: 500; }
+.link-brand:focus-visible { outline: 2px solid var(--marca-texto); outline-offset: 2px; }
 
 .on-accent, .on-brand, .on-whatsapp { color: #ffffff !important; font-weight: 600; }
 .bg-accent, .bg-brand, .bg-whatsapp { --tw-text-opacity: 1; }

@@ -62,11 +62,9 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const reduced = useReducedMotion();
 
-  // Respeita a preferência de sistema por menos movimento
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
-
+  // Menos movimento: o elemento é sempre o mesmo e a transição é que fica instantânea.
+  // Trocar por um <div> no cliente não funciona: o servidor já mandou opacity:0 e a
+  // hidratação do React não corrige estilo, então o conteúdo ficava invisível.
   return (
     <motion.div
       className={className}
@@ -74,11 +72,15 @@ export function ScrollReveal({
       whileInView="visible"
       viewport={{ once, margin }}
       variants={VARIANTS[variant]}
-      transition={{
-        duration,
-        delay,
-        ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number],
-      }}
+      transition={
+        reduced
+          ? { duration: 0 }
+          : {
+              duration,
+              delay,
+              ease: [0.21, 0.47, 0.32, 0.98] as [number, number, number, number],
+            }
+      }
     >
       {children}
     </motion.div>

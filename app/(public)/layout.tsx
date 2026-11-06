@@ -28,7 +28,7 @@ import {
   buildSiteNavigationLD,
 } from "@/lib/tracking";
 
-import { dmSans } from "../fonts";
+import { dmSans, playfairDisplay, playfairItalica } from "../fonts";
 
 // Lazy load componentes nao-criticos para reduzir TBT
 // RecentSalesPopup removido: exibia "Familia de X reservou ha 12 min" a partir
@@ -72,7 +72,7 @@ export default async function PublicLayout({ children }: { children: React.React
   }
 
   return (
-    <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable}`}>
+    <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable} ${playfairDisplay.variable} ${playfairItalica.variable}`}>
       <head>
         <meta charSet="utf-8" />
 
@@ -158,7 +158,7 @@ export default async function PublicLayout({ children }: { children: React.React
         {/** Pixels custom HTML removidos por seguranca. Apenas modelos oficiais via <Pixels />. */}
       </head>
 
-      <body className="min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased">
+      <body className="tema-verde min-h-screen bg-[var(--bg)] text-[var(--text)] antialiased">
         <SkipLink />
         {/* Um unico proprietario para todas as tags. PixelsByConsent so monta
             GTM/GA/pixels depois da escolha explicita e nunca roda em dev. */}
@@ -180,7 +180,7 @@ export default async function PublicLayout({ children }: { children: React.React
               "main" no mesmo documento (a home ainda repetia o id, HTML
               inválido); todas passaram a usar <div>. Página nova não deve
               reabrir <main> nem redeclarar id="conteudo-principal". */}
-          <main className="flex-1" id="conteudo-principal" role="main">
+          <main className="tema-creme flex-1" id="conteudo-principal" role="main">
             {children}
           </main>
           <Footer />

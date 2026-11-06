@@ -13,22 +13,16 @@
  */
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import Link from "next/link";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { type ComponentProps, useCallback, useEffect, useId, useRef, useState } from "react";
 
-import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
-import { PawConfettiButton } from "@/components/motion/PawConfetti";
+import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import PuppyMatcherQuiz from "@/components/sections/PuppyMatcherQuiz";
 import type { staticPuppies } from "@/content/puppies-static";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { textoAPartirDeNoPix } from "@/domain/pricing";
-import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
 import { getClickId } from "@/lib/gclid";
 import { confirmedLeadId } from "@/lib/lead-confirmation";
-import { focoDaFoto } from "@/lib/photo-focus";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -70,18 +64,6 @@ function parseMatches(text: string): Puppy[] {
 
 function stripMatches(text: string): string {
   return text.replace(MATCHES_REGEX, "").replace(COLLECT_LEAD_REGEX, "").trim();
-}
-
-// Formatacao de preco vem do dominio, nao daqui.
-//
-// Este arquivo tinha o seu proprio Intl.NumberFormat com style: "currency".
-// Aquele formato separa "R$" do numero com espaco sem quebra (U+00A0), e o
-// resto do site escreve "R$ 8.500" com espaco comum. Os dois sao identicos na
-// tela e diferentes como texto: a pagina do filhote publicava o preco com
-// U+00A0 enquanto a tabela publicava com espaco comum, e nenhuma checagem de
-// texto conseguia ligar os dois. formatarPreco e a unica forma reconhecida.
-function formatPrice(cents: number) {
-  return textoAPartirDeNoPix(cents);
 }
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as [number, number, number, number];
@@ -245,103 +227,29 @@ function UserBubble({ content }: { content: string }) {
 // ─── MatchCard: usa dados REAIS do catálogo ───────────────────────────────────
 
 function MatchCard({ puppy, isPrimary, index }: { puppy: Puppy; isPrimary: boolean; index: number }) {
-  const coverImg = puppy.images.find((img) => !img.endsWith(".mp4")) ?? puppy.images[0];
-  const corLabel = (puppy as { cor?: string }).cor ?? puppy.color;
-  const sexLabel = puppy.sex === "female" ? "Fêmea" : "Macho";
-  const priceCents = (puppy as { priceCents?: number }).priceCents ?? (puppy as { price_cents?: number }).price_cents ?? 0;
-
-  const baseWaLink = buildWhatsAppLink({
-    message:      `Olá! Vi ${puppy.name} pelo chat do site e gostaria de conhecer as opções atuais dessa combinação de cor e sexo.`,
-    utmSource:    "site",
-    utmMedium:    "ai_matchmaker",
-    utmCampaign:  "match_recommendation",
-    utmContent:   puppy.slug,
-  });
-  const waLink = useWhatsAppLink(baseWaLink);
-
   return (
-    <motion.article
-      className={`relative flex flex-col overflow-hidden rounded-2xl border bg-white shadow-md transition-all ${
-        isPrimary
-          ? "border-emerald-300 ring-2 ring-emerald-200 shadow-emerald-100"
-          : "border-zinc-200"
-      }`}
+    <motion.div
+      className="flex h-full flex-col gap-1.5"
       initial={{ opacity: 0, y: 20, scale: 0.94 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ type: "spring", stiffness: 220, damping: 24, delay: index * 0.1 }}
     >
-      {/* "Melhor match" era um veredito — o canil declarando qual filhote é o
-          superior para aquela família. A faixa continua onde estava, dizendo o
-          que de fato é: uma sugestão de quem atende. */}
+      {/* "Melhor match" era um veredito: o canil declarando qual filhote e o
+          superior para aquela familia. A faixa diz o que de fato e: uma sugestao
+          de quem atende. */}
       {isPrimary && (
-        <div className="absolute left-0 right-0 top-0 z-10 bg-emerald-700 py-1 text-center text-[10px] font-bold uppercase tracking-widest text-white">
+        <p className="text-center text-[11px] font-bold uppercase tracking-widest text-emerald-700">
           ✨ Sugestão da equipe
-        </div>
+        </p>
       )}
-
-      <Link href={`/filhotes/${puppy.slug}`} tabIndex={-1} aria-hidden="true">
-        <div className={`relative aspect-square overflow-hidden bg-zinc-100 ${isPrimary ? "mt-5" : ""}`}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={coverImg}
-            alt={`${puppy.name} — Spitz Alemão Anão ${corLabel} ${sexLabel}`}
-            // Era `object-top`, que ancora em 0%: num quadro quadrado com foto
-            // vertical isso mostra o topo da foto e mais nada. No filhote preto,
-            // fotografado de pé na grama, o card virava mato desfocado. Agora vem
-            // medido foto a foto (src/lib/photo-focus).
-            className="h-full w-full object-cover transition duration-500 hover:scale-105"
-            style={{ objectPosition: focoDaFoto(coverImg) }}
-            loading="lazy"
-          />
-          {/* O selo "Disponível" / "Reservado" saiu daqui. Era o pior lugar do
-              site para publicar estado comercial: o chat acabara de conversar
-              com a pessoa e entregava um card afirmando que aquele animal
-              estava livre, lendo um campo estático que só mudava em deploy.
-              Sexo continua, porque sexo é taxonomia da foto. (26/08/2026) */}
-          <span className="absolute right-2 bottom-2 rounded-full bg-black/50 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur-sm">
-            {sexLabel}
-          </span>
-        </div>
-      </Link>
-
-      <div className="flex flex-1 flex-col gap-2 p-3">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{corLabel}</p>
-          <Link href={`/filhotes/${puppy.slug}`}>
-            <h3 className="mt-0.5 text-sm font-bold text-zinc-900 hover:text-emerald-700 transition">
-              {puppy.name}
-            </h3>
-          </Link>
-        </div>
-
-        {priceCents > 0 && (
-          <p className="text-base font-extrabold leading-snug text-emerald-700">{formatPrice(priceCents)}</p>
-        )}
-        <p className="text-[9px] text-zinc-500 -mt-1">registro oficial incluso</p>
-
-        <PawConfettiButton
-          href={waLink}
-          data-wa-placement="puppy_card"
-          data-wa-puppy={puppy.slug}
-          rel="noreferrer"
-          target="_blank"
-          className="mt-auto flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-xs font-bold text-white shadow hover:bg-emerald-700"
-          emojis="mixed"
-          count={12}
-          aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${puppy.name}`}
-        >
-          <WhatsAppIcon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-          <span className="text-center">Consultar opções atuais</span>
-        </PawConfettiButton>
-
-        <Link
-          href={`/filhotes/${puppy.slug}`}
-          className="text-center text-[10px] font-medium text-zinc-500 hover:text-emerald-600"
-        >
-          Ver galeria →
-        </Link>
+      <div className="min-h-0 flex-1">
+        <StaticPuppyCard
+          {...(puppy as ComponentProps<typeof StaticPuppyCard>)}
+          waMedium="ai_matchmaker"
+          waCampaign="match_recommendation"
+        />
       </div>
-    </motion.article>
+    </motion.div>
   );
 }
 
@@ -362,31 +270,13 @@ function MatchGrid({ puppies }: { puppies: Puppy[] }) {
         {puppies.length === 1 ? "Referência na vitrine" : "Referências na vitrine"}
       </p>
 
-      {/* Mobile: scroll horizontal snap quando 3 cards */}
-      {puppies.length === 3 ? (
-        <div className="sm:hidden">
-          <ul className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {puppies.map((puppy, i) => (
-              <li key={puppy.slug} className="w-[72vw] max-w-[220px] shrink-0 snap-start">
-                <MatchCard puppy={puppy} isPrimary={i === 0} index={i} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-
-      {/* Desktop (e mobile quando ≤2 cards) */}
-      <div
-        className={`gap-3 ${
-          puppies.length === 3 ? "hidden sm:grid sm:grid-cols-3" :
-          puppies.length === 2 ? "grid grid-cols-2" :
-          "grid grid-cols-1 mx-auto max-w-xs"
-        }`}
-      >
+      <ul className={`grade-filhotes ${puppies.length === 1 ? "!grid-cols-1 mx-auto max-w-[300px]" : ""}`}>
         {puppies.map((puppy, i) => (
-          <MatchCard key={puppy.slug} puppy={puppy} isPrimary={i === 0} index={i} />
+          <li key={puppy.slug}>
+            <MatchCard puppy={puppy} isPrimary={i === 0} index={i} />
+          </li>
         ))}
-      </div>
+      </ul>
     </motion.div>
   );
 }
@@ -705,7 +595,7 @@ export default function AiMatchmakerChat() {
             afirmar que sabe é publicar estoque no lugar mais convincente
             possível. Ele ajuda a pessoa a nomear a cor e o sexo que procura. */}
         <p className="mt-2 text-sm text-zinc-500 sm:text-base">
-          Spitz Alemão Anão. Conte um pouco sobre suas preferências de cor e sexo — a equipe
+          Spitz Alemão Anão (Lulu da Pomerânia). Conte um pouco sobre suas preferências de cor e sexo — a equipe
           confirma pelo WhatsApp o que existe no atendimento.
         </p>
       </div>

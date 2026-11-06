@@ -1,7 +1,8 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
@@ -24,19 +25,24 @@ const NAV_LINKS: { label: string; href: AppRoutes | string }[] = [
 
 // Dropdown "Raça" — páginas informacionais e de intenção
 const RACA_LINKS = [
-  { label: "Spitz Alemão Anão",        href: "/spitz-alemao",              desc: "Raça completa: origem, temperamento, cores" },
+  { label: "Spitz Alemão Anão (Lulu da Pomerânia)",        href: "/spitz-alemao",              desc: "Raça completa: origem, temperamento, cores" },
   { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: "Guia completo + preços" },
   { label: "Pomeranian",               href: "/pomeranian",                desc: "= Lulu da Pomerânia = Spitz Alemão Anão" },
-  { label: "Filhote de Spitz Alemão",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
-  { label: "Spitz Alemão Branco",      href: "/spitz-alemao-branco",       desc: "Diferenças do creme claro" },
-  { label: "Spitz Alemão Preto",       href: "/spitz-alemao-preto",        desc: "Preço e disponibilidade" },
-  { label: "Spitz Alemão Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
+  { label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
+  { label: "Spitz Alemão (Lulu da Pomerânia) Branco",      href: "/spitz-alemao-branco",       desc: "Diferenças do creme claro" },
+  { label: "Spitz Alemão (Lulu da Pomerânia) Preto",       href: "/spitz-alemao-preto",        desc: "Preço e disponibilidade" },
+  { label: "Spitz Alemão (Lulu da Pomerânia) Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
   { label: "Como Comprar",             href: "/comprar-spitz-anao",        desc: "Guia passo a passo seguro" },
   { label: "Criador Confiável",        href: "/criador-spitz-confiavel",   desc: "Como identificar procedência" },
 ] as const;
 
 export default function Header() {
   const pathname = usePathname() || "/";
+  // Na home o cabeçalho é o do print: sobre a fotografia, sem fundo.
+  const ehHome = pathname === "/";
+  // Todas as outras usam o da vitrine, aprovado em 06/11/2026: marca à esquerda,
+  // menu dourado à direita. Em /filhotes ele fica sobre a foto; nas demais, fixo.
+  const ehVitrine = pathname === "/filhotes";
   const [mobileOpen, setMobileOpen] = useState(false);
   const [racaOpen, setRacaOpen] = useState(false);
   const [mobileRacaOpen, setMobileRacaOpen] = useState(false);
@@ -54,7 +60,7 @@ export default function Header() {
   const baseWhatsAppLink = useMemo(
     () =>
       buildWhatsAppLink({
-        message: "Olá! Quero conversar sobre a disponibilidade dos Spitz Alemão Anão da By Império Dog.",
+        message: "Olá! Quero conversar sobre a disponibilidade dos Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog.",
         utmSource: "site",
         utmMedium: "header",
         utmCampaign: "header_whatsapp",
@@ -80,8 +86,8 @@ export default function Header() {
         Ir para o conteúdo
       </a>
 
-      <header className="sticky top-0 z-50 border-b border-emerald-100 bg-white text-zinc-900 shadow-sm" role="banner">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:px-10">
+      <header className={`hm-cabecalho${ehHome ? "" : " vt-cabecalho"}${ehHome || ehVitrine ? "" : " pg-cabecalho"}`} role="banner">
+        <div className="hm-cabecalho-miolo mx-auto flex w-full max-w-7xl items-center justify-between gap-2 sm:gap-4">
 
           {/* Logo — sem aria-label de propósito. O rótulo anterior ("By Império
               Dog — página inicial") substituía o texto visível do link, que
@@ -90,17 +96,35 @@ export default function Header() {
               nome passa a ser o próprio conteúdo do link. */}
           <Link
             href={routes.home}
-            className="flex min-h-[48px] items-center gap-2 rounded-full px-2 text-base font-semibold tracking-tight text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            className="hm-logo order-2 flex min-h-[48px] items-center gap-2 rounded-full px-2 text-base font-semibold tracking-tight text-[var(--text-light)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-dark)] lg:order-1"
           >
-            <span className="flex flex-col leading-tight">
-              <span className="rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold text-brand">By Império Dog</span>
-              <span className="mt-0.5 px-3 text-xs font-semibold italic text-zinc-600">Sementinhas de Amor</span>
+            <Image
+              src="/images/home/coroa.webp"
+              alt=""
+              width={230}
+              height={148}
+              unoptimized
+              loading="eager"
+              className="hm-coroa"
+            />
+            <span>
+              <span className="hm-marca">By Império Dog<sup>®</sup></span>{" "}
+              <span className="hm-lema">Sementinhas de Amor</span>
             </span>
-            <span className="hidden text-xs font-medium text-zinc-500 sm:block">Spitz Alemão Anão</span>
           </Link>
 
+          {/* Selo "Desde 2013" entre louros: só na home, no celular. As demais páginas
+              seguem o cabeçalho da vitrine, sem selo; o ano segue no rodapé. */}
+          {ehHome ? (
+            <span className="hm-desde order-3 lg:hidden">
+              <Image src="/images/home/louro-esq.webp" alt="" width={80} height={136} unoptimized loading="eager" />
+              <span>Desde{" "}<span className="hm-desde-ano">2013</span></span>
+              <Image src="/images/home/louro-dir.webp" alt="" width={80} height={136} unoptimized loading="eager" />
+            </span>
+          ) : null}
+
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegação principal">
+          <nav className="order-4 hidden items-center gap-1 lg:order-2 lg:flex" aria-label="Navegação principal">
 
             {/* Dropdown Raça */}
             {/* Hover apenas mantém o menu aberto; o botão abaixo oferece toda a interação por teclado. */}
@@ -117,7 +141,7 @@ export default function Header() {
                 aria-haspopup="menu"
                 onClick={() => setRacaOpen((v) => !v)}
                 className={`flex min-h-[44px] items-center gap-1 rounded-full px-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
-                  isRacaActive ? "text-brand" : "text-zinc-500 hover:text-zinc-800"
+                  isRacaActive ? "text-[var(--accent)]" : "text-white/70 hover:text-white"
                 }`}
               >
                 Raça
@@ -161,8 +185,8 @@ export default function Header() {
                 href={link.href}
                 className={`flex min-h-[44px] items-center rounded-full px-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 ${
                   isActive(link.href)
-                    ? "text-brand"
-                    : "text-zinc-500 hover:text-zinc-800"
+                    ? "text-[var(--accent)]"
+                    : "text-white/70 hover:text-white"
                 }`}
                 aria-current={isActive(link.href) ? "page" : undefined}
               >
@@ -172,11 +196,11 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden items-center gap-3 lg:flex">
+          <div className="order-5 hidden items-center gap-3 lg:order-3 lg:flex">
             <a
               href={whatsappLink}
               data-wa-placement="header"
-              className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2"
+              className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2 text-sm font-bold text-[var(--accent-foreground)] shadow-sm transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-dark)]"
             >
               <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
               Conversar agora
@@ -188,11 +212,13 @@ export default function Header() {
             <Dialog.Trigger asChild>
               <button
                 type="button"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-emerald-200 bg-white text-zinc-800 shadow-sm transition hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 lg:hidden"
+                className="hm-menu order-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-dark)] lg:hidden"
                 aria-label="Abrir menu de navegação"
                 aria-expanded={mobileOpen}
               >
-                <Menu className="h-5 w-5" aria-hidden="true" />
+                <span aria-hidden="true" />
+                <span aria-hidden="true" />
+                <span aria-hidden="true" />
               </button>
             </Dialog.Trigger>
 

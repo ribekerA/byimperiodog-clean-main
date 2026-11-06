@@ -79,21 +79,21 @@ export async function POST(req: Request) {
   let txt0 = String(content?.content_mdx || "");
     const mentionsSpitz = /spitz/i.test(txt0) || /lulu/i.test(txt0) || /pomer/iu.test(txt0);
     if (!mentionsSpitz) {
-      const heading = content?.title || `Guia de ${body.category || 'cuidados'} com filhotes de Spitz Alemão Anão`;
-      const mdx = `# ${heading}\n\nEste guia cobre ${body.category || 'cuidados essenciais'} para filhotes de Spitz Alemão Anão.\n\n## Perfil da raça\nVivo, inteligente e apegado à família.\n\n## Socialização\nIntroduza estímulos de forma gradual a partir da 8ª semana.\n\n## Alimentação e saúde\nRação premium para raças pequenas e calendário de vacinas em dia.\n\n## Higiene e pelagem\nEscovação regular e banhos espaçados mantêm a pelagem saudável.\n\n## FAQ\n### Quando começar a socialização?\nA partir da 8ª semana, reforço positivo.\n\n### Qual a quantidade de ração?\nConforme orientação do veterinário, ajustando ao peso.`;
+      const heading = content?.title || `Guia de ${body.category || 'cuidados'} com filhotes de Spitz Alemão Anão (Lulu da Pomerânia)`;
+      const mdx = `# ${heading}\n\nEste guia cobre ${body.category || 'cuidados essenciais'} para filhotes de Spitz Alemão Anão (Lulu da Pomerânia).\n\n## Perfil da raça\nVivo, inteligente e apegado à família.\n\n## Socialização\nIntroduza estímulos de forma gradual a partir da 8ª semana.\n\n## Alimentação e saúde\nRação premium para raças pequenas e calendário de vacinas em dia.\n\n## Higiene e pelagem\nEscovação regular e banhos espaçados mantêm a pelagem saudável.\n\n## FAQ\n### Quando começar a socialização?\nA partir da 8ª semana, reforço positivo.\n\n### Qual a quantidade de ração?\nConforme orientação do veterinário, ajustando ao peso.`;
       content = {
         ...content,
         title: heading,
-        excerpt: content?.excerpt || `Tudo sobre ${primaryKw} com foco na raça Spitz Alemão Anão.`,
+        excerpt: content?.excerpt || `Tudo sobre ${primaryKw} com foco na raça Spitz Alemão Anão (Lulu da Pomerânia).`,
         content_mdx: mdx,
         seo_title: (content?.seo_title || heading).slice(0, 60),
-        seo_description: (content?.seo_description || `Guia para filhotes de Spitz Alemão.`).slice(0, 155),
+        seo_description: (content?.seo_description || `Guia para filhotes de Spitz Alemão (Lulu da Pomerânia).`).slice(0, 155),
       };
       txt0 = String(content.content_mdx || '');
     }
   if (!content?.cover_prompt || !/spitz|lulu|pomer/iu.test(String(content.cover_prompt))) {
       content.cover_prompt = `Fotografia realista 16:9 de filhote de Spitz Alemão Anão, nítida, luz suave, fundo neutro, estilo editorial, cores quentes`;
-      content.cover_alt = `Filhote de Spitz Alemão Anão`;
+      content.cover_alt = `Filhote de Spitz Alemão Anão (Lulu da Pomerânia)`;
     }
     // Garantir tags de SEO relacionadas
     const baseTags = Array.from(new Set(["Spitz Alemão", "Lulu da Pomerânia", "filhote", "adulto", "guia", ...(content?.tags || []), ...(body.keywords || [])]));
@@ -101,7 +101,7 @@ export async function POST(req: Request) {
 
     // Pós-processador para garantir seções obrigatórias faltantes
     const requiredSections: { heading: string; template: string }[] = [
-      { heading: '## História e Origem', template: '## História e Origem\nBreve contexto da origem do Spitz Alemão Anão, evolução e popularização.' },
+      { heading: '## História e Origem', template: '## História e Origem\nBreve contexto da origem do Spitz Alemão Anão (Lulu da Pomerânia), evolução e popularização.' },
       { heading: '## Características Físicas', template: '## Características Físicas\nTamanho, pelagem dupla, cores comuns, expectativa de peso e longevidade.' },
       { heading: '## Temperamento (Filhote vs Adulto)', template: '## Temperamento (Filhote vs Adulto)\nComparação de energia, curiosidade, socialização e maturidade comportamental.' },
       { heading: '## Desenvolvimento do Filhote', template: '## Desenvolvimento do Filhote\n### 0–2 meses\nNecessidades iniciais.\n### 2–6 meses\nSocialização intensa e regras.\n### 6–12 meses\nTransição para adulto jovem.' },
@@ -114,7 +114,7 @@ export async function POST(req: Request) {
       { heading: '## Exercícios e Enriquecimento', template: '## Exercícios e Enriquecimento\nPasseios curtos, estimulação mental, jogos olfativos.' },
       { heading: '## Treinamento Básico', template: '## Treinamento Básico\nNome, recall, higiene, comandos simples e reforço positivo.' },
       { heading: '## Problemas Comportamentais Comuns', template: '## Problemas Comportamentais Comuns\nLatidos excessivos, ansiedade de separação, possessividade de brinquedos.' },
-      { heading: '## FAQ', template: '## FAQ\n### Spitz Alemão late muito?\nTendem a vocalizar; redirecione e reforce silêncio.\n### Pode viver em apartamento?\nSim, com rotina de estímulo mental.\n### Qual a frequência de banho?\nGeralmente a cada 3–4 semanas, mantendo escovação frequente.\n### Quando trocar para ração de adulto?\nApós avaliação veterinária ~12 meses.\n### Solta muito pelo?\nTem troca sazonal; escovação reduz acúmulo.' },
+      { heading: '## FAQ', template: '## FAQ\n### Spitz Alemão (Lulu da Pomerânia) late muito?\nTendem a vocalizar; redirecione e reforce silêncio.\n### Pode viver em apartamento?\nSim, com rotina de estímulo mental.\n### Qual a frequência de banho?\nGeralmente a cada 3–4 semanas, mantendo escovação frequente.\n### Quando trocar para ração de adulto?\nApós avaliação veterinária ~12 meses.\n### Solta muito pelo?\nTem troca sazonal; escovação reduz acúmulo.' },
       { heading: '## Recursos e CTA', template: '## Recursos e CTA\n- Veja filhotes: [/filhotes](/filhotes)\n- Processo de compra: [/comprar-spitz-anao](/comprar-spitz-anao)\n- Fale direto: [/contato](/contato)\n\n> Solicite um vídeo agora de um filhote disponível pelo WhatsApp.' },
     ];
 
