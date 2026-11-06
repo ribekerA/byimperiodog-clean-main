@@ -562,10 +562,12 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 </p>
               </motion.div>
 
-              {/* Fora do card da imagem para não ficar atrás do selo "Incluso". */}
+              {/* Fora do card da imagem para não ficar atrás do selo "Incluso".
+                  A partir de sm o selo sai do card pela esquerda e passa por
+                  esta linha: centralizada, ele cobria o início do aviso. */}
               {ilustracao && (
                 <p
-                  className={`mt-3 text-center text-xs sm:mt-8 ${
+                  className={`mt-3 text-center text-xs sm:mt-8 sm:text-right ${
                     heroDark ? "text-zinc-400" : "text-zinc-600"
                   }`}
                 >

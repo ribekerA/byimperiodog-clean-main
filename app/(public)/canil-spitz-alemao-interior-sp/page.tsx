@@ -6,6 +6,7 @@ import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/canil-spitz-alemao-interior-sp`;
@@ -79,7 +80,7 @@ const FAQS = [
 ];
 
 export default function CanilInteriorSPPage() {
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
+  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
     ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi que vocês são referência de canil de Spitz Alemão (Lulu da Pomerânia) no interior de SP. Pode me informar sobre disponibilidade de filhotes?")}`
     : "#";

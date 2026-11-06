@@ -198,7 +198,7 @@ const EXTRAS = {
 // carregar data propria. Mudam quando o catalogo muda.
 const SINTETICAS = {
   "@puppy": ["content/puppies-static.ts", "content/puppy-search-copy.ts", "src/domain/pricing.ts", "app/(public)/filhotes/[slug]/page.tsx"],
-  "@color": ["content/puppies-static.ts", "app/(public)/filhotes/cor/[cor]/page.tsx"],
+  "@color": ["content/puppies-static.ts", "app/(public)/filhotes/cor/[cor]/page.tsx", "src/lib/catalog-utils.ts", "src/components/color-page/ColorPageContent.tsx"],
   "@sex": ["content/puppies-static.ts", "app/(public)/filhotes/sexo/[sexo]/page.tsx"],
 };
 

@@ -466,6 +466,32 @@ test.describe("Portao das superficies criticas", () => {
     });
   }
 
+  // O selo "Incluso" sai do card pela esquerda a partir de 640 px. Com a legenda
+  // centralizada, ele cobria o inicio do aviso de que a imagem nao e foto.
+  for (const cor of ["chocolate", "merle"]) {
+    for (const largura of [768, 1024, 1366]) {
+      test(`${cor} em ${largura}: o selo nao cobre o aviso da ilustracao`, async ({ page }) => {
+        await page.setViewportSize({ width: largura, height: 900 });
+        await page.goto(`/filhotes/cor/${cor}`);
+        const legenda = page.getByText("Ilustração da pelagem, não é foto de filhote.");
+        await legenda.scrollIntoViewIfNeeded();
+        // A entrada animada desloca o selo; mede depois que ela termina.
+        await page.waitForTimeout(2500);
+
+        const folga = await legenda.evaluate((p) => {
+          const texto = document.createRange();
+          texto.selectNodeContents(p);
+          const selo = [...document.querySelectorAll("p")]
+            .find((e) => e.textContent?.trim() === "Incluso")
+            ?.parentElement?.getBoundingClientRect();
+          return selo ? texto.getBoundingClientRect().left - selo.right : null;
+        });
+        expect(folga, "o selo Incluso nao foi encontrado").not.toBeNull();
+        expect(folga!, "o selo cobre o inicio do aviso").toBeGreaterThanOrEqual(0);
+      });
+    }
+  }
+
   test("a pagina do Merle nao cita o padrao FCI nem saude da cor", async ({ page }) => {
     await page.goto("/filhotes/cor/merle");
     const corpo = await page.locator("body").innerText();
@@ -473,6 +499,28 @@ test.describe("Portao das superficies criticas", () => {
     expect(corpo).not.toMatch(/inteligência ou saúde/i);
     expect(corpo).toContain("CBKC");
   });
+
+  // Estes botoes dependiam so de NEXT_PUBLIC_WA_PHONE e sumiam em silencio quando
+  // a variavel nao entrava no build. Agora ha numero de reserva. Este teste roda
+  // sem a variavel no build local, que e justamente o caso que quebrava.
+  for (const { rota, rotulo } of [
+    { rota: "/comprar-spitz-anao", rotulo: "Vamos conversar sobre o seu novo amor" },
+    { rota: "/criador-spitz-confiavel", rotulo: "Vamos conversar sobre o seu novo amor" },
+    { rota: "/filhote-de-spitz-alemao", rotulo: "Vamos conversar sobre o seu novo amor" },
+    { rota: "/spitz-alemao", rotulo: "Vamos conversar sobre o seu novo amor" },
+    { rota: "/spitz-alemao-baby-face", rotulo: "Vamos conversar sobre o seu novo amor" },
+    { rota: "/lulu-da-pomerania", rotulo: "Falar no WhatsApp" },
+    { rota: "/lulu-da-pomerania-braganca-paulista", rotulo: "Agendar visita — WhatsApp" },
+    { rota: "/canil-spitz-alemao-interior-sp", rotulo: "Falar no WhatsApp" },
+    { rota: "/spitz-alemao-preto", rotulo: "Falar pelo WhatsApp" },
+    { rota: "/blog/preco-spitz-alemao-anao", rotulo: "Falar no WhatsApp" },
+  ]) {
+    test(`${rota} mostra o botao "${rotulo}" com o numero do canil`, async ({ page }) => {
+      await page.goto(rota);
+      const botao = page.locator('a[href*="wa.me/5511968633239"]').filter({ hasText: rotulo }).first();
+      await expect(botao).toBeVisible();
+    });
+  }
 
   test("/blog lista artigos", async ({ page }) => {
     const resposta = await page.goto("/blog");

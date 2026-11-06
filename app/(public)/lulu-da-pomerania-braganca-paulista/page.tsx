@@ -6,6 +6,7 @@ import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/lulu-da-pomerania-braganca-paulista`;
@@ -63,7 +64,7 @@ const FAQS = [
 ];
 
 export default function LuluBragancaPage() {
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
+  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
     ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi o canil em Bragança Paulista e gostaria de saber sobre as opções atuais.")}`
     : "#";

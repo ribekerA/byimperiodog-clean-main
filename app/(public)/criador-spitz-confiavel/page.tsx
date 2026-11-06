@@ -7,6 +7,7 @@ import { FOUNDING_YEAR } from "@/domain/config";
 import { buildArticleLD, buildBreadcrumbLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { whatsappLeadUrl } from "@/lib/utm";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/criador-spitz-confiavel`;
@@ -116,7 +117,7 @@ const PAGE_FAQS = [
 ] as const;
 
 export default function CriadorConfiavelPage() {
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
+  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
     ? whatsappLeadUrl(phone, { pageType: "intent", url: PAGE_URL, intent: "criador-spitz-confiavel" })
     : "#";

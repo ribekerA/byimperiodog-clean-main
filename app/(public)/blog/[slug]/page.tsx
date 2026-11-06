@@ -38,6 +38,7 @@ import { getPostBySlug as getMdxPostBySlug } from "@/lib/content";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 import { whatsappLeadUrl } from "@/lib/utm";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 interface Post {
   id: string;
@@ -224,6 +225,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   const structuredData = [article, breadcrumb].filter(Boolean);
 
   const waPhone = (process.env.NEXT_PUBLIC_WA_PHONE || "").replace(/\D/g, "");
+  const leadFormPhone = waPhone || WHATSAPP_NUMBER;
   const postUrl = `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}`;
   // Medida real do arquivo. Estava fixo em 1280x720 (16:9) enquanto as capas sao
   // 3:2 — com h-auto o navegador reservava a altura errada e o artigo inteiro
@@ -391,13 +393,13 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                 Quero receber recomendações
               </h2>
               <LeadForm context={{ pageType: "blog", slug: post.slug }} />
-              {process.env.NEXT_PUBLIC_WA_PHONE && (
+              {leadFormPhone && (
                 <div className="pt-3">
                   <a
                     className="inline-flex min-h-[44px] items-center gap-2 rounded-pill bg-brand px-5 py-2.5 text-sm font-semibold text-on-brand shadow-soft transition hover:brightness-110 focus-ring"
                     target="_blank"
                     rel="noreferrer noopener"
-                    href={whatsappLeadUrl(process.env.NEXT_PUBLIC_WA_PHONE.replace(/\D/g, ""), { pageType: "blog", url: `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}` })}
+                    href={whatsappLeadUrl(leadFormPhone, { pageType: "blog", url: `${siteUrl.replace(/\/$/, "")}/blog/${post.slug}` })}
                   >
                     Falar no WhatsApp
                   </a>

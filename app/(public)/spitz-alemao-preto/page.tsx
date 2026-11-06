@@ -6,6 +6,7 @@ import { RESPOSTA_PRETO } from "@/domain/pricing";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
+import { WHATSAPP_NUMBER } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
@@ -60,7 +61,7 @@ const FAQS = [
 ];
 
 export default function SpitzAlemaoPretoPage() {
-  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "";
+  const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
     ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão (Lulu da Pomerânia) Preto no site da By Império Dog. Gostaria de conhecer as opções atuais e os valores.")}`
     : "#";
