@@ -159,6 +159,27 @@
   status = 301
   force = true
 
+# Sitelink do Google Ads que nasceu apontando para um post que nunca existiu.
+# A URL esta no ar desde 2026 na campanha "Pesquisa | Spitz Branco Femea" e ja
+# somou 271 impressoes devolvendo 404 — e esta conta ja levou reprovacao do
+# Google por "Destino que nao funciona", entao um 404 em sitelink nao e so um
+# visitante perdido: e risco de o anuncio inteiro parar.
+#
+# O destino e o post que o proprio slug descreve ("checklist de transparencia e
+# sinais de alerta"): o guia dos 10 sinais de alerta. Nao se escreveu post novo
+# de proposito — o assunto ja tem pagina, e duas paginas iguais disputariam a
+# mesma busca. A alternativa seria /criador-spitz-confiavel, que vende em vez de
+# explicar; ficou de fora porque o texto do sitelink promete checklist, e
+# destino que nao cumpre a promessa do anuncio e a outra reprovacao que esta
+# conta ja levou ("Destino nao correspondente").
+#
+# `force` porque nao ha pagina com esse slug para o redirect atropelar.
+[[redirects]]
+  from = "/blog/criador-de-spitz-confiavel-checklist-de-transparencia-e-sinais-de-alerta-2026"
+  to = "/blog/como-escolher-canil-spitz-alemao"
+  status = 301
+  force = true
+
 # Capas do blog: eram PNG de 1536x1024 e ~2,2 MB cada, agora sao JPEG de
 # 1280x853 e ~120 KB. As URLs .png estao no ar desde 15/07/2026 e entraram no
 # deploy que o dominio serve hoje, entao podem estar no indice do Google
