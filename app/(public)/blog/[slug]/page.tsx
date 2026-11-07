@@ -25,8 +25,10 @@ import { mdxComponents } from "@/components/MDXContent";
 import PageViewPing from "@/components/PageViewPing";
 import SeoJsonLd from "@/components/SeoJsonLd";
 import { relatedSearchTopics } from "@/content/search-topics";
+import { BRAND } from "@/domain/config";
 import { getImageSize } from "@/lib/_generated-image-sizes";
 import { generatedPosts } from "@/lib/_generated-posts";
+import { rotuloDaCategoria } from "@/lib/blog/categories";
 import { isCommentablePostId } from "@/lib/blog/commentable";
 import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
 import { isPublishableSupabasePost } from "@/lib/blog/publishable";
@@ -59,8 +61,9 @@ interface Post {
   category?: string | null;
   tags?: string[] | null;
   lang?: string | null;
-  // Só o caminho MDX preenche: `blog_posts` não tem essa coluna.
+  // Só o caminho MDX preenche: `blog_posts` não tem essas colunas.
   sources?: string[] | null;
+  author_name?: string | null;
 }
 
 interface Author {
@@ -141,6 +144,7 @@ async function fetchMdxPost(slug: string): Promise<Post | null> {
       updated_at:      mdx.updated ?? mdx.date ?? null,
       status:          "published",
       author_id:       null,
+      author_name:     mdx.author ?? null,
       seo_title:       mdx.seoTitle ?? null,
       seo_description: mdx.excerpt ?? null,
       category:        mdx.category ?? null,
@@ -270,7 +274,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
             <header>
               {/* Category badge */}
               <span className="inline-flex items-center rounded-full border border-brand/20 bg-brand/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.35em] text-brand">
-                {post.category || "Conteúdo premium"}
+                {rotuloDaCategoria(post.category) ?? "Conteúdo premium"}
               </span>
 
               {/* Title — editorial tight leading gives look intencional, não sloppy */}
@@ -297,8 +301,12 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                     ) : null}
                     <span className="font-medium text-text-muted">{author.name}</span>
                   </span>
-                ) : null}
-                {author && (post.published_at || minutes) ? (
+                ) : (
+                  <Link href="/sobre" className="font-medium text-text-muted underline-offset-2 hover:underline">
+                    {post.author_name || BRAND.name}
+                  </Link>
+                )}
+                {post.published_at || minutes ? (
                   <span aria-hidden className="opacity-30 select-none">·</span>
                 ) : null}
                 {post.published_at ? (
@@ -467,5 +475,8 @@ function formatDate(value?: string | null) {
     day: "2-digit",
     month: "short",
     year: "numeric",
+    // Data do frontmatter ('2026-09-14') é meia-noite em UTC: sem isto, um
+    // servidor em outro fuso mostraria o dia anterior.
+    timeZone: "UTC",
   }).format(date);
 }

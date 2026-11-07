@@ -16,7 +16,7 @@ export const generatedPosts = [
       "nomes",
       "filhotes"
     ],
-    "category": "Vida com o Spitz",
+    "category": "raca",
     "author": "By Império Dog",
     "readingTime": 4,
     "url": "/blog/nomes-lulu-da-pomerania",
@@ -63,7 +63,7 @@ export const generatedPosts = [
       "chocolate",
       "merle"
     ],
-    "category": "Preços / Raça",
+    "category": "preco",
     "author": "By Império Dog",
     "readingTime": 5,
     "url": "/blog/cores-spitz-alemao-anao-qual-mais-cara",
@@ -105,7 +105,7 @@ export const generatedPosts = [
       "comportamento",
       "cuidados"
     ],
-    "category": "Raça / Comportamento",
+    "category": "comportamento",
     "author": "By Império Dog",
     "readingTime": 5,
     "url": "/blog/spitz-alemao-anao-bom-para-apartamento",
@@ -147,7 +147,7 @@ export const generatedPosts = [
       "saúde",
       "alimentação"
     ],
-    "category": null,
+    "category": "raca",
     "author": null,
     "readingTime": 6,
     "url": "/blog/guia-spitz-alemao",

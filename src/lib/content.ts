@@ -25,6 +25,7 @@ const CMS = (process.env.CMS_DRIVER || 'contentlayer').toLowerCase();
 // Import estático gerado por scripts/gen-contentlayer.mjs (roda no predev)
 // Webpack bundla normalmente — sem tricks de require/eval
 import { generatedPosts } from './_generated-posts';
+import { montarRelacionadosPorAssunto } from './blog/related-by-subject';
 
 /**
  * Posts que continuam publicados na própria URL, mas fora de toda vitrine:
@@ -36,6 +37,9 @@ const POSTS_FORA_DA_VITRINE = new Set(["spitz-alemao-anao-wolf-sable"]);
 function listaveis(posts: BlogPost[]): BlogPost[] {
   return posts.filter((p) => !POSTS_FORA_DA_VITRINE.has(p.slug));
 }
+
+/** A lista de artigos é gerada no build e não muda em execução: basta calcular uma vez. */
+let relacionadosPorAssunto: Map<string, string[]> | null = null;
 
 function loadContentlayerPosts(): any[] {
   try {
@@ -123,16 +127,10 @@ export async function getRelatedPosts(slug: string, limit = 4) {
   if (CMS === 'sanity') {
     return [];
   }
-  const src = loadContentlayerPosts();
-  const items = listaveis(src.map(normalizePost));
-  const post = items.find((p) => p.slug === slug);
-  if (!post) return items.slice(0, limit);
-  const tags = new Set((post.tags || []).map((t) => String(t).toLowerCase()));
-  const related = items
-    .filter((p) => p.slug !== slug)
-    .map((p) => ({ p, score: (p.tags || []).reduce((acc, t) => acc + (tags.has(String(t).toLowerCase()) ? 1 : 0), 0) }))
-    .filter((x) => x.score > 0)
-    .sort((a, b) => b.score - a.score)
-    .map((x) => x.p);
-  return (related.length ? related : items.filter((p) => p.slug !== slug)).slice(0, limit);
+  const todos = loadContentlayerPosts().map(normalizePost);
+  relacionadosPorAssunto ??= montarRelacionadosPorAssunto(todos, POSTS_FORA_DA_VITRINE);
+  const bloco = relacionadosPorAssunto.get(slug);
+  if (!bloco) return listaveis(todos).slice(0, limit);
+  const porSlug = new Map(todos.map((p) => [p.slug, p]));
+  return bloco.slice(0, limit).map((s) => porSlug.get(s)!);
 }

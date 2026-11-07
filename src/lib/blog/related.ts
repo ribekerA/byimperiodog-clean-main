@@ -28,9 +28,9 @@ export type RelatedUnified = {
  * artigo, ou seja, os 30 artigos eram becos sem saída no grafo de links internos
  * — cada um só apontava para as páginas comerciais e para o menu.
  *
- * `getRelatedStatic` (src/lib/content.ts) já existia e já rankeia por tags em
- * comum, com queda para os mais recentes quando não há interseção. Aqui só
- * mapeamos os nomes de campo para o formato que a página espera.
+ * `getRelatedStatic` (src/lib/content.ts) escolhe por assunto (ver
+ * ./related-by-subject.ts). Aqui só mapeamos os nomes de campo para o formato
+ * que a página espera.
  */
 export async function getRelatedUnified(slug: string, limit = 6): Promise<RelatedUnified[]> {
   try {

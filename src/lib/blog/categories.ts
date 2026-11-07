@@ -113,6 +113,18 @@ export function matchesCategory(
   });
 }
 
+/**
+ * Nome de leitura de uma categoria: no frontmatter ela é um id ("raca"), e era
+ * esse id que aparecia no selo do artigo e no schema. Categoria fora da lista
+ * (texto livre de post do banco) sai como veio.
+ */
+export function rotuloDaCategoria(category?: string | null): string | null {
+  const valor = category?.trim();
+  if (!valor) return null;
+  const id = valor.toLowerCase();
+  return BLOG_CATEGORIES.find((item) => item.id === id)?.title ?? valor;
+}
+
 /** Mesma precedência da versão que rodava no servidor: busca ganha da categoria. */
 export function filterBlogPosts<T extends BlogListPost>(
   posts: T[],

@@ -1,6 +1,8 @@
+import { BRAND } from '../../domain/config';
 import { editorialImage } from '../editorial-image';
 import { resolveRobots } from '../seo';
 
+import { rotuloDaCategoria } from './categories';
 import type { TocItem } from './mdx/toc';
 import { parseSources, sourcesToCitation } from './sources';
 
@@ -142,11 +144,17 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
     description,
     articleBody,
     image: image ? [image.schema] : undefined,
-    author: author ? { '@type': 'Person', name: author.name } : { '@id': `${site}/#business` },
+    // A marca não é pessoa: sem autor cadastrado, quem assina é a empresa, com o
+    // mesmo @id, tipo e nome do nó único de structured-data.ts, para que os dois
+    // se fundam em vez de gerar aviso de campo divergente. O nome é escrito aqui
+    // também porque só o @id deixava o artigo sem autor legível para quem lê o nó.
+    author: author
+      ? { '@type': 'Person', name: author.name }
+      : { '@type': 'LocalBusiness', '@id': `${site}/#business`, name: BRAND.name, url: site },
     datePublished: post.published_at || post.created_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,
     publisher: { '@id': `${site}/#business` },
-    articleSection: post.category || undefined,
+    articleSection: rotuloDaCategoria(post.category) ?? undefined,
     keywords: post.tags && post.tags.length ? post.tags.join(', ') : undefined,
     inLanguage: post.lang || 'pt-BR',
     wordCount: post.content_mdx ? post.content_mdx.split(/\s+/).filter(Boolean).length : undefined,

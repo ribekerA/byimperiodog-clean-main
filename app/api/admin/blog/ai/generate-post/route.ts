@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 import { requireAdmin, logAdminAction } from '@/lib/adminAuth';
 import { chaveIA, respostaSemChaveIA } from '@/lib/ai/require-key';
+import { REGRAS_DE_NEGOCIO_PARA_IA } from '@/lib/blog/quality';
 import { revalidarListagemBlog } from '@/lib/blog/revalidate';
 import { rateLimit } from '@/lib/rateLimit';
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
@@ -29,8 +30,6 @@ interface GenerateRequest {
   tone?: 'informative' | 'friendly' | 'formal';
   targetLang?: string;
   wordBudget?: number;
-  status?: 'draft' | 'review' | 'scheduled' | 'published';
-  scheduled_at?: string | null;
   generateImage?: boolean;
   randomize?: boolean;
 }
@@ -80,7 +79,7 @@ export async function POST(req: Request) {
   await updateSession({ phase:'expand', progress:25 });
   let expandedSections: { heading: string; content: string }[] = [];
   {
-  const prompt = `Você é um redator sênior especialista em Spitz Alemão Anão (Lulu da Pomerânia) e comportamento canino. Gere conteúdo EM PORTUGUÊS BRASIL em MDX (GFM) altamente útil, prático e humano para o TEMA: ${topic}\nEscopo: ${scope}.\nDiretrizes de estilo:\n- Tom: caloroso, especialista confiável, sem floreio vazio.\n- Nunca use frases genéricas tipo "Assunto do artigo" ou "Introdução ao tema".\n- Cada seção deve ter exemplos concretos (rotina, idade, sinais, quantidades).\n- Incluir dicas acionáveis, micro-checklists e erros comuns.\n- FAQ: respostas curtas, objetivas e factuais.\n- Usar headings fornecidos EXATOS.\nSeções (não pule):\n${outlineSections.map(s=>`- ${s.heading}: ${s.goal}`).join('\n')}\nFormato de saída: JSON ESTRITO -> {"sections":[{"heading":"...","content_mdx":"..."}]}. Nada antes/depois do JSON.`;
+  const prompt = `Você é um redator sênior especialista em Spitz Alemão Anão (Lulu da Pomerânia) e comportamento canino. Gere conteúdo EM PORTUGUÊS BRASIL em MDX (GFM) altamente útil, prático e humano para o TEMA: ${topic}\nEscopo: ${scope}.\nDiretrizes de estilo:\n- Tom: caloroso, especialista confiável, sem floreio vazio.\n- Nunca use frases genéricas tipo "Assunto do artigo" ou "Introdução ao tema".\n- Cada seção deve ter exemplos concretos (rotina, idade, sinais, quantidades).\n- Incluir dicas acionáveis, micro-checklists e erros comuns.\n- FAQ: respostas curtas, objetivas e factuais.\n- Usar headings fornecidos EXATOS.\n${REGRAS_DE_NEGOCIO_PARA_IA}\nSeções (não pule):\n${outlineSections.map(s=>`- ${s.heading}: ${s.goal}`).join('\n')}\nFormato de saída: JSON ESTRITO -> {"sections":[{"heading":"...","content_mdx":"..."}]}. Nada antes/depois do JSON.`;
     try {
       const res = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -122,7 +121,7 @@ export async function POST(req: Request) {
   // 4. Persist
   await updateSession({ phase:'finalize', progress:85 });
   try {
-    const { slug, insertedId, cover_url } = await persistPost({ title, excerpt, mdx, seo_title, seo_description, status: body.status, scheduled_at: body.scheduled_at, generateImage: body.generateImage, coverPrompt: `Foto realista 16:9 filhote Spitz Alemão ${topic}`, coverAlt: `Filhote Spitz Alemão (Lulu da Pomerânia) - ${topic}`, extras: { contentBlocks, readingTime, faqItems } });
+    const { slug, insertedId, cover_url } = await persistPost({ title, excerpt, mdx, seo_title, seo_description, status: 'draft', scheduled_at: null, generateImage: body.generateImage, coverPrompt: `Foto realista 16:9 filhote Spitz Alemão ${topic}`, coverAlt: `Filhote Spitz Alemão (Lulu da Pomerânia) - ${topic}`, extras: { contentBlocks, readingTime, faqItems } });
     if (tags && tags.length) { try { await persistTags(insertedId, tags); } catch {} }
     await updateSession({ phase:'done', progress:100, status:'completed', post_id: insertedId });
     logAdminAction({ route:'/api/admin/blog/ai/generate-post', method:'POST', action:'generate_post', payload:{ topic, post_id: insertedId } });
@@ -212,7 +211,7 @@ function ensureRequiredSections(mdx: string): string {
 }
 
 function sanitizeTopic(t: string){
-  return t.replace(/["'`]+/g,'').replace(/\b(assunto do artigo)\b/gi,'Spitz Alemão');
+  return t.replace(/["'`]+/g,'').replace(/\b(assunto do artigo)\b/gi,'Spitz Alemão (Lulu da Pomerânia)');
 }
 
 function refineMDX(mdx: string, topic: string){
@@ -224,7 +223,7 @@ function refineMDX(mdx: string, topic: string){
   out = out.replace(/^(##\s+[^\n]+)\n([^#\n]{0,240})$/gm,(match, heading, body)=>{
     const wc = (body.match(/\b\w+\b/g)||[]).length;
     if(wc>40) return match;
-    const add = `\n\nChecklist rápido:\n- Contexto específico do Spitz Alemão\n- Exemplo prático diário\n- Erro comum para evitar\n\nDica: Observe sinais sutis de estresse ou desconforto e ajuste a rotina.`;
+    const add = `\n\nChecklist rápido:\n- Contexto específico do Spitz Alemão (Lulu da Pomerânia)\n- Exemplo prático diário\n- Erro comum para evitar\n\nDica: Observe sinais sutis de estresse ou desconforto e ajuste a rotina.`;
     return `${heading}\n${body.trim()}${add}`;
   });
   // CTA Section enhancement
@@ -348,7 +347,7 @@ async function ensureMinWords(mdx: string, min: number, openaiKey: string|undefi
   // Devolver o MDX curto e honesto: o portao editorial reprova depois.
   if (!openaiKey) return mdx;
   try {
-    const prompt = `O texto abaixo tem aproximadamente ${count} palavras. Expanda de forma NATURAL até pelo menos ${min} palavras, mantendo o estilo, adicionando exemplos práticos, dicas avançadas, erros comuns a evitar e mini checklists. NÃO reescreva tudo do zero: apenas acrescente onde fizer sentido. Responda somente o MDX expandido.\n\n--- TEXTO INICIAL ---\n${mdx}`;
+    const prompt = `O texto abaixo tem aproximadamente ${count} palavras. Expanda de forma NATURAL até pelo menos ${min} palavras, mantendo o estilo, adicionando exemplos práticos, dicas avançadas, erros comuns a evitar e mini checklists. NÃO reescreva tudo do zero: apenas acrescente onde fizer sentido. Responda somente o MDX expandido.\n${REGRAS_DE_NEGOCIO_PARA_IA}\n\n--- TEXTO INICIAL ---\n${mdx}`;
     const res = await fetch('https://api.openai.com/v1/chat/completions', { method:'POST', headers:{'Content-Type':'application/json', Authorization:`Bearer ${openaiKey}`}, body: JSON.stringify({ model:'gpt-4o-mini', temperature: Math.min(0.75, temperature+0.1), messages:[{role:'user', content: prompt}], max_tokens: 4096 }) });
     if (!res.ok) return mdx; // fallback silencioso
     const j = await res.json();

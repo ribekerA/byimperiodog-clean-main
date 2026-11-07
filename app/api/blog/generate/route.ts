@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
 import { erroPublico } from "@/lib/apiErro";
+import { REGRAS_DE_NEGOCIO_PARA_IA } from "@/lib/blog/quality";
 import { createLogger } from "@/lib/logger";
 import { hasServiceRoleKey, supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -13,7 +14,6 @@ type GenerateBody = {
   outline?: string;
   category?: string;
   tags?: string[];
-  publish?: boolean;
   slug?: string; // opcional; se não vier, criaremos um a partir do título
   content_mdx?: string; // se já vier pronto, não chama IA
 };
@@ -29,7 +29,7 @@ function slugify(input: string) {
 async function generateWithOpenAI(topic: string, outline?: string) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return null;
-  const system = "Você é um redator SEO sênior focado em Spitz Alemão Anão (Lulu da Pomerânia).";
+  const system = `Você é um redator SEO sênior focado em Spitz Alemão Anão (Lulu da Pomerânia).\n${REGRAS_DE_NEGOCIO_PARA_IA}`;
   const user = `Gere um post em MDX sobre: ${topic}.
   ${outline ? `Siga este outline: ${outline}` : "Inclua introdução, seções práticas, lista de dicas e conclusão."
   }
@@ -87,8 +87,9 @@ export async function POST(req: Request) {
       content_mdx: content,
       category: body.category || null,
       tags: body.tags || null,
-      status: body.publish ? "published" : "draft",
-      published_at: body.publish ? new Date().toISOString() : null,
+      // Sempre rascunho: quem publica é uma pessoa, depois de revisar.
+      status: "draft",
+      published_at: null,
     };
 
     const { data, error } = await supabase.from("blog_posts").insert(payload).select().single();

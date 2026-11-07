@@ -23,9 +23,9 @@
 # ============================================================================
 # A cada 15 minutos, netlify/functions/cron-due.mjs chama tres endpoints do
 # proprio site: os dois agendadores de post do blog e a fila de follow-up dos
-# leads. Nenhum deles roda sozinho hoje — o vercel.json agendava o do blog, mas
-# o site esta na Netlify, entao aquele agendamento nunca disparou; e a fila de
-# follow-up so andava por um script de terminal que ninguem roda em producao.
+# leads. Esta e a unica agenda do site: o vercel.json agendava o do blog, mas o
+# site esta na Netlify, entao aquele agendamento nunca disparou e saiu de la em
+# 06/11/2026; e a fila de follow-up so andava por um script de terminal.
 #
 # 15 minutos e o intervalo que o proprio codigo pede: o primeiro passo da
 # sequencia de follow-up tem delayMinutes = 0, ou seja, fica vencido assim que

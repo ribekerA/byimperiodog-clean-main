@@ -23,7 +23,37 @@
  * Onde e aplicado: isPublishableSupabasePost (src/lib/blog/publishable.ts),
  * que e o unico ponto por onde uma linha do banco vira rota, item de listagem
  * ou URL no sitemap.
+ *
+ * Regras de negocio (06/11/2026)
+ * ------------------------------
+ * Alem da forma do artigo, o portao passou a conferir o que a responsavel
+ * decidiu sobre o texto: Lulu da Pomerania em toda frase, preco na forma oficial,
+ * sem parcelamento, sem termos proibidos. Regex nao reconhece toda afirmacao
+ * inventada; por isso a IA so grava rascunho e alguem revisa antes de publicar.
+ * Isto e a ultima barreira, nao a revisao.
  */
+
+import { FOUNDING_YEAR } from "../../domain/config";
+import {
+  PISO_FEMEA,
+  PISO_MACHO,
+  PRECO_POR_SLUG,
+  TABELA_DE_PRECOS,
+  textoAPartirDeNoPix,
+} from "../../domain/pricing";
+
+/**
+ * O mesmo conjunto de regras, escrito para o modelo. Fica ao lado da conferencia
+ * para que o pedido e a cobranca nao se separem quando uma regra mudar.
+ */
+export const REGRAS_DE_NEGOCIO_PARA_IA = [
+  "Regras obrigatórias da By Império Dog (texto fora delas não é publicado):",
+  '- Toda frase que citar "Spitz Alemão" precisa citar também "Lulu da Pomerânia" na mesma frase, inclusive título, resumo e subtítulos.',
+  `- Preço de filhote só nestas formas: "${textoAPartirDeNoPix(PISO_MACHO)}" para machos e "${textoAPartirDeNoPix(PISO_FEMEA)}" para fêmeas. Nenhum outro valor de filhote e nada de parcelamento.`,
+  `- A empresa atua desde ${FOUNDING_YEAR}. Nem todo filhote nasceu na empresa: escreva "filhotes apresentados pela By Império Dog" e nunca que todos nasceram ou foram criados nela.`,
+  "- Não invente pedigree, microchip, exames, ascendência, certificações, garantias ou informações veterinárias. Em assunto de saúde, oriente procurar o médico-veterinário.",
+  "- Nunca use as palavras adoção, doação ou boutique, e não cite a cor Cinza-Lobo (Wolf Sable).",
+].join("\n");
 
 /** Espelha PALAVRAS_MIN do quality-gate: piso abaixo do menor artigo de hoje. */
 export const PALAVRAS_MIN = 600;
@@ -88,6 +118,87 @@ export function contarLinksInternos(mdx: string): number {
   return [...mdx.matchAll(/\]\(([^)]+)\)/g)].filter((m) => m[1].startsWith("/")).length;
 }
 
+/** Minusculo, sem acento e sem os sinais de enfase que partem uma expressao ao meio. */
+function normalizar(texto: string): string {
+  return texto
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[*_`]/g, "")
+    .toLowerCase();
+}
+
+/** Mesma faixa do content-guard: abaixo dela e custo de rotina, nao preco de filhote. */
+const FAIXA_DE_PRECO_DE_FILHOTE = { min: 4500, max: 20000 };
+
+const PRECOS_DA_TABELA = new Set(
+  [
+    ...Object.values(TABELA_DE_PRECOS).flatMap(({ macho, femea }) => [macho, femea]),
+    ...Object.values(PRECO_POR_SLUG),
+  ].map((centavos) => centavos / 100),
+);
+
+const AFIRMACOES_SEM_BASE = [
+  /todos os (?:nossos )?filhotes (?:sao |foram )?(?:nasc|criad)/,
+  /(?:nascid|criad)[oa]s? (?:no nosso|em nosso) canil/,
+  /microchip (?:inclu(?:s|id)o|gratis|opcional|sob contratacao)/,
+];
+
+/**
+ * As regras decididas pela responsavel. Recebe o texto ja normalizado de titulo,
+ * resumo, descricao e corpo, um campo por linha.
+ */
+function reprovacoesDeNegocio(texto: string): Reprovacao[] {
+  const reprovacoes: Reprovacao[] = [];
+
+  // Sem a URL do link, e com quebra de linha separando frase: subtitulo tambem conta.
+  const frases = texto.replace(/\]\([^)]*\)/g, "]").split(/[\r\n]+|(?<=[.!?])\s+/);
+  const semLulu = frases.find(
+    (frase) => /spitz\s+alemao/.test(frase) && !/lulu\s+da\s+pomerania/.test(frase),
+  );
+  if (semLulu) {
+    reprovacoes.push({
+      regra: "lulu-por-frase",
+      detalhe: `frase cita Spitz Alemao sem Lulu da Pomerania: "${semLulu.trim().slice(0, 80)}"`,
+    });
+  }
+
+  for (const preco of texto.matchAll(/r\$\s*(\d{1,3}(?:\.\d{3})+)(?:,\d{2})?(?:\s+no\s+pix)?/g)) {
+    const valor = Number(preco[1].replace(/\./g, ""));
+    if (valor < FAIXA_DE_PRECO_DE_FILHOTE.min || valor > FAIXA_DE_PRECO_DE_FILHOTE.max) continue;
+    if (!PRECOS_DA_TABELA.has(valor)) {
+      reprovacoes.push({ regra: "preco-fora-da-tabela", detalhe: `"${preco[0]}" nao esta na tabela comercial` });
+      continue;
+    }
+    const antes = texto.slice(0, preco.index);
+    if (!/a\s+partir\s+de\s+$/.test(antes) || !/,00\s+no\s+pix$/.test(preco[0])) {
+      reprovacoes.push({
+        regra: "preco-forma",
+        detalhe: `"${preco[0]}" fora da forma "A partir de R$ 0.000,00 no PIX"`,
+      });
+    }
+  }
+
+  // "3x ao dia" e rotina de cuidado, nao condicao de pagamento.
+  const parcelamento = texto.match(/\b(?:ou|em)\s+(?:ate\s+)?\d+\s*x\b(?!\s+(?:ao|por|na)\b)|\bsem\s+juros\b/);
+  if (parcelamento) {
+    reprovacoes.push({ regra: "parcelamento", detalhe: `texto cita parcelamento: "${parcelamento[0]}"` });
+  }
+
+  const termo = texto.match(/\b(?:adocao|doacao|boutique)\b|cinza[-\s]lobo|wolf\s+sable/);
+  if (termo) {
+    reprovacoes.push({ regra: "termo-proibido", detalhe: `termo proibido: "${termo[0]}"` });
+  }
+
+  for (const padrao of AFIRMACOES_SEM_BASE) {
+    const achado = texto.match(padrao);
+    if (achado) {
+      reprovacoes.push({ regra: "afirmacao-sem-base", detalhe: `afirmacao nao autorizada: "${achado[0]}"` });
+    }
+  }
+
+  return reprovacoes;
+}
+
 /**
  * Devolve tudo que reprova o post. Lista vazia = aprovado.
  *
@@ -114,6 +225,12 @@ export function reprovacoesDoPost(post: PostAvaliavel): Reprovacao[] {
   if (!post.seo_description?.trim() && !post.excerpt?.trim()) {
     reprovacoes.push({ regra: "description", detalhe: "sem seo_description nem excerpt" });
   }
+
+  reprovacoes.push(
+    ...reprovacoesDeNegocio(
+      normalizar([post.title, post.excerpt, post.seo_description, corpo].filter(Boolean).join("\n")),
+    ),
+  );
 
   if (!corpo) {
     reprovacoes.push({ regra: "conteudo", detalhe: "corpo vazio" });

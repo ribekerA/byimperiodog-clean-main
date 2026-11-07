@@ -9,6 +9,7 @@ import { FOUNDING_YEAR } from "@/domain/config";
 import {
   BLOG_CATEGORIES,
   matchesCategory,
+  rotuloDaCategoria,
   type BlogCategory,
   type BlogListPost,
 } from "@/lib/blog/categories";
@@ -168,7 +169,7 @@ function FeaturedPost({ post }: { post: PublicPost }) {
         <div className="space-y-3">
           {post.category && (
             <span className="inline-block rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-              {post.category}
+              {rotuloDaCategoria(post.category)}
             </span>
           )}
           <h2 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl">
@@ -418,6 +419,7 @@ function formatDate(value?: string | null) {
     day: "2-digit",
     month: "short",
     year: "numeric",
+    timeZone: "UTC",
   }).format(date);
 }
 

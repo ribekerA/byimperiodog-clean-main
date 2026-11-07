@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
+import { REGRAS_DE_NEGOCIO_PARA_IA } from "@/lib/blog/quality";
 import { suggestInternalLinks } from "@/lib/internalLinks";
 
 type GenPayload = {
@@ -69,7 +70,9 @@ export async function POST(req: NextRequest) {
 
   // Call OpenAI Chat completions (basic flow)
   const defaultTopic = "Spitz Alemão Anão (Lulu da Pomerânia)";
-  const prompt = `Gere um post em MDX sobre: ${body.topic || body.prompt || defaultTopic}.
+  const prompt = `${REGRAS_DE_NEGOCIO_PARA_IA}
+
+Gere um post em MDX sobre: ${body.topic || body.prompt || defaultTopic}.
 Inclua título, um excerpt curto e conteúdo estruturado com headings (Introdução, Cuidados com filhotes, Alimentação, Treinamento, Saúde, Conclusão). Foque em filhotes, escreva em Português (pt-BR). Ao final, sugira 2-3 CTAs curtos e 2 links internos relevantes no formato JSON.`;
 
     const res = await fetch("https://api.openai.com/v1/chat/completions", {

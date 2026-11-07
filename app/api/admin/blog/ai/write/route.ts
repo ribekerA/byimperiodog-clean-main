@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
 import { chaveIA, respostaSemChaveIA } from "@/lib/ai/require-key";
+import { REGRAS_DE_NEGOCIO_PARA_IA } from "@/lib/blog/quality";
 import { revalidarListagemBlog } from "@/lib/blog/revalidate";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -15,8 +16,6 @@ type WriteRequest = {
   targetLang?: string; // pt-BR default
   wordBudget?: number; // 800-1500 default
   generateImage?: boolean;
-  status?: "draft" | "review" | "scheduled" | "published";
-  scheduled_at?: string | null;
   category?: string;
   primaryKeyword?: string;
   scope?: 'guia-completo' | 'filhote' | 'adulto';
@@ -47,7 +46,7 @@ export async function POST(req: Request) {
     let content: any;
     {
       const messages = [
-        { role: "system", content: `Você é um redator sênior de SEO com especialização em conteúdo sobre raças caninas, especialmente Spitz Alemão Anão (Lulu da Pomerânia). Produza conteúdo 100% focado na raça e em filhotes. Objetivos: SEO orgânico extremo, capturar intenção de busca (informativa, transacional, comparativa), criar FAQ otimizadas para rich snippets e sugerir interlinks/CTAs. Regras: H1 único, H2/H3 claros, listas quando úteis, exemplos práticos e fontes quando possível. Gere MDX válido (GFM). Retorne apenas um JSON válido com os campos solicitados.` },
+        { role: "system", content: `Você é um redator sênior de SEO com especialização em conteúdo sobre raças caninas, especialmente Spitz Alemão Anão (Lulu da Pomerânia). Produza conteúdo 100% focado na raça e em filhotes. Objetivos: SEO orgânico extremo, capturar intenção de busca (informativa, transacional, comparativa), criar FAQ otimizadas para rich snippets e sugerir interlinks/CTAs. Regras: H1 único, H2/H3 claros, listas quando úteis, exemplos práticos e fontes quando possível. Gere MDX válido (GFM). Retorne apenas um JSON válido com os campos solicitados.\n${REGRAS_DE_NEGOCIO_PARA_IA}` },
         { role: "user", content: `Tópico base: ${topic}\nEscopo: ${scope}.\nObrigatório cobrir (mesmo se o tópico for estreito): História e Origem; Características Físicas; Temperamento (filhote vs adulto); Desenvolvimento do Filhote (0-2m, 2-6m, 6-12m); Cuidados Essenciais; Socialização; Alimentação Filhote; Alimentação Adulto; Saúde Preventiva (vacinas, vermifugação, check-ups, doenças comuns); Grooming / Pelagem; Exercícios & Enriquecimento Mental; Treinamento Básico; Problemas Comportamentais Comuns; FAQ com ao menos 5 perguntas reais; Recursos & CTA final.\nPalavras-chave: ${(body.keywords || []).join(", ")}\nPúblico: ${body.audience || "tutores e compradores (filhote e adulto)"}\nTom: ${body.tone || "informative"}\nMeta palavras: ~${wordBudget}.\nFormato de resposta JSON estrito conforme: {"title","excerpt","content_mdx","seo_title","seo_description","tags":[...],"faq":[{"q","a"}],"cover_prompt","cover_alt","suggested_ctas":[{"label","href"}],"recommended_internal_links":[{"href","anchor","reason"}]` },
       ];
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -149,8 +148,6 @@ export async function POST(req: Request) {
     const authorId = await getOrCreateDefaultAuthor(sb);
     // tentativa de slug único (até 3 tentativas com sufixo)
     let inserted: any = null; let attemptError: any = null;
-  const isPublished = (body.status || 'draft') === 'published';
-  const publishedAtValue = isPublished ? new Date().toISOString() : null;
   for (let attempt = 0; attempt < 3; attempt++) {
       const attemptSlug = attempt === 0 ? slug : `${slug}-${attempt + 1}`;
       const { data, error } = await sb
@@ -163,9 +160,10 @@ export async function POST(req: Request) {
             content_mdx: content.content_mdx || null,
             seo_title: content.seo_title || null,
             seo_description: content.seo_description || null,
-            status: body.status || "draft",
-            scheduled_at: body.scheduled_at || null,
-      published_at: publishedAtValue,
+            // Sempre rascunho: quem publica é uma pessoa, depois de revisar.
+            status: "draft",
+            scheduled_at: null,
+            published_at: null,
             reading_time: readingTime,
             content_blocks_json: contentBlocks,
             author_id: authorId,
@@ -214,12 +212,8 @@ export async function POST(req: Request) {
     }
 
     try {
-      // Revalida a listagem e, se publicado, a página do post
       revalidarListagemBlog();
       revalidatePath("/blog");
-      if ((body.status || "draft") === "published") {
-        revalidatePath(`/blog/${inserted.slug}`);
-      }
     } catch {}
 
     // 4) Tags persist (blog_tags + blog_post_tags)

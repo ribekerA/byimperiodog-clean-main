@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { rotuloDaCategoria } from "@/lib/blog/categories";
 import { BLUR_DATA_URL } from "@/lib/placeholders";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -39,19 +40,11 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
   raca:          { bg: "bg-[var(--accent)]", text: "text-[var(--accent-foreground)]" },
 };
 
-const CATEGORY_LABELS: Record<string, string> = {
-  comportamento: "Comportamento",
-  saude:         "Saúde",
-  preco:         "Preços",
-  cuidados:      "Cuidados",
-  raca:          "Raça",
-};
-
 function formatDate(value?: string | null) {
   if (!value) return null;
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return null;
-  return new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric" }).format(d);
+  return new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }).format(d);
 }
 
 function estimateMinutes(content?: string | null) {
@@ -87,7 +80,7 @@ export function FeaturedBlogCard({ post }: { post: BlogCardPost }) {
   const published = formatDate(post.published_at);
   const category  = deriveCategory(post);
   const cat       = category ? (CATEGORY_COLORS[category] ?? CATEGORY_COLORS.saude) : null;
-  const catLabel  = category ? (CATEGORY_LABELS[category] ?? category) : null;
+  const catLabel  = rotuloDaCategoria(category);
 
   const waLink = buildWhatsAppLink({
     message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão (Lulu da Pomerânia).`,
@@ -168,7 +161,7 @@ export default function BlogCard({ post }: { post: BlogCardPost }) {
   const published = formatDate(post.published_at);
   const category  = deriveCategory(post);
   const cat       = category ? (CATEGORY_COLORS[category] ?? CATEGORY_COLORS.saude) : null;
-  const catLabel  = category ? (CATEGORY_LABELS[category] ?? category) : null;
+  const catLabel  = rotuloDaCategoria(category);
 
   const waLink = buildWhatsAppLink({
     message:    `Olá! Acabei de ler "${post.title}" e quero saber mais sobre o Spitz Alemão Anão (Lulu da Pomerânia).`,

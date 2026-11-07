@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 
+import { PISO_FEMEA, PISO_MACHO, textoAPartirDeNoPix } from "@/domain/pricing";
 import { isPublishableSupabasePost, MIN_SUPABASE_BODY_CHARS } from "@/lib/blog/publishable";
 import {
   contarLinksInternos,
   contarPalavras,
   PALAVRAS_MIN,
+  REGRAS_DE_NEGOCIO_PARA_IA,
   reprovacoesDoPost,
 } from "@/lib/blog/quality";
 
@@ -20,7 +22,7 @@ import {
 /** Corpo longo e valido: passa dos 800 caracteres e das 600 palavras. */
 function corpoValido(): string {
   const paragrafo =
-    "O Spitz Alemao Anao adulto pesa entre um quilo e meio e tres quilos e meio, " +
+    "O Spitz Alemao Anao (Lulu da Pomerania) adulto pesa entre um quilo e meio e tres quilos e meio, " +
     "e a pelagem dupla exige escovacao regular para nao formar nos junto a pele. " +
     "Filhote separado da mae cedo demais chega ansioso, e isso aparece na rotina " +
     "de sono das primeiras semanas na casa nova. ";
@@ -33,7 +35,7 @@ function corpoValido(): string {
 function postValido(extra: Record<string, unknown> = {}) {
   return {
     status: "published",
-    title: "Guia do Spitz Alemao Anao",
+    title: "Guia do Spitz Alemao Anao (Lulu da Pomerania)",
     excerpt: "O que muda na rotina nas primeiras semanas com um filhote em casa.",
     seo_description: "O que muda na rotina nas primeiras semanas com um filhote em casa.",
     published_at: "2026-08-20T12:00:00.000Z",
@@ -131,6 +133,77 @@ describe("marcas de rascunho automatico", () => {
       content_mdx: corpoValido() + "\n\nA introducao do filhote a casa nova leva dias.",
     });
     expect(reprovacoesDoPost(post)).toEqual([]);
+  });
+});
+
+describe("regras de negocio", () => {
+  const regrasDe = (trecho: string) =>
+    reprovacoesDoPost(postValido({ content_mdx: corpoValido() + "\n\n" + trecho })).map((x) => x.regra);
+
+  describe("reprova", () => {
+    const casos: [string, string][] = [
+      ["lulu-por-frase", "O Spitz Alemão gosta de rotina."],
+      ["lulu-por-frase", "## Pelagem do Spitz Alemão"],
+      ["preco-forma", "Machos custam R$ 4.500 no Pix."],
+      ["preco-forma", "A partir de R$ 6.500 no PIX."],
+      ["preco-forma", "Fêmeas por R$ 6.500,00 no PIX."],
+      ["preco-fora-da-tabela", "Filhotes por R$ 12.000."],
+      ["parcelamento", "A partir de R$ 4.500,00 no PIX ou 3x no cartão."],
+      ["parcelamento", "Pagamento em até 10x."],
+      ["parcelamento", "Parcelas sem juros."],
+      ["termo-proibido", "Evite a adoção por impulso."],
+      ["termo-proibido", "Uma boutique de filhotes."],
+      ["termo-proibido", "A cor Wolf Sable é bonita."],
+      ["afirmacao-sem-base", "Todos os nossos filhotes nasceram aqui."],
+      ["afirmacao-sem-base", "Filhotes nascidos em nosso canil."],
+      ["afirmacao-sem-base", "Microchip incluso na compra."],
+    ];
+
+    for (const [regra, trecho] of casos) {
+      it(`${regra}: ${trecho}`, () => {
+        expect(regrasDe(trecho)).toContain(regra);
+      });
+    }
+  });
+
+  describe("aceita", () => {
+    const casos = [
+      "O Spitz Alemão (Lulu da Pomerânia) gosta de rotina.",
+      "A partir de R$ 4.500,00 no PIX para machos.",
+      "A partir de **R$ 6.500,00 no PIX** para fêmeas.",
+      "A consulta custa cerca de R$ 1.200 por ano.",
+      "Ofereça a ração em porções, 3x ao dia.",
+      "Divida a ração em 2x por dia.",
+      "Veja o [guia](/spitz-alemao) da raça.",
+      "Filhotes apresentados pela By Império Dog.",
+      "Microchip, quando aplicável, conforme as condições previstas em contrato.",
+    ];
+
+    for (const trecho of casos) {
+      it(trecho, () => {
+        expect(regrasDe(trecho)).toEqual([]);
+      });
+    }
+  });
+
+  it("confere tambem titulo, resumo e descricao, nao so o corpo", () => {
+    for (const campo of ["title", "excerpt", "seo_description"]) {
+      const r = reprovacoesDoPost(postValido({ [campo]: "Rotina do Spitz Alemão no apartamento" }));
+      expect(r.map((x) => x.regra)).toContain("lulu-por-frase");
+    }
+  });
+
+  it("post publicado que fura a regra sai das paginas publicas", () => {
+    const post = postValido({ content_mdx: corpoValido() + "\n\nMicrochip incluso." });
+    expect(isPublishableSupabasePost(post)).toBe(false);
+  });
+
+  it("o texto mandado para a IA nao reprova no proprio portao", () => {
+    // A frase de preco e a de procedencia sao as que o modelo vai copiar.
+    const copiadas = [textoAPartirDeNoPix(PISO_MACHO), textoAPartirDeNoPix(PISO_FEMEA)].join(". ");
+    expect(regrasDe(copiadas)).toEqual([]);
+    expect(REGRAS_DE_NEGOCIO_PARA_IA).toContain(textoAPartirDeNoPix(PISO_FEMEA));
+    expect(REGRAS_DE_NEGOCIO_PARA_IA).toContain("Lulu da Pomerânia");
   });
 });
 
