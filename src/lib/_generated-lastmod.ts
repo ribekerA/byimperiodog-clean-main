@@ -8,7 +8,7 @@
 export const LASTMOD: Record<string, string> = {
   "/": "2026-11-06T22:58:21.000Z",
   "/alimentacao": "2026-11-06T20:21:11.000Z",
-  "/blog": "2026-11-06T22:58:21.000Z",
+  "/blog": "2026-11-07T00:00:40.000Z",
   "/canil-spitz-alemao-interior-sp": "2026-11-06T22:58:21.000Z",
   "/comprar-spitz-anao": "2026-11-06T22:58:21.000Z",
   "/contato": "2026-11-06T22:58:21.000Z",
