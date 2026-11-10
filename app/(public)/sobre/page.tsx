@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description:
     // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
     // vir do FOUNDING_YEAR como no resto do site.
-    `A história da By Império Dog: desde ${FOUNDING_YEAR} dedicada ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com atendimento especializado e registro oficial.`,
+    `By Império Dog: desde ${FOUNDING_YEAR} dedicada ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com atendimento especializado e registro oficial.`,
   keywords: [
     "criador Spitz Alemão Anão confiável",
     "canil Lulu da Pomerânia Bragança Paulista",

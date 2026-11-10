@@ -28,6 +28,7 @@ import { relatedSearchTopics } from "@/content/search-topics";
 import { BRAND } from "@/domain/config";
 import { getImageSize } from "@/lib/_generated-image-sizes";
 import { generatedPosts } from "@/lib/_generated-posts";
+import { autorDoBlog } from "@/lib/blog/autores";
 import { rotuloDaCategoria } from "@/lib/blog/categories";
 import { isCommentablePostId } from "@/lib/blog/commentable";
 import { compileBlogMdx, demoteBodyH1Plugin } from "@/lib/blog/mdx/compile";
@@ -204,6 +205,9 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   if (!post) return notFound();
 
   const author = await fetchAuthor(post.author_id);
+  // Artigo em arquivo não tem autor no banco: o nome vem do próprio arquivo e
+  // só vira pessoa quando está no cadastro de lib/blog/autores.ts.
+  const assinatura = author ? null : autorDoBlog(post.author_name);
   let compiled = null;
   try {
     compiled = post.content_mdx ? await compileBlogMdx(post.content_mdx) : null;
@@ -214,7 +218,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
   const related = (await getRelatedUnified(post.slug, 6)) as RelatedAny[];
   const { article, breadcrumb } = buildArticleJsonLd(
     post as Post & { content_mdx?: string | null },
-    author,
+    author ?? assinatura,
     { toc: compiled?.toc }
   );
 
@@ -278,7 +282,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
               </span>
 
               {/* Title — editorial tight leading gives look intencional, não sloppy */}
-              <h1 className="mt-3 font-serif leading-[1.1] tracking-tight text-text text-[1.5rem] sm:text-[1.875rem] lg:text-[2.375rem]">
+              <h1 className="mt-3 font-serif font-bold leading-[1.1] tracking-tight text-text text-[1.5rem] sm:text-[1.875rem] lg:text-[2.375rem]">
                 {post.title}
               </h1>
 
@@ -391,6 +395,17 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                 <p className="italic text-text-muted">Conteúdo em atualização.</p>
               )}
             </Prose>
+
+            {assinatura ? (
+              <aside
+                aria-label="Quem escreveu este artigo"
+                className="rounded-2xl border border-border bg-surface-subtle px-5 py-4"
+              >
+                <p className="text-xs font-semibold uppercase tracking-wide text-text-soft">Quem escreveu</p>
+                <p className="mt-1 text-base font-semibold text-text">{assinatura.name}</p>
+                <p className="mt-1 text-sm leading-relaxed text-text-muted">{assinatura.description}</p>
+              </aside>
+            ) : null}
 
             <ArticleSources sources={parseSources(post.sources)} />
 

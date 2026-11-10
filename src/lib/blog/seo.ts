@@ -25,7 +25,15 @@ interface BasePost {
   lang?: string | null;
 }
 
-interface AuthorLike { name: string; slug?: string; avatar_url?: string | null }
+interface AuthorLike {
+  name: string;
+  slug?: string;
+  avatar_url?: string | null;
+  /** Apresentação curta; só os autores de lib/blog/autores.ts trazem. */
+  description?: string;
+  /** Pessoa da própria empresa: sai ligada ao nó único do negócio. */
+  daEquipe?: boolean;
+}
 
 export function deriveExcerpt(post: Pick<BasePost, 'excerpt' | 'subtitle'> & { content_mdx?: string | null }): string | undefined {
   if (post.excerpt) return clampExcerpt(post.excerpt);
@@ -149,7 +157,12 @@ export function buildArticleJsonLd(post: BasePost & { content_mdx?: string | nul
     // se fundam em vez de gerar aviso de campo divergente. O nome é escrito aqui
     // também porque só o @id deixava o artigo sem autor legível para quem lê o nó.
     author: author
-      ? { '@type': 'Person', name: author.name }
+      ? {
+          '@type': 'Person',
+          name: author.name,
+          ...(author.description ? { description: author.description } : {}),
+          ...(author.daEquipe ? { worksFor: { '@id': `${site}/#business` } } : {}),
+        }
       : { '@type': 'LocalBusiness', '@id': `${site}/#business`, name: BRAND.name, url: site },
     datePublished: post.published_at || post.created_at || undefined,
     dateModified: post.updated_at || post.published_at || undefined,

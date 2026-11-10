@@ -789,6 +789,15 @@ body.admin-shell [data-site-shell="cta"] {
 }
 .tema-creme h3 { font-family: var(--font-display); }
 .tema-creme h2 { line-height: 1.2; text-wrap: balance; }
+/* Padrão de 10/11/2026. Fora da home (composição aprovada em 05/11/2026):
+   título de seção sempre em 700 (rótulo pequeno fica como está); no celular ele não passa do h1 da faixa
+   (text-4xl dava 35,6px contra os 30px do h1); e o Button compartilhado sai
+   em pílula, como os demais botões de ação. As classes vão como atributo
+   ([class~=...]) porque o @apply do Tailwind clona qualquer regra que cite
+   .text-sm e troca a classe pela de quem aplicou (virava .chip-filtro). */
+.tema-creme h2:not(.tema-creme > .tema-verde *, [class~="sr-only"], [class~="text-xs"], [class~="text-sm"], [class~="text-base"]) { font-weight: 700; }
+@media (max-width: 639px) { .tema-creme h2:is([class~="text-3xl"], [class~="text-4xl"]):not(.tema-creme > .tema-verde *) { font-size: var(--font-size-2xl); } }
+.tema-creme .btn-ui:not(.tema-creme > .tema-verde *) { border-radius: 9999px; }
 .tema-creme .shadow-sm { box-shadow: 0 2px 8px rgba(90, 66, 16, 0.12); }
 /* Os botões verdes passam a ser o da vitrine; em fundo escuro ganham o filete dourado. */
 .tema-creme :is(a, button).bg-emerald-600 { background-image: var(--botao-fundo); border: 2px solid var(--botao-borda); }

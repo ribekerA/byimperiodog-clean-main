@@ -106,6 +106,8 @@ theme: {
         "surface-alt": "var(--surface-2)",
         "surface-hover": "var(--border)",
       },
+      // rounded-pill era usado no blog e nunca existiu na escala: os botões saíam quadrados.
+      borderRadius: { pill: '9999px' },
       fontSize: {
         xs: 'var(--font-size-xs)',
         sm: 'var(--font-size-sm)',

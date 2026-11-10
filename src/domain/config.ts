@@ -19,10 +19,23 @@ export const FOUNDING_YEAR = 2013;
  * Google. Diferente de uma busca por cidade, ele sempre resolve para esta
  * empresa. `GOOGLE_REVIEW_URL` foi copiado de "Solicitar avaliações" no perfil
  * administrado — não é uma URL montada ou inferida pelo site.
+ *
+ * Para o VISITANTE, o kgmid abre uma página de pesquisa do Google, e não as
+ * avaliações. Por isso os links visíveis usam os dois destinos abaixo, e o
+ * kgmid fica só no `sameAs` dos dados estruturados:
+ *
+ * - `GOOGLE_REVIEWS_URL` abre direto a lista de avaliações do perfil. O
+ *   `placeid` é o que o próprio Google devolve ao seguir `GOOGLE_REVIEW_URL`.
+ * - `GOOGLE_MAPS_PROFILE_URL` abre direto o perfil da empresa no Google Maps.
+ *   O `cid` é o mesmo identificador contido em `GOOGLE_REVIEW_URL`.
  */
 export const GOOGLE_BUSINESS_PROFILE_URL =
   "https://www.google.com/search?kgmid=/g/11gpnjwc18";
 export const GOOGLE_REVIEW_URL = "https://g.page/r/CT2ftXTDDxpAEAI/review";
+export const GOOGLE_REVIEWS_URL =
+  "https://search.google.com/local/reviews?placeid=ChIJFwqx2DTLzpQRPZ-1dMMPGkA";
+export const GOOGLE_MAPS_PROFILE_URL =
+  "https://www.google.com/maps?cid=4619021699972964157";
 
 /**
  * Não existe constante de "famílias atendidas" — e não deve passar a existir.
@@ -72,6 +85,8 @@ export const BRAND = {
     whatsappLink: "https://wa.me/5511968633239",
     googleBusinessProfile: GOOGLE_BUSINESS_PROFILE_URL,
     googleReview: GOOGLE_REVIEW_URL,
+    googleReviews: GOOGLE_REVIEWS_URL,
+    googleMapsProfile: GOOGLE_MAPS_PROFILE_URL,
   },
 
   /**
@@ -92,7 +107,13 @@ export const BRAND = {
     ],
     sameAs: [
       "https://www.instagram.com/byimperiodog",
+      // Os dois apontam para o mesmo Perfil da Empresa: o primeiro e o
+      // identificador da entidade no Google, o segundo e a ficha no Maps.
       GOOGLE_BUSINESS_PROFILE_URL,
+      GOOGLE_MAPS_PROFILE_URL,
+      // Canal confirmado como oficial pela responsavel em 10/11/2026. E o mesmo
+      // endereco que /contato ja publica.
+      "https://youtube.com/@byimperiodog",
     ],
   },
 } as const;

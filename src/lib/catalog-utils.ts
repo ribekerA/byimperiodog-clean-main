@@ -133,7 +133,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   creme: {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Creme — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Creme em Bragança Paulista, SP. Pelagem sedosa cor marfim, registro oficial, consulta veterinária, hemograma completo e contrato.",
+      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Creme em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Creme",
     intro:
       "O Spitz Creme tem pelagem sedosa cor de marfim, combinada com olhos escuros expressivos. O preço é definido individualmente, sem uma ordem fixa entre cores. Consulte as opções atuais pelo WhatsApp.",
@@ -170,7 +170,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   laranja: {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja — Filhotes",
     metaDescription:
-      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Laranja em Bragança Paulista, SP. Cor mais icônica da raça. Registro oficial, consulta veterinária, hemograma completo e contrato.",
+      "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) Laranja em Bragança Paulista, SP. Registro oficial, consulta veterinária, hemograma completo e contrato.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Laranja",
     intro:
       "O Spitz Laranja é a cor mais icônica e reconhecida da raça no mundo. Sua pelagem vibrante está dentro do padrão FCI. Ideal para famílias que amam um cão com personalidade marcante e presença visual.",

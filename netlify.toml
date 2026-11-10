@@ -141,9 +141,11 @@
 # ganhar da pagina real, entao o menu e o rodape caiam em /filhotes e os
 # videos ficavam inalcancaveis.
 
+# Direto para /filhotes: /preco-spitz-anao tambem redireciona para la, e
+# passar por ela dava dois saltos para chegar na vitrine.
 [[redirects]]
   from = "/preco"
-  to = "/preco-spitz-anao"
+  to = "/filhotes"
   status = 301
   force = true
 

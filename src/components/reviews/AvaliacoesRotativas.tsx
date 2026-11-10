@@ -27,7 +27,7 @@ import { useState } from "react";
 
 import { usePassagemAutomatica } from "@/components/reviews/usePassagemAutomatica";
 import { googleReviewSnapshot, googleReviews } from "@/content/google-reviews";
-import { GOOGLE_BUSINESS_PROFILE_URL } from "@/domain/config";
+import { GOOGLE_REVIEWS_URL } from "@/domain/config";
 
 const TEMPO_DE_CADA_UMA_MS = 7000;
 
@@ -101,7 +101,7 @@ export default function AvaliacoesRotativas({ className = "" }: { className?: st
           </button>
         </div>
         <p className="ar-contagem">{indice + 1} de {TOTAL}</p>
-        <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="ar-link">
+        <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="ar-link">
           Ver no Google<span className="sr-only"> (abre em nova aba)</span>
         </a>
       </div>

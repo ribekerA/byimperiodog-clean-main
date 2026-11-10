@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia)",
   description:
     `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão (Lulu da Pomerânia): cuidados, rotina, comportamento, saúde preventiva e preços.`,
-  alternates: { canonical: "/blog" },
+  alternates: { canonical: "/blog", types: { "application/rss+xml": "/feed.xml" } },
   openGraph: {
     type: "website",
     url: "/blog",

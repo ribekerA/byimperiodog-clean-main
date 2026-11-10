@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import {
   FOUNDING_YEAR,
-  GOOGLE_BUSINESS_PROFILE_URL,
+  GOOGLE_MAPS_PROFILE_URL,
   GOOGLE_REVIEW_URL,
 } from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
@@ -112,7 +112,7 @@ export default function Footer() {
             <a href={whatsapp} target="_blank" rel="noreferrer">(11) 9 6863-3239</a>
           </address>
           <div className="rp-google">
-            <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
+            <a href={GOOGLE_MAPS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
             <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer">Avaliar no Google</a>
           </div>
         </div>

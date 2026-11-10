@@ -13,7 +13,7 @@ import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import LeadForm from "@/components/LeadForm";
 import TrustBar from "@/components/TrustBar";
 import ViewEventTracker from "@/components/ViewEventTracker";
-import { GOOGLE_BUSINESS_PROFILE_URL } from "@/domain/config";
+import { GOOGLE_MAPS_PROFILE_URL, GOOGLE_REVIEWS_URL } from "@/domain/config";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -199,7 +199,7 @@ export default function ContatoPage() {
               rel="noopener noreferrer"
               className="group flex flex-col gap-4 rounded-2xl border border-emerald-100 bg-emerald-50 p-6 transition hover:border-emerald-400 hover:shadow-md"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-700 text-white">
                 <Instagram className="h-6 w-6" aria-hidden />
               </div>
               <div>
@@ -219,7 +219,7 @@ export default function ContatoPage() {
               href={`mailto:${EMAIL}`}
               className="group flex flex-col gap-4 rounded-2xl border border-emerald-100 bg-emerald-50 p-6 transition hover:border-emerald-400 hover:shadow-md"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-700 text-white">
                 <Mail className="h-6 w-6" aria-hidden />
               </div>
               <div>
@@ -254,7 +254,7 @@ export default function ContatoPage() {
                 </p>
               </div>
               <a
-                href={GOOGLE_BUSINESS_PROFILE_URL}
+                href={GOOGLE_REVIEWS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-auto text-xs font-semibold text-zinc-600 hover:text-emerald-700 hover:underline transition"
@@ -329,7 +329,7 @@ export default function ContatoPage() {
               rel="noopener noreferrer"
               className="group flex items-center gap-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-5 py-4 transition hover:border-emerald-400 hover:shadow-sm"
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-600 text-white">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-700 text-white">
                 <Youtube className="h-5 w-5" aria-hidden />
               </div>
               <div className="flex-1 min-w-0">
@@ -362,7 +362,7 @@ export default function ContatoPage() {
                 <span className="text-zinc-500">Visitas combinadas caso a caso com a criadora</span>
               </p>
               <a
-                href={GOOGLE_BUSINESS_PROFILE_URL}
+                href={GOOGLE_MAPS_PROFILE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-xs font-semibold text-emerald-700 hover:underline"

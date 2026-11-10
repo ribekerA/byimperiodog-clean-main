@@ -41,39 +41,39 @@ const THEMES = {
     sectionBg:    "bg-zinc-50",
     accentText:   "text-zinc-700",
     accentBg:     "bg-zinc-600",
-    accentLight:  "bg-zinc-100",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-zinc-200",
     progressBar:  "bg-zinc-500",
     badge:        "Branco x creme claro",
-    badgeCss:     "bg-white text-zinc-800 ring-1 ring-zinc-300",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-white ring-zinc-300",
     heroImg:      "/filhotes/branco/branco-femea-jardim-01.jpg",
   },
   creme: {
     heroGradient: "bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-50",
     heroDark:     false,
-    sectionBg:    "bg-amber-50/50",
+    sectionBg:    "bg-zinc-50",
     accentText:   "text-amber-700",
     accentBg:     "bg-amber-500",
-    accentLight:  "bg-amber-100",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-amber-200",
     progressBar:  "bg-amber-500",
     badge:        "✨ Pelagem cor de marfim",
-    badgeCss:     "bg-amber-100 text-amber-800 ring-1 ring-amber-200",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-[#f5e6c8] ring-amber-300",
     heroImg:      "/filhotes/creme/creme-femea-01.jpg",
   },
   laranja: {
     heroGradient: "bg-gradient-to-br from-zinc-100 via-zinc-50 to-zinc-50",
     heroDark:     false,
-    sectionBg:    "bg-orange-50/50",
+    sectionBg:    "bg-zinc-50",
     accentText:   "text-orange-600",
     accentBg:     "bg-orange-500",
-    accentLight:  "bg-orange-100",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-orange-200",
     progressBar:  "bg-orange-500",
     badge:        "🔥 A mais icônica",
-    badgeCss:     "bg-orange-100 text-orange-800 ring-1 ring-orange-200",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-orange-400 ring-orange-500",
     // A entrada da página usa a mesma fêmea de laço rosa mostrada na capa da
     // vitrine de cores. A fêmea de laço vermelho permanece abaixo, identificada
@@ -83,14 +83,14 @@ const THEMES = {
   particolor: {
     heroGradient: "bg-gradient-to-br from-white via-zinc-50 to-zinc-100",
     heroDark:     false,
-    sectionBg:    "bg-amber-50/40",
+    sectionBg:    "bg-zinc-50",
     accentText:   "text-amber-700",
     accentBg:     "bg-amber-600",
-    accentLight:  "bg-amber-100",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-amber-200",
     progressBar:  "bg-amber-500",
     badge:        "🤍 Base branca com manchas definidas",
-    badgeCss:     "bg-amber-50 text-amber-900 ring-1 ring-amber-200",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     // A amostra é bicolor de propósito: uma cor chapada não representa uma
     // pelagem que é, por definição, branca com manchas.
     swatchCss:    "bg-gradient-to-br from-white via-white to-amber-500 ring-amber-300",
@@ -102,14 +102,14 @@ const THEMES = {
     sectionBg:    "bg-zinc-50",
     accentText:   "text-zinc-700",
     accentBg:     "bg-zinc-700",
-    accentLight:  "bg-zinc-100",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-zinc-200",
     progressBar:  "bg-zinc-800",
     // Era "🖤 Disponibilidade limitada": escassez publicada como característica
     // da cor, sem nada por trás além do efeito de pressa. Trocado por uma
     // descrição da própria pelagem, que é o que os outros selos fazem.
     badge:        "🖤 Pelagem preta uniforme",
-    badgeCss:     "bg-zinc-800 text-zinc-200 ring-1 ring-zinc-700",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-zinc-900 ring-zinc-600",
     heroImg:      "/filhotes/preto/preto-filhote-flores-01.jpg",
   },
@@ -119,28 +119,28 @@ const THEMES = {
   chocolate: {
     heroGradient: "bg-gradient-to-br from-amber-100 via-orange-50 to-stone-100",
     heroDark:     false,
-    sectionBg:    "bg-stone-50",
+    sectionBg:    "bg-zinc-50",
     accentText:   "text-amber-900",
     accentBg:     "bg-amber-900",
-    accentLight:  "bg-amber-100",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-amber-200",
     progressBar:  "bg-amber-800",
     badge:        "🤎 Pelagem marrom uniforme",
-    badgeCss:     "bg-amber-900 text-amber-50 ring-1 ring-amber-800",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-amber-900 ring-amber-700",
     heroImg:      "/images/cores/chocolate-ilustracao.svg",
   },
   merle: {
     heroGradient: "bg-gradient-to-br from-slate-200 via-slate-100 to-zinc-50",
     heroDark:     false,
-    sectionBg:    "bg-slate-50",
+    sectionBg:    "bg-zinc-50",
     accentText:   "text-slate-700",
     accentBg:     "bg-slate-700",
-    accentLight:  "bg-slate-200",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-slate-200",
     progressBar:  "bg-slate-600",
     badge:        "🎨 Pelagem com manchas marmorizadas",
-    badgeCss:     "bg-slate-700 text-slate-50 ring-1 ring-slate-600",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-gradient-to-br from-slate-300 via-slate-500 to-slate-900 ring-slate-400",
     heroImg:      "/images/cores/merle-ilustracao.svg",
   },
@@ -150,11 +150,11 @@ const THEMES = {
     sectionBg:    "bg-zinc-50",
     accentText:   "text-zinc-700",
     accentBg:     "bg-zinc-700",
-    accentLight:  "bg-zinc-200",
+    accentLight:  "bg-emerald-100",
     accentBorder: "border-zinc-200",
     progressBar:  "bg-zinc-600",
     badge:        "🐺 Bicolor reconhecida pela FCI",
-    badgeCss:     "bg-zinc-200 text-zinc-800 ring-1 ring-zinc-300",
+    badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-zinc-400 ring-zinc-500",
     heroImg:      "/filhotes/wolf-sable/wolf-sable-femea-01.jpg",
   },
@@ -415,7 +415,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             {/* H1 */}
             <h1
               id="color-h1"
-              className={`text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl ${
+              className={`text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl ${
                 heroDark ? "text-white" : "text-zinc-900"
               }`}
             >
@@ -477,7 +477,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 href={trackedWaLink}
                 rel="noreferrer"
                 target="_blank"
-                className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 px-7 text-base font-bold text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-500 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
+                className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-full bg-emerald-600 px-7 text-base font-bold text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-500 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
                 emojis="mixed"
                 count={14}
               >
@@ -486,7 +486,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
               </PawConfettiButton>
               <Link
                 href="/filhotes"
-                className={`flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl border px-6 text-sm font-semibold transition hover:scale-[1.02] sm:w-auto ${
+                className={`flex min-h-[52px] w-full items-center justify-center gap-2 rounded-full border px-6 text-sm font-semibold transition hover:scale-[1.02] sm:w-auto ${
                   heroDark
                     ? "border-zinc-600 text-zinc-300 hover:border-zinc-400 hover:bg-white/5 hover:text-white"
                     : "border-zinc-200 text-zinc-600 hover:border-zinc-400 hover:text-zinc-900"
@@ -721,7 +721,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 href={trackedWaLink}
                 rel="noreferrer"
                 target="_blank"
-                className="mx-auto mt-7 flex min-h-[52px] w-fit items-center gap-2.5 rounded-2xl bg-emerald-600 px-7 text-sm font-bold text-white shadow-lg transition hover:bg-emerald-500 hover:scale-[1.02]"
+                className="mx-auto mt-7 flex min-h-[52px] w-fit items-center gap-2.5 rounded-full bg-emerald-600 px-7 text-sm font-bold text-white shadow-lg transition hover:bg-emerald-500 hover:scale-[1.02]"
                 emojis="paw"
                 count={10}
               >
@@ -774,7 +774,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h2 className="text-3xl font-black text-white sm:text-4xl">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl">
               Pronto para encontrar seu companheiro?
             </h2>
             <p className="mt-3 text-lg text-emerald-100">
@@ -785,7 +785,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 href={trackedWaLink}
                 rel="noreferrer"
                 target="_blank"
-                className="flex min-h-[56px] items-center gap-3 rounded-2xl bg-white px-8 text-base font-bold text-emerald-700 shadow-xl transition hover:bg-emerald-50 hover:scale-[1.02] active:scale-[0.98]"
+                className="flex min-h-[56px] items-center gap-3 rounded-full bg-white px-8 text-base font-bold text-emerald-700 shadow-xl transition hover:bg-emerald-50 hover:scale-[1.02] active:scale-[0.98]"
                 emojis="mixed"
                 count={16}
               >
@@ -794,7 +794,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
               </PawConfettiButton>
               <Link
                 href="/filhotes"
-                className="flex min-h-[56px] items-center rounded-2xl border-2 border-white/40 px-7 text-sm font-semibold text-white transition hover:bg-white/10 hover:scale-[1.02]"
+                className="flex min-h-[56px] items-center rounded-full border-2 border-white/40 px-7 text-sm font-semibold text-white transition hover:bg-white/10 hover:scale-[1.02]"
               >
                 Ver todos os filhotes →
               </Link>

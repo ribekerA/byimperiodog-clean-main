@@ -11,7 +11,7 @@
 import { useEffect, useState } from "react";
 
 import {
-  GOOGLE_BUSINESS_PROFILE_URL,
+  GOOGLE_MAPS_PROFILE_URL,
   GOOGLE_REVIEW_URL,
 } from "@/domain/config";
 
@@ -83,7 +83,7 @@ export default function ReviewRequestPrompt({ immediate = false, trigger = "what
               Avaliar no Google
             </a>
             <a
-              href={GOOGLE_BUSINESS_PROFILE_URL}
+              href={GOOGLE_MAPS_PROFILE_URL}
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleDismiss}

@@ -15,7 +15,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import ViewEventTracker from "@/components/ViewEventTracker";
 import { puppiesPublicados, staticPuppies } from "@/content/puppies-static";
 import { puppySearchCopy } from "@/content/puppy-search-copy";
-import { formatarPreco, textoAPartirDeNoPix } from "@/domain/pricing";
+import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildVitrinePageLD } from "@/lib/structured-data";
@@ -69,11 +69,13 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   // estar ali. Nos nomes curtos ele ajuda quem pesquisa por "Lulu"; nos longos
   // o próprio nome do filhote já diz cor, sexo e raça.
   const tituloCompleto = /lulu da pomer/i.test(puppy.name) ? puppy.name : `${puppy.name} — Lulu da Pomerânia`;
-  const priceCents = (puppy as any).priceCents ?? (puppy as any).price_cents;
+  // Sem preço no título desde 10/11/2026 (decisão da responsável): com
+  // "| a partir de R$ 6.500" o título passava de 90 caracteres e o Google
+  // cortava no meio do valor. O preço continua na página e na descrição. O
+  // preto macho levava "| Referência visual" no lugar do preço; saiu junto,
+  // e as doze páginas ficaram no mesmo formato.
   const title = searchCopy
-    ? puppy.slug === "spitz-alemao-anao-preto-macho"
-      ? `${searchCopy.heading} | Referência visual`
-      : `${searchCopy.heading} | a partir de ${formatarPreco(priceCents)}`
+    ? searchCopy.heading
     : tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??

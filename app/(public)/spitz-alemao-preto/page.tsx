@@ -20,7 +20,7 @@ const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
 export const metadata: Metadata = {
   title: "Spitz Alemão Anão (Lulu da Pomerânia) Preto — Preço e Filhotes",
   description:
-    "O preto do Spitz Alemão Anão (Lulu da Pomerânia) no padrão da raça: pelagem uniforme e brilhante, sem manchas. Veja o preço, o que exigir do criador e o registro oficial.",
+    "Spitz Alemão Anão (Lulu da Pomerânia) preto: pelagem uniforme e brilhante, sem manchas. Veja o preço, o que exigir do criador e o registro oficial.",
   alternates: { canonical: "/spitz-alemao-preto" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],

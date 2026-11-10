@@ -13,7 +13,7 @@ const PAGE_URL = `${SITE_URL}/spitz-alemao-baby-face`;
 export const metadata: Metadata = {
   title: "Spitz Alemão (Lulu da Pomerânia) Baby Face — O que É e Preço",
   description:
-    "O Spitz Alemão (Lulu da Pomerânia) Baby Face tem focinho curto e aparência infantil. O que é, se a FCI reconhece, preço, cuidados e como identificar um filhote legítimo.",
+    "Spitz Alemão (Lulu da Pomerânia) Baby Face: focinho curto e aparência infantil. O que é, se a FCI reconhece, preço e como identificar um filhote legítimo.",
   keywords: [
     "Spitz Alemão Baby Face",
     "Lulu da Pomerânia Baby Face",

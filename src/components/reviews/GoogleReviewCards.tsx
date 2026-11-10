@@ -1,6 +1,6 @@
 import ReviewComment from "@/components/reviews/ReviewComment";
 import { googleReviews, googleReviewSnapshot } from "@/content/google-reviews";
-import { GOOGLE_BUSINESS_PROFILE_URL } from "@/domain/config";
+import { GOOGLE_REVIEWS_URL } from "@/domain/config";
 
 export default function GoogleReviewCards() {
   return googleReviews.map((review) => (
@@ -16,7 +16,7 @@ export default function GoogleReviewCards() {
         {review.excerpt && <p className="text-xs text-zinc-600">Trecho: o texto completo está no Google.</p>}
         {review.translated && <p className="text-xs text-zinc-600">Tradução exibida pelo Google.</p>}
         <p className="mt-1 text-xs leading-relaxed text-zinc-600">Na imagem recebida em {googleReviewSnapshot.checkedAtLabel}: {review.displayedDate}</p>
-        <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 items-center rounded text-sm font-medium text-[var(--accent-ink)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Ver no perfil do Google<span className="sr-only"> — referência: {review.name}; abre em nova aba</span></a>
+        <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 items-center rounded text-sm font-medium text-[var(--accent-ink)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Ver no perfil do Google<span className="sr-only"> — referência: {review.name}; abre em nova aba</span></a>
       </div>
     </li>
   ));

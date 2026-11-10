@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { partesDoPrecoDaVitrine, textoAPartirDeNoPix } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
 import { capaDoCartao, focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -67,7 +68,10 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
               fill
               sizes="(min-width: 1024px) 190px, (min-width: 640px) 25vw, 46vw"
               quality={75}
-              alt=""
+              // O link em volta é aria-hidden (o título do cartão já leva à página),
+              // então o leitor de tela não ouve isto duas vezes. O texto existe para
+              // a busca de imagens, que ignorava 13 das 14 fotos da vitrine.
+              alt={descricaoDoFilhote(name, corLabel, sexLabel)}
               className="object-cover"
               style={capa ? undefined : { objectPosition: focoDaFoto(foto) }}
             />

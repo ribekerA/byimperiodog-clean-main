@@ -40,7 +40,7 @@ try {
     await page.goto('http://localhost:3103/', {waitUntil:'domcontentloaded',timeout:120000});
     const reviews = page.locator('section[aria-labelledby="google-reviews-heading"]');
     await reviews.scrollIntoViewIfNeeded();
-    assert.equal(await reviews.getByRole('link').getAttribute('href'), 'https://www.google.com/search?kgmid=/g/11gpnjwc18');
+    assert.equal(await reviews.getByRole('link').getAttribute('href'), 'https://search.google.com/local/reviews?placeid=ChIJFwqx2DTLzpQRPZ-1dMMPGkA');
     await reviews.screenshot({path:`reports/master-seo-2026-11-03/google-${width}.png`});
     await context.close();
   }

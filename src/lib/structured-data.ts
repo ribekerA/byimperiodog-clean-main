@@ -328,6 +328,17 @@ export function buildLocalBusinessLD() {
       addressCountry: "BR",
     },
     areaServed: SERVED_AREAS,
+    // O mesmo horário que /contato publica ("todos os dias, das 8h às 22h"),
+    // confirmado pela responsável em 10/11/2026 como o do negócio. É horário
+    // de atendimento: a visita continua sendo com hora marcada.
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "08:00",
+        closes: "22:00",
+      },
+    ],
     // Vinham do buildOrganizationLD que este nó substituiu.
     publishingPrinciples: `${SITE_URL}/politica-editorial`,
     contactPoint: [
@@ -365,6 +376,6 @@ export function buildLocalBusinessLD() {
       url: `${SITE_URL}/filhotes`,
     },
     sameAs: BRAND.schema.sameAs,
-    hasMap: BRAND.urls.googleBusinessProfile,
+    hasMap: BRAND.urls.googleMapsProfile,
   };
 }

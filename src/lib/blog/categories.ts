@@ -42,7 +42,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     description:
       "Socialização, enriquecimento ambiental e reforço positivo aplicados a lares urbanos.",
     highlight: "Manejo do dia a dia, com indicação de quando procurar um profissional.",
-    color: "bg-violet-50 border-violet-200 text-violet-700",
+    color: "bg-emerald-50 border-emerald-200 text-emerald-700",
     keywords: ["adestramento", "comportamento", "socializacao", "tutor", "guia"],
     cta: { label: "Conhecer a criadora", href: "/sobre" },
   },
@@ -63,7 +63,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     description:
       "Respostas diretas sobre investimento, formas de pagamento e o que está incluído no valor.",
     highlight: "Conteúdo didático produzido com base nas dúvidas reais dos tutores.",
-    color: "bg-amber-50 border-amber-200 text-amber-700",
+    color: "bg-emerald-50 border-emerald-200 text-emerald-700",
     keywords: ["preco", "investimento", "valor", "custo"],
     cta: { label: "Ver filhotes e valores", href: "/filhotes" },
   },
@@ -73,7 +73,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     description:
       "Alimentação, higiene e rotina preventiva no dia a dia de um Spitz de porte anão.",
     highlight: "Do primeiro dia em casa ao primeiro ano, passo a passo.",
-    color: "bg-blue-50 border-blue-200 text-blue-700",
+    color: "bg-emerald-50 border-emerald-200 text-emerald-700",
     keywords: ["cuidado", "rotina", "nutri", "higiene", "enxoval"],
     cta: { label: "Ver dicas de cuidados", href: "/faq-do-tutor#primeiros-cuidados" },
   },
@@ -83,7 +83,7 @@ export const BLOG_CATEGORIES: BlogCategory[] = [
     description:
       "Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia): características, padrão e história da raça.",
     highlight: `Guias completos escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}.`,
-    color: "bg-rose-50 border-rose-200 text-rose-700",
+    color: "bg-emerald-50 border-emerald-200 text-emerald-700",
     keywords: ["raca", "spitz", "pomerani", "historico", "caracteristica"],
     cta: { label: "Conhecer a raça", href: "/spitz-alemao" },
   },

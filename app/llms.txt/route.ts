@@ -125,9 +125,12 @@ export async function GET() {
     linha("Spitz Alemão (Lulu da Pomerânia) branco", "/spitz-alemao-branco"),
     linha("Spitz Alemão (Lulu da Pomerânia) preto", "/spitz-alemao-preto"),
     linha("Spitz Alemão (Lulu da Pomerânia) baby face", "/spitz-alemao-baby-face", "o que o termo significa na prática"),
-    linha("Temperamento", "/temperamento"),
-    linha("Cuidados", "/cuidados"),
-    linha("Alimentação", "/alimentacao"),
+    // Os três apontam para o guia, não para /temperamento, /cuidados e
+    // /alimentacao: essas rotas repetem o mesmo texto e declaram o guia como
+    // canonical. O rótulo é o título real do guia.
+    linha("Spitz Alemão Anão x Lulu da Pomerânia: são o mesmo cão?", "/guias/spitz-alemao-anao-vs-lulu-pomerania"),
+    linha("Cuidados básicos com o Spitz Alemão Anão (Lulu da Pomerânia)", "/guias/cuidados-basicos-spitz-alemao-anao"),
+    linha("Alimentação do Spitz Alemão Anão (Lulu da Pomerânia)", "/guias/spitz-alemao-anao-alimentacao"),
     linha("Guias", "/guias", "material de apoio para tutores"),
     linha("FAQ do tutor", "/faq-do-tutor", "dúvidas frequentes respondidas"),
     "",

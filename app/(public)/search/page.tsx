@@ -31,7 +31,7 @@ async function SearchResults({ q }: { q: string }) {
     return (
       <ul className="mt-4 space-y-3">
         {items.map((item) => (
-          <li key={item.slug} className="rounded-md border border-zinc-200 p-4 transition hover:bg-zinc-50">
+          <li key={item.slug} className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:bg-zinc-50">
             <a href={item.url} className="font-medium text-emerald-700 hover:underline">
               {item.title}
             </a>
@@ -72,10 +72,10 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
           id="site-search"
           defaultValue={q}
           placeholder="Pesquisar..."
-          className="flex-1 rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="min-h-[44px] flex-1 rounded-full border border-zinc-300 bg-white px-5 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         />
         <button
-          className="rounded-md bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="min-h-[44px] rounded-full bg-emerald-600 px-6 py-2 text-sm font-semibold text-white shadow hover:bg-emerald-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
           type="submit"
         >
           Buscar

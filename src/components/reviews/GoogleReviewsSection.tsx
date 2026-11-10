@@ -1,5 +1,5 @@
 import { googleReviewSnapshot } from "@/content/google-reviews";
-import { GOOGLE_BUSINESS_PROFILE_URL } from "@/domain/config";
+import { GOOGLE_REVIEWS_URL } from "@/domain/config";
 
 /** Resumo conferido nos prints da proprietária, sem inferir média da amostra. */
 export default function GoogleReviewsSection({ compact = false }: { compact?: boolean }) {
@@ -11,7 +11,7 @@ export default function GoogleReviewsSection({ compact = false }: { compact?: bo
         <span>· {googleReviewSnapshot.total} avaliações no Google</span>
         <span className="sr-only"> — ver avaliações nesta página</span>
       </a>
-      <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Conferir no Google<span className="sr-only"> (abre em nova aba)</span></a>
+      <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Conferir no Google<span className="sr-only"> (abre em nova aba)</span></a>
     </div>
   );
   return (
@@ -26,7 +26,7 @@ export default function GoogleReviewsSection({ compact = false }: { compact?: bo
         <div role="img" aria-label="Google" className="mt-4 text-4xl font-semibold tracking-tight">
           <span aria-hidden="true"><span className="text-[#4285f4]">G</span><span className="text-[#ea4335]">o</span><span className="text-[#fbbc05]">o</span><span className="text-[#4285f4]">g</span><span className="text-[#34a853]">l</span><span className="text-[#ea4335]">e</span></span>
         </div>
-        <a href={GOOGLE_BUSINESS_PROFILE_URL} target="_blank" rel="noopener noreferrer"
+        <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer"
           className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-4 py-3 text-center text-sm font-semibold text-[var(--accent-foreground)] hover:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]">Ver avaliações no Google <span className="sr-only">(abre em nova aba)</span></a>
     </aside>
   );

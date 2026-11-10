@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { generatedPosts } from "@/lib/_generated-posts";
+import { AUTORES_DO_BLOG, autorDoBlog } from "@/lib/blog/autores";
 import {
   BLOG_CATEGORIES,
   matchesCategory,
@@ -114,5 +115,44 @@ describe("autor no schema do artigo", () => {
   it("com autor cadastrado, sai a pessoa", () => {
     const { article } = buildArticleJsonLd(post, { name: "Pessoa Real" } as never);
     expect(article.author).toMatchObject({ "@type": "Person", name: "Pessoa Real" });
+    // Sem apresentação informada, nada é acrescentado à pessoa.
+    expect(article.author).not.toHaveProperty("description");
+    expect(article.author).not.toHaveProperty("worksFor");
+  });
+
+  it("quem assina o blog sai como pessoa da empresa, com a apresentação informada", () => {
+    const karen = autorDoBlog("Karen Cristina");
+    expect(karen).not.toBeNull();
+    const { article } = buildArticleJsonLd(post, karen);
+    expect(article.author).toMatchObject({
+      "@type": "Person",
+      name: "Karen Cristina",
+      worksFor: { "@id": expect.stringMatching(/#business$/) },
+    });
+    const pessoa = article.author as { description?: string; url?: string };
+    expect(pessoa.description).toContain("desde 2013");
+    expect(pessoa.description).toContain("com amor e carinho");
+    // Não existe página pública de autor, então não se anuncia endereço.
+    expect(pessoa.url).toBeUndefined();
+  });
+
+  it("nome que não está no cadastro não vira pessoa", () => {
+    expect(autorDoBlog("By Império Dog")).toBeNull();
+    expect(autorDoBlog("Alguém de fora")).toBeNull();
+    expect(autorDoBlog("")).toBeNull();
+    expect(autorDoBlog(null)).toBeNull();
+    expect(autorDoBlog("  karen cristina ")?.name).toBe("Karen Cristina");
+  });
+
+  it("todo artigo é assinado por um dos dois nomes, em alternância", () => {
+    const nomes = AUTORES_DO_BLOG.map((a) => a.name);
+    expect(nomes).toEqual(["Karen Cristina", "Arthur Ribeker"]);
+    const contagem = new Map<string, number>();
+    for (const p of generatedPosts) {
+      expect(nomes, `autor de ${p.slug}`).toContain(p.author);
+      contagem.set(p.author as string, (contagem.get(p.author as string) ?? 0) + 1);
+    }
+    const [a, b] = nomes.map((n) => contagem.get(n) ?? 0);
+    expect(Math.abs(a - b)).toBeLessThanOrEqual(1);
   });
 });

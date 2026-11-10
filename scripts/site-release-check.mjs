@@ -26,7 +26,7 @@ try {
   await expect(reviews.locator('[data-review-source="google"]')).toHaveCount(33);
   await expect(reviews.locator('li')).toHaveCount(48);
   await expect(summary).toContainText('4,9 / 5');await expect(summary).toContainText('35 avaliações no Google');
-  await expect(summary.getByRole('link',{name:/Conferir no Google/})).toHaveAttribute('href','https://www.google.com/search?kgmid=/g/11gpnjwc18');
+  await expect(summary.getByRole('link',{name:/Conferir no Google/})).toHaveAttribute('href','https://search.google.com/local/reviews?placeid=ChIJFwqx2DTLzpQRPZ-1dMMPGkA');
   const nearCTA=await summary.evaluate(el=>{const cta=document.querySelector('[data-wa-placement="hero"]');return el.getBoundingClientRect().top-cta.getBoundingClientRect().bottom});
   assert(nearCTA>=0 && nearCTA<160,`summary gap ${nearCTA}`);
   // Render naturally deferred sections before measuring the whole page.
