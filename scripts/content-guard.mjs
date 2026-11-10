@@ -135,6 +135,15 @@ const CINZA_LOBO_PERMITIDO = new Set([
   "content/posts/spitz-alemao-anao-wolf-sable.mdx",
 ]);
 
+// Exceção aberta pela responsável em 10/11/2026: o artigo de cores pode citar a
+// cor somente na linha que leva ao artigo dedicado, para essa URL indexada não
+// ficar sem nenhum link interno. A linha diz que a cor não é divulgada hoje e
+// aponta para o guia; qualquer outra menção no mesmo arquivo continua barrada.
+const LINK_DO_ARTIGO_CINZA_LOBO = "/blog/spitz-alemao-anao-wolf-sable";
+const CINZA_LOBO_SO_NA_LINHA_DO_LINK = new Set([
+  "content/posts/cores-spitz-alemao-anao-qual-mais-cara.mdx",
+]);
+
 const BREED_PATTERN = /spitz\s+alem[ãa]o(?:\s+an[ãa]o)?/gi;
 const CERNELHA_PATTERN = /cernelha/gi;
 
@@ -212,7 +221,13 @@ for (const file of files) {
   }
 
   if (!CINZA_LOBO_PERMITIDO.has(file)) {
-    for (const match of raw.matchAll(CINZA_LOBO_PATTERN)) {
+    const semALinhaDoLink = CINZA_LOBO_SO_NA_LINHA_DO_LINK.has(file)
+      ? raw
+          .split(/\r?\n/)
+          .filter((linha) => !linha.includes(LINK_DO_ARTIGO_CINZA_LOBO))
+          .join(" ")
+      : raw;
+    for (const match of semALinhaDoLink.matchAll(CINZA_LOBO_PATTERN)) {
       violations.push(`${file}: "${match[0]}" — a cor não é mais divulgada.`);
     }
   }
