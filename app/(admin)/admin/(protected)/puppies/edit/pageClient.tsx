@@ -14,7 +14,7 @@ export function PuppyEditLauncher() {
     e.preventDefault();
     const target = value.trim();
     if (!target) {
-      setError("Informe um ID ou slug para continuar.");
+      setError("Informe o ID do filhote para continuar.");
       return;
     }
     setError(null);
@@ -26,7 +26,7 @@ export function PuppyEditLauncher() {
   return (
     <form onSubmit={onSubmit} className="space-y-3">
       <label className="block text-sm font-semibold text-[var(--text)]">
-        ID ou slug do filhote
+        ID do filhote
         <input
           type="text"
           value={value}

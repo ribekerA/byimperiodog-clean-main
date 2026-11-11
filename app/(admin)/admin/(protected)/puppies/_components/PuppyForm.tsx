@@ -12,10 +12,6 @@ import type { RawPuppy } from "@/types/puppy";
 
 import { MediaManager } from "./MediaManager";
 
-function generateSlug(name: string, color: string, sex: string) {
-  return `${name}-${color}-${sex}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
-}
-
 type MediaItem = {
   id: string;
   type: "image" | "video";
@@ -33,7 +29,6 @@ type PuppyFormRecord = (Partial<Puppy> & RawPuppy) & {
 
 type FormValues = {
   name: string;
-  slug: string;
   color: Color;
   sex: "male" | "female";
   city: City;
@@ -109,7 +104,6 @@ function normalizeStatus(value: unknown): PuppyStatus {
     const normalized = value.toLowerCase();
     if (normalized.startsWith("reserv")) return "reserved";
     if (normalized.startsWith("vend")) return "sold";
-    if (normalized.includes("pending") || normalized.startsWith("pend")) return "pending";
     if (normalized.includes("indisp") || normalized === "unavailable") return "unavailable";
     if (normalized.startsWith("dispon") || normalized === "available") return "available";
   }
@@ -294,7 +288,6 @@ function buildInitialValues(record?: PuppyFormRecord | null): FormValues {
   if (!record) {
     return {
       name: "",
-      slug: "",
       color: DEFAULT_COLOR,
       sex: "female",
       city: DEFAULT_CITY,
@@ -312,12 +305,10 @@ function buildInitialValues(record?: PuppyFormRecord | null): FormValues {
   const status = normalizeStatus(record.status);
   const priceCents = normalizePrice(record);
   const name = (record.name ?? record.nome ?? "").trim();
-  const slug = (record.slug ?? "") || (name ? generateSlug(name, color, sex) : "");
   const description = (record.description ?? record.descricao ?? "").trim();
 
   return {
     name,
-    slug,
     color,
     sex,
     city,
@@ -418,16 +409,6 @@ export default function PuppyForm({
     }
   }, [isEdit, record]);
 
-  useEffect(() => {
-    if (!isEdit && values.name && values.color && values.sex) {
-      setValues((s) => ({
-        ...s,
-        slug: generateSlug(values.name, values.color, values.sex),
-      }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.name, values.color, values.sex]);
-
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [copySeed, setCopySeed] = useState(1);
@@ -520,13 +501,12 @@ export default function PuppyForm({
   function validate() {
     const e: Record<string, string> = {};
     if (!values.name.trim()) e.name = "Obrigatório";
-    if (!values.slug.trim()) e.slug = "Obrigatório";
     if (!values.color.trim()) e.color = "Obrigatório";
     if (!values.sex) e.sex = "Obrigatório";
     if (!values.city.trim()) e.city = "Obrigatório";
     if (!values.state.trim()) e.state = "Obrigatório";
     if (!values.status) e.status = "Obrigatório";
-    if (!values.priceCents || values.priceCents <= 0) e.priceCents = "Preço deve ser > 0";
+    if (!values.priceCents || values.priceCents <= 0) e.priceCents = "Informe um preço maior que zero";
     if (photos.length === 0) e.photos = "Adicione pelo menos 1 foto";
     setErrors(e);
     return e;
@@ -543,7 +523,6 @@ export default function PuppyForm({
       setSubmitting(true);
 
       const normalizedName = values.name.trim();
-      const normalizedSlug = values.slug.trim() || generateSlug(values.name, values.color, values.sex);
       const normalizedColor = normalizeColor(values.color);
       const normalizedSex = normalizeSex(values.sex);
       const normalizedCity = normalizeCity(values.city);
@@ -556,7 +535,6 @@ export default function PuppyForm({
       const formData = new FormData();
       formData.append("id", record?.id || "");
       formData.append("name", normalizedName);
-      formData.append("slug", normalizedSlug);
       formData.append("color", normalizedColor);
       formData.append("sex", normalizedSex);
       formData.append("city", normalizedCity);
@@ -643,7 +621,6 @@ export default function PuppyForm({
           <h2 className="text-lg font-semibold text-[var(--text)]">Dados principais</h2>
 
           <Field label="Nome *" value={values.name} onChange={(v) => set("name", v)} error={errors.name} />
-          <Field label="Slug *" value={values.slug} onChange={(v) => set("slug", v)} error={errors.slug} placeholder="spitz-lulu-fofo" />
 
           <div className="grid grid-cols-2 gap-[var(--space-3)]">
             <Select
@@ -679,10 +656,14 @@ export default function PuppyForm({
 
           <div className="grid grid-cols-2 gap-[var(--space-3)]">
             <Field
-              label="Preço (centavos) *"
+              label="Preço (R$) *"
               type="number"
-              value={values.priceCents.toString()}
-              onChange={(v) => set("priceCents", Number(v) || 0)}
+              step="0.01"
+              min="0"
+              inputMode="decimal"
+              placeholder="4500,00"
+              value={values.priceCents ? (values.priceCents / 100).toString() : ""}
+              onChange={(v) => set("priceCents", Math.round((Number(v) || 0) * 100))}
               error={errors.priceCents}
             />
 
@@ -694,7 +675,6 @@ export default function PuppyForm({
                 { value: "available", label: "Disponível" },
                 { value: "reserved", label: "Reservado" },
                 { value: "sold", label: "Vendido" },
-                { value: "pending", label: "Pendente" },
                 { value: "unavailable", label: "Indisponível" },
               ]}
               error={errors.status}
@@ -734,7 +714,7 @@ export default function PuppyForm({
           </div>
           <div className="mt-3 flex items-center justify-between rounded-[var(--radius-xl)] bg-white px-3 py-2 shadow-inner">
             <div>
-              <p className="text-sm text-[var(--text-muted)]">Preco sugerido</p>
+              <p className="text-sm text-[var(--text-muted)]">Preço sugerido</p>
               <p className="text-xl font-bold text-[var(--text)]">{priceSuggestionCents != null ? formatBRL(priceSuggestionCents) : "Confirme o valor individual"}</p>
             </div>
             <button
@@ -878,6 +858,9 @@ function Field({
   type = "text",
   placeholder,
   error,
+  step,
+  min,
+  inputMode,
 }: {
   label: string;
   value: string;
@@ -885,6 +868,9 @@ function Field({
   type?: string;
   placeholder?: string;
   error?: string;
+  step?: string;
+  min?: string;
+  inputMode?: "decimal" | "numeric" | "text";
 }) {
   return (
     <label className="block text-sm font-semibold text-[var(--text)]">
@@ -894,6 +880,10 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
+        step={step}
+        min={min}
+        inputMode={inputMode}
+        aria-invalid={error ? true : undefined}
         className={`mt-2 w-full rounded-[var(--radius-lg)] border px-[var(--space-3)] py-[var(--space-2)] text-sm text-[var(--text)] shadow-[var(--elevation-1)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)] ${
           error ? "border-rose-300 bg-rose-50" : "border-[var(--border)] bg-[var(--surface)]"
         }`}

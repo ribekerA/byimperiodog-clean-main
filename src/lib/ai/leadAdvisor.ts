@@ -31,6 +31,8 @@ export type LeadAdvisorInput = {
 };
 
 export type AdvisorCompatibility = {
+  /** false quando o lead ainda nao foi analisado: a nota mostrada e so o ponto de partida da regra, nao uma medida. */
+  scored: boolean;
   score: number;
   label: string;
   summary: string;
@@ -72,10 +74,10 @@ export type LeadAdvisorSnapshot = {
 
 const STATUS_LABELS: Record<AdvisorStatusSuggestion, string> = {
   novo: "Novo",
-  em_conversa: "Em conversa",
-  followup: "Follow-up",
-  quase_fechado: "Quase fechado",
-  fechado: "Fechado",
+  em_conversa: "Contatado",
+  followup: "Contatado (retomar a conversa)",
+  quase_fechado: "Qualificado",
+  fechado: "Convertido",
   perdido: "Perdido",
 };
 
@@ -107,11 +109,12 @@ const contains = (value: string, tokens: string[]) => tokens.some((token) => val
 function buildCompatibility(input: LeadAdvisorInput, baseScore: number): AdvisorCompatibility {
   const puppy = input.matchedPuppy ?? input.suggestedPuppies?.[0] ?? null;
   const puppyName = puppy?.name;
+  const scored = typeof input.aiScore === "number" && !Number.isNaN(input.aiScore);
   const summary = puppyName
-    ? `Este lead tem maior chance de fechar com ${puppyName}.`
-    : "Este lead tem compatibilidade alta com os filhotes disponiveis.";
-  const label = baseScore >= 80 ? "Alta chance" : baseScore >= 55 ? "Boa chance" : "Baixa chance";
-  return { score: baseScore, summary, label, puppyName };
+    ? `Filhote sugerido pelas regras: ${puppyName}.`
+    : "Nenhum filhote sugerido para este lead ainda.";
+  const label = !scored ? "Sem análise" : baseScore >= 80 ? "Alta chance" : baseScore >= 55 ? "Boa chance" : "Baixa chance";
+  return { scored, score: baseScore, summary, label, puppyName };
 }
 
 function buildMessages(input: LeadAdvisorInput, compatibility: AdvisorCompatibility): AdvisorMessage[] {
@@ -157,23 +160,26 @@ function buildPriority(input: LeadAdvisorInput, baseScore: number): AdvisorPrior
   if (score >= 80) level = "alta";
   else if (score < 55) level = "baixa";
 
+  const scored = typeof input.aiScore === "number" && !Number.isNaN(input.aiScore);
   const reasonParts = [
-    `Score ${score}%`,
-    urgency === "alta" ? "urgencia alta" : undefined,
-    hoursSinceCreated < HOURS_8 ? "lead recente" : undefined,
+    scored ? `Nota da análise ${baseScore}` : "Sem análise: parte de 50",
+    urgency === "alta" ? "urgência alta (+10)" : undefined,
+    contains(normalize(input.message), ["urgente", "hoje", "agora"]) ? "mensagem pede rapidez (+5)" : undefined,
+    hoursSinceCreated < HOURS_8 ? "chegou há menos de 8 h (+5)" : undefined,
+    `total ${score}`,
   ].filter(Boolean);
 
   return {
     level,
     score,
-    reason: reasonParts.join(" | ") || "Prioridade automatica",
+    reason: reasonParts.join(" · "),
   };
 }
 
 function buildStatusSuggestion(input: LeadAdvisorInput, priority: AdvisorPriority): AdvisorStatus {
   const normalizedStatus = normalize(input.status);
-  if (normalizedStatus === "fechado") {
-    return { suggestion: "fechado", label: STATUS_LABELS.fechado, reason: "Status ja finalizado." };
+  if (normalizedStatus === "fechado" || normalizedStatus === "convertido") {
+    return { suggestion: "fechado", label: STATUS_LABELS.fechado, reason: "Lead já convertido." };
   }
   if (normalizedStatus === "perdido") {
     return { suggestion: "perdido", label: STATUS_LABELS.perdido, reason: "Lead marcado como perdido." };
@@ -184,21 +190,21 @@ function buildStatusSuggestion(input: LeadAdvisorInput, priority: AdvisorPriorit
     return {
       suggestion: "quase_fechado",
       label: STATUS_LABELS.quase_fechado,
-      reason: "Score alto e filhote reservado.",
+      reason: "Prioridade alta e filhote sugerido (ou total de 85 ou mais).",
     };
   }
   if (hoursSinceUpdate <= HOURS_8) {
     return {
       suggestion: "em_conversa",
       label: STATUS_LABELS.em_conversa,
-      reason: "Contato recente (menos de 8h).",
+      reason: "Última atualização há menos de 8 h.",
     };
   }
   if (hoursSinceUpdate > HOURS_24) {
     return {
       suggestion: "followup",
       label: STATUS_LABELS.followup,
-      reason: `Sem resposta ha ${hoursSinceUpdate}h.`,
+      reason: `Sem atualização há ${hoursSinceUpdate} h.`,
     };
   }
   return {
@@ -211,7 +217,7 @@ function buildStatusSuggestion(input: LeadAdvisorInput, priority: AdvisorPriorit
 function buildLossPrevention(input: LeadAdvisorInput, status: AdvisorStatus): AdvisorLossPrevention {
   const hoursSinceUpdate = diffInHours(input.updatedAt ?? input.createdAt);
   const isCold = hoursSinceUpdate >= HOURS_48 && status.suggestion !== "fechado" && status.suggestion !== "perdido";
-  const summary = isCold ? `Lead sem resposta ha ${hoursSinceUpdate}h.` : "Lead ainda dentro da janela esperada.";
+  const summary = isCold ? `Lead sem atualização há ${hoursSinceUpdate} h.` : "Atualizado há menos de 48 h.";
   const reactivationMessage = `Oi ${toFirstName(input.name)}! Passando para saber se voce ainda tem interesse${input.preferredColor ? ` no Spitz ${input.preferredColor}` : ""}. Posso te enviar a disponibilidade atual?`;
   return { isCold, hoursSinceUpdate, summary, reactivationMessage };
 }

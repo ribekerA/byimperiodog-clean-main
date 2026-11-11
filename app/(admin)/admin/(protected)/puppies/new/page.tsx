@@ -26,7 +26,7 @@ export default function NewPuppyPage() {
           Cadastrar novo filhote
         </h1>
         <p className="max-w-3xl text-sm text-[var(--text-muted)]">
-          Preencha as informacoes abaixo para colocar o filhote na vitrine. Campos com * sao obrigatorios e a midia pode ser organizada por arrastar e soltar.
+          Preencha as informações abaixo para incluir o filhote no estoque interno. Campos com * são obrigatórios e as fotos podem ser reordenadas arrastando. Este cadastro não publica nada no site.
         </p>
       </header>
 

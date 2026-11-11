@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
+import { listContracts, type ContractsClient } from "@/lib/admin/contractsAdmin";
 import { requireAdminApi } from "@/lib/adminAuth";
 import { createContractAccessToken } from "@/lib/contractAccess";
 import { corpoJson } from "@/lib/limitePublico";
@@ -24,23 +25,16 @@ export async function GET(req: NextRequest) {
   if (guard) return guard;
 
   try {
-    const sb = supabaseAdmin();
-    const { data, error } = await sb
-      .from("contracts")
-      .select("id,code,status,signed_at,created_at,payload,hemograma_path,laudo_path,signature_path,total_price_cents,lead_id,zapsign_doc_token,zapsign_sign_link,zapsign_status,signed_pdf_url")
-      .order("created_at", { ascending: false })
-      .limit(2000);
-
-    if (error) throw error;
-
-    const items = (data ?? []).map((contract: { code: string; [key: string]: unknown }) => ({
+    const { items: rows, features } = await listContracts(supabaseAdmin() as unknown as ContractsClient);
+    const items = rows.map((contract) => ({
       ...contract,
       access_token: createContractAccessToken(contract.code),
     }));
-    return NextResponse.json({ ok: true, items }, { headers: { "Cache-Control": "no-store" } });
-  } catch {
-    // Mensagem generica: nao expor o erro bruto do banco ao cliente.
-    return NextResponse.json({ ok: false, error: "Nao foi possivel carregar os contratos" }, { status: 500 });
+    return NextResponse.json({ ok: true, items, features }, { headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    // So o codigo do banco vai para o log: nenhum dado de contrato, nenhum erro bruto ao cliente.
+    console.error("[admin/contracts] falha ao listar", { code: (error as { code?: string } | null)?.code ?? "erro" });
+    return NextResponse.json({ ok: false, error: "Não foi possível carregar os contratos" }, { status: 500 });
   }
 }
 
@@ -92,7 +86,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true, code: data.code, link });
   } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : String(e);
+    // O erro do banco nao e um Error: a mensagem vem no campo message do objeto.
+    const msg = e instanceof Error ? e.message : String((e as { message?: unknown } | null)?.message ?? e);
 
     // Instrução de migration caso puppy_id ainda seja NOT NULL no DB
     if (msg.includes("puppy_id") || msg.includes("violates not-null")) {
@@ -108,7 +103,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         ok: false,
         error: "expires_at_missing",
-        message: "Peça ao time técnico para aplicar a migração pendente de expiração de contratos (sql/migration_contracts_expires_at.sql).",
+        message: "O banco ainda não tem a coluna de validade do link (expires_at). Sem ela o comprador não consegue abrir o contrato, então ele não foi criado. Falta aplicar a migração supabase/migrations/20260828140000_security_and_lgpd_hardening.sql.",
       }, { status: 422 });
     }
 

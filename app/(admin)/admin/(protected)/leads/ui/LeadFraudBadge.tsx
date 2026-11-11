@@ -1,9 +1,24 @@
 "use client";
 
-import { ShieldAlert, ShieldCheck, ShieldQuestion, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
 
 import { useToast } from "@/components/ui/toast";
+
+import {
+  ALERT,
+  BADGE,
+  BADGE_OK,
+  BADGE_WARN,
+  BUTTON,
+  CARD,
+  CARD_HEADER,
+  CARD_NOTE,
+  CARD_TITLE,
+  postJson,
+  readCached,
+  writeCached,
+} from "./cardStyles";
 
 type Fraud = {
   score: number;
@@ -12,13 +27,19 @@ type Fraud = {
   badge: "low" | "medium" | "high";
 };
 
-const palette: Record<Fraud["badge"], string> = {
-  low: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
-  medium: "bg-amber-100 text-amber-800",
-  high: "bg-rose-100 text-rose-800",
+const LEVEL_LABEL: Record<Fraud["badge"], string> = {
+  low: "Poucos sinais",
+  medium: "Alguns sinais",
+  high: "Muitos sinais",
 };
 
-const storageKey = (leadId: string) => `lead-fraud-${leadId}`;
+const LEVEL_BADGE: Record<Fraud["badge"], string> = {
+  low: BADGE_OK,
+  medium: BADGE,
+  high: BADGE_WARN,
+};
+
+const storageKey = (leadId: string) => `lead-fraud-v2-${leadId}`;
 
 export function LeadFraudBadge({ leadId }: { leadId: string }) {
   const { push } = useToast();
@@ -27,28 +48,21 @@ export function LeadFraudBadge({ leadId }: { leadId: string }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const cached = sessionStorage.getItem(storageKey(leadId));
-    if (cached) {
-      try {
-        setFraud(JSON.parse(cached));
-      } catch {}
-    }
+    setFraud(readCached<Fraud>(storageKey(leadId)));
   }, [leadId]);
 
   const run = () => {
     setError(null);
     start(async () => {
       try {
-        const res = await fetch("/api/admin/leads/fraud", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ leadId }),
-        });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json?.error || "Erro ao avaliar fraude");
+        const json = await postJson<{ fraud: Fraud }>(
+          "/api/admin/leads/fraud",
+          { leadId },
+          "Não foi possível verificar o lead.",
+        );
         setFraud(json.fraud);
-        sessionStorage.setItem(storageKey(leadId), JSON.stringify(json.fraud));
-        push({ type: "success", message: "Análise de fraude concluída." });
+        writeCached(storageKey(leadId), json.fraud);
+        push({ type: "success", message: "Verificação concluída." });
       } catch (e) {
         const message = (e as Error).message;
         setError(message);
@@ -57,52 +71,50 @@ export function LeadFraudBadge({ leadId }: { leadId: string }) {
     });
   };
 
-  const icon =
-    fraud?.badge === "high" ? (
-      <ShieldAlert className="h-4 w-4" aria-hidden />
-    ) : fraud?.badge === "medium" ? (
-      <ShieldQuestion className="h-4 w-4" aria-hidden />
-    ) : fraud?.badge === "low" ? (
-      <ShieldCheck className="h-4 w-4" aria-hidden />
-    ) : null;
-
   return (
-    <div className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {icon}
-          <div>
-            <p className="text-sm font-semibold text-[var(--text)]">FraudGuard AI</p>
-            <p className="text-xs text-[var(--text-muted)]">A IA usa mensagem, telefone e origem do lead para detectar padrões suspeitos.</p>
-          </div>
+    <section className={CARD} aria-labelledby="lead-sinais-titulo" aria-busy={pending}>
+      <div className={CARD_HEADER}>
+        <div className="min-w-0 flex-1">
+          <h2 id="lead-sinais-titulo" className={CARD_TITLE}>
+            Sinais de contato suspeito
+          </h2>
+          <p className={CARD_NOTE}>
+            Regra fixa, sem modelo de IA: confere telefone, texto da mensagem, origem do acesso e pedidos repetidos do
+            mesmo endereço de rede. É um indício para você conferir, não uma prova.
+          </p>
         </div>
-        <button
-          type="button"
-          onClick={run}
-          disabled={pending}
-          className="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white transition hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-500 disabled:opacity-60"
-        >
-          {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : "Gerar com IA"}
+        <button type="button" onClick={run} disabled={pending} className={BUTTON}>
+          {pending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+          {pending ? "Verificando…" : fraud ? "Verificar de novo" : "Verificar"}
         </button>
       </div>
 
-      {error && <p className="mt-2 text-sm text-rose-700" role="alert">{error}</p>}
+      {error ? (
+        <p role="alert" className={`${ALERT} mt-3`}>
+          {error}
+        </p>
+      ) : null}
 
-      {fraud && (
-        <div className="mt-3 space-y-2">
-          <span className={`inline-flex items-center gap-2 rounded-full px-2 py-0.5 text-xs font-semibold ${palette[fraud.badge]}`}>
-            Score {fraud.score} / 100
-          </span>
-          <p className="text-sm text-[var(--text)]">{fraud.reason}</p>
-          {fraud.actions.length > 0 && (
-            <ul className="list-disc space-y-1 pl-5 text-xs text-[var(--text-muted)]">
-              {fraud.actions.map((a) => (
-                <li key={a}>{a}</li>
+      {!fraud && !error ? (
+        <p className="mt-3 text-sm text-[var(--text-muted)]">Ainda não verificado. Use o botão “Verificar”.</p>
+      ) : null}
+
+      {fraud ? (
+        <div className="mt-3 space-y-2 text-sm text-[var(--text)]">
+          <p className="flex flex-wrap items-center gap-2">
+            <span className={LEVEL_BADGE[fraud.badge] ?? BADGE}>{LEVEL_LABEL[fraud.badge] ?? "Sem classificação"}</span>
+            <span className="text-xs text-[var(--text-muted)]">Nota {fraud.score} de 100</span>
+          </p>
+          <p>{fraud.reason}</p>
+          {fraud.actions.length ? (
+            <ul className="list-disc space-y-1 pl-5 text-sm text-[var(--text-muted)]">
+              {fraud.actions.map((action) => (
+                <li key={action}>{action}</li>
               ))}
             </ul>
-          )}
+          ) : null}
         </div>
-      )}
-    </div>
+      ) : null}
+    </section>
   );
 }

@@ -1,9 +1,25 @@
 "use client";
 
-import { ArrowRight, Loader2, Shuffle } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 
 import { useToast } from "@/components/ui/toast";
+
+import {
+  ALERT,
+  BADGE,
+  BADGE_OK,
+  BADGE_WARN,
+  BUTTON,
+  CARD,
+  CARD_HEADER,
+  CARD_NOTE,
+  CARD_TITLE,
+  postJson,
+  readCached,
+  writeCached,
+} from "./cardStyles";
 
 type Suggestion = {
   suggestion_type: "match" | "upsell" | "fallback";
@@ -14,13 +30,22 @@ type Suggestion = {
   alternatives: { id: string; name: string | null; score: number }[];
 };
 
-const badgeColor: Record<Suggestion["suggestion_type"], string> = {
-  match: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
-  upsell: "bg-amber-100 text-amber-800",
-  fallback: "bg-slate-100 text-slate-700",
+const TYPE_LABEL: Record<Suggestion["suggestion_type"], string> = {
+  match: "Combina com o pedido",
+  upsell: "Combina, com preço acima da mediana",
+  fallback: "Sem combinação forte",
 };
 
-const storageKey = (leadId: string) => `lead-crossmatch-${leadId}`;
+const TYPE_BADGE: Record<Suggestion["suggestion_type"], string> = {
+  match: BADGE_OK,
+  upsell: BADGE_WARN,
+  fallback: BADGE,
+};
+
+const LINK =
+  "font-semibold text-[var(--brand)] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]";
+
+const storageKey = (leadId: string) => `lead-crossmatch-v2-${leadId}`;
 
 export function LeadCrossMatchCard({ leadId }: { leadId: string }) {
   const { push } = useToast();
@@ -29,28 +54,21 @@ export function LeadCrossMatchCard({ leadId }: { leadId: string }) {
   const [data, setData] = useState<Suggestion | null>(null);
 
   useEffect(() => {
-    const cached = sessionStorage.getItem(storageKey(leadId));
-    if (cached) {
-      try {
-        setData(JSON.parse(cached));
-      } catch {}
-    }
+    setData(readCached<Suggestion>(storageKey(leadId)));
   }, [leadId]);
 
   const run = () => {
     setError(null);
     start(async () => {
       try {
-        const res = await fetch("/api/admin/leads/crossmatch", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ leadId }),
-        });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json?.error || "Erro ao cruzar preferências");
+        const json = await postJson<{ suggestion: Suggestion }>(
+          "/api/admin/leads/crossmatch",
+          { leadId },
+          "Não foi possível comparar o pedido com o estoque.",
+        );
         setData(json.suggestion);
-        sessionStorage.setItem(storageKey(leadId), JSON.stringify(json.suggestion));
-        push({ type: "success", message: "Sugestão de CrossMatch gerada." });
+        writeCached(storageKey(leadId), json.suggestion);
+        push({ type: "success", message: "Comparação com o estoque concluída." });
       } catch (e) {
         const message = (e as Error).message;
         setError(message);
@@ -60,62 +78,65 @@ export function LeadCrossMatchCard({ leadId }: { leadId: string }) {
   };
 
   return (
-    <section className="space-y-3 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <header className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Shuffle className="h-4 w-4 text-[var(--brand)]" aria-hidden />
-          <div>
-            <p className="text-sm font-semibold text-[var(--text)]">CrossMatch AI</p>
-            <p className="text-xs text-[var(--text-muted)]">A IA cruza cor, sexo e cidade desejados pelo lead com o estoque real de filhotes.</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={run}
-          disabled={pending}
-          className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-[var(--brand-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)] disabled:opacity-60"
-        >
-          {pending && <Loader2 className="h-4 w-4 animate-spin" aria-hidden />}
-          Gerar com IA
-        </button>
-      </header>
-
-      {error && <p className="text-sm text-rose-700" role="alert">{error}</p>}
-
-      {!data && !pending && <p className="text-sm text-[var(--text-muted)]">Clique em “Gerar com IA” para gerar sugestão.</p>}
-
-      {data && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold ${badgeColor[data.suggestion_type]}`}>
-              {data.suggestion_type === "match" && "Match"}
-              {data.suggestion_type === "upsell" && "Upsell"}
-              {data.suggestion_type === "fallback" && "Fallback"}
-            </span>
-            <span className="text-xs text-[var(--text-muted)]">{data.probability_of_acceptance}% aceitação</span>
-          </div>
-          <p className="text-sm font-semibold text-[var(--text)]">
-            {data.puppyName || data.puppyId || "Melhor opção disponível"}
+    <section className={CARD} aria-labelledby="lead-cruzamento-titulo" aria-busy={pending}>
+      <div className={CARD_HEADER}>
+        <div className="min-w-0 flex-1">
+          <h2 id="lead-cruzamento-titulo" className={CARD_TITLE}>
+            Cruzamento com o estoque
+          </h2>
+          <p className={CARD_NOTE}>
+            Regra fixa, sem modelo de IA: compara a cor e o sexo pedidos com os filhotes disponíveis e reservados.
           </p>
-          <p className="text-sm text-[var(--text-muted)]">{data.reasoning}</p>
-          {data.alternatives.length > 0 && (
+        </div>
+        <button type="button" onClick={run} disabled={pending} className={BUTTON}>
+          {pending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+          {pending ? "Comparando…" : data ? "Comparar de novo" : "Comparar"}
+        </button>
+      </div>
+
+      {error ? (
+        <p role="alert" className={`${ALERT} mt-3`}>
+          {error}
+        </p>
+      ) : null}
+
+      {!data && !error ? (
+        <p className="mt-3 text-sm text-[var(--text-muted)]">Ainda não comparado. Use o botão “Comparar”.</p>
+      ) : null}
+
+      {data ? (
+        <div className="mt-3 space-y-2 text-sm text-[var(--text)]">
+          <p className="flex flex-wrap items-center gap-2">
+            <span className={TYPE_BADGE[data.suggestion_type]}>{TYPE_LABEL[data.suggestion_type]}</span>
+            {data.puppyId ? (
+              <span className="text-xs text-[var(--text-muted)]">Nota {data.probability_of_acceptance} de 100</span>
+            ) : null}
+          </p>
+          {data.puppyId ? (
+            <p>
+              <Link href={`/admin/puppies/edit/${data.puppyId}`} className={LINK}>
+                {data.puppyName || "Filhote sem nome"}
+              </Link>
+            </p>
+          ) : null}
+          <p className="text-[var(--text-muted)]">{data.reasoning}</p>
+          {data.alternatives.length > 1 ? (
             <div>
-              <p className="text-xs font-semibold text-[var(--text)] mb-1">Alternativas</p>
-              <ul className="space-y-1">
+              <h3 className="text-sm font-semibold">Três maiores notas</h3>
+              <ul className="mt-1 divide-y divide-[var(--border)]">
                 {data.alternatives.map((alt) => (
-                  <li key={alt.id} className="flex items-center justify-between text-sm text-[var(--text)]">
-                    <span className="line-clamp-1">{alt.name || alt.id}</span>
-                    <span className="flex items-center gap-1 text-xs text-[var(--text-muted)]">
-                      {alt.score}
-                      <ArrowRight className="h-3 w-3" aria-hidden />
-                    </span>
+                  <li key={alt.id} className="flex items-center justify-between gap-3 py-2">
+                    <Link href={`/admin/puppies/edit/${alt.id}`} className={`${LINK} min-w-0 truncate`}>
+                      {alt.name || "Filhote sem nome"}
+                    </Link>
+                    <span className="shrink-0 text-xs text-[var(--text-muted)]">Nota {alt.score}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          )}
+          ) : null}
         </div>
-      )}
+      ) : null}
     </section>
   );
 }

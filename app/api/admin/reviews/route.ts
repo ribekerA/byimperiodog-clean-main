@@ -1,37 +1,33 @@
 export const dynamic = "force-dynamic";
 
 /**
- * GET /api/admin/reviews?status=pending&limit=50
- *     → lista avaliações para moderação (admin)
+ * GET /api/admin/reviews?filter=pending|approved
+ *     → avaliações para moderação, com a contagem das duas abas.
  */
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { listReviews, parseReviewFilter, type ReviewsClient } from "@/lib/admin/reviewsAdmin";
 import { requireAdminApi } from "@/lib/adminAuth";
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { hasServiceRoleKey, supabaseAdmin } from "@/lib/supabaseAdmin";
 
 export async function GET(req: NextRequest) {
   const autorizacao = requireAdminApi(req);
   if (autorizacao) return autorizacao;
 
-  const status = req.nextUrl.searchParams.get("status") ?? "pending";
-  const limit  = Math.min(Number(req.nextUrl.searchParams.get("limit") ?? "2000"), 2000);
+  // Sem a chave do banco o cliente devolve lista vazia calado: isso nao e "nenhuma avaliacao".
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !hasServiceRoleKey()) {
+    return NextResponse.json({ ok: false, error: "O banco não está configurado neste ambiente" }, { status: 503 });
+  }
+
+  const filter = parseReviewFilter(req.nextUrl.searchParams.get("filter"));
 
   try {
-    const sb = supabaseAdmin();
-    const { data, error } = await sb
-      .from("puppy_reviews")
-      .select("id,puppy_slug,reviewer_name,reviewer_city,rating,comment,photo_url,status,created_at")
-      .eq("status", status)
-      .order("created_at", { ascending: false })
-      .limit(limit);
-
-    if (error) throw error;
-
-    return NextResponse.json({ reviews: data ?? [] });
-  } catch (err: unknown) {
-    console.error("[admin/reviews GET]", err);
-    return NextResponse.json({ reviews: [], error: "Supabase indisponível" });
+    const { items, counts } = await listReviews(supabaseAdmin() as unknown as ReviewsClient, filter);
+    return NextResponse.json({ ok: true, filter, items, counts }, { headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    console.error("[admin/reviews] falha ao listar", { code: (error as { code?: string } | null)?.code ?? "erro" });
+    return NextResponse.json({ ok: false, error: "Não foi possível carregar as avaliações" }, { status: 500 });
   }
 }

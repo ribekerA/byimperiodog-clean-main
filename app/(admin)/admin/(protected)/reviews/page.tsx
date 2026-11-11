@@ -1,308 +1,225 @@
 "use client";
 
 /**
- * /admin/reviews — Moderação de avaliações de filhotes
+ * /admin/reviews — moderação das avaliações de filhotes.
  *
- * Features:
- *  • Lista de avaliações pendentes / aprovadas / rejeitadas
- *  • Aprovar / Rejeitar com um clique
- *  • Preview de foto quando presente
- *  • Feedback visual imediato
+ * O banco guarda só "aprovada ou não": recusar é excluir, e a tela diz isso.
  */
 
-import type { ColumnDef } from "@tanstack/react-table";
-import { Loader2 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { Check, Loader2, RefreshCcw, Trash2, Undo2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
-import { VirtualizedDataTable } from "@/components/admin/table/VirtualizedDataTable";
-import { StarRating } from "@/components/reviews/StarRating";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { useToast } from "@/components/ui/toast";
+import type { AdminReview, ReviewCounts, ReviewFilter } from "@/lib/admin/reviewsAdmin";
+import { adminFetch } from "@/lib/adminFetch";
 
-// ─── Tipos ────────────────────────────────────────────────────────────────────
+const TABS: Array<{ key: ReviewFilter; label: string }> = [
+  { key: "pending", label: "Aguardando" },
+  { key: "approved", label: "Aprovadas" },
+];
 
-interface Review {
-  id:            string;
-  puppy_slug:    string;
-  reviewer_name: string;
-  reviewer_city: string | null;
-  rating:        number;
-  comment:       string;
-  photo_url:     string | null;
-  status:        "pending" | "approved" | "rejected";
-  created_at:    string;
+const BUTTON =
+  "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border px-4 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand)] disabled:opacity-50";
+
+function fmtDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-type FilterStatus = "pending" | "approved" | "rejected";
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function formatDate(iso: string) {
-  try {
-    return new Intl.DateTimeFormat("pt-BR", {
-      day:    "2-digit",
-      month:  "2-digit",
-      year:   "numeric",
-      hour:   "2-digit",
-      minute: "2-digit",
-    }).format(new Date(iso));
-  } catch {
-    return iso;
+function Stars({ rating }: { rating: number | null }) {
+  if (rating === null || !Number.isFinite(rating)) {
+    return <span className="text-sm text-[var(--text-muted)]">Sem nota</span>;
   }
+  const value = Math.max(0, Math.min(5, Math.round(rating)));
+  return (
+    <span className="inline-flex items-center gap-2">
+      <span aria-hidden="true" className="text-base tracking-wide text-amber-600">
+        {"★".repeat(value)}
+        <span className="text-[var(--border)]">{"★".repeat(5 - value)}</span>
+      </span>
+      <span className="text-sm font-semibold text-[var(--text)]">
+        {value}<span className="sr-only"> de 5 estrelas</span><span aria-hidden="true">/5</span>
+      </span>
+    </span>
+  );
 }
 
-const STATUS_BADGE: Record<FilterStatus, string> = {
-  pending:  "bg-amber-100 text-amber-800",
-  approved: "bg-[var(--brand-tint-100)] text-[var(--brand)]",
-  rejected: "bg-red-100 text-red-800",
-};
+export default function ReviewsAdminPage() {
+  const { push } = useToast();
+  const [filter, setFilter] = useState<ReviewFilter>("pending");
+  const [items, setItems] = useState<AdminReview[]>([]);
+  const [counts, setCounts] = useState<ReviewCounts | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [busy, setBusy] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<AdminReview | null>(null);
 
-const STATUS_LABEL: Record<FilterStatus, string> = {
-  pending:  "Pendente",
-  approved: "Aprovada",
-  rejected: "Rejeitada",
-};
-
-// ─── Componente ───────────────────────────────────────────────────────────────
-
-export default function ReviewsModerationPage() {
-  const [reviews,    setReviews]    = useState<Review[]>([]);
-  const [loading,    setLoading]    = useState(true);
-  const [error,      setError]      = useState<string | null>(null);
-  const [filter,     setFilter]     = useState<FilterStatus>("pending");
-  const [acting,     setActing]     = useState<string | null>(null); // id em ação
-
-  const fetchReviews = useCallback(async (status: FilterStatus) => {
+  const load = useCallback(async (which: ReviewFilter) => {
     setLoading(true);
-    setError(null);
     try {
-      const res  = await fetch(`/api/admin/reviews?status=${status}&limit=2000`);
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? "Erro ao carregar");
-      setReviews(json.reviews ?? []);
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : String(e));
+      const res = await adminFetch(`/api/admin/reviews?filter=${which}`);
+      const json = await res.json().catch(() => null);
+      // Falha de leitura nao pode virar "nenhuma avaliacao".
+      if (!res.ok || !json?.ok) {
+        setLoadError(true);
+        return;
+      }
+      setItems(Array.isArray(json.items) ? json.items : []);
+      setCounts(json.counts ?? null);
+      setLoadError(false);
+    } catch {
+      setLoadError(true);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => { fetchReviews(filter); }, [filter, fetchReviews]);
+  useEffect(() => { void load(filter); }, [load, filter]);
 
-  async function act(id: string, status: "approved" | "rejected") {
-    setActing(id);
+  async function setApproved(review: AdminReview, approved: boolean) {
+    setBusy(review.id);
     try {
-      const res = await fetch(`/api/admin/reviews/${id}`, {
-        method:  "PATCH",
+      const res = await adminFetch(`/api/admin/reviews/${review.id}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify({ status }),
+        body: JSON.stringify({ approved }),
       });
-      if (!res.ok) {
-        const json = await res.json();
-        throw new Error(json.error ?? "Falha");
-      }
-      // Remove da lista atual
-      setReviews((prev) => prev.filter((r) => r.id !== id));
-    } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : String(e));
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.ok) throw new Error(json?.error ?? "Não foi possível atualizar a avaliação");
+      push({ type: "success", message: approved ? "Avaliação aprovada." : "Aprovação retirada." });
+      void load(filter);
+    } catch (e) {
+      push({ type: "error", message: e instanceof Error ? e.message : "Não foi possível atualizar a avaliação" });
     } finally {
-      setActing(null);
+      setBusy(null);
     }
   }
 
-  const pendingCount = reviews.length;
-
-  const columns = useMemo<ColumnDef<Review, unknown>[]>(
-    () => [
-      {
-        id: "filhote",
-        header: "Filhote",
-        cell: ({ row }) => (
-          <a
-            href={`/filhotes/${row.original.puppy_slug}`}
-            target="_blank"
-            rel="noreferrer"
-            className="text-[var(--brand)] hover:underline text-xs font-medium"
-          >
-            {row.original.puppy_slug}
-          </a>
-        ),
-      },
-      {
-        id: "reviewer",
-        header: "Reviewer",
-        cell: ({ row }) => (
-          <div>
-            <p className="font-medium text-zinc-900">{row.original.reviewer_name}</p>
-            {row.original.reviewer_city && <p className="text-xs text-zinc-400">{row.original.reviewer_city}</p>}
-          </div>
-        ),
-      },
-      {
-        id: "nota",
-        header: "Nota",
-        cell: ({ row }) => (
-          <div className="flex items-center gap-1">
-            <StarRating value={row.original.rating} size="sm" />
-            <span className="text-xs font-bold text-zinc-600">{row.original.rating}</span>
-          </div>
-        ),
-      },
-      {
-        id: "comentario",
-        header: "Comentário",
-        cell: ({ row }) => {
-          const review = row.original;
-          return (
-            <div className="max-w-xs">
-              <p className="line-clamp-3 text-zinc-700">{review.comment}</p>
-              {review.photo_url && (
-                <a
-                  href={review.photo_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-1 inline-block text-xs text-blue-500 hover:underline"
-                >
-                  📷 Ver foto
-                </a>
-              )}
-              <span className={`mt-1.5 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold ${STATUS_BADGE[review.status]}`}>
-                {STATUS_LABEL[review.status]}
-              </span>
-            </div>
-          );
-        },
-      },
-      {
-        id: "data",
-        header: "Data",
-        cell: ({ row }) => <span className="whitespace-nowrap text-xs text-zinc-400">{formatDate(row.original.created_at)}</span>,
-      },
-      {
-        id: "acoes",
-        header: "Ações",
-        cell: ({ row }) => {
-          const review = row.original;
-          return (
-            <div className="flex items-center justify-end gap-2">
-              {review.status !== "approved" && (
-                <button
-                  type="button"
-                  onClick={() => act(review.id, "approved")}
-                  disabled={acting === review.id}
-                  className="rounded-lg bg-[var(--brand)] px-3 py-1.5 text-xs font-bold text-white transition hover:bg-[var(--brand-hover)] disabled:opacity-50"
-                >
-                  ✓ Aprovar
-                </button>
-              )}
-              {review.status !== "rejected" && (
-                <button
-                  type="button"
-                  onClick={() => act(review.id, "rejected")}
-                  disabled={acting === review.id}
-                  className="rounded-lg bg-red-100 px-3 py-1.5 text-xs font-bold text-red-700 transition hover:bg-red-200 disabled:opacity-50"
-                >
-                  ✗ Rejeitar
-                </button>
-              )}
-            </div>
-          );
-        },
-      },
-    ],
-    [acting],
-  );
+  async function remove(review: AdminReview) {
+    setBusy(review.id);
+    try {
+      const res = await adminFetch(`/api/admin/reviews/${review.id}`, { method: "DELETE" });
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.ok) throw new Error(json?.error ?? "Não foi possível excluir a avaliação");
+      push({ type: "success", message: "Avaliação excluída." });
+      void load(filter);
+    } catch (e) {
+      push({ type: "error", message: e instanceof Error ? e.message : "Não foi possível excluir a avaliação" });
+    } finally {
+      setBusy(null);
+    }
+  }
 
   return (
-    <div className="space-y-6 px-4 py-6 lg:px-8">
-      {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="mx-auto w-full max-w-4xl space-y-5">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Avaliações de Filhotes</h1>
-          <p className="mt-1 text-sm text-zinc-500">
-            Modere os depoimentos das famílias antes da publicação.
+          <h1 className="text-2xl font-bold text-[var(--text)]">Avaliações</h1>
+          <p className="text-sm text-[var(--text-muted)]">
+            Avaliações de filhotes gravadas no banco. Aprovar marca a avaliação como aprovada; recusar é excluir, porque o banco não guarda avaliação recusada.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => fetchReviews(filter)}
-          className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-50"
-        >
-          ↻ Atualizar
+        <button type="button" onClick={() => void load(filter)} disabled={loading}
+          className={`${BUTTON} border-[var(--border)] bg-white text-[var(--text)] shadow-sm hover:bg-[var(--surface)]`}>
+          <RefreshCcw aria-hidden="true" className="h-4 w-4" /> Atualizar
         </button>
       </div>
 
-      {/* Filtro de status */}
-      <div className="flex gap-2 border-b border-zinc-200 pb-4">
-        {(["pending", "approved", "rejected"] as FilterStatus[]).map((s) => (
-          <button
-            key={s}
-            type="button"
-            onClick={() => setFilter(s)}
-            className={`rounded-lg px-4 py-1.5 text-sm font-medium transition ${
-              filter === s
-                ? "bg-zinc-900 text-white"
-                : "bg-white text-zinc-600 hover:bg-zinc-100 border border-zinc-200"
-            }`}
-          >
-            {STATUS_LABEL[s]}
-          </button>
-        ))}
+      <div role="group" aria-label="Filtrar avaliações" className="flex flex-wrap gap-2">
+        {TABS.map((tab) => {
+          const active = filter === tab.key;
+          return (
+            <button key={tab.key} type="button" aria-pressed={active} onClick={() => setFilter(tab.key)}
+              className={`${BUTTON} ${active
+                ? "border-[var(--brand)] bg-[var(--brand)] text-white"
+                : "border-[var(--border)] bg-white text-[var(--text)] hover:bg-[var(--surface)]"}`}>
+              {tab.label}
+              {counts && <span className="tabular-nums">({counts[tab.key]})</span>}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Estado de carregamento */}
-      {loading && (
-        <div className="flex items-center gap-2 py-8 text-sm text-zinc-400">
-          <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
-          Carregando...
+      {loadError ? (
+        <div role="alert" className="rounded-2xl border border-red-300 bg-red-50 p-5 text-sm text-red-900">
+          <p className="font-semibold">Não foi possível ler as avaliações agora</p>
+          <p className="mt-1">Isto é uma falha de leitura, não quer dizer que não existam avaliações. Tente de novo em instantes.</p>
+          <button type="button" onClick={() => void load(filter)}
+            className={`${BUTTON} mt-3 border-red-300 bg-white text-red-900 hover:bg-red-100`}>
+            <RefreshCcw aria-hidden="true" className="h-4 w-4" /> Tentar de novo
+          </button>
         </div>
-      )}
-
-      {/* Erro */}
-      {error && !loading && (
-        <div className="rounded-lg bg-red-50 p-4 text-sm text-red-700 ring-1 ring-red-100">
-          {error}
-          {error.includes("Supabase") && (
-            <p className="mt-1 text-xs text-red-500">
-              Configure NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY no Vercel.
-            </p>
-          )}
+      ) : loading ? (
+        <div role="status" className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white p-8">
+          <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin text-[var(--brand)] motion-reduce:animate-none" />
+          <p className="text-sm text-[var(--text-muted)]">Carregando avaliações...</p>
         </div>
-      )}
-
-      {/* Lista vazia */}
-      {!loading && !error && reviews.length === 0 && (
-        <div className="rounded-xl border border-dashed border-zinc-200 py-12 text-center">
-          <p className="text-2xl" aria-hidden="true">✓</p>
-          <p className="mt-2 font-medium text-zinc-700">
-            Nenhuma avaliação {STATUS_LABEL[filter].toLowerCase()}
+      ) : items.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-[var(--border)] bg-white p-10 text-center">
+          <p className="text-sm font-semibold text-[var(--text)]">
+            {filter === "pending" ? "Nenhuma avaliação aguardando." : "Nenhuma avaliação aprovada."}
           </p>
         </div>
+      ) : (
+        <ul className="space-y-3">
+          {items.map((review) => {
+            const author = review.author_name?.trim() || "Sem nome";
+            const isBusy = busy === review.id;
+            return (
+              <li key={review.id} className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm sm:p-5">
+                <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
+                  <div>
+                    <h2 className="text-base font-semibold text-[var(--text)]">{author}</h2>
+                    <p className="text-xs text-[var(--text-muted)]">
+                      {review.puppy_label ? `Filhote: ${review.puppy_label}` : "Sem filhote vinculado"} · {fmtDate(review.created_at)}
+                    </p>
+                  </div>
+                  <Stars rating={review.rating} />
+                </div>
+
+                <p className="mt-3 whitespace-pre-line break-words text-sm text-[var(--text)]">
+                  {review.comment?.trim() || <span className="text-[var(--text-muted)]">Sem comentário.</span>}
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {review.approved ? (
+                    <button type="button" disabled={isBusy} onClick={() => void setApproved(review, false)}
+                      aria-label={`Tirar a aprovação da avaliação de ${author}`}
+                      className={`${BUTTON} border-[var(--border)] text-[var(--text)] hover:bg-[var(--surface)]`}>
+                      <Undo2 aria-hidden="true" className="h-4 w-4" /> Tirar aprovação
+                    </button>
+                  ) : (
+                    <button type="button" disabled={isBusy} onClick={() => void setApproved(review, true)}
+                      aria-label={`Aprovar a avaliação de ${author}`}
+                      className={`${BUTTON} border-[var(--brand)] bg-[var(--brand)] text-white hover:bg-[var(--brand-hover)]`}>
+                      <Check aria-hidden="true" className="h-4 w-4" /> Aprovar
+                    </button>
+                  )}
+                  <button type="button" disabled={isBusy} onClick={() => setPendingDelete(review)}
+                    aria-label={`Excluir a avaliação de ${author}`}
+                    className={`${BUTTON} border-red-300 text-red-800 hover:bg-red-50`}>
+                    <Trash2 aria-hidden="true" className="h-4 w-4" /> Excluir
+                  </button>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       )}
 
-      {/* Tabela */}
-      {!loading && !error && reviews.length > 0 && (
-        <div className="overflow-hidden rounded-xl border border-zinc-200">
-          <VirtualizedDataTable
-            columns={columns}
-            data={reviews}
-            height={560}
-            enableSelection={false}
-            role="table"
-            aria-label="Avaliações de filhotes para moderação"
-          />
-          <div className="border-t border-zinc-100 px-4 py-2 text-xs text-zinc-400">
-            {pendingCount} {filter === "pending" ? "aguardando moderação" : "registros"}
-          </div>
-        </div>
-      )}
-
-      {/* Info de setup */}
-      <div className="rounded-xl bg-zinc-50 p-4 text-xs text-zinc-500 ring-1 ring-zinc-200">
-        <p className="font-semibold text-zinc-700">Configuração necessária:</p>
-        <ol className="mt-2 list-decimal list-inside space-y-1">
-          <li>Execute <code className="rounded bg-zinc-200 px-1 py-0.5">scripts/puppy_reviews_migration.sql</code> no Supabase Dashboard → SQL Editor</li>
-          <li>Certifique-se que <code className="rounded bg-zinc-200 px-1 py-0.5">SUPABASE_SERVICE_ROLE_KEY</code> está configurado no Vercel</li>
-        </ol>
-      </div>
+      <ConfirmDialog
+        open={pendingDelete !== null}
+        onOpenChange={(open) => { if (!open) setPendingDelete(null); }}
+        title="Excluir esta avaliação?"
+        description={`A avaliação de ${pendingDelete?.author_name?.trim() || "sem nome"} será apagada do banco. Não dá para desfazer.`}
+        confirmLabel="Sim, excluir"
+        variant="danger"
+        onConfirm={() => {
+          if (pendingDelete) void remove(pendingDelete);
+        }}
+      />
     </div>
   );
 }

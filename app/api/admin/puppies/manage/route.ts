@@ -2,14 +2,44 @@ export const dynamic = "force-dynamic";
 import { randomUUID } from "crypto";
 import { Buffer } from "node:buffer";
 
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import {
+  buildPuppyWritePayload,
+  parseAdminPuppyStatus,
+  parsePuppySex,
+  type AdminPuppyStatus,
+  type PuppyMedia,
+  type PuppyWriteInput,
+} from "@/lib/admin/puppyAdmin";
 import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { sanitizeFilename } from "@/lib/uploadValidation";
+import {
+  ALLOWED_IMAGE_MIME,
+  ALLOWED_VIDEO_MIME,
+  detectMediaMime,
+  inferExtFromMime,
+  sanitizeFilename,
+} from "@/lib/uploadValidation";
+
+/**
+ * Salva um filhote do estoque interno (formulario de criar e de editar).
+ *
+ * Ordem das coisas, de proposito:
+ *   1. confere os campos e os arquivos ANTES de mexer em qualquer coisa;
+ *   2. sobe os arquivos novos;
+ *   3. grava no banco, so com colunas que existem (buildPuppyWritePayload);
+ *   4. so depois de gravar, apaga do Storage as fotos que a pessoa removeu.
+ * Se a gravacao falha, os arquivos recem-subidos sao removidos e as fotos
+ * antigas continuam onde estavam. Antes as fotos eram apagadas primeiro e a
+ * gravacao falhava em seguida, por causa de colunas que nao existem.
+ */
 
 const STORAGE_BUCKET = "puppies";
+const STATUS_ERROR = "Status inválido. Use disponível, reservado, vendido ou indisponível.";
+
+type Supabase = ReturnType<typeof supabaseAdmin>;
 
 type OrderEntry = {
   type: "existing" | "new";
@@ -17,34 +47,28 @@ type OrderEntry = {
 };
 
 type JsonBody = {
-  id?: string;
-  name?: string;
-  slug?: string | null;
-  color?: string | null;
-  sex?: string | null;
-  city?: string | null;
-  state?: string | null;
-  priceCents?: number | null;
-  status?: string | null;
-  description?: string | null;
+  id?: unknown;
+  priceCents?: unknown;
+  status?: unknown;
+  description?: unknown;
 };
 
-function mapStatusToDb(status?: string | null) {
-  const value = (status || "disponivel").toLowerCase();
-  if (value === "sold" || value === "vendido") return "vendido";
-  if (value === "reserved" || value === "reservado") return "reservado";
-  if (value === "indisponivel" || value === "unavailable" || value === "pending") return "indisponivel";
-  return "disponivel";
+type CheckedFile = {
+  token: string;
+  originalName: string;
+  buffer: Buffer;
+  mime: string;
+};
+
+type StatusDates = { sold_at: string | null; reserved_at: string | null };
+
+function fail(message: string, status: number) {
+  return NextResponse.json({ error: message }, { status });
 }
 
-function mapSexToDb(sex?: string | null) {
-  const value = (sex || "femea").toLowerCase();
-  return value === "male" || value === "macho" ? "macho" : "femea";
-}
-
-function normalizeGender(sex?: string | null) {
-  const value = (sex || "female").toLowerCase();
-  return value === "macho" || value === "male" ? "male" : "female";
+function formText(formData: FormData, key: string): string {
+  const value = formData.get(key);
+  return typeof value === "string" ? value.trim() : "";
 }
 
 function parseJsonArray(value: FormDataEntryValue | null): string[] {
@@ -90,34 +114,60 @@ function extractFileToken(file: File): { token: string | null; originalName: str
   return { token: null, originalName: name || "upload" };
 }
 
+/**
+ * Endereco assinado (vence em 24 h) vira o endereco publico do mesmo arquivo.
+ * Sem isso, editar um filhote poderia gravar um endereco que para de abrir.
+ */
+function stableUrl(url: string): string {
+  const marker = "/storage/v1/object/sign/";
+  const at = url.indexOf(marker);
+  if (at < 0) return url;
+  const rest = url.slice(at + marker.length).split("?")[0];
+  return `${url.slice(0, at)}/storage/v1/object/public/${rest}`;
+}
+
 function publicUrlToPath(url: string): { bucket: string | null; path: string | null } {
   const base = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
   if (!base) return { bucket: null, path: null };
-  const normalized = url.replace(`${base}/storage/v1/object/public/`, "");
-  const [bucket, ...rest] = normalized.split("/");
+  const prefix = `${base}/storage/v1/object/public/`;
+  const stable = stableUrl(url);
+  if (!stable.startsWith(prefix)) return { bucket: null, path: null };
+  const [bucket, ...rest] = stable.slice(prefix.length).split("/");
   if (!bucket || !rest.length) return { bucket: null, path: null };
   return { bucket, path: rest.join("/") };
 }
 
-async function uploadMediaFile(sb: ReturnType<typeof supabaseAdmin>, file: File, type: "image" | "video", originalName: string) {
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
-  const extFromName = originalName.includes(".") ? originalName.split(".").pop() : undefined;
-  const ext = extFromName ? extFromName.toLowerCase() : type === "image" ? "jpg" : "mp4";
-  const safeBase = sanitizeFilename(originalName.replace(/\.[^.]+$/, "")) || type;
+/** Le o arquivo e confere pelos bytes se e mesmo foto ou video aceito. */
+async function checkFile(file: File, kind: "image" | "video"): Promise<CheckedFile | { error: string }> {
+  const { token, originalName } = extractFileToken(file);
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const mime = detectMediaMime(buffer);
+  const allowed = kind === "image" ? ALLOWED_IMAGE_MIME : ALLOWED_VIDEO_MIME;
+  if (!mime || !allowed.has(mime)) {
+    return {
+      error:
+        kind === "image"
+          ? `A foto "${originalName}" não é JPG, PNG, WebP, AVIF ou GIF. Converta o arquivo e envie de novo.`
+          : `O vídeo "${originalName}" não é MP4, WebM ou MOV. Converta o arquivo e envie de novo.`,
+    };
+  }
+  return { token: token ?? randomUUID(), originalName, buffer, mime };
+}
+
+async function uploadMediaFile(sb: Supabase, file: CheckedFile, kind: "image" | "video") {
+  const dot = file.originalName.lastIndexOf(".");
+  const baseName = dot > 0 ? file.originalName.slice(0, dot) : file.originalName;
+  const safeBase = sanitizeFilename(baseName) || kind;
   const folder = new Date().toISOString().slice(0, 10);
-  const objectPath = `${folder}/${safeBase}-${randomUUID()}.${ext}`;
+  const objectPath = `${folder}/${safeBase}-${randomUUID()}.${inferExtFromMime(file.mime)}`;
   const storage = sb.storage.from(STORAGE_BUCKET);
-  const { error } = await storage.upload(objectPath, buffer, {
-    contentType: file.type || (type === "image" ? "image/jpeg" : "video/mp4"),
-    upsert: false,
-  });
-  if (error) throw new Error(`Falha ao salvar arquivo: ${error.message}`);
+  const { error } = await storage.upload(objectPath, file.buffer, { contentType: file.mime, upsert: false });
+  if (error) throw new Error(`Falha ao salvar o arquivo "${file.originalName}": ${error.message}`);
   const { data } = storage.getPublicUrl(objectPath);
   return data.publicUrl;
 }
 
-async function deleteMedia(sb: ReturnType<typeof supabaseAdmin>, urls: string[]) {
+async function deleteMedia(sb: Supabase, urls: string[]) {
   if (!urls.length) return;
   const pathsByBucket = new Map<string, string[]>();
   urls.forEach((url) => {
@@ -127,12 +177,13 @@ async function deleteMedia(sb: ReturnType<typeof supabaseAdmin>, urls: string[])
     }
   });
   await Promise.all(
-    Array.from(pathsByBucket.entries()).map(([bucket, paths]) =>
-      sb.storage
-        .from(bucket)
-        .remove(paths)
-        .catch(() => null),
-    ),
+    Array.from(pathsByBucket.entries()).map(async ([bucket, paths]) => {
+      try {
+        await sb.storage.from(bucket).remove(paths);
+      } catch {
+        // Arquivo orfao no Storage nao impede o cadastro de ficar certo.
+      }
+    }),
   );
 }
 
@@ -165,6 +216,46 @@ function buildOrderedList(order: OrderEntry[], existing: string[], uploads: Map<
   return [...result, ...leftoverExisting, ...leftoverUploads];
 }
 
+function stableOrder(order: OrderEntry[]): OrderEntry[] {
+  return order.map((entry) => (entry.type === "existing" ? { ...entry, ref: stableUrl(entry.ref) } : entry));
+}
+
+async function readStatusDates(sb: Supabase, id: string) {
+  const { data, error } = await sb.from("puppies").select("id,sold_at,reserved_at").eq("id", id).maybeSingle();
+  if (error) return { response: fail(error.message, 500) } as const;
+  if (!data) return { response: fail("Filhote não encontrado.", 404) } as const;
+  return { current: data as StatusDates } as const;
+}
+
+/** Ajuste rapido por JSON: status, preco e descricao de um filhote que ja existe. */
+async function handleJson(req: NextRequest, sb: Supabase) {
+  const body = (await req.json().catch(() => ({}))) as JsonBody;
+  const id = typeof body.id === "string" ? body.id.trim() : "";
+  if (!id) return fail("Faltou dizer qual filhote.", 400);
+
+  const input: PuppyWriteInput = {};
+  if (body.status !== undefined && body.status !== null && body.status !== "") {
+    const status = parseAdminPuppyStatus(body.status);
+    if (!status) return fail(STATUS_ERROR, 400);
+    input.status = status;
+  }
+  if (typeof body.priceCents === "number") input.priceCents = body.priceCents;
+  if (typeof body.description === "string") input.description = body.description;
+
+  const read = await readStatusDates(sb, id);
+  if ("response" in read) return read.response;
+
+  const payload = buildPuppyWritePayload(input, {
+    nowIso: new Date().toISOString(),
+    isInsert: false,
+    current: read.current,
+  });
+  const { data, error } = await sb.from("puppies").update(payload).eq("id", id).select("id").maybeSingle();
+  if (error) return fail(error.message, 500);
+  if (!data) return fail("Filhote não encontrado.", 404);
+  return NextResponse.json({ ok: true, puppy: data });
+}
+
 export async function POST(req: NextRequest) {
   const guard = requireAdmin(req);
   if (guard) return guard;
@@ -172,114 +263,124 @@ export async function POST(req: NextRequest) {
   const contentType = req.headers.get("content-type") || "";
   const sb = supabaseAdmin();
 
-  if (!contentType.includes("multipart/form-data")) {
-    const body = (await req.json().catch(() => ({}))) as JsonBody;
-    if (!body.id) {
-      return NextResponse.json({ error: "id obrigatório" }, { status: 400 });
-    }
-
-    const updates: Record<string, unknown> = {};
-    if (body.status) updates.status = mapStatusToDb(body.status);
-    if (typeof body.priceCents === "number") {
-      updates.price_cents = body.priceCents;
-      updates.preco = body.priceCents / 100;
-    }
-    if (body.description !== undefined) {
-      updates.descricao = body.description;
-      updates.description = body.description;
-    }
-    updates.updated_at = new Date().toISOString();
-
-    const { data, error } = await sb.from("puppies").update(updates).eq("id", body.id).select().maybeSingle();
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-    return NextResponse.json({ puppy: data });
-  }
+  if (!contentType.includes("multipart/form-data")) return handleJson(req, sb);
 
   const formData = await req.formData();
-  const id = (formData.get("id") as string) || undefined;
-  const name = (formData.get("name") as string) || "";
-  const slug = (formData.get("slug") as string) || null;
-  const color = (formData.get("color") as string) || null;
-  const sex = (formData.get("sex") as string) || null;
-  const city = (formData.get("city") as string) || null;
-  const state = ((formData.get("state") as string) || "").toUpperCase() || null;
-  const priceCents = Number(formData.get("priceCents")) || 0;
-  const status = (formData.get("status") as string) || null;
-  const description = (formData.get("description") as string) || null;
+  const id = formText(formData, "id") || undefined;
 
-  const existingPhotoUrls = parseJsonArray(formData.get("existingPhotoUrls"));
-  const existingVideoUrls = parseJsonArray(formData.get("existingVideoUrls"));
-  const deletedPhotoUrls = parseJsonArray(formData.get("deletedPhotoUrls"));
-  const deletedVideoUrls = parseJsonArray(formData.get("deletedVideoUrls"));
-  const photoOrder = parseOrder(formData.get("photoOrder"));
-  const videoOrder = parseOrder(formData.get("videoOrder"));
+  // 1. Conferir tudo antes de subir arquivo ou tocar no banco.
+  const name = formText(formData, "name");
+  if (!name) return fail("Informe o nome do filhote.", 400);
 
-  const photoFiles = formData
-    .getAll("photos")
-    .filter((item): item is File => item instanceof File);
-  const videoFiles = formData
-    .getAll("videos")
-    .filter((item): item is File => item instanceof File);
+  const rawSex = formText(formData, "sex");
+  if (rawSex && !parsePuppySex(rawSex)) return fail("Sexo inválido. Use macho ou fêmea.", 400);
 
-  await deleteMedia(sb, [...deletedPhotoUrls, ...deletedVideoUrls]);
-
-  const uploadedPhotos = new Map<string, string>();
-  for (const file of photoFiles) {
-    const { token, originalName } = extractFileToken(file);
-    const url = await uploadMediaFile(sb, file, "image", originalName);
-    uploadedPhotos.set(token ?? randomUUID(), url);
+  const rawStatus = formText(formData, "status");
+  let status: AdminPuppyStatus | undefined;
+  if (rawStatus) {
+    const parsed = parseAdminPuppyStatus(rawStatus);
+    if (!parsed) return fail(STATUS_ERROR, 400);
+    status = parsed;
+  } else if (!id) {
+    status = "available";
   }
 
+  const rawPrice = formText(formData, "priceCents");
+  const priceCents = rawPrice ? Number(rawPrice) : null;
+  if (priceCents != null && (!Number.isFinite(priceCents) || priceCents < 0)) {
+    return fail("Preço inválido.", 400);
+  }
+
+  const existingPhotoUrls = parseJsonArray(formData.get("existingPhotoUrls")).map(stableUrl);
+  const existingVideoUrls = parseJsonArray(formData.get("existingVideoUrls")).map(stableUrl);
+  const deletedUrls = [
+    ...parseJsonArray(formData.get("deletedPhotoUrls")),
+    ...parseJsonArray(formData.get("deletedVideoUrls")),
+  ].map(stableUrl);
+  const photoOrder = stableOrder(parseOrder(formData.get("photoOrder")));
+  const videoOrder = stableOrder(parseOrder(formData.get("videoOrder")));
+
+  const checkedPhotos: CheckedFile[] = [];
+  for (const item of formData.getAll("photos")) {
+    if (!(item instanceof File)) continue;
+    const checked = await checkFile(item, "image");
+    if ("error" in checked) return fail(checked.error, 400);
+    checkedPhotos.push(checked);
+  }
+  const checkedVideos: CheckedFile[] = [];
+  for (const item of formData.getAll("videos")) {
+    if (!(item instanceof File)) continue;
+    const checked = await checkFile(item, "video");
+    if ("error" in checked) return fail(checked.error, 400);
+    checkedVideos.push(checked);
+  }
+
+  let current: StatusDates | null = null;
+  if (id) {
+    const read = await readStatusDates(sb, id);
+    if ("response" in read) return read.response;
+    current = read.current;
+  }
+
+  // 2. Subir os arquivos novos. Se um falhar, os que ja subiram sao removidos.
+  const uploadedUrls: string[] = [];
+  const uploadedPhotos = new Map<string, string>();
   const uploadedVideos = new Map<string, string>();
-  for (const file of videoFiles) {
-    const { token, originalName } = extractFileToken(file);
-    const url = await uploadMediaFile(sb, file, "video", originalName);
-    uploadedVideos.set(token ?? randomUUID(), url);
+  try {
+    for (const file of checkedPhotos) {
+      const url = await uploadMediaFile(sb, file, "image");
+      uploadedUrls.push(url);
+      uploadedPhotos.set(file.token, url);
+    }
+    for (const file of checkedVideos) {
+      const url = await uploadMediaFile(sb, file, "video");
+      uploadedUrls.push(url);
+      uploadedVideos.set(file.token, url);
+    }
+  } catch (error) {
+    await deleteMedia(sb, uploadedUrls);
+    return fail(error instanceof Error ? error.message : "Falha ao salvar os arquivos.", 500);
   }
 
   const orderedPhotoUrls = buildOrderedList(photoOrder, existingPhotoUrls, uploadedPhotos);
   const orderedVideoUrls = buildOrderedList(videoOrder, existingVideoUrls, uploadedVideos);
-
-  const mediaPayload = [
-    ...orderedPhotoUrls.map((url) => ({ url, type: "image" })),
-    ...orderedVideoUrls.map((url) => ({ url, type: "video" })),
+  const media: PuppyMedia[] = [
+    ...orderedPhotoUrls.map((url) => ({ url, type: "image" as const })),
+    ...orderedVideoUrls.map((url) => ({ url, type: "video" as const })),
   ];
 
-  const now = new Date().toISOString();
-  const payload: Record<string, unknown> = {
-    nome: name,
-    name,
-    slug,
-    cor: color,
-    color,
-    sexo: mapSexToDb(sex),
-    gender: normalizeGender(sex),
-    city,
-    cidade: city,
-    state,
-    estado: state,
-    price_cents: priceCents,
-    preco: Number.isFinite(priceCents) ? priceCents / 100 : null,
-    status: mapStatusToDb(status),
-    descricao: description,
-    description,
-    image_url: orderedPhotoUrls[0] ?? null,
-    video_url: orderedVideoUrls[0] ?? null,
-    images: orderedPhotoUrls,
-    media: orderedPhotoUrls,
-    midia: mediaPayload,
-    updated_at: now,
-  };
-
-  if (!id) {
-    payload.created_at = now;
-  }
+  // 3. Gravar no banco, so com colunas que existem.
+  const payload = buildPuppyWritePayload(
+    {
+      name,
+      color: formText(formData, "color") || null,
+      ...(rawSex ? { sex: rawSex } : {}),
+      city: formText(formData, "city") || null,
+      state: formText(formData, "state").toUpperCase() || null,
+      priceCents,
+      ...(status ? { status } : {}),
+      description: formText(formData, "description") || null,
+      media,
+    },
+    { nowIso: new Date().toISOString(), isInsert: !id, current },
+  );
 
   const query = id
-    ? sb.from("puppies").update(payload).eq("id", id).select().maybeSingle()
-    : sb.from("puppies").insert(payload).select().maybeSingle();
-
+    ? sb.from("puppies").update(payload).eq("id", id).select("id").maybeSingle()
+    : sb.from("puppies").insert(payload).select("id").maybeSingle();
   const { data, error } = await query;
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ puppy: data });
+  if (error || !data) {
+    await deleteMedia(sb, uploadedUrls);
+    if (error) return fail(error.message, 500);
+    return fail("Filhote não encontrado.", 404);
+  }
+
+  // 4. So agora apagar o que a pessoa removeu, e nunca um arquivo que continua em uso.
+  const stillUsed = new Set(media.map((item) => item.url));
+  await deleteMedia(
+    sb,
+    deletedUrls.filter((url) => !stillUsed.has(url)),
+  );
+
+  return NextResponse.json({ ok: true, puppy: data });
 }

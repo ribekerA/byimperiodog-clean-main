@@ -1,111 +1,111 @@
-import { statusOrFilter } from "@/domain/puppy-status";
+import {
+  type StockPuppy,
+  STOCK_PUPPY_SELECT,
+  medianPriceCents,
+  rowsToStockPuppies,
+  sameColor,
+  sameSex,
+  stockStatusValues,
+} from "@/lib/admin/puppyStock";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-type LeadRow = {
-  id: string;
-  cor_preferida?: string | null;
-  sexo_preferido?: string | null;
-  page_slug?: string | null;
-};
-
-type PuppyRow = {
-  id: string;
-  name?: string | null;
+export type CrossMatchPrefs = {
   color?: string | null;
-  gender?: string | null;
-  status?: string | null;
-  price_cents?: number | null;
-  slug?: string | null;
+  sex?: string | null;
 };
 
 export type CrossMatchSuggestion = {
+  /** match: combina com o pedido; upsell: combina e custa bem acima da mediana; fallback: nada combinou de verdade. */
   suggestion_type: "match" | "upsell" | "fallback";
   puppyId: string | null;
   puppyName?: string | null;
   reasoning: string;
+  /** Nota da regra, de 0 a 100. O nome do campo e antigo: nao e probabilidade medida. */
   probability_of_acceptance: number;
   alternatives: { id: string; name: string | null; score: number }[];
 };
 
-function norm(str?: string | null) {
-  return (str || "").trim().toLowerCase();
+const EMPTY: CrossMatchSuggestion = {
+  suggestion_type: "fallback",
+  puppyId: null,
+  reasoning: "Não há filhote disponível ou reservado para comparar.",
+  probability_of_acceptance: 0,
+  alternatives: [],
+};
+
+/** Regra fixa: 50 pontos pela cor, 30 pelo sexo e 20 por estar disponivel (e nao apenas reservado). */
+export function scoreCrossMatch(prefs: CrossMatchPrefs, puppy: StockPuppy): { score: number; reasons: string[] } {
+  let score = 0;
+  const reasons: string[] = [];
+  if (sameColor(prefs.color, puppy.color)) {
+    score += 50;
+    reasons.push("cor desejada");
+  }
+  if (sameSex(prefs.sex, puppy.sex)) {
+    score += 30;
+    reasons.push("sexo desejado");
+  }
+  if (puppy.status === "available") {
+    score += 20;
+    reasons.push("disponível agora");
+  }
+  return { score, reasons };
 }
 
-function scorePuppy(lead: LeadRow, puppy: PuppyRow, medianPrice: number): { score: number; type: "match" | "upsell" | "fallback" } {
-  let score = 0;
-  let type: "match" | "upsell" | "fallback" = "match";
+export function crossMatch(prefs: CrossMatchPrefs, puppies: readonly StockPuppy[]): CrossMatchSuggestion {
+  if (!puppies.length) return EMPTY;
 
-  if (norm(lead.cor_preferida) && norm(lead.cor_preferida) === norm(puppy.color)) score += 40;
-  if (norm(lead.sexo_preferido) && norm(lead.sexo_preferido) === norm(puppy.gender)) score += 20;
-  if ((puppy.status || "available") === "available") score += 20;
-  if (puppy.price_cents && medianPrice && puppy.price_cents > medianPrice * 1.15) {
-    score += 15;
-    type = "upsell";
-  }
-  if (score < 30) type = "fallback";
-  return { score, type };
+  const median = medianPriceCents(puppies);
+  const top = puppies
+    .map((puppy) => ({ puppy, ...scoreCrossMatch(prefs, puppy) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3);
+  const best = top[0];
+
+  // So conta como combinacao quando a cor ou o sexo pedidos batem; estar disponivel sozinho nao basta.
+  const matchesRequest = best.score > 20 || (best.score === 20 && best.puppy.status !== "available");
+  const aboveMedian = Boolean(median && best.puppy.priceCents && best.puppy.priceCents > median * 1.15);
+
+  let type: CrossMatchSuggestion["suggestion_type"] = "fallback";
+  if (matchesRequest) type = aboveMedian ? "upsell" : "match";
+
+  const reasons = [...best.reasons];
+  if (type === "upsell") reasons.push("preço acima da mediana do estoque");
+
+  return {
+    suggestion_type: type,
+    puppyId: best.puppy.id,
+    puppyName: best.puppy.name,
+    reasoning: matchesRequest
+      ? `Combina por ${reasons.join(", ")}.`
+      : "Nenhum filhote do estoque bate com a cor ou o sexo pedidos. Este é só o primeiro da lista.",
+    probability_of_acceptance: Math.max(0, Math.min(100, best.score)),
+    alternatives: top.map((entry) => ({ id: entry.puppy.id, name: entry.puppy.name, score: entry.score })),
+  };
 }
 
 export async function runCrossMatch(leadId: string): Promise<CrossMatchSuggestion> {
   const sb = supabaseAdmin();
-  const { data: lead } = await sb
+  const { data: lead, error: leadError } = await sb
     .from("leads")
-    .select("id,cor_preferida,sexo_preferido,page_slug")
+    .select("id,cor_preferida,sexo_preferido")
     .eq("id", leadId)
-    .limit(1)
-    .single();
+    .maybeSingle();
 
-  if (!lead) {
-    return {
-      suggestion_type: "fallback",
-      puppyId: null,
-      reasoning: "Lead não encontrado",
-      probability_of_acceptance: 0,
-      alternatives: [],
-    };
-  }
+  if (leadError) throw new Error("O banco recusou a leitura do lead.");
+  if (!lead) throw new Error("Lead não encontrado.");
 
-  const { data: puppies } = await sb
+  const { data: rows, error } = await sb
     .from("puppies")
-    .select("id,name,color,gender,status,price_cents,slug")
-    .or(statusOrFilter(["available", "reserved"]))
-    .order("created_at", { ascending: false });
+    .select(STOCK_PUPPY_SELECT)
+    .in("status", stockStatusValues(["available", "reserved"]))
+    .order("created_at", { ascending: false })
+    .limit(200);
 
-  if (!puppies || puppies.length === 0) {
-    return {
-      suggestion_type: "fallback",
-      puppyId: null,
-      reasoning: "Nenhum filhote disponível para recomendar.",
-      probability_of_acceptance: 0,
-      alternatives: [],
-    };
-  }
+  if (error) throw new Error("O banco recusou a leitura dos filhotes.");
 
-  const prices = puppies.map((p: PuppyRow) => p.price_cents || 0).filter((price: number) => Boolean(price));
-  const medianPrice = prices.sort((a: number, b: number) => a - b)[Math.floor(prices.length / 2)] || 0;
-
-  const scored = puppies.map((p: PuppyRow) => {
-    const { score, type } = scorePuppy(lead, p, medianPrice);
-    return { puppy: p, score, type };
-  });
-
-  scored.sort((a: { puppy: PuppyRow; score: number; type: string }, b: { puppy: PuppyRow; score: number; type: string }) => b.score - a.score);
-  const top = scored.slice(0, 3);
-  const best = top[0];
-
-  const acceptance = Math.max(5, Math.min(95, best?.score ?? 0));
-  const reasoningParts: string[] = [];
-  if (norm(lead.cor_preferida) && norm(lead.cor_preferida) === norm(best?.puppy.color)) reasoningParts.push("cor desejada");
-  if (norm(lead.sexo_preferido) && norm(lead.sexo_preferido) === norm(best?.puppy.gender)) reasoningParts.push("sexo desejado");
-  if ((best?.puppy.status || "available") === "available") reasoningParts.push("disponível imediato");
-  if (best && best.score > medianPrice && best.type === "upsell") reasoningParts.push("opção premium para aumentar ticket");
-
-  return {
-    suggestion_type: best?.type ?? "fallback",
-    puppyId: best?.puppy.id ?? null,
-    puppyName: best?.puppy.name,
-    reasoning: reasoningParts.length ? `Combina por ${reasoningParts.join(", ")}.` : "Melhor afinidade disponível.",
-    probability_of_acceptance: acceptance,
-    alternatives: top.map((t: { puppy: PuppyRow; score: number; type: string }) => ({ id: t.puppy.id, name: t.puppy.name, score: t.score })),
-  };
+  return crossMatch(
+    { color: lead.cor_preferida, sex: lead.sexo_preferido },
+    rowsToStockPuppies(rows),
+  );
 }

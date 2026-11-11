@@ -13,6 +13,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "leadId é obrigatório" }, { status: 400 });
   }
 
-  const suggestion = await runCrossMatch(leadId);
-  return NextResponse.json({ suggestion });
+  try {
+    const suggestion = await runCrossMatch(leadId);
+    return NextResponse.json({ suggestion });
+  } catch (error) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  }
 }

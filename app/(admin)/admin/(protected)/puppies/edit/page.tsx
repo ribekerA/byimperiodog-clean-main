@@ -7,17 +7,17 @@ const tips = [
   {
     icon: PawPrint,
     title: "Dados essenciais",
-    description: "Nome, cor, sexo e cidade aparecem nas páginas públicas e precisam estar sempre atualizados.",
+    description: "Nome, cor, sexo e cidade identificam o filhote no estoque interno e precisam estar sempre atualizados.",
   },
   {
     icon: RefreshCw,
     title: "Preço e status",
-    description: "Mantenha o preço em centavos e marque o status corretamente para liberar ou pausar campanhas.",
+    description: "Informe o preço em reais e mantenha o status em dia: é ele que alimenta os números do painel.",
   },
   {
     icon: Upload,
     title: "Mídias",
-    description: "Envie pelo menos uma foto e organize a ordem; vídeos ajudam a aumentar conversão.",
+    description: "Envie pelo menos uma foto e organize a ordem; a primeira vira a capa na lista.",
   },
 ];
 
@@ -37,25 +37,25 @@ export default function EditPuppyLandingPage() {
           <h1 className="text-3xl font-semibold text-[var(--text)]">Atualize informações, preço, status e mídias</h1>
         </div>
         <p className="max-w-3xl text-sm text-[var(--text-muted)]">
-          Cole o identificador do filhote ou escolha diretamente na lista. Depois de salvar, o card público é atualizado automaticamente no site
-          e nas campanhas conectadas.
+          Cole o identificador do filhote ou escolha diretamente na lista. Salvar atualiza o estoque interno do painel; as páginas do site
+          não são alteradas por aqui.
         </p>
       </header>
 
       <section className="grid gap-6 lg:grid-cols-[2fr_3fr]">
         <div className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-[var(--text)]">Acessar formulário</h2>
-          <p className="text-sm text-[var(--text-muted)]">Informe o ID ou slug para abrir o modo de edição completo.</p>
+          <p className="text-sm text-[var(--text-muted)]">Informe o ID para abrir o modo de edição completo.</p>
           <div className="mt-4">
             <PuppyEditLauncher />
           </div>
           <div className="mt-4 rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-3 text-xs text-[var(--text-muted)]">
-            Dica: copie o ID na listagem principal ou no painel de leads. Você também pode colar o slug público (ex.: <code>spitz-lulu-creme</code>).
+            Dica: na listagem principal, o botão Editar de cada filhote já abre este formulário direto.
           </div>
         </div>
 
         <div className="rounded-2xl border border-[var(--border)] bg-white p-5 shadow-sm">
-          <h2 className="text-lg font-semibold text-[var(--text)]">Boas práticas antes de publicar</h2>
+          <h2 className="text-lg font-semibold text-[var(--text)]">Boas práticas antes de salvar</h2>
           <div className="mt-4 space-y-3">
             {tips.map((tip) => (
               <article key={tip.title} className="flex gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3">

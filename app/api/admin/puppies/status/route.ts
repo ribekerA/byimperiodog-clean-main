@@ -1,27 +1,48 @@
 export const dynamic = "force-dynamic";
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { parseAdminPuppyStatus, statusPatch } from "@/lib/admin/puppyAdmin";
 import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-function mapStatus(status?: string | null) {
-  const value = (status || "disponivel").toLowerCase();
-  if (value === "sold" || value === "vendido") return "vendido";
-  if (value === "reserved" || value === "reservado") return "reservado";
-  if (value === "indisponivel" || value === "unavailable" || value === "pending") return "indisponivel";
-  return "disponivel";
-}
-
+/**
+ * Troca o status de um filhote do estoque interno.
+ *
+ * Status desconhecido e recusado (400): o codigo antigo transformava qualquer
+ * valor estranho em "disponivel". A data da venda ou da reserva e gravada
+ * junto, e e ela que faz a venda aparecer no dashboard.
+ */
 export async function POST(req: NextRequest) {
   const guard = requireAdmin(req);
   if (guard) return guard;
 
-  const { id, status } = (await req.json().catch(() => ({}))) as { id?: string; status?: string };
-  if (!id || !status) return NextResponse.json({ error: "id e status obrigatórios" }, { status: 400 });
+  const body = (await req.json().catch(() => ({}))) as { id?: unknown; status?: unknown };
+  const id = typeof body.id === "string" ? body.id.trim() : "";
+  if (!id) return NextResponse.json({ error: "Faltou dizer qual filhote." }, { status: 400 });
 
-  const update = { status: mapStatus(status), updated_at: new Date().toISOString() };
-  const { error } = await supabaseAdmin().from("puppies").update(update).eq("id", id);
+  const next = parseAdminPuppyStatus(body.status);
+  if (!next) {
+    return NextResponse.json(
+      { error: "Status inválido. Use disponível, reservado, vendido ou indisponível." },
+      { status: 400 },
+    );
+  }
+
+  const sb = supabaseAdmin();
+  const { data: current, error: readError } = await sb
+    .from("puppies")
+    .select("id,status,sold_at,reserved_at")
+    .eq("id", id)
+    .maybeSingle();
+  if (readError) return NextResponse.json({ error: readError.message }, { status: 500 });
+  if (!current) return NextResponse.json({ error: "Filhote não encontrado." }, { status: 404 });
+
+  const nowIso = new Date().toISOString();
+  const update = { ...statusPatch(current, next, nowIso), updated_at: nowIso };
+  const { data: updated, error } = await sb.from("puppies").update(update).eq("id", id).select("id").maybeSingle();
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ ok: true });
+  if (!updated) return NextResponse.json({ error: "Filhote não encontrado." }, { status: 404 });
+
+  return NextResponse.json({ ok: true, status: next });
 }

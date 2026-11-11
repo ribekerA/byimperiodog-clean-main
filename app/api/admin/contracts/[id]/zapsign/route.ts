@@ -32,7 +32,17 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
     .eq("id", params.id)
     .maybeSingle();
 
-  if (findErr) return NextResponse.json({ ok: false, error: findErr.message }, { status: 500 });
+  if (findErr) {
+    // Producao ainda nao tem as colunas do ZapSign: dizer isso em vez de devolver o erro bruto.
+    if ((findErr as { code?: string }).code === "42703") {
+      return NextResponse.json({
+        ok: false,
+        error: "O banco ainda não tem as colunas do ZapSign. Falta aplicar a migração supabase/migrations/20261111120000_contracts_colunas_de_assinatura.sql.",
+      }, { status: 422 });
+    }
+    console.error("[admin/contracts/zapsign] falha ao ler o contrato", { code: (findErr as { code?: string }).code ?? "erro" });
+    return NextResponse.json({ ok: false, error: "Não foi possível ler o contrato" }, { status: 500 });
+  }
   if (!contract) return NextResponse.json({ ok: false, error: "Contrato não encontrado" }, { status: 404 });
 
   const zapToken = (contract as Record<string, unknown>).zapsign_doc_token as string | null;
@@ -101,7 +111,7 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
 
   // Salva o token do ZapSign no contrato
   const signLink = zapDoc.signers[0]?.sign_url ?? null;
-  await sb
+  const { error: saveErr } = await sb
     .from("contracts")
     .update({
       zapsign_doc_token:    zapDoc.token,
@@ -110,6 +120,16 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
       updated_at:           new Date().toISOString(),
     } as Parameters<ReturnType<typeof sb.from>["update"]>[0])
     .eq("id", contract.id);
+
+  // O documento ja foi criado no ZapSign; sem gravar o token, o painel nao saberia disso.
+  if (saveErr) {
+    console.error("[admin/contracts/zapsign] documento criado, mas o token nao foi gravado", { code: (saveErr as { code?: string }).code ?? "erro" });
+    return NextResponse.json({
+      ok: false,
+      error: "O documento foi criado no ZapSign, mas não foi possível gravar isso no contrato. Não envie de novo: confira no painel do ZapSign.",
+      sign_link: signLink,
+    }, { status: 500 });
+  }
 
   return NextResponse.json({
     ok:                true,

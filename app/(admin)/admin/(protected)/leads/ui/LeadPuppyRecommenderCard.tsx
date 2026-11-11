@@ -1,9 +1,23 @@
 "use client";
 
-import { AlertCircle, Dog, Loader2, Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 
 import { useToast } from "@/components/ui/toast";
+
+import {
+  ALERT,
+  BADGE_WARN,
+  BUTTON,
+  CARD,
+  CARD_HEADER,
+  CARD_NOTE,
+  CARD_TITLE,
+  postJson,
+  readCached,
+  writeCached,
+} from "./cardStyles";
 
 type Recommendation = {
   puppyIdIdeal: string | null;
@@ -13,7 +27,10 @@ type Recommendation = {
   upsellOpportunity: boolean;
 };
 
-const storageKey = (leadId: string) => `lead-recommend-${leadId}`;
+const LINK =
+  "inline-flex min-h-[44px] items-center font-semibold text-[var(--brand)] underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]";
+
+const storageKey = (leadId: string) => `lead-recommend-v2-${leadId}`;
 
 export function LeadPuppyRecommenderCard({ leadId }: { leadId: string }) {
   const { push } = useToast();
@@ -22,28 +39,21 @@ export function LeadPuppyRecommenderCard({ leadId }: { leadId: string }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const cached = sessionStorage.getItem(storageKey(leadId));
-    if (cached) {
-      try {
-        setRec(JSON.parse(cached));
-      } catch {}
-    }
+    setRec(readCached<Recommendation>(storageKey(leadId)));
   }, [leadId]);
 
   const run = () => {
     setError(null);
     startTransition(async () => {
       try {
-        const res = await fetch("/api/admin/leads/recommend", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ leadId }),
-        });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json?.error || "Erro ao recomendar");
+        const json = await postJson<{ recommendation: Recommendation }>(
+          "/api/admin/leads/recommend",
+          { leadId },
+          "Não foi possível recomendar um filhote.",
+        );
         setRec(json.recommendation);
-        sessionStorage.setItem(storageKey(leadId), JSON.stringify(json.recommendation));
-        push({ type: "success", message: "Recomendação de filhote gerada." });
+        writeCached(storageKey(leadId), json.recommendation);
+        push({ type: "success", message: "Recomendação atualizada." });
       } catch (e) {
         const message = (e as Error).message;
         setError(message);
@@ -53,75 +63,63 @@ export function LeadPuppyRecommenderCard({ leadId }: { leadId: string }) {
   };
 
   return (
-    <section className="space-y-3 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <header className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Dog className="h-5 w-5 text-[var(--brand)]" aria-hidden />
-          <div>
-            <p className="text-sm font-semibold text-[var(--text)]">Recomendação de Filhote</p>
-            <p className="text-xs text-[var(--text-muted)]">A IA usa cor, sexo, orçamento e cidade desejados para recomendar o melhor match.</p>
-          </div>
+    <section className={CARD} aria-labelledby="lead-recomendacao-titulo" aria-busy={pending}>
+      <div className={CARD_HEADER}>
+        <div className="min-w-0 flex-1">
+          <h2 id="lead-recomendacao-titulo" className={CARD_TITLE}>
+            Recomendação de filhote
+          </h2>
+          <p className={CARD_NOTE}>
+            Regra fixa, sem modelo de IA: dá pontos por cor, sexo, cidade e preço perto do orçamento, só entre os
+            filhotes disponíveis.
+          </p>
         </div>
-        <button
-          type="button"
-          onClick={run}
-          disabled={pending}
-          className="inline-flex items-center gap-1 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-semibold text-[var(--text)] hover:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
-        >
-          {pending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Sparkles className="h-4 w-4" aria-hidden />}
-          Gerar com IA
+        <button type="button" onClick={run} disabled={pending} className={BUTTON}>
+          {pending ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+          {pending ? "Recomendando…" : rec ? "Recomendar de novo" : "Recomendar"}
         </button>
-      </header>
+      </div>
 
-      {error && (
-        <div className="flex items-center gap-2 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700" role="alert">
-          <AlertCircle className="h-4 w-4" aria-hidden />
+      {error ? (
+        <p role="alert" className={`${ALERT} mt-3`}>
           {error}
-        </div>
-      )}
+        </p>
+      ) : null}
+
+      {!rec && !error ? (
+        <p className="mt-3 text-sm text-[var(--text-muted)]">Ainda sem recomendação. Use o botão “Recomendar”.</p>
+      ) : null}
 
       {rec ? (
-        <div className="space-y-3">
-          <div className="rounded-lg bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text)]">
-            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">Raciocínio</p>
-            <p className="mt-1">{rec.reasoningText}</p>
-            <p className="mt-1 text-xs text-[var(--text-muted)]">
-              Score: <span className="font-semibold text-[var(--text)]">{rec.score}</span>
-              {rec.upsellOpportunity && " • Oportunidade de upsell"}
-            </p>
+        <div className="mt-3 space-y-3 text-sm text-[var(--text)]">
+          <div className="rounded-lg bg-[var(--surface-2)] px-3 py-2">
+            <p>{rec.reasoningText}</p>
+            {rec.upsellOpportunity ? (
+              <p className="mt-2">
+                <span className={BADGE_WARN}>Preço acima do orçamento citado pelo lead</span>
+              </p>
+            ) : null}
           </div>
-          <div className="space-y-2">
-            <p className="text-sm font-semibold text-[var(--text)]">Top 3 sugestões</p>
-            <ul className="space-y-2">
-              {rec.top3Matches.map((m, idx) => (
-                <li key={m.id} className="flex items-center justify-between rounded-lg border border-[var(--border)] bg-white px-3 py-2 shadow-sm">
-                  <div>
-                    <p className="text-sm font-semibold text-[var(--text)]">
-                      #{idx + 1} {m.name}
-                    </p>
-                    <p className="text-xs text-[var(--text-muted)]">{m.reason}</p>
-                  </div>
-                  <div className="text-right text-xs text-[var(--text-muted)]">
-                    <p className="font-semibold text-[var(--text)]">{m.score} pts</p>
-                    <a
-                      href={`/admin/puppies/${m.id}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Abre em nova aba — esta sugestão de IA continua disponível aqui"
-                      className="text-[var(--brand)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
-                    >
-                      Abrir filhote
-                    </a>
-                  </div>
-                </li>
-              ))}
-              {rec.top3Matches.length === 0 && <li className="text-sm text-[var(--text-muted)]">Nenhuma sugestão disponível.</li>}
-            </ul>
-          </div>
+          {rec.top3Matches.length ? (
+            <div>
+              <h3 className="text-sm font-semibold">Três melhores opções</h3>
+              <ol className="mt-1 divide-y divide-[var(--border)]">
+                {rec.top3Matches.map((match) => (
+                  <li key={match.id} className="flex flex-wrap items-center justify-between gap-x-3 py-1">
+                    <div className="min-w-0">
+                      <Link href={`/admin/puppies/edit/${match.id}`} className={LINK}>
+                        {match.name}
+                      </Link>
+                      <p className="text-xs text-[var(--text-muted)]">Pontuou por: {match.reason}.</p>
+                    </div>
+                    <span className="shrink-0 text-xs text-[var(--text-muted)]">Nota {match.score}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ) : null}
         </div>
-      ) : (
-        <p className="text-sm text-[var(--text-muted)]">Clique em “Gerar com IA” para gerar sugestões.</p>
-      )}
+      ) : null}
     </section>
   );
 }

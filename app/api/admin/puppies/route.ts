@@ -2,6 +2,14 @@ export const dynamic = "force-dynamic";
 import type { NextRequest} from "next/server";
 import { NextResponse } from "next/server";
 
+import {
+  buildPuppyWritePayload,
+  parseAdminPuppyStatus,
+  parseMidia,
+  parsePuppySex,
+  type PuppyMedia,
+  type PuppyWriteInput,
+} from "@/lib/admin/puppyAdmin";
 import { requireAdmin } from "@/lib/adminAuth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
@@ -150,35 +158,119 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ puppy: hydrated });
 }
 
+/**
+ * Corpo JSON do formulario antigo -> campos do cadastro.
+ * Campo ausente fica de fora (nao apaga o que ja esta gravado).
+ */
+function toWriteInput(body: Record<string, unknown>): { input: PuppyWriteInput } | { error: string } {
+  const input: PuppyWriteInput = {};
+  const str = (value: unknown) => (typeof value === "string" ? value : value == null ? null : String(value));
+
+  if ("nome" in body || "name" in body) input.name = str(body.nome ?? body.name);
+  if ("codigo" in body) input.code = str(body.codigo);
+  if ("color" in body || "cor" in body) input.color = str(body.color ?? body.cor);
+  if (body.gender != null || body.sexo != null) {
+    const raw = body.gender ?? body.sexo;
+    if (raw !== "" && !parsePuppySex(raw)) return { error: "Sexo inválido. Use macho ou fêmea." };
+    if (raw !== "") input.sex = raw;
+  }
+  if ("price_cents" in body) {
+    const cents = body.price_cents == null || body.price_cents === "" ? null : Number(body.price_cents);
+    if (cents != null && (!Number.isFinite(cents) || cents < 0)) return { error: "Preço inválido." };
+    input.priceCents = cents;
+  }
+  if (body.status != null && body.status !== "") {
+    const status = parseAdminPuppyStatus(body.status);
+    if (!status) return { error: "Status inválido. Use disponível, reservado, vendido ou indisponível." };
+    input.status = status;
+  }
+  if ("nascimento" in body) input.birthDate = str(body.nascimento);
+  if ("descricao" in body) input.description = str(body.descricao);
+  if ("notes" in body) input.notes = str(body.notes);
+
+  // A tabela nao tem image_url nem video_url: capa e video entram na lista de midia.
+  if ("midia" in body || "image_url" in body || "video_url" in body) {
+    const media: PuppyMedia[] = parseMidia(body.midia);
+    const cover = typeof body.image_url === "string" ? body.image_url.trim() : "";
+    if (cover) {
+      const rest = media.filter((item) => item.url !== cover);
+      media.length = 0;
+      media.push({ url: cover, type: "image" }, ...rest);
+    }
+    const video = typeof body.video_url === "string" ? body.video_url.trim() : "";
+    if (video && !media.some((item) => item.url === video)) media.push({ url: video, type: "video" });
+    input.media = media;
+  }
+
+  return { input };
+}
+
+async function readBody(req: NextRequest): Promise<Record<string, unknown> | null> {
+  try {
+    const body = await req.json();
+    return body && typeof body === "object" && !Array.isArray(body) ? (body as Record<string, unknown>) : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Cria um filhote no estoque interno. */
 export async function POST(req: NextRequest) {
   const guard = requireAdmin(req);
   if (guard) return guard;
 
-  let data;
-  try {
-    data = await req.json();
-  } catch (err) {
-    return NextResponse.json({ error: 'Invalid JSON', parseError: err && (err as any).message }, { status: 400 });
+  const body = await readBody(req);
+  if (!body) return NextResponse.json({ error: "Envio inválido." }, { status: 400 });
+
+  const parsed = toWriteInput(body);
+  if ("error" in parsed) return NextResponse.json({ error: parsed.error }, { status: 400 });
+  if (!parsed.input.name || !parsed.input.name.trim()) {
+    return NextResponse.json({ error: "Informe o nome do filhote." }, { status: 400 });
   }
 
-  // Adapte os campos conforme sua tabela Supabase
-  const { nome, color, gender, status, nascimento, image_url, descricao, notes, video_url, midia, price_cents, codigo } = data;
-  const supabase = supabaseAdmin();
-  let result;
-  try {
-    result = await supabase
-      .from('puppies')
-      .insert([{ nome, color, gender, status, nascimento, image_url, descricao, notes, video_url, midia, price_cents, codigo }])
-      .select()
-      .maybeSingle();
-  } catch (err) {
-    return NextResponse.json({ error: 'Supabase JS Exception', exception: err && (err as any).message, data }, { status: 500 });
-  }
-  const { error, data: inserted } = result;
+  const payload = buildPuppyWritePayload(
+    { ...parsed.input, status: parsed.input.status ?? "available" },
+    { nowIso: new Date().toISOString(), isInsert: true },
+  );
+  const { data, error } = await supabaseAdmin().from("puppies").insert(payload).select("id").maybeSingle();
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  if (error) {
-    return NextResponse.json({ error: error.message, supabaseError: error, sentData: data }, { status: 500 });
+  return NextResponse.json({ ok: true, puppy: data });
+}
+
+/** Atualiza um filhote que ja existe (o formulario antigo salva a edicao por aqui). */
+export async function PUT(req: NextRequest) {
+  const guard = requireAdmin(req);
+  if (guard) return guard;
+
+  const body = await readBody(req);
+  if (!body) return NextResponse.json({ error: "Envio inválido." }, { status: 400 });
+  const id = typeof body.id === "string" ? body.id.trim() : "";
+  if (!id) return NextResponse.json({ error: "Faltou dizer qual filhote." }, { status: 400 });
+
+  const parsed = toWriteInput(body);
+  if ("error" in parsed) return NextResponse.json({ error: parsed.error }, { status: 400 });
+  if (parsed.input.name !== undefined && !(parsed.input.name ?? "").trim()) {
+    return NextResponse.json({ error: "Informe o nome do filhote." }, { status: 400 });
   }
 
-  return NextResponse.json({ ok: true, puppy: inserted, sentData: data });
+  const sb = supabaseAdmin();
+  const { data: current, error: readError } = await sb
+    .from("puppies")
+    .select("id,sold_at,reserved_at")
+    .eq("id", id)
+    .maybeSingle();
+  if (readError) return NextResponse.json({ error: readError.message }, { status: 500 });
+  if (!current) return NextResponse.json({ error: "Filhote não encontrado." }, { status: 404 });
+
+  const payload = buildPuppyWritePayload(parsed.input, {
+    nowIso: new Date().toISOString(),
+    isInsert: false,
+    current,
+  });
+  const { data, error } = await sb.from("puppies").update(payload).eq("id", id).select("id").maybeSingle();
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (!data) return NextResponse.json({ error: "Filhote não encontrado." }, { status: 404 });
+
+  return NextResponse.json({ ok: true, puppy: data });
 }

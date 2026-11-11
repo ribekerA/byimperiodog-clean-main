@@ -1,47 +1,53 @@
+const BLOCO = "animate-pulse rounded bg-[var(--border)] motion-reduce:animate-none";
+const CARTAO = "rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm sm:p-5";
+
+/** Esqueleto com o mesmo desenho da tela pronta, para nada pular de lugar quando os numeros chegam. */
 export default function DashboardLoading() {
   return (
-    <div className="space-y-6">
-      <header className="flex flex-col gap-2">
-        <div className="h-6 w-48 animate-pulse rounded bg-[var(--border)]" />
-        <div className="h-4 w-64 animate-pulse rounded bg-[var(--border)]" />
-      </header>
+    <div className="mx-auto w-full max-w-6xl space-y-5" role="status" aria-label="Carregando o dashboard">
+      <div aria-hidden="true" className="space-y-5">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <div className={`${BLOCO} h-7 w-40`} />
+            <div className={`${BLOCO} h-4 w-64`} />
+          </div>
+          <div className="flex gap-2">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className={`${BLOCO} h-11 w-24 rounded-xl`} />
+            ))}
+          </div>
+        </header>
 
-      <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, idx) => (
-          <div key={`metric-skeleton-${idx}`} className="rounded-xl border border-[var(--border)] bg-white p-4 shadow-sm">
-            <div className="h-3 w-24 animate-pulse rounded bg-[var(--border)]" />
-            <div className="mt-4 h-8 w-20 animate-pulse rounded bg-[var(--border)]" />
-            <div className="mt-3 h-3 w-32 animate-pulse rounded bg-[var(--border)]" />
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className={CARTAO}>
+              <div className={`${BLOCO} h-3 w-24`} />
+              <div className={`${BLOCO} mt-3 h-8 w-16`} />
+              <div className={`${BLOCO} mt-3 h-3 w-full`} />
+            </div>
+          ))}
+        </div>
+
+        <div className={CARTAO}>
+          <div className={`${BLOCO} h-5 w-56`} />
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {Array.from({ length: 2 }).map((_, index) => (
+              <div key={index} className={`${BLOCO} h-32 rounded-xl`} />
+            ))}
+          </div>
+        </div>
+
+        {Array.from({ length: 3 }).map((_, row) => (
+          <div key={row} className="grid gap-4 lg:grid-cols-2">
+            {Array.from({ length: 2 }).map((__, index) => (
+              <div key={index} className={CARTAO}>
+                <div className={`${BLOCO} h-5 w-40`} />
+                <div className={`${BLOCO} mt-4 h-40 rounded-xl`} />
+              </div>
+            ))}
           </div>
         ))}
-      </section>
-
-      <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-        <div className="h-5 w-40 animate-pulse rounded bg-[var(--border)]" />
-        <div className="mt-4 space-y-3">
-          {Array.from({ length: 3 }).map((_, idx) => (
-            <div key={`lead-skeleton-${idx}`} className="h-12 animate-pulse rounded bg-[var(--border)]/70" />
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-        <div className="h-5 w-48 animate-pulse rounded bg-[var(--border)]" />
-        <div className="mt-3 grid gap-3 md:grid-cols-2">
-          {Array.from({ length: 4 }).map((_, idx) => (
-            <div key={`issue-skeleton-${idx}`} className="h-20 animate-pulse rounded bg-[var(--border)]/70" />
-          ))}
-        </div>
-      </section>
-
-      <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-        <div className="h-5 w-56 animate-pulse rounded bg-[var(--border)]" />
-        <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {Array.from({ length: 3 }).map((_, idx) => (
-            <div key={`demand-skeleton-${idx}`} className="h-24 animate-pulse rounded bg-[var(--border)]/70" />
-          ))}
-        </div>
-      </section>
+      </div>
     </div>
   );
 }

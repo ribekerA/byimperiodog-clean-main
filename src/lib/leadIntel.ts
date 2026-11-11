@@ -4,12 +4,12 @@ import { createHash } from "node:crypto";
 
 import { z } from "zod";
 
+import { STOCK_PUPPY_SELECT, rowsToStockPuppies, sameCity, sameColor, sameSex } from "@/lib/admin/puppyStock";
 import { createLogger } from "@/lib/logger";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import type { Database } from "@/types/supabase";
 
 type LeadRow = Database["public"]["Tables"]["leads"]["Row"];
-type PuppyRow = Database["public"]["Tables"]["puppies"]["Row"];
 // type InsightRow = Database["public"]["Tables"]["lead_ai_insights"]["Row"]; // Removido temporariamente
 
 export type LeadRecord = LeadRow & {
@@ -138,38 +138,30 @@ function riskFromScore(score: number): "alto" | "medio" | "baixo" {
   return "alto";
 }
 
-function normalizeStatus(status?: string | null) {
-  const value = normalize(status);
-  if (["available", "disponivel"].includes(value)) return "available";
-  if (["reserved", "reservado"].includes(value)) return "reserved";
-  if (["sold", "vendido"].includes(value)) return "sold";
-  return value || "available";
-}
-
-function recommendPuppies(puppies: PuppyRow[], prefs: { color?: string | null; sex?: string | null; city?: string | null; budget?: number | null }): {
+function recommendPuppies(rows: readonly unknown[], prefs: { color?: string | null; sex?: string | null; city?: string | null; budget?: number | null }): {
   suggestions: PuppySuggestion[];
   matched: string | null;
 } {
-  const scored = puppies
-    .filter((p) => normalizeStatus(p.status) === "available")
+  const scored = rowsToStockPuppies(rows)
+    .filter((p) => p.status === "available")
     .map((p) => {
       let score = 0;
       const reasons: string[] = [];
 
-      if (prefs.color && normalize(p.color) === normalize(prefs.color)) {
+      if (sameColor(prefs.color, p.color)) {
         score += 30;
         reasons.push("Cor desejada");
       }
-      if (prefs.sex && normalize(p.sexo) === normalize(prefs.sex)) {
+      if (sameSex(prefs.sex, p.sex)) {
         score += 20;
         reasons.push("Sexo desejado");
       }
-      if (prefs.city && normalize(p.city) === normalize(prefs.city)) {
+      if (sameCity(prefs.city, p.city)) {
         score += 15;
         reasons.push("Cidade próxima");
       }
-      if (prefs.budget && typeof p.price_cents === "number") {
-        const total = p.price_cents / 100;
+      if (prefs.budget && p.priceCents) {
+        const total = p.priceCents / 100;
         const diff = Math.abs(total - prefs.budget);
         if (diff <= prefs.budget * 0.1) {
           score += 15;
@@ -189,7 +181,7 @@ function recommendPuppies(puppies: PuppyRow[], prefs: { color?: string | null; s
     .sort((a, b) => b.score - a.score)
     .slice(0, 3);
 
-  const suggestions = scored.map((entry) => ({ puppy_id: entry.puppy.id, name: entry.puppy.name ?? "Filhote", reason: entry.reason }));
+  const suggestions = scored.map((entry) => ({ puppy_id: entry.puppy.id, name: entry.puppy.name, reason: entry.reason }));
   return { suggestions, matched: suggestions[0]?.puppy_id ?? null };
 }
 
@@ -293,7 +285,7 @@ function heuristicsFromLead(lead: LeadRecord) {
 
 export async function analyzeLead(
   lead: LeadRecord,
-  options: { puppies?: PuppyRow[] } = {},
+  options: { puppies?: readonly unknown[] } = {},
 ): Promise<LeadIntelResult> {
   const heuristics = heuristicsFromLead(lead);
   const ai = await callOpenAi(lead);
@@ -386,10 +378,10 @@ export async function processLeadIntel(leadId: string, force = false) {
 
   const { data: puppies } = await sb
     .from("puppies")
-    .select("id,name,color,sex,price_cents,city,state,status")
+    .select(STOCK_PUPPY_SELECT)
     .limit(100);
 
-  const intel = await analyzeLead(leadRecord, { puppies: (puppies ?? []) as PuppyRow[] });
+  const intel = await analyzeLead(leadRecord, { puppies: puppies ?? [] });
 
   const payload = {
     lead_id: leadId,

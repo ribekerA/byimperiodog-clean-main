@@ -1,41 +1,52 @@
-import { AlertTriangle, Brain, Copy, Loader2, PawPrint, Sparkles } from "lucide-react";
+import { Copy, Loader2 } from "lucide-react";
 
-import type { LeadAdvisorSnapshot, AdvisorMessage } from "@/lib/ai/leadAdvisor";
+import type { AdvisorMessage, LeadAdvisorSnapshot } from "@/lib/ai/leadAdvisor";
 
-import type { LeadPuppyMatch, LeadStatus } from "../queries";
+import type { LeadStatus } from "../lead-status";
+import type { LeadPuppyMatch } from "../queries";
+
+const CARD = "rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm sm:p-5";
+const BUTTON =
+  "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[var(--border)] bg-white px-4 text-sm font-semibold text-[var(--text)] hover:bg-[var(--surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] disabled:cursor-not-allowed disabled:opacity-60";
+const BUTTON_PRIMARY =
+  "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[var(--brand)] px-4 text-sm font-semibold text-white hover:bg-[var(--brand-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+const BADGE =
+  "inline-flex rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2 py-0.5 text-xs text-[var(--text-muted)]";
+const BADGE_WARN =
+  "inline-flex rounded-full border border-[#e5b9a3] bg-[#fdf1ea] px-2 py-0.5 text-xs font-medium text-[#8a3a12]";
+
+const PRIORITY_LABEL = { alta: "Alta", media: "Média", baixa: "Baixa" } as const;
 
 type LeadAiSummaryCardProps = {
   advisor: LeadAdvisorSnapshot;
   matchedPuppy?: LeadPuppyMatch | null;
 };
 
+/** Leitura feita por regras fixas sobre os dados do lead. Nao ha modelo de IA aqui. */
 export function LeadAiSummaryCard({ advisor, matchedPuppy }: LeadAiSummaryCardProps) {
+  const { compatibility, priority } = advisor;
   return (
-    <article className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <header className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold text-[var(--text)]">Leitura da IA</p>
-          <p className="text-xs text-[var(--text-muted)]">Compatibilidade e prioridade</p>
-        </div>
-        <Brain className="h-5 w-5 text-indigo-500" aria-hidden />
-      </header>
-      <div className="mt-4 space-y-3 text-sm text-[var(--text)]">
-        <p className="text-base font-semibold">
-          {advisor.compatibility.label} · {advisor.compatibility.score}%
+    <section className={CARD} aria-labelledby="lead-leitura-titulo">
+      <h2 id="lead-leitura-titulo" className="text-base font-semibold text-[var(--text)]">
+        Leitura automática
+      </h2>
+      <p className="text-xs text-[var(--text-muted)]">Calculada por regras fixas, sem modelo de IA.</p>
+      <div className="mt-3 space-y-3 text-sm text-[var(--text)]">
+        <p className="font-semibold">
+          {compatibility.scored ? `${compatibility.label} · nota ${compatibility.score} de 100` : compatibility.label}
         </p>
-        <p className="text-[var(--text-muted)]">{advisor.compatibility.summary}</p>
-        {matchedPuppy && (
-          <div className="rounded-xl bg-[var(--surface)] px-3 py-2 text-xs">
-            <p className="font-semibold">Match sugerido</p>
-            <p className="text-[var(--text-muted)]">{matchedPuppy.name}</p>
-          </div>
-        )}
-        <div className="rounded-xl border border-dashed border-[var(--border)] px-3 py-2 text-xs">
-          <p className="font-semibold text-[var(--text)]">Prioridade {advisor.priority.level.toUpperCase()}</p>
-          <p className="text-[var(--text-muted)]">{advisor.priority.reason}</p>
+        <p className="text-[var(--text-muted)]">{compatibility.summary}</p>
+        {matchedPuppy ? (
+          <p className="text-[var(--text-muted)]">
+            Filhote sugerido: <span className="font-semibold text-[var(--text)]">{matchedPuppy.name}</span>
+          </p>
+        ) : null}
+        <div className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2">
+          <p className="font-semibold">Prioridade automática: {PRIORITY_LABEL[priority.level]}</p>
+          <p className="text-xs text-[var(--text-muted)]">{priority.reason}</p>
         </div>
       </div>
-    </article>
+    </section>
   );
 }
 
@@ -43,38 +54,45 @@ type LeadStatusSuggestionCardProps = {
   advisor: LeadAdvisorSnapshot;
   currentStatus: LeadStatus;
   suggestedStatus: LeadStatus | null;
-  mutating: LeadStatus | null;
-  onApply: (status: LeadStatus) => void | Promise<void>;
+  mutating: boolean;
+  onApply: (status: LeadStatus) => void;
 };
 
-export function LeadStatusSuggestionCard({ advisor, currentStatus, suggestedStatus, mutating, onApply }: LeadStatusSuggestionCardProps) {
-  const canApply = suggestedStatus && suggestedStatus !== currentStatus;
+export function LeadStatusSuggestionCard({
+  advisor,
+  currentStatus,
+  suggestedStatus,
+  mutating,
+  onApply,
+}: LeadStatusSuggestionCardProps) {
+  const canApply = suggestedStatus !== null && suggestedStatus !== currentStatus;
 
   return (
-    <article className="flex flex-col rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <header className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold text-[var(--text)]">Próximo passo</p>
-          <p className="text-xs text-[var(--text-muted)]">Sugestão automática</p>
-        </div>
-        <Sparkles className="h-5 w-5 text-amber-500" aria-hidden />
-      </header>
-      <div className="mt-4 flex-1 space-y-3 text-sm text-[var(--text)]">
-        <div className="rounded-xl bg-[var(--surface)] px-3 py-2">
-          <p className="text-xs text-[var(--text-muted)]">Status indicado</p>
-          <p className="text-base font-semibold">{advisor.status.label}</p>
-        </div>
+    <section className={`${CARD} flex flex-col`} aria-labelledby="lead-proximo-titulo">
+      <h2 id="lead-proximo-titulo" className="text-base font-semibold text-[var(--text)]">
+        Próximo passo sugerido
+      </h2>
+      <p className="text-xs text-[var(--text-muted)]">Sugestão de uma regra fixa. Quem decide é você.</p>
+      <div className="mt-3 flex-1 space-y-2 text-sm text-[var(--text)]">
+        <p>
+          Status indicado: <span className="font-semibold">{advisor.status.label}</span>
+        </p>
         <p className="text-[var(--text-muted)]">{advisor.status.reason}</p>
       </div>
-      <button
-        type="button"
-        disabled={!canApply || mutating === suggestedStatus}
-        onClick={() => suggestedStatus && onApply(suggestedStatus)}
-        className="mt-4 inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
-      >
-        {mutating === suggestedStatus ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : "Aplicar status"}
-      </button>
-    </article>
+      {canApply ? (
+        <button
+          type="button"
+          disabled={mutating}
+          onClick={() => suggestedStatus && onApply(suggestedStatus)}
+          className={`${BUTTON_PRIMARY} mt-4`}
+        >
+          {mutating ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+          Aplicar o status sugerido
+        </button>
+      ) : (
+        <p className="mt-4 text-xs text-[var(--text-muted)]">O lead já está no status indicado.</p>
+      )}
+    </section>
   );
 }
 
@@ -86,29 +104,21 @@ type LeadLossCardProps = {
 
 export function LeadLossCard({ loss, copying, onCopy }: LeadLossCardProps) {
   return (
-    <article className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <header className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold text-[var(--text)]">Risco de perda</p>
-          <p className="text-xs text-[var(--text-muted)]">Monitoramento automático</p>
-        </div>
-        <AlertTriangle className={`h-5 w-5 ${loss.isCold ? "text-rose-500" : "text-slate-400"}`} aria-hidden />
-      </header>
-      <div className="mt-4 space-y-2 text-sm text-[var(--text)]">
-        <div className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${loss.isCold ? "bg-rose-100 text-rose-700" : "bg-slate-100 text-slate-600"}`}>
-          {loss.isCold ? "Lead frio" : "Dentro da janela"}
-        </div>
+    <section className={CARD} aria-labelledby="lead-risco-titulo">
+      <h2 id="lead-risco-titulo" className="text-base font-semibold text-[var(--text)]">
+        Risco de perder o lead
+      </h2>
+      <p className="text-xs text-[var(--text-muted)]">Medido pelo tempo sem atualização.</p>
+      <div className="mt-3 space-y-2 text-sm text-[var(--text)]">
+        <span className={loss.isCold ? BADGE_WARN : BADGE}>{loss.isCold ? "Lead esfriando" : "Dentro do prazo"}</span>
         <p className="text-[var(--text-muted)]">{loss.summary}</p>
-        <p className="text-xs text-[var(--text-muted)]">Última atualização há {loss.hoursSinceUpdate}h</p>
+        <p className="text-xs text-[var(--text-muted)]">Última atualização há {loss.hoursSinceUpdate} h.</p>
       </div>
-      <button
-        type="button"
-        onClick={onCopy}
-        className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--border)] px-4 py-2 text-sm font-semibold"
-      >
-        {copying ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />} Copiar reativação
+      <button type="button" onClick={onCopy} disabled={copying} className={`${BUTTON} mt-4 w-full`}>
+        {copying ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />}
+        Copiar mensagem de retomada
       </button>
-    </article>
+    </section>
   );
 }
 
@@ -122,29 +132,38 @@ export function LeadMessageStyles({ messages, onCopy, copyingStyle }: LeadMessag
   if (!messages.length) return null;
 
   return (
-    <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-      <header className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold text-[var(--text)]">Estilos de mensagem</p>
-          <p className="text-xs text-[var(--text-muted)]">IA sugere 3 variações</p>
-        </div>
-        <PawPrint className="h-5 w-5 text-[var(--brand)]" aria-hidden />
-      </header>
-      <div className="mt-4 grid gap-3 md:grid-cols-3">
+    <section className={CARD} aria-labelledby="lead-mensagens-titulo">
+      <h2 id="lead-mensagens-titulo" className="text-base font-semibold text-[var(--text)]">
+        Sugestões de mensagem
+      </h2>
+      <p className="text-xs text-[var(--text-muted)]">
+        Modelos prontos, montados por regra fixa. Leia e ajuste antes de enviar: o texto não sabe o que já foi combinado
+        com o cliente.
+      </p>
+      <ul className="mt-3 grid gap-3 md:grid-cols-3">
         {messages.map((message) => (
-          <article key={message.id} className="flex flex-col rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-sm text-[var(--text)]">
-            <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">{message.label}</p>
-            <p className="mt-2 flex-1 text-[var(--text-muted)]">{message.text}</p>
+          <li
+            key={message.id}
+            className="flex flex-col rounded-xl border border-[var(--border)] bg-[var(--surface-2)] p-3 text-sm text-[var(--text)]"
+          >
+            <h3 className="text-sm font-semibold">{message.label}</h3>
+            <p className="mt-2 flex-1 whitespace-pre-line text-[var(--text-muted)]">{message.text}</p>
             <button
               type="button"
               onClick={() => onCopy(message.text, message.label, message.id)}
-              className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-white px-3 py-2 text-xs font-semibold"
+              disabled={copyingStyle === message.id}
+              className={`${BUTTON} mt-3`}
             >
-              {copyingStyle === message.id ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />} Copiar
+              {copyingStyle === message.id ? (
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+              ) : (
+                <Copy className="h-4 w-4" aria-hidden />
+              )}
+              Copiar<span className="sr-only"> a mensagem {message.label}</span>
             </button>
-          </article>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }

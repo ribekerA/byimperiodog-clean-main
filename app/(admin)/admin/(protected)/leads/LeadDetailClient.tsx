@@ -1,356 +1,371 @@
 "use client";
 
-import { BadgeCheck, Copy, Flame, Gauge, Loader2, MessageCircle, Sparkles } from "lucide-react";
-import { useMemo, useState } from "react";
+import { Copy, Loader2, MessageCircle } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
 
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { useToast } from "@/components/ui/toast";
-import type { LeadAdvisorSnapshot, AdvisorMessageStyle } from "@/lib/ai/leadAdvisor";
+import {
+  LEAD_STATUS_LABEL,
+  advisorSuggestionToStatus,
+  leadGreeting,
+  leadStatusNeedsConfirm,
+  leadWhatsappLink,
+  type LeadFields,
+} from "@/lib/admin/leadAdmin";
+import type { LeadAdvisorSnapshot } from "@/lib/ai/leadAdvisor";
 
-import type { LeadPuppyMatch, LeadStatus } from "./queries";
+import { LEAD_STATUS_OPTIONS } from "./lead-status";
+import type { LeadStatus } from "./lead-status";
+import type { LeadHistoryEntry, LeadPuppyMatch } from "./queries";
 import { LeadAiSummaryCard, LeadLossCard, LeadMessageStyles, LeadStatusSuggestionCard } from "./ui/LeadAdvisorCards";
 import { LeadCrossMatchCard } from "./ui/LeadCrossMatchCard";
 import { LeadFraudBadge } from "./ui/LeadFraudBadge";
 import { LeadIntelCard } from "./ui/LeadIntelCard";
 import { LeadPuppyRecommenderCard } from "./ui/LeadPuppyRecommenderCard";
 
-export type LeadDetailData = {
-  id: string;
-  name: string;
-  phone?: string | null;
-  whatsapp?: string | null;
-  city?: string | null;
-  state?: string | null;
-  preferredColor?: string | null;
-  preferredSex?: string | null;
-  status: LeadStatus;
-  createdAt?: string | null;
-  updatedAt?: string | null;
-  page?: string | null;
-  origin?: string | null;
-  message?: string | null;
-  notes?: string | null;
-};
+const CARD = "rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm sm:p-5";
+const BUTTON =
+  "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[var(--border)] bg-white px-4 text-sm font-semibold text-[var(--text)] hover:bg-[var(--surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] disabled:cursor-not-allowed disabled:opacity-60";
+const BUTTON_PRIMARY =
+  "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[var(--brand)] px-4 text-sm font-semibold text-white hover:bg-[var(--brand-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+const INPUT =
+  "min-h-[44px] w-full rounded-lg border border-[var(--border)] bg-white px-3 text-sm text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)] disabled:cursor-wait disabled:opacity-60";
+const BADGE =
+  "rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2 py-0.5 text-xs text-[var(--text-muted)]";
+const BADGE_WARN = "rounded-full border border-[#e5b9a3] bg-[#fdf1ea] px-2 py-0.5 text-xs font-medium text-[#8a3a12]";
 
-export type LeadHistoryEntry = {
-  id: string;
-  createdAt: string;
-  status?: string | null;
-  type?: string | null;
-  preview?: string | null;
-  channel?: string | null;
-  ctaLink?: string | null;
-};
+const PRIORITY_LABEL = { alta: "Alta", media: "Média", baixa: "Baixa" } as const;
 
-const STATUS_OPTIONS: { value: LeadStatus; label: string }[] = [
-  { value: "novo", label: "Novo" },
-  { value: "em_contato", label: "Em contato" },
-  { value: "fechado", label: "Fechado" },
-  { value: "perdido", label: "Perdido" },
-];
+const DATE_TIME = new Intl.DateTimeFormat("pt-BR", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZone: "America/Sao_Paulo",
+});
 
-const PRIORITY_LABELS = {
-  alta: "Alta",
-  media: "Média",
-  baixa: "Baixa",
-} as const;
+const EMPTY_VALUE = "Não informado";
 
-const PRIORITY_BADGES = {
-  alta: "bg-rose-100 text-rose-700",
-  media: "bg-amber-100 text-amber-700",
-  baixa: "bg-slate-100 text-slate-600",
-} as const;
-
-const STATUS_SUGGESTION_TO_STATUS: Record<string, LeadStatus | null> = {
-  novo: "novo",
-  em_conversa: "em_contato",
-  followup: "em_contato",
-  quase_fechado: "em_contato",
-  fechado: "fechado",
-  perdido: "perdido",
-};
-
-const EMPTY_VALUE = "—";
-
-const formatDateTime = (value?: string | null) => {
+function formatDateTime(value: string | null | undefined): string {
   if (!value) return EMPTY_VALUE;
   const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleString("pt-BR");
-};
+  return Number.isNaN(date.getTime()) ? EMPTY_VALUE : DATE_TIME.format(date).replace(",", "");
+}
 
-const valueOrDash = (value?: string | null) => {
-  if (!value) return EMPTY_VALUE;
-  const trimmed = value.toString().trim();
+function valueOr(value: string | null | undefined): string {
+  const trimmed = (value ?? "").trim();
   return trimmed.length ? trimmed : EMPTY_VALUE;
-};
+}
 
-const buildFallbackMessage = (lead: LeadDetailData, puppy?: LeadPuppyMatch | null) => {
-  const firstName = (lead.name || "").split(" ")[0] ?? "";
-  const desired = [lead.preferredColor, lead.preferredSex].filter(Boolean).join(" • ");
-  return `Olá ${firstName || ""}! Somos da By Império Dog. Vimos seu interesse${desired ? ` (${desired})` : ""}${
-    puppy ? ` e o ${puppy.name} combina muito com o que você procura` : ""
-  }. Podemos te enviar fotos e detalhes agora?`;
-};
+export type LeadDetailData = LeadFields & { notes: string | null };
 
-const selectMessageText = (
-  advisor: LeadAdvisorSnapshot,
-  lead: LeadDetailData,
-  style?: AdvisorMessageStyle,
-  puppy?: LeadPuppyMatch | null,
-) => {
-  const selected = advisor.messages.find((message) => (style ? message.id === style : true));
-  return selected?.text ?? buildFallbackMessage(lead, puppy);
-};
-
-const buildWhatsAppLink = (lead: LeadDetailData, advisor: LeadAdvisorSnapshot, style?: AdvisorMessageStyle, puppy?: LeadPuppyMatch | null) => {
-  if (!lead.whatsapp) return null;
-  const text = selectMessageText(advisor, lead, style, puppy);
-  return `https://wa.me/${lead.whatsapp}?text=${encodeURIComponent(text)}`;
-};
+type Pending = { next: LeadStatus; suggested: boolean };
 
 export function LeadDetailClient({
   lead,
   history,
+  historyOk,
   matchedPuppy,
   insight,
   advisor,
 }: {
   lead: LeadDetailData;
   history: LeadHistoryEntry[];
-  matchedPuppy?: LeadPuppyMatch | null;
-  insight?: Record<string, unknown> | null;
+  historyOk: boolean;
+  matchedPuppy: LeadPuppyMatch | null;
+  insight: Record<string, unknown> | null;
   advisor: LeadAdvisorSnapshot;
 }) {
+  const router = useRouter();
   const { push } = useToast();
-  const [mutating, setMutating] = useState<LeadStatus | null>(null);
+  const [, startRefresh] = useTransition();
+  const [status, setStatus] = useState<LeadStatus>(lead.status);
+  const [firstRespondedAt, setFirstRespondedAt] = useState<string | null>(lead.firstRespondedAt);
+  const [mutating, setMutating] = useState(false);
   const [copyingStyle, setCopyingStyle] = useState<string | null>(null);
-  const [pendingStatusSuggestion, setPendingStatusSuggestion] = useState<LeadStatus | null>(null);
-  const suggestedStatus = STATUS_SUGGESTION_TO_STATUS[advisor.status.suggestion] ?? null;
+  const [pending, setPending] = useState<Pending | null>(null);
+  const [announcement, setAnnouncement] = useState("");
 
-  const primaryStyle = advisor.messages[0]?.id;
-  const message = useMemo(() => selectMessageText(advisor, lead, primaryStyle, matchedPuppy), [advisor, lead, matchedPuppy, primaryStyle]);
-  const whatsappLink = useMemo(
-    () => buildWhatsAppLink(lead, advisor, primaryStyle, matchedPuppy),
-    [lead, advisor, matchedPuppy, primaryStyle],
-  );
+  // Dados novos do servidor valem mais do que o que a tela guardou.
+  useEffect(() => {
+    setStatus(lead.status);
+    setFirstRespondedAt(lead.firstRespondedAt);
+  }, [lead.status, lead.firstRespondedAt]);
 
-  const handleStatusChange = async (status: LeadStatus) => {
-    setMutating(status);
+  const suggestedStatus = advisorSuggestionToStatus(advisor.status.suggestion);
+  const greeting = leadGreeting(lead);
+  const whatsappLink = leadWhatsappLink(lead);
+
+  const applyStatus = async (next: LeadStatus) => {
+    setMutating(true);
     try {
       const res = await fetch("/api/admin/leads/status", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: lead.id, status }),
+        body: JSON.stringify({ id: lead.id, status: next }),
       });
-      if (!res.ok) {
-        const payload = await res.json().catch(() => ({}));
-        throw new Error(payload?.error || "Erro ao atualizar status");
-      }
-      push({ type: "success", message: "Status atualizado" });
-    } catch (error) {
-      push({ type: "error", message: error instanceof Error ? error.message : "Erro ao atualizar status" });
+      const payload = (await res.json().catch(() => ({}))) as { error?: string; firstRespondedAt?: string | null };
+      if (!res.ok) throw new Error(payload.error || "Não foi possível gravar o status.");
+      setStatus(next);
+      if (payload.firstRespondedAt) setFirstRespondedAt(payload.firstRespondedAt);
+      const message = `${lead.name} agora está como ${LEAD_STATUS_LABEL[next]}.`;
+      setAnnouncement(message);
+      push({ type: "success", message });
+      startRefresh(() => router.refresh());
+    } catch (cause) {
+      const message = cause instanceof Error ? cause.message : "Não foi possível gravar o status.";
+      setAnnouncement(`O status não mudou. ${message}`);
+      push({ type: "error", message });
     } finally {
-      setMutating(null);
+      setMutating(false);
     }
   };
 
-  const handleCopyMessage = async (text: string, label: string, styleId?: string) => {
+  const requestStatus = (next: LeadStatus, suggested = false) => {
+    if (next === status) return;
+    if (suggested || leadStatusNeedsConfirm(next)) setPending({ next, suggested });
+    else void applyStatus(next);
+  };
+
+  const copyMessage = async (text: string, label: string, styleId?: string) => {
     try {
       setCopyingStyle(styleId ?? "default");
       await navigator.clipboard.writeText(text);
-      push({ type: "success", message: `Mensagem ${label.toLowerCase()} copiada` });
+      const message = `Mensagem copiada: ${label}.`;
+      setAnnouncement(message);
+      push({ type: "success", message });
     } catch {
-      push({ type: "error", message: "Não foi possível copiar" });
+      push({ type: "error", message: "Não foi possível copiar. Selecione o texto e copie à mão." });
     } finally {
       setCopyingStyle(null);
     }
   };
 
-  const openWhatsApp = () => {
-    if (!whatsappLink) {
-      push({ type: "error", message: "Telefone sem WhatsApp válido" });
-      return;
-    }
-    window.open(whatsappLink, "_blank", "noopener,noreferrer");
-  };
+  const waiting = status === "novo" && !firstRespondedAt;
 
   return (
-    <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--text)]">{lead.name}</h1>
-          <p className="text-sm text-[var(--text-muted)]">Lead #{lead.id}</p>
-          <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold">
-            <span
-              className={`inline-flex items-center gap-1 rounded-full px-3 py-1 ${PRIORITY_BADGES[advisor.priority.level]}`}
-            >
-              <Flame className="h-3.5 w-3.5" aria-hidden /> Prioridade {PRIORITY_LABELS[advisor.priority.level]}
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-full bg-[var(--brand-tint-50)] px-3 py-1 text-[var(--brand)]">
-              <Gauge className="h-3.5 w-3.5" aria-hidden /> Compatibilidade {advisor.compatibility.score}%
-            </span>
+    <div className="space-y-4">
+      <p className="sr-only" role="status" aria-live="polite">
+        {announcement}
+      </p>
+
+      <header className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="break-words text-2xl font-bold text-[var(--text)]">{lead.name}</h1>
+          <p className="text-sm text-[var(--text-muted)]">Chegou em {formatDateTime(lead.createdAt)}</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <span className={BADGE}>Status: {LEAD_STATUS_LABEL[status]}</span>
+            {waiting ? <span className={BADGE_WARN}>Aguardando primeiro contato</span> : null}
+            <span className={BADGE}>Prioridade automática: {PRIORITY_LABEL[advisor.priority.level]}</span>
+            {advisor.compatibility.scored ? (
+              <span className={BADGE}>Compatibilidade: nota {advisor.compatibility.score} de 100</span>
+            ) : null}
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex w-full flex-wrap gap-2 sm:w-auto">
           <button
             type="button"
-            onClick={() => handleCopyMessage(message, advisor.messages[0]?.label ?? "IA", primaryStyle)}
-            className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2 text-sm font-semibold"
+            onClick={() => copyMessage(greeting, "saudação")}
+            disabled={copyingStyle === "default"}
+            className={BUTTON}
           >
-            {copyingStyle && copyingStyle === (primaryStyle ?? "default") ? (
+            {copyingStyle === "default" ? (
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
             ) : (
               <Copy className="h-4 w-4" aria-hidden />
             )}
-            Copiar mensagem
+            Copiar saudação
           </button>
-          <button
-            type="button"
-            onClick={openWhatsApp}
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[var(--brand-hover)]"
-          >
-            <MessageCircle className="h-4 w-4" aria-hidden /> Abrir conversa
-          </button>
+          {whatsappLink ? (
+            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className={BUTTON_PRIMARY}>
+              <MessageCircle className="h-4 w-4" aria-hidden />
+              Abrir conversa no WhatsApp
+              <span className="sr-only"> (abre em nova aba)</span>
+            </a>
+          ) : (
+            <p className="self-center text-sm text-[var(--text-muted)]">Telefone sem formato de WhatsApp.</p>
+          )}
         </div>
       </header>
 
-      <section className="grid gap-4 lg:grid-cols-[2fr,1fr]">
-        <div className="space-y-4 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-          <div className="grid gap-3 md:grid-cols-2">
-            <Info label="Telefone" value={valueOrDash(lead.phone)} />
-            <Info label="Cidade" value={valueOrDash([lead.city, lead.state].filter(Boolean).join(", "))} />
-            <Info label="Cor desejada" value={valueOrDash(lead.preferredColor)} />
-            <Info label="Sexo" value={valueOrDash(lead.preferredSex)} />
-            <Info label="Origem" value={valueOrDash(lead.origin)} />
-            <Info label="Página" value={valueOrDash(lead.page)} />
-            <Info label="Criado em" value={formatDateTime(lead.createdAt)} />
-            <Info label="Atualizado em" value={formatDateTime(lead.updatedAt)} />
-          </div>
-          {(lead.message || lead.notes) && (
-            <div className="rounded-xl bg-[var(--surface)] p-4 text-sm text-[var(--text)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">Mensagem do lead</p>
-              <p className="mt-2 whitespace-pre-line">{lead.message || lead.notes}</p>
-            </div>
-          )}
-          {!lead.message && !lead.notes && (
-            <div className="rounded-xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--text-muted)]">
-              Nenhuma mensagem registrada para este lead.
-            </div>
-          )}
-        </div>
+      <div className="grid gap-4 lg:grid-cols-[2fr,1fr]">
+        <section className={CARD} aria-labelledby="lead-dados-titulo">
+          <h2 id="lead-dados-titulo" className="text-base font-semibold text-[var(--text)]">
+            Dados do pedido
+          </h2>
+          <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+            <Info label="Telefone" value={valueOr(lead.phone)} />
+            <Info label="Cidade" value={valueOr([lead.city, lead.state].filter(Boolean).join(" / "))} />
+            <Info label="Cor desejada" value={valueOr(lead.color)} />
+            <Info label="Sexo desejado" value={valueOr(lead.preferredSex)} />
+            <Info label="Origem" value={valueOr(lead.source)} />
+            <Info label="Página" value={valueOr(lead.page)} />
+            <Info
+              label="Primeira resposta"
+              value={firstRespondedAt ? formatDateTime(firstRespondedAt) : "Ainda não registrada"}
+            />
+            <Info label="Última atualização" value={formatDateTime(lead.updatedAt)} />
+          </dl>
+          {lead.gclid ? (
+            <p className="mt-3 text-sm text-[var(--text-muted)]">Este lead chegou por um anúncio do Google.</p>
+          ) : null}
+          <h3 className="mt-4 text-sm font-semibold text-[var(--text)]">Mensagem do lead</h3>
+          <p className="mt-1 whitespace-pre-line break-words text-sm text-[var(--text-muted)]">
+            {lead.message?.trim() ? lead.message : "O lead não escreveu mensagem."}
+          </p>
+          {lead.notes?.trim() ? (
+            <>
+              <h3 className="mt-4 text-sm font-semibold text-[var(--text)]">Anotações internas</h3>
+              <p className="mt-1 whitespace-pre-line break-words text-sm text-[var(--text-muted)]">{lead.notes}</p>
+            </>
+          ) : null}
+        </section>
 
-        <div className="space-y-4 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-          <div>
-            <p className="text-sm font-semibold text-[var(--text)]">Status rápido</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {STATUS_OPTIONS.map((option) => (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => handleStatusChange(option.value)}
-                  disabled={mutating === option.value}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-[var(--border)] ${
-                    lead.status === option.value ? "bg-[var(--brand-tint-100)] text-[var(--brand)]" : "bg-white text-[var(--text)]"
-                  }`}
-                >
-                  {mutating === option.value ? "..." : option.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="h-px w-full bg-[var(--border)]" aria-hidden />
-          <div>
-            <p className="text-sm font-semibold text-[var(--text)]">Mensagem sugerida</p>
-            <p className="mt-2 text-sm text-[var(--text-muted)]">{message}</p>
-          </div>
-        </div>
-      </section>
+        <section className={CARD} aria-labelledby="lead-status-titulo">
+          <h2 id="lead-status-titulo" className="text-base font-semibold text-[var(--text)]">
+            Atendimento
+          </h2>
+          <label htmlFor="lead-detail-status" className="mb-1 mt-3 block text-sm font-medium text-[var(--text)]">
+            Status do lead
+          </label>
+          <select
+            id="lead-detail-status"
+            value={status}
+            disabled={mutating}
+            onChange={(event) => requestStatus(event.target.value as LeadStatus)}
+            className={INPUT}
+          >
+            {LEAD_STATUS_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {LEAD_STATUS_LABEL[option]}
+              </option>
+            ))}
+          </select>
+          <p className="mt-2 text-xs text-[var(--text-muted)]">
+            Ao sair de Novo pela primeira vez, o painel registra a hora da primeira resposta.
+          </p>
+          <h3 className="mt-4 text-sm font-semibold text-[var(--text)]">Saudação do WhatsApp</h3>
+          <p className="mt-1 text-sm text-[var(--text-muted)]">{greeting}</p>
+        </section>
+      </div>
 
-      <section className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-4 lg:grid-cols-3">
         <LeadAiSummaryCard advisor={advisor} matchedPuppy={matchedPuppy} />
         <LeadStatusSuggestionCard
           advisor={advisor}
-          currentStatus={lead.status}
+          currentStatus={status}
           suggestedStatus={suggestedStatus}
-          onApply={setPendingStatusSuggestion}
+          onApply={(next) => requestStatus(next, true)}
           mutating={mutating}
         />
         <LeadLossCard
           loss={advisor.loss}
           copying={copyingStyle === "reactivation"}
-          onCopy={() => handleCopyMessage(advisor.loss.reactivationMessage, "reativação", "reactivation")}
+          onCopy={() => copyMessage(advisor.loss.reactivationMessage, "retomada", "reactivation")}
         />
-      </section>
+      </div>
 
-      <section className="grid gap-4 lg:grid-cols-3">
-        <LeadIntelCard leadId={lead.id} initial={insight as any} />
-        {matchedPuppy ? (
-          <div className="space-y-3 rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold text-[var(--text)]">Filhote associado</p>
-                <p className="text-xs text-[var(--text-muted)]">Match do funil</p>
-              </div>
-              <BadgeCheck className="h-5 w-5 text-[var(--brand)]" aria-hidden />
+      <div className="grid gap-4 lg:grid-cols-3">
+        <LeadIntelCard leadId={lead.id} initial={insight} />
+        <section className={CARD} aria-labelledby="lead-filhote-titulo">
+          <h2 id="lead-filhote-titulo" className="text-base font-semibold text-[var(--text)]">
+            Filhote sugerido
+          </h2>
+          {matchedPuppy ? (
+            <div className="mt-3 space-y-1 text-sm text-[var(--text)]">
+              <p className="font-semibold">{matchedPuppy.name}</p>
+              <p className="text-[var(--text-muted)]">
+                {[matchedPuppy.color, matchedPuppy.sex].filter(Boolean).join(" · ") || "Cor e sexo não informados"}
+              </p>
+              <Link
+                href={`/admin/puppies/edit/${matchedPuppy.id}`}
+                className="inline-flex min-h-[44px] items-center font-semibold text-[var(--brand)] underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ring)]"
+              >
+                Abrir a ficha de {matchedPuppy.name}
+              </Link>
             </div>
-            <div className="rounded-xl bg-[var(--surface)] p-3 text-sm text-[var(--text)]">
-              <p className="text-base font-semibold">{matchedPuppy.name}</p>
-              <p className="text-xs text-[var(--text-muted)]">{matchedPuppy.color || EMPTY_VALUE}</p>
-              <a href={`/admin/puppies/${matchedPuppy.id}`} className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[var(--brand)] hover:underline">
-                Abrir ficha
-              </a>
-            </div>
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--text-muted)]">
-            Nenhum filhote associado. Use o card de recomendação para sugerir matches.
-          </div>
-        )}
+          ) : (
+            <p className="mt-3 text-sm text-[var(--text-muted)]">
+              Nenhum filhote foi ligado a este lead. Use “Recomendação de filhote” para comparar com o estoque.
+            </p>
+          )}
+        </section>
         <LeadPuppyRecommenderCard leadId={lead.id} />
-      </section>
+      </div>
 
-      <LeadMessageStyles messages={advisor.messages} onCopy={handleCopyMessage} copyingStyle={copyingStyle} />
+      <LeadMessageStyles messages={advisor.messages} onCopy={copyMessage} copyingStyle={copyingStyle} />
 
-      <LeadCrossMatchCard leadId={lead.id} />
-      <LeadFraudBadge leadId={lead.id} />
+      <div className="grid gap-4 lg:grid-cols-2">
+        <LeadCrossMatchCard leadId={lead.id} />
+        <LeadFraudBadge leadId={lead.id} />
+      </div>
 
-      <section className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
-        <header className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-semibold text-[var(--text)]">Histórico de interações</p>
-            <p className="text-xs text-[var(--text-muted)]">Mensagens automáticas e registros manuais</p>
-          </div>
-          <Sparkles className="h-5 w-5 text-[var(--text-muted)]" aria-hidden />
-        </header>
-        <ul className="mt-4 space-y-3">
-          {history.length === 0 && <li className="text-sm text-[var(--text-muted)]">Nenhum log registrado ainda.</li>}
-          {history.map((entry) => (
-            <li key={entry.id} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text)]">
-              <div className="flex items-center justify-between text-xs text-[var(--text-muted)]">
-                <span>{formatDateTime(entry.createdAt)}</span>
-                <span>{entry.type || EMPTY_VALUE}</span>
-              </div>
-              <p className="mt-1 font-semibold">{entry.status || "Evento"}</p>
-              <p className="text-sm text-[var(--text-muted)]">{entry.preview || "(sem conteúdo)"}</p>
-            </li>
-          ))}
-        </ul>
+      <section className={CARD} aria-labelledby="lead-historico-titulo">
+        <h2 id="lead-historico-titulo" className="text-base font-semibold text-[var(--text)]">
+          Mensagens automáticas enviadas
+        </h2>
+        <p className="text-xs text-[var(--text-muted)]">
+          Só o que o sistema enviou sozinho. Conversas feitas à mão no WhatsApp não aparecem aqui.
+        </p>
+        {!historyOk ? (
+          <p role="alert" className="mt-3 rounded-lg border border-[#e5b9a3] bg-[#fdf1ea] px-3 py-2 text-sm text-[#8a3a12]">
+            Não foi possível ler o histórico agora. Isso não quer dizer que ele esteja vazio.
+          </p>
+        ) : history.length === 0 ? (
+          <p className="mt-3 text-sm text-[var(--text-muted)]">Nenhuma mensagem automática registrada para este lead.</p>
+        ) : (
+          <ul className="mt-3 space-y-2">
+            {history.map((entry) => (
+              <li
+                key={entry.id}
+                className="rounded-xl border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2 text-sm text-[var(--text)]"
+              >
+                <p className="text-xs text-[var(--text-muted)]">
+                  {[formatDateTime(entry.createdAt), entry.type, entry.status].filter(Boolean).join(" · ")}
+                </p>
+                <p className="mt-1 break-words text-[var(--text-muted)]">{entry.preview || "Sem conteúdo registrado."}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <ConfirmDialog
-        open={pendingStatusSuggestion !== null}
+        open={pending !== null}
         onOpenChange={(open) => {
-          if (!open) setPendingStatusSuggestion(null);
+          if (!open) setPending(null);
         }}
-        title="Aplicar status sugerido pela IA?"
-        description={`A IA sugeriu marcar este lead como "${
-          STATUS_OPTIONS.find((o) => o.value === pendingStatusSuggestion)?.label ?? pendingStatusSuggestion
-        }". Confirme para aplicar essa mudança de status.`}
-        confirmLabel="Aplicar status"
-        variant={pendingStatusSuggestion === "perdido" ? "danger" : "default"}
+        title={
+          pending
+            ? pending.suggested
+              ? "Aplicar o status sugerido?"
+              : `Marcar ${lead.name} como ${LEAD_STATUS_LABEL[pending.next]}?`
+            : ""
+        }
+        description={
+          pending
+            ? `${
+                pending.suggested
+                  ? `A regra automática sugeriu marcar este lead como ${LEAD_STATUS_LABEL[pending.next]}. `
+                  : ""
+              }${
+                pending.next === "convertido"
+                  ? "Use Convertido só quando a venda estiver fechada de verdade. Esse número entra no painel como venda."
+                  : pending.next === "perdido"
+                    ? "Perdido encerra o atendimento deste lead. Dá para voltar atrás trocando o status depois."
+                    : "Dá para voltar atrás trocando o status depois."
+              }`
+            : ""
+        }
+        confirmLabel={pending ? `Marcar como ${LEAD_STATUS_LABEL[pending.next]}` : "Confirmar"}
+        variant={pending?.next === "perdido" ? "danger" : "default"}
         onConfirm={() => {
-          if (pendingStatusSuggestion) void handleStatusChange(pendingStatusSuggestion);
-          setPendingStatusSuggestion(null);
+          if (pending) void applyStatus(pending.next);
+          setPending(null);
         }}
       />
     </div>
@@ -359,9 +374,9 @@ export function LeadDetailClient({
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2">
-      <p className="text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">{label}</p>
-      <p className="text-sm font-semibold text-[var(--text)]">{value}</p>
+    <div className="rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-3 py-2">
+      <dt className="text-xs text-[var(--text-muted)]">{label}</dt>
+      <dd className="break-words text-sm font-semibold text-[var(--text)]">{value}</dd>
     </div>
   );
 }

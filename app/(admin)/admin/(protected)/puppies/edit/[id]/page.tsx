@@ -32,7 +32,7 @@ export default function EditPuppyPage() {
         if (!mounted) return;
         if (!response.ok) throw new Error(json?.error || "Falha ao carregar filhote");
         const found = json?.puppy as RawPuppy | undefined;
-        if (!found) setError("Filhote nao encontrado.");
+        if (!found) setError("Filhote não encontrado.");
         else {
           // Normaliza slug para string vazia quando vier nulo/undefined, evitando erro de tipo
           const normalized: RawPuppy = { ...found, slug: found.slug ?? "" };
@@ -65,7 +65,7 @@ export default function EditPuppyPage() {
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold text-[var(--text)]">Editar filhote</h1>
         <p className="max-w-3xl text-sm text-[var(--text-muted)]">
-          Atualize informacoes, preco, status e midias deste filhote.
+          Atualize informações, preço, status e mídias deste filhote. As mudanças valem para o estoque interno; o site não é alterado por aqui.
         </p>
       </header>
 
