@@ -182,6 +182,35 @@
   status = 301
   force = true
 
+# Quatro enderecos antigos que o Search Console listava como 404 em 11/11/2026.
+# O Google ainda os guardava; cada um vai para a pagina que ocupa o lugar hoje.
+# Os tres de filhote sao do tempo em que o slug comecava com "lulu-da-pomerania";
+# o particolor macho nao tem mais ficha, entao vai para a pagina da cor.
+# `force` porque nao ha pagina com esses slugs para o redirect atropelar.
+[[redirects]]
+  from = "/blog/como-alimentar-spitz-alemao"
+  to = "/blog/alimentacao-spitz-alemao-anao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/filhotes/lulu-da-pomerania-branco-macho"
+  to = "/filhotes/spitz-alemao-anao-branco-macho"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/filhotes/lulu-da-pomerania-laranja-macho"
+  to = "/filhotes/spitz-alemao-anao-laranja-macho"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/filhotes/lulu-da-pomerania-particolor-macho"
+  to = "/filhotes/cor/particolor"
+  status = 301
+  force = true
+
 # Capas do blog: eram PNG de 1536x1024 e ~2,2 MB cada, agora sao JPEG de
 # 1280x853 e ~120 KB. As URLs .png estao no ar desde 15/07/2026 e entraram no
 # deploy que o dominio serve hoje, entao podem estar no indice do Google

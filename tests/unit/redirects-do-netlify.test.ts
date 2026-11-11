@@ -75,6 +75,17 @@ describe("redirects do netlify.toml", () => {
   });
 });
 
+describe("enderecos antigos que o Search Console listava como 404", () => {
+  it.each([
+    ["/blog/como-alimentar-spitz-alemao", "/blog/alimentacao-spitz-alemao-anao"],
+    ["/filhotes/lulu-da-pomerania-branco-macho", "/filhotes/spitz-alemao-anao-branco-macho"],
+    ["/filhotes/lulu-da-pomerania-laranja-macho", "/filhotes/spitz-alemao-anao-laranja-macho"],
+    ["/filhotes/lulu-da-pomerania-particolor-macho", "/filhotes/cor/particolor"],
+  ])("%s responde 301 para %s", (from, to) => {
+    expect(REDIRECTS.find((r) => r.from === from)).toEqual({ from, to, status: 301, force: true });
+  });
+});
+
 describe("sitelink do Google Ads que apontava para 404", () => {
   const regra = REDIRECTS.find((r) => r.from === SITELINK_QUEBRADO);
 
