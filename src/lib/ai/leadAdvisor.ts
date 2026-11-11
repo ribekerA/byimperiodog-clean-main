@@ -106,6 +106,8 @@ const normalize = (value?: string | null) => (value ?? "").toLowerCase().normali
 
 const contains = (value: string, tokens: string[]) => tokens.some((token) => value.includes(token));
 
+const BREED = "Spitz Alemão (Lulu da Pomerânia)";
+
 function buildCompatibility(input: LeadAdvisorInput, baseScore: number): AdvisorCompatibility {
   const puppy = input.matchedPuppy ?? input.suggestedPuppies?.[0] ?? null;
   const puppyName = puppy?.name;
@@ -120,30 +122,35 @@ function buildCompatibility(input: LeadAdvisorInput, baseScore: number): Advisor
 function buildMessages(input: LeadAdvisorInput, compatibility: AdvisorCompatibility): AdvisorMessage[] {
   const firstName = toFirstName(input.name) || "tudo bem";
   const contextColor = input.preferredColor ? ` na cor ${input.preferredColor}` : "";
-  const puppyName = compatibility.puppyName ? ` o ${compatibility.puppyName}` : " um Spitz da nossa ninhada";
+  const puppy = compatibility.puppyName;
+  // As mensagens nao dizem "separamos" nem "reservei": ninguem reservou nada
+  // quando a sugestao aparece. Tambem nao prometem condicao especial com prazo.
   // "Entregamos em X sem burocracia" e "entrega segura para todo Brasil" iam
   // para a sugestao de mensagem que a criadora envia no WhatsApp — prometendo,
   // em primeira pessoa, um transporte que o canil nao opera nem pode garantir.
   const cityLine = input.city
     ? ` Atendemos ${input.city}: a retirada é em Bragança Paulista (SP) ou por transporte especializado.`
     : " Atendemos famílias de todo o Brasil.";
-  const base = `Somos da By Império Dog e separamos${puppyName}${contextColor}.`;
+  const intro = "Aqui é da By Império Dog.";
+  const interest = `Vi seu interesse em um ${BREED}${contextColor}`;
 
   return [
     {
       id: "fast",
-      label: "Rapido",
-      text: `Oi ${firstName}! ${base} Consigo te mandar fotos em minutos, pode ser?`,
+      label: "Rápido",
+      text: `Oi ${firstName}! ${intro} ${interest}. Posso te mandar fotos ${puppy ? `do ${puppy}` : "dos filhotes disponíveis"} agora?`,
     },
     {
       id: "polite",
       label: "Educado",
-      text: `Ola ${firstName}, tudo bem? Aqui e a By Império Dog. Vi seu interesse em um Spitz${contextColor} e reservei${puppyName} para voce.${cityLine} Posso te enviar detalhes agora?`,
+      text: `Olá ${firstName}, tudo bem? ${intro} ${interest}${puppy ? `, e o ${puppy} pode combinar com o que você procura` : ""}.${cityLine} Posso te enviar os detalhes?`,
     },
     {
       id: "persuasive",
-      label: "Persuasivo",
-      text: `Oi ${firstName}! Separei${puppyName} que combina muito com o que voce buscou${contextColor}. Ele(a) esta disponivel hoje e posso garantir condicoes especiais se avancarmos ainda esta semana. Te envio video e valores?`,
+      label: "Detalhado",
+      text: puppy
+        ? `Oi ${firstName}! ${intro} O ${puppy}, nosso ${BREED}, combina com o que você buscou${contextColor} e está disponível hoje. Te envio vídeo e valores?`
+        : `Oi ${firstName}! ${intro} ${interest}. Te envio vídeo e valores dos filhotes disponíveis?`,
     },
   ];
 }
@@ -218,7 +225,7 @@ function buildLossPrevention(input: LeadAdvisorInput, status: AdvisorStatus): Ad
   const hoursSinceUpdate = diffInHours(input.updatedAt ?? input.createdAt);
   const isCold = hoursSinceUpdate >= HOURS_48 && status.suggestion !== "fechado" && status.suggestion !== "perdido";
   const summary = isCold ? `Lead sem atualização há ${hoursSinceUpdate} h.` : "Atualizado há menos de 48 h.";
-  const reactivationMessage = `Oi ${toFirstName(input.name)}! Passando para saber se voce ainda tem interesse${input.preferredColor ? ` no Spitz ${input.preferredColor}` : ""}. Posso te enviar a disponibilidade atual?`;
+  const reactivationMessage = `Oi ${toFirstName(input.name) || "tudo bem"}! Aqui é da By Império Dog. Passando para saber se você ainda tem interesse no ${BREED}${input.preferredColor ? ` ${input.preferredColor}` : ""}. Posso te enviar a disponibilidade atual?`;
   return { isCold, hoursSinceUpdate, summary, reactivationMessage };
 }
 
