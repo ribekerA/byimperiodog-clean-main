@@ -50,7 +50,7 @@ export const REGRAS_DE_NEGOCIO_PARA_IA = [
   "Regras obrigatórias da By Império Dog (texto fora delas não é publicado):",
   '- Toda frase que citar "Spitz Alemão" precisa citar também "Lulu da Pomerânia" na mesma frase, inclusive título, resumo e subtítulos.',
   `- Preço de filhote só nestas formas: "${textoAPartirDeNoPix(PISO_MACHO)}" para machos e "${textoAPartirDeNoPix(PISO_FEMEA)}" para fêmeas. Nenhum outro valor de filhote e nada de parcelamento.`,
-  `- A empresa atua desde ${FOUNDING_YEAR}. Nem todo filhote nasceu na empresa: escreva "filhotes apresentados pela By Império Dog" e nunca que todos nasceram ou foram criados nela.`,
+  `- A empresa atua desde ${FOUNDING_YEAR}. Ao falar de filhotes, escreva "filhotes apresentados pela By Império Dog" e nunca afirme que todos nasceram ou foram criados na empresa. Não mencione outras origens.`,
   "- Não invente pedigree, microchip, exames, ascendência, certificações, garantias ou informações veterinárias. Em assunto de saúde, oriente procurar o médico-veterinário.",
   "- Nunca use as palavras adoção, doação ou boutique, e não cite a cor Cinza-Lobo (Wolf Sable).",
 ].join("\n");
