@@ -66,6 +66,16 @@ export async function redirectIfAuthed() {
   if (session) redirect("/admin/dashboard");
 }
 
+function hostsDoPedido(req: Request | NextRequest): Set<string> {
+  const hosts = new Set<string>();
+  try { hosts.add(new URL(req.url).host.toLowerCase()); } catch { /* sem url valida */ }
+  const encaminhado = req.headers.get("x-forwarded-host")?.split(",")[0]?.trim();
+  if (encaminhado) hosts.add(encaminhado.toLowerCase());
+  const host = req.headers.get("host")?.trim();
+  if (host) hosts.add(host.toLowerCase());
+  return hosts;
+}
+
 export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOptions = {}) {
   // Este guard verifica a assinatura HMAC do admin_session -- de forma sincrona,
   // via node:crypto (ver src/lib/adminSessionNode.ts), porque os ~97 call sites
@@ -83,8 +93,16 @@ export function requireAdminApi(req: Request | NextRequest, options: ApiGuardOpt
     const origin = req.headers.get("origin");
     let sameOrigin = fetchSite !== "cross-site";
     if (origin) {
-      try { sameOrigin = sameOrigin && new URL(origin).origin === new URL(req.url).origin; }
-      catch { sameOrigin = false; }
+      // Na funcao da Netlify o req.url nao e o endereco publico, entao comparar
+      // so com ele recusava todo POST do admin em producao (16/11/2026). O host
+      // que o navegador pediu chega em x-forwarded-host / host, que um site de
+      // terceiro nao consegue forjar a partir do navegador da vitima.
+      try {
+        const origemHost = new URL(origin).host.toLowerCase();
+        sameOrigin = sameOrigin && hostsDoPedido(req).has(origemHost);
+      } catch {
+        sameOrigin = false;
+      }
     }
     if (!sameOrigin) {
       return NextResponse.json({ ok: false, error: "forbidden-origin" }, { status: 403 });

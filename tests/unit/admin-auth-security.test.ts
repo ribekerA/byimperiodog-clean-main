@@ -111,4 +111,26 @@ describe("autorizacao administrativa", () => {
     ));
     expect(denied?.status).toBe(403);
   });
+
+  it("aceita POST do proprio site quando a funcao recebe url interna (Netlify)", () => {
+    const headers = new Headers({
+      "x-admin-pass": "server-only-automation-secret",
+      origin: "https://byimperiodog.com.br",
+      "sec-fetch-site": "same-origin",
+      "x-forwarded-host": "byimperiodog.com.br",
+    });
+    const interno = new Request("http://localhost:8888/api/admin/settings", { method: "POST", headers });
+    expect(requireAdminApi(interno)).toBeNull();
+  });
+
+  it("continua recusando origem de terceiro mesmo com url interna", () => {
+    const headers = new Headers({
+      "x-admin-pass": "server-only-automation-secret",
+      origin: "https://evil.example",
+      "sec-fetch-site": "same-site",
+      "x-forwarded-host": "byimperiodog.com.br",
+    });
+    const interno = new Request("http://localhost:8888/api/admin/settings", { method: "POST", headers });
+    expect(requireAdminApi(interno)?.status).toBe(403);
+  });
 });
