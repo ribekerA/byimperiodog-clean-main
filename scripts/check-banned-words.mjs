@@ -164,6 +164,8 @@ const DEFINEM_A_REGRA = new Set(
     "src/domain/public-truth.ts", // matriz que define as afirmacoes proibidas
     "tests/public-truth.test.ts", // regressao que prova que a matriz bloqueia o termo
     "tests/unit/content-guard.test.ts", // teste que prova o validador
+    "src/lib/blog/quality.ts", // instrucao ao modelo + regex que barram o termo
+    "tests/blog.quality.test.ts", // regressao que prova que o regex barra
   ].map((p) => p.split("/").join(sep))
 );
 
