@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { requireAdminContext } from "@/lib/adminAuth";
-import { upsertIntegrationTokens } from "@/lib/tracking/integrations";
+import { getIntegrationForUser, upsertIntegrationTokens } from "@/lib/tracking/integrations";
 import { cookieDeState, lerCookie, nomeDoCookieDeState, stateConfere } from "@/lib/tracking/oauthState";
 import { getProvider } from "@/lib/tracking/providers/registry";
 
@@ -41,14 +41,32 @@ export async function GET(req: NextRequest, props: { params: Promise<{ provider:
     const origin = applicationOrigin(req.url);
     const redirectUri = `${origin}/api/integrations/${adapter.id}/callback`;
     const tokens = await adapter.exchangeCode({ code, redirectUri });
+
+    // O metadata guarda escolhas que nao vem do OAuth -- a conta do Google Ads
+    // que este admin gerencia, por exemplo. Reconectar grava tokens novos na
+    // mesma linha, e sobrescrever com {} apagaria a escolha sem avisar: a tela
+    // voltaria pedindo para escolher a conta outra vez.
+    let metadataAtual: Record<string, unknown> = {};
+    try {
+      const existente = await getIntegrationForUser(adapter.id, admin.context.session.userId);
+      if (existente?.metadata) metadataAtual = existente.metadata;
+    } catch {
+      metadataAtual = {};
+    }
+
     await upsertIntegrationTokens({
       userId: admin.context.session.userId,
       provider: adapter.id,
       tokens,
-      metadata: {},
+      metadata: metadataAtual,
     });
 
-    const destination = new URL("/admin/tracking", origin);
+    // Cada provedor volta para a tela que o usa. O Google Ads tem tela propria
+    // (conta, conversoes, campanhas); os outros vivem em /admin/config/tracking.
+    const destination = new URL(
+      adapter.id === "google_ads" ? "/admin/config/google-ads" : "/admin/config/tracking",
+      origin,
+    );
     destination.searchParams.set("connected", adapter.id);
     return clearState(NextResponse.redirect(destination), adapter.id);
   } catch (error) {

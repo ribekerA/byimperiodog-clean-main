@@ -1,8 +1,13 @@
+import { Settings } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { applyGeneralDefaults, GENERAL_COLUMN_SELECT, type GeneralSettings } from "@/lib/admin/generalConfig";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { getTrackingConfig } from "@/lib/tracking/getTrackingConfig";
+
+import { CabecalhoPagina } from "../_ui/CabecalhoPagina";
+import { Jornada, type EtapaJornada } from "../_ui/Jornada";
 
 import { ConfigTabs } from "./ui/ConfigTabs";
 
@@ -36,24 +41,94 @@ export default async function AdminConfigPage() {
 
   const generalConfig = applyGeneralDefaults(Object.keys(merged).length ? merged : null);
 
+  const preenchido = (v: string | null | undefined) => typeof v === "string" && v.trim().length > 0;
+  // Etapas medidas no que esta salvo agora (site_settings e tracking). Campo
+  // que so tem o texto padrao do codigo conta como feito apenas onde o padrao
+  // ja e o que o site usa (mensagem de WhatsApp, SEO); contato e redes nao tem
+  // padrao e so contam quando alguem preencheu.
+  const irAba = (hash: "#geral" | "#tracking", rotulo: string) => (
+    <a
+      href={hash}
+      className="inline-block rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+    >
+      {rotulo}
+    </a>
+  );
+  const etapas: EtapaJornada[] = [
+    {
+      id: "contato",
+      titulo: "Contato da marca",
+      descricao: "E-mail e telefone de contato preenchidos na aba Geral.",
+      feito: preenchido(generalConfig.contact_email) && preenchido(generalConfig.contact_phone),
+      acao: irAba("#geral", "Preencher contato"),
+    },
+    {
+      id: "redes",
+      titulo: "Redes sociais",
+      descricao: "Instagram informado na aba Geral.",
+      feito: preenchido(generalConfig.instagram),
+      resultado: generalConfig.instagram || undefined,
+      acao: irAba("#geral", "Informar Instagram"),
+    },
+    {
+      id: "whatsapp",
+      titulo: "Mensagem inicial do WhatsApp",
+      descricao: "Texto que abre a conversa quando alguem clica no botao de WhatsApp.",
+      feito: preenchido(generalConfig.whatsapp_message),
+      acao: irAba("#geral", "Escrever mensagem"),
+    },
+    {
+      id: "seo",
+      titulo: "Titulo e descricao padrao de SEO",
+      descricao: "Usados nas paginas que nao definem os proprios.",
+      feito: preenchido(generalConfig.seo_title_default) && preenchido(generalConfig.seo_description_default),
+      acao: irAba("#geral", "Preencher SEO"),
+    },
+    {
+      id: "gtm",
+      titulo: "Google Tag Manager ativo",
+      descricao: "Container GTM ligado e com ID na aba de tracking. O GA4 e as conversoes do Ads rodam dentro dele.",
+      feito: trackingConfig.isGTMEnabled && preenchido(trackingConfig.gtmContainerId),
+      resultado: trackingConfig.gtmContainerId ? <span className="font-mono">{trackingConfig.gtmContainerId}</span> : undefined,
+      acao: irAba("#tracking", "Abrir Tracking & Pixels"),
+    },
+    // Sem etapa "GA4 ativo": o GA4 (G-WZ9RQKW48Z) roda dentro do container
+    // GTM, e o site so carrega GA4 direto quando o GTM esta desligado. Cobrar
+    // o toggle empurraria a pessoa a duplicar a medicao.
+    {
+      id: "ads",
+      titulo: "Conversoes do Google Ads",
+      descricao: "ID AW- presente na configuração do site. A tela do Google Ads grava lendo direto da conta.",
+      feito: preenchido(trackingConfig.googleAdsId),
+      resultado: trackingConfig.googleAdsId ? <span className="font-mono">{trackingConfig.googleAdsId}</span> : undefined,
+      acao: (
+        <Link
+          href="/admin/config/google-ads"
+          className="inline-block rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+        >
+          Abrir Google Ads
+        </Link>
+      ),
+    },
+  ];
+
   return (
-    <div className="space-y-8">
-      <header className="space-y-3 rounded-3xl border border-[var(--border)] bg-white p-5 shadow-sm">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Console</p>
-            <h1 className="text-3xl font-semibold text-[var(--text)]">Configurações</h1>
-            <p className="text-sm text-[var(--text-muted)]">Centralize dados da marca e integrações de tracking por ambiente.</p>
+    <div className="space-y-6">
+      <CabecalhoPagina
+        sobretitulo="Plataforma"
+        titulo="Configurações"
+        icone={<Settings className="h-6 w-6" />}
+        descricao="Dados da marca, mensagens e integrações de tracking por ambiente."
+        acoes={
+          <div className="flex flex-col items-end gap-1 text-xs text-[var(--text-muted)]">
+            <span className={`rounded-full px-3 py-1 text-xs font-semibold ${runtimeEnv.badgeClass}`}>
+              Ambiente: {runtimeEnv.label}
+            </span>
+            <span>Somente Produção impacta o site público.</span>
           </div>
-          <div className="space-y-2 text-right text-xs text-[var(--text-muted)]">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-1">
-              <span className="font-semibold">Ambiente ativo</span>
-              <span className={`rounded-full px-3 py-1 text-xs font-semibold ${runtimeEnv.badgeClass}`}>{runtimeEnv.label}</span>
-            </div>
-            <p>Somente Produção impacta o site público.</p>
-          </div>
-        </div>
-      </header>
+        }
+      />
+      <Jornada titulo="Configuração do site" etapas={etapas} />
       <ConfigTabs
         initialGeneral={generalConfig}
         trackingConfig={trackingConfig}

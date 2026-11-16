@@ -4,7 +4,7 @@
 create table if not exists public.integrations (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null,
-  provider text not null check (provider in ('facebook','google_analytics','google_tag_manager','tiktok')),
+  provider text not null check (provider in ('facebook','google_ads','google_analytics','google_tag_manager','tiktok')),
   access_token text not null,
   refresh_token text,
   expires_at timestamptz,

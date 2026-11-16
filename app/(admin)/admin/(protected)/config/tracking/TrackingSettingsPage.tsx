@@ -16,10 +16,14 @@ import {
   Tag,
   Wifi,
 } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import { useToast } from "@/components/ui/toast";
 import type { TrackingConfig } from "@/lib/tracking/getTrackingConfig";
+
+import { CabecalhoPagina } from "../../_ui/CabecalhoPagina";
+import { Jornada, type EtapaJornada } from "../../_ui/Jornada";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -123,7 +127,7 @@ const EXTENDED_FIELDS: SimplePixelField[] = [
   {
     id: "google-ads",
     label: "Google Ads",
-    description: "Conversões e remarketing via Google Ads.",
+    description: "Conversoes e remarketing via Google Ads. O painel do Google Ads preenche este ID e os labels sozinho, em /admin/config/google-ads.",
     inputKey: "googleAdsId",
     placeholder: "AW-123456789",
     pattern: /^AW-[0-9]+$/i,
@@ -325,6 +329,9 @@ export function TrackingSettingsPage({ initialEnvironment, initialConfig }: Prop
   const [activeTab, setActiveTab] = useState<TabId>("pixels");
   const [environment, setEnvironment] = useState<Environment>(initialEnvironment);
   const [form, setForm] = useState<TrackingFormState>(() => mapConfigToForm(initialConfig));
+  // Ultimo estado lido ou gravado no servidor. A jornada mede isto, e nao o
+  // formulario: campo digitado e nao salvo nao chega ao site.
+  const [salvo, setSalvo] = useState<TrackingFormState>(() => mapConfigToForm(initialConfig));
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldKey, string>>>({});
   const [loadingEnv, setLoadingEnv] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -367,6 +374,7 @@ export function TrackingSettingsPage({ initialEnvironment, initialConfig }: Prop
         const data = await res.json().catch(() => ({}));
         if (!res.ok) throw new Error(data.error || "Falha ao carregar");
         setForm(mapConfigToForm(data.config));
+        setSalvo(mapConfigToForm(data.config));
         push({ type: "success", message: `Ambiente ${envLabel(env)} carregado.` });
       } catch (e) {
         push({ type: "error", message: (e as Error).message });
@@ -428,6 +436,7 @@ export function TrackingSettingsPage({ initialEnvironment, initialConfig }: Prop
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "Erro ao salvar");
       setForm(mapConfigToForm(data.config));
+      setSalvo(mapConfigToForm(data.config));
       if (environment === "production") setProdForm(mapConfigToForm(data.config));
       push({ type: "success", message: "Tracking salvo com sucesso." });
       // Refresh history
@@ -459,13 +468,78 @@ export function TrackingSettingsPage({ initialEnvironment, initialConfig }: Prop
     { id: "history", label: "Histórico", icon: History },
   ];
 
+  // Jornada medida no que esta salvo no ambiente escolhido. O GA4 e as
+  // conversoes do Ads rodam dentro do container GTM (o site so carrega GA4
+  // direto quando o GTM esta desligado), por isso nao ha etapa "ligar GA4":
+  // ela empurraria a pessoa a duplicar a medicao.
+  const irParaPixels = (rotulo: string) => (
+    <button
+      type="button"
+      onClick={() => {
+        setActiveTab("pixels");
+        document.getElementById("tracking-pixels")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }}
+      className="inline-block rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+    >
+      {rotulo}
+    </button>
+  );
+  const gtmOk = salvo.isGTMEnabled && /^GTM-[A-Z0-9]+$/i.test(salvo.gtmContainerId.trim());
+  const diagSalvo = buildDiagnostics(salvo);
+  const alertas = diagSalvo.rows.filter((r) => r.status === "warn");
+  const etapasJornada: EtapaJornada[] = [
+    {
+      id: "gtm",
+      titulo: "Google Tag Manager ligado",
+      descricao:
+        "Container GTM com ID valido. E por ele que o GA4 e as tags de conversao do Google Ads chegam ao site.",
+      feito: gtmOk,
+      resultado: gtmOk ? <span className="font-mono">{salvo.gtmContainerId}</span> : undefined,
+      acao: irParaPixels("Preencher GTM"),
+    },
+    {
+      id: "diagnostico",
+      titulo: "Diagnostico sem alerta",
+      descricao: "Nenhum pixel ligado sem ID ou com ID em formato errado.",
+      feito: gtmOk && alertas.length === 0,
+      bloqueadoPor: gtmOk ? undefined : "Ligue o GTM primeiro.",
+      resultado: gtmOk && alertas.length === 0 ? "Todos os pixels ligados tem ID valido." : undefined,
+      acao: irParaPixels(alertas.length > 0 ? `Corrigir ${alertas.map((a) => a.label).join(", ")}` : "Abrir pixels"),
+    },
+    {
+      id: "ads",
+      titulo: "ID do Google Ads gravado",
+      descricao:
+        "ID AW- salvo neste ambiente. A tela do Google Ads grava lendo direto da conta; os eventos de conversao saem pelas tags do GTM.",
+      feito: salvo.googleAdsId.trim().length > 0,
+      resultado: salvo.googleAdsId ? <span className="font-mono">{salvo.googleAdsId}</span> : undefined,
+      acao: (
+        <Link
+          href="/admin/config/google-ads"
+          className="inline-block rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+        >
+          Abrir Google Ads
+        </Link>
+      ),
+    },
+  ];
+
   return (
     <div className="space-y-6" aria-label="Configurações de tracking">
-      {/* Header */}
-      <div className="space-y-1">
-        <h1 className="text-3xl font-semibold text-[var(--text)]">Tracking & Pixels</h1>
-        <p className="text-sm text-[var(--text-muted)]">Configuração central de tags, pixels e verificações de domínio.</p>
-      </div>
+      <CabecalhoPagina
+        sobretitulo="Plataforma"
+        titulo="Tracking & Pixels"
+        icone={<Wifi className="h-6 w-6" />}
+        descricao="Configuração central de tags, pixels e verificações de domínio."
+      />
+      <Jornada
+        idTitulo="jornada-tracking-titulo"
+        titulo="Medicao do site"
+        subtitulo={`${etapasJornada.filter((e) => e.feito).length} de ${etapasJornada.length} etapas · ambiente ${envLabel(environment)}`}
+        etapas={etapasJornada}
+        carregando={loadingEnv}
+        mensagemFinal="Medicao configurada neste ambiente. Confira na aba Historico quem mudou o que."
+      />
 
       {/* Environment selector */}
       <div className="rounded-2xl border border-[var(--border)] bg-white p-4 shadow-sm">
@@ -527,7 +601,7 @@ export function TrackingSettingsPage({ initialEnvironment, initialConfig }: Prop
       </div>
 
       {/* Tab panel */}
-      <div className="rounded-2xl border border-[var(--border)] bg-white shadow-sm">
+      <div id="tracking-pixels" className="scroll-mt-20 rounded-2xl border border-[var(--border)] bg-white shadow-sm">
         {/* Tab nav */}
         <div className="border-b border-[var(--border)]">
           <nav className="flex gap-0.5 px-4">

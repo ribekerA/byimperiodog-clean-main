@@ -1,12 +1,10 @@
 "use client";
 
 import {
-  Activity,
   BarChart3,
   Bot,
   Calendar,
   ChevronDown,
-  ChevronRight,
   Clapperboard,
   ClipboardList,
   FileText,
@@ -16,7 +14,9 @@ import {
   Home,
   Image,
   LogOut,
-  Menu,
+  Megaphone,
+  PanelLeftClose,
+  PanelLeftOpen,
   PawPrint,
   ScrollText,
   Server,
@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -37,6 +37,11 @@ type Props = { environment: string };
 
 type NavItem = { label: string; href: string; icon: React.ElementType };
 type NavGroup = { label: string; items: NavItem[] };
+
+/** Evento que o botao de menu da barra do topo dispara no celular. */
+export const EVENTO_ABRIR_MENU = "admin:abrir-menu";
+
+const CHAVE_RECOLHIDO = "admin:nav-recolhido";
 
 const NAV_GROUPS: NavGroup[] = [
   {
@@ -78,6 +83,7 @@ const NAV_GROUPS: NavGroup[] = [
     label: "Plataforma",
     items: [
       { label: "SEO",             href: "/admin/seo",           icon: Globe },
+      { label: "Google Ads",      href: "/admin/config/google-ads", icon: Megaphone },
       { label: "Webhooks",        href: "/admin/webhooks",      icon: Webhook },
       { label: "Saúde do Sistema",href: "/admin/system/health", icon: Server },
       { label: "Configurações",   href: "/admin/config",        icon: Settings },
@@ -85,71 +91,111 @@ const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-function NavLink({ item, active, onClick }: { item: NavItem; active: boolean; onClick?: () => void }) {
+const TODOS_OS_ITENS = [
+  ...NAV_GROUPS.flatMap((g) => g.items),
+  { label: "Tracking & Pixels", href: "/admin/config/tracking", icon: Zap },
+];
+
+/**
+ * Item ativo = o de href mais longo que casa com a rota.
+ *
+ * Com startsWith puro, /admin/config/google-ads acendia "Google Ads" e
+ * "Configurações" ao mesmo tempo, e a pessoa nao sabia onde estava.
+ */
+function hrefAtivo(pathname: string): string | null {
+  let melhor: string | null = null;
+  for (const item of TODOS_OS_ITENS) {
+    if (pathname === item.href || pathname.startsWith(`${item.href}/`)) {
+      if (!melhor || item.href.length > melhor.length) melhor = item.href;
+    }
+  }
+  return melhor;
+}
+
+function NavLink({
+  item,
+  active,
+  collapsed = false,
+  onClick,
+}: {
+  item: NavItem;
+  active: boolean;
+  collapsed?: boolean;
+  onClick?: () => void;
+}) {
   const Icon = item.icon;
   return (
     <Link
       href={item.href}
       onClick={onClick}
-      className={`flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
+      title={collapsed ? item.label : undefined}
+      aria-label={collapsed ? item.label : undefined}
+      className={`group relative flex items-center rounded-xl text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--brand)] ${
+        collapsed ? "h-10 w-10 justify-center" : "gap-3 px-3 py-2"
+      } ${
         active
-          ? "bg-[var(--brand-tint-50)] text-[var(--brand)] ring-1 ring-inset ring-[var(--brand-tint-200)]"
-          : "text-[var(--text)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
+          ? "bg-[var(--brand)] text-white shadow-sm"
+          : "text-[var(--text)] hover:bg-[var(--brand-tint-50)] hover:text-[var(--brand)]"
       }`}
       aria-current={active ? "page" : undefined}
     >
-      <Icon className={`h-4 w-4 flex-shrink-0 ${active ? "text-[var(--brand)]" : "text-[var(--text-muted)]"}`} aria-hidden />
-      <span className="truncate">{item.label}</span>
+      <Icon
+        className={`h-[18px] w-[18px] flex-shrink-0 ${
+          active ? "text-white" : "text-[var(--text-muted)] group-hover:text-[var(--brand)]"
+        }`}
+        aria-hidden
+      />
+      {!collapsed ? <span className="truncate">{item.label}</span> : null}
     </Link>
   );
 }
 
-function GroupSection({ group, pathname, collapsed }: { group: NavGroup; pathname: string; collapsed: boolean }) {
-  const hasActive = group.items.some((i) => pathname?.startsWith(i.href));
-  const [open, setOpen] = useState(hasActive || group.label === "Principal");
+function GroupSection({
+  group,
+  ativo,
+  collapsed,
+}: {
+  group: NavGroup;
+  ativo: string | null;
+  collapsed: boolean;
+}) {
+  const hasActive = group.items.some((i) => i.href === ativo);
+  const [open, setOpen] = useState(true);
+  const principal = group.label === "Principal";
+
+  // Navegar para uma tela de um grupo fechado reabre o grupo: a pessoa precisa
+  // ver no menu onde esta.
+  useEffect(() => {
+    if (hasActive) setOpen(true);
+  }, [hasActive]);
 
   if (collapsed) {
     return (
-      <div className="space-y-0.5">
-        {group.items.map((item) => {
-          const active = pathname?.startsWith(item.href);
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              title={item.label}
-              className={`flex h-8 w-8 items-center justify-center rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
-                active
-                  ? "bg-[var(--brand-tint-50)] text-[var(--brand)] ring-1 ring-inset ring-[var(--brand-tint-200)]"
-                  : "text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
-              }`}
-              aria-current={active ? "page" : undefined}
-            >
-              <Icon className="h-4 w-4" aria-hidden />
-            </Link>
-          );
-        })}
+      <div className="flex flex-col items-center gap-1 border-t border-[var(--border)] pt-2 first:border-t-0 first:pt-0">
+        {group.items.map((item) => (
+          <NavLink key={item.href} item={item} active={item.href === ativo} collapsed />
+        ))}
       </div>
     );
   }
 
   return (
     <div>
-      {group.label !== "Principal" && (
+      {!principal && (
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex w-full items-center justify-between rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
+          aria-expanded={open}
+          className="flex w-full items-center justify-between rounded-lg px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)] transition-colors hover:text-[var(--text)]"
         >
           <span>{group.label}</span>
-          {open ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+          <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "" : "-rotate-90"}`} aria-hidden />
         </button>
       )}
-      {(open || group.label === "Principal") && (
-        <div className="mt-0.5 space-y-0.5">
+      {(open || principal) && (
+        <div className="space-y-0.5">
           {group.items.map((item) => (
-            <NavLink key={item.href} item={item} active={!!pathname?.startsWith(item.href)} />
+            <NavLink key={item.href} item={item} active={item.href === ativo} />
           ))}
         </div>
       )}
@@ -157,12 +203,62 @@ function GroupSection({ group, pathname, collapsed }: { group: NavGroup; pathnam
   );
 }
 
+function Marca({ environment, compacta = false }: { environment: string; compacta?: boolean }) {
+  return (
+    <Link
+      href="/admin/dashboard"
+      className="flex min-w-0 items-center gap-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
+      title="By Império Dog · Painel"
+    >
+      <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--brand)] text-white shadow-sm">
+        <PawPrint className="h-5 w-5" aria-hidden />
+      </span>
+      {!compacta ? (
+        <span className="min-w-0">
+          <span className="block truncate text-sm font-bold text-[var(--text)]">By Império Dog</span>
+          <span className="block truncate text-xs text-[var(--text-muted)]">Painel · {environment}</span>
+        </span>
+      ) : (
+        <span className="sr-only">By Império Dog</span>
+      )}
+    </Link>
+  );
+}
+
 export function AdminNav({ environment }: Props) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [confirmLogoutOpen, setConfirmLogoutOpen] = useState(false);
+  const ativo = hrefAtivo(pathname);
+
+  // Recolher passou a ser lembrado: antes voltava aberto a cada tela.
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem(CHAVE_RECOLHIDO) === "1") setCollapsed(true);
+    } catch {
+      /* armazenamento bloqueado: segue aberto */
+    }
+  }, []);
+
+  useEffect(() => {
+    const abrir = () => setMobileMenuOpen(true);
+    window.addEventListener(EVENTO_ABRIR_MENU, abrir);
+    return () => window.removeEventListener(EVENTO_ABRIR_MENU, abrir);
+  }, []);
+
+  function alternarRecolhido() {
+    setCollapsed((v) => {
+      const novo = !v;
+      try {
+        window.localStorage.setItem(CHAVE_RECOLHIDO, novo ? "1" : "0");
+      } catch {
+        /* sem armazenamento, vale so nesta tela */
+      }
+      return novo;
+    });
+  }
 
   async function handleLogout() {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -170,89 +266,68 @@ export function AdminNav({ environment }: Props) {
     router.refresh();
   }
 
+  const trackingAtivo = ativo === "/admin/config/tracking";
+
   return (
     <>
       <div
-        className={`flex h-full flex-col gap-3 overflow-y-auto py-4 transition-all duration-200 ${
-          collapsed ? "px-2 items-center" : "px-3"
+        className={`hidden h-full flex-col gap-4 py-4 transition-[width] duration-200 md:flex ${
+          collapsed ? "w-[72px] items-center px-2" : "w-64 px-3"
         }`}
       >
-        {/* Header */}
-        <div className={`flex items-center ${collapsed ? "flex-col gap-2" : "justify-between"}`}>
-          {!collapsed && (
-            <div className="min-w-0">
-              <p className="truncate text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-                By Império Dog
-              </p>
-              <p className="text-sm font-bold text-[var(--text)]">Admin</p>
-              <p className="text-[10px] text-[var(--text-muted)]">{environment}</p>
-            </div>
-          )}
+        <div className={`flex items-center ${collapsed ? "flex-col gap-3" : "justify-between gap-2 px-1"}`}>
+          <Marca environment={environment} compacta={collapsed} />
           <button
             type="button"
-            onClick={() => setCollapsed((v) => !v)}
-            className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--surface)] text-[var(--text-muted)] shadow-sm transition hover:border-[var(--brand)] hover:text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
-            aria-pressed={!collapsed}
+            onClick={alternarRecolhido}
+            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg text-[var(--text-muted)] transition hover:bg-[var(--brand-tint-50)] hover:text-[var(--brand)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
+            aria-pressed={collapsed}
             aria-label={collapsed ? "Expandir menu" : "Recolher menu"}
+            title={collapsed ? "Expandir menu" : "Recolher menu"}
           >
-            <Activity className="h-3.5 w-3.5" aria-hidden />
+            {collapsed ? <PanelLeftOpen className="h-4 w-4" aria-hidden /> : <PanelLeftClose className="h-4 w-4" aria-hidden />}
           </button>
         </div>
 
-        {/* Nav Groups */}
-        <nav aria-label="Seções do painel" className="flex-1 space-y-3">
+        <nav aria-label="Seções do painel" className={`flex-1 overflow-y-auto ${collapsed ? "space-y-2" : "space-y-2 pr-1"}`}>
           {NAV_GROUPS.map((group) => (
-            <GroupSection key={group.label} group={group} pathname={pathname ?? ""} collapsed={collapsed} />
+            <GroupSection key={group.label} group={group} ativo={ativo} collapsed={collapsed} />
           ))}
         </nav>
 
-        {/* Footer — Quick links + Logout */}
-        <div className={`space-y-0.5 border-t border-[var(--border)] pt-3 ${collapsed ? "w-full" : ""}`}>
-          {!collapsed && (
-            <Link
-              href="/admin/config/tracking"
-              className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)] transition-colors"
-            >
-              <Zap className="h-4 w-4 flex-shrink-0" aria-hidden />
-              <span>Tracking & Pixels</span>
-            </Link>
-          )}
+        <div className={`space-y-1 border-t border-[var(--border)] pt-3 ${collapsed ? "flex w-full flex-col items-center" : ""}`}>
+          <NavLink
+            item={{ label: "Tracking & Pixels", href: "/admin/config/tracking", icon: Zap }}
+            active={trackingAtivo}
+            collapsed={collapsed}
+          />
           <button
             type="button"
             onClick={() => setConfirmLogoutOpen(true)}
-            className={`flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] transition-colors ${
-              collapsed ? "justify-center" : ""
+            title={collapsed ? "Sair" : undefined}
+            aria-label={collapsed ? "Sair" : undefined}
+            className={`flex items-center rounded-xl text-sm font-medium text-[var(--text-muted)] transition-colors hover:bg-red-50 hover:text-red-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)] ${
+              collapsed ? "h-10 w-10 justify-center" : "w-full gap-3 px-3 py-2"
             }`}
           >
-            <LogOut className="h-4 w-4 flex-shrink-0" aria-hidden />
+            <LogOut className="h-[18px] w-[18px] flex-shrink-0" aria-hidden />
             {!collapsed && <span>Sair</span>}
           </button>
         </div>
       </div>
 
-      {/* Mobile FAB */}
-      <button
-        type="button"
-        onClick={() => setMobileMenuOpen(true)}
-        className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-white shadow-lg transition hover:bg-[var(--brand-hover)] md:hidden"
-        aria-label="Abrir menu"
-        aria-expanded={mobileMenuOpen}
-      >
-        <Menu className="h-6 w-6" aria-hidden />
-      </button>
-
-      {/* Mobile Dialog */}
+      {/* Menu do celular: aberto pelo botao da barra do topo. O botao
+          flutuante que ficava no canto cobria os botoes de salvar das telas. */}
       <Dialog open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-        <DialogContent title="Menu de Navegação" className="max-w-sm max-h-[85vh] overflow-y-auto">
-          <div className="mb-3">
-            <p className="text-xs font-bold uppercase tracking-widest text-[var(--text-muted)]">By Império Dog</p>
-            <p className="text-sm font-bold text-[var(--text)]">Painel Admin · {environment}</p>
+        <DialogContent title="Menu" className="max-h-[85vh] max-w-sm overflow-y-auto">
+          <div className="mb-4">
+            <Marca environment={environment} />
           </div>
           <nav aria-label="Seções do painel" className="space-y-3">
             {NAV_GROUPS.map((group) => (
               <div key={group.label}>
                 {group.label !== "Principal" && (
-                  <p className="mb-1 px-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+                  <p className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)]">
                     {group.label}
                   </p>
                 )}
@@ -261,7 +336,7 @@ export function AdminNav({ environment }: Props) {
                     <NavLink
                       key={item.href}
                       item={item}
-                      active={!!pathname?.startsWith(item.href)}
+                      active={item.href === ativo}
                       onClick={() => setMobileMenuOpen(false)}
                     />
                   ))}
@@ -269,24 +344,21 @@ export function AdminNav({ environment }: Props) {
               </div>
             ))}
           </nav>
-          <div className="mt-3 space-y-1 border-t border-[var(--border)] pt-3">
-            <Link
-              href="/admin/config/tracking"
+          <div className="mt-4 space-y-1 border-t border-[var(--border)] pt-3">
+            <NavLink
+              item={{ label: "Tracking & Pixels", href: "/admin/config/tracking", icon: Zap }}
+              active={trackingAtivo}
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
-            >
-              <Zap className="h-4 w-4" aria-hidden />
-              <span>Tracking & Pixels</span>
-            </Link>
+            />
             <button
               type="button"
               onClick={() => {
                 setMobileMenuOpen(false);
                 setConfirmLogoutOpen(true);
               }}
-              className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-[var(--text-muted)] hover:bg-[var(--surface)] hover:text-[var(--text)]"
+              className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-[var(--text-muted)] hover:bg-red-50 hover:text-red-700"
             >
-              <LogOut className="h-4 w-4" aria-hidden />
+              <LogOut className="h-[18px] w-[18px]" aria-hidden />
               <span>Sair</span>
             </button>
           </div>

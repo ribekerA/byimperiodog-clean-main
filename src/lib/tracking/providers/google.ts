@@ -1,3 +1,6 @@
+import { listarContasComToken } from "@/lib/google-ads/accounts";
+import { ESCOPO_ADS } from "@/lib/google-ads/config";
+
 import type { OAuthInfo, OAuthTokens, ProviderAdapter, ProviderKey, Resource } from "./types";
 
 const GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
@@ -8,6 +11,13 @@ function getGoogleScopes(provider: ProviderKey): string[] {
     return [
       "https://www.googleapis.com/auth/tagmanager.readonly", // containers
     ];
+  }
+  if (provider === "google_ads") {
+    // Escopo unico e de LEITURA E ESCRITA: a API do Google Ads nao tem escopo
+    // separado para consultar e para alterar. Quem conecta aqui autoriza criar
+    // campanha e mexer em orcamento, nao so ver relatorio -- e por isso a tela
+    // de admin diz isso em voz alta antes do botao de conectar.
+    return [ESCOPO_ADS];
   }
   // default GA4 scopes
   return [
@@ -187,4 +197,64 @@ const googleTagManagerAdapter: ProviderAdapter = {
   listResources: listGoogleTagManagerResources,
 };
 
-export { googleAnalyticsAdapter, googleTagManagerAdapter };
+async function listGoogleAdsResources(tokens: OAuthTokens): Promise<Resource[]> {
+  try {
+    const contas = await listarContasComToken(tokens.accessToken);
+    return contas.map((conta) => ({
+      id: conta.id,
+      name: conta.nome,
+      type: "google_ads_customer",
+      meta: {
+        // Tudo string: o tipo Resource.meta e Record<string, string>, e a tela
+        // so precisa exibir. Quem decide por estes campos e a pessoa olhando a
+        // lista -- uma conta de teste ou um gerenciador nao servem para rodar
+        // anuncio de verdade, e a etiqueta evita a escolha errada.
+        moeda: conta.moeda ?? "",
+        fusoHorario: conta.fusoHorario ?? "",
+        gerenciador: conta.gerenciador ? "1" : "",
+        contaDeTeste: conta.contaDeTeste ? "1" : "",
+      },
+    }));
+  } catch (err) {
+    console.error("Error listing Google Ads accounts:", err);
+    return [];
+  }
+}
+
+const googleAdsAdapter: ProviderAdapter = {
+  id: "google_ads",
+  buildAuthUrl: ({ redirectUri, state }): OAuthInfo => {
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    if (!clientId || clientId.includes("your-google")) {
+      throw new Error(
+        "❌ Configure GOOGLE_CLIENT_ID no .env.local - Veja: https://console.cloud.google.com/apis/credentials",
+      );
+    }
+    if (!clientSecret || clientSecret.includes("your-google")) {
+      throw new Error("❌ Configure GOOGLE_CLIENT_SECRET no .env.local");
+    }
+    // Aqui havia uma terceira trava exigindo GOOGLE_ADS_DEVELOPER_TOKEN antes de
+    // abrir a tela do Google. Saiu porque o Google desligou o developer token em
+    // 09/09/2026: o nivel de acesso passou a pertencer ao projeto do Google Cloud
+    // que emitiu estas credenciais, e a trava recusava o login por uma credencial
+    // que a API nao le mais. Projeto em nivel "Test" conecta e responde so por
+    // conta de teste -- conta real voltando vazia e nivel de projeto, nao falta de
+    // token.
+    const scope = getGoogleScopes("google_ads");
+    const url = new URL(GOOGLE_AUTH_URL);
+    url.searchParams.set("client_id", clientId);
+    url.searchParams.set("redirect_uri", redirectUri);
+    url.searchParams.set("response_type", "code");
+    url.searchParams.set("access_type", "offline");
+    url.searchParams.set("prompt", "consent");
+    url.searchParams.set("state", state);
+    url.searchParams.set("scope", scope.join(" "));
+    return { authUrl: url.toString(), scope, provider: "google_ads" };
+  },
+  exchangeCode: ({ code, redirectUri }) => exchangeGoogleCode(code, redirectUri),
+  refreshTokens: refreshGoogleToken,
+  listResources: listGoogleAdsResources,
+};
+
+export { googleAdsAdapter, googleAnalyticsAdapter, googleTagManagerAdapter };

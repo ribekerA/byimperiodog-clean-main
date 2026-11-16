@@ -1,5 +1,5 @@
 import facebookAdapter from "./facebook";
-import { googleAnalyticsAdapter, googleTagManagerAdapter } from "./google";
+import { googleAdsAdapter, googleAnalyticsAdapter, googleTagManagerAdapter } from "./google";
 import type { ProviderAdapter, ProviderKey } from "./types";
 
 // Placeholder for TikTok; implement when ready.
@@ -28,6 +28,7 @@ const tiktokAdapter: ProviderAdapter = {
 
 export const providers: Record<ProviderKey, ProviderAdapter> = {
   facebook: facebookAdapter,
+  google_ads: googleAdsAdapter,
   google_analytics: googleAnalyticsAdapter,
   google_tag_manager: googleTagManagerAdapter,
   tiktok: tiktokAdapter,

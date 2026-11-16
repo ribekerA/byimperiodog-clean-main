@@ -1,4 +1,9 @@
-export type ProviderKey = "facebook" | "google_analytics" | "google_tag_manager" | "tiktok";
+export type ProviderKey =
+  | "facebook"
+  | "google_ads"
+  | "google_analytics"
+  | "google_tag_manager"
+  | "tiktok";
 
 export type OAuthTokens = {
   accessToken: string;

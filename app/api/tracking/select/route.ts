@@ -15,7 +15,13 @@ const bodySchema = z.object({
   resourceId: z.string().trim().min(1).max(300),
 }).strict();
 
-const FIELD_MAP: Record<ProviderKey, { idField: string; flagField: string }> = {
+// Partial de proposito: `google_ads` existe como provider conectavel, mas nao
+// entra aqui. O ID da CONTA do Google Ads (1234567890) nao e o ID de conversao
+// da tag (AW-1234567890 mais um label por conversao) -- sao numeros distintos,
+// e gravar um no lugar do outro produz uma tag que carrega sem nunca registrar
+// conversao. A conta do Ads e escolhida em /api/admin/google-ads/conta, e o
+// AW- com os labels sai da propria lista de acoes de conversao da conta.
+const FIELD_MAP: Partial<Record<ProviderKey, { idField: string; flagField: string }>> = {
   facebook: { idField: "facebook_pixel_id", flagField: "is_facebook_pixel_enabled" },
   google_analytics: { idField: "ga_measurement_id", flagField: "is_ga_enabled" },
   google_tag_manager: { idField: "gtm_container_id", flagField: "is_gtm_enabled" },

@@ -32,22 +32,27 @@ export default async function AdminProtectedLayout({ children }: { children: Rea
         Pular para o conteúdo principal
       </a>
       <div className="min-h-screen bg-[var(--surface-2)] text-[var(--text)] antialiased">
-        <div className="grid min-h-screen grid-cols-1 md:grid-cols-[260px_1fr]">
-          <nav aria-label="Navegacao principal" className="hidden border-b border-[var(--border)] bg-white shadow-sm md:block md:border-b-0 md:border-r">
+        {/* auto na primeira coluna: o menu decide a propria largura (aberto ou
+            recolhido). Com 260px fixos, recolher deixava um vao vazio. */}
+        <div className="grid min-h-screen grid-cols-1 md:grid-cols-[auto_minmax(0,1fr)]">
+          {/* No celular o aside nao gera caixa (contents): a coluna do menu se
+              esconde sozinha e o dialogo do menu movel continua renderizavel.
+              Com "hidden" aqui, o dialogo abria com largura zero. */}
+          <aside aria-label="Navegacao principal" className="contents md:sticky md:top-0 md:block md:h-screen md:border-r md:border-[var(--border)] md:bg-white">
             <AdminNav environment={environment} />
-          </nav>
+          </aside>
 
-          <div className="flex flex-col">
-            <header className="border-b border-[var(--border)] bg-white/90 backdrop-blur">
+          <div className="flex min-w-0 flex-col">
+            <header className="sticky top-0 z-30 border-b border-[var(--border)] bg-white/85 backdrop-blur">
               <AdminTopbar environment={environment} userName={adminIdentity?.name ?? "Admin"} />
             </header>
 
-            <main id="admin-main-content" tabIndex={-1} className="flex-1 bg-[var(--surface-2)] px-4 py-6 md:px-8 focus:outline-none" role="main">
-              {children}
+            <main id="admin-main-content" tabIndex={-1} className="flex-1 bg-[var(--surface-2)] px-4 py-6 md:px-8 md:py-8 focus:outline-none" role="main">
+              <div className="mx-auto w-full max-w-[1400px]">{children}</div>
             </main>
 
-            <footer className="border-t border-[var(--border)] bg-white px-4 py-3 text-xs text-[var(--text-muted)] md:px-8">
-              <p>By Império Dog - Painel operacional - {environment}</p>
+            <footer className="border-t border-[var(--border)] px-4 py-3 text-xs text-[var(--text-muted)] md:px-8">
+              <p>By Império Dog · Painel · {environment}</p>
             </footer>
           </div>
         </div>

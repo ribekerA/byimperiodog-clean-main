@@ -1,7 +1,7 @@
 "use client";
 
 import { SlidersHorizontal, Wifi } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import type { GeneralSettings } from "@/lib/admin/generalConfig";
 import type { TrackingConfig } from "@/lib/tracking/getTrackingConfig";
@@ -38,8 +38,21 @@ const TABS: Array<{ id: TabId; label: string; description: string; icon: ReactNo
 export function ConfigTabs({ initialGeneral, trackingEnvironment, trackingConfig, runtimeEnvLabel, runtimeEnvValue }: ConfigTabsProps) {
   const [activeTab, setActiveTab] = useState<TabId>("general");
 
+  // A jornada de configuracao leva a aba certa por link (#geral / #tracking).
+  useEffect(() => {
+    const aplicar = () => {
+      const hash = window.location.hash;
+      if (hash !== "#geral" && hash !== "#tracking") return;
+      setActiveTab(hash === "#tracking" ? "tracking" : "general");
+      document.getElementById("config-abas")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    aplicar();
+    window.addEventListener("hashchange", aplicar);
+    return () => window.removeEventListener("hashchange", aplicar);
+  }, []);
+
   return (
-    <section className="space-y-4" aria-label="Configurações do site">
+    <section id="config-abas" className="scroll-mt-20 space-y-4" aria-label="Configurações do site">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="inline-flex rounded-full border border-[var(--border)] bg-white p-1 shadow-sm" role="tablist">
           {TABS.map((tab) => (

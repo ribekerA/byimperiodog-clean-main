@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     if (error) throw error;
     const providers: Array<{ provider: string; connected: boolean }> = [
       { provider: "facebook", connected: false },
+      { provider: "google_ads", connected: false },
       { provider: "google_analytics", connected: false },
       { provider: "google_tag_manager", connected: false },
       { provider: "tiktok", connected: false },
