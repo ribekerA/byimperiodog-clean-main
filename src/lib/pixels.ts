@@ -142,7 +142,7 @@ export async function upsertPixelsSettings(settings: {
   staging: PixelEnvironmentConfig;
 }) {
   const supa = supabaseAdmin();
-  await supa
+  const { error } = await supa
     .from(TABLE)
     .upsert(
       {
@@ -153,6 +153,12 @@ export async function upsertPixelsSettings(settings: {
       },
       { onConflict: "id" }
     );
+  // Antes o erro era ignorado: com a tabela ausente em producao (ate 16/11/2026)
+  // a tela do Google Ads respondia "gravado" sem gravar nada. Quem chama decide
+  // o que fazer, mas nao pode mais achar que deu certo.
+  if (error) {
+    throw new Error(`pixels_settings nao gravou: ${error.message}`);
+  }
 }
 
 export function resolveActiveEnvironment(

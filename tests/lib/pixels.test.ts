@@ -1,7 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+const upsertMock = vi.fn();
+vi.mock("@/lib/supabaseAdmin", () => ({
+  supabaseAdmin: () => ({ from: () => ({ upsert: upsertMock }) }),
+}));
 
 import {
   resolveActiveEnvironment,
+  upsertPixelsSettings,
   type PixelsSettings,
 } from "@/lib/pixels";
 
@@ -60,5 +66,26 @@ describe("resolveActiveEnvironment", () => {
     });
 
     expect(result.config.gtmId).toBeNull();
+  });
+});
+
+describe("upsertPixelsSettings", () => {
+  it("lanca quando o banco recusa a gravacao, em vez de fingir que gravou", async () => {
+    upsertMock.mockResolvedValueOnce({
+      data: null,
+      error: { message: "Could not find the table 'public.pixels_settings'" },
+    });
+
+    await expect(
+      upsertPixelsSettings({ production: { ...emptyEnvironment }, staging: { ...emptyEnvironment } }),
+    ).rejects.toThrow(/pixels_settings nao gravou/);
+  });
+
+  it("resolve quando o banco grava", async () => {
+    upsertMock.mockResolvedValueOnce({ data: null, error: null });
+
+    await expect(
+      upsertPixelsSettings({ production: { ...emptyEnvironment }, staging: { ...emptyEnvironment } }),
+    ).resolves.toBeUndefined();
   });
 });
