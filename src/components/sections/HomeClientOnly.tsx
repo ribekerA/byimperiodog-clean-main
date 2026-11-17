@@ -7,7 +7,8 @@ type DeferredModule<Props extends object> = {
 };
 
 const loadTestimonials = () => import("@/components/Testimonials");
-const loadAiMatchmakerChat = () => import("@/components/sections/AiMatchmakerChat");
+// O bloco abre no teste de afinidade; o chat entra só se a pessoa pedir.
+const loadAiMatchmakerChat = () => import("@/components/sections/TesteDeAfinidade");
 const loadTextTestimonials = () => import("@/components/sections/TextTestimonials");
 
 function DeferredSlot<Props extends object>({

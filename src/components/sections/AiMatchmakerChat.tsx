@@ -151,7 +151,7 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
           {sending ? "Enviando..." : "Quero ser contactada pela criadora"}
         </button>
       </div>
-      <p className="mt-2 text-center text-[10px] text-zinc-500">
+      <p className="mt-2 text-center text-xs text-zinc-500">
         Seus dados são protegidos. Atendemos todos os dias, das 8h às 22h.
       </p>
     </motion.form>
@@ -283,7 +283,8 @@ function MatchGrid({ puppies }: { puppies: Puppy[] }) {
 
 // ─── Componente principal ─────────────────────────────────────────────────────
 
-export default function AiMatchmakerChat() {
+// embutido: aberto de dentro do TesteDeAfinidade, que já tem título próprio.
+export default function AiMatchmakerChat({ embutido = false }: { embutido?: boolean } = {}) {
   const [messages,       setMessages]       = useState<Message[]>([OPENING_MESSAGE]);
   const [input,          setInput]          = useState("");
   const [streaming,      setStreaming]       = useState(false);
@@ -569,11 +570,12 @@ export default function AiMatchmakerChat() {
 
   return (
     <section
-      className="mx-auto max-w-2xl px-4 py-16 sm:px-6"
-      aria-labelledby="matchmaker-heading"
+      className={embutido ? "mx-auto max-w-2xl" : "mx-auto max-w-2xl px-4 py-16 sm:px-6"}
+      aria-labelledby={embutido ? undefined : "matchmaker-heading"}
+      aria-label={embutido ? "Chat da By Imperio Dog" : undefined}
     >
       {/* Header */}
-      <div className="mb-6 text-center">
+      {!embutido && (<div className="mb-6 text-center">
         <p className="text-sm font-semibold uppercase tracking-widest text-emerald-600">
           Fale com a gente
         </p>
@@ -598,7 +600,7 @@ export default function AiMatchmakerChat() {
           Spitz Alemão Anão (Lulu da Pomerânia). Conte um pouco sobre suas preferências de cor e sexo — a equipe
           confirma pelo WhatsApp o que existe no atendimento.
         </p>
-      </div>
+      </div>)}
 
       {/* Chat window */}
       <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 shadow-xl">
@@ -618,10 +620,10 @@ export default function AiMatchmakerChat() {
                 sozinha, no meio da conversa, sente que foi enganada; quem lê
                 antes de começar, não. */}
             <div className="flex items-center gap-1.5">
-              <p className="text-[11px] text-zinc-500">Chat automatizado</p>
+              <p className="text-xs text-zinc-500">Chat automatizado</p>
             </div>
           </div>
-          <div className="ml-auto text-[11px] text-zinc-500">Bragança Paulista, SP</div>
+          <div className="ml-auto text-xs text-zinc-500">Bragança Paulista, SP</div>
         </div>
 
         {voiceAlert && (
@@ -855,7 +857,7 @@ export default function AiMatchmakerChat() {
       </div>
 
       {/* Fallback manual */}
-      <p className="mt-3 text-center text-xs text-zinc-500">
+      {!embutido && <p className="mt-3 text-center text-xs text-zinc-500">
         Prefere escolher direto?{" "}
         <button
           type="button"
@@ -864,7 +866,7 @@ export default function AiMatchmakerChat() {
         >
           Ver quiz de múltipla escolha →
         </button>
-      </p>
+      </p>}
     </section>
   );
 }
