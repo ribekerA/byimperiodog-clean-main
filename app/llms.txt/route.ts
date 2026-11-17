@@ -119,9 +119,8 @@ export async function GET() {
       `altura oficial de ${specs.officialAdultHeight}, peso ${specs.officialAdultWeight}, ` +
         `expectativa de vida de ${specs.lifeExpectancy}`
     ),
-    linha(breed.alternative, "/lulu-da-pomerania", "o mesmo cão, pelo nome mais usado no Brasil"),
-    linha("Pomeranian", "/pomeranian", "o mesmo cão, pelo nome usado em inglês"),
-    linha("Filhote de Spitz Alemão (Lulu da Pomerânia)", "/filhote-de-spitz-alemao"),
+    linha(breed.alternative, "/spitz-alemao", "o mesmo cão, pelo nome mais usado no Brasil"),
+    linha("Filhote de Spitz Alemão (Lulu da Pomerânia)", "/spitz-alemao"),
     linha("Spitz Alemão (Lulu da Pomerânia) branco", "/spitz-alemao-branco"),
     linha("Spitz Alemão (Lulu da Pomerânia) preto", "/spitz-alemao-preto"),
     linha("Spitz Alemão (Lulu da Pomerânia) baby face", "/spitz-alemao-baby-face", "o que o termo significa na prática"),
