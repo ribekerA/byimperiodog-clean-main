@@ -18,15 +18,6 @@ export const metadata: Metadata = {
     // 222 caracteres, com "Bragança Paulista" duas vezes. Reescrita em 144, e o
     // ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
     `Canil de Lulu da Pomerânia em Bragança Paulista, SP. Especialistas desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo.`,
-  keywords: [
-    "Lulu da Pomerânia Bragança Paulista",
-    "Spitz Alemão Anão Bragança Paulista",
-    "canil Lulu da Pomerânia interior SP",
-    "filhote Spitz Alemão Bragança Paulista SP",
-    "criador Spitz Alemão perto de mim interior SP",
-    "Pomeranian",
-    "Pomeranian Brasil",
-  ],
   alternates: { canonical: "/lulu-da-pomerania-braganca-paulista" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
