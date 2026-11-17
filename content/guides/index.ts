@@ -58,7 +58,7 @@ export const guides: Guide[] = [
         paragraphs: [
           "Um criador sério apresenta registro oficial do filhote e dos pais, carteira de vacinação assinada por veterinário, histórico de vermifugação e o resultado dos exames feitos antes da entrega. Na By Império Dog esse pacote é consulta veterinária e hemograma completo — exame de sangue com resultado, não um atestado genérico.",
           "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação. Em qualquer formato, observe se os filhotes estão limpos, curiosos e sem sinais de medo ou apatia.",
-          "Mentoria pós-venda é o diferencial que separa criadores comprometidos dos comercializadores. Pergunte diretamente: 'Posso entrar em contato depois da entrega?' A resposta diz muito.",
+          "Pergunte sobre o suporte pós-venda: na By Império Dog ele é feito pelo WhatsApp, direto com a criadora, sem prazo definido. Pergunte diretamente: 'Posso entrar em contato depois da entrega?' A resposta diz muito.",
         ],
       },
       {
@@ -78,7 +78,7 @@ export const guides: Guide[] = [
       {
         question: "O que é registro oficial e por que importa?",
         answer:
-          "O registro oficial é o documento de linhagem que comprova que o filhote é puro-sangue Spitz Alemão Anão (Lulu da Pomerânia) com árvore genealógica rastreável.",
+          "O registro oficial é o documento de linhagem emitido pela entidade responsável, conforme os prazos e condições dela. Na By Império Dog, o registro é incluso e a emissão segue o que está previsto em contrato.",
       },
       {
         question: "Posso pagar parcelado?",
