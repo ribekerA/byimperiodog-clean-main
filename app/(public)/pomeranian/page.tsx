@@ -19,18 +19,6 @@ export const metadata: Metadata = {
     // 195 caracteres: a equivalência de nomes, que é o ponto da página, ficava
     // fora do trecho exibido. Reescrita em 152.
       "Entenda o nome Pomeranian no Brasil, sua relação com Spitz Alemão Anão e Lulu da Pomerânia e como pesquisar a raça sem confundir nomenclaturas.",
-  keywords: [
-    "Pomeranian",
-    "Pomeranian Brasil",
-    "Pomeranian preço",
-    "Pomeranian filhote Brasil",
-    "Pomeranian raça",
-    "Pomeranian SP",
-    "comprar Pomeranian Brasil",
-    "Pomeranian cachorro",
-    "Pomeranian mini",
-    "Pomeranian filhote com registro",
-  ],
   alternates: { canonical: "/pomeranian" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
