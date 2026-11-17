@@ -108,7 +108,7 @@ export default function Header() {
               className="hm-coroa"
             />
             <span>
-              <span className="hm-marca">By Imperio Dog<sup>®</sup></span>{" "}
+              <span className="hm-marca">By Imperio Dog</span>{" "}
               <span className="hm-lema">Sementinhas de Amor</span>
             </span>
           </Link>
