@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { BRAND } from "@/domain/config";
 
 /**
  * Áreas privadas. Precisa ser repetido em CADA grupo — não é redundância.
@@ -28,7 +29,7 @@ function liberado(userAgent: string) {
 }
 
 export default function robots(): MetadataRoute.Robots {
-  const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
+  const base = BRAND.urls.site;
 
   return {
     rules: [
