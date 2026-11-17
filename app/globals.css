@@ -660,7 +660,7 @@ body.admin-shell [data-site-shell="cta"] {
 .vt-titulo-lulu { font-family: var(--font-display); font-weight: 600; font-size: max(10px, calc(27 * var(--u))); line-height: 1.1; color: #f4dfa8; }
 
 .vf { container-type: inline-size; padding-block: 18px 28px; color: #0c2a18; background: linear-gradient(180deg, #fdf8ea, #fbf3df 45%, #fdf8ea); }
-.vf-miolo { max-width: 1180px; margin-inline: auto; padding-inline: 12px; }
+.vf-miolo { max-width: 1320px; margin-inline: auto; padding-inline: 12px; }
 
 .vf-titulo { text-align: center; text-wrap: balance; font-family: var(--font-display); font-weight: 700; font-size: clamp(28px, 8.8cqw, 46px); line-height: 1.1; color: #0a3420; }
 .vf-titulo svg { display: inline-block; vertical-align: -0.08em; width: 0.8em; height: 0.8em; color: #c9962f; }
@@ -697,16 +697,16 @@ body.admin-shell [data-site-shell="cta"] {
 .vc-painel { display: flex; flex-direction: column; align-items: flex-start; gap: clamp(3px, 2cqw, 8px); min-width: 0; }
 .vc-selo { display: flex; align-items: center; gap: 3px; padding: 2px 4px; border-radius: 6px; background: #fbe8bd; color: #6f4a0d; font-size: clamp(8px, 4.7cqw, 12.5px); line-height: 1.1; font-weight: 600; }
 .vc-selo svg { flex: none; width: 1.1em; height: 1.1em; }
-.vc-nome { font-family: var(--font-display); font-weight: 700; color: #0a3420; font-size: clamp(10.5px, 6.4cqw, 19px); line-height: 1.14; }
+.vc-nome { font-family: var(--font-display); font-weight: 700; color: #0a3420; font-size: clamp(10.5px, 6.4cqw, 24px); line-height: 1.14; }
 .vc-nome-lulu { display: block; margin-top: 1px; font-weight: 600; color: #5b6b57; font-size: 0.78em; line-height: 1.12; }
 .vc-preco { width: 100%; margin-top: auto; }
-.vc-preco-prefixo { display: block; color: #27402f; font-size: clamp(8.5px, 5cqw, 13px); line-height: 1.2; }
+.vc-preco-prefixo { display: block; color: #27402f; font-size: clamp(8.5px, 5cqw, 15px); line-height: 1.2; }
 .vc-preco-caixa { display: block; margin-top: 2px; padding: 3px 2px; text-align: center; border-radius: 8px; background: #fdeecb; color: #0a3420; }
-.vc-preco-caixa strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(14px, 8.8cqw, 27px); line-height: 1.05; white-space: nowrap; font-variant-numeric: lining-nums; }
+.vc-preco-caixa strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(14px, 8.8cqw, 36px); line-height: 1.05; white-space: nowrap; font-variant-numeric: lining-nums; }
 .vc-preco-caixa span { display: block; font-size: clamp(8.5px, 5cqw, 13px); line-height: 1.15; }
 .vc-acao {
-  display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 38px; padding: 6px 8px; border-radius: 999px;
-  background: linear-gradient(180deg, #0f4a2d, #0a3420); color: #fff; font-weight: 700; font-size: clamp(11px, 6.4cqw, 16px); line-height: 1.1;
+  display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 46px; padding: 8px 12px; border-radius: 999px;
+  background: linear-gradient(180deg, #0f4a2d, #0a3420); color: #fff; font-weight: 700; font-size: clamp(11px, 6.4cqw, 19px); line-height: 1.1;
 }
 .vc-acao svg { flex: none; width: 1.25em; height: 1.25em; }
 .vc-acao svg:last-child { margin-inline-start: auto; width: 1.05em; height: 1.05em; }
@@ -727,26 +727,37 @@ body.admin-shell [data-site-shell="cta"] {
 .vc-foto :is(img) { transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .vc-preco-caixa, .vc-acao { position: relative; overflow: hidden; isolation: isolate; }
 .vc-preco-caixa::after, .vc-acao::after {
-  content: ""; position: absolute; inset: -20% auto -20% -60%; width: 45%; z-index: -1; pointer-events: none;
-  background: linear-gradient(100deg, transparent, rgba(255, 236, 170, 0.75), transparent); transform: skewX(-18deg);
+  content: ""; position: absolute; inset: -20% auto -20% -60%; width: 55%; z-index: -1; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 244, 200, 0.98) 45%, rgba(255, 220, 120, 0.9) 55%, transparent); transform: skewX(-18deg);
 }
-.vc-acao::after { z-index: 0; background: linear-gradient(100deg, transparent, rgba(255, 226, 140, 0.38), transparent); }
+.vc-acao::after { z-index: 0; background: linear-gradient(100deg, transparent, rgba(255, 226, 140, 0.65) 50%, transparent); }
+/* Aura dourada que respira em volta do cartao, em onda com os vizinhos. */
+.vc::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; opacity: 0;
+  box-shadow: 0 0 0 2px rgba(214, 167, 72, 0.9), 0 0 22px 4px rgba(232, 197, 111, 0.55);
+}
 .vc-acao > * { position: relative; z-index: 1; }
 .vc-preco-caixa strong { transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
 .vc-acao { transition: transform 0.2s, filter 0.2s; }
 .vc-acao svg:last-child { transition: transform 0.25s; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .vc-preco-caixa::after { animation: vc-reflexo 3.6s ease-in-out var(--vc-atraso) infinite; }
-  .vc-acao::after { animation: vc-reflexo 3.6s ease-in-out calc(var(--vc-atraso) + 0.45s) infinite; }
-  .vc-acao { animation: vc-halo 2.4s ease-in-out var(--vc-atraso) infinite; }
-  .vc-acao svg:last-child { animation: vc-seta 2.4s ease-in-out var(--vc-atraso) infinite; }
+  .vc-preco-caixa::after { animation: vc-reflexo 2.6s ease-in-out var(--vc-atraso) infinite; }
+  .vc-acao::after { animation: vc-reflexo 2.6s ease-in-out calc(var(--vc-atraso) + 0.3s) infinite; }
+  .vc-acao { animation: vc-halo 1.8s ease-out var(--vc-atraso) infinite; }
+  .vc-acao svg:last-child { animation: vc-seta 1.8s ease-in-out var(--vc-atraso) infinite; }
+  /* "scale" e "transform" sao propriedades separadas: o respiro continuo usa
+     scale e o hover usa transform, entao um nao anula o outro. */
+  .vc-foto img { animation: vc-respiro 7s ease-in-out var(--vc-atraso) infinite alternate; }
+  .vc-preco-caixa strong { animation: vc-pulso 2.6s ease-in-out var(--vc-atraso) infinite; }
+  .vc::before { animation: vc-aura 3.3s ease-in-out var(--vc-atraso) infinite; }
 
   @media (hover: hover) {
-    .vc:hover { transform: translateY(-5px); border-color: #d6a748; box-shadow: 0 14px 30px rgba(90, 66, 16, 0.22), 0 0 0 3px rgba(232, 197, 111, 0.35); }
-    .vc:hover .vc-foto img { transform: scale(1.08); }
-    .vc:hover .vc-preco-caixa strong { transform: scale(1.06); }
-    .vc-acao:hover { transform: scale(1.03); filter: brightness(1.12); }
+    .vc:hover { transform: translateY(-9px) scale(1.015); border-color: #d6a748; box-shadow: 0 22px 40px rgba(90, 66, 16, 0.28), 0 0 0 3px rgba(232, 197, 111, 0.55), 0 0 34px rgba(232, 197, 111, 0.45); }
+    .vc:hover::before { opacity: 1; animation: none; }
+    .vc:hover .vc-foto img { transform: scale(1.12); }
+    .vc:hover .vc-preco-caixa strong { transform: scale(1.1); }
+    .vc-acao:hover { transform: scale(1.05); filter: brightness(1.18); }
   }
   .vc-acao:active { transform: scale(0.97); }
 
@@ -755,9 +766,12 @@ body.admin-shell [data-site-shell="cta"] {
   }
 }
 
-@keyframes vc-reflexo { 0%, 55% { left: -60%; } 85%, 100% { left: 130%; } }
-@keyframes vc-halo { 0%, 100% { box-shadow: 0 0 0 0 rgba(15, 74, 45, 0.45); } 60% { box-shadow: 0 0 0 7px rgba(15, 74, 45, 0); } }
-@keyframes vc-seta { 0%, 70%, 100% { transform: translateX(0); } 80% { transform: translateX(4px); } 90% { transform: translateX(0); } 95% { transform: translateX(2px); } }
+@keyframes vc-reflexo { 0%, 40% { left: -60%; } 75%, 100% { left: 130%; } }
+@keyframes vc-halo { 0% { box-shadow: 0 0 0 0 rgba(15, 74, 45, 0.6), 0 0 0 0 rgba(232, 197, 111, 0.5); } 70%, 100% { box-shadow: 0 0 0 12px rgba(15, 74, 45, 0), 0 0 0 20px rgba(232, 197, 111, 0); } }
+@keyframes vc-seta { 0%, 60%, 100% { transform: translateX(0); } 72% { transform: translateX(6px); } 84% { transform: translateX(0); } 92% { transform: translateX(3px); } }
+@keyframes vc-respiro { from { scale: 1; } to { scale: 1.07; } }
+@keyframes vc-pulso { 0%, 50%, 100% { scale: 1; } 62% { scale: 1.08; } 74% { scale: 1; } }
+@keyframes vc-aura { 0%, 100% { opacity: 0; } 50% { opacity: 0.85; } }
 @keyframes vc-entrada { from { opacity: 0; transform: translateY(28px) scale(0.97); } to { opacity: 1; transform: none; } }
 
 .vf-vazio { display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 420px; margin: 10px auto 0; padding: 22px 16px; text-align: center; border: 1px dashed #d6a748; border-radius: 16px; background: #fffaf0; color: #27402f; font-size: 14px; line-height: 1.4; }

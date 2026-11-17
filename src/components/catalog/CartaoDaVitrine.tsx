@@ -66,7 +66,7 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
             <Image
               src={capa ?? foto}
               fill
-              sizes="(min-width: 1024px) 190px, (min-width: 640px) 25vw, 46vw"
+              sizes="(min-width: 1024px) 220px, (min-width: 640px) 25vw, 46vw"
               quality={75}
               // O link em volta é aria-hidden (o título do cartão já leva à página),
               // então o leitor de tela não ouve isto duas vezes. O texto existe para
