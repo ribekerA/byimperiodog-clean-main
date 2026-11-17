@@ -16,15 +16,6 @@ export const metadata: Metadata = {
   title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco ou Creme",
   description:
     "Entenda a diferença entre Spitz Alemão Anão (Lulu da Pomerânia) Branco e creme claro, como comparar a pelagem e onde consultar filhotes, preços e disponibilidade.",
-  keywords: [
-    "Spitz Alemão branco",
-    "Spitz Alemão Anão branco",
-    "Lulu da Pomerânia branco",
-    "Spitz branco ou creme",
-    "filhote de Spitz branco",
-    "Spitz branco preço",
-    "Pomeranian branco",
-  ],
   alternates: { canonical: "/spitz-alemao-branco" },
   openGraph: {
     title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco: diferenças do creme claro",
