@@ -18,16 +18,6 @@ export const metadata: Metadata = {
     // 219 caracteres: o Google cortava justamente a lista de cidades, que é o
     // que essa página tem de próprio. Reescrita em 157.
     "Canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo, em Bragança Paulista. Sede em Bragança Paulista, SP; consulte opções atuais e condições de retirada ou entrega.",
-  keywords: [
-    "canil Spitz Alemão interior SP",
-    "canil Lulu da Pomerânia interior São Paulo",
-    "Spitz Alemão Bragança Paulista SP",
-    "melhor canil Spitz Alemão SP",
-    "filhote Lulu da Pomerânia interior SP",
-    "criador Spitz Alemão Campinas SP",
-    "Pomeranian",
-    "Pomeranian Brasil",
-  ],
   alternates: { canonical: "/canil-spitz-alemao-interior-sp" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
