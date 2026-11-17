@@ -115,7 +115,7 @@ export default function Footer() {
             Spitz Alemão Anão (Lulu da Pomerânia) — atendimento especializado, acompanhamento veterinário e suporte da criadora depois da entrega.
           </p>
           <address>
-            <a href={`mailto:contato@byimperiodog.com.br`}>contato@byimperiodog.com.br</a>
+            <a href={`mailto:${BRAND.contact.email}`}>{BRAND.contact.email}</a>
             <a href={whatsapp} target="_blank" rel="noreferrer">(11) 96863-3239</a>
           </address>
           <div className="rp-google">
