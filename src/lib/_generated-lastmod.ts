@@ -6,7 +6,7 @@
 // do timestamp do build, que dizia ao Google que o site inteiro mudava a cada
 // deploy. Chaves iniciadas por @ sao grupos dinamicos do catalogo.
 export const LASTMOD: Record<string, string> = {
-  "/": "2026-11-17T08:38:44.000Z",
+  "/": "2026-11-17T08:57:45.000Z",
   "/alimentacao": "2026-11-17T08:48:38.000Z",
   "/blog": "2026-11-10T17:26:43.000Z",
   "/canil-spitz-alemao-interior-sp": "2026-11-10T17:26:43.000Z",
