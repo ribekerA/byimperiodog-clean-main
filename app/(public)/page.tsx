@@ -15,11 +15,13 @@ import HomeFAQ from "@/components/sections/HomeFAQ";
 import NinhadaAlert from "@/components/sections/NinhadaAlert";
 import PriceTransparency from "@/components/sections/PriceTransparency";
 import TextTestimonials from "@/components/sections/TextTestimonials";
+import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { PISOS_POR_SEXO, partesDoPrecoNoPix } from "@/domain/pricing";
 import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { buildVisibleFAQPageLD } from "@/lib/structured-data";
 import { faseDoNatal } from "@/lib/temporada";
 
 // A página continua estática; é refeita a cada hora só para a foto do topo
@@ -153,6 +155,7 @@ export default function HomePage() {
 
   return (
     <>
+      <script id="ld-faq-home" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildVisibleFAQPageLD("/", HOME_FAQ_ITEMS)) }} />
 
       <div className="tema-verde relative flex flex-col">
 
