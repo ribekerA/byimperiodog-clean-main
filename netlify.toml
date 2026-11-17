@@ -47,6 +47,26 @@
 #    Primeira regra que matchear, vence!
 #    Mais específicas (exatas) devem estar antes de wildcard patterns
 
+# Consolidação SEO: páginas sinônimas da raça apontam para o guia principal.
+# Preservar os endereços antigos como 301 definitivos, sem cadeia de redirects.
+[[redirects]]
+  from = "/pomeranian"
+  to = "/spitz-alemao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lulu-da-pomerania"
+  to = "/spitz-alemao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/filhote-de-spitz-alemao"
+  to = "/spitz-alemao"
+  status = 301
+  force = true
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 1️⃣ REDIRECTS ESPECÍFICOS HUNGARIAN (Bloqueio de Páginas Fantasma)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
