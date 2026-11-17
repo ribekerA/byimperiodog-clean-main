@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     // 219 caracteres: o Google cortava justamente a lista de cidades, que é o
     // que essa página tem de próprio. Reescrita em 157.
-    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo, em Bragança Paulista. Atende Campinas, Sorocaba, São José dos Campos e todo o estado.",
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) no interior de São Paulo, em Bragança Paulista. Sede em Bragança Paulista, SP; consulte opções atuais e condições de retirada ou entrega.",
   keywords: [
     "canil Spitz Alemão interior SP",
     "canil Lulu da Pomerânia interior São Paulo",
@@ -59,9 +59,9 @@ const FAQS = [
       `Não existe um ranking oficial de canis. O que dá para verificar é o que cada criador entrega: registro oficial, consulta veterinária, exames laboratoriais, carteira de vacinação assinada pelo médico-veterinário e contrato. A By Imperio Dog fica em Bragança Paulista, cria Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR} e entrega todos esses itens. Peça a mesma lista a qualquer criador antes de decidir.`,
   },
   {
-    question: "Vocês entregam em Campinas, Sorocaba e outras cidades do interior?",
+    question: "Como funciona a retirada ou entrega?",
     answer:
-      `Sim. Atendemos famílias de todo o interior de SP. ${REGRA_DE_ENTREGA}`,
+      REGRA_DE_ENTREGA,
   },
   {
     question: "Bragança Paulista é perto de Campinas?",
@@ -127,8 +127,8 @@ export default function CanilInteriorSPPage() {
 
       {/* Cidades atendidas */}
       <section aria-labelledby="cidades-heading" className="space-y-4">
-        <h2 id="cidades-heading" className="text-2xl font-bold text-zinc-900">Cidades atendidas no interior de SP</h2>
-        <p className="text-sm text-zinc-600">Atendemos as cidades abaixo com a mesma regra de entrega de todo o Brasil:</p>
+        <h2 id="cidades-heading" className="text-2xl font-bold text-zinc-900">Informações para interessados no interior de SP</h2>
+        <p className="text-sm text-zinc-600">Solicite informações sobre as opções atuais. A retirada ou entrega depende de combinação individual:</p>
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {CITIES.map((city) => (
             <li key={city} className="flex items-center gap-2 rounded-xl bg-zinc-50 border border-zinc-100 px-3 py-2 text-sm text-zinc-700">
@@ -164,7 +164,7 @@ export default function CanilInteriorSPPage() {
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">Ver filhotes ou agendar visita</h2>
-        <p className="mt-2 text-sm text-zinc-600">Atendemos famílias de todo o interior de SP — pessoalmente ou com entrega.</p>
+        <p className="mt-2 text-sm text-zinc-600">Retirada ou entrega, conforme a disponibilidade. Local, prazo e condições são combinados antes da reserva.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
             Ver a vitrine de filhotes
