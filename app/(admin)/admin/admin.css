@@ -1,0 +1,8 @@
+/*
+ * CSS do painel admin: o globals.css inteiro, gerado com
+ * tailwind.admin.config.ts, que também varre as pastas do admin. O site público
+ * importa app/globals.css direto e não leva as classes do painel.
+ * O @import vem antes do @config: o postcss-import precisa dele no topo.
+ */
+@import "../../globals.css";
+@config "../../../tailwind.admin.config.ts";

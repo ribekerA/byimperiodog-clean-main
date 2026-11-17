@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import "../../globals.css";
+import "./admin.css";
 import "../../../design-system/tokens.css";
 
 import ToastContainer from "@/components/Toast";

@@ -14,9 +14,17 @@ const bordaEmerald = escala("be");
 const fundoBranco = "rgb(var(--branco-fundo) / <alpha-value>)";
 
 export default {
+  // Só o que o site público pode renderizar. O painel admin gerava ~32 KB de
+  // classes que iam para o CSS de toda página pública e bloqueavam a primeira
+  // pintura no celular. O admin monta o CSS completo dele em
+  // app/(admin)/admin/admin.css, com tailwind.admin.config.ts. (17/11/2026)
   content: [
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "!./app/(admin)/**",
+    "!./app/admin/**",
+    "!./src/app/admin/**",
+    "!./src/components/admin/**",
   ],
 theme: {
     extend: {
