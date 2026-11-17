@@ -19,15 +19,6 @@ export const metadata: Metadata = {
     // 184 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 150, agora com "Lulu da Pomerânia".
       "Spitz Alemão Anão (Lulu da Pomerânia): origem, características, temperamento, cores, tamanho adulto e cuidados. Guia da raça por criadora em Bragança Paulista, SP.",
-  keywords: [
-    "Spitz Alemão Anão",
-    "Spitz Alemão características",
-    "Spitz Alemão temperamento",
-    "Spitz Alemão tamanho",
-    "raça Spitz Alemão Anão",
-    "Spitz Alemão bom para apartamento",
-    "Spitz Alemão pelagem",
-  ],
   alternates: { canonical: "/spitz-alemao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
