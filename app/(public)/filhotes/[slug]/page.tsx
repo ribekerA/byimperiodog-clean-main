@@ -16,9 +16,10 @@ import ViewEventTracker from "@/components/ViewEventTracker";
 import { puppiesPublicados, staticPuppies } from "@/content/puppies-static";
 import { puppySearchCopy } from "@/content/puppy-search-copy";
 import { textoAPartirDeNoPix } from "@/domain/pricing";
+import { BRAND, DELIVERY_POLICY_COPY } from "@/domain/config";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildBreadcrumbLD, buildVitrinePageLD } from "@/lib/structured-data";
+import { buildBreadcrumbLD, buildVitrinePageLD, buildVisibleFAQPageLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 // UrgencyCountdown, PuppyViewerCount e VisitorActivityToast foram removidos.
@@ -160,8 +161,26 @@ export default async function PuppyPage(props: Props) {
     utmContent: puppy.slug,
   });
 
-  const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
+  const SITE_URL = BRAND.urls.site;
 
+  const perguntasFrequentes = [
+    {
+      pergunta: `A foto do Spitz ${corLabel.toLowerCase()} ${sexLabel.toLowerCase()} confirma disponibilidade?`,
+      resposta: "Não. A fotografia permanece como referência real da cor e do sexo. Consulte as opções atuais pelo WhatsApp antes de reservar.",
+    },
+    {
+      pergunta: `Como funciona o valor anunciado para Spitz ${sexLabel.toLowerCase()}?`,
+      resposta: "O valor exibido é um preço inicial no Pix para a combinação de cor e sexo. O valor individual e as condições são confirmados antes da reserva.",
+    },
+    {
+      pergunta: "Como funciona a entrega do filhote?",
+      resposta: DELIVERY_POLICY_COPY,
+    },
+  ] as const;
+  const faqLd = buildVisibleFAQPageLD(
+    `/filhotes/${puppy.slug}`,
+    perguntasFrequentes.map(({ pergunta, resposta }) => ({ question: pergunta, answer: resposta })),
+  );
   const pageLd       = buildVitrinePageLD(puppy as any);
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início",    url: `${SITE_URL}/` },
@@ -180,6 +199,7 @@ export default async function PuppyPage(props: Props) {
       {/* JSON-LD */}
       <script id="ld-webpage"    type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script id="ld-faq-filhote" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       {/* GA4: view_puppy_reference — visualizacao da pagina de referencia.
           Nao e lead: lead e o clique em WhatsApp (whatsapp_click) ou o envio
           de formulario. */}
@@ -308,6 +328,18 @@ export default async function PuppyPage(props: Props) {
             </div>
           </section>
         )}
+
+        <section className="mt-10 rounded-3xl border border-zinc-200 bg-white px-5 py-7 sm:px-8" aria-labelledby="perguntas-filhote-heading">
+          <h2 id="perguntas-filhote-heading" className="text-2xl font-bold text-zinc-900">Perguntas frequentes sobre este filhote</h2>
+          <div className="mt-5 space-y-5">
+            {perguntasFrequentes.map(({ pergunta, resposta }) => (
+              <div key={pergunta}>
+                <h3 className="font-semibold text-zinc-900">{pergunta}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-700">{resposta}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <div className="mt-12">
           <RelatedPages links={[
