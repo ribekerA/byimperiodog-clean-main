@@ -82,7 +82,7 @@ export const BRAND = {
     whatsapp: "+55 11 96863-3239",
     // Forma unica de exibir o numero na pagina, pedida em 17/11/2026.
     phoneDisplay: "(11) 96863-3239",
-    email: "contato@byimperiodog.com.br",
+    email: "byimperiodog@gmail.com",
   },
 
   // Registro do canil na CBKC, informado pelo usuário em 17/11/2026. Aparece no

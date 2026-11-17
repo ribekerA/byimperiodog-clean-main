@@ -347,7 +347,7 @@ const BRAND = {
   contact: {
     phone: "+55 11 96863-3239",
     whatsapp: "+55 11 96863-3239",
-    email: "contato@byimperiodog.com.br",
+    email: "byimperiodog@gmail.com",
   },
 
   urls: {

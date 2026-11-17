@@ -73,8 +73,8 @@ export default function TermosDeUsoPage() {
         <ul className="list-disc space-y-2 pl-6 text-zinc-600">
           <li>
             E-mail:{" "}
-            <a href="mailto:contato@byimperiodog.com.br" className="font-medium text-emerald-700 underline">
-              contato@byimperiodog.com.br
+            <a href="mailto:byimperiodog@gmail.com" className="font-medium text-emerald-700 underline">
+              byimperiodog@gmail.com
             </a>
           </li>
           <li>WhatsApp e telefone: (11) 96863-3239</li>

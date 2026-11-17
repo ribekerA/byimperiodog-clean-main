@@ -36,7 +36,7 @@ function formatDisplayPhone(p: string): string {
 }
 
 const DISPLAY_PHONE = process.env.NEXT_PUBLIC_WA_DISPLAY || formatDisplayPhone(RAW_LOCAL);
-const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contato@byimperiodog.com.br";
+const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "byimperiodog@gmail.com";
 const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://instagram.com/byimperiodog";
 const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://youtube.com/@byimperiodog";
 

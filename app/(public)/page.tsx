@@ -208,7 +208,7 @@ export default function HomePage() {
             </div>
             <div className="hm-topo-texto">
               <h1 id="hero-heading" className="hm-titulo">
-                Spitz Alemão Anão
+                Canil Spitz Alemão Anão
                 {" "}<span className="hm-titulo-lulu">(Lulu da Pomerânia)</span>
               </h1>
               <p className="hm-exclusivos">

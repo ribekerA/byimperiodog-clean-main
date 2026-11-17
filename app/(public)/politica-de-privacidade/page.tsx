@@ -121,8 +121,8 @@ export default function PoliticaDePrivacidadePage() {
         <p className="text-zinc-600">
           O consentimento para comunicações de marketing é recolhido separadamente e não é condição para o atendimento nem para a
           execução do contrato. Você pode revogá-lo a qualquer momento, respondendo a qualquer comunicação, escrevendo para{" "}
-          <a href="mailto:contato@byimperiodog.com.br" className="font-medium text-emerald-700 underline">
-            contato@byimperiodog.com.br
+          <a href="mailto:byimperiodog@gmail.com" className="font-medium text-emerald-700 underline">
+            byimperiodog@gmail.com
           </a>{" "}
           ou pelo link &ldquo;Preferências de cookies&rdquo; no rodapé do site, quando se tratar de cookies.
         </p>
@@ -221,7 +221,7 @@ export default function PoliticaDePrivacidadePage() {
           E-mail para assuntos de privacidade: <strong>privacidade@byimperiodog.com.br</strong>
         </p>
         <p className="text-zinc-600">
-          E-mail comercial: <strong>contato@byimperiodog.com.br</strong>
+          E-mail comercial: <strong>byimperiodog@gmail.com</strong>
         </p>
         <p className="text-zinc-600">
           Criação, atendimento e visitas: Bragança Paulista/SP. Ao enviar uma solicitação, informe nome completo, documento
