@@ -10,7 +10,7 @@ import Link from "next/link";
 
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import TextTestimonials from "@/components/sections/TextTestimonials";
-import { FOUNDING_YEAR } from "@/domain/config";
+import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWebPageLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -135,7 +135,7 @@ const VALUES = [
 const DIFERENCIAIS = [
   {
     label: "Registro oficial",
-    us: "Pedigree emitido pela CBKC ou por clube filiado, dentro do sistema FCI",
+    us: `Canil com registro CBKC nº ${BRAND.registroCbkc}. Pedigree emitido pela CBKC ou por clube filiado, dentro do sistema FCI`,
     check: "Peça o número do registro e confirme qual entidade emitiu",
   },
   {

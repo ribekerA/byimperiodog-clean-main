@@ -1,5 +1,6 @@
 import "server-only";
 
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { isAvailable } from "@/domain/puppy-status";
 import { analyzeLead, type LeadIntelResult, type LeadRecord } from "@/lib/leadIntel";
 import { createLogger } from "@/lib/logger";
@@ -60,10 +61,9 @@ const OBJECTION_RESPONSES: Record<string, string> = {
   trust: "Enviamos contrato, referências e todo o histórico de cuidado para segurança total.",
   time: "Organizo agenda premium no melhor horário para você e mantenho você atualizada em tempo real.",
   // "motorista parceiro" saiu daqui: o canil nao tem parceiro nenhum, e esta
-  // frase ia por WhatsApp para o lead como se tivesse. As tres formas abaixo
-  // sao as que o proprio site publica em /blog/spitz-alemao-anao-entrega-brasil.
-  logistics:
-    "Combino a entrega caso a caso: retirada aqui no canil, viagem acompanhada na cabine ou entrega pessoal. Explico o que cada uma envolve antes de voce decidir.",
+  // frase ia por WhatsApp para o lead como se tivesse.
+  // Desde 17/11/2026 a resposta e a regra unica de entrega do site.
+  logistics: REGRA_DE_ENTREGA,
   health: "Compartilho exames, vacinas e cronograma veterinário para eliminar qualquer dúvida de saúde.",
 };
 

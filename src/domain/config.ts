@@ -79,6 +79,10 @@ export const BRAND = {
     email: "contato@byimperiodog.com.br",
   },
 
+  // Registro do canil na CBKC, informado pelo usuário em 17/11/2026. Aparece no
+  // rodapé, em /sobre e no JSON-LD (identifier). Não trocar sem ele confirmar.
+  registroCbkc: "980/15",
+
   // URLs
   urls: {
     site: "https://byimperiodog.com.br",
@@ -114,6 +118,9 @@ export const BRAND = {
       // Canal confirmado como oficial pela responsavel em 10/11/2026. E o mesmo
       // endereco que /contato ja publica.
       "https://youtube.com/@byimperiodog",
+      // Perfis informados pelo usuário em 17/11/2026.
+      "https://www.tiktok.com/@byimperiodogs",
+      "https://www.facebook.com/byimperiodog",
     ],
   },
 } as const;

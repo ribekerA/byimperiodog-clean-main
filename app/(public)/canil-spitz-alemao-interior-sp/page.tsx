@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
@@ -60,7 +61,7 @@ const FAQS = [
   {
     question: "Vocês entregam em Campinas, Sorocaba e outras cidades do interior?",
     answer:
-      "Sim. Atendemos famílias de todo o interior de SP. Para cidades próximas, é possível fazer a entrega pessoalmente ou o tutor vir buscar em Bragança Paulista. Para cidades mais distantes, o filhote pode ser transportado por transportadora especializada ou pelo próprio tutor após visita.",
+      `Sim. Atendemos famílias de todo o interior de SP. ${REGRA_DE_ENTREGA}`,
   },
   {
     question: "Bragança Paulista é perto de Campinas?",
@@ -127,7 +128,7 @@ export default function CanilInteriorSPPage() {
       {/* Cidades atendidas */}
       <section aria-labelledby="cidades-heading" className="space-y-4">
         <h2 id="cidades-heading" className="text-2xl font-bold text-zinc-900">Cidades atendidas no interior de SP</h2>
-        <p className="text-sm text-zinc-600">Atendemos diretamente ou com envio por transportadora especializada:</p>
+        <p className="text-sm text-zinc-600">Atendemos as cidades abaixo com a mesma regra de entrega de todo o Brasil:</p>
         <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {CITIES.map((city) => (
             <li key={city} className="flex items-center gap-2 rounded-xl bg-zinc-50 border border-zinc-100 px-3 py-2 text-sm text-zinc-700">

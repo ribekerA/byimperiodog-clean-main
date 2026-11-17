@@ -12,6 +12,7 @@
 
 import { FOUNDING_YEAR } from "@/domain/config";
 import { RESPOSTA_PRETO, RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 
 export type FaqItem = {
   question: string;
@@ -51,7 +52,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Vocês entregam o filhote em todo o Brasil?",
     answer:
-      "Sim. Atendemos famílias de todos os estados e a negociação pode ser conduzida pelo WhatsApp. A retirada ou entrega é definida caso a caso conforme destino, idade e condição do animal, legislação aplicável, documentação sanitária e regras da empresa de transporte. Modalidade, prazo, responsável e custo são informados antes da reserva.",
+      `Sim. ${REGRA_DE_ENTREGA} A negociação pode ser conduzida pelo WhatsApp.`,
   },
   {
     question: "Quais documentos acompanham o filhote?",

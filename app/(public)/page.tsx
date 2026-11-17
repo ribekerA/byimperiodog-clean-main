@@ -18,6 +18,7 @@ import TextTestimonials from "@/components/sections/TextTestimonials";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { PISOS_POR_SEXO, partesDoPrecoNoPix } from "@/domain/pricing";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { faseDoNatal } from "@/lib/temporada";
 
@@ -81,7 +82,7 @@ const DIFFERENTIALS = [
   { emoji: "🩺", title: "Saúde documentada", body: "Consulta veterinária e hemograma completo antes da entrega, com protocolo vacinal em dia conforme a idade do filhote e carteira assinada pelo médico-veterinário." },
   { emoji: "🏡", title: "Socialização guiada", body: "Convivência com pessoas, sons e rotinas domésticas, com orientação de ambientação para a chegada na nova casa." },
   { emoji: "💬", title: "Mentoria pós-venda", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
-  { emoji: "🚗", title: "Transporte orientado", body: "Orientação sobre transporte seguro, seja buscar pessoalmente ou por transportadora." },
+  { emoji: "🚗", title: "Transporte orientado", body: REGRA_DE_ENTREGA },
   { emoji: "📋", title: "Lista de enxoval", body: "Lista de itens, alimentação e rotina entregue antes da chegada do filhote." },
 ] as const;
 

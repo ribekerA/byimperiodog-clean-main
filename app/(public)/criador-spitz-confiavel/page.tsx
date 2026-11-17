@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildArticleLD, buildBreadcrumbLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { whatsappLeadUrl } from "@/lib/utm";
@@ -112,7 +113,7 @@ const PAGE_FAQS = [
   {
     question: "A By Império Dog atende fora de Bragança Paulista?",
     answer:
-      "Sim. Atendemos famílias de todo o Brasil. Tutores de outros estados podem retirar o filhote pessoalmente em Bragança Paulista, SP, ou o filhote pode ser enviado por transportadora aérea especializada em animais. Todo o processo é acompanhado pela criadora do início ao fim.",
+      `Sim. ${REGRA_DE_ENTREGA}`,
   },
 ] as const;
 

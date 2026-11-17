@@ -56,6 +56,14 @@ export type FatoPublico = {
  * O que o canil confirmou. Tudo o que a comunicação pública afirmar sobre o
  * negócio precisa caber aqui dentro.
  */
+/**
+ * Regra única de entrega, aprovada pelo usuário em 17/11/2026. Todo texto do
+ * site que explica como o filhote chega ao tutor usa esta frase, e os artigos
+ * .mdx (que não importam código) repetem a mesma frase, palavra por palavra.
+ */
+export const REGRA_DE_ENTREGA =
+  "Entregamos em todo o Brasil por transporte aéreo, conforme a rota, a idade e as condições do filhote, ou com retirada em Bragança Paulista. Prazo, custo e requisitos são confirmados antes da reserva.";
+
 export const FATOS_PUBLICOS: readonly FatoPublico[] = [
   { id: "marca", status: "CONFIRMADO", texto: "By Império Dog" },
   { id: "base", status: "CONFIRMADO", texto: "Bragança Paulista, São Paulo" },
@@ -111,8 +119,7 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
   {
     id: "transporte",
     status: "CONDICIONAL",
-    texto:
-      "Entregas em todo o Brasil via transporte aéreo, conforme viabilidade da rota, idade e condições do filhote; retirada em Bragança Paulista também pode ser combinada",
+    texto: REGRA_DE_ENTREGA,
     nota: "Entrega aérea nacional confirmada pela proprietária em 09/10/2026. Prazo, custo e requisitos da viagem são confirmados antes da reserva. Sem afirmar frota própria, empresa parceira, prazo fixo ou frete grátis.",
   },
   {
@@ -329,8 +336,7 @@ export const REGRAS_DE_VERDADE: readonly RegraDeVerdade[] = [
       /\bfrota\s+pr[oó]pria\b|\btransporte\s+a[ée]reo\s+pr[oó]prio\b|\btransporte\s+humanizado\b|\bnunca\s+viaja\s+sozinh[oa]\b|\ba\s+entrega\s+[ée]\s+segura\b|\bentrega\s+humanizada\b/i,
     motivo:
       "Entrega aérea nacional foi confirmada em 09/10/2026, mas não há confirmação de frota própria, acompanhamento durante todo o trajeto ou garantia absoluta de segurança.",
-    alternativa:
-      "entregas em todo o Brasil via transporte aéreo, conforme viabilidade da rota, idade e condições do filhote; prazo, custo e requisitos confirmados antes da reserva",
+    alternativa: REGRA_DE_ENTREGA,
   },
   {
     id: "ano-errado",

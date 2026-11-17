@@ -9,6 +9,7 @@ import OpenAI from "openai";
 
 import { puppiesPublicados } from "@/content/puppies-static";
 import { RESPOSTA_QUANTO_CUSTA } from "@/domain/pricing";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 // O cliente e criado na primeira chamada, nao no import.
@@ -63,7 +64,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "entrega transporte frete envio",
-    a: "Orientamos sobre transporte seguro. Você pode buscar pessoalmente em Bragança Paulista/SP ou usarmos uma transportadora especializada em pets. O frete é por conta do comprador.",
+    a: REGRA_DE_ENTREGA,
   },
   {
     q: "cor raça spitz pomerania lulu",
@@ -83,7 +84,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "localização onde fica endereço",
-    a: "Somos de Bragança Paulista, SP. Atendemos pessoalmente com agendamento prévio. Clientes de todo o Brasil são atendidos via transportadora.",
+    a: `Somos de Bragança Paulista, SP. Atendemos pessoalmente com agendamento prévio. ${REGRA_DE_ENTREGA}`,
   },
 ];
 

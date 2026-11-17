@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD } from "@/lib/structured-data";
@@ -49,7 +50,7 @@ const FAQS = [
   {
     question: "Vocês entregam fora de Bragança Paulista?",
     answer:
-      "Sim. Atendemos famílias de todo o Brasil. O tutor pode buscar pessoalmente em Bragança Paulista ou o filhote pode ser transportado por transportadora aérea especializada. Auxiliamos em todo o processo de envio para qualquer estado.",
+      `Sim. ${REGRA_DE_ENTREGA}`,
   },
   {
     question: "Posso fazer uma visita antes de decidir?",

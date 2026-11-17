@@ -1,5 +1,6 @@
 import { BRAND, FOUNDING_YEAR, PRODUCT_CONFIG } from "@/domain/config";
 import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { generatedPosts } from "@/lib/_generated-posts";
 import { CORES_EXIBIDAS } from "@/lib/catalog-utils";
 
@@ -72,9 +73,7 @@ export async function GET() {
     `> Criadora especializada em ${breed.official} (${breed.alternative}) em ${BRAND.headquarters.city}/` +
       `${BRAND.headquarters.state}, Brasil, em atividade desde ${FOUNDING_YEAR}. O site publica o ` +
       `catálogo com fotos dos filhotes, valores a partir de ${min} nos machos e ${max} nas fêmeas, no PIX, e ` +
-      `artigos sobre a raça. Entregas em todo o Brasil via transporte aéreo, ` +
-      `conforme viabilidade da rota, idade e condições do filhote. Prazo, custo e requisitos ` +
-      `da viagem são confirmados antes da reserva.`,
+      `artigos sobre a raça. ${REGRA_DE_ENTREGA}`,
     "",
     `O catálogo divulga ${CORES_EXIBIDAS.length} cores. A cor não muda o valor de partida.`,
     "Os valores acima são de partida; o valor de cada filhote é confirmado no atendimento.",

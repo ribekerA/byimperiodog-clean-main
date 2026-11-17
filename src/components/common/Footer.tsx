@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Festao from "@/components/common/Festao";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import {
+  BRAND,
   FOUNDING_YEAR,
   GOOGLE_MAPS_PROFILE_URL,
   GOOGLE_REVIEW_URL,
@@ -180,7 +181,7 @@ export default function Footer() {
       {/* Linha final */}
       <div className="rp-final">
         <div>
-          <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados.</p>
+          <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados. Registro CBKC nº {BRAND.registroCbkc}.</p>
           <p>Spitz Alemão Anão (Lulu da Pomerânia) — acompanhamento veterinário e suporte direto com a criadora.</p>
         </div>
       </div>

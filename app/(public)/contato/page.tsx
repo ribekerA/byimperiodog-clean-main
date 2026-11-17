@@ -14,6 +14,7 @@ import LeadForm from "@/components/LeadForm";
 import TrustBar from "@/components/TrustBar";
 import ViewEventTracker from "@/components/ViewEventTracker";
 import { GOOGLE_MAPS_PROFILE_URL, GOOGLE_REVIEWS_URL } from "@/domain/config";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -63,7 +64,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Vocês entregam em outras cidades?",
-    a: "O tutor pode retirar o filhote em Bragança Paulista ou consultar opções de transporte especializado, definidas conforme destino, idade e condições do filhote. Consulte disponibilidade e valores.",
+    a: REGRA_DE_ENTREGA,
   },
   {
     q: "Como funciona a reserva de um filhote?",

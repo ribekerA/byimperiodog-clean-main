@@ -305,6 +305,11 @@ export function buildLocalBusinessLD() {
     priceRange: `${formatarPreco(FAIXA_PUBLICA.minCents)} – ${formatarPreco(FAIXA_PUBLICA.maxCents)}`,
     currenciesAccepted: "BRL",
     foundingDate: String(FOUNDING_YEAR),
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "Registro de canil na CBKC",
+      value: BRAND.registroCbkc,
+    },
     image: [
       // Era /og/home.jpg, que respondia 404 — o Google descarta a imagem do
       // rich result quando a URL não resolve. As outras duas existem.

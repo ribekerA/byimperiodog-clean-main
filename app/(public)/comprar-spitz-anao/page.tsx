@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RelatedPages } from "@/components/common/RelatedPages";
 import PageViewPing from "@/components/PageViewPing";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildArticleLD, buildBreadcrumbLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { whatsappLeadUrl } from "@/lib/utm";
@@ -79,7 +80,7 @@ const PAGE_FAQS = [
   {
     question: "Como funciona a entrega do filhote em outro estado?",
     answer:
-      "O filhote pode ser retirado pessoalmente em Bragança Paulista (SP) ou transportado por transportadora aérea especializada em animais. Auxiliamos em todo o processo: escolha da empresa, preparação da caixa, documentação de viagem e acompanhamento até a chegada. O filhote só viaja após atingir peso, maturidade e com todos os exames em dia.",
+      REGRA_DE_ENTREGA,
   },
   {
     question: "Posso visitar o canil antes de comprar?",
