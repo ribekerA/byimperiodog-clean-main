@@ -70,7 +70,7 @@ const PAGE_FAQS = [
   {
     question: "Onde comprar Spitz Alemão Anão (Lulu da Pomerânia) com segurança?",
     answer:
-      `A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com atuação desde ${FOUNDING_YEAR}. Os filhotes saem com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, histórico de vermifugação, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
+      `A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com atuação desde ${FOUNDING_YEAR}. Os filhotes saem com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, histórico de vermifugação, contrato e mentoria pós-venda.`,
   },
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão (Lulu da Pomerânia)?",
@@ -253,7 +253,7 @@ export default function ComprarSpitzPage() {
       <RelatedPages links={[
         { label: "Como funciona a reserva", href: "/reserve-seu-filhote", desc: "Consulte as etapas e as condições de reserva" },
         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel",  desc: "O que exigir antes de fechar negócio" },
-        { label: "Entrega para todo o Brasil", href: "/blog/spitz-alemao-anao-entrega-brasil", desc: "Documentos, etapas e logística para outros estados" },
+        { label: "Retirada ou entrega", href: "/blog/spitz-alemao-anao-entrega-brasil", desc: "Local, prazo e condições combinados antes da reserva" },
         { label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",              href: "/filhote-de-spitz-alemao",  desc: "Primeiros cuidados e o que verificar" },
       ]} />
 
