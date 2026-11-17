@@ -1,23 +1,40 @@
 import { ShieldCheck } from "lucide-react";
 import Image from "next/image";
 
+import { faseDoNatal } from "@/lib/temporada";
+
 // Topo de /filhotes, no desenho aprovado em 06/11/2026: foto, título e cápsula.
 // O que vem abaixo dele está em VitrineFilhotes.
 export default function VitrineTopo() {
+  // Mesma troca do topo da home: as duas fotos no HTML, o CSS mostra uma pelo
+  // data-tema do <html>, e a prioritária é a que o servidor espera ver.
+  const natal = faseDoNatal() !== null;
   return (
     <div className="vt">
       <div className="vt-topo">
-        {/* O alt descreve a ilustração e não atribui o animal ao canil: não há
+        {/* Os alts descrevem a ilustração e não atribuem o animal ao canil: não há
             registro de que seja foto de um filhote daqui. */}
         <Image
           src="/images/vitrine/topo-filhote-creme.webp"
           width={1024}
           height={600}
-          priority
-          fetchPriority="high"
+          priority={!natal}
+          loading={natal ? "lazy" : undefined}
+          fetchPriority={natal ? "low" : "high"}
           sizes="(max-width: 1229px) 100vw, 1229px"
           alt="Filhote de Spitz Alemão Anão (Lulu da Pomerânia) creme sentado em um jardim."
-          className="vt-topo-foto"
+          className="vt-topo-foto so-fora-do-natal"
+        />
+        <Image
+          src="/images/vitrine/topo-filhote-creme-natal.webp"
+          width={1024}
+          height={600}
+          priority={natal}
+          loading={natal ? undefined : "lazy"}
+          fetchPriority={natal ? "high" : "low"}
+          sizes="(max-width: 1229px) 100vw, 1229px"
+          alt="Filhote de Spitz Alemão Anão (Lulu da Pomerânia) creme de gorro de Papai Noel, diante de uma árvore de Natal."
+          className="vt-topo-foto so-no-natal"
         />
         <div className="vt-topo-veu" aria-hidden="true" />
         <div className="vt-miolo vt-topo-texto">

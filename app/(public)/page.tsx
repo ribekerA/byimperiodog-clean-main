@@ -18,6 +18,11 @@ import { puppiesPublicados } from "@/content/puppies-static";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { PISOS_POR_SEXO, partesDoPrecoNoPix } from "@/domain/pricing";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
+import { faseDoNatal } from "@/lib/temporada";
+
+// A página continua estática; é refeita a cada hora só para a foto do topo
+// trocar de prioridade sozinha na entrada e na saída do Natal (ver o hero).
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   // O `template: '%s | By Império Dog'` fica em baseSiteMetadata, no layout do
@@ -122,6 +127,12 @@ export default function HomePage() {
   // (26/08/2026)
   const featured = puppiesPublicados;
 
+  // As duas fotos do topo saem no HTML e o CSS mostra uma só, pelo data-tema
+  // do <html>. A que o servidor espera ver é a prioritária (pré-carregada); a
+  // outra é lazy e, escondida, nem é baixada. Na prévia (?tema=natal fora da
+  // data) a natalina chega um instante depois, sem prejuízo para o visitante.
+  const natal = faseDoNatal() !== null;
+
   // Primeiro os três que abrem a vitrine; depois todos os outros.
   const filhotesDaHome: FilhoteDaHome[] = [
     ...ABREM_A_VITRINE.flatMap((slug) => featured.filter((p) => p.slug === slug)),
@@ -159,13 +170,27 @@ export default function HomePage() {
         <div className="hm">
 
           <section className="hm-topo" aria-labelledby="hero-heading">
-            <div className="hm-topo-foto">
+            <div className="hm-topo-foto so-fora-do-natal">
               <Image
                 src="/images/home/topo-quatro.webp"
                 alt="Quatro filhotes de Spitz Alemão Anão, o Lulu da Pomerânia: branco, laranja, preto e creme."
                 fill
-                priority
-                fetchPriority="high"
+                priority={!natal}
+                loading={natal ? "lazy" : undefined}
+                fetchPriority={natal ? "low" : "high"}
+                quality={80}
+                sizes="(min-width: 1180px) 1180px, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="hm-topo-foto so-no-natal">
+              <Image
+                src="/images/home/topo-quatro-natal.webp"
+                alt="Quatro filhotes de Spitz Alemão Anão, o Lulu da Pomerânia, de gorro de Papai Noel: branco, laranja, preto e creme."
+                fill
+                priority={natal}
+                loading={natal ? undefined : "lazy"}
+                fetchPriority={natal ? "high" : "low"}
                 quality={80}
                 sizes="(min-width: 1180px) 1180px, 100vw"
                 className="object-cover"
@@ -181,7 +206,8 @@ export default function HomePage() {
                 <span>Filhotes Exclusivos</span>
                 <Image src="/images/home/pata-dir.webp" alt="" width={88} height={76} unoptimized loading="eager" />
               </p>
-              <p className="hm-chamada">Escolha o seu novo companheiro hoje mesmo!</p>
+              <p className="hm-chamada so-fora-do-natal">Escolha o seu novo companheiro hoje mesmo!</p>
+              <p className="hm-chamada so-no-natal">Família nova: escolha o seu Lulu da Pomerânia!</p>
             </div>
           </section>
 

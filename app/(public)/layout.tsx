@@ -4,6 +4,7 @@ import "../globals.css";
 import "../../design-system/tokens.css";
 
 // Components
+import FaixaSazonal from "@/components/common/FaixaSazonal";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import SkipLink from "@/components/common/SkipLink";
@@ -22,6 +23,7 @@ import { getPixelsSettings, resolveActiveEnvironment } from "@/lib/pixels";
 import { resolveRobots } from "@/lib/seo";
 import { baseSiteMetadata } from "@/lib/seo.core";
 import { buildLocalBusinessLD } from "@/lib/structured-data";
+import { SCRIPT_DO_TEMA } from "@/lib/temporada";
 import {
   resolveTracking,
   buildWebsiteLD,
@@ -72,9 +74,15 @@ export default async function PublicLayout({ children }: { children: React.React
   }
 
   return (
-    <html lang="pt-BR" className={`scroll-smooth ${dmSans.variable} ${playfairDisplay.variable} ${playfairItalica.variable}`}>
+    // suppressHydrationWarning: o script do tema põe data-tema no <html> antes
+    // de o React chegar. Vale só para os atributos deste elemento.
+    <html lang="pt-BR" suppressHydrationWarning className={`scroll-smooth ${dmSans.variable} ${playfairDisplay.variable} ${playfairItalica.variable}`}>
       <head>
         <meta charSet="utf-8" />
+
+        {/* Tema de Natal: liga de 1º/12 a 6/1 pelo relógio de quem visita, sem
+            build. Regra, datas e prévia (?tema=natal) em src/lib/temporada.ts. */}
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_DO_TEMA }} />
 
         {/*
           O site reabria no meio da página. A causa é o
@@ -174,6 +182,11 @@ export default async function PublicLayout({ children }: { children: React.React
         <ClientOnlyWhatsAppClickTracker />
 
         <div className="flex min-h-screen flex-col">
+          <FaixaSazonal />
+          {/* O cabeçalho é absolute sobre a foto do topo. Este bloco relative faz
+              ele se medir daqui, logo abaixo da faixa de Natal, e não do alto da
+              página; sem a faixa a posição é a mesma de antes. */}
+          <div className="relative flex flex-1 flex-col">
           <Header />
           {/* Este é o ÚNICO <main> do site público, e o alvo do skip link.
               As páginas abriam cada uma o seu, o que deixava dois landmarks
@@ -184,6 +197,7 @@ export default async function PublicLayout({ children }: { children: React.React
             {children}
           </main>
           <Footer />
+          </div>
           <ClientOnlyWhatsAppFloat />
           <ClientOnlyConsentBanner />
         </div>

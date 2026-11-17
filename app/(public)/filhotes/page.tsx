@@ -7,6 +7,9 @@ import { puppiesPublicados } from "@/content/puppies-static";
 import { RESPOSTA_MACHO_VS_FEMEA } from "@/domain/pricing";
 import { buildItemListLD, buildBreadcrumbLD, buildCollectionPageLD } from "@/lib/structured-data";
 
+// Refeita a cada hora para a foto do topo trocar sozinha no Natal (VitrineTopo).
+export const revalidate = 3600;
+
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
 
 const CATALOG_FAQS = [
