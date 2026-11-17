@@ -121,6 +121,8 @@ export const BRAND = {
       // Perfis informados pelo usuário em 17/11/2026.
       "https://www.tiktok.com/@byimperiodogs",
       "https://www.facebook.com/byimperiodog",
+      // Confirmado como oficial pelo usuário em 17/11/2026 (aparece na página do Facebook).
+      "https://www.pinterest.com/byimperiodog",
     ],
   },
 } as const;
