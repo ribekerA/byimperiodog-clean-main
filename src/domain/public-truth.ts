@@ -62,7 +62,7 @@ export type FatoPublico = {
  * .mdx (que não importam código) repetem a mesma frase, palavra por palavra.
  */
 export const REGRA_DE_ENTREGA =
-  "Entregamos em todo o Brasil por transporte aéreo, conforme a rota, a idade e as condições do filhote, ou com retirada em Bragança Paulista. Prazo, custo e requisitos são confirmados antes da reserva.";
+  "Retirada ou entrega, conforme a disponibilidade. Local, prazo e condições são combinados antes da reserva."; 
 
 export const FATOS_PUBLICOS: readonly FatoPublico[] = [
   { id: "marca", status: "CONFIRMADO", texto: "By Imperio Dog" },
@@ -120,7 +120,7 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
     id: "transporte",
     status: "CONDICIONAL",
     texto: REGRA_DE_ENTREGA,
-    nota: "Entrega aérea nacional confirmada pela proprietária em 09/10/2026. Prazo, custo e requisitos da viagem são confirmados antes da reserva. Sem afirmar frota própria, empresa parceira, prazo fixo ou frete grátis.",
+    nota: "Regra comercial única de retirada ou entrega: não afirmar rotas, localidades ou modalidades específicas sem confirmação individual." ,
   },
   {
     id: "contrato",
@@ -335,7 +335,7 @@ export const REGRAS_DE_VERDADE: readonly RegraDeVerdade[] = [
     padrao:
       /\bfrota\s+pr[oó]pria\b|\btransporte\s+a[ée]reo\s+pr[oó]prio\b|\btransporte\s+humanizado\b|\bnunca\s+viaja\s+sozinh[oa]\b|\ba\s+entrega\s+[ée]\s+segura\b|\bentrega\s+humanizada\b/i,
     motivo:
-      "Entrega aérea nacional foi confirmada em 09/10/2026, mas não há confirmação de frota própria, acompanhamento durante todo o trajeto ou garantia absoluta de segurança.",
+      "Não há modalidade ou abrangência geográfica de entrega publicada como garantia; consultar cada caso." ,
     alternativa: REGRA_DE_ENTREGA,
   },
   {
