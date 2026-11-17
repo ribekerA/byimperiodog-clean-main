@@ -25,7 +25,7 @@ const INICIO = md(NATAL_INICIO);
 const FIM = md(NATAL_FIM);
 const VIRADA = md(NATAL_VIRADA);
 
-/** Fase do Natal num mês/dia (MMDD). A temporada atravessa a virada do ano. */
+/** Fase do Natal num mês/dia (MMDD). A temporada termina em 31/12, sem prolongamento em janeiro. */
 export function faseNoDia(mmdd: number): FaseDoNatal {
   if (mmdd >= INICIO && mmdd <= VIRADA) return "familia";
   if (mmdd > VIRADA && mmdd <= FIM) return "festas";
