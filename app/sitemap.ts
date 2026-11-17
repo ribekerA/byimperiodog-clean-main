@@ -64,12 +64,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // ─── Raça / informacional ─────────────────────────────────────────────────
     entrada("/spitz-alemao",           "monthly", 0.92),
-    entrada("/lulu-da-pomerania",      "monthly", 0.92),
-    entrada("/pomeranian",             "monthly", 0.90),
     entrada("/spitz-alemao-preto",     "monthly", 0.88),
     entrada("/spitz-alemao-branco",    "monthly", 0.88),
     entrada("/spitz-alemao-baby-face", "monthly", 0.88),
-    entrada("/filhote-de-spitz-alemao","monthly", 0.88),
 
     // ─── Intenção comercial ───────────────────────────────────────────────────
     entrada("/comprar-spitz-anao",     "monthly", 0.92),
