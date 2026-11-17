@@ -61,7 +61,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Posso visitar o canil presencialmente?",
-    a: "A possibilidade e o formato da visita são combinados diretamente com a criadora pelo WhatsApp, conforme a disponibilidade.",
+    a: "Sim. Recebemos visitas todos os dias, das 8h às 22h, com horário agendado com a criadora pelo WhatsApp.",
   },
   {
     q: "Como funciona a retirada ou a entrega?",
@@ -246,13 +246,12 @@ export default function ContatoPage() {
                 <p className="mt-1 text-sm text-zinc-500">
                   Bragança Paulista, SP
                 </p>
-                {/* Dizia "Visitas com agendamento prévio (sáb)". Sábado é dia
-                    fixo, e dia fixo é promessa: quem lê agenda o fim de semana
-                    contando com uma visita que ninguém garantiu. A própria
-                    página se contradizia — o card de baixo já dizia "combinadas
-                    caso a caso". Agora as duas dizem a mesma coisa. */}
+                {/* Dizia "Visitas com agendamento prévio (sáb)" e depois "caso a
+                    caso". Em 17/11/2026 a responsável confirmou visitas todos os
+                    dias, das 8h às 22h, com horário agendado: o mesmo texto da
+                    faixa do cabeçalho e do card de baixo. */}
                 <p className="mt-2 text-sm text-zinc-600">
-                  Visitas combinadas caso a caso com a criadora
+                  Visitas todos os dias, das 8h às 22h, com horário agendado
                 </p>
               </div>
               <a
@@ -361,7 +360,7 @@ export default function ContatoPage() {
               <p className="text-sm text-zinc-600">
                 Bragança Paulista, SP<br />
                 Região Bragantina · Interior de São Paulo<br />
-                <span className="text-zinc-500">Visitas combinadas caso a caso com a criadora</span>
+                <span className="text-zinc-500">Visitas todos os dias, das 8h às 22h, com horário agendado</span>
               </p>
               <a
                 href={GOOGLE_MAPS_PROFILE_URL}

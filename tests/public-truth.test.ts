@@ -164,9 +164,9 @@ describe("verificarTexto — o que PRECISA passar", () => {
     expect(verificarTexto(texto)).toHaveLength(0);
   });
 
-  it("deixa passar visita e transporte na formulação hedgeada", () => {
+  it("deixa passar visita agendada e transporte na formulação hedgeada", () => {
     const texto =
-      "Visitas são combinadas caso a caso com a criadora. " +
+      "Visitas todos os dias, das 8h às 22h, com horário agendado com a criadora. " +
       "O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte " +
       "especializado, definidas conforme destino, idade e condições do filhote.";
     expect(verificarTexto(texto)).toHaveLength(0);

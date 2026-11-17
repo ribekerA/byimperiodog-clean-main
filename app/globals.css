@@ -906,6 +906,26 @@ body.admin-shell [data-site-shell="cta"] {
 .pg-cabecalho .hm-cabecalho-miolo { min-height: 64px; }
 @media (min-width: 1024px) { .pg-cabecalho .hm-cabecalho-miolo { min-height: 76px; } }
 
+/* Faixa de horário e visita no alto de todas as páginas (17/11/2026). Altura
+   fixa porque três regras dependem dela: o cabeçalho fixo sobe essa medida
+   (a faixa rola e o menu fica) e a foto da vitrine desce o mesmo tanto. */
+.hm-horario { display: flex; align-items: center; justify-content: center; gap: 6px; box-sizing: border-box; height: 28px; margin: 0; padding-inline: 12px; overflow: hidden; white-space: nowrap; background: #04200f; color: #f8f0d8; font-size: 12px; line-height: 1; border-bottom: 1px solid rgba(232, 197, 111, 0.35); }
+.hm-horario-ponto { color: #e8c56f; }
+.hm-horario-larga { display: none; }
+/* Em 320 px a frase curta passava 10 px da tela e era cortada. */
+@media (max-width: 359px) { .hm-horario { gap: 4px; padding-inline: 8px; font-size: 11px; } }
+@media (min-width: 640px) {
+  .hm-horario { font-size: 13px; }
+  .hm-horario-larga { display: inline; }
+  .hm-horario-curta { display: none; }
+}
+.pg-cabecalho { top: -28px; }
+/* Na home e na vitrine o cabeçalho flutua sobre a foto. Dentro dele a faixa
+   empurrava a marca 28 px para cima das cabeças dos filhotes: ali ela fica
+   acima da foto, a página desce os mesmos 28 px e o desenho aprovado não muda. */
+.hm-cabecalho:not(.pg-cabecalho) .hm-horario { position: absolute; inset: -28px 0 auto; }
+body:has(.hm-cabecalho:not(.pg-cabecalho)) { padding-top: 28px; }
+
 /* ── Rodapé ───────────────────────────────────────────────────────────────────── */
 .rp { color: #d9d2bb; background: #04200f; }
 .rp-chamada { padding: 52px 20px 56px; text-align: center; background: linear-gradient(180deg, #0c3f26, #082c1a); border-top: 1px solid rgba(232, 197, 111, 0.5); border-bottom: 1px solid rgba(232, 197, 111, 0.3); }

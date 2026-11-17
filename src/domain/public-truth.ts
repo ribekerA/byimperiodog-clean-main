@@ -114,9 +114,9 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
   },
   {
     id: "visitas",
-    status: "CONDICIONAL",
-    texto: "Visitas e videochamadas são combinadas caso a caso com a criadora",
-    nota: "Nunca como direito universal, nunca com dia fixo.",
+    status: "CONFIRMADO",
+    texto: "Visitas todos os dias, das 8h às 22h, com horário agendado com a criadora",
+    nota: "Confirmado pela responsável em 17/11/2026. Sempre com horário agendado: visita sem agendamento não é promessa.",
   },
   {
     id: "transporte",
