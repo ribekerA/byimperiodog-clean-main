@@ -32,7 +32,9 @@ type Props = {
 
 const capitalizar = (texto: string) => texto.charAt(0).toUpperCase() + texto.slice(1);
 
-// O botão fala do filhote da foto: "Consultar Branca", "Consultar Preto".
+// O botão fala do filhote da foto: "Perguntar pela Branca", "Perguntar pelo
+// Preto". Era "Consultar", verbo de trâmite; "perguntar" é o que a pessoa faz
+// de fato no WhatsApp e não promete disponibilidade (17/11/2026).
 const corConcordando = (cor: string, femea: boolean) => (femea ? cor.replace(/o$/, "a") : cor);
 
 export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, priceCents, price_cents, images }: Props) {
@@ -115,10 +117,10 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
         rel="noreferrer"
         target="_blank"
         className="vc-acao"
-        aria-label={`Consultar opções atuais de ${corLabel} ${sexLabel} pelo WhatsApp`}
+        aria-label={`Perguntar ${femea ? "pela" : "pelo"} ${corConcordando(corLabel, femea)}, ${sexLabel}, no WhatsApp`}
       >
         <WhatsAppIcon aria-hidden="true" />
-        <span>Consultar {corConcordando(corLabel, femea)}</span>
+        <span>Perguntar {femea ? "pela" : "pelo"} {corConcordando(corLabel, femea)}</span>
         <ChevronRight aria-hidden="true" strokeWidth={2.4} />
       </a>
     </article>

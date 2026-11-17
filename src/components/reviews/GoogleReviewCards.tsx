@@ -1,6 +1,5 @@
 import ReviewComment from "@/components/reviews/ReviewComment";
 import { googleReviews } from "@/content/google-reviews";
-import { GOOGLE_REVIEWS_URL } from "@/domain/config";
 
 export default function GoogleReviewCards() {
   return googleReviews.filter((review) => review.text).slice(0, 8).map((review) => (
@@ -11,10 +10,11 @@ export default function GoogleReviewCards() {
       </div>
       <span role="img" aria-label={`${review.rating} de 5 estrelas`} className="whitespace-nowrap text-xl tracking-tight text-[#fbbc04]">★★★★★</span>
       <ReviewComment text={review.text ?? ""} />
-      <div className="border-t border-zinc-100 pt-3">
-        {review.translated && <p className="text-xs text-zinc-600">Tradução exibida pelo Google.</p>}
-        <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 items-center rounded text-sm font-medium text-[var(--accent-ink)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">Ver no perfil do Google<span className="sr-only"> — referência: {review.name}; abre em nova aba</span></a>
-      </div>
+      {/* Cada cartão tinha um link "Ver no perfil do Google" para o mesmo
+          endereço: oito links iguais disputando o toque com o WhatsApp
+          (17/11/2026). A seção já leva ao perfil por "Conferir no Google" e
+          "Ver avaliações no Google". */}
+      {review.translated && <p className="border-t border-zinc-100 pt-3 text-xs text-zinc-600">Tradução exibida pelo Google.</p>}
     </li>
   ));
 }

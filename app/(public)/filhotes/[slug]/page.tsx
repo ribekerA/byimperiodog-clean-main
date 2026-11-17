@@ -302,7 +302,7 @@ export default async function PuppyPage(props: Props) {
                   data-wa-puppy={puppy.slug}
                   className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
-                  Consultar opções atuais no WhatsApp
+                  Ver disponibilidade no WhatsApp
                 </a>
               </div>
             </div>

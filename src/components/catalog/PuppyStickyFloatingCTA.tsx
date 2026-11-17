@@ -107,10 +107,10 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
               className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-base font-semibold text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
               emojis="paw"
               count={12}
-              aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${name}`}
+              aria-label={`Ver disponibilidade pelo WhatsApp — referência: ${name}`}
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-              Consultar opções atuais
+              Ver disponibilidade
             </PawConfettiButton>
           </motion.div>
 
@@ -172,10 +172,10 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
                 className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[var(--brand)] px-4 text-sm font-bold text-[var(--brand-foreground)] shadow transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]"
                 emojis="mixed"
                 count={14}
-                aria-label={`Consultar as opções atuais pelo WhatsApp — referência: ${name}`}
+                aria-label={`Ver disponibilidade pelo WhatsApp — referência: ${name}`}
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                Consultar opções atuais
+                Ver disponibilidade
               </PawConfettiButton>
             </div>
           </motion.div>

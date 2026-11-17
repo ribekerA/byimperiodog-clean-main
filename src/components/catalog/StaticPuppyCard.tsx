@@ -197,10 +197,12 @@ export default function StaticPuppyCard({
             className="cartao-filhote-acao"
             emojis="paw"
             count={14}
-            aria-label={`Consultar opções atuais de ${corLabel} ${sexLabel} pelo WhatsApp`}
+            aria-label={`Ver disponibilidade de ${corLabel} ${sexLabel} pelo WhatsApp`}
           >
             <WhatsAppIcon className="cartao-filhote-acao-icone" aria-hidden="true" />
-            Consultar
+            {/* Era "Consultar" (17/11/2026): "ver disponibilidade" diz o que a
+                pessoa ganha com o toque, sem prometer que o filhote está livre. */}
+            Ver disponibilidade
           </PawConfettiButton>
         </div>
       </article>

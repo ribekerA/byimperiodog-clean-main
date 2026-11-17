@@ -92,15 +92,18 @@ export default function ConsentBanner() {
       >
         <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
           {!showSettings ? (
-            // Banner simples
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            // Banner simples. No celular ele cobria um quarto da primeira tela, em
+            // cima dos filhotes e do preço (17/11/2026): lá o ícone e o título
+            // saem da vista (o título continua para o leitor de tela, que é quem
+            // usa o aria-labelledby) e o texto ocupa a largura toda.
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
               <div className="flex items-start gap-3 flex-1">
-                <Cookie className="h-6 w-6 text-brand shrink-0 mt-1" aria-hidden="true" />
+                <Cookie className="hidden h-6 w-6 text-brand shrink-0 mt-1 sm:block" aria-hidden="true" />
                 <div>
-                  <h2 id="consent-title" className="text-lg font-semibold text-zinc-900">
+                  <h2 id="consent-title" className="sr-only text-lg font-semibold text-zinc-900 sm:not-sr-only">
                     Cookies e privacidade
                   </h2>
-                  <p id="cookie-consent-description" className="mt-1 text-sm text-zinc-600 leading-relaxed">
+                  <p id="cookie-consent-description" className="text-sm text-zinc-600 leading-snug sm:mt-1 sm:leading-relaxed">
                     Cookies opcionais de análise e marketing só com sua escolha. Aceite, rejeite ou personalize.{' '}
                     <Link
                       href="/politica-de-privacidade"

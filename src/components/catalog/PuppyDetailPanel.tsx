@@ -205,7 +205,7 @@ export default function PuppyDetailPanel({
                 quebrar, ele usa duas linhas dentro dos mesmos 56px de altura e
                 a frase chega inteira. De 360px para cima continua em uma linha
                 só, igual a antes. */}
-            <span className="text-center">Consultar opções atuais</span>
+            <span className="text-center">Ver disponibilidade</span>
           </PawConfettiButton>
 
           <HeartBurstButton
