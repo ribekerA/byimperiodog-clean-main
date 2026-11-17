@@ -33,9 +33,6 @@ const NAV_ITEMS = [
 // próprio domínio. Entram aqui porque é a lista de páginas da raça.
 const RACA_ITEMS = [
   { label: "Spitz Alemão Anão (Lulu da Pomerânia)", href: "/spitz-alemao" },
-  { label: "Lulu da Pomerânia", href: "/lulu-da-pomerania" },
-  { label: "Pomeranian", href: "/pomeranian" },
-  { label: "Filhote de Spitz", href: "/filhote-de-spitz-alemao" },
   { label: "Spitz Alemão (Lulu da Pomerânia) Branco", href: "/spitz-alemao-branco" },
   { label: "Spitz Alemão (Lulu da Pomerânia) Preto", href: "/spitz-alemao-preto" },
   { label: "Spitz Alemão (Lulu da Pomerânia) Baby Face", href: "/spitz-alemao-baby-face" },
