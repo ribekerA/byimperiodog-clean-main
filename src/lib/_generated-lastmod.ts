@@ -17,7 +17,7 @@ export const LASTMOD: Record<string, string> = {
   "/disponiveis": "2026-11-17T17:16:08.000Z",
   "/faq-do-tutor": "2026-11-17T13:23:05.000Z",
   "/filhote-de-spitz-alemao": "2026-11-17T13:23:05.000Z",
-  "/filhotes": "2026-11-17T18:48:35.000Z",
+  "/filhotes": "2026-11-17T22:08:05.000Z",
   "/filhotes/minas-gerais": "2026-11-17T18:23:54.000Z",
   "/filhotes/rio-de-janeiro": "2026-11-17T18:23:54.000Z",
   "/filhotes/sao-paulo": "2026-11-17T18:23:54.000Z",
