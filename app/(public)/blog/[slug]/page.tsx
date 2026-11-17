@@ -183,7 +183,9 @@ export async function generateStaticParams() {
   return generatedPosts.map((post: { slug: string }) => ({ slug: post.slug }));
 }
 
-export const revalidate = 300;
+// Uma hora, como a listagem (ver o comentario em app/(public)/blog/page.tsx):
+// publicar ou editar pelo admin ja chama revalidatePath deste slug.
+export const revalidate = 3600;
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const params = await props.params;

@@ -48,9 +48,13 @@ type PublicPost = {
 // desligava o cache de dados, refazendo a consulta ao Supabase a cada visita, e
 // tinha precedencia sobre `revalidate`.
 //
-// `revalidate = 300` continua valendo: o HTML e regerado no maximo a cada 5
-// minutos quando ha post novo so no banco.
-export const revalidate = 300;
+// `revalidate = 3600`: o HTML e regerado no maximo a cada hora quando ha post
+// novo so no banco. Era 300 ate 17/11/2026; com pouco trafego, a copia do CDN
+// vencia a cada 5 minutos e quase toda visita esperava a funcao (0,4-0,75 s de
+// TTFB contra 0,05 s das paginas guardadas). Toda rota que publica, edita ou
+// modera post ja chama revalidatePath/revalidarListagemBlog, entao o post
+// aparece na hora; a hora e so o teto para mudanca feita direto no banco.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Blog | Guia do Spitz Alemão Anão (Lulu da Pomerânia)",
@@ -338,12 +342,13 @@ function BlogFooterSection() {
 //
 // Custo de um post novo demorar ate 5 minutos para aparecer na listagem: a
 // pagina do artigo (/blog/[slug]) nao depende disto.
-// A janela de 5 minutos e o teto, nao a espera normal: publicar pelo admin
-// dispara `revalidarListagemBlog()` e o post aparece na hora.
+// A janela de 1 hora e o teto, nao a espera normal: publicar pelo admin
+// dispara `revalidarListagemBlog()` e o post aparece na hora. Tem de ser igual
+// ao `revalidate` da pagina: o Next usa o menor dos dois para a rota inteira.
 const lerPostsDoSupabase = unstable_cache(
   listPublishableSupabasePosts,
   ["blog-listagem-supabase"],
-  { revalidate: 300, tags: [TAG_LISTAGEM_BLOG] }
+  { revalidate: 3600, tags: [TAG_LISTAGEM_BLOG] }
 );
 
 async function fetchPosts(): Promise<PublicPost[]> {
