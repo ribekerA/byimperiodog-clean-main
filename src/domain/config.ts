@@ -12,6 +12,10 @@ import { FAIXA_PUBLICA } from "@/domain/pricing";
  */
 export const FOUNDING_YEAR = 2013;
 
+/** Política de entrega provisória: aguarda validação da responsável antes de publicar. */
+export const DELIVERY_POLICY_COPY =
+  "Condições de entrega e transporte são confirmadas individualmente antes da reserva, considerando destino, idade e condições do filhote.";
+
 /**
  * Identidade pública confirmada no Perfil da Empresa do Google.
  *
