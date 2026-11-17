@@ -133,8 +133,12 @@ export default function StaticCatalog({ puppies }: Props) {
 
         {/* Pills de cor — scroll horizontal no mobile. O estado ativo vem de
             aria-pressed e é pintado em .chip-filtro, não em classe condicional:
-            o visual e o que o leitor de tela anuncia nunca saem de sincronia. */}
+            o visual e o que o leitor de tela anuncia nunca saem de sincronia.
+            data-wa-safe-zone: a bolha do WhatsApp voltou à vitrine em
+            17/11/2026 e cobria o último chip visível; sobre a fileira ela sai
+            da frente (o cabeçalho tem o botão compacto). */}
         <div
+          data-wa-safe-zone
           className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           role="group"
           aria-label="Filtrar por cor"

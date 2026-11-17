@@ -804,6 +804,10 @@ body.admin-shell [data-site-shell="cta"] {
 .vt-cabecalho .hm-cabecalho-miolo { min-height: calc(122 * var(--u)); padding-inline: calc(30 * var(--u)) calc(30 * var(--u)); }
 .vt-cabecalho .hm-logo { order: 1; margin-inline-start: 0; }
 .vt-cabecalho .hm-menu { order: 3; }
+/* Botão compacto de WhatsApp no celular, colado à esquerda do menu. A home não
+   o recebe (ver Header.tsx). */
+.hm-wa { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex: none; border-radius: 999px; background: #25d366; color: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); }
+.vt-cabecalho .hm-wa { order: 2; margin-inline-start: auto; }
 .vt-cabecalho .hm-menu > span { background: #e8c56f; }
 .vt-cabecalho .hm-marca { font-size: max(16px, calc(42 * var(--u))); }
 .vt-cabecalho .hm-lema { color: #e8c56f; }

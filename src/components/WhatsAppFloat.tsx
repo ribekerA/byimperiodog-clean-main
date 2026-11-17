@@ -3,7 +3,7 @@
 /**
  * WhatsAppFloat — Botão fixo de WhatsApp.
  *
- * • Visível nas páginas públicas, exceto /admin e /filhotes* (que já têm CTA próprio)
+ * • Visível nas páginas públicas, exceto /admin e a página de cada filhote (que tem CTA fixo próprio)
  * • Aparece após 3 s para não prejudicar CLS
  * • Mensagem automática personalizada conforme a rota atual
  * • NÃO mede nada por conta própria: quem registra o clique é o ouvinte
@@ -74,11 +74,16 @@ function resolveMessage(pathname: string): string {
  * Não reintroduza medição neste arquivo.
  */
 
-// Páginas de /filhotes já têm CTA de WhatsApp dedicado por card/detalhe
-// (StaticPuppyCard "Tenho interesse", PuppyStickyFloatingCTA no mobile) —
-// o botão flutuante global aqui colidiria visualmente com eles.
+// Só a página de um filhote tem CTA fixo próprio (PuppyStickyFloatingCTA no
+// celular); ali o botão global colidiria com ele. A vitrine e as listas por
+// cor, sexo e estado ficavam sem nenhum WhatsApp na primeira tela do celular
+// (auditoria de 17/11/2026), então voltam a mostrar o botão.
+const LISTAS_DA_VITRINE = new Set(["cor", "sexo", "sao-paulo", "minas-gerais", "rio-de-janeiro"]);
+
 function hasOwnWhatsAppCta(pathname: string): boolean {
-  return pathname.startsWith("/filhotes");
+  const partes = pathname.split("/").filter(Boolean);
+  if (partes[0] !== "filhotes" || partes.length < 2) return false;
+  return !LISTAS_DA_VITRINE.has(partes[1]);
 }
 
 export function WhatsAppFloat() {
@@ -91,6 +96,7 @@ export function WhatsAppFloat() {
   const firstPulse = useRef(false);
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rafPending = useRef(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const whatsappUrl = useWhatsAppLink(
     `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(resolveMessage(pathname))}`,
   );
@@ -131,12 +137,18 @@ export function WhatsAppFloat() {
       }
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const btn = {
-        left: vw - MARGIN - BUTTON_SIZE - BUFFER,
-        right: vw,
-        top: vh - MARGIN - BUTTON_SIZE - BUFFER,
-        bottom: vh,
-      };
+      // Mede o botão de verdade quando ele já está na tela: com o banner de
+      // cookies aberto ele sobe a altura do banner (bottom-safe), e a conta
+      // fixa pelo rodapé da janela olhava para o lugar errado.
+      const real = buttonRef.current?.getBoundingClientRect();
+      const btn = real
+        ? { left: real.left - BUFFER, right: real.right + BUFFER, top: real.top - BUFFER, bottom: real.bottom + BUFFER }
+        : {
+            left: vw - MARGIN - BUTTON_SIZE - BUFFER,
+            right: vw,
+            top: vh - MARGIN - BUTTON_SIZE - BUFFER,
+            bottom: vh,
+          };
       let hit = false;
       zones.forEach((el) => {
         const r = el.getBoundingClientRect();
@@ -174,7 +186,7 @@ export function WhatsAppFloat() {
       window.removeEventListener("scroll", onScrollOrResize);
       window.removeEventListener("resize", onScrollOrResize);
     };
-  }, [pathname]);
+  }, [pathname, visible]);
 
   // Pulsa suavemente uma vez após 8 s para chamar atenção
   useEffect(() => {
@@ -208,6 +220,7 @@ export function WhatsAppFloat() {
         coloca no mesmo caminho de medição dos outros — sem onClick de
         tracking aqui, que seria o segundo caminho para o mesmo clique. */}
     <button
+      ref={buttonRef}
       type="button"
       onClick={handleClick}
       aria-label="Falar no WhatsApp com a criadora"

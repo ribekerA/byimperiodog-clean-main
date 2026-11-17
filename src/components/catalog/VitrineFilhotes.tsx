@@ -127,7 +127,9 @@ export default function VitrineFilhotes({ puppies }: { puppies: Filhote[] }) {
           </ul>
         </div>
 
-        <div className="vf-filtros" role="group" aria-label="Filtrar filhotes por cor e sexo">
+        {/* data-wa-safe-zone: a bolha do WhatsApp voltou à vitrine em 17/11/2026
+            e cobria o último chip visível; sobre a fileira ela sai da frente. */}
+        <div data-wa-safe-zone className="vf-filtros" role="group" aria-label="Filtrar filhotes por cor e sexo">
           <button type="button" className="vf-filtro" aria-pressed={!filtroCor} onClick={() => setFiltroCor("")}>
             Todos
           </button>

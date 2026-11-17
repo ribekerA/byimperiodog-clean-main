@@ -219,6 +219,23 @@ export default function Header() {
             </a>
           </div>
 
+          {/* WhatsApp compacto no celular (auditoria de 17/11/2026, Fase 2): sem
+              ele, o primeiro WhatsApp da tela no celular ficava abaixo da dobra.
+              Mesmo link e mesmo placement do botão do computador, então o clique
+              cai na mesma conta do <WhatsAppClickTracker />. Fora da home: lá o
+              selo "Desde 2013" ocupa a direita e o botão empurrava a página 20 a
+              44 px para o lado; a home já tem a bolha flutuante. */}
+          {ehHome ? null : (
+            <a
+              href={whatsappLink}
+              data-wa-placement="header"
+              aria-label="Conversar no WhatsApp"
+              className="hm-wa focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-dark)] lg:hidden"
+            >
+              <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
+            </a>
+          )}
+
           {/* Mobile hamburger */}
           <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
             <Dialog.Trigger asChild>
