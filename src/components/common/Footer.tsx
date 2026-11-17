@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import {
+  BRAND,
   FOUNDING_YEAR,
   GOOGLE_MAPS_PROFILE_URL,
   GOOGLE_REVIEW_URL,
@@ -108,8 +109,8 @@ export default function Footer() {
             Spitz Alemão Anão (Lulu da Pomerânia) — atendimento especializado, acompanhamento veterinário e suporte da criadora depois da entrega.
           </p>
           <address>
-            <a href={`mailto:contato@byimperiodog.com.br`}>contato@byimperiodog.com.br</a>
-            <a href={whatsapp} target="_blank" rel="noreferrer">(11) 9 6863-3239</a>
+            <a href={`mailto:${BRAND.contact.email}`}>{BRAND.contact.email}</a>
+            <a href={whatsapp} target="_blank" rel="noreferrer">{BRAND.contact.phone}</a>
           </address>
           <div className="rp-google">
             <a href={GOOGLE_MAPS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
