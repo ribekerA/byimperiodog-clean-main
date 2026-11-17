@@ -79,9 +79,9 @@ const TIMELINE = [
     // virada do ano a linha do tempo passaria a anunciar que o ultimo
     // acontecimento do canil foi no ano passado. "Hoje" nao envelhece.
     year: "Hoje",
-    title: "Famílias em todo o Brasil",
+    title: "Famílias e atendimento especializado",
     description:
-      "Hoje, famílias espalhadas pelo Brasil confiam na By Imperio Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria pós-venda.",
+      "Ajudamos famílias a conhecer o Spitz Alemão Anão (Lulu da Pomerânia) com atendimento especializado e suporte pós-venda pelo WhatsApp.",
     emoji: "💚",
   },
 ] as const;
