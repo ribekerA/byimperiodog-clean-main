@@ -1,4 +1,4 @@
-import { BRAND, FOUNDING_YEAR, PRODUCT_CONFIG } from "@/domain/config";
+import { BRAND, DELIVERY_POLICY_COPY, FOUNDING_YEAR, PRODUCT_CONFIG } from "@/domain/config";
 import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
 import { generatedPosts } from "@/lib/_generated-posts";
 import { CORES_EXIBIDAS } from "@/lib/catalog-utils";
@@ -28,10 +28,7 @@ import { CORES_EXIBIDAS } from "@/lib/catalog-utils";
 export const dynamic = "force-static";
 export const revalidate = 86400;
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(
-  /\/$/,
-  ""
-);
+const SITE_URL = BRAND.urls.site;
 
 const NOME_DA_COR: Record<string, string> = {
   branco: "Branco",
@@ -72,9 +69,7 @@ export async function GET() {
     `> Criadora especializada em ${breed.official} (${breed.alternative}) em ${BRAND.headquarters.city}/` +
       `${BRAND.headquarters.state}, Brasil, em atividade desde ${FOUNDING_YEAR}. O site publica o ` +
       `catálogo com fotos dos filhotes, valores a partir de ${min} nos machos e ${max} nas fêmeas, no PIX, e ` +
-      `artigos sobre a raça. Entregas em todo o Brasil via transporte aéreo, ` +
-      `conforme viabilidade da rota, idade e condições do filhote. Prazo, custo e requisitos ` +
-      `da viagem são confirmados antes da reserva.`,
+      `artigos sobre a raça. ${DELIVERY_POLICY_COPY}`,
     "",
     `O catálogo divulga ${CORES_EXIBIDAS.length} cores. A cor não muda o valor de partida.`,
     "Os valores acima são de partida; o valor de cada filhote é confirmado no atendimento.",
