@@ -6,9 +6,9 @@ import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
 import { puppiesPublicados } from "@/content/puppies-static";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
-import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildWebPageLD } from "@/lib/structured-data";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
