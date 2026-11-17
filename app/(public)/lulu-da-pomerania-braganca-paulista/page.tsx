@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Lulu da Pomerânia em Bragança Paulista SP — By Imperio Dog",
-    description: `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Atende Bragança Paulista e todo o Brasil.`,
+    description: `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Sede em Bragança Paulista, SP.`,
     type: "website",
   },
 };
@@ -50,7 +50,7 @@ const FAQS = [
   {
     question: "Vocês entregam fora de Bragança Paulista?",
     answer:
-      `Sim. ${REGRA_DE_ENTREGA}`,
+      REGRA_DE_ENTREGA,
   },
   {
     question: "Posso fazer uma visita antes de decidir?",
@@ -87,7 +87,7 @@ export default function LuluBragancaPage() {
           Lulu da Pomerânia em Bragança Paulista, SP
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Atuamos com a raça desde {FOUNDING_YEAR} e atendemos famílias de toda a região e de todo o Brasil.
+          A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Atuamos com a raça desde {FOUNDING_YEAR} e oferecemos atendimento especializado.
         </p>
       </header>
 
@@ -104,7 +104,7 @@ export default function LuluBragancaPage() {
             { label: "Distância de SP Capital", value: "≈ 100 km / 1h30" },
             { label: "Visitas", value: "Por agendamento (WhatsApp)" },
             { label: "Desde", value: String(FOUNDING_YEAR) },
-            { label: "Envio", value: "Todo o Brasil" },
+            { label: "Retirada ou entrega", value: "Sob consulta" },
           ].map((info) => (
             <div key={info.label} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">{info.label}</p>
