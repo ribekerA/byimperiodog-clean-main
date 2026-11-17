@@ -159,7 +159,10 @@ export default function Testimonials({
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <header className="mb-8">
           <h2 className="text-2xl font-bold tracking-tight text-[var(--text)] sm:text-3xl">{title}</h2>
-          <p className="mt-1 text-sm text-[var(--text-muted)]">Histórias reais de famílias e seus Spitz.</p>
+          <p className="mt-1 text-sm text-[var(--text-muted)]">
+            <span className="so-fora-do-natal">Histórias reais de famílias e seus Spitz.</span>
+            <span className="so-no-natal">Histórias reais de famílias e seus Lulu da Pomerânia, para inspirar o seu Natal.</span>
+          </p>
         </header>
 
         {/* Mosaico em colunas (`columns`), não grid: numa grade de células de

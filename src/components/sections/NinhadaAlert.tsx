@@ -55,9 +55,14 @@ export default function NinhadaAlert() {
             numa fila que não existe, a outra insinuava concorrência por um
             estoque que o site não publica. O que este bloco realmente faz é
             abrir uma conversa a partir da cor que a pessoa procura. */}
-        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-400">Preferências</p>
+        {/* No Natal (src/lib/temporada.ts) o CSS troca o par so-fora/so-no-natal. */}
+        <p className="text-sm font-semibold uppercase tracking-widest text-emerald-400">
+          <span className="so-fora-do-natal">Preferências</span>
+          <span className="so-no-natal">Sua cartinha de Natal</span>
+        </p>
         <h2 id="ninhada-heading" className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-          Conte o que você procura
+          <span className="so-fora-do-natal">Conte o que você procura</span>
+          <span className="so-no-natal">Conte qual Lulu da Pomerânia você sonha ter neste Natal</span>
         </h2>
         <p className="mt-4 text-zinc-400">
           Diga a cor que você tem em mente e fale com a equipe pelo WhatsApp. É no atendimento

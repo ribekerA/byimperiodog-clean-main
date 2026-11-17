@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import Festao from "@/components/common/Festao";
 import { PixIcon } from "@/components/icons/PixIcon";
 import AvaliacoesRotativas from "@/components/reviews/AvaliacoesRotativas";
 import ColorGallery from "@/components/sections/ColorGallery";
@@ -209,6 +210,7 @@ export default function HomePage() {
               <p className="hm-chamada so-fora-do-natal">Escolha o seu novo companheiro hoje mesmo!</p>
               <p className="hm-chamada so-no-natal">Família nova: escolha o seu Lulu da Pomerânia!</p>
             </div>
+            <span className="neve-natal" aria-hidden="true" />
           </section>
 
           <div className="hm-corpo">
@@ -266,6 +268,8 @@ export default function HomePage() {
           </div>
         </div>
 
+        <Festao />
+
         {/* Os seis diferenciais explicam por extenso o que os cinco selos do topo
             dizem em duas palavras. Ficaram aqui, logo depois da composição do
             mockup, e a frase de abertura veio junto. */}
@@ -310,6 +314,7 @@ export default function HomePage() {
         </div>
 
         {/* ── 7. PROVA SOCIAL ─────────────────────────────────────────────────── */}
+        <Festao />
         <div className="home-deferred-section bg-white overflow-hidden">
           <div className="border-t border-zinc-100 pb-4">
             <ClientOnlyTestimonials title="Álbum das famílias" />

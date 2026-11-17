@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+import Festao from "@/components/common/Festao";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import {
   FOUNDING_YEAR,
@@ -68,9 +69,17 @@ export default function Footer() {
   return (
     <footer role="contentinfo" className="rp">
       {/* ── Chamada antes do rodapé ─────────────────────────────────────────── */}
+      <Festao />
       <div className="rp-chamada">
-        <p className="rp-sobretitulo">Pronto para dar o próximo passo?</p>
-        <h2 className="rp-titulo">Cada filhote tem uma família esperando por ele.</h2>
+        {/* No Natal (src/lib/temporada.ts) o CSS troca o par so-fora/so-no-natal. */}
+        <p className="rp-sobretitulo">
+          <span className="so-fora-do-natal">Pronto para dar o próximo passo?</span>
+          <span className="so-no-natal">Neste Natal</span>
+        </p>
+        <h2 className="rp-titulo">
+          <span className="so-fora-do-natal">Cada filhote tem uma família esperando por ele.</span>
+          <span className="so-no-natal">Um Lulu da Pomerânia para aquecer o Natal da sua família.</span>
+        </h2>
         <svg className="vf-traco" viewBox="0 0 165 14" fill="none" aria-hidden="true">
           <path d="M1 12C45 3 110 1 164 2C110 4 55 7 1 12Z" fill="#d6a748" />
         </svg>
