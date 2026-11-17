@@ -259,7 +259,7 @@ function sexLabel(value?: string | null): string {
   const key = raw.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   if (key === "femea" || key === "f") return "fêmea";
   if (key === "macho" || key === "m") return "macho";
-  return raw;
+  return raw.replace(/_+/g, " ");
 }
 
 function colorKey(value?: string | null): string {
@@ -269,6 +269,9 @@ function colorKey(value?: string | null): string {
 const SOURCE_LABEL: Record<string, string> = {
   site_org: "Site, sem campanha",
   direto: "Sem origem registrada",
+  // UTM e GA4 gravam em ingles; e a mesma coisa que "direto".
+  direct: "Sem origem registrada",
+  "(direct)": "Sem origem registrada",
 };
 
 /** Origem do lead: a campanha (utm_source) quando existe; senao o campo source. */
@@ -677,4 +680,43 @@ export function buildDashboard(input: {
     stock,
     recommendations: buildRecommendations(leads, stock),
   };
+}
+
+/* ------------------------------------------------------------------ */
+/* Cliques no WhatsApp (GA4)                                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Cliques no botao de WhatsApp lidos do GA4 (evento whatsapp_click).
+ *
+ * Sao cliques, nao vendas nem conversas: a pessoa pode clicar e nao mandar
+ * mensagem. E o GA4 so conta quem aceitou cookies, entao o numero real e maior.
+ */
+export type WhatsAppClicks = {
+  days: DayPoint[];
+  today: number;
+  last7: number;
+  prev7: number;
+};
+
+export type WhatsAppClicksLoad =
+  | { status: "ok"; data: WhatsAppClicks; /** Nome da propriedade do GA4 lida. */ propriedade?: string }
+  | { status: "nao_conectado" }
+  | { status: "erro"; motivo: string };
+
+/**
+ * Monta os 14 dias a partir do que o GA4 devolveu. Dia sem linha no relatorio
+ * e dia sem clique: o GA4 omite linhas zeradas, entao aqui elas viram 0.
+ * `counts` usa a chave AAAA-MM-DD.
+ */
+export function buildWhatsAppClicks(counts: Record<string, number>, now: Date): WhatsAppClicks {
+  const todayKey = dayKey(now) as string;
+  const days: DayPoint[] = [];
+  for (let offset = 13; offset >= 0; offset -= 1) {
+    const key = shiftDayKey(todayKey, -offset);
+    const raw = Number(counts[key] ?? 0);
+    days.push({ key, label: dayLabel(key), weekday: weekdayLabel(key), value: Number.isFinite(raw) && raw > 0 ? raw : 0 });
+  }
+  const sum = (from: number, to: number) => days.slice(from, to).reduce((total, day) => total + day.value, 0);
+  return { days, today: days[13].value, last7: sum(7, 14), prev7: sum(0, 7) };
 }

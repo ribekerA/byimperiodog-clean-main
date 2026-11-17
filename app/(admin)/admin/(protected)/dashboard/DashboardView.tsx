@@ -13,6 +13,7 @@ import {
   type DashboardStock,
   type Recommendation,
   type RecommendationSeverity,
+  type WhatsAppClicksLoad,
 } from "@/lib/admin/dashboardMetrics";
 import { cn } from "@/lib/cn";
 
@@ -133,16 +134,27 @@ function RecommendationItem({ item }: { item: Recommendation }) {
 /* Blocos                                                               */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Abaixo desta base, porcentagem engana: "100% a menos" com 1 lead ou "0%"
+ * de 2 leads parecem tendencia e sao so acaso. Nesses casos a tela mostra a
+ * contagem, que diz a mesma coisa sem exagerar.
+ */
+export const BASE_MINIMA_PARA_PORCENTAGEM = 10;
+
 function LeadTiles({ leads }: { leads: DashboardLeads }) {
   const { awaiting, response, deltaPct } = leads;
-  const DeltaIcon = deltaPct === null || deltaPct === 0 ? Minus : deltaPct > 0 ? TrendingUp : TrendingDown;
+  const diff = leads.last7 - leads.prev7;
+  const DeltaIcon = leads.prev7 === 0 || diff === 0 ? Minus : diff > 0 ? TrendingUp : TrendingDown;
   const deltaText =
-    deltaPct === null
+    leads.prev7 === 0
       ? "Sem leads nos 7 dias anteriores para comparar"
-      : deltaPct === 0
+      : diff === 0
         ? `Igual aos 7 dias anteriores (${numero.format(leads.prev7)})`
-        : `${numero.format(Math.abs(deltaPct))}% ${deltaPct > 0 ? "a mais" : "a menos"} que nos 7 dias anteriores (${numero.format(leads.prev7)})`;
+        : deltaPct !== null && leads.prev7 >= BASE_MINIMA_PARA_PORCENTAGEM
+          ? `${numero.format(Math.abs(deltaPct))}% ${deltaPct > 0 ? "a mais" : "a menos"} que nos 7 dias anteriores (${numero.format(leads.prev7)})`
+          : `${numero.format(Math.abs(diff))} ${diff > 0 ? "a mais" : "a menos"} que nos 7 dias anteriores (${numero.format(leads.prev7)})`;
   const converted = leads.pipeline30.find((step) => step.status === "convertido")?.count ?? 0;
+  const conversaoEmContagem = leads.last30 > 0 && leads.last30 < BASE_MINIMA_PARA_PORCENTAGEM;
 
   return (
     <>
@@ -181,11 +193,19 @@ function LeadTiles({ leads }: { leads: DashboardLeads }) {
 
       <Tile
         label="Conversão em 30 dias"
-        value={leads.conversionPct30 === null ? "—" : `${numero.format(leads.conversionPct30)}%`}
+        value={
+          leads.conversionPct30 === null
+            ? "—"
+            : conversaoEmContagem
+              ? `${numero.format(converted)} de ${numero.format(leads.last30)}`
+              : `${numero.format(leads.conversionPct30)}%`
+        }
       >
         {leads.conversionPct30 === null
           ? "Sem leads nos últimos 30 dias"
-          : `${numero.format(converted)} de ${plural(leads.last30, "lead", "leads")} com status Convertido`}
+          : conversaoEmContagem
+            ? `${numero.format(converted)} de ${plural(leads.last30, "lead", "leads")} com status Convertido (poucos leads para falar em porcentagem)`
+            : `${numero.format(converted)} de ${plural(leads.last30, "lead", "leads")} com status Convertido`}
       </Tile>
     </>
   );
@@ -225,6 +245,66 @@ export function ScrollTable({ label, children }: { label: string; children: Reac
 
 export const TH = "py-2 pr-3 text-xs font-medium text-[var(--text-muted)]";
 export const TD = "py-2 pr-3";
+
+/**
+ * Cliques no WhatsApp, do GA4. Fica separado dos leads de proposito: clique
+ * nao e lead nem venda. Se o GA4 nao responder, o bloco diz isso em vez de
+ * mostrar zero.
+ */
+function WhatsAppBlock({ load }: { load: WhatsAppClicksLoad }) {
+  return (
+    <section aria-labelledby="dash-whatsapp" className={CARD}>
+      <h2 id="dash-whatsapp" className="text-base font-semibold text-[var(--text)]">
+        Cliques no WhatsApp
+      </h2>
+      <p className="mb-3 text-sm text-[var(--text-muted)]">
+        Do Google Analytics, últimos 14 dias. São cliques no botão, não conversas nem vendas, e só contam visitantes
+        que aceitaram cookies.
+      </p>
+      {load.status === "ok" ? (
+        <>
+          <WhatsAppNumbers data={load.data} />
+          {load.propriedade ? (
+            <p className="mt-2 text-xs text-[var(--text-muted)]">Propriedade do GA4: {load.propriedade}.</p>
+          ) : null}
+        </>
+      ) : load.status === "nao_conectado" ? (
+        <p role="status" className="rounded-xl border border-dashed border-[var(--border)] px-4 py-6 text-sm text-[var(--text-muted)]">
+          O Google Analytics não está conectado a este usuário do painel, então os cliques não foram lidos.
+        </p>
+      ) : (
+        <div role="status" className="flex gap-3 rounded-xl border border-[#ecd09a] bg-[#fff8e8] p-4 text-sm text-[#4f3000]">
+          <AlertTriangle aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0" />
+          <p>
+            <span className="font-semibold">Cliques não verificados agora.</span> {load.motivo} Isso não quer dizer
+            que não houve clique; use o botão Atualizar daqui a pouco.
+          </p>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function WhatsAppNumbers({ data }: { data: Extract<WhatsAppClicksLoad, { status: "ok" }>["data"] }) {
+  const diff = data.last7 - data.prev7;
+  const comparacao =
+    data.prev7 === 0
+      ? "sem cliques nos 7 dias anteriores para comparar"
+      : diff === 0
+        ? `igual aos 7 dias anteriores (${numero.format(data.prev7)})`
+        : data.prev7 >= BASE_MINIMA_PARA_PORCENTAGEM
+          ? `${numero.format(Math.abs(Math.round((diff / data.prev7) * 100)))}% ${diff > 0 ? "a mais" : "a menos"} que nos 7 dias anteriores (${numero.format(data.prev7)})`
+          : `${numero.format(Math.abs(diff))} ${diff > 0 ? "a mais" : "a menos"} que nos 7 dias anteriores (${numero.format(data.prev7)})`;
+  return (
+    <>
+      <p className="mb-2 text-sm text-[var(--text)]">
+        <span className="text-2xl font-semibold tabular-nums">{numero.format(data.last7)}</span>{" "}
+        {data.last7 === 1 ? "clique" : "cliques"} em 7 dias, {comparacao}. Hoje: {numero.format(data.today)}.
+      </p>
+      <LeadsByDayChart days={data.days} unidade={{ um: "clique", varios: "cliques" }} titulo="Cliques no WhatsApp por dia" />
+    </>
+  );
+}
 
 function LeadDetails({ leads }: { leads: DashboardLeads }) {
   return (
@@ -442,9 +522,11 @@ function StockDetails({ stock }: { stock: DashboardStock }) {
 export type DashboardViewProps = DashboardLoad & {
   /** Botao de atualizar; fica de fora nos testes porque depende do navegador. */
   refreshSlot?: ReactNode;
+  /** Cliques no WhatsApp lidos do GA4; sem ele o bloco nao aparece. */
+  whatsapp?: WhatsAppClicksLoad;
 };
 
-export function DashboardView({ data, configured, errors, refreshSlot }: DashboardViewProps) {
+export function DashboardView({ data, configured, errors, refreshSlot, whatsapp }: DashboardViewProps) {
   const { leads, stock, recommendations } = data;
   const partial = configured && (!leads || !stock);
   const truncated = [
@@ -532,6 +614,8 @@ export function DashboardView({ data, configured, errors, refreshSlot }: Dashboa
               </ul>
             )}
           </section>
+
+          {whatsapp ? <WhatsAppBlock load={whatsapp} /> : null}
 
           {leads ? <LeadDetails leads={leads} /> : null}
 

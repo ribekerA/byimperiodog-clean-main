@@ -17,7 +17,9 @@ const numero = new Intl.NumberFormat("pt-BR");
 /* Leads por dia                                                        */
 /* ------------------------------------------------------------------ */
 
-const DEGRAUS_DO_EIXO = [4, 6, 8, 10, 12, 16, 20, 30, 40, 50, 60, 80, 100];
+// Comeca em 2: com no maximo 1 por dia, um eixo ate 4 deixa as barras num
+// quarto da altura e o grafico parece vazio.
+const DEGRAUS_DO_EIXO = [2, 4, 6, 8, 10, 12, 16, 20, 30, 40, 50, 60, 80, 100];
 
 /** Topo do eixo: o primeiro degrau "redondo" e par que cabe o maior valor. */
 export function axisTop(max: number): number {
@@ -27,17 +29,29 @@ export function axisTop(max: number): number {
   return Math.ceil(max / potencia) * potencia;
 }
 
-function leadsLabel(value: number): string {
-  return `${numero.format(value)} ${value === 1 ? "lead" : "leads"}`;
-}
+type Unidade = { um: string; varios: string };
+const LEADS: Unidade = { um: "lead", varios: "leads" };
 
-export function LeadsByDayChart({ days }: { days: DayPoint[] }) {
+/**
+ * Barras por dia. Nasceu para leads; a unidade e o titulo vem de fora para o
+ * mesmo desenho servir aos cliques no WhatsApp sem chamar clique de lead.
+ */
+export function LeadsByDayChart({
+  days,
+  unidade = LEADS,
+  titulo = "Leads por dia",
+}: {
+  days: DayPoint[];
+  unidade?: Unidade;
+  titulo?: string;
+}) {
+  const leadsLabel = (value: number) => `${numero.format(value)} ${value === 1 ? unidade.um : unidade.varios}`;
   const total = days.reduce((sum, day) => sum + day.value, 0);
 
   if (total === 0 || days.length === 0) {
     return (
       <p className="rounded-xl border border-dashed border-[var(--border)] px-4 py-6 text-sm text-[var(--text-muted)]">
-        Nenhum lead nos últimos {days.length || 14} dias.
+        Nenhum {unidade.um} nos últimos {days.length || 14} dias.
       </p>
     );
   }
@@ -53,7 +67,7 @@ export function LeadsByDayChart({ days }: { days: DayPoint[] }) {
   const first = days[0];
   const last = days[todayIndex];
 
-  const summary = `Leads por dia, de ${first.label} a ${last.label}. Total: ${leadsLabel(total)}. Maior dia: ${peak.label}, com ${leadsLabel(peak.value)}. Hoje: ${leadsLabel(last.value)}.`;
+  const summary = `${titulo}, de ${first.label} a ${last.label}. Total: ${leadsLabel(total)}. Maior dia: ${peak.label}, com ${leadsLabel(peak.value)}. Hoje: ${leadsLabel(last.value)}.`;
 
   return (
     <figure className="m-0">
@@ -123,14 +137,16 @@ export function LeadsByDayChart({ days }: { days: DayPoint[] }) {
           Ver os números em tabela
         </summary>
         <table className="mt-1 w-full max-w-xs text-left text-sm">
-          <caption className="sr-only">Leads por dia nos últimos {days.length} dias</caption>
+          <caption className="sr-only">
+            {titulo} nos últimos {days.length} dias
+          </caption>
           <thead>
             <tr className="border-b border-[var(--border)] text-xs text-[var(--text-muted)]">
               <th scope="col" className="py-1.5 font-medium">
                 Dia
               </th>
               <th scope="col" className="py-1.5 text-right font-medium">
-                Leads
+                {unidade.varios.charAt(0).toUpperCase() + unidade.varios.slice(1)}
               </th>
             </tr>
           </thead>

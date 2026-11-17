@@ -10,6 +10,8 @@ import { RefreshButton } from "../../app/(admin)/admin/(protected)/dashboard/Ref
 import type { DashboardLoad } from "../../src/lib/admin/dashboardData";
 import {
   buildDashboard,
+  buildWhatsAppClicks,
+  sourceLabel,
   type DashboardLeadRow,
   type DashboardPuppyRow,
 } from "../../src/lib/admin/dashboardMetrics";
@@ -75,9 +77,12 @@ describe("dashboard com os dois blocos lidos", () => {
     ]) {
       expect(screen.getByText(rotulo)).toBeInTheDocument();
     }
-    // 1 de 5 leads dos ultimos 30 dias esta como Convertido
-    expect(screen.getByText("Conversão em 30 dias").parentElement).toHaveTextContent("20%");
-    expect(screen.getByText(/1 de 5 leads com status Convertido/)).toBeInTheDocument();
+    // 1 de 5 leads dos ultimos 30 dias esta como Convertido. Com 5 leads,
+    // porcentagem exagera: a tela mostra a contagem.
+    const conversao = screen.getByText("Conversão em 30 dias").parentElement as HTMLElement;
+    expect(conversao).toHaveTextContent("1 de 5");
+    expect(conversao).not.toHaveTextContent("20%");
+    expect(screen.getByText(/1 de 5 leads com status Convertido \(poucos leads/)).toBeInTheDocument();
   });
 
   it("escreve a regra em cada recomendacao e leva para a tela certa", () => {
@@ -193,9 +198,73 @@ describe("dashboard quando a leitura falha", () => {
   });
 });
 
+describe("base pequena e cliques no WhatsApp", () => {
+  it("compara a semana em contagem quando a base e pequena", () => {
+    // 2 leads na semana anterior, 1 nesta: "1 a menos", nunca "50% a menos"
+    const leads: DashboardLeadRow[] = [
+      { id: "a", created_at: "2026-11-09T12:00:00Z", status: "novo" },
+      { id: "b", created_at: "2026-11-01T12:00:00Z", status: "novo" },
+      { id: "c", created_at: "2026-11-02T12:00:00Z", status: "novo" },
+    ];
+    render(<DashboardView {...carga({ leads })} />);
+    const tile = screen.getByText("Leads em 7 dias").parentElement as HTMLElement;
+    expect(tile).toHaveTextContent("1 a menos que nos 7 dias anteriores (2)");
+    expect(tile).not.toHaveTextContent("%");
+  });
+
+  it("escreve origem e preferencia sem codigo cru", () => {
+    expect(sourceLabel("direct")).toBe("Sem origem registrada");
+    const leads: DashboardLeadRow[] = [
+      { id: "a", created_at: "2026-11-09T12:00:00Z", nome: "Pessoa", cor_preferida: "Creme", sexo_preferido: "tanto_faz", status: "novo", source: "Direct" },
+    ];
+    const { container } = render(<DashboardView {...carga({ leads })} />);
+    expect(container.textContent).not.toMatch(/tanto_faz|Direct/);
+    expect(container.textContent).toMatch(/Creme · tanto faz/);
+  });
+
+  it("preenche com zero os dias que o GA4 nao devolve e soma as semanas", () => {
+    const cliques = buildWhatsAppClicks({ "2026-11-10": 3, "2026-11-04": 2, "2026-10-28": 5, "2026-10-20": 9 }, AGORA);
+    expect(cliques.days).toHaveLength(14);
+    expect(cliques.days[0].key).toBe("2026-10-28");
+    expect(cliques.days[13].key).toBe("2026-11-10");
+    expect(cliques.today).toBe(3);
+    expect(cliques.last7).toBe(5);
+    expect(cliques.prev7).toBe(5);
+    expect(cliques.days.filter((d) => d.value === 0)).toHaveLength(11);
+  });
+
+  it("mostra os cliques como cliques, nunca como leads ou vendas", () => {
+    const data = buildWhatsAppClicks({ "2026-11-10": 3, "2026-11-04": 2 }, AGORA);
+    render(<DashboardView {...carga()} whatsapp={{ status: "ok", data }} />);
+    const bloco = screen.getByRole("region", { name: "Cliques no WhatsApp" });
+    expect(bloco).toHaveTextContent("5 cliques em 7 dias");
+    expect(bloco).toHaveTextContent("não conversas nem vendas");
+    expect(within(bloco).getByRole("img")).toHaveAttribute("aria-label", expect.stringMatching(/^Cliques no WhatsApp por dia/));
+    expect(within(bloco).queryByText(/\blead/i)).not.toBeInTheDocument();
+  });
+
+  it("sem leitura do GA4, diz que nao verificou em vez de mostrar zero", async () => {
+    const { container } = render(
+      <DashboardView {...carga()} whatsapp={{ status: "erro", motivo: "O Google respondeu 403 ao ler o GA4." }} />,
+    );
+    const bloco = screen.getByRole("region", { name: "Cliques no WhatsApp" });
+    expect(bloco).toHaveTextContent("Cliques não verificados agora.");
+    expect(bloco).toHaveTextContent("O Google respondeu 403");
+    expect(within(bloco).queryByRole("img")).not.toBeInTheDocument();
+    expect(await violacoes(container)).toEqual([]);
+  });
+
+  it("sem conexao com o GA4, avisa que nao leu", () => {
+    render(<DashboardView {...carga()} whatsapp={{ status: "nao_conectado" }} />);
+    expect(screen.getByRole("region", { name: "Cliques no WhatsApp" })).toHaveTextContent("não está conectado");
+  });
+});
+
 describe("pecas do dashboard", () => {
   it("escolhe um topo de eixo redondo e par", () => {
-    expect(axisTop(1)).toBe(4);
+    expect(axisTop(1)).toBe(2);
+    expect(axisTop(2)).toBe(2);
+    expect(axisTop(3)).toBe(4);
     expect(axisTop(4)).toBe(4);
     expect(axisTop(5)).toBe(6);
     expect(axisTop(13)).toBe(16);
