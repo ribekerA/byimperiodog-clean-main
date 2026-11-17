@@ -71,7 +71,7 @@ const RACE_LINKS = [
   // ano. Era também a origem do "Preços 2025" reprovado na auditoria anterior:
   // mesma linha, ano diferente. Sem data, o rótulo não envelhece.
   { emoji: "🛡️", label: "Como Comprar com Segurança", href: "/comprar-spitz-anao",         desc: "Guia passo a passo para não cair em golpes" },
-  { emoji: "🍼", label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",    href: "/filhote-de-spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
+  { emoji: "🍼", label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",    href: "/spitz-alemao",   desc: "Lulu da Pomerânia — como escolher, primeiros cuidados e vacinação" },
   { emoji: "✅", label: "Criador Confiável",           href: "/criador-spitz-confiavel",   desc: "Documentação, exames e red flags para evitar" },
   { emoji: "📍", label: "Canil no Interior de SP",    href: "/canil-spitz-alemao-interior-sp", desc: "Cidades atendidas — Bragança Paulista e região" },
 ] as const;
