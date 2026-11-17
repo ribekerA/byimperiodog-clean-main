@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { BRAND } from "@/domain/config";
 
 import { guides } from "@/content/guides";
 import { staticPuppies } from "@/content/puppies-static";
@@ -10,7 +11,7 @@ import { isPublishableSupabasePost } from "@/lib/blog/publishable";
 import { ALL_COLORS, ALL_SEXES } from "@/lib/catalog-utils";
 import { supabaseAnon } from "@/lib/supabaseAnon";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = BRAND.urls.site;
 
 // `lastModified: new Date()` era o valor de TODAS as páginas estáticas daqui.
 // Medido em /sitemap.xml: 60+ URLs com o mesmo <lastmod>, igual ao timestamp do
