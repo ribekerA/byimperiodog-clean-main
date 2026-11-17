@@ -4,11 +4,11 @@
  */
 
 import { formatarPreco } from "@/domain/pricing";
+import { BRAND } from "@/domain/config";
 
-export const WHATSAPP_NUMBER = "5511968633239";
+export const WHATSAPP_NUMBER = BRAND.contact.whatsapp.replace(/\D/g, "");
 
-export const WHATSAPP_LINK =
-  process.env.NEXT_PUBLIC_WA_LINK || `https://wa.me/${WHATSAPP_NUMBER}`;
+export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export type WhatsAppSource =
   | "footer"
