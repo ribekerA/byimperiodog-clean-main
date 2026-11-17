@@ -284,7 +284,7 @@ export default async function PuppyPage(props: Props) {
                 <div className="rounded-2xl bg-zinc-50 p-4">
                   <h3 className="font-semibold text-zinc-900">Atendimento direto</h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                    Atendimento em Bragança Paulista, SP, com possibilidade de visita ou videochamada e suporte após a entrega.
+                    Atendimento com base em Bragança Paulista, SP, com possibilidade de visita ou videochamada conforme combinado.
                   </p>
                 </div>
               </div>
@@ -314,7 +314,7 @@ export default async function PuppyPage(props: Props) {
             { href: `/filhotes/cor/${colorSlug}`, label: `Compare os filhotes ${corLabel}`, desc: "Veja outras referências desta cor e seus valores." },
             { href: "/filhotes", label: "Veja a vitrine de filhotes", desc: "Compare fotos, vídeos e valores individuais; confirme as opções atuais no atendimento." },
             { href: "/comprar-spitz-anao", label: "Como comprar e reservar", desc: "Conheça as etapas e os documentos antes de decidir." },
-            { href: "/blog/spitz-alemao-anao-entrega-brasil", label: "Entrega para todo o Brasil", desc: "Entenda documentação, transporte e atendimento para outros estados." },
+            { href: "/contato", label: "Retirada ou entrega", desc: "Consulte local, prazo e condições antes da reserva." },
           ]} />
         </div>
 
