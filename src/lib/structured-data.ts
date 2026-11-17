@@ -19,7 +19,7 @@ const SITE_URL = BRAND.urls.site;
 export const BUSINESS_ID = `${SITE_URL}/#business`;
 
 /** Área efetivamente atendida, sem cidades escolhidas por volume de busca. */
-export const SERVED_AREAS = [{ "@type": "Country", name: "Brasil" }] as const;
+/** Sem promessa geográfica de retirada ou entrega até confirmação de cada caso. */
 
 /**
  * No `WebPage` de uma pagina institucional ou de destino.
@@ -294,8 +294,8 @@ export function buildLocalBusinessLD() {
     // regra do projeto que bane "adoção"/"adotar" do conteúdo.
     "@type": "LocalBusiness",
     "@id": BUSINESS_ID,
-    name: BRAND.name,
-    alternateName: BRAND.schema.alternateNames,
+    name: BRAND.fullName,
+    alternateName: [BRAND.name, ...BRAND.schema.alternateNames],
     description: BRAND.schema.description,
     url: SITE_URL,
     telephone: BRAND.contact.phone,
@@ -332,7 +332,6 @@ export function buildLocalBusinessLD() {
       addressRegion: "SP",
       addressCountry: "BR",
     },
-    areaServed: SERVED_AREAS,
     // O mesmo horário que /contato publica ("todos os dias, das 8h às 22h"),
     // confirmado pela responsável em 10/11/2026 como o do negócio. É horário
     // de atendimento: a visita continua sendo com hora marcada.
@@ -351,7 +350,6 @@ export function buildLocalBusinessLD() {
         "@type": "ContactPoint",
         telephone: BRAND.contact.phone,
         contactType: "customer service",
-        areaServed: "BR",
         availableLanguage: ["pt-BR"],
       },
     ],
@@ -369,7 +367,6 @@ export function buildLocalBusinessLD() {
           "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) vacinado e vermifugado, com consulta veterinária, hemograma completo e pedigree. Atendimento com base em Bragança Paulista, SP.",
         priceCurrency: "BRL",
         url: `${SITE_URL}/filhotes`,
-        areaServed: { "@type": "Country", name: "Brasil" },
       },
     ],
     hasOfferCatalog: {
