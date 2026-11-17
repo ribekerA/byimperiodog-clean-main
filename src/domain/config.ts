@@ -62,6 +62,7 @@ export function yearsOfExperience(now: Date = new Date()): number {
  */
 export const BRAND = {
   name: "By Imperio Dog",
+  fullName: "By Imperio Dog - Canil Spitz Alemão Anão Lulu da Pomerânia",
   legalName: "By Imperio Dog Criação de Spitz Alemão",
   slogan: "Criadora especializada em Spitz Alemão Anão (Lulu da Pomerânia)",
 
