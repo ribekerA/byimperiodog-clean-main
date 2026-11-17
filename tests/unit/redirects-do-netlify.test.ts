@@ -77,7 +77,7 @@ describe("redirects do netlify.toml", () => {
 
 describe("enderecos antigos que o Search Console listava como 404", () => {
   it.each([
-    ["/blog/como-alimentar-spitz-alemao", "/blog/alimentacao-spitz-alemao-anao"],
+    ["/blog/como-alimentar-spitz-alemao", "/guias/spitz-alemao-anao-alimentacao"],
     ["/filhotes/lulu-da-pomerania-branco-macho", "/filhotes/spitz-alemao-anao-branco-macho"],
     ["/filhotes/lulu-da-pomerania-laranja-macho", "/filhotes/spitz-alemao-anao-laranja-macho"],
     ["/filhotes/lulu-da-pomerania-particolor-macho", "/filhotes/cor/particolor"],

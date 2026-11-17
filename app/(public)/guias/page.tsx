@@ -35,24 +35,9 @@ const GUIDE_META: Record<string, { icon: string; badge: string; badgeColor: stri
     badge: "Saúde",
     badgeColor: "bg-[var(--accent)] text-[var(--accent-foreground)]",
   },
-  "spitz-alemao-anao-vs-lulu-pomerania": {
-    icon: "🐾",
-    badge: "Raça",
-    badgeColor: "bg-[var(--accent)] text-[var(--accent-foreground)]",
-  },
   "cuidados-basicos-spitz-alemao-anao": {
     icon: "✂️",
     badge: "Cuidados",
-    badgeColor: "bg-[var(--accent)] text-[var(--accent-foreground)]",
-  },
-  "preparando-chegada-filhote-spitz": {
-    icon: "🏡",
-    badge: "Chegada",
-    badgeColor: "bg-[var(--accent)] text-[var(--accent-foreground)]",
-  },
-  "quanto-custa-ter-spitz-alemao-anao": {
-    icon: "💰",
-    badge: "Custo real",
     badgeColor: "bg-[var(--accent)] text-[var(--accent-foreground)]",
   },
 };

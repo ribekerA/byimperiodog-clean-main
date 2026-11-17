@@ -60,6 +60,42 @@ const FAQS = [
   },
 ];
 
+const LEIA_MAIS: { t: string; links: [string, string][] }[] = [
+  {
+    t: "A raça do Lulu da Pomerânia",
+    links: [
+      ["Lulu da Pomerânia ou Spitz Alemão Anão?", "/blog/lulu-pomerania-ou-spitz-alemao"],
+      ["Lulu da Pomerânia, Pinscher ou Chihuahua", "/blog/spitz-alemao-anao-vs-pinscher-chihuahua"],
+      ["O guia do tutor de Lulu da Pomerânia", "/blog/guia-spitz-alemao"],
+    ],
+  },
+  {
+    t: "Cores do Lulu da Pomerânia",
+    links: [
+      ["As cores do Lulu da Pomerânia", "/blog/cores-spitz-alemao-anao-qual-mais-cara"],
+      ["O Lulu da Pomerânia creme", "/blog/spitz-alemao-anao-creme"],
+      ["O Lulu da Pomerânia preto", "/blog/spitz-alemao-anao-preto"],
+    ],
+  },
+  {
+    t: "Custos e documentos do Lulu da Pomerânia",
+    links: [
+      ["Quanto custa um filhote de Lulu da Pomerânia", "/blog/preco-spitz-alemao-anao"],
+      ["Quanto custa manter um Lulu da Pomerânia por mês", "/blog/quanto-custa-manter-spitz-alemao"],
+      ["Registro e documentação do Lulu da Pomerânia", "/blog/documentacao-registro-spitz-alemao"],
+      ["Lulu da Pomerânia macho ou fêmea", "/blog/spitz-alemao-anao-macho-ou-femea"],
+    ],
+  },
+  {
+    t: "Onde comprar um Lulu da Pomerânia",
+    links: [
+      ["Como escolher um canil de Lulu da Pomerânia", "/blog/como-escolher-canil-spitz-alemao"],
+      ["O Lulu da Pomerânia em Bragança Paulista", "/blog/spitz-alemao-anao-braganca-paulista"],
+      ["A entrega do Lulu da Pomerânia pelo Brasil", "/blog/spitz-alemao-anao-entrega-brasil"],
+    ],
+  },
+];
+
 export default function LuluDaPomeraniaPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
@@ -150,6 +186,26 @@ export default function LuluDaPomeraniaPage() {
           {RESPOSTA_QUANTO_CUSTA}
         </p>
         <p className="text-xs text-zinc-500">Inclui registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade do filhote e mentoria pós-venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável. <Link href="/filhotes" className="underline hover:text-emerald-700">Ver filhotes e valores →</Link></p>
+      </section>
+
+      {/* Pilar do Hub A (auditoria de 17/11/2026, Fase 2): a pagina nao tinha
+          nenhum link para o blog. Cada grupo aponta para os posts do seu assunto. */}
+      <section aria-labelledby="leia-lulu-heading" className="space-y-5">
+        <h2 id="leia-lulu-heading" className="text-2xl font-bold text-zinc-900">Leia mais sobre o Lulu da Pomerânia</h2>
+        <div className="grid gap-5 sm:grid-cols-2">
+          {LEIA_MAIS.map((grupo) => (
+            <div key={grupo.t} className="rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm">
+              <h3 className="text-sm font-semibold text-zinc-900">{grupo.t}</h3>
+              <ul className="mt-3 space-y-2 text-sm">
+                {grupo.links.map(([label, href]) => (
+                  <li key={href}>
+                    <Link href={href} className="text-emerald-700 underline-offset-2 hover:underline">{label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* FAQ */}

@@ -62,10 +62,10 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     queries: ["registro Spitz Alemão", "documentação Lulu da Pomerânia"], related: ["criador", "comprar", "preco"],
   },
   {
-    id: "custo-mensal", cluster: "compra", href: "/guias/quanto-custa-ter-spitz-alemao-anao", label: "Quanto custa manter um Spitz?",
+    id: "custo-mensal", cluster: "compra", href: "/blog/quanto-custa-manter-spitz-alemao", label: "Quanto custa manter um Spitz?",
     description: "Planeje os gastos de rotina além do valor de compra.",
     queries: ["quanto custa manter um Spitz Alemão", "custo mensal Lulu da Pomerânia"],
-    supportingPaths: ["/blog/quanto-custa-manter-spitz-alemao"], related: ["preco", "alimentacao", "chegada"],
+    related: ["preco", "alimentacao", "chegada"],
   },
   {
     id: "spitz", cluster: "raca", href: "/spitz-alemao", label: "Spitz Alemão (Lulu da Pomerânia): características da raça",
@@ -84,10 +84,10 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     queries: ["Pomeranian", "Pomeranian Brasil"], related: ["nomes-raca", "filhotes", "transporte"],
   },
   {
-    id: "nomes-raca", cluster: "raca", href: "/guias/spitz-alemao-anao-vs-lulu-pomerania", label: "Spitz e Lulu são o mesmo cão?",
+    id: "nomes-raca", cluster: "raca", href: "/blog/lulu-pomerania-ou-spitz-alemao", label: "Spitz e Lulu são o mesmo cão?",
     description: "Compare a nomenclatura da raça e evite confusão ao pesquisar.",
     queries: ["diferença Spitz Alemão e Lulu da Pomerânia"],
-    supportingPaths: ["/blog/lulu-pomerania-ou-spitz-alemao"], related: ["spitz", "lulu", "filhotes"],
+    related: ["spitz", "lulu", "filhotes"],
   },
   {
     id: "baby-face", cluster: "raca", href: "/spitz-alemao-baby-face", label: "O que significa Baby Face?",
@@ -189,16 +189,16 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     queries: ["como escolher filhote de Spitz Alemão"], related: ["criador", "chegada", "filhotes"],
   },
   {
-    id: "chegada", cluster: "cuidados", href: "/guias/preparando-chegada-filhote-spitz", label: "Primeiros dias e enxoval do filhote",
+    id: "chegada", cluster: "cuidados", href: "/blog/spitz-alemao-anao-filhote-primeiros-dias", label: "Primeiros dias e enxoval do filhote",
     description: "Prepare os ambientes, os itens essenciais e a adaptação.",
     queries: ["enxoval Spitz Alemão", "primeiros dias Lulu da Pomerânia"],
-    supportingPaths: ["/blog/spitz-alemao-anao-filhote-primeiros-dias"], related: ["alimentacao", "cuidados", "custo-mensal"],
+    related: ["alimentacao", "cuidados", "custo-mensal"],
   },
   {
     id: "alimentacao", cluster: "cuidados", href: "/guias/spitz-alemao-anao-alimentacao", label: "Alimentação do Spitz Alemão (Lulu da Pomerânia)",
     description: "Orientações de rotina para conversar com o médico-veterinário.",
     queries: ["alimentação Spitz Alemão", "ração Lulu da Pomerânia"],
-    supportingPaths: ["/blog/alimentacao-spitz-alemao-anao"], related: ["custo-mensal", "chegada", "cuidados"],
+    related: ["custo-mensal", "chegada", "cuidados"],
   },
   {
     id: "cuidados", cluster: "cuidados", href: "/guias/cuidados-basicos-spitz-alemao-anao", label: "Pelagem, higiene e cuidados básicos",

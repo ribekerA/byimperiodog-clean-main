@@ -67,7 +67,7 @@ describe("relacionados por assunto", () => {
   it.each([
     ["adestramento", "latido"],
     ["saude", "vacinas"],
-    ["alimentacao", "cuidados"],
+    ["dentes", "cuidados"],
     ["qual-mais-cara", "preco"],
   ])("artigo sobre %s liga com artigo sobre %s", async (origem, esperado) => {
     const artigo = generatedPosts.find((p) => p.slug.includes(origem));

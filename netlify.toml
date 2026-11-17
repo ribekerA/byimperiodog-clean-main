@@ -205,6 +205,33 @@
   status = 301
   force = true
 
+# Canibalizacao (auditoria de 17/11/2026, Fase 2): quatro pares de paginas
+# disputavam a mesma busca. O responsavel escolheu qual fica; a outra responde
+# 301 para ela. `force` porque o arquivo da pagina que saiu ja nao existe, e o
+# Supabase poderia responder o slug do post se nao houvesse o atropelo.
+[[redirects]]
+  from = "/guias/quanto-custa-ter-spitz-alemao-anao"
+  to = "/blog/quanto-custa-manter-spitz-alemao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/alimentacao-spitz-alemao-anao"
+  to = "/guias/spitz-alemao-anao-alimentacao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/guias/spitz-alemao-anao-vs-lulu-pomerania"
+  to = "/blog/lulu-pomerania-ou-spitz-alemao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/guias/preparando-chegada-filhote-spitz"
+  to = "/blog/spitz-alemao-anao-filhote-primeiros-dias"
+  status = 301
+  force = true
 # Quatro enderecos antigos que o Search Console listava como 404 em 11/11/2026.
 # O Google ainda os guardava; cada um vai para a pagina que ocupa o lugar hoje.
 # Os tres de filhote sao do tempo em que o slug comecava com "lulu-da-pomerania";
@@ -212,7 +239,7 @@
 # `force` porque nao ha pagina com esses slugs para o redirect atropelar.
 [[redirects]]
   from = "/blog/como-alimentar-spitz-alemao"
-  to = "/blog/alimentacao-spitz-alemao-anao"
+  to = "/guias/spitz-alemao-anao-alimentacao"
   status = 301
   force = true
 
