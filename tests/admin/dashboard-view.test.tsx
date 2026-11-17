@@ -10,6 +10,7 @@ import { RefreshButton } from "../../app/(admin)/admin/(protected)/dashboard/Ref
 import type { DashboardLoad } from "../../src/lib/admin/dashboardData";
 import {
   buildDashboard,
+  buildRotina,
   buildWhatsAppClicks,
   sourceLabel,
   type DashboardLeadRow,
@@ -257,6 +258,43 @@ describe("base pequena e cliques no WhatsApp", () => {
   it("sem conexao com o GA4, avisa que nao leu", () => {
     render(<DashboardView {...carga()} whatsapp={{ status: "nao_conectado" }} />);
     expect(screen.getByRole("region", { name: "Cliques no WhatsApp" })).toHaveTextContent("não está conectado");
+  });
+});
+
+describe("rotina do dia", () => {
+  it("marca em dia so o que o dado comprova", () => {
+    const { leads, stock } = carga().data;
+    const rotina = buildRotina(leads, stock)!;
+    const estado = Object.fromEntries(rotina.map((item) => [item.id, item.feito]));
+    expect(estado).toEqual({
+      "responder-atrasados": false,
+      "responder-recentes": true,
+      "cores-sem-estoque": false,
+      "catalogo-com-disponivel": true,
+      "cadastro-completo": false,
+      "filhotes-parados": true,
+      "vendas-com-data": true,
+    });
+    const cores = rotina.find((item) => item.id === "cores-sem-estoque")!;
+    expect(cores.pendente).toContain("Preto");
+    expect(cores.pendente).not.toContain("Laranja");
+    const cadastro = rotina.find((item) => item.id === "cadastro-completo")!;
+    expect(cadastro.pendente).toBe("1 filhote sem preço e 1 filhote disponível sem foto.");
+  });
+
+  it("mostra o progresso e o proximo passo com link", async () => {
+    const { container } = render(<DashboardView {...carga()} />);
+    const rotina = screen.getByRole("region", { name: "Rotina do dia" });
+    expect(within(rotina).getByText(/^4 de 7 conferências em dia/)).toBeInTheDocument();
+    expect(within(rotina).getByRole("progressbar")).toHaveAttribute("aria-valuenow", "4");
+    expect(within(rotina).getByRole("link", { name: /Abrir leads novos/ })).toHaveAttribute("href", "/admin/leads?status=novo");
+    expect(await violacoes(container)).toEqual([]);
+  });
+
+  it("some quando leads ou filhotes nao foram lidos", () => {
+    expect(buildRotina(null, carga().data.stock)).toBeNull();
+    render(<DashboardView {...carga({ leads: null })} />);
+    expect(screen.queryByRole("region", { name: "Rotina do dia" })).not.toBeInTheDocument();
   });
 });
 

@@ -662,6 +662,111 @@ export function buildRecommendations(leads: DashboardLeads | null, stock: Dashbo
 }
 
 /* ------------------------------------------------------------------ */
+/* Rotina do dia                                                        */
+/* ------------------------------------------------------------------ */
+
+export type RotinaItem = {
+  id: string;
+  titulo: string;
+  /** O que falta, com os numeros de agora. */
+  pendente: string;
+  /** O que a leitura comprovou quando o item esta em dia. */
+  emDia: string;
+  feito: boolean;
+  href: string;
+  hrefLabel: string;
+};
+
+/**
+ * Lista fixa de conferencias do dia, na ordem de urgencia. Cada item so fica
+ * "em dia" pelo dado do banco (lead mudou de status, filhote ganhou foto),
+ * nunca por um clique de "feito": marcar sem o dado mudar faria a barra mentir.
+ * Retorna null quando leads ou filhotes nao foram lidos, porque metade das
+ * conferencias ficaria sem base.
+ */
+export function buildRotina(leads: DashboardLeads | null, stock: DashboardStock | null): RotinaItem[] | null {
+  if (!leads || !stock) return null;
+  const { awaiting } = leads;
+  const fresh = awaiting.count - awaiting.over24h;
+  const semEstoque = leads.demandByColor30.filter((c) => c.leads > 0 && c.stock === 0).map((c) => c.color);
+  const incompletos = stock.noPrice + stock.noPhoto;
+
+  return [
+    {
+      id: "responder-atrasados",
+      titulo: `Responder leads com mais de ${RULES.awaitingHours} horas`,
+      pendente:
+        `${plural(awaiting.over24h, "lead espera", "leads esperam")} o primeiro contato` +
+        (awaiting.oldestHours !== null ? `; o mais antigo chegou ${formatAge(awaiting.oldestHours)}.` : ".") +
+        " Sai daqui quando o status vira Contatado.",
+      emDia: `Nenhum lead Novo espera há mais de ${RULES.awaitingHours} horas.`,
+      feito: awaiting.over24h === 0,
+      href: "/admin/leads?status=novo",
+      hrefLabel: "Abrir leads novos",
+    },
+    {
+      id: "responder-recentes",
+      titulo: `Responder leads das últimas ${RULES.awaitingHours} horas`,
+      pendente: `${plural(fresh, "lead novo ainda está", "leads novos ainda estão")} sem contato, dentro do prazo.`,
+      emDia: `Nenhum lead das últimas ${RULES.awaitingHours} horas está esperando.`,
+      feito: fresh === 0,
+      href: "/admin/leads?status=novo",
+      hrefLabel: "Abrir leads novos",
+    },
+    {
+      id: "cores-sem-estoque",
+      titulo: "Ver as cores pedidas sem filhote disponível",
+      pendente: `Pedidas nos últimos 30 dias e sem filhote Disponível: ${semEstoque.join(", ")}.`,
+      emDia: "Toda cor pedida nos últimos 30 dias tem filhote Disponível.",
+      feito: semEstoque.length === 0,
+      href: "/admin/puppies",
+      hrefLabel: "Abrir filhotes",
+    },
+    {
+      id: "catalogo-com-disponivel",
+      titulo: "Ter filhote Disponível no catálogo",
+      pendente: "Há filhotes cadastrados, mas nenhum com status Disponível.",
+      emDia: `${plural(stock.available, "filhote está Disponível", "filhotes estão Disponíveis")}.`,
+      feito: stock.total === 0 || stock.available > 0,
+      href: "/admin/puppies",
+      hrefLabel: "Abrir filhotes",
+    },
+    {
+      id: "cadastro-completo",
+      titulo: "Completar preço e foto dos filhotes",
+      pendente: [
+        stock.noPrice > 0 ? `${plural(stock.noPrice, "filhote sem preço", "filhotes sem preço")}` : null,
+        stock.noPhoto > 0 ? `${plural(stock.noPhoto, "filhote disponível sem foto", "filhotes disponíveis sem foto")}` : null,
+      ]
+        .filter(Boolean)
+        .join(" e ") + ".",
+      emDia: "Todo filhote à venda tem preço e foto.",
+      feito: incompletos === 0,
+      href: "/admin/puppies",
+      hrefLabel: "Abrir filhotes",
+    },
+    {
+      id: "filhotes-parados",
+      titulo: `Conferir filhotes disponíveis há mais de ${RULES.agedDays} dias`,
+      pendente: `${plural(stock.aged, "filhote está", "filhotes estão")} como Disponível há mais de ${RULES.agedDays} dias. Confira status, preço e fotos.`,
+      emDia: `Nenhum filhote Disponível passou de ${RULES.agedDays} dias.`,
+      feito: stock.aged === 0,
+      href: "/admin/puppies",
+      hrefLabel: "Abrir filhotes",
+    },
+    {
+      id: "vendas-com-data",
+      titulo: "Registrar a data das vendas",
+      pendente: `${plural(stock.soldWithoutDate, "filhote vendido está", "filhotes vendidos estão")} sem data de venda.`,
+      emDia: "Toda venda tem data registrada.",
+      feito: stock.soldWithoutDate === 0,
+      href: "/admin/puppies",
+      hrefLabel: "Abrir filhotes",
+    },
+  ];
+}
+
+/* ------------------------------------------------------------------ */
 /* Montagem                                                             */
 /* ------------------------------------------------------------------ */
 

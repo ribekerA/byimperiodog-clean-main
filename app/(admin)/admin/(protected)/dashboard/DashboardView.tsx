@@ -7,6 +7,7 @@ import type { DashboardBlockError, DashboardLoad } from "@/lib/admin/dashboardDa
 import {
   DASHBOARD_TIME_ZONE,
   ROW_LIMIT,
+  buildRotina,
   formatAge,
   formatDuration,
   type DashboardLeads,
@@ -16,6 +17,8 @@ import {
   type WhatsAppClicksLoad,
 } from "@/lib/admin/dashboardMetrics";
 import { cn } from "@/lib/cn";
+
+import { Jornada } from "../_ui/Jornada";
 
 import { LeadsByDayChart, PipelineList, StockBreakdown } from "./DashboardFigures";
 
@@ -528,6 +531,8 @@ export type DashboardViewProps = DashboardLoad & {
 
 export function DashboardView({ data, configured, errors, refreshSlot, whatsapp }: DashboardViewProps) {
   const { leads, stock, recommendations } = data;
+  const rotina = buildRotina(leads, stock);
+  const rotinaEmDia = rotina ? rotina.filter((item) => item.feito).length : 0;
   const partial = configured && (!leads || !stock);
   const truncated = [
     leads?.truncated ? `os ${numero.format(ROW_LIMIT)} leads mais recentes` : null,
@@ -591,6 +596,28 @@ export function DashboardView({ data, configured, errors, refreshSlot, whatsapp 
               {stock ? <StockTiles stock={stock} /> : null}
             </dl>
           </section>
+
+          {rotina ? (
+            <Jornada
+              idTitulo="dash-rotina"
+              titulo="Rotina do dia"
+              subtitulo={`${rotinaEmDia} de ${rotina.length} conferências em dia. Cada item só fica em dia quando o dado muda no banco.`}
+              mensagemFinal="Tudo em dia. Um item volta para a lista sozinho quando o dado deixar de valer."
+              etapas={rotina.map((item) => ({
+                id: item.id,
+                titulo: item.titulo,
+                descricao: item.pendente,
+                feito: item.feito,
+                resultado: item.emDia,
+                acao: (
+                  <Link href={item.href} className={cn(LINK, "inline-flex min-h-[44px] items-center gap-1 text-sm")}>
+                    {item.hrefLabel}
+                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </Link>
+                ),
+              }))}
+            />
+          ) : null}
 
           <section aria-labelledby="dash-recomendacoes" className={CARD}>
             <h2 id="dash-recomendacoes" className="text-base font-semibold text-[var(--text)]">
