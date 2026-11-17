@@ -553,6 +553,15 @@ body.admin-shell [data-site-shell="cta"] {
   .hm-pilula-macho .hm-pilula-valor { background: linear-gradient(180deg, #fff0c0, #e6b854); -webkit-background-clip: text; background-clip: text; color: #eec873; -webkit-text-fill-color: transparent; }
   .hm-pilula-pix { display: inline-flex; align-items: center; justify-content: center; gap: calc(6 * var(--u)); font-size: max(9.5px, calc(25 * var(--u))); }
   .hm-pilula-pix svg { flex: none; width: max(11px, calc(28 * var(--u))); height: max(11px, calc(28 * var(--u))); }
+  /* Retorno ao toque (pedido de 17/11/2026): o cartão é link para a vitrine
+     daquele sexo, mas parado não dizia isso. Afunda 2% no toque e brilha um
+     pouco ao passar o mouse; o desenho parado não muda. */
+  .hm-pilula { transition: transform 0.15s ease-out; -webkit-tap-highlight-color: transparent; }
+  .hm-pilula::before { transition: filter 0.2s ease-out; }
+  .hm-pilula:active { transform: scale(0.98); }
+  @media (hover: hover) { .hm-pilula:hover::before { filter: brightness(1.08); } }
+  .hm-pilula:focus-visible { outline: 2px solid #f0d083; outline-offset: 4px; border-radius: calc(40 * var(--u)); }
+  @media (prefers-reduced-motion: reduce) { .hm-pilula, .hm-pilula::before { transition: none; } }
 
   /* Selos */
   /* Cada coluna nunca fica menor que o próprio texto: os pisos de legibilidade
