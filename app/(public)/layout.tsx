@@ -80,7 +80,7 @@ export default async function PublicLayout({ children }: { children: React.React
       <head>
         <meta charSet="utf-8" />
 
-        {/* Tema de Natal: liga de 1º/12 a 6/1 pelo relógio de quem visita, sem
+        {/* Tema de Natal: liga de 1º/12 a 31/12 pelo relógio de quem visita, sem
             build. Regra, datas e prévia (?tema=natal) em src/lib/temporada.ts. */}
         <script dangerouslySetInnerHTML={{ __html: SCRIPT_DO_TEMA }} />
 
