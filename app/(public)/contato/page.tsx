@@ -63,7 +63,7 @@ const FAQ_ITEMS = [
     a: "A possibilidade e o formato da visita são combinados diretamente com a criadora pelo WhatsApp, conforme a disponibilidade.",
   },
   {
-    q: "Vocês entregam em outras cidades?",
+    q: "Como funciona a retirada ou entrega?",
     a: REGRA_DE_ENTREGA,
   },
   {
