@@ -268,7 +268,7 @@ export default function LeadForm({ context, className }: Props) {
             className="w-full select-styled rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
             defaultValue=""
           >
-            <option value="">Selecione...</option>
+            <option value="">Selecione sua UF (opcional)</option>
             {["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"].map((uf) => (
               <option key={uf} value={uf}>{uf}</option>
             ))}
@@ -399,7 +399,7 @@ export default function LeadForm({ context, className }: Props) {
         </span>
         <span className="hidden text-emerald-300 sm:inline" aria-hidden="true">·</span>
         <span className="flex items-center gap-1 text-xs text-emerald-800">
-          <span aria-hidden="true">🐾</span> Atendemos famílias em todo o Brasil
+          <span aria-hidden="true">🐾</span> Consulte retirada ou entrega antes da reserva
         </span>
       </div>
 
