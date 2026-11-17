@@ -213,11 +213,23 @@ export function buildBreadcrumbLD(items: { name: string; url: string }[]) {
   };
 }
 
-// FAQPage saiu do projeto em 26/08/2026. O Google encerrou o rich result de
-// FAQ em 07/05/2026 para todos os sites: o markup continuava valido, mas nao
-// produzia mais nenhum resultado na busca. Manter um gerador de JSON-LD que
-// ninguem consome so convida a religa-lo por engano. As FAQ visiveis ficaram
-// como estavam -- elas existem para o leitor.
+/** FAQ em JSON-LD apenas com perguntas e respostas também visíveis na página. */
+export function buildVisibleFAQPageLD(
+  path: string,
+  items: readonly { question: string; answer: string }[],
+) {
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${SITE_URL}${clean}#faq`,
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
 
 /**
  * `dateModified` valia `updatedAt ?? publishedAt`. Como quase nenhuma página
