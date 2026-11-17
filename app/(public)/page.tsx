@@ -213,7 +213,11 @@ export default function HomePage() {
               </p>
               <p className="hm-chamada so-fora-do-natal">Escolha o seu novo companheiro hoje mesmo!</p>
               <p className="hm-chamada so-no-natal">Família nova: escolha o seu Lulu da Pomerânia!</p>
-              <p className="sr-only">Spitz Alemão Anão, conhecido como Lulu da Pomerânia. A By Imperio Dog atua desde 2013 em Bragança Paulista, SP. Conheça as fotografias, os preços iniciais no Pix e consulte as opções atuais.</p>
+              <p className="mx-auto mt-2 max-w-2xl text-center text-xs leading-5 text-white/90 sm:text-sm">
+                <span className="block">Spitz Alemão Anão, conhecido como Lulu da Pomerânia.</span>
+                <span className="block">By Imperio Dog: canil especializado desde 2013, em Bragança Paulista, SP.</span>
+                <span className="block">Conheça fotos, preços no Pix e consulte as opções atuais.</span>
+              </p>
             </div>
             <span className="neve-natal" aria-hidden="true" />
           </section>
