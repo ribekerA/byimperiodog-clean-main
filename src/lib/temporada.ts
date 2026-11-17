@@ -11,7 +11,7 @@
 // as estáticas. Sem script (ou fora da data), o site fica como sempre foi.
 //
 // Prévia fora da data: abra qualquer página com `?tema=natal` (ou `?tema=festas`).
-// A escolha vale até fechar a aba; `?tema=normal` desfaz.
+// A prévia depende do parâmetro na URL e não persiste até o dia seguinte; `?tema=normal` desfaz.
 
 export const NATAL_INICIO = { mes: 12, dia: 1 } as const;
 export const NATAL_FIM = { mes: 12, dia: 31 } as const;
@@ -47,4 +47,4 @@ export function faseDoNatal(agora: Date = new Date()): FaseDoNatal {
 // A mesma regra de faseNoDia, em JavaScript puro, para rodar no <head>.
 // `faseNoDia` e este texto precisam concordar: o teste em
 // tests/unit/temporada.test.ts executa os dois e compara dia a dia.
-export const SCRIPT_DO_TEMA = `try{var k='tema-sazonal',f=null,q=null;try{q=new URLSearchParams(location.search).get('tema');if(q==='natal'||q==='familia'||q==='festas'||q==='normal'){sessionStorage.setItem(k,q==='natal'?'familia':q)}f=sessionStorage.getItem(k)}catch(e){}if(!f){var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Sao_Paulo',month:'numeric',day:'numeric'}).formatToParts(new Date()),m=0,d=0;for(var i=0;i<p.length;i++){if(p[i].type==='month')m=+p[i].value;if(p[i].type==='day')d=+p[i].value}var n=m*100+d;f=(n>=${INICIO}&&n<=${VIRADA})?'familia':(n>${VIRADA}&&n<=${FIM})?'festas':'normal'}if(f==='familia'||f==='festas'){var h=document.documentElement;h.setAttribute('data-tema','natal');h.setAttribute('data-natal-fase',f)}}catch(e){}`;
+export const SCRIPT_DO_TEMA = `try{var f=null,q=null;try{q=new URLSearchParams(location.search).get('tema');if(q==='natal'||q==='familia'||q==='festas'||q==='normal'){f=q==='natal'?'familia':q}}catch(e){}if(!f){var p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Sao_Paulo',month:'numeric',day:'numeric'}).formatToParts(new Date()),m=0,d=0;for(var i=0;i<p.length;i++){if(p[i].type==='month')m=+p[i].value;if(p[i].type==='day')d=+p[i].value}var n=m*100+d;f=(n>=${INICIO}&&n<=${VIRADA})?'familia':(n>${VIRADA}&&n<=${FIM})?'festas':'normal'}if(f==='familia'||f==='festas'){var h=document.documentElement;h.setAttribute('data-tema','natal');h.setAttribute('data-natal-fase',f)}}catch(e){}`;
