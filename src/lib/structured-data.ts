@@ -305,7 +305,7 @@ export function buildLocalBusinessLD() {
     email: BRAND.contact.email,
     // Derivado da tabela: o JSON-LD é lido pelo Google e não pode continuar
     // anunciando uma faixa que a página já desmentiu.
-    priceRange: FAIXA_PUBLICA_TEXTO
+    priceRange: FAIXA_PUBLICA_TEXTO,
     currenciesAccepted: "BRL",
     foundingDate: String(FOUNDING_YEAR),
     image: [
