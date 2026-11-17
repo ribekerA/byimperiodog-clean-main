@@ -19,15 +19,6 @@ export const metadata: Metadata = {
     // 226 caracteres: o Google cortava a partir de "como evitar golpes".
     // Reescrita em 141.
     "Como comprar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
-  keywords: [
-    "comprar Spitz Alemão Anão",
-    "onde comprar Lulu da Pomerânia confiável",
-    "como comprar filhote Spitz Alemão com documentação",
-    "Lulu da Pomerânia à venda SP",
-    "canil Spitz Alemão responsável interior SP",
-    "comprar Pomeranian no Brasil",
-    "filhote Lulu da Pomerânia documentado",
-  ],
   alternates: { canonical: "/comprar-spitz-anao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
