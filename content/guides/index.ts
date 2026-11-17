@@ -189,7 +189,7 @@ export const guides: Guide[] = [
       {
         heading: "O que o padrão FCI define",
         paragraphs: [
-          "O padrão FCI N° 97 descreve o Spitz Alemão — Lulu da Pomerânia — (Deutsche Spitz) em cinco variedades de tamanho: Wolfsspitz (Keeshond), Großspitz (Grande), Mittelspitz (Médio), Kleinspitz (Pequeno) e Zwergspitz (Anão / Pomeranian).",
+          "O padrão FCI N° 97 descreve o Spitz Alemão (Deutsche Spitz) em cinco variedades de tamanho: Wolfsspitz (Keeshond), Großspitz (Grande), Mittelspitz (Médio), Kleinspitz (Pequeno) e Zwergspitz (Anão / Pomeranian), que é o Lulu da Pomerânia.",
           "O Zwergspitz/Pomeranian — nosso 'Anão' — tem cernelha (altura) de 21 cm ± 3 cm. O padrão não fixa uma faixa de peso: determina que o peso seja proporcional ao tamanho do cão. Qualquer animal vendido como 'micro' ou 'nano', abaixo do mínimo previsto, não corresponde ao padrão oficial.",
         ],
       },

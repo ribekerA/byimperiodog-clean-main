@@ -5,7 +5,8 @@ import Link from "next/link";
 
 import BlogCard from "@/components/blog/BlogCard";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import { BRAND, FOUNDING_YEAR } from "@/domain/config";
+import { FOUNDING_YEAR } from "@/domain/config";
+import { autorDoBlog } from "@/lib/blog/autores";
 import {
   BLOG_CATEGORIES,
   matchesCategory,
@@ -27,6 +28,8 @@ type PublicPost = {
   slug: string;
   title: string;
   excerpt?: string | null;
+  /** Nome do campo `author` do .mdx; só existe para os posts locais. */
+  author_name?: string | null;
   cover_url?: string | null;
   cover_alt?: string | null;
   published_at?: string | null;
@@ -397,6 +400,7 @@ async function fetchFromContentlayer(): Promise<PublicPost[]> {
       status: "published",
       category: p.category || null,
       author_id: null,
+      author_name: p.author || null,
       tags: p.tags || null,
     }));
   } catch {
@@ -447,17 +451,28 @@ function buildBlogSchema({
     mainEntityOfPage: `${base}/blog`,
     name: headline,
     description,
-    publisher: {
-      "@type": "Organization",
-      name: BRAND.fullName,
-      url: base,
-    },
-    blogPost: posts.map((post) => ({
-      "@type": "BlogPosting",
-      headline: post.title,
-      url: `${base}/blog/${post.slug}`,
-      datePublished: post.published_at,
-      image: post.cover_url ? [post.cover_url] : undefined,
-    })),
+    // O publisher era um Organization sem @id, outro nó para a mesma empresa.
+    // Desde 17/11/2026 aponta para o LocalBusiness único (#business).
+    publisher: { "@id": `${base}/#business` },
+    blogPost: posts.map((post) => {
+      // A capa vinha relativa ("/images/blog/...") e o schema exige URL
+      // absoluta. O autor sai só quando o nome está em src/lib/blog/autores.ts,
+      // a mesma regra da página do artigo.
+      const autor = autorDoBlog(post.author_name);
+      const capa = post.cover_url
+        ? post.cover_url.startsWith("http") ? post.cover_url : `${base}${post.cover_url.startsWith("/") ? "" : "/"}${post.cover_url}`
+        : undefined;
+      return {
+        "@type": "BlogPosting",
+        headline: post.title,
+        url: `${base}/blog/${post.slug}`,
+        datePublished: post.published_at,
+        ...(post.updated_at ? { dateModified: post.updated_at } : {}),
+        image: capa ? [capa] : undefined,
+        author: autor
+          ? { "@type": "Person", name: autor.name, worksFor: { "@id": `${base}/#business` } }
+          : { "@id": `${base}/#business` },
+      };
+    }),
   };
 }

@@ -57,9 +57,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entrada("/reserve-seu-filhote", "monthly", 0.70),
     entrada("/ninhadas",            "weekly",  0.70),
     entrada("/galeria",             "monthly", 0.70),
-    // /alimentacao, /cuidados e /temperamento ficam de fora de propósito: são
-    // o mesmo corpo de texto de /guias/{slug} e apontam o canonical para lá.
-    // Sitemap lista URL canônica, não a cópia.
+    // /alimentacao, /cuidados e /temperamento ficam de fora: desde 17/11/2026
+    // respondem 301 (netlify.toml) para a página do próprio assunto.
     //
     // /galeria estava fora daqui porque respondia 301 para /filhotes. O 301
     // era um engano do netlify.toml, não uma decisão: a página existe, tem

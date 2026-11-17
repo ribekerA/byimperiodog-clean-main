@@ -182,6 +182,29 @@
   status = 301
   force = true
 
+# /temperamento, /cuidados e /alimentacao eram paginas 200 que repetiam o texto
+# de um guia e apontavam o canonical para ele. /temperamento ainda mostrava o
+# guia errado (nomes x Lulu) sob um titulo de temperamento. A auditoria de
+# 17/11/2026 pediu 301: cada endereco vai para a pagina do proprio assunto, e
+# as tres paginas sairam de app/(public). Nada no site linkava para elas.
+[[redirects]]
+  from = "/temperamento"
+  to = "/blog/spitz-alemao-anao-temperamento"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cuidados"
+  to = "/guias/cuidados-basicos-spitz-alemao-anao"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/alimentacao"
+  to = "/guias/spitz-alemao-anao-alimentacao"
+  status = 301
+  force = true
+
 # Quatro enderecos antigos que o Search Console listava como 404 em 11/11/2026.
 # O Google ainda os guardava; cada um vai para a pagina que ocupa o lugar hoje.
 # Os tres de filhote sao do tempo em que o slug comecava com "lulu-da-pomerania";

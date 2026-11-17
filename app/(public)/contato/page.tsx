@@ -17,7 +17,7 @@ import { BRAND, GOOGLE_MAPS_PROFILE_URL, GOOGLE_REVIEWS_URL } from "@/domain/con
 import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
-import { buildFaqPageLD } from "@/lib/structured-data";
+import { BUSINESS_ID, buildFaqPageLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
@@ -94,18 +94,17 @@ export default function ContatoPage() {
     utmCampaign: "contato-hero",
   });
 
-  const orgLd = {
+  // Era um segundo Organization, sem @id e com outro formato de telefone,
+  // concorrendo com o LocalBusiness único (#business) que o layout emite em
+  // toda página. Desde 17/11/2026 a página só se declara ContactPage e aponta
+  // para esse nó, onde ficam telefone, e-mail e horário.
+  const contactPageLd = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: BRAND.fullName,
-    url: SITE_URL,
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "customer support",
-      telephone: RAW_FULL ? (RAW_FULL.startsWith("55") ? `+${RAW_FULL}` : `+55${RAW_FULL}`) : undefined,
-      email: EMAIL,
-      availableLanguage: ["Portuguese"],
-    },
+    "@type": "ContactPage",
+    "@id": `${SITE_URL}/contato#webpage`,
+    url: `${SITE_URL}/contato`,
+    name: `Contato — ${BRAND.fullName}`,
+    about: { "@id": BUSINESS_ID },
   };
 
   const breadcrumbLd = {
@@ -119,7 +118,7 @@ export default function ContatoPage() {
 
   return (
     <div>
-      <script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
+      <script id="ld-contactpage-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageLd) }} />
       <script id="ld-faq-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqPageLD("/contato", FAQ_ITEMS.map((i) => ({ question: i.q, answer: i.a })))) }} />
       <script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <ViewEventTracker tipo="contato" />

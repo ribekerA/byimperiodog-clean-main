@@ -235,11 +235,8 @@ export function buildBreadcrumbLD(items: { name: string; url: string }[]) {
   };
 }
 
-// FAQPage saiu do projeto em 26/08/2026. O Google encerrou o rich result de
-// FAQ em 07/05/2026 para todos os sites: o markup continuava valido, mas nao
-// produzia mais nenhum resultado na busca. Manter um gerador de JSON-LD que
-// ninguem consome so convida a religa-lo por engano. As FAQ visiveis ficaram
-// como estavam -- elas existem para o leitor.
+// O FAQPage saiu em 26/08/2026 e voltou em 17/11/2026 por decisao do
+// responsavel. O gerador e buildFaqPageLD, em src/lib/structured-data.ts.
 
 /**
  * `dateModified` valia `updatedAt ?? publishedAt`. Como quase nenhuma página
@@ -323,8 +320,10 @@ export function buildLocalBusinessLD() {
     telephone: BRAND.contact.phone,
     email: BRAND.contact.email,
     // Derivado da tabela: o JSON-LD é lido pelo Google e não pode continuar
-    // anunciando uma faixa que a página já desmentiu.
-    priceRange: `${formatarPreco(FAIXA_PUBLICA.minCents)} – ${formatarPreco(FAIXA_PUBLICA.maxCents)}`,
+    // anunciando uma faixa que a página já desmentiu. Era "R$ 4.500 – R$ 6.500",
+    // mas R$ 6.500 é o piso das fêmeas, não um teto: desde 17/11/2026 sai só o
+    // piso, na mesma forma "a partir de" que as páginas usam.
+    priceRange: `A partir de ${formatarPreco(FAIXA_PUBLICA.minCents)}`,
     currenciesAccepted: "BRL",
     foundingDate: String(FOUNDING_YEAR),
     identifier: {
@@ -381,16 +380,9 @@ export function buildLocalBusinessLD() {
     // que muda. Avaliações verificadas permanecem no Google; o site aponta para
     // elas e não republica uma nota como se fosse sua fonte.
     knowsAbout: BRAND.schema.knowsAbout,
-    makesOffer: [
-      {
-        "@type": "Offer",
-        name: "Filhote de Spitz Alemão Anão — Lulu da Pomerânia",
-        description:
-          "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) vacinado e vermifugado, com consulta veterinária, hemograma completo e pedigree. Atendimento com base em Bragança Paulista, SP.",
-        priceCurrency: "BRL",
-        url: `${SITE_URL}/filhotes`,
-      },
-    ],
+    // makesOffer saiu em 17/11/2026: era um Offer sem preço, que o validador
+    // marca como incompleto. Com preço "a partir de" não há Offer honesto para
+    // publicar; o hasOfferCatalog abaixo já aponta para a vitrine.
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       // Sem "disponíveis" no nome: o catálogo é a vitrine permanente por cor e

@@ -14,11 +14,11 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/pomeranian`;
 
 export const metadata: Metadata = {
-  title: "Pomeranian no Brasil: Spitz ou Lulu da Pomerânia?",
+  title: "Pomeranian no Brasil: o Lulu da Pomerânia e seus Filhotes",
   description:
     // 195 caracteres: a equivalência de nomes, que é o ponto da página, ficava
     // fora do trecho exibido. Reescrita em 152.
-      "Entenda o nome Pomeranian no Brasil, sua relação com Spitz Alemão Anão e Lulu da Pomerânia e como pesquisar a raça sem confundir nomenclaturas.",
+      "Pomeranian é o nome do Lulu da Pomerânia (Spitz Alemão Anão) fora do Brasil. Entenda o nome e veja os filhotes da By Imperio Dog em Bragança Paulista.",
   alternates: { canonical: "/pomeranian" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],

@@ -63,7 +63,7 @@ export default function ColorGallery() {
             As cores do Spitz Alemão Anão (Lulu da Pomerânia)
           </h2>
           <p className="mt-3 text-zinc-400">
-            Cada cor tem o seu valor de partida. Clique para ver as fotos reais de cada uma.
+            O valor de partida do Lulu da Pomerânia é o mesmo em todas as cores e muda só pelo sexo. Clique para ver as fotos reais de cada cor do Lulu da Pomerânia.
           </p>
         </div>
 

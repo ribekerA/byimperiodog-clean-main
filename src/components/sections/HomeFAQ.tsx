@@ -7,9 +7,8 @@
  *  • Google Featured Snippets (conteúdo visível, não bloqueado por JS)
  *  • AI Overviews (Google SGE) — perguntas conversacionais e naturais
  *  • Voice Search (Alexa, Siri, Google Assistant) — respostas curtas e diretas
- *  • Leitura direta — sem Schema.org FAQPage: o Google encerrou o rich
- *    result de FAQ em 07/05/2026 e o markup deixou de produzir qualquer
- *    resultado na busca. O conteudo visivel continua sendo o produto.
+ *  • Leitura direta — o FAQPage desta seção sai em app/(public)/page.tsx
+ *    (buildFaqPageLD), de volta desde 17/11/2026 por decisão do responsável.
  *
  * Accordion nativo com <details>/<summary> — funciona sem JS e é indexável.
  *

@@ -3,11 +3,8 @@ import { firstPubFor, lastmodFor } from "@/lib/_generated-lastmod";
 
 type JsonLd = Record<string, unknown>;
 
-// FAQPage saiu do projeto em 26/08/2026. O Google encerrou o rich result de
-// FAQ em 07/05/2026 para todos os sites: o markup continuava valido, mas nao
-// produzia mais nenhum resultado na busca. Manter um gerador de JSON-LD que
-// ninguem consome so convida a religa-lo por engano. As FAQ visiveis ficaram
-// como estavam -- elas existem para o leitor.
+// O FAQPage saiu em 26/08/2026 e voltou em 17/11/2026 por decisao do
+// responsavel. O gerador e buildFaqPageLD, em src/lib/structured-data.ts.
 
 
 export function blogPostingSchema(

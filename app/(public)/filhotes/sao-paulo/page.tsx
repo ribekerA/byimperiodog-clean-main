@@ -123,7 +123,7 @@ export default function FilhotesSaoPauloPage() {
             Canil em Bragança Paulista (SP)
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
-            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
+            Filhotes de Spitz Alemão Anão (Lulu da Pomerânia){" "}
             <span className="block text-[var(--marca-texto)]">em São Paulo (SP)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
