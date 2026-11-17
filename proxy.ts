@@ -198,11 +198,26 @@ function ehRotaAdministrativaForaDoPrefixo(pathname: string, metodo: string): bo
 }
 
 export const config = {
-  // Aplica em tudo, exceto assets estáticos comuns
+  // Só as rotas que o proxy protege (17/11/2026). Antes ele rodava em toda
+  // página pública, sem efeito nenhum nelas: x-next-pathname não é lido em
+  // lugar algum, a regra do www fica desligada porque NEXT_PUBLIC_SITE_URL não
+  // tem www, e o x-request-id só serve ao log das rotas de API, que já aceita
+  // ficar sem ele. Na Netlify isso era uma etapa a mais em cada visita.
+  // Rota administrativa nova fora de /admin e /api/admin precisa entrar aqui E
+  // em ehRotaAdministrativaForaDoPrefixo; tests/unit/proxy-matcher.test.ts
+  // confere as duas listas.
   matcher: [
-    // llms.txt entra na lista pelo mesmo motivo de robots.txt e sitemap.xml:
-    // e arquivo estatico lido por robo, nao tem sessao para verificar, e o
-    // middleware so encareceria a resposta.
-    "/((?!_next/static|_next/image|favicon.ico|robots.txt|llms.txt|sitemap.xml|assets/|.*\\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map)).*)",
+    "/admin/:path*",
+    "/api/admin/:path*",
+    "/api/integrations/:path*",
+    "/api/ai/captions",
+    "/api/ai/seo",
+    "/api/tracking/select",
+    "/api/tracking/settings",
+    "/api/blog/import",
+    "/api/blog/generate",
+    "/api/analytics",
+    "/api/rum",
+    "/api/settings/tracking",
   ],
 };
