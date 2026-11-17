@@ -47,6 +47,14 @@
 #    Primeira regra que matchear, vence!
 #    Mais específicas (exatas) devem estar antes de wildcard patterns
 
+# Domínio canônico único: www -> sem www. A versão com www deve estar
+# cadastrada como alias no Netlify; confirmar 301 em produção após deploy.
+[[redirects]]
+  from = "https://www.byimperiodog.com.br/*"
+  to = "https://byimperiodog.com.br/:splat"
+  status = 301
+  force = true
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 1️⃣ REDIRECTS ESPECÍFICOS HUNGARIAN (Bloqueio de Páginas Fantasma)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
