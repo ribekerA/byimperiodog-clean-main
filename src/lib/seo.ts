@@ -17,7 +17,6 @@ export interface PageMetadataInput {
   path?: string;
   images?: ImageLike[];
   robots?: Metadata["robots"];
-  keywords?: string[];
   openGraph?: Metadata["openGraph"];
   twitter?: Metadata["twitter"];
   alternates?: Metadata["alternates"];
@@ -141,7 +140,6 @@ export function pageMetadata(input: PageMetadataInput): Metadata {
     title: input.title,
     description: input.description,
     robots,
-    keywords: input.keywords,
     alternates: {
       canonical,
       ...input.alternates,
