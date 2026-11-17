@@ -90,12 +90,15 @@ export default function ConsentBanner() {
         aria-labelledby="consent-title"
         aria-describedby="cookie-consent-description"
       >
-        <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 py-2.5 sm:px-6 sm:py-4 lg:px-8">
           {!showSettings ? (
             // Banner simples. No celular ele cobria um quarto da primeira tela, em
             // cima dos filhotes e do preço (17/11/2026): lá o ícone e o título
             // saem da vista (o título continua para o leitor de tela, que é quem
-            // usa o aria-labelledby) e o texto ocupa a largura toda.
+            // usa o aria-labelledby) e o texto ocupa a largura toda. Em telas de
+            // 375 px ou menos os três botões quebravam em duas linhas e o banner
+            // media 154 px; agora dividem uma linha só (a engrenagem sai abaixo
+            // de sm) para o banner ficar em até 110 px.
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
               <div className="flex items-start gap-3 flex-1">
                 <Cookie className="hidden h-6 w-6 text-brand shrink-0 mt-1 sm:block" aria-hidden="true" />
@@ -116,23 +119,23 @@ export default function ConsentBanner() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
+              <div className="grid w-full grid-cols-3 items-center gap-2 sm:flex sm:w-auto sm:gap-3">
                 <button
                   onClick={() => setShowSettings(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
+                  className="inline-flex min-h-10 items-center justify-center gap-2 whitespace-nowrap px-2 py-2 sm:px-4 text-sm max-[359px]:px-1 max-[359px]:text-xs font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
                 >
-                  <Settings className="h-4 w-4" aria-hidden="true" />
+                  <Settings className="hidden h-4 w-4 sm:block" aria-hidden="true" />
                   Preferências
                 </button>
                 <button
                   onClick={handleRejectAll}
-                  className="px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
+                  className="min-h-10 whitespace-nowrap px-2 py-2 sm:px-4 text-sm max-[359px]:px-1 max-[359px]:text-xs font-medium text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition"
                 >
                   Rejeitar
                 </button>
                 <button
                   onClick={handleAcceptAll}
-                  className="px-4 py-2 text-sm font-semibold text-white bg-brand rounded-lg hover:bg-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition shadow-sm"
+                  className="min-h-10 whitespace-nowrap px-2 py-2 sm:px-4 text-sm max-[359px]:px-1 max-[359px]:text-xs font-semibold text-white bg-brand rounded-lg hover:bg-brand/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 transition shadow-sm"
                 >
                   Aceitar Todos
                 </button>
