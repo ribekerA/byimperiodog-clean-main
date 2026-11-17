@@ -6,6 +6,7 @@ import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
 import { puppiesPublicados } from "@/content/puppies-static";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
 import { buildWebPageLD } from "@/lib/structured-data";
@@ -62,19 +63,19 @@ const rjCities = [
 // consegue dizer depois qual era a condicao nem de quanto era o desconto.
 const faqRJ = [
   {
-    question: "Vocês fazem entrega no Rio de Janeiro?",
+    question: "Como funciona a retirada ou entrega?",
     answer:
-      "Sim! Atendemos famílias da capital carioca, de Niterói, da região metropolitana e do interior do RJ. O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote.",
+      REGRA_DE_ENTREGA,
   },
   {
     question: "Posso buscar o filhote pessoalmente?",
     answer:
-      "Sim! O criatório fica em Bragança Paulista (SP), e tutores do Rio de Janeiro que preferem buscar pessoalmente são bem-vindos. A data é combinada caso a caso com a criadora pelo WhatsApp.",
+      REGRA_DE_ENTREGA,
   },
   {
-    question: "Qual o valor da entrega para o Rio de Janeiro?",
+    question: "Quando o custo é informado?",
     answer:
-      "O valor varia conforme a região e a distância, porque depende do transporte contratado para o trajeto. Consulte a criadora pelo WhatsApp para saber o valor até a sua cidade.",
+      REGRA_DE_ENTREGA,
   },
   {
     question: "O filhote vem com documentação e vacinas?",
@@ -168,7 +169,7 @@ export default function FilhotesRioDeJaneiroPage() {
         {/* Atendimento no RJ */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
           <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">
-            Atendemos Toda a Região do Rio de Janeiro
+            Informações para interessados de Rio de Janeiro
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {rjCities.map((city) => (
@@ -190,9 +191,9 @@ export default function FilhotesRioDeJaneiroPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Retirada ou entrega</h3>
               <p className="text-sm text-[var(--text-muted)]">
-                Transporte sob consulta de destino, idade e viabilidade
+                {REGRA_DE_ENTREGA}
               </p>
             </div>
             <div className="text-center">
