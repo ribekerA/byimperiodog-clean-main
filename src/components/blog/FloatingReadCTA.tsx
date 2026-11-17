@@ -82,7 +82,7 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
         Conversar no WhatsApp
       </a>
 
-      <p className="mt-2 text-center text-[10px] text-zinc-500">
+      <p className="mt-2 text-center text-xs text-zinc-500">
         ⚡ Atendimento das 8h às 22h · Sem compromisso
       </p>
     </div>

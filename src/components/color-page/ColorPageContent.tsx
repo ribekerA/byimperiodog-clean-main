@@ -461,7 +461,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                     </p>
                     {item!.label && (
                       <p
-                        className={`mt-0.5 text-[11px] ${
+                        className={`mt-0.5 text-xs ${
                           heroDark ? "text-zinc-400" : "text-zinc-500"
                         }`}
                       >

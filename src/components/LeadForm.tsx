@@ -177,10 +177,14 @@ export default function LeadForm({ context, className }: Props) {
     >
       <input type="hidden" {...register("gclid")} />
 
+      {/* Crítica de design de 17/11/2026: os rótulos eram maiúsculas espaçadas, o
+          único lugar do site assim, e só cidade e estado diziam "(opcional)".
+          Agora todo campo fora nome e WhatsApp avisa que é opcional, e o exemplo
+          do WhatsApp deixou de parecer um número já digitado. */}
       {/* Nome e WhatsApp */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="contato-nome" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+          <label htmlFor="contato-nome" className="text-sm font-semibold text-[var(--text)]">
             Nome completo *
           </label>
           <input
@@ -203,7 +207,7 @@ export default function LeadForm({ context, className }: Props) {
         <div className="flex flex-col gap-1.5">
           <label
             htmlFor="contato-telefone"
-            className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]"
+            className="text-sm font-semibold text-[var(--text)]"
           >
             WhatsApp *
           </label>
@@ -221,7 +225,7 @@ export default function LeadForm({ context, className }: Props) {
             aria-required="true"
             aria-describedby={errors.telefone ? "erro-telefone" : undefined}
             className="w-full rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm placeholder:text-[var(--text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
-            placeholder="11999887766"
+            placeholder="DDD + número"
             maxLength={11}
           />
           <p className="text-xs text-[var(--text-muted)]" aria-live="polite">
@@ -238,7 +242,7 @@ export default function LeadForm({ context, className }: Props) {
       {/* Cidade e Estado */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="contato-cidade" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+          <label htmlFor="contato-cidade" className="text-sm font-semibold text-[var(--text)]">
             Cidade (opcional)
           </label>
           <input
@@ -257,7 +261,7 @@ export default function LeadForm({ context, className }: Props) {
           )}
         </div>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="contato-estado" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+          <label htmlFor="contato-estado" className="text-sm font-semibold text-[var(--text)]">
             Estado (opcional)
           </label>
           <select
@@ -284,8 +288,8 @@ export default function LeadForm({ context, className }: Props) {
       {/* Preferências */}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="contato-sexo" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-            Sexo do filhote
+          <label htmlFor="contato-sexo" className="text-sm font-semibold text-[var(--text)]">
+            Sexo do filhote (opcional)
           </label>
           <select
             id="contato-sexo"
@@ -304,8 +308,8 @@ export default function LeadForm({ context, className }: Props) {
           )}
         </div>
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="contato-cor" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-            Cor preferida
+          <label htmlFor="contato-cor" className="text-sm font-semibold text-[var(--text)]">
+            Cor preferida (opcional)
           </label>
           <input
             id="contato-cor"
@@ -319,8 +323,8 @@ export default function LeadForm({ context, className }: Props) {
 
       {/* Prazo de aquisição */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="contato-prazo" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-          Prazo para aquisição
+        <label htmlFor="contato-prazo" className="text-sm font-semibold text-[var(--text)]">
+          Prazo para aquisição (opcional)
         </label>
         <select
           id="contato-prazo"
@@ -342,8 +346,8 @@ export default function LeadForm({ context, className }: Props) {
 
       {/* Mensagem */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="contato-mensagem" className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
-          Conte-nos mais
+        <label htmlFor="contato-mensagem" className="text-sm font-semibold text-[var(--text)]">
+          Conte-nos mais (opcional)
         </label>
         <textarea
           id="contato-mensagem"

@@ -47,10 +47,25 @@ export const metadata: Metadata = {
 // A terceira dizia "Para capital e regiao metropolitana temos condicoes
 // especiais". Condicao especial e desconto anunciado sem tabela: ninguem
 // consegue dizer depois qual era a condicao nem de quanto era o desconto.
+// Fatos de retirada e entrega confirmados pelo canil em 17/11/2026: o tutor
+// pode buscar no canil, combinar encontro no meio do caminho ou contratar
+// transportadora, e o frete e sempre por conta dele. Distancias sao de
+// estrada, aproximadas. Avião e "todo o Brasil" continuam fora do texto
+// publico (regra entrega-fora-do-texto-neutro em domain/public-truth).
 const faqRJ = [
   {
     question: "Como funciona a retirada ou a entrega?",
     answer: REGRA_DE_ENTREGA,
+  },
+  {
+    question: "A By Imperio Dog já entregou Lulu da Pomerânia no Rio de Janeiro?",
+    answer:
+      "Sim, famílias do Rio de Janeiro já receberam o Lulu da Pomerânia da By Imperio Dog. Da capital fluminense até o canil do Lulu da Pomerânia, em Bragança Paulista (SP), são cerca de 450 km pela Via Dutra e pela Rodovia Dom Pedro I.",
+  },
+  {
+    question: "Como o Lulu da Pomerânia chega ao Rio de Janeiro?",
+    answer:
+      "A família do Rio de Janeiro pode vir buscar o Lulu da Pomerânia no canil, combinar um encontro no meio do caminho ou contratar uma transportadora de animais. Em qualquer opção, o frete do Lulu da Pomerânia é por conta do tutor e fica combinado antes da reserva.",
   },
   {
     question: "O filhote vem com documentação e vacinas?",
@@ -122,14 +137,14 @@ export default function FilhotesRioDeJaneiroPage() {
             <span className="block text-[var(--marca-texto)]">no Rio de Janeiro (RJ)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
-            Spitz Alemão Anão (Lulu da Pomerânia) para famílias do Rio de Janeiro. Criadora especializada com suporte pós-venda. {REGRA_DE_ENTREGA}
+            Famílias do Rio de Janeiro já receberam o Lulu da Pomerânia da By Imperio Dog, que fica em Bragança Paulista (SP). Conforme a disponibilidade, a família do Rio pode buscar o Lulu da Pomerânia no canil, combinar um encontro no meio do caminho ou contratar uma transportadora de animais. O frete do Lulu da Pomerânia é por conta do tutor, e local, prazo e valor do Lulu da Pomerânia são combinados antes da reserva.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal bg-[#25D366] py-2 text-center hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal py-2 text-center")}
             >
               <WhatsAppIcon className="h-5 w-5" />
               Vamos conversar sobre o seu novo amor
@@ -142,10 +157,12 @@ export default function FilhotesRioDeJaneiroPage() {
 
         {/* Diferenciais */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* 2×2 no celular (crítica de design de 17/11/2026): empilhados, os quatro
+              ocupavam uma tela inteira para quatro frases. */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-8 lg:grid-cols-4">
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Truck className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Retirada ou entrega</h3>
               <p className="text-sm text-[var(--text-muted)]">
@@ -153,22 +170,22 @@ export default function FilhotesRioDeJaneiroPage() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Shield className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Shield className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Registro oficial</h3>
               <p className="text-sm text-[var(--text-muted)]">Todos os filhotes com registro oficial</p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Star className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Star className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Criação Especializada</h3>
               <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão (Lulu da Pomerânia) como única raça, em Bragança Paulista (SP)</p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Phone className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Phone className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-muted)]">Contato direto com a criadora pelo WhatsApp</p>
@@ -225,7 +242,7 @@ export default function FilhotesRioDeJaneiroPage() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "mt-6 gap-2 bg-[#25D366] hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "mt-6 gap-2")}
             >
               <WhatsAppIcon className="h-5 w-5" />
               Falar no WhatsApp

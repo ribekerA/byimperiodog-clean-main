@@ -208,11 +208,18 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
+          {/* Regra única do WhatsApp (crítica de design de 17/11/2026, escolhida
+              pelo dono): botão principal verde-mata com borda dourada, o mesmo
+              par de --botao-fundo/--botao-borda dos fundos escuros; só o botão
+              flutuante fica no verde do WhatsApp. O dourado cheio daqui era o
+              único botão dourado do site e competia com o preço. Os valores vão
+              escritos porque o cabeçalho fica fora dos temas que definem as
+              variáveis. */}
           <div className="order-5 hidden items-center gap-3 lg:order-3 lg:flex">
             <a
               href={whatsappLink}
               data-wa-placement="header"
-              className="inline-flex min-h-[48px] items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2 text-sm font-bold text-[var(--accent-foreground)] shadow-sm transition hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-dark)]"
+              className="inline-flex min-h-[48px] items-center gap-2 rounded-full border-2 border-[#e3bb64] bg-[linear-gradient(180deg,#17663d,#0a3f25)] px-5 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e3bb64] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-dark)]"
             >
               <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
               Conversar agora

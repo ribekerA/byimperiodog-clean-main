@@ -52,6 +52,19 @@ export type HealthData = {
 
 const AUTO_REFRESH_S = 30;
 
+// Classes escritas por inteiro: o Tailwind só gera o que encontra no código, e
+// `text-${cor}-600` montado em tempo de execução não era encontrado (a config do
+// admin não tem safelist), então as cores dos cartões podiam sumir. (17/11/2026)
+const CORES_DO_CARTAO = {
+  emerald: { borda: "border-emerald-100", rotulo: "text-emerald-600", valor: "text-emerald-900", icone: "text-emerald-400" },
+  yellow: { borda: "border-yellow-100", rotulo: "text-yellow-600", valor: "text-yellow-900", icone: "text-yellow-400" },
+  red: { borda: "border-red-100", rotulo: "text-red-600", valor: "text-red-900", icone: "text-red-400" },
+  slate: { borda: "border-slate-100", rotulo: "text-slate-600", valor: "text-slate-900", icone: "text-slate-400" },
+  blue: { borda: "border-blue-100", rotulo: "text-blue-600", valor: "text-blue-900", icone: "text-blue-400" },
+  purple: { borda: "border-purple-100", rotulo: "text-purple-600", valor: "text-purple-900", icone: "text-purple-400" },
+} as const;
+type CorDoCartao = keyof typeof CORES_DO_CARTAO;
+
 function fmtDate(iso: string) {
   try {
     return new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "medium" }).format(new Date(iso));
@@ -198,15 +211,16 @@ export function SystemHealthUI({ initialData, initialRange }: Props) {
                   { label: "P50 Response", value: `${data.metrics.responseTimeP50}ms`, sub: "Mediana", color: "slate", icon: Zap },
                 ].map((card) => {
                   const Icon = card.icon;
+                  const cor = CORES_DO_CARTAO[card.color as CorDoCartao];
                   return (
-                    <div key={card.label} className={`rounded-2xl border border-${card.color}-100 bg-white p-5 shadow-sm`}>
+                    <div key={card.label} className={`rounded-2xl border ${cor.borda} bg-white p-5 shadow-sm`}>
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className={`text-sm font-medium text-${card.color}-600`}>{card.label}</p>
-                          <p className={`mt-1 text-3xl font-bold text-${card.color}-900`}>{card.value}</p>
+                          <p className={`text-sm font-medium ${cor.rotulo}`}>{card.label}</p>
+                          <p className={`mt-1 text-3xl font-bold ${cor.valor}`}>{card.value}</p>
                           <p className="mt-1 text-xs text-[var(--text-muted)]">{card.sub}</p>
                         </div>
-                        <Icon className={`h-7 w-7 text-${card.color}-400`} />
+                        <Icon className={`h-7 w-7 ${cor.icone}`} />
                       </div>
                     </div>
                   );

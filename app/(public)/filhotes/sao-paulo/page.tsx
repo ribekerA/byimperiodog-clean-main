@@ -48,15 +48,30 @@ export const metadata: Metadata = {
 // inclusa ou tem valor simbolico". Frete gratis nao existe aqui, e "valor
 // simbolico" e um numero que a pessoa preenche sozinha na cabeca — e cobra
 // depois.
+// Fatos de retirada e entrega confirmados pelo canil em 17/11/2026: o tutor
+// pode buscar no canil, combinar encontro no meio do caminho ou contratar
+// transportadora, e o frete e sempre por conta dele. Distancias sao de
+// estrada, aproximadas. Avião e "todo o Brasil" continuam fora do texto
+// publico (regra entrega-fora-do-texto-neutro em domain/public-truth).
 const faqSP = [
   {
     question: "Como funciona a retirada ou a entrega?",
     answer: REGRA_DE_ENTREGA,
   },
   {
-    question: "Posso visitar o criatorio em Bragança Paulista antes de comprar?",
+    question: "Qual a distância da capital paulista até o canil do Lulu da Pomerânia?",
     answer:
-      "Visitas são combinadas caso a caso com a criadora, no criatório em Bragança Paulista (SP). Fale pelo WhatsApp para alinhar data e horário.",
+      "O canil do Lulu da Pomerânia fica em Bragança Paulista, a cerca de 90 km da capital pela Rodovia Fernão Dias. Quem vem de Campinas ou do Vale do Paraíba chega ao canil do Lulu da Pomerânia pela Rodovia Dom Pedro I, que cruza a Fernão Dias em Atibaia.",
+  },
+  {
+    question: "Dá para receber o Lulu da Pomerânia sem ir até Bragança Paulista?",
+    answer:
+      "Sim, a família paulista pode combinar um encontro no meio do caminho ou contratar uma transportadora de animais para levar o Lulu da Pomerânia. O frete do Lulu da Pomerânia é sempre por conta do tutor, e local, prazo e valor do Lulu da Pomerânia são combinados antes da reserva.",
+  },
+  {
+    question: "Posso visitar o criatório do Lulu da Pomerânia em Bragança Paulista?",
+    answer:
+      "Visitas ao criatório do Lulu da Pomerânia são combinadas caso a caso com a criadora pelo WhatsApp. Data e horário da visita ao Lulu da Pomerânia ficam acertados antes, pela conversa.",
   },
   {
     question: "Os filhotes já vêm vacinados e vermifugados?",
@@ -127,14 +142,14 @@ export default function FilhotesSaoPauloPage() {
             <span className="block text-[var(--marca-texto)]">em São Paulo (SP)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
-            Conheça o Spitz Alemão Anão (Lulu da Pomerânia) para famílias de São Paulo. {REGRA_DE_ENTREGA}
+            O canil do Lulu da Pomerânia fica em Bragança Paulista, a cerca de 90 km da capital pela Rodovia Fernão Dias. Conforme a disponibilidade, a família paulista pode buscar o Lulu da Pomerânia no canil, combinar um encontro no meio do caminho ou contratar uma transportadora de animais. O frete do Lulu da Pomerânia é por conta do tutor, e local, prazo e valor do Lulu da Pomerânia são combinados antes da reserva.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal bg-[#25D366] py-2 text-center hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal py-2 text-center")}
             >
               <WhatsAppIcon className="h-5 w-5" />
               Vamos conversar sobre o seu novo amor
@@ -147,10 +162,12 @@ export default function FilhotesSaoPauloPage() {
 
         {/* Diferenciais */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* 2×2 no celular (crítica de design de 17/11/2026): empilhados, os quatro
+              ocupavam uma tela inteira para quatro frases. */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-8 lg:grid-cols-4">
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Truck className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Retirada ou entrega</h3>
               <p className="text-sm text-[var(--text-muted)]">
@@ -158,22 +175,22 @@ export default function FilhotesSaoPauloPage() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Shield className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Shield className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Registro oficial</h3>
               <p className="text-sm text-[var(--text-muted)]">Todos os filhotes com registro oficial</p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Star className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Star className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Criação Especializada</h3>
               <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão (Lulu da Pomerânia) como única raça, em Bragança Paulista (SP)</p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Phone className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Phone className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-muted)]">Contato direto com a criadora pelo WhatsApp</p>
@@ -228,7 +245,7 @@ export default function FilhotesSaoPauloPage() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "mt-6 gap-2 bg-[#25D366] hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "mt-6 gap-2")}
             >
               <WhatsAppIcon className="h-5 w-5" />
               Falar no WhatsApp

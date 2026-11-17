@@ -18,6 +18,7 @@ import { puppiesPublicados, staticPuppies } from "@/content/puppies-static";
 import { puppySearchCopy } from "@/content/puppy-search-copy";
 import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
+import { perguntarPeloFilhote } from "@/lib/nome-do-filhote";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildBreadcrumbLD, buildVitrinePageLD } from "@/lib/structured-data";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
@@ -303,7 +304,7 @@ export default async function PuppyPage(props: Props) {
                   data-wa-puppy={puppy.slug}
                   className="mt-4 inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                 >
-                  Ver disponibilidade no WhatsApp
+                  {perguntarPeloFilhote(corLabel, sexLabel)} no WhatsApp
                 </a>
               </div>
             </div>
@@ -367,6 +368,8 @@ export default async function PuppyPage(props: Props) {
         coverImage={coverImage}
         priceCents={(puppy as any).priceCents ?? (puppy as any).price_cents}
         waLink={waLink}
+        corLabel={corLabel}
+        sexLabel={sexLabel}
       />
     </>
   );

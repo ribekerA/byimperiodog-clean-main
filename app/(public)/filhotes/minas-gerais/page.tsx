@@ -44,15 +44,35 @@ export const metadata: Metadata = {
 // para que voce conheca os filhotes e os pais". Visita nao e direito
 // universal, e conhecer os pais nunca foi confirmado como parte de
 // nenhuma visita. Um "Sim!" no comeco da resposta e uma promessa.
+// Fatos de retirada e entrega confirmados pelo canil em 17/11/2026: o tutor
+// pode buscar no canil, combinar encontro no meio do caminho ou contratar
+// transportadora, e o frete e sempre por conta dele. Distancias sao de
+// estrada, aproximadas. Avião e "todo o Brasil" continuam fora do texto
+// publico (regra entrega-fora-do-texto-neutro em domain/public-truth).
 const faqMG = [
   {
     question: "Como funciona a retirada ou a entrega?",
     answer: REGRA_DE_ENTREGA,
   },
   {
-    question: "Posso visitar o criatório antes de comprar?",
+    question: "Qual a distância de Minas Gerais até o canil do Lulu da Pomerânia?",
     answer:
-      "O criatório fica em Bragança Paulista (SP), a cerca de 200 km de BH pela Fernão Dias. Visitas são combinadas caso a caso com a criadora pelo WhatsApp — muitos tutores de MG combinam a visita e aproveitam para buscar o filhote pessoalmente.",
+      "O canil do Lulu da Pomerânia fica em Bragança Paulista (SP), perto da divisa com o Sul de Minas, na Rodovia Fernão Dias. De Belo Horizonte até o canil do Lulu da Pomerânia são cerca de 500 km pela mesma rodovia.",
+  },
+  {
+    question: "Dá para buscar o Lulu da Pomerânia no meio do caminho?",
+    answer:
+      "Sim, o encontro no meio do caminho é uma das formas de receber o Lulu da Pomerânia, e o ponto é combinado com a criadora pelo WhatsApp antes da reserva. Quando a família mineira prefere não pegar estrada, o Lulu da Pomerânia também pode seguir por uma transportadora de animais contratada pelo tutor.",
+  },
+  {
+    question: "Quem paga o frete do Lulu da Pomerânia até Minas Gerais?",
+    answer:
+      "O frete do Lulu da Pomerânia é por conta do tutor, em qualquer forma de entrega. O valor do transporte do Lulu da Pomerânia depende do trajeto e de quem leva, e fica combinado antes da reserva.",
+  },
+  {
+    question: "Posso visitar o criatório do Lulu da Pomerânia antes de comprar?",
+    answer:
+      "Visitas ao criatório do Lulu da Pomerânia são combinadas caso a caso com a criadora pelo WhatsApp. Quem vem de Minas Gerais buscar o Lulu da Pomerânia pode perguntar se a visita cabe no mesmo dia.",
   },
   {
     question: "O que está incluso na compra do filhote?",
@@ -123,14 +143,14 @@ export default function FilhotesMinasGeraisPage() {
             <span className="block text-[var(--marca-texto)]">em Minas Gerais (MG)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
-            Spitz Alemão Anão (Lulu da Pomerânia) para famílias de Minas Gerais. Criadora especializada com suporte pós-venda. {REGRA_DE_ENTREGA}
+            O canil do Lulu da Pomerânia fica em Bragança Paulista (SP), perto da divisa com Minas Gerais, na Rodovia Fernão Dias. Conforme a disponibilidade, a família mineira pode buscar o Lulu da Pomerânia no canil, combinar um encontro no meio do caminho ou contratar uma transportadora de animais. O frete do Lulu da Pomerânia é por conta do tutor, e local, prazo e valor do Lulu da Pomerânia são combinados antes da reserva.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal bg-[#25D366] py-2 text-center hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "!h-auto min-h-12 gap-2 !whitespace-normal py-2 text-center")}
             >
               <WhatsAppIcon className="h-5 w-5" />
               Vamos conversar sobre o seu novo amor
@@ -143,10 +163,12 @@ export default function FilhotesMinasGeraisPage() {
 
         {/* Diferenciais */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* 2×2 no celular (crítica de design de 17/11/2026): empilhados, os quatro
+              ocupavam uma tela inteira para quatro frases. */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:gap-8 lg:grid-cols-4">
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Truck className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Retirada ou entrega</h3>
               <p className="text-sm text-[var(--text-muted)]">
@@ -154,22 +176,22 @@ export default function FilhotesMinasGeraisPage() {
               </p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Shield className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Shield className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Registro oficial</h3>
               <p className="text-sm text-[var(--text-muted)]">Todos os filhotes com registro oficial</p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Star className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Star className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Criação Especializada</h3>
               <p className="text-sm text-[var(--text-muted)]">Spitz Alemão Anão (Lulu da Pomerânia) como única raça, em Bragança Paulista (SP)</p>
             </div>
             <div className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
-                <Phone className="h-8 w-8 text-[var(--marca-texto)]" />
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/10 sm:mb-4 sm:h-16 sm:w-16">
+                <Phone className="h-6 w-6 text-[var(--marca-texto)] sm:h-8 sm:w-8" />
               </div>
               <h3 className="mb-2 font-bold text-[var(--text)]">Suporte pós-venda</h3>
               <p className="text-sm text-[var(--text-muted)]">Contato direto com a criadora pelo WhatsApp</p>
@@ -226,7 +248,7 @@ export default function FilhotesMinasGeraisPage() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg" }), "mt-6 gap-2 bg-[#25D366] hover:bg-[#20BA5A]")}
+              className={cn(buttonVariants({ size: "lg" }), "mt-6 gap-2")}
             >
               <WhatsAppIcon className="h-5 w-5" />
               Falar no WhatsApp

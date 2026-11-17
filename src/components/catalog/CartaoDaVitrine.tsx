@@ -8,7 +8,7 @@ import { useMemo } from "react";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { partesDoPrecoDaVitrine, textoAPartirDeNoPix } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
-import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
+import { descricaoDoFilhote, perguntarPeloFilhote } from "@/lib/nome-do-filhote";
 import { capaDoCartao, focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -32,10 +32,8 @@ type Props = {
 
 const capitalizar = (texto: string) => texto.charAt(0).toUpperCase() + texto.slice(1);
 
-// O botão fala do filhote da foto: "Perguntar pela Branca", "Perguntar pelo
-// Preto". Era "Consultar", verbo de trâmite; "perguntar" é o que a pessoa faz
-// de fato no WhatsApp e não promete disponibilidade (17/11/2026).
-const corConcordando = (cor: string, femea: boolean) => (femea ? cor.replace(/o$/, "a") : cor);
+// O botão fala do filhote da foto ("Perguntar pela Branca"): o texto sai de
+// perguntarPeloFilhote, o mesmo dos outros botões de filhote do site.
 
 export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, priceCents, price_cents, images }: Props) {
   const corLabel = capitalizar(cor ?? color ?? "");
@@ -80,7 +78,9 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
           )}
         </Link>
 
-        <div className="vc-painel">
+        {/* data-wa-safe-zone: no celular a bolha do WhatsApp cobria o nome e o
+            preço do cartão (auditoria de UX de 17/11/2026); sobre o texto ela sai da frente. */}
+        <div data-wa-safe-zone className="vc-painel">
           <p className="vc-selo">
             <Info aria-hidden="true" strokeWidth={2.2} />
             <span>Disponibilidade a confirmar</span>
@@ -117,10 +117,10 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
         rel="noreferrer"
         target="_blank"
         className="vc-acao"
-        aria-label={`Perguntar ${femea ? "pela" : "pelo"} ${corConcordando(corLabel, femea)}, ${sexLabel}, no WhatsApp`}
+        aria-label={`${perguntarPeloFilhote(corLabel, sexLabel)}, ${sexLabel}, no WhatsApp`}
       >
         <WhatsAppIcon aria-hidden="true" />
-        <span>Perguntar {femea ? "pela" : "pelo"} {corConcordando(corLabel, femea)}</span>
+        <span>{perguntarPeloFilhote(corLabel, sexLabel)}</span>
         <ChevronRight aria-hidden="true" strokeWidth={2.4} />
       </a>
     </article>

@@ -159,12 +159,12 @@ function VideoCard({
         </span>
 
         <span
-          className={`absolute left-2 top-2 rounded-full border px-2 py-0.5 text-[10px] font-semibold sm:left-3 sm:top-3 sm:px-2.5 sm:text-xs ${categoryColor}`}
+          className={`absolute left-2 top-2 rounded-full border px-2 py-0.5 text-xs font-semibold sm:left-3 sm:top-3 sm:px-2.5 ${categoryColor}`}
         >
           {categoryLabel}
         </span>
 
-        <span className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[10px] text-zinc-300 sm:right-3 sm:top-3 sm:text-xs">
+        <span className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-xs text-zinc-300 sm:right-3 sm:top-3">
           {String(index + 1).padStart(2, "0")}
         </span>
 

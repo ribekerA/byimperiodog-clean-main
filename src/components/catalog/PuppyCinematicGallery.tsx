@@ -339,7 +339,7 @@ export default function PuppyCinematicGallery({
             para caber em bolinhas, senao os dois indicadores brigam. */}
         {photos.length > 1 && !showVideo && (
           <div
-            className={`absolute bottom-3 right-3 z-10 rounded-full bg-black/50 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-sm sm:block ${
+            className={`absolute bottom-3 right-3 z-10 rounded-full bg-black/50 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm sm:block ${
               photos.length > MAX_DOTS ? "block" : "hidden"
             }`}
           >
@@ -409,7 +409,7 @@ export default function PuppyCinematicGallery({
             onClick={(e) => { e.stopPropagation(); onClickGallery(); }}
             // Celular nao tem hover: preso em `opacity-0 group-hover` este
             // aviso nunca aparecia justamente para quem so pode tocar.
-            className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-medium text-white/90 opacity-100 backdrop-blur-sm transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
+            className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-xs font-medium text-white/90 opacity-100 backdrop-blur-sm transition-opacity duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:opacity-0 sm:focus-visible:opacity-100 sm:group-hover:opacity-100"
             aria-label="Ampliar foto"
           >
             <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round">
@@ -427,7 +427,7 @@ export default function PuppyCinematicGallery({
           <motion.button
             type="button"
             onClick={(e) => { e.stopPropagation(); openVideo(0); }}
-            className="absolute right-3 top-3 z-10 flex h-9 items-center gap-1.5 rounded-full bg-black/55 pl-2.5 pr-3 text-[11px] font-semibold text-white backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="absolute right-3 top-3 z-10 flex h-9 items-center gap-1.5 rounded-full bg-black/55 pl-2.5 pr-3 text-xs font-semibold text-white backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             aria-label={videos.length > 1 ? `Ver ${videos.length} vídeos de ${puppyName}` : `Ver vídeo de ${puppyName}`}
             whileTap={{ scale: 0.93 }}
           >
@@ -553,7 +553,7 @@ export default function PuppyCinematicGallery({
               </span>
               {videos.length > 1 && (
                 <span
-                  className="absolute bottom-0.5 right-1 text-[9px] font-bold text-white/85 drop-shadow"
+                  className="absolute bottom-0.5 right-1 text-[10px] font-bold text-white/85 drop-shadow"
                   aria-hidden="true"
                 >
                   {i + 1}

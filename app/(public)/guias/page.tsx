@@ -110,7 +110,7 @@ export default function GuiasIndexPage() {
                         {meta.icon}
                       </span>
                       <span
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ${meta.badgeColor}`}
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold ${meta.badgeColor}`}
                       >
                         {meta.badge}
                       </span>

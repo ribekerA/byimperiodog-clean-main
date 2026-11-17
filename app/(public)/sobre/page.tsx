@@ -324,7 +324,7 @@ export default function SobrePage() {
                 <div className="mt-3 flex items-start gap-2 sm:mt-0 sm:px-5 sm:py-4">
                   <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-700 sm:hidden">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 sm:hidden">
                       By Imperio Dog
                     </p>
                     <p className="text-sm text-zinc-700">{row.us}</p>
@@ -338,7 +338,7 @@ export default function SobrePage() {
                     →
                   </span>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 sm:hidden">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 sm:hidden">
                       O que confirmar
                     </p>
                     <p className="text-sm text-zinc-500">{row.check}</p>

@@ -62,7 +62,9 @@ export default function GradeDaHome({ filhotes }: { filhotes: FilhoteDaHome[] })
 
   return (
     <div className="hm-miolo">
-      <div className="hm-filtros" role="group" aria-label="Filtrar filhotes por cor">
+      {/* data-wa-safe-zone: igual à fileira de /filhotes, a bolha do WhatsApp
+          sai da frente dos chips de cor (auditoria de UX de 17/11/2026). */}
+      <div data-wa-safe-zone className="hm-filtros" role="group" aria-label="Filtrar filhotes por cor">
         {FILTROS.map(({ chave, rotulo }) => (
           <button
             key={chave}

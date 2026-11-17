@@ -47,8 +47,8 @@ function ToastItem({ toast, onClose }: { toast:Toast; onClose:()=>void }){
   return (
     <div className={cn(base,theme)} role="status" aria-live="polite">
       <span className="flex-1 leading-snug">{message}</span>
-      {action && <button onClick={()=> { action.onClick(); onClose(); }} className="rounded bg-[var(--accent)] px-2 py-1 text-[11px] font-medium text-[var(--accent-contrast)] hover:brightness-105">{action.label}</button>}
-      <button onClick={onClose} aria-label="Fechar" className="rounded p-1 text-[11px] text-[var(--text-muted)] hover:text-[var(--text)]">✕</button>
+      {action && <button onClick={()=> { action.onClick(); onClose(); }} className="rounded bg-[var(--accent)] px-2 py-1 text-xs font-medium text-[var(--accent-contrast)] hover:brightness-105">{action.label}</button>}
+      <button onClick={onClose} aria-label="Fechar" className="rounded p-1 text-xs text-[var(--text-muted)] hover:text-[var(--text)]">✕</button>
     </div>
   );
 }

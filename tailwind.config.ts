@@ -14,6 +14,11 @@ const bordaEmerald = escala("be");
 const fundoBranco = "rgb(var(--branco-fundo) / <alpha-value>)";
 
 export default {
+  // O site não tem tema escuro. Sem esta linha valia o padrão "media" e as ~45
+  // classes dark: dos componentes públicos (Prose do blog, comentários…)
+  // disparavam no celular em modo escuro, em combinações que nunca foram
+  // desenhadas. Com "class" elas só valem sob .dark, que ninguém põe. (17/11/2026)
+  darkMode: "class",
   // Só o que o site público pode renderizar. O painel admin gerava ~32 KB de
   // classes que iam para o CSS de toda página pública e bloqueavam a primeira
   // pintura no celular. O admin monta o CSS completo dele em

@@ -135,7 +135,7 @@ export default function ContatoPage() {
         />
         <div className="relative mx-auto max-w-3xl text-center">
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Fala comigo diretamente 💬
+            Fala comigo diretamente
           </h1>
           <p className="mt-5 text-lg text-zinc-300">
             Fale diretamente pelo WhatsApp ou, se preferir, envie seus dados

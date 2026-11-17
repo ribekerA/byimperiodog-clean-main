@@ -261,13 +261,31 @@ function CategorySection({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {posts.map((post) => (
+        {posts.slice(0, ARTIGOS_A_MOSTRA).map((post) => (
           <BlogCard key={post.id} post={post} />
         ))}
       </div>
+      {posts.length > ARTIGOS_A_MOSTRA && (
+        <details className="group">
+          <summary className="mx-auto flex min-h-11 w-fit cursor-pointer list-none items-center gap-2 rounded-full border border-zinc-200 px-5 text-sm font-semibold text-zinc-700 transition hover:border-emerald-500 hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group-open:hidden">
+            Ver mais {posts.length - ARTIGOS_A_MOSTRA} {posts.length - ARTIGOS_A_MOSTRA === 1 ? "artigo" : "artigos"} de {definition.title.toLowerCase()}
+          </summary>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {posts.slice(ARTIGOS_A_MOSTRA).map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </div>
+        </details>
+      )}
     </section>
   );
 }
+
+// Quatro artigos por categoria (uma fileira no computador); o resto fica num
+// <details>. No celular a listagem inteira passava de 34 telas (crítica de
+// design de 17/11/2026). Os artigos escondidos continuam no HTML, então a busca
+// e os links internos não mudam, e abrir não depende de JavaScript.
+const ARTIGOS_A_MOSTRA = 4;
 
 const MINI_FAQ = [
   {

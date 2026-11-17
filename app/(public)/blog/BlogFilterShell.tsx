@@ -97,7 +97,9 @@ export default function BlogFilterShell({
         />
         <div className="relative mx-auto max-w-4xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-700/60 bg-emerald-900/50 px-4 py-1 text-xs font-bold uppercase tracking-widest text-emerald-300">
-            Conteúdo Premium · Gratuito
+            {/* Era "Conteúdo Premium · Gratuito": as duas palavras juntas se contradiziam
+                e soavam a anúncio (crítica de design de 17/11/2026). */}
+            Blog da By Imperio Dog
           </span>
           <h1 className="mt-5 text-3xl font-bold tracking-tight text-white sm:text-5xl">
             Tudo que você precisa saber sobre o{" "}

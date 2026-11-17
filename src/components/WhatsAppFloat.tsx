@@ -234,8 +234,10 @@ export function WhatsAppFloat() {
         "fixed bottom-safe right-5 z-[9998]",
         // Size — 56×56 (WCAG touch target)
         "flex h-14 w-14 items-center justify-center rounded-full",
-        // Colour
-        "bg-[#25D366] text-white shadow-xl",
+        // Colour — o verde claro é o que as pessoas reconhecem como WhatsApp, mas o
+        // ícone branco sobre ele dá 1,98:1. A borda escura de 2 px separa o botão
+        // de qualquer fundo (auditoria ui-styling de 17/11/2026, opção A).
+        "bg-[#25D366] text-white shadow-xl ring-2 ring-[#0f5132]",
         // Hover (apenas em dispositivos que fazem hover de verdade)
         "transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/40",
         // Desktop hover

@@ -66,7 +66,8 @@ export const BRAND = {
   // `name` segue curto nas frases ("Sobre a By Imperio Dog") e no sufixo dos
   // títulos, que passaria de 60 caracteres com o nome longo.
   fullName: "By Imperio Dog - Canil Spitz Alemão Anão Lulu da Pomerânia",
-  legalName: "By Imperio Dog Criação de Spitz Alemão",
+  // Razão social confirmada pelo usuário em 17/11/2026; o contrato usa a mesma, em maiúsculas.
+  legalName: "By Imperio Dog",
   slogan: "Criadora especializada em Spitz Alemão Anão (Lulu da Pomerânia)",
 
   // Localização sede

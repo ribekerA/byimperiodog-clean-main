@@ -306,8 +306,10 @@ export default function HomePage() {
                     </div>
                     {/* <dl> e não <div>: dt/dd só são válidos dentro de uma lista
                         de descrição. O preflight do Tailwind zera a margem de <dl>
-                        igual à de <div>, então o render é idêntico. */}
-                    <dl>
+                        igual à de <div>, então o render é idêntico.
+                        data-wa-safe-zone: no celular a bolha do WhatsApp cobria o
+                        texto do cartão "Transporte orientado" (auditoria de UX de 17/11/2026). */}
+                    <dl data-wa-safe-zone>
                       <dt className="text-sm font-bold text-zinc-900 sm:text-base">{title}</dt>
                       <dd className="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-600">{body}</dd>
                     </dl>

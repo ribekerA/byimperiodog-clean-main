@@ -111,7 +111,7 @@ export function PostCard({
             <p className="text-xs italic text-[var(--text-muted)]">Sem resumo disponível.</p>
           )}
         </div>
-        <div className="mt-auto flex items-center justify-between text-[11px] text-[var(--text-muted)]">
+        <div className="mt-auto flex items-center justify-between text-xs text-[var(--text-muted)]">
           <span>{formattedDate || "Sem data definida"}</span>
           {previewMode ? <span className="rounded-full bg-[var(--surface-2)] px-2 py-0.5 font-medium">Preview</span> : null}
         </div>

@@ -53,7 +53,7 @@ export default function RecentPostsListAnimated({ posts }: { posts: RecentPostIt
 									draggable={false}
 								/>
 							) : (
-								<div className="absolute inset-0 flex items-center justify-center text-[10px] font-medium text-zinc-500 dark:text-zinc-400">
+								<div className="absolute inset-0 flex items-center justify-center text-xs font-medium text-zinc-500 dark:text-zinc-400">
 									Sem capa
 								</div>
 							)}
@@ -68,7 +68,7 @@ export default function RecentPostsListAnimated({ posts }: { posts: RecentPostIt
 										{p.excerpt}
 									</p>
 								)}
-								<div className="mt-3 flex items-center justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
+								<div className="mt-3 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
 									<time dateTime={dateIso}>{dateFormatted}</time>
 									<span aria-label={`Tempo de leitura estimado ${readingTime} minutos`}>{readingTime} min</span>
 								</div>

@@ -14,7 +14,7 @@ import {
   textoAPartirDeNoPix,
 } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
-import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
+import { descricaoDoFilhote, perguntarPeloFilhote } from "@/lib/nome-do-filhote";
 import { capaDoCartao, focoDaFoto } from "@/lib/photo-focus";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
@@ -197,12 +197,12 @@ export default function StaticPuppyCard({
             className="cartao-filhote-acao"
             emojis="paw"
             count={14}
-            aria-label={`Ver disponibilidade de ${corLabel} ${sexLabel} pelo WhatsApp`}
+            aria-label={`${perguntarPeloFilhote(corLabel, sexLabel)}, ${sexLabel}, no WhatsApp`}
           >
             <WhatsAppIcon className="cartao-filhote-acao-icone" aria-hidden="true" />
-            {/* Era "Consultar" (17/11/2026): "ver disponibilidade" diz o que a
-                pessoa ganha com o toque, sem prometer que o filhote está livre. */}
-            Ver disponibilidade
+            {/* Era "Ver disponibilidade", ao lado de um selo que dizia o contrário
+                (crítica de design de 17/11/2026). */}
+            <span className="cartao-filhote-acao-texto">{perguntarPeloFilhote(corLabel, sexLabel)}</span>
           </PawConfettiButton>
         </div>
       </article>

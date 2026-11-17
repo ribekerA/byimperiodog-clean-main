@@ -38,6 +38,7 @@ import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContai
 import { FOUNDING_YEAR } from "@/domain/config";
 import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoReserva } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { perguntarPeloFilhote } from "@/lib/nome-do-filhote";
 
 // Formatacao de preco vem do dominio, nao daqui.
 //
@@ -205,7 +206,7 @@ export default function PuppyDetailPanel({
                 quebrar, ele usa duas linhas dentro dos mesmos 56px de altura e
                 a frase chega inteira. De 360px para cima continua em uma linha
                 só, igual a antes. */}
-            <span className="text-center">Ver disponibilidade</span>
+            <span className="text-center">{perguntarPeloFilhote(corLabel, sexLabel)}</span>
           </PawConfettiButton>
 
           <HeartBurstButton

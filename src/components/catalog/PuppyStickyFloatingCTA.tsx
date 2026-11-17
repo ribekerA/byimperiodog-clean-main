@@ -17,6 +17,7 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoReserva } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
+import { perguntarPeloFilhote } from "@/lib/nome-do-filhote";
 import { optimizePuppyCardImage } from "@/lib/optimize-image";
 
 // Formatacao de preco vem do dominio, nao daqui.
@@ -45,6 +46,9 @@ interface Props {
   coverImage?: string;
   priceCents?: number;
   waLink: string;
+  /** Rótulos da página ("Branco", "Fêmea") para o texto do botão. */
+  corLabel?: string;
+  sexLabel?: string;
 }
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
@@ -56,7 +60,8 @@ function formatPrice(cents?: number) {
 
 // ─── Componente ───────────────────────────────────────────────────────────────
 
-export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, waLink }: Props) {
+export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, waLink, corLabel = "", sexLabel = "" }: Props) {
+  const rotulo = perguntarPeloFilhote(corLabel, sexLabel);
   const [visible, setVisible] = useState(false);
   const reduced = useReducedMotion();
   const trackedWaLink = useWhatsAppLink(waLink);
@@ -107,10 +112,10 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
               className="flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-6 text-base font-semibold text-white shadow-lg hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
               emojis="paw"
               count={12}
-              aria-label={`Ver disponibilidade pelo WhatsApp — referência: ${name}`}
+              aria-label={`${rotulo} no WhatsApp — referência: ${name}`}
             >
               <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
-              Ver disponibilidade
+              {rotulo}
             </PawConfettiButton>
           </motion.div>
 
@@ -158,7 +163,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
                   {/* O valor viaja junto do botão: quem rola até o fim da
                       ficha decide com o preço à vista, não com a memória dele. */}
                   {priceCents != null && priceCents > 0 && (
-                    <p className="mt-0.5 text-[11px] leading-snug text-[var(--text-muted)]">{textoReserva(priceCents)}</p>
+                    <p className="mt-0.5 text-xs leading-snug text-[var(--text-muted)]">{textoReserva(priceCents)}</p>
                   )}
                 </div>
               )}
@@ -172,10 +177,10 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
                 className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[var(--brand)] px-4 text-sm font-bold text-[var(--brand-foreground)] shadow transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]"
                 emojis="mixed"
                 count={14}
-                aria-label={`Ver disponibilidade pelo WhatsApp — referência: ${name}`}
+                aria-label={`${rotulo} no WhatsApp — referência: ${name}`}
               >
                 <WhatsAppIcon className="h-4 w-4" aria-hidden="true" />
-                Ver disponibilidade
+                {rotulo}
               </PawConfettiButton>
             </div>
           </motion.div>

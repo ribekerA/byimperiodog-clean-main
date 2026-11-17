@@ -335,7 +335,7 @@ TaxonomyHelpers.isValidColor("roxo"); // false
 ```typescript
 const BRAND = {
   name: "By Imperio Dog",
-  legalName: "By Imperio Dog Criação de Spitz Alemão",
+  legalName: "By Imperio Dog",
   slogan: "Criadora especializada em Spitz Alemão Anão (Lulu da Pomerânia)",
   
   headquarters: {
