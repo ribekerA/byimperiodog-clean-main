@@ -64,7 +64,15 @@ export function Jornada({
   carregando = false,
   mensagemFinal = "Tudo configurado. O progresso volta a cair sozinho se alguma etapa deixar de valer.",
   idTitulo = "jornada-titulo",
+  naoVerificado,
 }: {
+  /**
+   * Motivo de a tela nao ter conseguido ler o estado (rota caiu, sessao
+   * expirou). Com ele, nenhuma etapa aparece como pendente ou concluida:
+   * "nao consegui conferir" e diferente de "falta configurar", e mostrar o
+   * segundo no lugar do primeiro manda a pessoa mexer no que ja esta certo.
+   */
+  naoVerificado?: string | null;
   /** Id do titulo; precisa ser outro quando duas jornadas dividem a pagina. */
   idTitulo?: string;
   titulo?: string;
@@ -76,7 +84,8 @@ export function Jornada({
   const total = etapas.length;
   const feitas = etapas.filter((e) => e.feito).length;
   const pct = total === 0 ? 0 : Math.round((feitas / total) * 100);
-  const nv = nivel(pct);
+  const semLeitura = !carregando && Boolean(naoVerificado);
+  const nv = semLeitura ? { rotulo: "Sem verificacao", classe: "bg-slate-100 text-slate-700" } : nivel(pct);
   const indiceAtual = etapas.findIndex((e) => !e.feito && !e.bloqueadoPor);
 
   const estados: EstadoEtapa[] = etapas.map((e, i) => {
@@ -93,19 +102,29 @@ export function Jornada({
     >
       <div className="flex flex-col gap-4 border-b border-[var(--border)] bg-gradient-to-r from-[var(--brand-tint-50)] to-white p-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
-          <Anel pct={carregando ? 0 : pct} />
+          {semLeitura ? (
+            <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full border-[6px] border-slate-200 text-lg font-bold text-slate-500">
+              ?
+            </div>
+          ) : (
+            <Anel pct={carregando ? 0 : pct} />
+          )}
           <div>
             <h2 id={idTitulo}className="text-lg font-semibold text-[var(--text)]">
               {titulo}
             </h2>
             <p className="text-sm text-[var(--text-muted)]">
-              {carregando ? "Conferindo o estado atual..." : subtitulo ?? `${feitas} de ${total} etapas concluidas`}
+              {carregando
+                ? "Conferindo o estado atual..."
+                : semLeitura
+                  ? "Nao consegui conferir o estado agora"
+                  : subtitulo ?? `${feitas} de ${total} etapas concluidas`}
             </p>
           </div>
         </div>
         {!carregando ? (
           <span className={`inline-flex items-center gap-1.5 self-start rounded-full px-3 py-1 text-xs font-semibold sm:self-center ${nv.classe}`}>
-            {pct >= 100 ? <Trophy className="h-3.5 w-3.5" aria-hidden /> : <Sparkles className="h-3.5 w-3.5" aria-hidden />}
+            {semLeitura ? null : pct >= 100 ? <Trophy className="h-3.5 w-3.5" aria-hidden /> : <Sparkles className="h-3.5 w-3.5" aria-hidden />}
             {nv.rotulo}
           </span>
         ) : null}
@@ -116,14 +135,14 @@ export function Jornada({
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={total}
-        aria-valuenow={carregando ? 0 : feitas}
-        aria-label={`${feitas} de ${total} etapas concluidas`}
+        aria-valuenow={carregando || semLeitura ? 0 : feitas}
+        aria-label={semLeitura ? "Progresso nao verificado" : `${feitas} de ${total} etapas concluidas`}
       >
         {etapas.map((e) => (
           <span
             key={e.id}
             className={`h-1.5 flex-1 rounded-full transition-colors duration-500 ${
-              !carregando && e.feito ? "bg-[var(--brand)]" : "bg-[var(--brand-tint-100)]"
+              !carregando && !semLeitura && e.feito ? "bg-[var(--brand)]" : "bg-[var(--brand-tint-100)]"
             }`}
           />
         ))}
@@ -131,7 +150,9 @@ export function Jornada({
 
       <ol className="space-y-2 p-5">
         {etapas.map((e, i) => {
-          const estado = carregando ? "pendente" : estados[i];
+          // Sem leitura, toda etapa fica neutra: sem "proximo passo", sem
+          // cadeado e sem botao, porque nada disso foi comprovado.
+          const estado = carregando || semLeitura ? "pendente" : estados[i];
           return (
             <li
               key={e.id}
@@ -180,7 +201,13 @@ export function Jornada({
                     <span className="text-xs font-medium text-[var(--brand)]">concluida</span>
                   ) : null}
                   <span className="sr-only">
-                    {estado === "feito" ? "(concluida)" : estado === "bloqueado" ? "(bloqueada)" : "(pendente)"}
+                    {semLeitura
+                      ? "(nao verificada)"
+                      : estado === "feito"
+                        ? "(concluida)"
+                        : estado === "bloqueado"
+                          ? "(bloqueada)"
+                          : "(pendente)"}
                   </span>
                 </div>
                 {estado === "feito" && e.resultado ? (
@@ -198,7 +225,14 @@ export function Jornada({
         })}
       </ol>
 
-      {!carregando && pct >= 100 ? (
+      {semLeitura ? (
+        <p className="border-t border-[var(--border)] bg-amber-50 px-5 py-3 text-sm text-amber-900" role="status">
+          {naoVerificado} Isso nao quer dizer que falta configurar: as etapas acima ficam sem marcacao ate a
+          verificacao responder.
+        </p>
+      ) : null}
+
+      {!carregando && !semLeitura && pct >= 100 ? (
         <p className="border-t border-[var(--border)] bg-emerald-50 px-5 py-3 text-sm text-emerald-900">{mensagemFinal}</p>
       ) : null}
     </section>

@@ -66,6 +66,10 @@ export default function GoogleAdsPage() {
   const [aviso, setAviso] = useState<string | null>(null);
   const [aba, setAba] = useState<Aba>("conversoes");
   const [gravado, setGravado] = useState<{ production: Gravado; staging: Gravado } | null>(null);
+  // Separado de `erro`: este diz que o ESTADO nao foi lido, e a jornada deixa
+  // de mostrar "pendente" -- em 16/11/2026 a rota caiu por falta da chave de
+  // criptografia e a tela mandava configurar credenciais que ja existiam.
+  const [falhaStatus, setFalhaStatus] = useState<string | null>(null);
 
   const carregarStatus = useCallback(async () => {
     setCarregando(true);
@@ -75,12 +79,16 @@ export default function GoogleAdsPage() {
       if (!r.ok) {
         const { mensagem } = await lerErro(r);
         setErro(mensagem);
+        setFalhaStatus(`A verificacao respondeu ${r.status}.`);
         setStatus(null);
         return;
       }
       setStatus((await r.json()) as Status);
+      setFalhaStatus(null);
     } catch {
       setErro("Nao foi possivel ler o estado da conexao.");
+      setFalhaStatus("A verificacao nao respondeu.");
+      setStatus(null);
     } finally {
       setCarregando(false);
     }
@@ -244,6 +252,7 @@ export default function GoogleAdsPage() {
         titulo="Configuracao do Google Ads"
         etapas={etapas}
         carregando={carregando && !status}
+        naoVerificado={falhaStatus}
         mensagemFinal="Conta conectada e conversoes gravadas em producao. Confira nas abas abaixo se as campanhas estao recebendo as conversoes."
       />
 
@@ -397,6 +406,11 @@ export default function GoogleAdsPage() {
             </>
           ) : carregando ? (
             <p className="text-sm text-[var(--text-muted)]">Verificando...</p>
+          ) : falhaStatus ? (
+            <p className="text-sm text-[var(--text-muted)]">
+              Sem leitura da conexao agora. Use &quot;Verificar&quot; para tentar de novo; se continuar, a causa
+              costuma ser variavel de ambiente do servidor ou sessao do painel expirada.
+            </p>
           ) : null}
         </div>
       </Cartao>
