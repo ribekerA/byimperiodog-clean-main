@@ -6,6 +6,7 @@ import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
 import { puppiesPublicados } from "@/content/puppies-static";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
 import { buildWebPageLD } from "@/lib/structured-data";
@@ -60,19 +61,19 @@ const mgCities = [
 // nenhuma visita. Um "Sim!" no comeco da resposta e uma promessa.
 const faqMG = [
   {
-    question: "Vocês fazem entrega em Minas Gerais?",
+    question: "Como funciona a retirada ou entrega?",
     answer:
-      "Sim! Atendemos famílias de todo o estado de Minas Gerais, incluindo Belo Horizonte, região metropolitana, Uberlândia, Juiz de Fora e demais cidades. O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote.",
+      REGRA_DE_ENTREGA,
   },
   {
     question: "Posso visitar o criatório antes de comprar?",
     answer:
-      "O criatório fica em Bragança Paulista (SP), a cerca de 200 km de BH pela Fernão Dias. Visitas são combinadas caso a caso com a criadora pelo WhatsApp — muitos tutores de MG combinam a visita e aproveitam para buscar o filhote pessoalmente.",
+      REGRA_DE_ENTREGA,
   },
   {
-    question: "Qual o prazo de entrega para Minas Gerais?",
+    question: "Quando o prazo é definido?",
     answer:
-      "O prazo varia conforme a cidade. O prazo é combinado caso a caso e informado por WhatsApp antes da confirmação, junto com a modalidade de transporte disponível para a sua cidade.",
+      REGRA_DE_ENTREGA,
   },
   {
     question: "O que está incluso na compra do filhote?",
@@ -165,7 +166,7 @@ export default function FilhotesMinasGeraisPage() {
         {/* Atendimento em MG */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
           <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">
-            Atendemos Todo o Estado de Minas Gerais
+            Informações para interessados de Minas Gerais
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {mgCities.map((city) => (
@@ -187,9 +188,9 @@ export default function FilhotesMinasGeraisPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Retirada ou entrega</h3>
               <p className="text-sm text-[var(--text-muted)]">
-                Transporte sob consulta de destino, idade e viabilidade
+                {REGRA_DE_ENTREGA}
               </p>
             </div>
             <div className="text-center">
