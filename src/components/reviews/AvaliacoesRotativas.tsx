@@ -4,8 +4,8 @@
  * A faixa de avaliações do Google: uma de cada vez, passando sozinha, até todas
  * terem aparecido.
  *
- * Todas as avaliações da transcrição entram, inclusive as que só têm estrelas,
- * e as com texto vêm primeiro. A nota e o total são o resumo do perfil, não a
+ * Exibe no máximo oito avaliações com texto integral; não exibe cards vazios,
+ * transcrições abreviadas nem avisos técnicos. A nota e o total são o resumo do perfil, não a
  * média desta amostra, e aparecem com a data em que foram conferidos.
  *
  * Três decisões de propósito:
@@ -31,7 +31,7 @@ import { GOOGLE_REVIEWS_URL } from "@/domain/config";
 
 const TEMPO_DE_CADA_UMA_MS = 7000;
 
-const AVALIACOES = [...googleReviews.filter((r) => r.text), ...googleReviews.filter((r) => !r.text)];
+const AVALIACOES = googleReviews.filter((r) => Boolean(r.text?.trim()) && !r.excerpt && !r.translated).slice(0, 8);
 const TOTAL = AVALIACOES.length;
 const NOTA = googleReviewSnapshot.rating.toLocaleString("pt-BR");
 
@@ -68,15 +68,13 @@ export default function AvaliacoesRotativas({ className = "" }: { className?: st
             <span className="ar-inicial" aria-hidden="true">{avaliacao.name.trim().charAt(0).toUpperCase()}</span>
             <div className="min-w-0">
               <blockquote className="ar-citacao">
-                {avaliacao.text ? <>“{avaliacao.text}”</> : <>Avaliação de {avaliacao.rating} estrelas no Google.</>}
+                {avaliacao.text && <>“{avaliacao.text}”</>}
               </blockquote>
               <figcaption className="ar-autoria">
                 <span role="img" aria-label={`${avaliacao.rating} de 5 estrelas`} className="ar-estrelas">
                   <span aria-hidden="true">{"★".repeat(avaliacao.rating)}</span>
                 </span>
                 <span>{avaliacao.name} · {avaliacao.displayedDate}</span>
-                {avaliacao.excerpt && <span className="ar-aviso">Trecho: o texto completo está no Google.</span>}
-                {avaliacao.translated && <span className="ar-aviso">Tradução exibida pelo Google.</span>}
               </figcaption>
             </div>
           </figure>
