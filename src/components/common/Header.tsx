@@ -26,9 +26,6 @@ const NAV_LINKS: { label: string; href: AppRoutes | string }[] = [
 // Dropdown "Raça" — páginas informacionais e de intenção
 const RACA_LINKS = [
   { label: "Spitz Alemão Anão (Lulu da Pomerânia)",        href: "/spitz-alemao",              desc: "Raça completa: origem, temperamento, cores" },
-  { label: "Lulu da Pomerânia",        href: "/lulu-da-pomerania",         desc: "Guia completo + preços" },
-  { label: "Pomeranian",               href: "/pomeranian",                desc: "= Lulu da Pomerânia = Spitz Alemão Anão" },
-  { label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",  href: "/filhote-de-spitz-alemao",   desc: "Como escolher e cuidar" },
   { label: "Spitz Alemão (Lulu da Pomerânia) Branco",      href: "/spitz-alemao-branco",       desc: "Diferenças do creme claro" },
   { label: "Spitz Alemão (Lulu da Pomerânia) Preto",       href: "/spitz-alemao-preto",        desc: "Preço e disponibilidade" },
   { label: "Spitz Alemão (Lulu da Pomerânia) Baby Face",   href: "/spitz-alemao-baby-face",    desc: "O que é, riscos e mitos" },
