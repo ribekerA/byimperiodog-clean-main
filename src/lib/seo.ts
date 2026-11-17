@@ -16,6 +16,8 @@ export interface PageMetadataInput {
   description?: string;
   path?: string;
   images?: ImageLike[];
+  /** Mantido na interface para chamadas legadas; não emite meta-keywords. */
+  keywords?: string[];
   robots?: Metadata["robots"];
   openGraph?: Metadata["openGraph"];
   twitter?: Metadata["twitter"];
