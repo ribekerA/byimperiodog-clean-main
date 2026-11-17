@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import FaixaDePrecoDaVitrine from "@/components/catalog/FaixaDePrecoDaVitrine";
 import VitrineFilhotes from "@/components/catalog/VitrineFilhotes";
 import { SearchTopicDirectory } from "@/components/common/SearchTopicDirectory";
 import { puppiesPublicados } from "@/content/puppies-static";
@@ -82,7 +83,7 @@ export default function FilhotesPage() {
       <script id="ld-item-list"  type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }} />
       <script id="ld-breadcrumb" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
 
-      <VitrineFilhotes puppies={puppiesPublicados as any[]} />
+      <VitrineFilhotes puppies={puppiesPublicados as any[]} faixaDePreco={<FaixaDePrecoDaVitrine />} />
 
       <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-8">
         <SearchTopicDirectory clusters={["compra", "escolha"]} currentPath="/filhotes" />

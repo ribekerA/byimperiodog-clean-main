@@ -107,7 +107,7 @@
 body.tema-verde { background-image: radial-gradient(120% 900px at 50% 0, #0b4a2b 0%, transparent 70%); }
 
 /* Títulos: a serifada dourada do mockup. A composição da home e o cartão têm os seus. */
-.tema-verde :is(h1, h2):not(.hm *, .vt *, .cartao-filhote *, .tema-claro *) { font-family: var(--font-display); color: var(--accent-ink); }
+.tema-verde :is(h1, h2):not(.hm *, .vt *, .vp *, .cartao-filhote *, .tema-claro *) { font-family: var(--font-display); color: var(--accent-ink); }
 
 /* Sobre preenchimento claro tudo volta ao original: o cartão creme, os avisos e
    os botões dourados não invertem. Os painéis pastel (rosa, azul, âmbar...) viram
@@ -634,9 +634,15 @@ body.admin-shell [data-site-shell="cta"] {
   background: linear-gradient(90deg, #04200f 0%, rgba(4, 32, 15, 0.94) 30%, rgba(4, 32, 15, 0.55) 40%, rgba(4, 32, 15, 0) 47%);
 }
 /* No computador o texto continua ao lado do filhote, como no desenho: a composição
-   inteira cresce até 1229 px, sem passar da altura da tela (92 px são o cabeçalho). */
+   inteira cresce até 1229 px. Até 17/11/2026 ela ocupava a tela toda (fator 1.7067)
+   e o primeiro filhote começava em y = 1.140 numa tela de 1366×800, abaixo da dobra
+   da página que recebe os anúncios. Com o fator 0.88 o topo fica com ~metade da
+   altura útil e a primeira fileira de cartões aparece sem rolar (auditoria de UX).
+   Com a faixa de preço embaixo do topo (crítica de design, também de 17/11/2026),
+   o fator desceu para 0.75: o topo fica em ~40% da tela de 800 px e a faixa e o
+   começo da vitrine cabem na primeira tela. */
 @media (min-width: 1025px) {
-  .vt > * { --u: calc(min(100cqw, 1229px, (100vh - 92px) * 1.7067) / 1024); }
+  .vt > * { --u: calc(min(100cqw, 1229px, (100vh - 92px) * 0.75) / 1024); }
 }
 /* Quando sobra tela dos dois lados, o corpo do filhote termina na borda da imagem:
    o esmaecido evita um corte reto no meio da página. */
@@ -666,6 +672,35 @@ body.admin-shell [data-site-shell="cta"] {
    a letra em tamanho legível no celular. */
 .vt-titulo-linha { display: flex; align-items: center; gap: calc(14 * var(--u)); }
 .vt-titulo-lulu { font-family: var(--font-display); font-weight: 600; font-size: max(10px, calc(27 * var(--u))); line-height: 1.1; color: #f4dfa8; }
+
+/* Faixa de preço entre o topo e a vitrine (crítica de design de 17/11/2026).
+   Continua o verde do topo para ler como parte dele, não como mais uma seção;
+   no computador fica numa linha só, para não empurrar os cartões para baixo. */
+.vp { background: #04200f; color: #fff; border-top: 1px solid rgba(232, 197, 111, 0.35); }
+.vp-miolo { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 16px; max-width: 1320px; margin-inline: auto; padding: 12px; }
+.vp-titulo { width: 100%; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: 15px; line-height: 1.2; color: #f4dfa8; }
+.vp-lista { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+.vp-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 48px; padding: 6px 8px;
+  border: 1px solid rgba(232, 197, 111, 0.55); border-radius: 12px; text-align: center; line-height: 1.2; color: #fff;
+  transition: background-color 0.15s;
+}
+.vp-item:hover { background: rgba(232, 197, 111, 0.12); }
+.vp-item:focus-visible, .vp-guia:focus-visible { outline: 2px solid #e8c56f; outline-offset: 2px; }
+.vp-rotulo { font-size: 13px; font-weight: 700; color: #e8c56f; }
+.vp-preco { font-size: 13px; }
+.vp-valor { white-space: nowrap; }
+.vp-preco strong { font-size: 16px; font-weight: 700; color: #fff; }
+.vp-guia { display: inline-flex; align-items: center; gap: 2px; min-height: 32px; font-size: 13px; font-weight: 600; color: #f4dfa8; text-decoration: underline; text-underline-offset: 3px; }
+.vp-guia svg { width: 16px; height: 16px; }
+@media (min-width: 1025px) {
+  .vp-miolo { flex-wrap: nowrap; gap: 16px; padding-block: 8px; }
+  .vp-titulo, .vp-item, .vp-guia { flex: none; white-space: nowrap; }
+  .vp-titulo { width: auto; text-align: start; font-size: 17px; }
+  .vp-lista { display: flex; width: auto; gap: 10px; }
+  .vp-item { flex-direction: row; align-items: baseline; gap: 8px; min-height: 44px; padding: 10px 16px; border-radius: 999px; }
+  .vp-rotulo, .vp-preco, .vp-guia { font-size: 14px; }
+}
 
 .vf { container-type: inline-size; padding-block: 18px 28px; color: #0c2a18; background: linear-gradient(180deg, #fdf8ea, #fbf3df 45%, #fdf8ea); }
 .vf-miolo { max-width: 1320px; margin-inline: auto; padding-inline: 12px; }
@@ -698,6 +733,16 @@ body.admin-shell [data-site-shell="cta"] {
 .vf-grade > li { container-type: inline-size; min-width: 0; }
 @container (min-width: 640px) { .vf-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container (min-width: 1024px) { .vf-grade { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+/* Com o topo mais baixo no computador, o título desta seção (46 px) ficava maior
+   que o H1 do topo. Título menor e pilares em linha também sobem a vitrine ~50 px. */
+@media (min-width: 1025px) {
+  .vf { padding-block-start: 16px; }
+  .vf-titulo { font-size: 34px; }
+  .vf-subtitulo { font-size: 16px; }
+  .vf-pilares { margin-top: 10px; }
+  .vf-pilares > li { flex-direction: row; justify-content: center; gap: 8px; padding: 8px 6px; }
+  .vf-pilares svg { width: 20px; height: 20px; }
+}
 
 .vc { display: flex; flex-direction: column; gap: clamp(5px, 3cqw, 12px); height: 100%; padding: clamp(5px, 3cqw, 12px); border: 1px solid #e3c98a; border-radius: clamp(12px, 7cqw, 20px); background: #fffaf0; box-shadow: 0 2px 8px rgba(90, 66, 16, 0.12); }
 .vc-corpo { display: grid; grid-template-columns: minmax(0, 50fr) minmax(0, 50fr); gap: clamp(5px, 3cqw, 12px); flex: 1; }

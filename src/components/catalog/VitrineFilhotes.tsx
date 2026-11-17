@@ -2,7 +2,7 @@
 
 import { Award, ChevronRight, FileText, Headset, Heart, ShieldCheck } from "lucide-react";
 import { useMemo, useState } from "react";
-import type { ComponentType, SVGProps } from "react";
+import type { ComponentType, ReactNode, SVGProps } from "react";
 
 import { PataIcon } from "@/components/icons/PataIcon";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
@@ -64,7 +64,9 @@ const linkDoPe = buildWhatsAppLink({
   utmCampaign: "filhotes",
 });
 
-export default function VitrineFilhotes({ puppies }: { puppies: Filhote[] }) {
+// `faixaDePreco` chega pronta do servidor (FaixaDePrecoDaVitrine): assim a tabela
+// de preços não entra no pacote do navegador.
+export default function VitrineFilhotes({ puppies, faixaDePreco }: { puppies: Filhote[]; faixaDePreco?: ReactNode }) {
   const [filtroCor, setFiltroCor] = useState("");
   const [filtroSexo, setFiltroSexo] = useState("");
 
@@ -107,6 +109,7 @@ export default function VitrineFilhotes({ puppies }: { puppies: Filhote[] }) {
   return (
     <>
       <VitrineTopo />
+      {faixaDePreco}
 
       <section className="vf tema-claro">
         <div className="vf-miolo">
