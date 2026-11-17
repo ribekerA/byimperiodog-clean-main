@@ -82,7 +82,7 @@ export default function Footer() {
           <path d="M1 12C45 3 110 1 164 2C110 4 55 7 1 12Z" fill="#d6a748" />
         </svg>
         <p className="rp-convite">
-          Conversa sem pressão. Apresento os disponíveis, respondo suas dúvidas e ajudo você a escolher com calma.
+          Conversa sem pressão. Apresentamos as opções atuais, respondemos às dúvidas e ajudamos você a escolher com calma.
         </p>
         {/* O aria-label precisa começar pelo texto visível: por WCAG 2.5.3,
             quem navega por voz fala o que lê na tela. O antigo ("Conversar no
@@ -116,7 +116,7 @@ export default function Footer() {
           </p>
           <address>
             <a href={`mailto:contato@byimperiodog.com.br`}>contato@byimperiodog.com.br</a>
-            <a href={whatsapp} target="_blank" rel="noreferrer">(11) 9 6863-3239</a>
+            <a href={whatsapp} target="_blank" rel="noreferrer">(11) 96863-3239</a>
           </address>
           <div className="rp-google">
             <a href={GOOGLE_MAPS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
