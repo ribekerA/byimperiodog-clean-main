@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   const name = 'By Império Dog';
-  const short_name = 'Imperio Dog';
+  const short_name = 'Império Dog';
   const theme_color = '#052e2b';
   const background_color = '#ffffff';
 

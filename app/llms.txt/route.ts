@@ -84,8 +84,9 @@ export async function GET() {
     "",
     "## Catálogo",
     "",
-    linha("Vitrine de filhotes", "/filhotes", "fotos e preços de cada filhote"),
-    linha("Filhotes e valores", "/filhotes", `fotos, disponibilidade e valores a partir de ${min} nos machos e ${max} nas fêmeas, no PIX`),
+    // Uma linha só para /filhotes. Havia duas, e a segunda prometia
+    // "disponibilidade", que a vitrine não mostra: quem confirma é o atendimento.
+    linha("Vitrine de filhotes", "/filhotes", `fotos dos filhotes e valores a partir de ${min} nos machos e ${max} nas fêmeas, no PIX`),
     linha("Como comprar", "/comprar-spitz-anao", "passo a passo da reserva até a entrega"),
     linha("Reservar", "/reserve-seu-filhote", "formulário de reserva"),
     linha("Ninhadas", "/ninhadas", "ninhadas atuais e previstas"),
