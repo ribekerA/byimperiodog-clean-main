@@ -41,7 +41,7 @@ const RACA_ITEMS = [
   { label: "Spitz Alemão (Lulu da Pomerânia) Baby Face", href: "/spitz-alemao-baby-face" },
   { label: "Ninhadas", href: "/ninhadas" },
   { label: "Como Comprar", href: "/comprar-spitz-anao" },
-  { label: "Entrega em todo o Brasil", href: "/blog/spitz-alemao-anao-entrega-brasil" },
+  { label: "Retirada ou entrega", href: "/contato" },
 ];
 
 const SUPPORT_ITEMS = [
@@ -110,7 +110,7 @@ export default function Footer() {
           <Link href={routes.home} className="rp-logo">
             <Image src="/images/home/coroa.webp" alt="" width={230} height={148} unoptimized loading="lazy" />
             <span>
-              <span className="rp-logo-nome">By Imperio Dog<sup>®</sup></span>{" "}
+              <span className="rp-logo-nome">By Imperio Dog</span>{" "}
               <span className="rp-logo-lema">Sementinhas de Amor</span>
             </span>
           </Link>
