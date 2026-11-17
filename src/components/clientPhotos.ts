@@ -7,11 +7,6 @@ const CLIENT_PHOTOS: readonly ClientPhoto[] = [
     "height": 1738
   },
   {
-    "src": "/clientes/jeeh-souza-theo-2.webp",
-    "width": 978,
-    "height": 1738
-  },
-  {
     "src": "/clientes/emily-pompom.jpg",
     "width": 718,
     "height": 1236

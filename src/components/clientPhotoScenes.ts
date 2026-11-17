@@ -55,7 +55,6 @@ const CENAS: Record<string, ClientPhotoScene> = {
   "cliente8-byimperiodog.jpeg": { cores: ["preto"], caes: 1 },
   "cliente9-byimperiodog.jpeg": { cores: ["laranja"], caes: 1 },
   "fernanda.jpeg": { cores: ["laranja"], caes: 1 },
-  "jeeh-souza-theo-2.webp": { cores: ["preto"], caes: 1 },
   "jeeh-souza-theo.webp": { cores: ["laranja", "preto"], caes: 2 },
   "joao.jpeg": { cores: ["laranja"], caes: 2 },
   "livia.jpeg": { cores: ["preto"], caes: 1 },

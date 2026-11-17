@@ -16,7 +16,7 @@ import sharp from 'sharp';
 const LARGURA_PADRAO = 1000;
 const ALTURA_PADRAO = 1250;
 // Fotos recém-enviadas: aparecem na primeira seleção do álbum, nesta ordem.
-const PRIMEIRAS = ['jeeh-souza-theo.webp', 'jeeh-souza-theo-2.webp', 'emily-pompom.jpg'];
+const PRIMEIRAS = ['jeeh-souza-theo.webp', 'emily-pompom.jpg'];
 const ordem = (n) => { const i = PRIMEIRAS.indexOf(n); return i === -1 ? PRIMEIRAS.length : i; };
 
 async function main() {
