@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ComponentProps } from "react";
 
+import AvisoDeNinhada from "@/components/catalog/AvisoDeNinhada";
 import PuppyCinematicGallery from "@/components/catalog/PuppyCinematicGallery";
 import {
   ClientOnlyPuppyReviews,
@@ -308,6 +309,8 @@ export default async function PuppyPage(props: Props) {
             </div>
           </section>
         )}
+
+        <AvisoDeNinhada className="mt-12" cor={colorSlug} sexo={sexSlug} origem="filhote" />
 
         <div className="mt-12">
           <RelatedPages links={[

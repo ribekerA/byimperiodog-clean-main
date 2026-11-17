@@ -16,6 +16,7 @@ import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-mot
 import Link from "next/link";
 import { type ComponentProps, useRef, useState } from "react";
 
+import AvisoDeNinhada from "@/components/catalog/AvisoDeNinhada";
 import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
@@ -732,6 +733,10 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
           )}
         </div>
       </section>
+
+      <div className="mx-auto max-w-3xl px-5 pb-14 sm:px-8">
+        <AvisoDeNinhada cor={color} origem="cor" />
+      </div>
 
       {/* ── 4. COLOR NAV ──────────────────────────────────────────────────────── */}
       <section className="bg-zinc-50 py-14" aria-label="Navegar por cor">

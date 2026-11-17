@@ -8,6 +8,7 @@ import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { matchesCatalogQuery, parseCatalogQuery } from "@/lib/catalog-query";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
+import AvisoDeNinhada from "./AvisoDeNinhada";
 import StaticPuppyCard from "./StaticPuppyCard";
 
 type AnyPuppy = {
@@ -242,6 +243,8 @@ export default function StaticCatalog({ puppies }: Props) {
 
       {/* Faixa de avaliacoes do pe da referencia. Depois da grade, como no
           desenho — e depois do aviso de estoque, nao antes dele. */}
+      <AvisoDeNinhada className="mt-12" cor={filterColor} sexo={filterSex} origem="regional" />
+
       <AvaliacoesRotativas className="mt-12" />
     </section>
   );

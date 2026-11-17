@@ -10,6 +10,7 @@ import AvaliacoesRotativas from "@/components/reviews/AvaliacoesRotativas";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
+import AvisoDeNinhada from "./AvisoDeNinhada";
 import CartaoDaVitrine from "./CartaoDaVitrine";
 import VitrineTopo from "./VitrineTopo";
 
@@ -219,6 +220,8 @@ export default function VitrineFilhotes({ puppies }: { puppies: Filhote[] }) {
       </section>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Quem olhou a vitrine e não chamou agora deixa o contato para a próxima ninhada. */}
+        <AvisoDeNinhada className="mt-10" cor={filtroCor} sexo={filtroSexo} origem="vitrine" />
         <AvaliacoesRotativas className="mt-10" />
       </div>
     </>

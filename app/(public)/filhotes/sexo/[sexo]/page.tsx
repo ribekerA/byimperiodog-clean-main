@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ComponentProps } from "react";
 
+import AvisoDeNinhada from "@/components/catalog/AvisoDeNinhada";
 import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { ALL_SEXES, getPuppiesBySex, SEX_SEO } from "@/lib/catalog-utils";
@@ -154,6 +155,8 @@ export default async function SexLandingPage(props: Props) {
             </div>
           )}
         </section>
+
+        <AvisoDeNinhada className="mt-14" sexo={params.sexo} origem="sexo" />
 
         {/* FAQ */}
         <section className="mt-20" aria-labelledby="faq-heading">

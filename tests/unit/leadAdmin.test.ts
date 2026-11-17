@@ -127,7 +127,7 @@ describe("filtros da lista de leads", () => {
   it("limpa da busca o que quebraria o filtro do banco", () => {
     expect(sanitizeLeadSearch("Ana, (teste)*%")).toBe("Ana teste");
     expect(sanitizeLeadSearch("   ")).toBeUndefined();
-    expect(leadSearchOrFilter("Ana")).toBe("nome.ilike.*Ana*,telefone.ilike.*Ana*,phone.ilike.*Ana*");
+    expect(leadSearchOrFilter("Ana")).toBe("nome.ilike.*Ana*,telefone.ilike.*Ana*,phone.ilike.*Ana*,mensagem.ilike.*Ana*");
   });
 
   it("monta o endereço sem página 1 nem filtro vazio", () => {

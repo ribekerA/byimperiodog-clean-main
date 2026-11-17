@@ -221,11 +221,11 @@ export function sanitizeLeadSearch(value: unknown): string | undefined {
   return cleaned || undefined;
 }
 
-/** Filtro `or` da busca: nome ou telefone (nas duas colunas em que o telefone pode estar). */
+/** Filtro `or` da busca: nome, telefone (nas duas colunas em que ele pode estar) ou mensagem — "ninhada" acha a lista do aviso de ninhada. */
 export function leadSearchOrFilter(search: string): string {
   // O banco aceita * como curinga no endereco; foi a forma conferida em producao.
   const pattern = `*${search}*`;
-  return `nome.ilike.${pattern},telefone.ilike.${pattern},phone.ilike.${pattern}`;
+  return `nome.ilike.${pattern},telefone.ilike.${pattern},phone.ilike.${pattern},mensagem.ilike.${pattern}`;
 }
 
 export function parseLeadFilters(searchParams: SearchParams): { filters: ParsedLeadFilters; page: number } {
