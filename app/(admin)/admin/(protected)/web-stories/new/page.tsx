@@ -19,7 +19,7 @@ export default function NewWebStoryPage() {
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
-    publisher: "By Império Dog",
+    publisher: "By Imperio Dog",
     poster_url: "",
     logo_url: "/logo.png",
     status: "draft" as "draft" | "published",
@@ -171,7 +171,7 @@ export default function NewWebStoryPage() {
                   required
                   value={formData.publisher}
                   onChange={(e) => setFormData({ ...formData, publisher: e.target.value })}
-                  placeholder="By Império Dog"
+                  placeholder="By Imperio Dog"
                   className="mt-1 w-full rounded-lg border border-[var(--border)] bg-[var(--surface-2)] px-4 py-2 text-sm text-[var(--text)] focus:border-[var(--brand)] focus:outline-none focus:ring-2 focus:ring-[var(--brand-ring)]"
                 />
               </div>

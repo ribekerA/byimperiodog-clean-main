@@ -1,6 +1,6 @@
 /**
  * Validadores para IDs de tracking (pixels e analytics)
- * By Império Dog - Sistema de Pixels/Analytics
+ * By Imperio Dog - Sistema de Pixels/Analytics
  */
 
 import type { ValidationResult } from '@/types/tracking';

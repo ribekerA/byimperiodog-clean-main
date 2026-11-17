@@ -1,4 +1,4 @@
-const FROM_ADDRESS = process.env.RESEND_FROM || "By Império Dog <noreply@byimperiodog.com.br>";
+const FROM_ADDRESS = process.env.RESEND_FROM || "By Imperio Dog <noreply@byimperiodog.com.br>";
 const WA_PHONE    = (process.env.NEXT_PUBLIC_WA_PHONE || "5511968633239").replace(/\D/g, "");
 
 export interface LeadAutoResponseParams {
@@ -13,7 +13,7 @@ export interface LeadAutoResponseParams {
 function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
   const firstName  = (p.name || "").split(" ")[0] || "olá";
   const desired    = [p.color, p.sex === "femea" ? "fêmea" : p.sex === "macho" ? "macho" : null].filter(Boolean).join(" · ");
-  const waMessage  = encodeURIComponent(`Olá ${firstName}! Somos da By Império Dog. Recebemos seu interesse${desired ? ` (${desired})` : ""}. Posso te mandar fotos e vídeos agora?`);
+  const waMessage  = encodeURIComponent(`Olá ${firstName}! Somos da By Imperio Dog. Recebemos seu interesse${desired ? ` (${desired})` : ""}. Posso te mandar fotos e vídeos agora?`);
   const waUrl      = `https://wa.me/${WA_PHONE}?text=${waMessage}`;
 
   return `<!DOCTYPE html>
@@ -23,7 +23,7 @@ function buildLeadEmailHtml(p: LeadAutoResponseParams): string {
   <div style="max-width:520px;margin:32px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08);">
     <div style="background:linear-gradient(135deg,#052e2b,#0d5c49);padding:32px 24px;text-align:center;">
       <p style="margin:0;font-size:28px;">🐾</p>
-      <h1 style="margin:8px 0 0;color:#fff;font-size:22px;font-weight:700;">By Império Dog</h1>
+      <h1 style="margin:8px 0 0;color:#fff;font-size:22px;font-weight:700;">By Imperio Dog</h1>
       <p style="margin:4px 0 0;color:rgba(255,255,255,.7);font-size:13px;">Spitz Alemão Anão (Lulu da Pomerânia) · Criação Premium</p>
     </div>
 

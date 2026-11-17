@@ -19,13 +19,13 @@ describe("mensagens sugeridas de WhatsApp", () => {
 
   it.each([...withPuppy, ...withoutPuppy])("cita a raça com Lulu da Pomerânia e se apresenta: %s", (text) => {
     expect(text).toContain("Spitz Alemão (Lulu da Pomerânia)");
-    expect(text).toContain("By Império Dog");
+    expect(text).toContain("By Imperio Dog");
     expect(text).not.toMatch(/\b(voce|Ola|esta disponivel)\b/);
   });
 
   it("usa o nome, a cor e o filhote sugerido", () => {
     expect(withPuppy[0]).toBe(
-      "Oi Ana! Aqui é da By Império Dog. Vi seu interesse em um Spitz Alemão (Lulu da Pomerânia) na cor laranja. Posso te mandar fotos do Thor agora?",
+      "Oi Ana! Aqui é da By Imperio Dog. Vi seu interesse em um Spitz Alemão (Lulu da Pomerânia) na cor laranja. Posso te mandar fotos do Thor agora?",
     );
     expect(withPuppy[2]).toContain("O Thor, nosso Spitz Alemão (Lulu da Pomerânia), combina");
     expect(withPuppy[3]).toContain("interesse no Spitz Alemão (Lulu da Pomerânia) laranja.");

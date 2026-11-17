@@ -1,4 +1,4 @@
-# Arquitetura de Tracking & Pixels (By Império Dog)
+# Arquitetura de Tracking & Pixels (By Imperio Dog)
 
 ## 1. Tabelas (Supabase)
 

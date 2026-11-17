@@ -99,7 +99,7 @@ export async function POST(req: NextRequest, props: { params: Promise<{ id: stri
   let zapDoc;
   try {
     zapDoc = await createZapSignDocument({
-      name:        `Contrato ${contract.code} — By Império Dog`,
+      name:        `Contrato ${contract.code} — By Imperio Dog`,
       base64_pdf:  base64Pdf,
       external_id: contract.code,
       webhook_url: `${BASE_URL}/api/webhooks/zapsign`,

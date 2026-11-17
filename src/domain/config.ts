@@ -58,11 +58,11 @@ export function yearsOfExperience(now: Date = new Date()): number {
 }
 
 /**
- * Informações da marca By Império Dog
+ * Informações da marca By Imperio Dog
  */
 export const BRAND = {
-  name: "By Império Dog",
-  legalName: "By Império Dog Criação de Spitz Alemão",
+  name: "By Imperio Dog",
+  legalName: "By Imperio Dog Criação de Spitz Alemão",
   slogan: "Criadora especializada em Spitz Alemão Anão (Lulu da Pomerânia)",
 
   // Localização sede
@@ -100,9 +100,9 @@ export const BRAND = {
    * demais redes devem voltar somente depois da confirmacao das URLs oficiais.
    */
   schema: {
-    alternateNames: ["Canil By Império Dog", "Império Dog"],
+    alternateNames: ["Canil By Imperio Dog", "Imperio Dog"],
     description:
-      `By Império Dog, em Bragança Paulista, SP, especializada em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Filhotes vacinados e vermifugados, com consulta veterinária, hemograma completo e pedigree.`,
+      `By Imperio Dog, em Bragança Paulista, SP, especializada em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Filhotes vacinados e vermifugados, com consulta veterinária, hemograma completo e pedigree.`,
     knowsAbout: [
       "Spitz Alemão Anão",
       "Lulu da Pomerânia",

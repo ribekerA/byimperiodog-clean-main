@@ -1,6 +1,6 @@
 /**
  * Testes de integração para API de tracking
- * By Império Dog - Sistema de Pixels/Analytics
+ * By Imperio Dog - Sistema de Pixels/Analytics
  */
 
 import { describe, it, expect } from 'vitest';

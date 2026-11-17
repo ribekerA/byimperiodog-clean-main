@@ -1,4 +1,4 @@
-# 📊 Análise Completa do Site - By Império Dog
+# 📊 Análise Completa do Site - By Imperio Dog
 
 **Data:** 1 de dezembro de 2025  
 **Versão Next.js:** 14.2.4  
@@ -95,7 +95,7 @@
 #### Meta Tags Dinâmicas
 ```tsx
 export const metadata: Metadata = {
-  title: "Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog",
+  title: "Spitz Alemão Anão (Lulu da Pomerânia) | By Imperio Dog",
   description: "...",
   alternates: { canonical: "/" },
   openGraph: { type: "website", url: "/", ... }
@@ -461,7 +461,7 @@ async headers() {
 
 **Nota Geral:** ⭐⭐⭐⭐☆ (4/5)
 
-O site **By Império Dog** apresenta uma **base sólida** em performance, SEO e design system. As principais conquistas incluem:
+O site **By Imperio Dog** apresenta uma **base sólida** em performance, SEO e design system. As principais conquistas incluem:
 
 - ✅ Arquitetura Next.js 14 moderna com App Router
 - ✅ SEO robusto com JSON-LD e meta tags dinâmicas

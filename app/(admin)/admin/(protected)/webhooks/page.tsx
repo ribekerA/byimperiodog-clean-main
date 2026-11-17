@@ -1,6 +1,6 @@
 /**
  * Página Admin - Webhooks
- * By Império Dog - Gerenciamento de Webhooks
+ * By Imperio Dog - Gerenciamento de Webhooks
  */
 
 'use client';

@@ -223,7 +223,7 @@ export default function FilhotesMinasGeraisPage() {
               que aquele filhote encontra a família dele. */}
           <h2 className="mb-4 text-center text-3xl font-bold text-[var(--text)]">Vitrine de filhotes</h2>
           <p className="mb-8 text-center text-sm text-[var(--text-muted)]">
-            Fotos reais das cores e dos sexos com que a By Império Dog trabalha.{" "}
+            Fotos reais das cores e dos sexos com que a By Imperio Dog trabalha.{" "}
             <span className="font-medium text-[var(--text)]">Consulte as opções atuais pelo WhatsApp.</span>
           </p>
           {/* PuppiesGrid busca o catálogo no Supabase pelo navegador, então o

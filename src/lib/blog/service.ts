@@ -120,7 +120,7 @@ export async function getPostBySlug(slug: string, opts?: { includeDraft?: boolea
 }
 
 export function buildSeoTitle(post: BlogPost) {
-  return post.seo_title || `${post.title} | Blog By Império Dog`;
+  return post.seo_title || `${post.title} | Blog By Imperio Dog`;
 }
 
 export function buildSeoDescription(post: BlogPost) {

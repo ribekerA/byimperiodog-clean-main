@@ -47,7 +47,7 @@ Consulte um veterinário, mantenha o esquema de vacinas e avalie vermifugação.
 
 Com amor, rotina e atenção, seu filhote de ${breed} crescerá saudável e feliz.`;
   const og_image_url = `/api/og?title=${encodeURIComponent(title)}`;
-  const seo_title = `${title} — By Império Dog`;
+  const seo_title = `${title} — By Imperio Dog`;
   const seo_description = excerpt;
   const suggested_ctas = [
     "Conheça nossos filhotes disponíveis",
@@ -101,7 +101,7 @@ Inclua título, um excerpt curto e conteúdo estruturado com headings (Introduç
     const og_image_url = `/api/og?title=${encodeURIComponent(title)}`;
 
     // lightweight SEO heuristics
-    const seo_title = `${title} — By Império Dog`;
+    const seo_title = `${title} — By Imperio Dog`;
     const seo_description = excerpt || content_mdx.slice(0, 150).replace(/\n/g, ' ');
     // default CTAs and links (OpenAI may include better ones in a JSON block but we fallback)
     const suggested_ctas = ["Conheça nossos filhotes disponíveis", "Agende uma visita"];

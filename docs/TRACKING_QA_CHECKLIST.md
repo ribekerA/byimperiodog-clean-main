@@ -1,6 +1,6 @@
 # Checklist de QA - Sistema de Tracking (Pixels & Analytics)
 
-> By Império Dog - Sistema de Pixels/Analytics  
+> By Imperio Dog - Sistema de Pixels/Analytics  
 > Data: 28 de novembro de 2025
 
 ## 📋 Checklist de Testes
@@ -371,4 +371,4 @@ https://ads.pinterest.com/conversion_tags/
 
 **Status:** ✅ Implementação Completa  
 **Última Atualização:** 28 de novembro de 2025  
-**Desenvolvedor:** By Império Dog
+**Desenvolvedor:** By Imperio Dog

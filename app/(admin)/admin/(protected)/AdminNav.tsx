@@ -208,18 +208,18 @@ function Marca({ environment, compacta = false }: { environment: string; compact
     <Link
       href="/admin/dashboard"
       className="flex min-w-0 items-center gap-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--brand)]"
-      title="By Império Dog · Painel"
+      title="By Imperio Dog · Painel"
     >
       <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--brand)] text-white shadow-sm">
         <PawPrint className="h-5 w-5" aria-hidden />
       </span>
       {!compacta ? (
         <span className="min-w-0">
-          <span className="block truncate text-sm font-bold text-[var(--text)]">By Império Dog</span>
+          <span className="block truncate text-sm font-bold text-[var(--text)]">By Imperio Dog</span>
           <span className="block truncate text-xs text-[var(--text-muted)]">Painel · {environment}</span>
         </span>
       ) : (
-        <span className="sr-only">By Império Dog</span>
+        <span className="sr-only">By Imperio Dog</span>
       )}
     </Link>
   );

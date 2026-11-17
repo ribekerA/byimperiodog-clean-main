@@ -1,6 +1,6 @@
 # Integração do site com o Perfil da Empresa no Google
 
-Auditoria realizada em 27/08/2026 no perfil administrado pela By Império Dog.
+Auditoria realizada em 27/08/2026 no perfil administrado pela By Imperio Dog.
 
 ## Identidade confirmada
 

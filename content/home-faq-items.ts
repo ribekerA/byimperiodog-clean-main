@@ -36,7 +36,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Qual melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista e interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis, e desconfie de quem se anuncia como o melhor. O que dá para comparar é objetivo: registro oficial, contrato por escrito, acompanhamento veterinário e o que o criador apresenta antes do pagamento. A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
+      `Não existe um ranking oficial de canis, e desconfie de quem se anuncia como o melhor. O que dá para comparar é objetivo: registro oficial, contrato por escrito, acompanhamento veterinário e o que o criador apresenta antes do pagamento. A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
   },
   {
     question: "Qual a diferença entre Spitz Alemão Anão e Lulu da Pomerânia?",
@@ -57,7 +57,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Quais documentos acompanham o filhote?",
     answer:
-      "Todo filhote da By Império Dog sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), consulta veterinária antes da entrega, hemograma completo, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, histórico de vermifugação e contrato de responsabilidade compartilhada. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda diretamente com a criadora via WhatsApp.",
+      "Todo filhote da By Imperio Dog sai com: registro oficial incluso (emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato), consulta veterinária antes da entrega, hemograma completo, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote e orientação para as doses seguintes, histórico de vermifugação e contrato de responsabilidade compartilhada. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Além disso, o tutor recebe acesso à mentoria pós-venda diretamente com a criadora via WhatsApp.",
   },
   {
     question: "Por quanto tempo tenho suporte após receber o filhote?",

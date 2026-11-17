@@ -131,8 +131,8 @@ export const runtime = "nodejs";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "By Império Dog",
-    short_name: "By Império Dog",
+    name: "By Imperio Dog",
+    short_name: "By Imperio Dog",
     icons: [
       { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
       { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png" }

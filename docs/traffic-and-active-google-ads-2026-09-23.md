@@ -121,21 +121,21 @@ Todos abaixo estavam com campanha, grupo e anúncio habilitados, `ELIGIBLE`, apr
 
 - Orçamento: R$ 10/dia.
 - Destino: `https://byimperiodog.com.br/filhotes/spitz-alemao-anao-branco-femea`.
-- Títulos: Spitz Alemão Branco Fêmea; Comprar Spitz Branco Fêmea; Fêmea Branca Disponível; Lulu da Pomerânia Fêmea; Em Bragança Paulista; By Império Dog; Registro Oficial Incluso; Saúde Documentada; Mentoria Vitalícia; Veja Fotos Reais da Fêmea; Fale Direto com a Criadora; Visitas com Agendamento; Entrega Assistida no Brasil; Protocolo Vacinal em Dia; Consulte a Disponibilidade.
+- Títulos: Spitz Alemão Branco Fêmea; Comprar Spitz Branco Fêmea; Fêmea Branca Disponível; Lulu da Pomerânia Fêmea; Em Bragança Paulista; By Imperio Dog; Registro Oficial Incluso; Saúde Documentada; Mentoria Vitalícia; Veja Fotos Reais da Fêmea; Fale Direto com a Criadora; Visitas com Agendamento; Entrega Assistida no Brasil; Protocolo Vacinal em Dia; Consulte a Disponibilidade.
 - Descrições: “Spitz Alemão Branco Fêmea em Bragança Paulista. Veja fotos reais e disponibilidade.”; “Registro oficial, laudos veterinários e protocolo vacinal em dia conforme a idade.”; “Fale diretamente com a criadora pelo WhatsApp e agende uma visita ou videochamada.”; “Conheça a filhote, condições de reserva e entrega assistida para todo o Brasil.”
 
 ### Pesquisa | Canil Spitz Alemão
 
 - Orçamento: R$ 10/dia.
 - Destino: `https://byimperiodog.com.br/filhotes`.
-- Títulos: Canil Spitz Alemão; Spitz Alemão Anão; Lulu da Pomerânia; Filhotes Disponíveis; Bragança Paulista - SP; By Império Dog | Desde 2013; Pedigree Oficial; Consulta e Hemograma; Veja Fotos e Vídeos; Fale Pelo WhatsApp; Machos e Fêmeas; Branco, Creme, Preto e Laranja; Saúde Documentada; Suporte Após a Entrega; Entrega Assistida no Brasil.
+- Títulos: Canil Spitz Alemão; Spitz Alemão Anão; Lulu da Pomerânia; Filhotes Disponíveis; Bragança Paulista - SP; By Imperio Dog | Desde 2013; Pedigree Oficial; Consulta e Hemograma; Veja Fotos e Vídeos; Fale Pelo WhatsApp; Machos e Fêmeas; Branco, Creme, Preto e Laranja; Saúde Documentada; Suporte Após a Entrega; Entrega Assistida no Brasil.
 - Descrições: “Spitz Alemão Anão em Bragança Paulista. Veja fotos reais e opções disponíveis.”; “Machos e fêmeas com registro oficial, consulta veterinária e hemograma completo.”; “Criando desde 2013, com documentação e suporte direto após a entrega.”; “Consulte cores, valores e disponibilidade. Fale diretamente conosco pelo WhatsApp.”
 
 ### Pesquisa | Lulu Fêmea Preta | SP.
 
 - Orçamento: R$ 10/dia.
 - Destino: `https://byimperiodog.com.br/filhotes/spitz-alemao-anao-preto-femea`.
-- Títulos: Lulu da Pomerânia Preta; Spitz Preto Fêmea; Fêmea Preta Disponível; **R$ 8.500 no Pix (INCORRETO: oficial R$ 9.500)**; Spitz Alemão Anão Fêmea; Bragança Paulista - SP; By Império Dog | Desde 2013; Pedigree Oficial; Consulta e Hemograma; Veja Fotos Reais; Registro Oficial Incluso; Saúde Documentada; Mentoria Pós-Venda; Fale com a Criadora; Entrega Assistida no Brasil.
+- Títulos: Lulu da Pomerânia Preta; Spitz Preto Fêmea; Fêmea Preta Disponível; **R$ 8.500 no Pix (INCORRETO: oficial R$ 9.500)**; Spitz Alemão Anão Fêmea; Bragança Paulista - SP; By Imperio Dog | Desde 2013; Pedigree Oficial; Consulta e Hemograma; Veja Fotos Reais; Registro Oficial Incluso; Saúde Documentada; Mentoria Pós-Venda; Fale com a Criadora; Entrega Assistida no Brasil.
 - Descrições: **“Fêmea preta por R$ 8.500 no Pix...” (INCORRETO: oficial R$ 9.500)**; “Disponível em Bragança Paulista. Veja fotos reais e fale conosco pelo WhatsApp.”; “Protocolo vacinal em dia conforme a idade e suporte direto após a entrega.”; “Agende uma visita ou videochamada e consulte as condições de reserva e entrega.”
 
 ## Qualidade das palavras-chave

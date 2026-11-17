@@ -131,7 +131,7 @@ function buildMessages(input: LeadAdvisorInput, compatibility: AdvisorCompatibil
   const cityLine = input.city
     ? ` Atendemos ${input.city}: a retirada é em Bragança Paulista (SP) ou por transporte especializado.`
     : " Atendemos famílias de todo o Brasil.";
-  const intro = "Aqui é da By Império Dog.";
+  const intro = "Aqui é da By Imperio Dog.";
   const interest = `Vi seu interesse em um ${BREED}${contextColor}`;
 
   return [
@@ -225,7 +225,7 @@ function buildLossPrevention(input: LeadAdvisorInput, status: AdvisorStatus): Ad
   const hoursSinceUpdate = diffInHours(input.updatedAt ?? input.createdAt);
   const isCold = hoursSinceUpdate >= HOURS_48 && status.suggestion !== "fechado" && status.suggestion !== "perdido";
   const summary = isCold ? `Lead sem atualização há ${hoursSinceUpdate} h.` : "Atualizado há menos de 48 h.";
-  const reactivationMessage = `Oi ${toFirstName(input.name) || "tudo bem"}! Aqui é da By Império Dog. Passando para saber se você ainda tem interesse no ${BREED}${input.preferredColor ? ` ${input.preferredColor}` : ""}. Posso te enviar a disponibilidade atual?`;
+  const reactivationMessage = `Oi ${toFirstName(input.name) || "tudo bem"}! Aqui é da By Imperio Dog. Passando para saber se você ainda tem interesse no ${BREED}${input.preferredColor ? ` ${input.preferredColor}` : ""}. Posso te enviar a disponibilidade atual?`;
   return { isCold, hoursSinceUpdate, summary, reactivationMessage };
 }
 

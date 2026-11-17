@@ -52,7 +52,7 @@ export default function PoliticaEditorialPage() {
       <section className="prose prose-zinc max-w-none dark:prose-invert">
         <h2>Quem escreve</h2>
         <p>
-          Os conteúdos são produzidos com apoio de ferramentas de tecnologia e revisados pela equipe da By Império Dog antes
+          Os conteúdos são produzidos com apoio de ferramentas de tecnologia e revisados pela equipe da By Imperio Dog antes
           da publicação, com base na experiência prática da criação responsável do Spitz Alemão Anão (Lulu da Pomerânia). Quando aplicável,
           citamos profissionais especializados (veterinária, adestramento, genética).
         </p>
@@ -82,7 +82,7 @@ export default function PoliticaEditorialPage() {
         <h2>Uso de IA e automação</h2>
         <p>
           Usamos ferramentas de IA como apoio na produção editorial (por exemplo: estruturação de pautas, redação de
-          rascunhos, revisão de clareza e checagem gramatical). Os textos passam por revisão da equipe da By Império Dog
+          rascunhos, revisão de clareza e checagem gramatical). Os textos passam por revisão da equipe da By Imperio Dog
           antes da publicação e devem refletir a experiência prática do canil. Não publicamos material gerado
           automaticamente com o objetivo de manipular rankings de busca.
         </p>

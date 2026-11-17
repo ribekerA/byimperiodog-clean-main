@@ -509,7 +509,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={theme.heroImg}
-                  alt={ilustracao?.alt ?? `${seo.h1} — By Império Dog`}
+                  alt={ilustracao?.alt ?? `${seo.h1} — By Imperio Dog`}
                   className="aspect-[3/4] w-full object-cover"
                   loading="eager"
                 />
@@ -552,7 +552,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 0.6 }}
               >
                 <p className={`text-[10px] font-bold uppercase tracking-wider ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  By Império Dog
+                  By Imperio Dog
                 </p>
                 <p className={`mt-0.5 font-bold text-emerald-600`}>
                   Desde {FOUNDING_YEAR}
@@ -679,7 +679,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             </h2>
             {puppies.length > 0 && (
               <p className="mt-2 text-zinc-500">
-                Fotos reais de filhotes {seo.h1} apresentados pela By Império Dog.{" "}
+                Fotos reais de filhotes {seo.h1} apresentados pela By Imperio Dog.{" "}
                 <span className="font-medium text-zinc-700">
                   Consulte as opções atuais pelo WhatsApp.
                 </span>

@@ -99,7 +99,7 @@ export default async function ContractDocumento(props: { params: Promise<{ code:
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Contrato {contract.code} – By Império Dog</title>
+        <title>Contrato {contract.code} – By Imperio Dog</title>
         <style>{`
           *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
           body { font-family: 'Times New Roman', Times, serif; font-size: 12pt; color: #111; background: #fff; padding: 0; }
@@ -143,7 +143,7 @@ export default async function ContractDocumento(props: { params: Promise<{ code:
           {/* Vendedor */}
           <div className="section-title">Vendedor(a)</div>
           <div className="block grid2">
-            <div className="field"><span className="label">Razão social:</span><span className="value">BY IMPÉRIO DOG</span></div>
+            <div className="field"><span className="label">Razão social:</span><span className="value">BY IMPERIO DOG</span></div>
             <div className="field"><span className="label">CNPJ:</span><span className="value">22.587.478/0001-00</span></div>
             <div className="field"><span className="label">E-mail:</span><span className="value">{BRAND.contact.email}</span></div>
             <div className="field"><span className="label">Instagram:</span><span className="value">@byimperiodog</span></div>
@@ -229,7 +229,7 @@ export default async function ContractDocumento(props: { params: Promise<{ code:
 
           <div className="clause">
             <h3>7. Da Mentoria e Suporte Pós-Entrega</h3>
-            <p>7.1. A By Império Dog se compromete a prestar acompanhamento durante o período de adaptação do filhote (primeiros 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva.</p>
+            <p>7.1. A By Imperio Dog se compromete a prestar acompanhamento durante o período de adaptação do filhote (primeiros 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva.</p>
             <p>7.2. Encerrado esse período, o suporte por WhatsApp diretamente com a criadora permanece disponível ao comprador <strong>pela vida do animal, sem custo adicional</strong>.</p>
           </div>
 
@@ -267,10 +267,10 @@ export default async function ContractDocumento(props: { params: Promise<{ code:
             </div>
             <div className="sig-box">
               <div style={{ height: 80, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ fontSize: "14pt", fontStyle: "italic", color: "#444" }}>By Império Dog</span>
+                <span style={{ fontSize: "14pt", fontStyle: "italic", color: "#444" }}>By Imperio Dog</span>
               </div>
               <div className="sig-name">
-                <strong>BY IMPÉRIO DOG</strong><br />
+                <strong>BY IMPERIO DOG</strong><br />
                 CNPJ: 22.587.478/0001-00
               </div>
             </div>

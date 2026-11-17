@@ -12,7 +12,7 @@ const waHero = buildWhatsAppLink({
   // Dizia "...filhotes de Spitz Alemão Anão disponíveis". O site não sabe o que
   // está disponível — quem sabe é o atendimento, e é exatamente isso que a
   // mensagem passou a perguntar.
-  message: "Olá! Vi o site da By Império Dog e me interessei pelos filhotes de Spitz Alemão Anão (Lulu da Pomerânia). Pode me contar quais são as opções atuais e os valores?",
+  message: "Olá! Vi o site da By Imperio Dog e me interessei pelos filhotes de Spitz Alemão Anão (Lulu da Pomerânia). Pode me contar quais são as opções atuais e os valores?",
   utmSource: "site",
   utmMedium: "video_hero",
   utmCampaign: "hero_cta",

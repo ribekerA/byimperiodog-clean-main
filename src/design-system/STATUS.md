@@ -1,4 +1,4 @@
-# 📊 Status do Design System - By Império Dog
+# 📊 Status do Design System - By Imperio Dog
 
 **Última Atualização:** 01/12/2025 - FASE 2 COMPLETA ✨  
 **Status Geral:** ✅ 7 COMPONENTES MIGRADOS - 87.5% COMPLETO
@@ -7,7 +7,7 @@
 
 ## 🎯 Resumo Executivo
 
-O Design System da By Império Dog foi completamente reestruturado e **aplicado com sucesso** aos componentes principais do produto.
+O Design System da By Imperio Dog foi completamente reestruturado e **aplicado com sucesso** aos componentes principais do produto.
 
 ### Números
 

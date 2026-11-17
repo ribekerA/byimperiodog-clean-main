@@ -22,14 +22,14 @@ export const SEARCH_CLUSTERS: readonly { id: SearchCluster; title: string; descr
   { id: "escolha", title: "Compare cores e sexos", description: "Veja referências de pelagem e os valores de machos e fêmeas. As opções atuais são confirmadas no atendimento." },
   { id: "rotina", title: "O filhote combina com a sua rotina?", description: "Apartamento, crianças, latidos e convivência: perguntas para planejar a vida com o cão." },
   { id: "cuidados", title: "Prepare a chegada e os cuidados", description: "Organize o enxoval e a rotina, com orientação veterinária para as decisões de saúde." },
-  { id: "regiao", title: "Atendimento e transporte", description: "A By Império Dog fica em Bragança Paulista, SP. Consulte como organizar visita, retirada e transporte para sua região." },
+  { id: "regiao", title: "Atendimento e transporte", description: "A By Imperio Dog fica em Bragança Paulista, SP. Consulte como organizar visita, retirada e transporte para sua região." },
 ];
 
 export const SEARCH_TOPICS: readonly SearchTopic[] = [
   {
-    id: "canil", cluster: "compra", href: "/", label: "Canil By Império Dog",
+    id: "canil", cluster: "compra", href: "/", label: "Canil By Imperio Dog",
     description: "Conheça a criação de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista.",
-    queries: ["By Império Dog", "canil Spitz Alemão", "canil Lulu da Pomerânia"],
+    queries: ["By Imperio Dog", "canil Spitz Alemão", "canil Lulu da Pomerânia"],
     supportingPaths: ["/sobre", "/contato"], related: ["criador", "filhotes", "preco"],
   },
   {
@@ -214,7 +214,7 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
   },
   {
     id: "braganca", cluster: "regiao", href: "/lulu-da-pomerania-braganca-paulista", label: "Lulu da Pomerânia em Bragança Paulista",
-    description: "Conheça o atendimento na cidade onde fica a By Império Dog.",
+    description: "Conheça o atendimento na cidade onde fica a By Imperio Dog.",
     queries: ["Lulu da Pomerânia Bragança Paulista", "Spitz Alemão Bragança Paulista"],
     supportingPaths: ["/blog/spitz-alemao-anao-braganca-paulista"], related: ["interior-sp", "canil", "filhotes"],
   },

@@ -96,7 +96,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   branco: {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Branco — Filhotes",
     metaDescription:
-      "Conheça o Spitz Alemão Anão (Lulu da Pomerânia) Branco, entenda a diferença visual para o creme claro e veja fotos reais da cor na vitrine da By Império Dog.",
+      "Conheça o Spitz Alemão Anão (Lulu da Pomerânia) Branco, entenda a diferença visual para o creme claro e veja fotos reais da cor na vitrine da By Imperio Dog.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Branco",
     intro:
       "O Spitz Branco tem pelagem de aparência branca e uniforme. Já o creme claro apresenta um tom mais quente, que pode lembrar marfim ou champanhe. Luz, câmera e fase da pelagem podem alterar a percepção da cor; por isso a comparação deve ser feita com imagens atuais e em luz natural.",
@@ -190,7 +190,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Spitz Laranja é dócil com crianças?",
         answer:
-          "Sim. O Spitz Alemão Anão (Lulu da Pomerânia) tem temperamento equilibrado e afetivo, e a cor não muda isso. Com socialização em ambiente familiar e orientação de ambientação — como a praticada na By Império Dog — convive bem com crianças de qualquer idade.",
+          "Sim. O Spitz Alemão Anão (Lulu da Pomerânia) tem temperamento equilibrado e afetivo, e a cor não muda isso. Com socialização em ambiente familiar e orientação de ambientação — como a praticada na By Imperio Dog — convive bem com crianças de qualquer idade.",
       },
       {
         question: "Spitz Laranja é diferente de Lulu da Pomerânia?",
@@ -304,7 +304,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "O Chocolate tem registro?",
         answer:
-          "Sim. Todo filhote da By Império Dog sai com registro oficial e pedigree, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
+          "Sim. Todo filhote da By Imperio Dog sai com registro oficial e pedigree, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
       },
       {
         question: "Como vejo um filhote Chocolate?",
@@ -355,7 +355,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
   "wolf-sable": {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable)",
     metaDescription:
-      "O que é o Cinza-Lobo (Wolf Sable) no Spitz Alemão Anão (Lulu da Pomerânia): como a coloração se forma e o que diz o padrão da FCI. Cor não divulgada pela By Império Dog.",
+      "O que é o Cinza-Lobo (Wolf Sable) no Spitz Alemão Anão (Lulu da Pomerânia): como a coloração se forma e o que diz o padrão da FCI. Cor não divulgada pela By Imperio Dog.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Cinza-Lobo (Wolf Sable)",
     intro:
       "O Cinza-Lobo (Wolf Sable) é a coloração bicolor do Spitz Alemão Anão (Lulu da Pomerânia), com máscara facial cinza sobre base laranja que lembra o padrão do lobo. É reconhecida pela FCI como cor oficial.",
@@ -373,9 +373,9 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
           "Cinza-Lobo (ou Wolf Sable) descreve uma coloração bicolor onde cada pelo tem base laranja e ponta escura (cinza ou preta), criando o efeito 'lobo'. É uma cor reconhecida oficialmente pela FCI no padrão da raça.",
       },
       {
-        question: "A By Império Dog trabalha com Cinza-Lobo?",
+        question: "A By Imperio Dog trabalha com Cinza-Lobo?",
         answer:
-          "O Cinza-Lobo não faz parte das cores divulgadas pela By Império Dog. As cores oferecidas são Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle, com valores individuais consultados na vitrine e no atendimento.",
+          "O Cinza-Lobo não faz parte das cores divulgadas pela By Imperio Dog. As cores oferecidas são Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle, com valores individuais consultados na vitrine e no atendimento.",
       },
       {
         question: "O Spitz Cinza-Lobo muda de cor com o tempo?",

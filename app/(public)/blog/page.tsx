@@ -60,7 +60,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/blog",
-    title: "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)",
+    title: "Blog | By Imperio Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
       "Pilares evergreen sobre saúde, rotina e comportamento do Spitz Alemão Anão (Lulu da Pomerânia).",
     // Sem `images` aqui o Next 14 não herda o opengraph-image do segmento: a
@@ -94,7 +94,7 @@ export default async function BlogListPage() {
     reading_minutes: post.content_mdx ? estimateReadingTime(post.content_mdx) : null,
   }));
 
-  const metaTitleStr = "Blog | By Império Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)";
+  const metaTitleStr = "Blog | By Imperio Dog — Tudo sobre o Spitz Alemão Anão (Lulu da Pomerânia)";
   const metaDescStr =
     `Guias escritos pela criadora, que cria a raça desde ${FOUNDING_YEAR}, sobre Spitz Alemão Anão (Lulu da Pomerânia).`;
 
@@ -265,7 +265,7 @@ function CategorySection({
 const MINI_FAQ = [
   {
     q: "Os artigos são escritos por quem?",
-    a: "Os conteúdos são produzidos com apoio de ferramentas de tecnologia e revisados pela equipe da By Império Dog antes da publicação, com base na experiência prática do canil com Spitz Alemão Anão (Lulu da Pomerânia). Detalhamos o processo na nossa Política Editorial.",
+    a: "Os conteúdos são produzidos com apoio de ferramentas de tecnologia e revisados pela equipe da By Imperio Dog antes da publicação, com base na experiência prática do canil com Spitz Alemão Anão (Lulu da Pomerânia). Detalhamos o processo na nossa Política Editorial.",
   },
   {
     q: "Posso compartilhar os artigos?",
@@ -444,7 +444,7 @@ function buildBlogSchema({
     description,
     publisher: {
       "@type": "Organization",
-      name: "By Império Dog",
+      name: "By Imperio Dog",
       url: base,
     },
     blogPost: posts.map((post) => ({

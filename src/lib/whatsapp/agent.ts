@@ -147,7 +147,7 @@ function skillMostrarFilhotes(text: string): string {
   // promessa de "fotos e vídeos exclusivos" era um compromisso que só o
   // atendimento humano pode assumir.
   return (
-    "Estas são fotos reais da vitrine da By Império Dog 🐾\n\n" +
+    "Estas são fotos reais da vitrine da By Imperio Dog 🐾\n\n" +
     lines.join("\n") +
     extra +
     "\n\nQual combinação de cor e sexo te interessou? A equipe confirma as opções atuais no atendimento."
@@ -172,7 +172,7 @@ function skillResponderFaq(text: string): string | null {
 function skillSaudacao(name?: string): string {
   const firstName = name ? ` ${name.trim().split(" ")[0]}` : "";
   return (
-    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Império Dog* — atendimento especializado em Spitz Alemão Anão (Lulu da Pomerânia).\n\n` +
+    `Olá${firstName}! 🐾 Seja bem-vindo(a) à *By Imperio Dog* — atendimento especializado em Spitz Alemão Anão (Lulu da Pomerânia).\n\n` +
     `Como posso te ajudar hoje?\n\n` +
     `1️⃣ Ver a vitrine de filhotes\n` +
     `2️⃣ Saber sobre preços e condições\n` +

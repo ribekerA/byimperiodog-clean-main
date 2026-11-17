@@ -1,4 +1,4 @@
-# Design System – By Império Dog
+# Design System – By Imperio Dog
 
 **Atualizado no Sprint 3** para incluir sistema completo de tokens padronizados.
 

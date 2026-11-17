@@ -17,7 +17,7 @@ import { useEffect } from 'react';
  *     <>
  *       <SeoHead
  *         canonical="https://byimperiodog.com.br/minha-pagina"
- *         title="Mra Página | By Império Dog"
+ *         title="Mra Página | By Imperio Dog"
  *         description="Descrição da minha página"
  *       />
  *       <div>Conteúdo</div>

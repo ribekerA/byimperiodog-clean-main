@@ -55,7 +55,7 @@ export const revalidate = 3600;
 
 export function generateMetadata(): Metadata {
   return pageMetadata({
-    // Sem a marca aqui: o layout raiz já aplica o template "%s | By Império Dog".
+    // Sem a marca aqui: o layout raiz já aplica o template "%s | By Imperio Dog".
     title: "FAQ do Tutor — Spitz Alemão Anão (Lulu da Pomerânia)",
     description:
       "Perguntas frequentes sobre preparo, saúde, socialização e suporte pós-venda para o Spitz Alemão Anão (Lulu da Pomerânia).",

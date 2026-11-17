@@ -357,7 +357,7 @@ export function leadGreeting(lead: Pick<LeadFields, "name" | "color" | "preferre
   const firstName = lead.name === "Sem nome" ? "" : (lead.name.split(/\s+/)[0] ?? "");
   const desired = [lead.color, lead.preferredSex].filter(Boolean).join(" • ");
   const hello = firstName ? `Oi ${firstName}!` : "Oi!";
-  return `${hello} Somos da By Império Dog. Recebemos seu interesse${
+  return `${hello} Somos da By Imperio Dog. Recebemos seu interesse${
     desired ? ` (${desired})` : ""
   }. Podemos falar por aqui e te mandar fotos e vídeo?`;
 }

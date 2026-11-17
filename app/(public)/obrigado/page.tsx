@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   // para a home. E sem canonical próprio herdava o da home — dizia ao Google
   // que esta página de confirmação era a home.
   description:
-    "Confirmação de contato com a By Império Dog. A criadora responde pelo WhatsApp no horário de atendimento, todos os dias das 8h às 22h.",
+    "Confirmação de contato com a By Imperio Dog. A criadora responde pelo WhatsApp no horário de atendimento, todos os dias das 8h às 22h.",
   alternates: { canonical: "/obrigado" },
   robots: { index: false, follow: true },
 };
@@ -31,7 +31,7 @@ export default async function ObrigadoPage() {
       />
       <div className="faixa-topo">
         <h1 className="text-3xl font-bold">Obrigado! Recebemos seu interesse</h1>
-        <p className="mt-3">Em breve a By Império Dog entrará em contato para continuar seu atendimento.</p>
+        <p className="mt-3">Em breve a By Imperio Dog entrará em contato para continuar seu atendimento.</p>
       </div>
       <div className="mt-8 space-y-2 text-center text-sm text-zinc-700">
         <p>Horário de atendimento: todos os dias, das 8h às 22h.</p>

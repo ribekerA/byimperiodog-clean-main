@@ -9,10 +9,10 @@ import { dmSans } from "../../fonts";
 
 export const metadata: Metadata = {
   title: {
-    default: "Admin | By Império Dog",
-    template: "%s | Admin • By Império Dog",
+    default: "Admin | By Imperio Dog",
+    template: "%s | Admin • By Imperio Dog",
   },
-  description: "Painel administrativo interno da By Império Dog.",
+  description: "Painel administrativo interno da By Imperio Dog.",
   robots: {
     index: false,
     follow: false,

@@ -1,4 +1,4 @@
-# Arquitetura do Admin (By Império Dog)
+# Arquitetura do Admin (By Imperio Dog)
 
 ## Módulos e rotas principais
 - **Dashboard**: `/admin/dashboard` — visão geral (cards) e espaço para KPIs rápidos.

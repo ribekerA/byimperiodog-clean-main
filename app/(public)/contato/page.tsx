@@ -42,13 +42,13 @@ const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://youtube.com/
 export const metadata: Metadata = {
   title: "Contato — Fale direto com a criadora",
   description:
-    "Fale com a By Império Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
+    "Fale com a By Imperio Dog pelo WhatsApp, e-mail ou formulário. Criadora do Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
   alternates: { canonical: `${SITE_URL}/contato` },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/contato`,
-    title: "Contato | By Império Dog",
+    title: "Contato | By Imperio Dog",
     description: "Fale diretamente com a criadora. WhatsApp, e-mail ou formulário — você escolhe.",
   },
 };
@@ -88,7 +88,7 @@ const SCHEDULE_DAYS = [
 
 export default function ContatoPage() {
   const waMainLink = buildWhatsAppLink({
-    message: "Olá! Vim do site By Império Dog e gostaria de saber sobre as opções atuais.",
+    message: "Olá! Vim do site By Imperio Dog e gostaria de saber sobre as opções atuais.",
     utmSource: "contato",
     utmCampaign: "contato-hero",
   });
@@ -96,7 +96,7 @@ export default function ContatoPage() {
   const orgLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "By Império Dog",
+    name: "By Imperio Dog",
     url: SITE_URL,
     contactPoint: {
       "@type": "ContactPoint",
@@ -415,7 +415,7 @@ export default function ContatoPage() {
           </h2>
           <p className="mt-4 text-emerald-100">
             Uma conversa rápida já ajuda a entender se um Spitz Alemão Anão (Lulu da Pomerânia)
-            da By Império Dog combina com a rotina da sua família.
+            da By Imperio Dog combina com a rotina da sua família.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a

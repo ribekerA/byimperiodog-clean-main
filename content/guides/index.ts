@@ -43,29 +43,29 @@ export const guides: Guide[] = [
         paragraphs: [
           "Os machos partem de R$ 4.500 e as fêmeas de R$ 6.500 no PIX, em qualquer cor. Na fêmea não castrada, o intervalo entre cios varia; os cuidados reprodutivos devem ser orientados pelo médico-veterinário.",
           "Temperamento não vem do sexo. O comportamento é o típico da raça e depende de genética, socialização e da rotina que a família oferece — há macho tranquilo e fêmea agitada, e o contrário também.",
-          "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem a mesma consulta veterinária, o mesmo hemograma completo, registro oficial e acompanhamento na By Império Dog.",
+          "Não existe diferença de qualidade, saúde ou inteligência entre machos e fêmeas — ambos recebem a mesma consulta veterinária, o mesmo hemograma completo, registro oficial e acompanhamento na By Imperio Dog.",
         ],
       },
       {
         heading: "As diferenças entre as cores",
         paragraphs: [
-          "A By Império Dog divulga sete cores: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. A cor não muda o valor de partida, que depende do sexo: machos a partir de R$ 4.500 e fêmeas a partir de R$ 6.500 no PIX. O laranja é o mais conhecido da raça; o particolor tem base branca com manchas definidas; o chocolate é a pelagem marrom; o merle tem manchas marmorizadas.",
-          "A cor não influencia o temperamento. Todas as cores seguem o mesmo protocolo de saúde na By Império Dog.",
+          "A By Imperio Dog divulga sete cores: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. A cor não muda o valor de partida, que depende do sexo: machos a partir de R$ 4.500 e fêmeas a partir de R$ 6.500 no PIX. O laranja é o mais conhecido da raça; o particolor tem base branca com manchas definidas; o chocolate é a pelagem marrom; o merle tem manchas marmorizadas.",
+          "A cor não influencia o temperamento. Todas as cores seguem o mesmo protocolo de saúde na By Imperio Dog.",
         ],
       },
       {
         heading: "Como reconhecer um criador confiável",
         paragraphs: [
-          "Um criador sério apresenta registro oficial do filhote e dos pais, carteira de vacinação assinada por veterinário, histórico de vermifugação e o resultado dos exames feitos antes da entrega. Na By Império Dog esse pacote é consulta veterinária e hemograma completo — exame de sangue com resultado, não um atestado genérico.",
+          "Um criador sério apresenta registro oficial do filhote e dos pais, carteira de vacinação assinada por veterinário, histórico de vermifugação e o resultado dos exames feitos antes da entrega. Na By Imperio Dog esse pacote é consulta veterinária e hemograma completo — exame de sangue com resultado, não um atestado genérico.",
           "A possibilidade e o formato da visita devem ser informados com transparência. Quando a visita ao local de criação não for viável, o interessado pode solicitar videochamada, documentação e outras formas de verificação. Em qualquer formato, observe se os filhotes estão limpos, curiosos e sem sinais de medo ou apatia.",
-          "Pergunte sobre o suporte pós-venda: na By Império Dog ele é feito pelo WhatsApp, direto com a criadora, sem prazo definido. Pergunte diretamente: 'Posso entrar em contato depois da entrega?' A resposta diz muito.",
+          "Pergunte sobre o suporte pós-venda: na By Imperio Dog ele é feito pelo WhatsApp, direto com a criadora, sem prazo definido. Pergunte diretamente: 'Posso entrar em contato depois da entrega?' A resposta diz muito.",
         ],
       },
       {
         heading: "Documentação obrigatória",
         paragraphs: [
           "O mínimo exigível ao receber seu filhote: registro oficial, carteira de vacinação assinada pelo médico-veterinário com o protocolo em dia conforme a idade do filhote, orientação por escrito das doses seguintes e comprovação dos exames feitos antes da entrega. A identificação do animal deve seguir os requisitos exigidos pela legislação aplicável — confirme no contrato o que está previsto antes de fechar.",
-          "Na By Império Dog, o registro oficial é incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. Os demais documentos são apresentados antes da reserva.",
+          "Na By Imperio Dog, o registro oficial é incluso, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. Os demais documentos são apresentados antes da reserva.",
         ],
       },
     ],
@@ -78,12 +78,12 @@ export const guides: Guide[] = [
       {
         question: "O que é registro oficial e por que importa?",
         answer:
-          "O registro oficial é o documento de linhagem emitido pela entidade responsável, conforme os prazos e condições dela. Na By Império Dog, o registro é incluso e a emissão segue o que está previsto em contrato.",
+          "O registro oficial é o documento de linhagem emitido pela entidade responsável, conforme os prazos e condições dela. Na By Imperio Dog, o registro é incluso e a emissão segue o que está previsto em contrato.",
       },
       {
         question: "Posso pagar parcelado?",
         answer:
-          "Depende do criador. Na By Império Dog, as condições de reserva e pagamento são combinadas diretamente pelo WhatsApp e ficam descritas no contrato.",
+          "Depende do criador. Na By Imperio Dog, as condições de reserva e pagamento são combinadas diretamente pelo WhatsApp e ficam descritas no contrato.",
       },
       {
         question: "Lulu da Pomerânia é bom para quem trabalha fora?",
@@ -109,7 +109,7 @@ export const guides: Guide[] = [
         heading: "Ração ideal para filhotes (2 a 12 meses)",
         paragraphs: [
           "Filhotes de Spitz precisam de ração específica para cães pequenos em fase de crescimento, com alto teor de proteína (mínimo 28%), DHA para desenvolvimento cerebral e cálcio balanceado para os ossos.",
-          "Marcas premium com certificação AAFCO e sem corantes artificiais são as mais indicadas. A criadora da By Império Dog informa a marca que o filhote vem comendo, para facilitar a transição.",
+          "Marcas premium com certificação AAFCO e sem corantes artificiais são as mais indicadas. A criadora da By Imperio Dog informa a marca que o filhote vem comendo, para facilitar a transição.",
           "Frequência: 3 a 4 refeições por dia até os 3 meses, depois 3 refeições até os 6 meses e 2 refeições por dia dos 6 meses em diante.",
         ],
       },

@@ -1,6 +1,6 @@
 # Design System - Guia de Uso
 
-> Referência rápida para usar o Design System da By Império Dog
+> Referência rápida para usar o Design System da By Imperio Dog
 
 ## 🚀 Início Rápido
 
@@ -514,4 +514,4 @@ function WhatsAppButton(props: ButtonProps) {
 ---
 
 **Última atualização**: 1 de dezembro de 2025
-**Mantido por**: Equipe By Império Dog
+**Mantido por**: Equipe By Imperio Dog

@@ -1,4 +1,4 @@
-# Guia de Design & UX — By Império Dog
+# Guia de Design & UX — By Imperio Dog
 
 ## 1. Identidade visual
 - Mood: premium, confiável, afetuoso e profissional; evitar estética de petshop genérico.

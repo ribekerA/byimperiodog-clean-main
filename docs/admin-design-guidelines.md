@@ -1,4 +1,4 @@
-# Diretrizes de Design — Painel Admin (By Império Dog)
+# Diretrizes de Design — Painel Admin (By Imperio Dog)
 
 Guia de referência rápida para manter consistência visual, UX e acessibilidade AA/AAA no admin.
 

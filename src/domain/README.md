@@ -1,4 +1,4 @@
-# 🏗️ Camada de Domínio - By Império Dog
+# 🏗️ Camada de Domínio - By Imperio Dog
 
 ## 📋 Visão Geral
 
@@ -8,7 +8,7 @@ Esta é a camada de domínio do marketplace de filhotes de Spitz Alemão, seguin
 - ✅ **Type safety** completo com TypeScript
 - ✅ **Reutilização** de código entre rotas, schemas e componentes
 - ✅ **Escalabilidade** para crescimento do marketplace
-- ✅ **One Brand**: Todos os filhotes são "By Império Dog" aos olhos do cliente
+- ✅ **One Brand**: Todos os filhotes são "By Imperio Dog" aos olhos do cliente
 
 ---
 
@@ -47,7 +47,7 @@ interface Puppy {
   expectedAdultHeight?: number; // cernelha, padrão FCI nº 97: 21 cm ± 3 cm
   size: "toy" | "mini" | "standard";
 
-  // COMERCIAL (BY IMPÉRIO DOG)
+  // COMERCIAL (BY IMPERIO DOG)
   title: string; // "Spitz Alemão Anão Macho Laranja - Thor"
   description: string;
   priceCents: number; // Centavos (350000 = R$ 3.500)
@@ -334,8 +334,8 @@ TaxonomyHelpers.isValidColor("roxo"); // false
 
 ```typescript
 const BRAND = {
-  name: "By Império Dog",
-  legalName: "By Império Dog Criação de Spitz Alemão",
+  name: "By Imperio Dog",
+  legalName: "By Imperio Dog Criação de Spitz Alemão",
   slogan: "Criadora especializada em Spitz Alemão Anão (Lulu da Pomerânia)",
   
   headquarters: {
@@ -356,7 +356,7 @@ const BRAND = {
   },
 
   schema: {
-    alternateNames: ["Canil By Império Dog", "Império Dog"],
+    alternateNames: ["Canil By Imperio Dog", "Imperio Dog"],
     sameAs: ["https://www.instagram.com/byimperiodog"],
   },
 };
@@ -469,7 +469,7 @@ if (!price.isInRange(min, max)) {
 
 ## 🎯 Regra de Negócio: One Brand
 
-**IMPORTANTE**: Todos os filhotes são comercializados sob a marca "By Império Dog".
+**IMPORTANTE**: Todos os filhotes são comercializados sob a marca "By Imperio Dog".
 
 ### Campo `source`
 
@@ -479,18 +479,18 @@ O campo `source` na entidade `Puppy` é **APENAS INTERNO**:
 type PuppySource = "own-breeding" | "external-breeder";
 ```
 
-- **"own-breeding"**: Criação própria da By Império Dog
+- **"own-breeding"**: Criação própria da By Imperio Dog
 - **"external-breeder"**: Filhote vindo de criador parceiro externo (controlado via `internalSourceId`)
 
 ### O que NÃO fazer
 
 ❌ Exibir nome do criador parceiro na página do filhote  
 ❌ Mencionar "parceiro" ou "terceiro" no schema JSON-LD  
-❌ Usar seller diferente de "By Império Dog" nos schemas  
+❌ Usar seller diferente de "By Imperio Dog" nos schemas  
 
 ### O que fazer
 
-✅ Sempre usar "By Império Dog" como marca/seller  
+✅ Sempre usar "By Imperio Dog" como marca/seller  
 ✅ Usar `source` apenas para controle administrativo interno  
 ✅ Rastrear `internalSourceId` apenas em painel admin (não público)  
 ✅ Aplicar margens de lucro diferentes baseado em `source` (interno)  
@@ -529,5 +529,5 @@ type PuppySource = "own-breeding" | "external-breeder";
 
 ---
 
-**Mantido por**: By Império Dog Tech Team  
+**Mantido por**: By Imperio Dog Tech Team  
 **Última atualização**: 30/11/2024

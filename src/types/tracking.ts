@@ -1,6 +1,6 @@
 /**
  * Tipos TypeScript para configurações de tracking (pixels e analytics)
- * By Império Dog - Sistema de Pixels/Analytics
+ * By Imperio Dog - Sistema de Pixels/Analytics
  */
 
 /**

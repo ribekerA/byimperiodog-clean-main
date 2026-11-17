@@ -1,6 +1,6 @@
 /**
  * Botão para testar pixels (dispara eventos de teste)
- * By Império Dog - Sistema de Pixels/Analytics
+ * By Imperio Dog - Sistema de Pixels/Analytics
  */
 
 'use client';

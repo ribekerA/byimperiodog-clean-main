@@ -19,7 +19,7 @@ const CATALOG_FAQS = [
       "Use a vitrine desta página para identificar a cor e o sexo que você procura e fale com a equipe pelo WhatsApp: é no atendimento que as opções atuais são confirmadas e a reserva é fechada. A entrega inclui registro oficial, carteira de vacinação, consulta veterinária e hemograma completo; a identificação do animal segue os requisitos exigidos pela legislação aplicável.",
   },
   {
-    question: "Com quais cores de Spitz Alemão Anão (Lulu da Pomerânia) a By Império Dog trabalha?",
+    question: "Com quais cores de Spitz Alemão Anão (Lulu da Pomerânia) a By Imperio Dog trabalha?",
     answer:
       "São sete cores divulgadas: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. O preço é individual e não segue uma ordem obrigatória por cor. As opções atuais de cada cor são confirmadas no atendimento.",
   },
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
   title:       "Filhotes de Spitz e Lulu: Cores, Sexos e Preços",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
-  description: "Compare fotos e preços de filhotes Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo. Consulte opções atuais com a By Império Dog em Bragança Paulista.",
+  description: "Compare fotos e preços de filhotes Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo. Consulte opções atuais com a By Imperio Dog em Bragança Paulista.",
   alternates: { canonical: "/filhotes" },
   openGraph: {
-    title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
+    title:       "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Imperio Dog",
     description: "Vitrine de filhotes com registro oficial, consulta veterinária e hemograma completo. Bragança Paulista, SP.",
     type:        "website",
-    images:      [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933, alt: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog" }],
+    images:      [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933, alt: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) da By Imperio Dog" }],
   },
 };
 
@@ -65,9 +65,9 @@ export default function FilhotesPage() {
   // é. O CollectionPage é o nó dono, e os dois se referenciam pelo @id.
   const collectionLd = buildCollectionPageLD({
     path: "/filhotes",
-    name: "Vitrine de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
+    name: "Vitrine de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Imperio Dog",
     description:
-      "Fotos reais das cores e dos sexos com que a By Império Dog trabalha, com o valor de partida de cada combinação.",
+      "Fotos reais das cores e dos sexos com que a By Imperio Dog trabalha, com o valor de partida de cada combinação.",
     image: "/spitz-hero-desktop.webp",
     itemListId: `${SITE_URL}/filhotes#itemlist`,
   });

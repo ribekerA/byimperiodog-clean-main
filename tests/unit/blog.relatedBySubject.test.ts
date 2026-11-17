@@ -108,7 +108,7 @@ describe("autor no schema do artigo", () => {
 
   it("sem autor cadastrado, sai a empresa e nenhuma pessoa inventada", () => {
     const { article } = buildArticleJsonLd(post, null);
-    expect(article.author).toMatchObject({ "@type": "LocalBusiness", name: "By Império Dog" });
+    expect(article.author).toMatchObject({ "@type": "LocalBusiness", name: "By Imperio Dog" });
     expect(article.articleSection).toBe("Raça");
   });
 
@@ -137,7 +137,7 @@ describe("autor no schema do artigo", () => {
   });
 
   it("nome que não está no cadastro não vira pessoa", () => {
-    expect(autorDoBlog("By Império Dog")).toBeNull();
+    expect(autorDoBlog("By Imperio Dog")).toBeNull();
     expect(autorDoBlog("Alguém de fora")).toBeNull();
     expect(autorDoBlog("")).toBeNull();
     expect(autorDoBlog(null)).toBeNull();

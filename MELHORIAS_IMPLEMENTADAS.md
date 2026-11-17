@@ -1,4 +1,4 @@
-# 🎯 Melhorias Implementadas - By Império Dog
+# 🎯 Melhorias Implementadas - By Imperio Dog
 
 **Data:** 1 de dezembro de 2025  
 **Status:** ✅ Em Progresso

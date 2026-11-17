@@ -1,6 +1,6 @@
 /**
  * Tipos para Sistema de A/B Testing de Pixels
- * By Império Dog - Testes de diferentes configurações de tracking
+ * By Imperio Dog - Testes de diferentes configurações de tracking
  */
 
 export type ExperimentStatus = 'draft' | 'running' | 'paused' | 'completed';

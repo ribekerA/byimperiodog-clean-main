@@ -66,7 +66,7 @@ export default function GuiasIndexPage() {
       {/* Hero */}
       <div className="faixa-topo bg-[var(--brand)] px-5 py-14 text-center sm:px-8">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-300">
-          Conteúdo educativo · By Império Dog
+          Conteúdo educativo · By Imperio Dog
         </p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-5xl">
           Guias de Spitz Alemão e Lulu da Pomerânia
@@ -171,7 +171,7 @@ export default function GuiasIndexPage() {
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-4">
               <a
-                href={`https://wa.me/5511968633239?text=${encodeURIComponent("Olá! Li os guias da By Império Dog e quero saber sobre as opções atuais.")}`}
+                href={`https://wa.me/5511968633239?text=${encodeURIComponent("Olá! Li os guias da By Imperio Dog e quero saber sobre as opções atuais.")}`}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex min-h-[52px] items-center gap-2.5 rounded-xl bg-emerald-600 px-7 text-sm font-semibold text-white shadow-lg transition hover:bg-emerald-500"

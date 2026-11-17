@@ -30,7 +30,7 @@ test.describe('Depoimentos da home', () => {
     });
 
     const sectionTitle = page.getByRole('heading', {
-      name: 'Famílias que já receberam um filhote da By Império Dog',
+      name: 'Famílias que já receberam um filhote da By Imperio Dog',
     });
     await sectionTitle.scrollIntoViewIfNeeded();
     await expect(sectionTitle).toBeVisible();

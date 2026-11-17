@@ -123,7 +123,7 @@ const frontmatter = [
   ...(post.cover_url ? [`cover: ${escalar(post.cover_url)}`] : []),
   ...(tags.length ? ["tags:", ...tags.map((t) => `  - ${t}`)] : []),
   ...(post.category ? [`category: ${escalar(post.category)}`] : []),
-  "author: 'By Império Dog'",
+  "author: 'By Imperio Dog'",
   "# Preencher antes de commitar: PUBLICADOR | TÍTULO | URL, uma fonte por linha.",
   "# O quality-gate avisa enquanto estiver vazio — artigo sem fonte externa é",
   "# opinião publicada, e é o que faz o Google e os modelos tratarem o texto",

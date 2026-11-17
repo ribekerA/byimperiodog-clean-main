@@ -1,6 +1,6 @@
 /**
  * Exemplos de uso do backend de Tracking Settings
- * By Império Dog - Sistema de Pixels/Analytics
+ * By Imperio Dog - Sistema de Pixels/Analytics
  *
  * Este arquivo contém exemplos de como consumir as APIs de tracking
  * tanto no frontend público quanto no painel admin.

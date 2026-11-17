@@ -67,7 +67,7 @@ export function GET() {
     "  <channel>",
     `    <title>${xml(`Blog da ${BRAND.name}`)}</title>`,
     `    <link>${site}/blog</link>`,
-    `    <description>${xml("Artigos da By Império Dog sobre o Spitz Alemão Anão (Lulu da Pomerânia).")}</description>`,
+    `    <description>${xml("Artigos da By Imperio Dog sobre o Spitz Alemão Anão (Lulu da Pomerânia).")}</description>`,
     "    <language>pt-BR</language>",
     `    <atom:link href="${site}/feed.xml" rel="self" type="application/rss+xml" />`,
     lastBuildDate ? `    <lastBuildDate>${lastBuildDate}</lastBuildDate>` : null,

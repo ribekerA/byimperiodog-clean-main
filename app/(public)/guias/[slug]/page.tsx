@@ -98,7 +98,7 @@ export default async function GuidePage(props: Props) {
             <span aria-hidden="true">·</span>
             <span>{guide.readingMinutes} min de leitura</span>
             <span aria-hidden="true">·</span>
-            <span>By Império Dog</span>
+            <span>By Imperio Dog</span>
           </div>
         </header>
         </div>

@@ -75,7 +75,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
 
   const shareOnPinterest = () => {
     const target = encodeURIComponent(shareTarget.replace("%SOURCE%", "pinterest"));
-    const desc = encodeURIComponent(`${title} — By Império Dog`);
+    const desc = encodeURIComponent(`${title} — By Imperio Dog`);
     openWindow(`https://www.pinterest.com/pin/create/button/?url=${target}&description=${desc}`);
     trackShare("pinterest", title);
   };

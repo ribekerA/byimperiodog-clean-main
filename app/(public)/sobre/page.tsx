@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   description:
     // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
     // vir do FOUNDING_YEAR como no resto do site.
-    `By Império Dog: desde ${FOUNDING_YEAR} dedicada ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com atendimento especializado e registro oficial.`,
+    `By Imperio Dog: desde ${FOUNDING_YEAR} dedicada ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com atendimento especializado e registro oficial.`,
   keywords: [
     "criador Spitz Alemão Anão confiável",
     "canil Lulu da Pomerânia Bragança Paulista",
-    "By Império Dog sobre",
+    "By Imperio Dog sobre",
     "história canil Spitz Alemão SP",
     "canil responsável interior SP",
   ],
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/sobre`,
-    title: `Sobre a By Império Dog — especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}`,
+    title: `Sobre a By Imperio Dog — especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}`,
     description:
       `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Acompanhamento veterinário, registro oficial e mentoria pós-venda.`,
   },
@@ -50,14 +50,14 @@ const TIMELINE = [
     year: String(FOUNDING_YEAR),
     title: "O primeiro Spitz chegou",
     description:
-      "Por puro amor à raça, a família Império recebeu a primeira fêmea de Spitz Alemão Anão (Lulu da Pomerânia) e começou um longo estudo sobre genética, saúde e padrões da raça.",
+      "Por puro amor à raça, a família Imperio recebeu a primeira fêmea de Spitz Alemão Anão (Lulu da Pomerânia) e começou um longo estudo sobre genética, saúde e padrões da raça.",
     emoji: "🐾",
   },
   {
     year: "2015",
     title: "Primeira ninhada registrada",
     description:
-      "A primeira ninhada com registro oficial saiu da By Império Dog. Um marco que estabeleceu o compromisso com a rastreabilidade e o acompanhamento veterinário.",
+      "A primeira ninhada com registro oficial saiu da By Imperio Dog. Um marco que estabeleceu o compromisso com a rastreabilidade e o acompanhamento veterinário.",
     emoji: "📋",
   },
   // O marco de 2018 dizia "100 familias atendidas" e "Atingimos a marca de
@@ -81,7 +81,7 @@ const TIMELINE = [
     year: "Hoje",
     title: "Famílias em todo o Brasil",
     description:
-      "Hoje, famílias espalhadas pelo Brasil confiam na By Império Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria pós-venda.",
+      "Hoje, famílias espalhadas pelo Brasil confiam na By Imperio Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria pós-venda.",
     emoji: "💚",
   },
 ] as const;
@@ -162,7 +162,7 @@ const DIFERENCIAIS = [
 
 export default function SobrePage() {
   const waLink = buildWhatsAppLink({
-    message: "Olá! Quero conhecer mais sobre a criadora e o processo da By Império Dog.",
+    message: "Olá! Quero conhecer mais sobre a criadora e o processo da By Imperio Dog.",
     utmSource: "sobre",
     utmCampaign: "sobre-cta",
   });
@@ -177,7 +177,7 @@ export default function SobrePage() {
   };
   const webPageLd = buildWebPageLD({
     path: "/sobre",
-    name: "Sobre a By Império Dog",
+    name: "Sobre a By Imperio Dog",
     description: `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Acompanhamento veterinário, registro oficial e mentoria pós-venda em Bragança Paulista.`,
   });
 
@@ -210,7 +210,7 @@ export default function SobrePage() {
             afeto e responsabilidade.
           </p>
           <p className="mt-4 max-w-xl text-zinc-400 leading-relaxed">
-            A By Império Dog nasceu em Bragança Paulista, SP, de uma paixão genuína pelo
+            A By Imperio Dog nasceu em Bragança Paulista, SP, de uma paixão genuína pelo
             Spitz Alemão Anão (Lulu da Pomerânia). Não somos uma fábrica de filhotes —
             somos uma família que escolheu fazer isso com seriedade.
           </p>
@@ -243,7 +243,7 @@ export default function SobrePage() {
               Desde {FOUNDING_YEAR} construindo confiança
             </h2>
           </div>
-          <ol className="relative space-y-0" aria-label="Linha do tempo da By Império Dog">
+          <ol className="relative space-y-0" aria-label="Linha do tempo da By Imperio Dog">
             {TIMELINE.map((item, i) => (
               <li key={item.year} className="relative flex gap-6 pb-10 last:pb-0">
                 {/* Vertical line */}
@@ -314,7 +314,7 @@ export default function SobrePage() {
                 card repete os rótulos inline. */}
             <div className="hidden grid-cols-[1.5fr,1fr,1fr] bg-zinc-50 text-xs font-bold uppercase tracking-wider text-zinc-500 sm:grid">
               <div className="px-5 py-3">Critério</div>
-              <div className="px-5 py-3 text-emerald-700">By Império Dog</div>
+              <div className="px-5 py-3 text-emerald-700">By Imperio Dog</div>
               <div className="px-5 py-3 text-zinc-500">O que confirmar em qualquer criador</div>
             </div>
 
@@ -332,7 +332,7 @@ export default function SobrePage() {
                   <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-emerald-700 sm:hidden">
-                      By Império Dog
+                      By Imperio Dog
                     </p>
                     <p className="text-sm text-zinc-700">{row.us}</p>
                   </div>

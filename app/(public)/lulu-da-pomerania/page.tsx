@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/lulu-da-pomerania" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Lulu da Pomerânia — Guia Completo da Raça | By Império Dog",
+    title: "Lulu da Pomerânia — Guia Completo da Raça | By Imperio Dog",
     description: "Temperamento, porte, pelagem e rotina do Lulu da Pomerânia, nome popular do Spitz Alemão Anão.",
     type: "article",
   },
@@ -72,7 +72,7 @@ const FAQS = [
 export default function LuluDaPomeraniaPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Lulu da Pomerânia no site da By Império Dog e gostaria de informações sobre filhotes.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Lulu da Pomerânia no site da By Imperio Dog e gostaria de informações sobre filhotes.")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   // Conteudo identico em duas URLs: o canonical aponta para o guia original
   // (ja indexado e no sitemap) para nao competir consigo mesmo na busca.
   alternates: { canonical: "/guias/cuidados-basicos-spitz-alemao-anao" },
-  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Cuidados — By Império Dog", description: guide.metaDescription },
+  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Cuidados — By Imperio Dog", description: guide.metaDescription },
 };
 
 export default function CuidadosPage() {

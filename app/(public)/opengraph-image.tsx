@@ -16,7 +16,7 @@ import { FOUNDING_YEAR } from "@/domain/config";
 
 export const runtime = "nodejs";
 
-export const alt = "By Império Dog — Spitz Alemão Anão (Lulu da Pomerânia) | Atendimento especializado em Bragança Paulista, SP";
+export const alt = "By Imperio Dog — Spitz Alemão Anão (Lulu da Pomerânia) | Atendimento especializado em Bragança Paulista, SP";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -67,7 +67,7 @@ export default function Image() {
               letterSpacing: "0.02em",
             }}
           >
-            By Império Dog
+            By Imperio Dog
           </span>
         </div>
 

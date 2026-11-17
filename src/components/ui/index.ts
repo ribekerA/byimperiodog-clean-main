@@ -1,5 +1,5 @@
 /**
- * UI COMPONENTS - By Império Dog Design System
+ * UI COMPONENTS - By Imperio Dog Design System
  *
  * Componentes base reutilizáveis para construção de interfaces consistentes.
  * Todos os componentes seguem WCAG 2.2 AA e usam design tokens.

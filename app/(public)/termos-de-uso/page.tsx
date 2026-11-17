@@ -14,7 +14,7 @@ const tocItems = [
   { id: "fornecedor", label: "Identificação do fornecedor" },
   { id: "escopo", label: "Escopo dos serviços" },
   { id: "responsabilidades", label: "Responsabilidades do tutor" },
-  { id: "obrigacoes", label: "Obrigações da By Império Dog" },
+  { id: "obrigacoes", label: "Obrigações da By Imperio Dog" },
   { id: "condicoes", label: "Condições comerciais e materiais" },
   { id: "arrependimento", label: "Direito de arrependimento" },
   { id: "alteracoes", label: "Alterações destes termos" },
@@ -25,7 +25,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Termos de Uso",
     description:
-      "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Império Dog a tutores do Spitz Alemão Anão (Lulu da Pomerânia).",
+      "Condições para acesso ao site, aos conteúdos educativos e ao suporte pós-entrega oferecidos pela By Imperio Dog a tutores do Spitz Alemão Anão (Lulu da Pomerânia).",
     path,
     // /og/termos-uso.jpg não existe (a pasta public/og/ nunca foi criada) e
     // respondia 404. Sem `images`, entra a imagem padrão do site.
@@ -47,7 +47,7 @@ export default function TermosDeUsoPage() {
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-emerald-600">Condições legais</p>
         <h1 className="text-4xl font-bold text-zinc-900">Termos de Uso</h1>
         <p className="text-lg text-zinc-600">
-          Estes termos regem o uso do site, dos materiais educativos e do suporte oferecido pela By Império Dog a tutores e
+          Estes termos regem o uso do site, dos materiais educativos e do suporte oferecido pela By Imperio Dog a tutores e
           interessados no Spitz Alemão Anão (Lulu da Pomerânia). Ao continuar navegando ou utilizar nossos serviços, você concorda com
           as condições descritas abaixo.
         </p>
@@ -66,7 +66,7 @@ export default function TermosDeUsoPage() {
       <section id="fornecedor" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Identificação do fornecedor</h2>
         <p className="text-zinc-600">
-          O site é operado pela By Império Dog, criadora de Spitz Alemão Anão (Lulu da Pomerânia) sediada em Bragança
+          O site é operado pela By Imperio Dog, criadora de Spitz Alemão Anão (Lulu da Pomerânia) sediada em Bragança
           Paulista/SP. O atendimento ao consumidor — dúvidas, reclamações, exercício de direitos e suporte pós-entrega — é
           prestado pelos canais abaixo:
         </p>
@@ -114,7 +114,7 @@ export default function TermosDeUsoPage() {
       </section>
 
       <section id="obrigacoes" className="space-y-3">
-        <h2 className="text-2xl font-semibold text-zinc-900">Obrigações da By Império Dog</h2>
+        <h2 className="text-2xl font-semibold text-zinc-900">Obrigações da By Imperio Dog</h2>
         <p className="text-zinc-600">
           Comprometemo-nos a fornecer materiais atualizados, comunicar eventuais riscos à saúde e manter canal de suporte com o
           tutor. As orientações de pós-entrega são prestadas pela criadora e não constituem consulta veterinária.

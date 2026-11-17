@@ -1,6 +1,6 @@
 # Backend de Tracking Settings (Pixels & Analytics)
 
-> Sistema completo de gerenciamento de pixels e analytics para By Império Dog
+> Sistema completo de gerenciamento de pixels e analytics para By Imperio Dog
 
 ## 📋 Stack Confirmada
 
@@ -653,6 +653,6 @@ Resposta esperada:
 
 ---
 
-**Desenvolvido por:** By Império Dog  
+**Desenvolvido por:** By Imperio Dog  
 **Data:** 28 de novembro de 2025  
 **Stack:** Next.js 14 + TypeScript + Supabase

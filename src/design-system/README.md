@@ -1,4 +1,4 @@
-# Design System - By Império Dog
+# Design System - By Imperio Dog
 
 > Sistema de design interno consistente, acessível e escalável para plataforma premium de Spitz Alemão Anão.
 
@@ -370,4 +370,4 @@ src/
 ---
 
 **Última atualização**: 1 de dezembro de 2025
-**Mantido por**: Equipe By Império Dog
+**Mantido por**: Equipe By Imperio Dog

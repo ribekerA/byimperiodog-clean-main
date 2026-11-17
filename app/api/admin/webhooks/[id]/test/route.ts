@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 /**
  * API Admin - Testar Webhook
- * By Império Dog - Endpoint para testar entrega de webhook
+ * By Imperio Dog - Endpoint para testar entrega de webhook
  *
  * POST /api/admin/webhooks/[id]/test - Envia evento de teste
  */
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest, props: { params: Promise<{ id: 
       timestamp: new Date().toISOString(),
       data: {
         test: true,
-        message: 'Este é um evento de teste do By Império Dog',
+        message: 'Este é um evento de teste do By Imperio Dog',
         webhook_id: webhook.id,
         webhook_name: webhook.name,
       },

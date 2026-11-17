@@ -1,4 +1,4 @@
-# Cobertura de busca da By Império Dog
+# Cobertura de busca da By Imperio Dog
 
 Implementação revisada em 12/09/2026. A fonte editorial é `content/search-topics.ts`; a vitrine usa `content/puppy-search-copy.ts` e os preços de `domain/pricing`. A central de navegação é `/guias`.
 

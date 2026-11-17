@@ -27,14 +27,14 @@ import { faseDoNatal } from "@/lib/temporada";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  // O `template: '%s | By Império Dog'` fica em baseSiteMetadata, no layout do
+  // O `template: '%s | By Imperio Dog'` fica em baseSiteMetadata, no layout do
   // segmento (public). No Next.js o template só alcança segmentos FILHOS, então
   // /filhotes recebia a marca e a home — que é a página do próprio segmento —
-  // saía sem. Resultado: as buscas por "Império Dog" apareciam na posição 7 e
+  // saía sem. Resultado: as buscas por "Imperio Dog" apareciam na posição 7 e
   // não geravam clique, porque o nome não estava no título do resultado.
   // Escrever a marca aqui não duplica nada, justamente porque o template não
   // se aplica a esta página.
-  title: "Canil Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista | By Império Dog",
+  title: "Canil Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista | By Imperio Dog",
   // A description tinha 218 caracteres. O Google corta perto de 155 (menos
   // ainda no celular, de onde vêm 90% dos cliques), então "13 anos, 180+
   // famílias. Entregamos em todo o Brasil." nunca chegava a ser lido. Encurtada
@@ -46,17 +46,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
+    title: "By Imperio Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
     description:
       `Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos. Especialistas desde ${FOUNDING_YEAR}, com contrato.`,
     // `/og/home.jpg` nunca existiu: a pasta public/og/ não existe no repositório
     // e o arquivo respondia 404. Toda pré-visualização de link da home saía sem
     // imagem. Agora aponta para o arquivo real de 1200x630.
-    images: [{ url: OG_DEFAULT_IMAGE.url, width: OG_DEFAULT_IMAGE.width, height: OG_DEFAULT_IMAGE.height, alt: "Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog, Bragança Paulista SP" }],
+    images: [{ url: OG_DEFAULT_IMAGE.url, width: OG_DEFAULT_IMAGE.width, height: OG_DEFAULT_IMAGE.height, alt: "Spitz Alemão Anão (Lulu da Pomerânia) da By Imperio Dog, Bragança Paulista SP" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "By Império Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
+    title: "By Imperio Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
     description: "Atendimento especializado em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos.",
     images: [OG_DEFAULT_IMAGE.url],
   },
@@ -274,7 +274,7 @@ export default function HomePage() {
         {/* Os seis diferenciais explicam por extenso o que os cinco selos do topo
             dizem em duas palavras. Ficaram aqui, logo depois da composição do
             mockup, e a frase de abertura veio junto. */}
-        <section className="home-deferred-section overflow-hidden bg-[var(--bg-2)] py-14 sm:py-20" aria-label="Como a By Império Dog trabalha">
+        <section className="home-deferred-section overflow-hidden bg-[var(--bg-2)] py-14 sm:py-20" aria-label="Como a By Imperio Dog trabalha">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <p className="mx-auto mb-10 max-w-2xl text-center text-sm text-[var(--text-muted)] sm:text-base">
               Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.

@@ -12,7 +12,7 @@ export async function POST(req:Request){
     : 'Guia Spitz Alemão (Lulu da Pomerânia)';
   const base = title.replace(/guia|definitivo/gi,'').trim();
   return NextResponse.json({ ok:true, suggestions: {
-    seo_title: `${title} | By Império Dog`,
+    seo_title: `${title} | By Imperio Dog`,
     seo_description: `Tudo sobre ${base||'Spitz Alemão (Lulu da Pomerânia)'}: cuidados, alimentação, saúde, socialização e dicas práticas.`,
     alt_cover: /lulu da pomer/i.test(base) ? `Cão ${base} em destaque` : `Cão Spitz Alemão (Lulu da Pomerânia) ${base||''} em destaque`,
     og_text: `${title} – Aprenda cuidados essenciais, grooming e socialização.`,

@@ -1,6 +1,6 @@
 /**
  * @module domain/pricing
- * @description Tabela comercial da By Império Dog — FONTE ÚNICA de preço.
+ * @description Tabela comercial da By Imperio Dog — FONTE ÚNICA de preço.
  *
  * Por que este arquivo existe
  * ---------------------------

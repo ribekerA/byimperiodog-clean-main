@@ -7,7 +7,7 @@ import { baseSiteMetadata, canonical } from "@/lib/seo.core";
 export const metadata: Metadata = baseSiteMetadata({
   title: "Buscar filhotes e conteúdos",
   description:
-    "Pesquise no site da By Império Dog: filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis, guias de criação, saúde e rotina, e artigos do blog.",
+    "Pesquise no site da By Imperio Dog: filhotes de Spitz Alemão Anão (Lulu da Pomerânia) disponíveis, guias de criação, saúde e rotina, e artigos do blog.",
   alternates: { canonical: canonical("/search") },
   robots: { index: false },
 });

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/filhote-de-spitz-alemao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — Guia Completo | By Império Dog",
+    title: "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) — Guia Completo | By Imperio Dog",
     description: "Como escolher, o que verificar e os primeiros cuidados com um filhote de Spitz Alemão Anão (Lulu da Pomerânia).",
     type: "article",
   },
@@ -53,7 +53,7 @@ const FAQS = [
   {
     question: "Quais vacinas o filhote precisa tomar?",
     answer:
-      "Os filhotes da By Império Dog são entregues vacinados e vermifugados, com o protocolo em andamento conforme a idade e definido pelo médico-veterinário responsável, com carteira de vacinação assinada pelo médico-veterinário e orientação por escrito das doses seguintes. O protocolo em andamento não é, por si só, condição suficiente para a entrega: a comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável.",
+      "Os filhotes da By Imperio Dog são entregues vacinados e vermifugados, com o protocolo em andamento conforme a idade e definido pelo médico-veterinário responsável, com carteira de vacinação assinada pelo médico-veterinário e orientação por escrito das doses seguintes. O protocolo em andamento não é, por si só, condição suficiente para a entrega: a comercialização e a entrega são realizadas somente após o cumprimento dos requisitos sanitários, de identificação e documentais previstos na legislação aplicável.",
   },
   {
     question: "O que perguntar ao criador antes de comprar o filhote?",
@@ -75,7 +75,7 @@ const FAQS = [
 export default function FilhoteDeSpitzPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Tenho interesse em um filhote de Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog. Pode me informar disponibilidade?")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Tenho interesse em um filhote de Spitz Alemão Anão (Lulu da Pomerânia) da By Imperio Dog. Pode me informar disponibilidade?")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([

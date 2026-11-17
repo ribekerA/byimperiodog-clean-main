@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/spitz-alemao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Spitz Alemão Anão (Lulu da Pomerânia) — Tudo Sobre a Raça | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) — Tudo Sobre a Raça | By Imperio Dog",
     description: "Origem, características, temperamento, cores, porte e cuidados do Spitz Alemão Anão (Lulu da Pomerânia).",
     type: "article",
   },
@@ -45,7 +45,7 @@ const CHARACTERISTICS = [
   { label: "Peso adulto (referência prática)", value: "1,5 – 3,5 kg" },
   { label: "Expectativa de vida", value: "12 – 16 anos" },
   { label: "Pelagem",          value: "Dupla, densa, fluffy" },
-  { label: "Cores na By Império Dog", value: "Particolor, Laranja, Creme, Preto, Branco, Chocolate, Merle" },
+  { label: "Cores na By Imperio Dog", value: "Particolor, Laranja, Creme, Preto, Branco, Chocolate, Merle" },
   { label: "Origem",           value: "Pomerânia (Alemanha/Polônia)" },
   { label: "Registro oficial", value: "FCI — Grupo V" },
   { label: "Apartamento",      value: "Excelente adaptação" },
@@ -70,7 +70,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O padrão da raça admite várias cores, entre elas marrom e preto e castanho. A By Império Dog divulga sete: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. A cor não altera o temperamento.",
+      "O padrão da raça admite várias cores, entre elas marrom e preto e castanho. A By Imperio Dog divulga sete: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. A cor não altera o temperamento.",
   },
   {
     question: "O Spitz Alemão Anão (Lulu da Pomerânia) é hipoalergênico?",
@@ -190,7 +190,7 @@ export default function SpitzAlemaoPage() {
           {[
             { t: "Escovação", b: "Pelo menos 3–4 vezes por semana. Evita nós, controla a muda e mantém a pelagem fluffy saudável. Em época de muda (2× ao ano), aumente para diário." },
             { t: "Banho", b: "Frequência conforme rotina e condições da pele, com produtos próprios para cães e secagem cuidadosa. Alterações na pele exigem orientação veterinária." },
-            { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Império Dog orienta sobre a alimentação por fase no acompanhamento pós-venda." },
+            { t: "Alimentação", b: "Ração premium para raças pequenas ou miniaturas, com ajuste por fase de vida (filhote, adulto, sênior). A By Imperio Dog orienta sobre a alimentação por fase no acompanhamento pós-venda." },
             { t: "Exercício", b: "2 passeios curtos por dia (15–20 min cada) são suficientes. Não suporta calor intenso — evite saídas no pico do calor." },
             { t: "Dentes", b: "Raças pequenas são propensas a tartaro. Escovação 2–3× por semana + petiscos dentais. Consulta veterinária anual para limpeza profissional." },
             { t: "Veterinário", b: "Consulta anual de rotina, calendário de reforços vacinais em dia conforme a prescrição do médico-veterinário e avaliação cardiológica a partir dos 3 anos (raça com predisposição a sopro cardíaco)." },
@@ -205,7 +205,7 @@ export default function SpitzAlemaoPage() {
 
       {/* Cores */}
       <section aria-labelledby="cores-heading" className="space-y-4">
-        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores do Spitz Alemão Anão (Lulu da Pomerânia) na By Império Dog</h2>
+        <h2 id="cores-heading" className="text-2xl font-bold text-zinc-900">Cores do Spitz Alemão Anão (Lulu da Pomerânia) na By Imperio Dog</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { cor: "Branco",     slug: "branco",     desc: "Pelagem de aparência branca e uniforme. Fotos em luz natural ajudam a diferenciar do creme claro." },

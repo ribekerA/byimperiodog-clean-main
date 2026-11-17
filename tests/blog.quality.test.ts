@@ -175,7 +175,7 @@ describe("regras de negocio", () => {
       "Ofereça a ração em porções, 3x ao dia.",
       "Divida a ração em 2x por dia.",
       "Veja o [guia](/spitz-alemao) da raça.",
-      "Filhotes apresentados pela By Império Dog.",
+      "Filhotes apresentados pela By Imperio Dog.",
       "Microchip, quando aplicável, conforme as condições previstas em contrato.",
     ];
 

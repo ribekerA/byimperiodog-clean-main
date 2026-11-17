@@ -21,7 +21,7 @@ export default function FaixaSazonal() {
       <p className="faixa-natal-familia">
         <Estrela />
         <Link href="/filhotes">
-          <strong>Família nova</strong> neste Natal: venha conhecer os filhotes de Lulu da Pomerânia da By Império Dog.
+          <strong>Família nova</strong> neste Natal: venha conhecer os filhotes de Lulu da Pomerânia da By Imperio Dog.
         </Link>
         <Estrela />
       </p>

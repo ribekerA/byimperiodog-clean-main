@@ -24,7 +24,7 @@ export function generateMetadata(): Metadata {
   return pageMetadata({
     title: "Política de Privacidade",
     description:
-      "Como a By Império Dog trata os dados pessoais de quem entra em contato: coleta, finalidade, retenção, segurança e atendimento à LGPD.",
+      "Como a By Imperio Dog trata os dados pessoais de quem entra em contato: coleta, finalidade, retenção, segurança e atendimento à LGPD.",
     path,
     // /og/politica-privacidade.jpg não existe (a pasta public/og/ nunca foi
     // criada) e respondia 404. Sem `images`, entra a imagem padrão do site.
@@ -215,7 +215,7 @@ export default function PoliticaDePrivacidadePage() {
       <section id="contato" className="space-y-3">
         <h2 className="text-2xl font-semibold text-zinc-900">Contato do controlador</h2>
         <p className="text-zinc-600">
-          Controladora: By Império Dog LTDA • CNPJ 22.587.478/0001-00
+          Controladora: By Imperio Dog LTDA • CNPJ 22.587.478/0001-00
         </p>
         <p className="text-zinc-600">
           E-mail para assuntos de privacidade: <strong>privacidade@byimperiodog.com.br</strong>

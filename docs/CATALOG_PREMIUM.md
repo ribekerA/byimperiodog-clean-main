@@ -122,7 +122,7 @@ Cada card gera structured data completa:
   "image": "https://...",
   "brand": {
     "@type": "Brand",
-    "name": "By Império Dog"
+    "name": "By Imperio Dog"
   },
   "offers": {
     "@type": "Offer",

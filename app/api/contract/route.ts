@@ -129,9 +129,9 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${resendKey}` },
         body: JSON.stringify({
-          from: "By Império Dog <noreply@byimperiodog.com.br>",
+          from: "By Imperio Dog <noreply@byimperiodog.com.br>",
           to: [process.env.ADMIN_EMAIL || BRAND.contact.email],
-          subject: "Contrato preenchido — By Império Dog",
+          subject: "Contrato preenchido — By Imperio Dog",
           text: "Um contrato foi preenchido. Consulte o documento no painel administrativo autenticado.",
         }),
       }).catch(() => {});

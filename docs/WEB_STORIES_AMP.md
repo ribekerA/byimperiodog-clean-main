@@ -1,4 +1,4 @@
-# Web Stories AMP - By Império Dog
+# Web Stories AMP - By Imperio Dog
 
 ## 📖 Visão Geral
 
@@ -22,7 +22,7 @@ Vá para `/admin` e clique no card **"Web Stories AMP"** na dashboard.
 2. Preencha os metadados obrigatórios:
    - **Título**: Máximo 70 caracteres (ex: "Filhote Spitz Alemão Branco")
    - **Slug**: URL da story (ex: `filhote-spitz-alemao-branco`)
-   - **Publisher**: Nome do site (ex: "By Império Dog")
+   - **Publisher**: Nome do site (ex: "By Imperio Dog")
    - **Imagem de Capa**: Mínimo 640x853px (proporção 3:4)
    - **Logotipo**: Mínimo 96x96px (proporção 1:1)
    - **Status**: Rascunho ou Publicada
@@ -187,4 +187,4 @@ As Web Stories são automaticamente:
 
 ---
 
-**Desenvolvido para By Império Dog Kennel** 🐕
+**Desenvolvido para By Imperio Dog Kennel** 🐕

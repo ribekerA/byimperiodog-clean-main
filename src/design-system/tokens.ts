@@ -1,5 +1,5 @@
 /**
- * DESIGN TOKENS - By Império Dog
+ * DESIGN TOKENS - By Imperio Dog
  *
  * Tokens centralizados para consistência visual e manutenção facilitada.
  * Usar estes tokens ao invés de valores hardcoded.

@@ -1,7 +1,7 @@
 # Auditoria forense — Google Ads, GTM, GA4 e WhatsApp
 
 Data: 27/08/2026
-Projeto: By Império Dog
+Projeto: By Imperio Dog
 Estado: código implantado, GTM versão 16 publicada e domínio de produção validado
 
 ## 1. Situação encontrada

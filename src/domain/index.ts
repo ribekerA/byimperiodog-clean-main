@@ -1,8 +1,8 @@
 /**
  * @module domain
- * @description Camada de domínio do marketplace By Império Dog
+ * @description Camada de domínio do marketplace By Imperio Dog
  *
- * PRINCÍPIO: One Brand (todos os filhotes são By Império Dog)
+ * PRINCÍPIO: One Brand (todos os filhotes são By Imperio Dog)
  */
 
 // Core entity

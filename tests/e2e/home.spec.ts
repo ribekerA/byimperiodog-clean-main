@@ -20,7 +20,7 @@ test.describe('Home', () => {
     page.on('pageerror', (error) => runtimeErrors.push(error));
 
     await page.goto('/');
-    await expect(page).toHaveTitle(/Império Dog/i);
+    await expect(page).toHaveTitle(/Imperio Dog/i);
 
     const largura = page.viewportSize()?.width ?? LARGURA_DESKTOP;
 

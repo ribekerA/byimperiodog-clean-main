@@ -11,12 +11,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.b
 export const metadata: Metadata = {
   title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia",
   description:
-    "Assista a vídeos reais de Spitz Alemão Anão (Lulu da Pomerânia): filhotes creme, laranja e branco, ninhadas e a By Império Dog em Bragança Paulista, SP.",
+    "Assista a vídeos reais de Spitz Alemão Anão (Lulu da Pomerânia): filhotes creme, laranja e branco, ninhadas e a By Imperio Dog em Bragança Paulista, SP.",
   keywords: [
     "vídeos Spitz Alemão Anão",
     "galeria Lulu da Pomerânia",
     "filhotes Spitz vídeo",
-    "By Império Dog galeria",
+    "By Imperio Dog galeria",
     "canil Spitz vídeos",
   ],
   alternates: { canonical: `${SITE_URL}/galeria` },
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: `${SITE_URL}/galeria`,
-    title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia | By Império Dog",
+    title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia | By Imperio Dog",
     description:
-      "Veja filhotes, ninhadas e Spitz Alemão Anão (Lulu da Pomerânia) em movimento em vídeos reais da By Império Dog.",
+      "Veja filhotes, ninhadas e Spitz Alemão Anão (Lulu da Pomerânia) em movimento em vídeos reais da By Imperio Dog.",
   },
 };
 
@@ -98,7 +98,7 @@ export default function GaleriaPage() {
             {/* "estrutura" prometia instalações que não existem — mesmo caso da
                 legenda do primeiro vídeo. Fica só o que os vídeos mostram. */}
             <p className="mt-4 text-lg text-zinc-300">
-              Vídeos reais de filhotes e ninhadas apresentados pela By Império Dog.
+              Vídeos reais de filhotes e ninhadas apresentados pela By Imperio Dog.
               Sem filtro — exatamente como eles são.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

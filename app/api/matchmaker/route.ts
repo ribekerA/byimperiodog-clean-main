@@ -41,7 +41,7 @@ function buildCatalogTable(): string {
 }
 
 const CATALOG = `
-VITRINE — By Império Dog (Bragança Paulista, SP):
+VITRINE — By Imperio Dog (Bragança Paulista, SP):
 Esta lista NÃO é estoque. São as combinações de cor e sexo divulgadas pelo canil, com fotos reais que ficam publicadas de forma permanente e o valor exato publicado de cada combinação. Ela não diz, e não tem como dizer, o que existe hoje no canil.
 Todos os filhotes acompanham: registro oficial • protocolo vacinal em dia conforme a idade do filhote • consulta veterinária • hemograma completo • histórico de vermifugação • contrato • mentoria pós-venda. Identificação do animal conforme a legislação aplicável.
 
@@ -63,14 +63,14 @@ PARCELAMENTO: consultar condições com a equipe via WhatsApp
 // ─── System Prompt ────────────────────────────────────────────────────────────
 
 // O prompt batizava a atendente de "Ju". Não existe Ju: a interface sempre
-// assinou "By Império Dog", e quem continua a conversa no WhatsApp é a
+// assinou "By Imperio Dog", e quem continua a conversa no WhatsApp é a
 // criadora. Um nome próprio inventado cria uma pessoa que a família nunca vai
 // encontrar. O chat passa a falar em nome do canil.
-const SYSTEM_PROMPT = `Você responde pelo chat do site da By Império Dog — um canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, em atividade desde ${FOUNDING_YEAR}, que atende famílias em todo o Brasil.
+const SYSTEM_PROMPT = `Você responde pelo chat do site da By Imperio Dog — um canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, em atividade desde ${FOUNDING_YEAR}, que atende famílias em todo o Brasil.
 
 Você conversa com pessoas interessadas em levar um filhote para casa. Sua missão é tirar todas as dúvidas com clareza e, no momento certo, convidar a pessoa a deixar o contato para continuar a conversa com a criadora pelo WhatsApp.
 
-Não se apresente com nome próprio nem invente um. Se perguntarem com quem estão falando, diga que é o atendimento da By Império Dog e que a criadora continua a conversa pelo WhatsApp.
+Não se apresente com nome próprio nem invente um. Se perguntarem com quem estão falando, diga que é o atendimento da By Imperio Dog e que a criadora continua a conversa pelo WhatsApp.
 
 ${CATALOG}
 

@@ -19,7 +19,7 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
   const waLink = buildWhatsAppLink({
     message: postTitle
       ? `Olá! Estava lendo o artigo "${postTitle}" no site e gostaria de conhecer as opções atuais de Spitz Alemão Anão (Lulu da Pomerânia).`
-      : "Olá! Vi o site da By Império Dog e gostaria de conhecer as opções atuais de Spitz Alemão Anão (Lulu da Pomerânia).",
+      : "Olá! Vi o site da By Imperio Dog e gostaria de conhecer as opções atuais de Spitz Alemão Anão (Lulu da Pomerânia).",
     utmSource: "blog",
     utmMedium: "inline_banner",
     utmCampaign: "blog_puppy_cta",
@@ -27,7 +27,7 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
 
   return (
     <aside
-      aria-label="Vitrine de filhotes da By Império Dog"
+      aria-label="Vitrine de filhotes da By Imperio Dog"
       className="not-prose my-8 overflow-hidden rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/8"
       style={{ background: "rgba(243, 181, 98, 0.08)" }}
     >
@@ -40,7 +40,7 @@ export default function BlogPuppyBanner({ postTitle }: Props) {
         {/* Texto */}
         <div className="flex-1">
           <p className="font-bold text-zinc-900">
-            Conheça a vitrine de filhotes da By Império Dog
+            Conheça a vitrine de filhotes da By Imperio Dog
           </p>
           <p className="mt-0.5 text-sm text-zinc-600">
             Fotos reais por cor e sexo · registro oficial, consulta veterinária, hemograma completo e contrato inclusos.{" "}

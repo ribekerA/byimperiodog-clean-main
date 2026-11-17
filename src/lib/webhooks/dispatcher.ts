@@ -1,6 +1,6 @@
 /**
  * Dispatcher de Webhooks
- * By Império Dog - Sistema de envio de eventos para webhooks configurados
+ * By Imperio Dog - Sistema de envio de eventos para webhooks configurados
  */
 
 import crypto from 'crypto';

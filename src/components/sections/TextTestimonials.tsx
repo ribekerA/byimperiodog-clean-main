@@ -79,7 +79,7 @@ const TESTIMONIALS: readonly Depoimento[] = [
     city: "Rio de Janeiro, RJ",
     puppy: "Spitz Creme Macho",
     stars: 5,
-    text: "Pesquisei meses antes de decidir. O que diferenciou a By Império Dog foi a transparência — sem promessas vazias, com documentação real. O Thor chegou exatamente como prometido: saudável, socializado e com muita energia!",
+    text: "Pesquisei meses antes de decidir. O que diferenciou a By Imperio Dog foi a transparência — sem promessas vazias, com documentação real. O Thor chegou exatamente como prometido: saudável, socializado e com muita energia!",
   },
   {
     id: "joao",
@@ -91,7 +91,7 @@ const TESTIMONIALS: readonly Depoimento[] = [
     id: "livia",
     photo: "/clientes/livia.jpeg",
     name: "Lívia",
-    text: "Excelente experiência com a By Império Dog. O filhote foi entregue muito bem cuidado, com a documentação e o protocolo de saúde explicados detalhadamente. Recomendo!",
+    text: "Excelente experiência com a By Imperio Dog. O filhote foi entregue muito bem cuidado, com a documentação e o protocolo de saúde explicados detalhadamente. Recomendo!",
   },
   {
     id: "patricia",
@@ -115,14 +115,14 @@ const TESTIMONIALS: readonly Depoimento[] = [
     id: "roberto",
     photo: "/clientes/roberto.jpeg",
     name: "Roberto",
-    text: "Todo o processo foi muito tranquilo. Recebi atualizações, vídeos e orientações até o momento da entrega. Minha experiência com a By Império Dog foi excelente.",
+    text: "Todo o processo foi muito tranquilo. Recebi atualizações, vídeos e orientações até o momento da entrega. Minha experiência com a By Imperio Dog foi excelente.",
   },
   {
     id: "bruno-familia-jundiai",
     photo: "/clientes/bruno-familia-jundiai.jpeg",
     name: "Bruno e família",
     city: "Jundiaí, SP",
-    text: "O que mais gostei foi da transparência. Conheci as condições, tirei todas as dúvidas e vi informações reais sobre o filhote antes de decidir. Recomendo a By Império Dog.",
+    text: "O que mais gostei foi da transparência. Conheci as condições, tirei todas as dúvidas e vi informações reais sobre o filhote antes de decidir. Recomendo a By Imperio Dog.",
   },
   {
     id: "camila",
@@ -142,7 +142,7 @@ const TESTIMONIALS: readonly Depoimento[] = [
     photo: "/clientes/ronaldo-braganca-paulista.jpeg",
     name: "Ronaldo",
     city: "Bragança Paulista, SP",
-    text: "Recomendo de coração a By Império Dog. Atendimento profissional, fotos reais, informações claras e muito cuidado em cada etapa. Foi uma experiência maravilhosa.",
+    text: "Recomendo de coração a By Imperio Dog. Atendimento profissional, fotos reais, informações claras e muito cuidado em cada etapa. Foi uma experiência maravilhosa.",
   },
 ];
 
@@ -165,7 +165,7 @@ export default function TextTestimonials() {
     <section aria-labelledby="family-stories-heading" className="relative overflow-hidden border-y border-[var(--border)] bg-[var(--bg-2)] py-10 sm:py-14">
       <div className="mx-auto max-w-[1440px] px-5 sm:px-10">
         <div className="mb-8 border-b border-[var(--border)] pb-6 sm:mb-9">
-          <p className="text-sm text-[var(--text-muted)]">By Império Dog</p>
+          <p className="text-sm text-[var(--text-muted)]">By Imperio Dog</p>
           <h2 id="family-stories-heading" className="mt-2 scroll-mt-24 text-3xl font-semibold leading-tight tracking-tight text-[var(--text)] sm:text-4xl">Avaliações de quem já nos conhece</h2>
           <p className="mt-3 text-sm text-[var(--text-muted)]">Avaliações publicadas no Google e experiências compartilhadas pelas famílias.</p>
         </div>

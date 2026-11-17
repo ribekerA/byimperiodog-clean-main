@@ -70,7 +70,7 @@ export default async function ContractPage(props: { params: Promise<{ code: stri
       {/* Header */}
       <div className="mb-8 text-center">
         <div className="mb-4 flex items-center justify-center gap-2 text-2xl font-bold text-zinc-900">
-          <span>🐾</span> By Império Dog
+          <span>🐾</span> By Imperio Dog
         </div>
         <h1 className="text-xl font-semibold text-zinc-800">
           {isCompleted ? "Contrato preenchido" : "Dados para Contrato"}

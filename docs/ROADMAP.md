@@ -111,7 +111,7 @@ Enquanto isso, conheça mais sobre nossa filosofia:
 - [Link] Depoimentos de famílias felizes
 
 Atenciosamente,
-Equipe By Império Dog
+Equipe By Imperio Dog
 ```
 
 #### 7. **Tracking Avançado (Blog)** 🟢
@@ -200,7 +200,7 @@ useEffect(() => {
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "By Império Dog",
+  name: "By Imperio Dog",
   url: "https://byimperiodog.com.br",
   logo: "https://byimperiodog.com.br/logo.png",
   sameAs: [
@@ -376,4 +376,4 @@ export const organizationSchema = {
 
 **Última atualização:** 23 de outubro de 2025  
 **Versão:** 1.0  
-**Mantenedor:** GitHub Copilot + Equipe By Império Dog
+**Mantenedor:** GitHub Copilot + Equipe By Imperio Dog

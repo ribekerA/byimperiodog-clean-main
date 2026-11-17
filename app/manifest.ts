@@ -1,15 +1,15 @@
 import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
-  const name = 'By Império Dog';
-  const short_name = 'Império Dog';
+  const name = 'By Imperio Dog';
+  const short_name = 'Imperio Dog';
   const theme_color = '#052e2b';
   const background_color = '#ffffff';
 
   return {
     name,
     short_name,
-    description: 'Spitz Alemão Anão (Lulu da Pomerânia) — filhotes da By Império Dog em Bragança Paulista, SP.',
+    description: 'Spitz Alemão Anão (Lulu da Pomerânia) — filhotes da By Imperio Dog em Bragança Paulista, SP.',
     start_url: '/',
     display: 'standalone',
     theme_color,

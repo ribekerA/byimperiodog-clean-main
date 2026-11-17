@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
  * GET /api/admin/analytics
  *
  * Retorna métricas agregadas para o dashboard
- * By Império Dog - Sistema de Analytics
+ * By Imperio Dog - Sistema de Analytics
  */
 
 import type { NextRequest } from 'next/server';

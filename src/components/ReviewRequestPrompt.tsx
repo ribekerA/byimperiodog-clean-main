@@ -70,7 +70,7 @@ export default function ReviewRequestPrompt({ immediate = false, trigger = "what
             {veioDoAtendimento ? "Já conhece nosso trabalho?" : "Como foi sua experiência?"}
           </p>
           <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">
-            Se você já foi atendido pela By Império Dog, compartilhe sua experiência real no Google.
+            Se você já foi atendido pela By Imperio Dog, compartilhe sua experiência real no Google.
           </p>
           <div className="mt-3 flex gap-2">
             <a

@@ -1,6 +1,6 @@
 /**
  * Página Admin - A/B Testing de Pixels
- * By Império Dog - Experimentos com diferentes configurações
+ * By Imperio Dog - Experimentos com diferentes configurações
  */
 
 'use client';

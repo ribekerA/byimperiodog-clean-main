@@ -145,7 +145,7 @@ export function buildItemListLD(puppies: CatalogItem[]) {
     "@context": "https://schema.org",
     "@type":    "ItemList",
     "@id":      `${SITE_URL}/filhotes#itemlist`,
-    name:       "Vitrine de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
+    name:       "Vitrine de filhotes de Spitz Alemão Anão (Lulu da Pomerânia) — By Imperio Dog",
     url:        `${SITE_URL}/filhotes`,
     numberOfItems: puppies.length,
     itemListElement: puppies.map((p, i) => ({

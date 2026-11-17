@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/lulu-da-pomerania-braganca-paulista" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Lulu da Pomerânia em Bragança Paulista SP — By Império Dog",
+    title: "Lulu da Pomerânia em Bragança Paulista SP — By Imperio Dog",
     description: `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Atende Bragança Paulista e todo o Brasil.`,
     type: "website",
   },
@@ -38,9 +38,9 @@ export const metadata: Metadata = {
 
 const FAQS = [
   {
-    question: "A By Império Dog fica em Bragança Paulista?",
+    question: "A By Imperio Dog fica em Bragança Paulista?",
     answer:
-      "Sim. A By Império Dog é um canil familiar localizado em Bragança Paulista, SP, no interior de São Paulo. Recebemos visitas agendadas para que o futuro tutor conheça a estrutura e os filhotes antes de tomar qualquer decisão.",
+      "Sim. A By Imperio Dog é um canil familiar localizado em Bragança Paulista, SP, no interior de São Paulo. Recebemos visitas agendadas para que o futuro tutor conheça a estrutura e os filhotes antes de tomar qualquer decisão.",
   },
   {
     question: "Fica longe de São Paulo capital?",
@@ -60,7 +60,7 @@ const FAQS = [
   {
     question: "Bragança Paulista tem outros canis de Spitz Alemão (Lulu da Pomerânia)?",
     answer:
-      `Existem outros criadores na região. A By Império Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e mentoria pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
+      `Existem outros criadores na região. A By Imperio Dog cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e mentoria pós-venda. Compare esses itens com o que cada criador oferece antes de decidir.`,
   },
 ];
 
@@ -87,7 +87,7 @@ export default function LuluBragancaPage() {
           Lulu da Pomerânia em Bragança Paulista, SP
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          A By Império Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Atuamos com a raça desde {FOUNDING_YEAR} e atendemos famílias de toda a região e de todo o Brasil.
+          A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Atuamos com a raça desde {FOUNDING_YEAR} e atendemos famílias de toda a região e de todo o Brasil.
         </p>
       </header>
 

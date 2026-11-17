@@ -1,6 +1,6 @@
 # 🎨 Pipeline de Processamento de Imagens
 
-Sistema completo e automático para otimização de imagens de filhotes do projeto By Império Dog.
+Sistema completo e automático para otimização de imagens de filhotes do projeto By Imperio Dog.
 
 ## 📋 Índice
 
@@ -518,4 +518,4 @@ Problemas ou dúvidas:
 
 ---
 
-**Feito com ❤️ para By Império Dog**
+**Feito com ❤️ para By Imperio Dog**

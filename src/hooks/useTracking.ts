@@ -1,6 +1,6 @@
 /**
  * Hook React para gerenciar configurações de tracking
- * By Império Dog - Sistema de Pixels/Analytics
+ * By Imperio Dog - Sistema de Pixels/Analytics
  */
 
 'use client';

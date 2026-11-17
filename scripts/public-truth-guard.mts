@@ -22,7 +22,7 @@
  * -----------------
  * Não proíbe palavra. A regra de escopo `primeira-pessoa` só dispara quando a
  * mesma frase também diz que somos nós, então um artigo pode explicar o que é
- * luxação de patela sem que o build caia. O que não passa é a By Império Dog
+ * luxação de patela sem que o build caia. O que não passa é a By Imperio Dog
  * afirmar que ENTREGA, FAZ ou POSSUI algo fora da lista confirmada.
  *
  * Comentário de código é removido antes da checagem: um comentário que

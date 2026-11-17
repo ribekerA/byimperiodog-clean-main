@@ -1,9 +1,9 @@
 /**
  * @module domain/puppy
- * @description Entidade central do domínio: Filhote de Spitz Alemão (By Império Dog)
+ * @description Entidade central do domínio: Filhote de Spitz Alemão (By Imperio Dog)
  *
  * REGRA DE NEGÓCIO:
- * - Todos os filhotes são comercializados sob a marca "By Império Dog"
+ * - Todos os filhotes são comercializados sob a marca "By Imperio Dog"
  * - A origem (própria ou externa) é APENAS para controle interno
  * - NUNCA expor "criador parceiro" ao cliente final
  */
@@ -19,7 +19,7 @@ export type PuppySource = "own-breeding" | "external-breeder";
 
 /**
  * Entidade Puppy - Filhote de Spitz Alemão Anão
- * Comercializado 100% sob a marca "By Império Dog"
+ * Comercializado 100% sob a marca "By Imperio Dog"
  */
 export interface Puppy {
   // ==========================================
@@ -45,7 +45,7 @@ export interface Puppy {
   size: "toy" | "mini" | "standard"; // Classificação de porte
 
   // ==========================================
-  // COMERCIAL (BY IMPÉRIO DOG)
+  // COMERCIAL (BY IMPERIO DOG)
   // ==========================================
   title: string; // Título comercial SEO (ex: "Spitz Alemão Anão Macho Laranja - Thor")
   description: string; // Descrição voltada à venda

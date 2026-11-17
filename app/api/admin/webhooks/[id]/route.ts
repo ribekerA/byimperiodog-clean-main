@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 /**
  * API Admin - Webhooks [ID]
- * By Império Dog - Gerenciamento Individual de Webhooks
+ * By Imperio Dog - Gerenciamento Individual de Webhooks
  *
  * GET /api/admin/webhooks/[id] - Busca webhook específico
  * PATCH /api/admin/webhooks/[id] - Atualiza webhook

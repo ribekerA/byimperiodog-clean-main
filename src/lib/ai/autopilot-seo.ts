@@ -105,11 +105,11 @@ export async function runAutopilotSeo(): Promise<AutopilotSeoResult> {
         kind: "meta",
         page: { slug, label, type: "blog" },
         message: "Falta title otimizado no post.",
-        suggestion: `Use um title mais específico: "${label} | By Império Dog"`,
+        suggestion: `Use um title mais específico: "${label} | By Imperio Dog"`,
       });
       generatedMeta.push({
         slug,
-        title: `${label} | By Império Dog`,
+        title: `${label} | By Imperio Dog`,
         description: p.seo_description || p.meta_description || `Guia completo sobre ${label}.`,
         kind: "blog",
       });
@@ -145,7 +145,7 @@ export async function runAutopilotSeo(): Promise<AutopilotSeoResult> {
         description: desc || `Tudo sobre ${label}`,
         url: `https://byimperiodog.com.br/blog/${slug}`,
         datePublished: new Date().toISOString(),
-        authorName: "By Império Dog",
+        authorName: "By Imperio Dog",
       }),
     });
   });

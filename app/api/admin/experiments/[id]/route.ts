@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * API Admin - Experiments [ID]
- * By Império Dog - Gerenciamento individual de experimentos
+ * By Imperio Dog - Gerenciamento individual de experimentos
  *
  * GET /api/admin/experiments/[id] - Busca experimento específico
  * PATCH /api/admin/experiments/[id] - Atualiza experimento

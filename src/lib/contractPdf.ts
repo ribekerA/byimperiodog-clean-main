@@ -124,7 +124,7 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
 
   // ─── Header ───────────────────────────────────────────────────────────────
   page.drawRectangle({ x: M, y: y - 50, width: W - M * 2, height: 56, color: rgb(0.02, 0.36, 0.23) });
-  page.drawText("BY IMPÉRIO DOG", { x: M + 12, y: y - 16, size: 14, font: bold, color: rgb(1, 1, 1) });
+  page.drawText("BY IMPERIO DOG", { x: M + 12, y: y - 16, size: 14, font: bold, color: rgb(1, 1, 1) });
   page.drawText("Contrato de Compra e Venda de Filhote", { x: M + 12, y: y - 32, size: 10, font: reg, color: rgb(0.8, 1, 0.9) });
   page.drawText(`Spitz Alemão – Lulu da Pomerânia`, { x: M + 12, y: y - 46, size: 9, font: reg, color: rgb(0.7, 0.95, 0.8) });
   page.drawText(`Código: ${data.code}`, { x: W - M - 110, y: y - 32, size: 9, font: bold, color: rgb(1, 1, 1) });
@@ -132,7 +132,7 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
 
   // ─── Vendedor ─────────────────────────────────────────────────────────────
   sectionTitle("Vendedor(a)");
-  field("Razão Social", "BY IMPÉRIO DOG");
+  field("Razão Social", "BY IMPERIO DOG");
   field("CNPJ",         "22.587.478/0001-00");
   field("E-mail",       BRAND.contact.email);
   field("Instagram",    "@byimperiodog");
@@ -176,7 +176,7 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
     ["6. Da Finalidade de Venda",
       "O filhote é vendido exclusivamente para fins de companhia. Fica expressamente proibida a reprodução comercial sem autorização prévia e escrita do vendedor."],
     ["7. Da Mentoria e Suporte Pós-Entrega",
-      "7.1. A By Império Dog prestará acompanhamento durante o período de adaptação do filhote (primeiros 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva.\n7.2. Encerrado esse período, o suporte por WhatsApp diretamente com a criadora permanece disponível ao comprador pela vida do animal, sem custo adicional."],
+      "7.1. A By Imperio Dog prestará acompanhamento durante o período de adaptação do filhote (primeiros 30 dias), incluindo dúvidas sobre alimentação, comportamento e saúde preventiva.\n7.2. Encerrado esse período, o suporte por WhatsApp diretamente com a criadora permanece disponível ao comprador pela vida do animal, sem custo adicional."],
     ["8. Da Isenção de Responsabilidade",
       "O descumprimento das obrigações das cláusulas 4 e 5 exime o vendedor de qualquer responsabilidade posterior, inclusive no tocante à saúde ou desenvolvimento do animal."],
     ["9. Das Disposições Finais",
@@ -211,7 +211,7 @@ export async function generateContractPdf(data: ContractPdfData): Promise<Uint8A
   page.drawText(data.nome, { x: M + 8, y: sigY - 22, size: 7, font: reg, color: muted });
   page.drawText(`CPF: ${data.cpf}`, { x: M + 8, y: sigY - 32, size: 7, font: reg, color: muted });
 
-  page.drawText("BY IMPÉRIO DOG", { x: midX + 30, y: sigY - 12, size: 8, font: bold, color: muted });
+  page.drawText("BY IMPERIO DOG", { x: midX + 30, y: sigY - 12, size: 8, font: bold, color: muted });
   page.drawText("CNPJ: 22.587.478/0001-00", { x: midX + 12, y: sigY - 22, size: 7, font: reg, color: muted });
 
   y = sigY - 50;

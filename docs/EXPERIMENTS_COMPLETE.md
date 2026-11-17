@@ -149,7 +149,7 @@ export default function HeroSection() {
 
   return (
     <div>
-      <h1>Bem-vindo ao Império Dog</h1>
+      <h1>Bem-vindo ao Imperio Dog</h1>
       <button onClick={handleClick}>{ctaText}</button>
     </div>
   );

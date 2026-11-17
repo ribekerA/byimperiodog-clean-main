@@ -71,8 +71,8 @@ function definir(
 export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   definir(
     "apresentacao-canil",
-    "Por dentro da By Império Dog: apresentação do canil",
-    "Conheça a By Império Dog e veja em vídeo o trabalho dedicado ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
+    "Por dentro da By Imperio Dog: apresentação do canil",
+    "Conheça a By Imperio Dog e veja em vídeo o trabalho dedicado ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP.",
     "canil"
   ),
   definir(
@@ -100,13 +100,13 @@ export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   definir(
     "laranja-macho-jardim",
     "Spitz laranja macho no jardim: energia e curiosidade",
-    "Veja um macho laranja de Spitz Alemão Anão (Lulu da Pomerânia) brincando e explorando o espaço externo da By Império Dog.",
+    "Veja um macho laranja de Spitz Alemão Anão (Lulu da Pomerânia) brincando e explorando o espaço externo da By Imperio Dog.",
     "laranja"
   ),
   definir(
     "ninhada-creme-01",
     "Ninhada de Spitz creme: filhotes juntos em vídeo",
-    "Uma ninhada de filhotes creme reunida, com movimentos e interação registrados em vídeo pela By Império Dog.",
+    "Uma ninhada de filhotes creme reunida, com movimentos e interação registrados em vídeo pela By Imperio Dog.",
     "ninhada"
   ),
   definir(
@@ -148,7 +148,7 @@ export const GALLERY_VIDEOS: readonly GalleryVideo[] = [
   definir(
     "spitz-laranja-macho",
     "Lulu da Pomerânia laranja macho em movimento",
-    "Veja de perto um macho laranja de Spitz Alemão Anão (Lulu da Pomerânia) em um vídeo real da By Império Dog.",
+    "Veja de perto um macho laranja de Spitz Alemão Anão (Lulu da Pomerânia) em um vídeo real da By Imperio Dog.",
     "laranja"
   ),
   // O video da femea branca (spitz-femea-branco.mp4) estava aqui e saiu: o

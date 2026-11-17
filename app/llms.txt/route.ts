@@ -136,7 +136,7 @@ export async function GET() {
     "",
     "## O canil",
     "",
-    linha("Sobre a By Império Dog", "/sobre", "história, cuidados e o que acompanha cada filhote"),
+    linha("Sobre a By Imperio Dog", "/sobre", "história, cuidados e o que acompanha cada filhote"),
     linha("Contato", "/contato", `WhatsApp e ${BRAND.contact.email}`),
     linha("Criador confiável", "/criador-spitz-confiavel", "como avaliar um canil antes de comprar"),
     linha("Canil no interior de SP", "/canil-spitz-alemao-interior-sp"),

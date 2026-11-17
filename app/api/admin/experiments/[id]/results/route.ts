@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * API Admin - Experiment Results
- * By Império Dog - Resultados e métricas de experimentos
+ * By Imperio Dog - Resultados e métricas de experimentos
  *
  * GET /api/admin/experiments/[id]/results - Busca resultados do experimento
  */

@@ -1,4 +1,4 @@
-# By Império Dog — Monorepo Web (Skeleton)
+# By Imperio Dog — Monorepo Web (Skeleton)
 
 Projeto base para migrar do WordPress para **Next.js** com **painel admin**, **contrato online**, **captura de leads** e base para **IA/SEO**.
 

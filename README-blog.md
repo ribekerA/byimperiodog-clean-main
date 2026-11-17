@@ -1,4 +1,4 @@
-Blog - By Império Dog
+Blog - By Imperio Dog
 
 Visão geral
 - Páginas: `/blog` (lista), `/blog/[slug]` (post), e `/blog/tag/[slug]` (listagem por tag).

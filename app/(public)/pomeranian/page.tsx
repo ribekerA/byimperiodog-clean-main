@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pomeranian" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Pomeranian no Brasil: Spitz ou Lulu da Pomerânia? | By Império Dog",
+    title: "Pomeranian no Brasil: Spitz ou Lulu da Pomerânia? | By Imperio Dog",
     description:
         "Pomeranian, Lulu da Pomerânia e Spitz Alemão Anão: entenda a nomenclatura usada no Brasil e no exterior.",
     type: "article",
@@ -66,12 +66,12 @@ const FAQS = [
   {
     question: "Como encontrar um Pomeranian com registro oficial no Brasil?",
     answer:
-      `A By Império Dog é criadora responsável de Pomeranian (Lulu da Pomerânia / Spitz Alemão Anão) em Bragança Paulista, SP, desde ${FOUNDING_YEAR}. Todos os filhotes têm registro oficial (com emissão e entrega conforme o prazo da entidade responsável), consulta veterinária, hemograma completo e contrato de venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável.`,
+      `A By Imperio Dog é criadora responsável de Pomeranian (Lulu da Pomerânia / Spitz Alemão Anão) em Bragança Paulista, SP, desde ${FOUNDING_YEAR}. Todos os filhotes têm registro oficial (com emissão e entrega conforme o prazo da entidade responsável), consulta veterinária, hemograma completo e contrato de venda. A identificação do animal segue os requisitos exigidos pela legislação aplicável.`,
   },
 ];
 
 export default function PomeranianPage() {
-  const waHref = buildWhatsAppLink({ message: "Olá! Vi a página sobre Pomeranian no site da By Império Dog e gostaria de informações sobre as opções atuais." });
+  const waHref = buildWhatsAppLink({ message: "Olá! Vi a página sobre Pomeranian no site da By Imperio Dog e gostaria de informações sobre as opções atuais." });
 
   const breadcrumbLd = buildBreadcrumbLD([
     { name: "Início", url: `${SITE_URL}/` },
@@ -95,7 +95,7 @@ export default function PomeranianPage() {
           Pomeranian no Brasil — o que você precisa saber
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          Pomeranian é o nome em inglês do Lulu da Pomerânia, também chamado Spitz Alemão Anão. Compare fotos reais dos filhotes apresentados pela By Império Dog, em Bragança Paulista, valores individuais e o que conferir antes de escolher.
+          Pomeranian é o nome em inglês do Lulu da Pomerânia, também chamado Spitz Alemão Anão. Compare fotos reais dos filhotes apresentados pela By Imperio Dog, em Bragança Paulista, valores individuais e o que conferir antes de escolher.
         </p>
         <Link href="/filhotes" className="inline-flex min-h-11 items-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-800">Ver fotos e vídeos reais na vitrine</Link>
       </header>

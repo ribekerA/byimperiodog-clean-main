@@ -60,7 +60,7 @@ export default function Header() {
   const baseWhatsAppLink = useMemo(
     () =>
       buildWhatsAppLink({
-        message: "Olá! Quero conversar sobre a disponibilidade dos Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog.",
+        message: "Olá! Quero conversar sobre a disponibilidade dos Spitz Alemão Anão (Lulu da Pomerânia) da By Imperio Dog.",
         utmSource: "site",
         utmMedium: "header",
         utmCampaign: "header_whatsapp",
@@ -89,7 +89,7 @@ export default function Header() {
       <header className={`hm-cabecalho${ehHome ? "" : " vt-cabecalho"}${ehHome || ehVitrine ? "" : " pg-cabecalho"}`} role="banner">
         <div className="hm-cabecalho-miolo mx-auto flex w-full max-w-7xl items-center justify-between gap-2 sm:gap-4">
 
-          {/* Logo — sem aria-label de propósito. O rótulo anterior ("By Império
+          {/* Logo — sem aria-label de propósito. O rótulo anterior ("By Imperio
               Dog — página inicial") substituía o texto visível do link, que
               inclui "Sementinhas de Amor"; por WCAG 2.5.3 o nome acessível
               precisa conter o texto visível, e não continha. Sem o atributo, o
@@ -108,7 +108,7 @@ export default function Header() {
               className="hm-coroa"
             />
             <span>
-              <span className="hm-marca">By Império Dog<sup>®</sup></span>{" "}
+              <span className="hm-marca">By Imperio Dog<sup>®</sup></span>{" "}
               <span className="hm-lema">Sementinhas de Amor</span>
             </span>
           </Link>

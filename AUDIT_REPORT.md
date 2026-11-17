@@ -1,4 +1,4 @@
-# 🔍 AUDITORIA COMPLETA DO CÓDIGO - By Império Dog
+# 🔍 AUDITORIA COMPLETA DO CÓDIGO - By Imperio Dog
 
 **Data:** 01/12/2025  
 **Auditor:** GitHub Copilot (Claude Sonnet 4.5)  
@@ -448,7 +448,7 @@ Não há diferenciação de roles (admin vs moderador vs editor).
 ```markdown
 # TODO: ATUALIZAR README.md PRINCIPAL
 ## Seções necessárias:
-1. Sobre o Projeto (By Império Dog)
+1. Sobre o Projeto (By Imperio Dog)
 2. Tech Stack (Next.js 14, Supabase, TypeScript)
 3. Estrutura de Pastas
 4. Como Rodar Localmente

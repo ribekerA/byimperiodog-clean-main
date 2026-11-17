@@ -1,4 +1,4 @@
-# Auditoria de UI/UX e Acessibilidade — By Império Dog
+# Auditoria de UI/UX e Acessibilidade — By Imperio Dog
 **Data:** 1 de dezembro de 2025  
 **Escopo:** Plataforma completa (site público + admin)  
 **Status:** Mapeamento de problemas (pré-correção)
@@ -82,7 +82,7 @@ Esta auditoria identificou **problemas críticos e oportunidades de melhoria** n
 - [ ] **Cores do active state:** Links ativos usam `text-brand`, mas sem fundo ou sublinhado diferenciado — pode confundir em telas de baixo contraste.
   - **Ação:** Adicionar `bg-brand/5` ou `border-b-2 border-brand` no estado ativo
 
-- [ ] **Logo do header sem imagem:** Apenas texto "By Império Dog" — oportunidade de adicionar logo SVG para reforço de marca.
+- [ ] **Logo do header sem imagem:** Apenas texto "By Imperio Dog" — oportunidade de adicionar logo SVG para reforço de marca.
   - **Ação:** Considerar adicionar logo inline ou como `<Image />` otimizado
 
 ---

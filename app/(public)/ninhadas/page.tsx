@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "Ninhadas Spitz Alemão (Lulu da Pomerânia): Lista de Interesse",
   description: "Entre na lista de interesse das próximas ninhadas de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Conte a cor e o sexo que você procura.",
   alternates: { canonical: "/ninhadas" },
-  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Império Dog", description: "Lista de interesse para as próximas ninhadas de Spitz Alemão Anão (Lulu da Pomerânia)." },
+  openGraph: { images: [OG_DEFAULT_IMAGE], title: "Ninhadas — By Imperio Dog", description: "Lista de interesse para as próximas ninhadas de Spitz Alemão Anão (Lulu da Pomerânia)." },
 };
 
 const _FAQS = [

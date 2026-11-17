@@ -12,7 +12,7 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://byimperiodog.com.
 const PAGE_URL = `${SITE_URL}/spitz-alemao-preto`;
 
 // A página inteira era construída sobre escassez: "menor disponibilidade nas
-// ninhadas da By Império Dog", "raro", "difícil de encontrar". Nada disso é
+// ninhadas da By Imperio Dog", "raro", "difícil de encontrar". Nada disso é
 // verificável e o site não publica estoque. O que sobra é verdadeiro e continua
 // respondendo à mesma busca: o que o padrão exige de uma pelagem preta, quanto
 // custa e o que cobrar do criador. O array `keywords` saiu junto — o Google
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/spitz-alemao-preto" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Spitz Alemão Anão (Lulu da Pomerânia) Preto — Preço e Características | By Império Dog",
+    title: "Spitz Alemão Anão (Lulu da Pomerânia) Preto — Preço e Características | By Imperio Dog",
     description: "O que define o preto no padrão do Spitz Alemão Anão (Lulu da Pomerânia), quanto custa e como garantir um filhote com registro oficial.",
     type: "article",
   },
@@ -63,7 +63,7 @@ const FAQS = [
 export default function SpitzAlemaoPretoPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão (Lulu da Pomerânia) Preto no site da By Império Dog. Gostaria de conhecer as opções atuais e os valores.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão (Lulu da Pomerânia) Preto no site da By Imperio Dog. Gostaria de conhecer as opções atuais e os valores.")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
@@ -88,7 +88,7 @@ export default function SpitzAlemaoPretoPage() {
           Spitz Alemão Anão (Lulu da Pomerânia) Preto — características, padrão e preço
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          O preto é uma das cores reconhecidas no padrão do Spitz Alemão Anão (Lulu da Pomerânia) e uma das sete com que a By Império Dog trabalha. Sai com registro oficial e a mesma documentação das demais cores. Consulte as opções atuais pelo WhatsApp.
+          O preto é uma das cores reconhecidas no padrão do Spitz Alemão Anão (Lulu da Pomerânia) e uma das sete com que a By Imperio Dog trabalha. Sai com registro oficial e a mesma documentação das demais cores. Consulte as opções atuais pelo WhatsApp.
         </p>
       </header>
 
@@ -111,7 +111,7 @@ export default function SpitzAlemaoPretoPage() {
 
       {/* Preço */}
       <section aria-labelledby="preco-preto-heading" className="rounded-3xl border border-zinc-200 bg-zinc-50 p-6 sm:p-8 space-y-4">
-        <h2 id="preco-preto-heading" className="text-xl font-bold text-zinc-900">Preço do Spitz Alemão Anão (Lulu da Pomerânia) Preto — By Império Dog</h2>
+        <h2 id="preco-preto-heading" className="text-xl font-bold text-zinc-900">Preço do Spitz Alemão Anão (Lulu da Pomerânia) Preto — By Imperio Dog</h2>
         <p className="text-sm text-zinc-600">{RESPOSTA_PRETO}</p>
         {/* "Mentoria pós-venda" saiu da lista do que acompanha o filhote: o que
             existe é suporte pelo WhatsApp depois da entrega, e isso não é um

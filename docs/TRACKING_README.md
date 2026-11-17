@@ -1,6 +1,6 @@
 # 🎯 Sistema de Tracking (Pixels & Analytics) - Documentação Completa
 
-> **By Império Dog** - Sistema completo de gerenciamento de pixels e analytics  
+> **By Imperio Dog** - Sistema completo de gerenciamento de pixels e analytics  
 > **Data:** 28 de novembro de 2025  
 > **Stack:** Next.js 14 + TypeScript + Supabase
 
@@ -508,6 +508,6 @@ Sistema completo de tracking implementado com:
 
 ---
 
-**Desenvolvido por:** By Império Dog  
+**Desenvolvido por:** By Imperio Dog  
 **Data:** 28 de novembro de 2025  
 **Versão:** 1.0.0

@@ -24,37 +24,37 @@ const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "551196
 // Mensagem contextual por rota
 function resolveMessage(pathname: string): string {
   if (pathname.startsWith("/filhotes/cor/creme"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Creme no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Creme no site da By Imperio Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/preto") || pathname.startsWith("/spitz-alemao-preto"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Preto no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Preto no site da By Imperio Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/laranja"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Laranja no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Laranja no site da By Imperio Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/particolor"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Particolor no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Particolor no site da By Imperio Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/chocolate"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Chocolate no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Chocolate no site da By Imperio Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/cor/merle"))
-    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Merle no site da By Império Dog e gostaria de saber disponibilidade.";
+    return "Olá! Vi o Spitz Alemão Anão (Lulu da Pomerânia) Merle no site da By Imperio Dog e gostaria de saber disponibilidade.";
   if (pathname.startsWith("/filhotes/sexo/femea"))
     return "Olá! Tenho interesse em uma fêmea de Spitz Alemão Anão (Lulu da Pomerânia). Pode me informar disponibilidade?";
   if (pathname.startsWith("/filhotes/sexo/macho"))
     return "Olá! Tenho interesse em um macho de Spitz Alemão Anão (Lulu da Pomerânia). Pode me informar disponibilidade?";
   if (pathname.startsWith("/filhotes/") && pathname !== "/filhotes")
-    return "Olá! Vi um filhote no catálogo da By Império Dog e gostaria de mais informações.";
+    return "Olá! Vi um filhote no catálogo da By Imperio Dog e gostaria de mais informações.";
   if (pathname === "/filhotes")
-    return "Olá! Estou vendo o catálogo da By Império Dog e gostaria de saber disponibilidade de filhotes.";
+    return "Olá! Estou vendo o catálogo da By Imperio Dog e gostaria de saber disponibilidade de filhotes.";
   if (pathname.startsWith("/preco-spitz-anao"))
-    return "Olá! Vi os filhotes no site da By Império Dog e gostaria de confirmar disponibilidade e valor.";
+    return "Olá! Vi os filhotes no site da By Imperio Dog e gostaria de confirmar disponibilidade e valor.";
   if (pathname.startsWith("/comprar-spitz-anao"))
-    return "Olá! Estou interessado em comprar um Spitz Alemão Anão (Lulu da Pomerânia) da By Império Dog. Pode me ajudar?";
+    return "Olá! Estou interessado em comprar um Spitz Alemão Anão (Lulu da Pomerânia) da By Imperio Dog. Pode me ajudar?";
   if (pathname.startsWith("/criador-spitz-confiavel"))
-    return "Olá! Vi o perfil da By Império Dog e gostaria de conhecer melhor o canil e os filhotes.";
+    return "Olá! Vi o perfil da By Imperio Dog e gostaria de conhecer melhor o canil e os filhotes.";
   if (pathname.startsWith("/spitz-alemao-baby-face"))
-    return "Olá! Vi sobre o Spitz Alemão (Lulu da Pomerânia) Baby Face no site da By Império Dog. Pode me passar mais informações?";
+    return "Olá! Vi sobre o Spitz Alemão (Lulu da Pomerânia) Baby Face no site da By Imperio Dog. Pode me passar mais informações?";
   if (pathname.startsWith("/blog"))
-    return "Olá! Li um artigo no blog da By Império Dog e gostaria de saber mais sobre os filhotes.";
+    return "Olá! Li um artigo no blog da By Imperio Dog e gostaria de saber mais sobre os filhotes.";
   // default
-  return "Olá! Vim pelo site da By Império Dog e gostaria de informações sobre o Spitz Alemão Anão (Lulu da Pomerânia).";
+  return "Olá! Vim pelo site da By Imperio Dog e gostaria de informações sobre o Spitz Alemão Anão (Lulu da Pomerânia).";
 }
 
 /**

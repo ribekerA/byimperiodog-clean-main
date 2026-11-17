@@ -29,9 +29,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco: diferenças do creme claro",
     description:
-      "Veja como comparar branco e creme claro e consulte o catálogo atualizado de filhotes da By Império Dog.",
+      "Veja como comparar branco e creme claro e consulte o catálogo atualizado de filhotes da By Imperio Dog.",
     url: PAGE_URL,
-    siteName: "By Império Dog",
+    siteName: "By Imperio Dog",
     type: "article",
     locale: "pt_BR",
     images: [
@@ -133,7 +133,7 @@ export default function SpitzAlemaoBrancoPage() {
             priority
           />
           <figcaption className="bg-white px-4 py-3 text-xs leading-relaxed text-zinc-500">
-            Fêmea branca fotografada em luz natural no jardim da By Império Dog.
+            Fêmea branca fotografada em luz natural no jardim da By Imperio Dog.
           </figcaption>
         </figure>
       </header>

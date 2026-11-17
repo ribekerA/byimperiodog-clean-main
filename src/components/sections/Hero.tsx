@@ -42,7 +42,7 @@ const STATS = [
 
 const primaryWhatsApp = buildWhatsAppLink({
   message:
-    "Olá! Quero saber quais Spitz Alemão Anão (Lulu da Pomerânia) estão disponíveis na By Império Dog.",
+    "Olá! Quero saber quais Spitz Alemão Anão (Lulu da Pomerânia) estão disponíveis na By Imperio Dog.",
   utmSource: "site",
   utmMedium: "hero",
   utmCampaign: "hero_primary_cta",

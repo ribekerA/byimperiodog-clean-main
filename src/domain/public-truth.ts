@@ -1,6 +1,6 @@
 /**
  * @module domain/public-truth
- * @description Matriz de verdade pública da By Império Dog — o que o site pode
+ * @description Matriz de verdade pública da By Imperio Dog — o que o site pode
  * afirmar sobre o próprio negócio, e o que não pode até existir evidência.
  *
  * Por que este arquivo existe
@@ -25,7 +25,7 @@
  * de valor, e um guard que apague a palavra "patela" do site empobrece o texto
  * sem tornar nada mais verdadeiro.
  *
- * O que não pode é a By Império Dog dizer que ENTREGA, FAZ ou POSSUI algo que
+ * O que não pode é a By Imperio Dog dizer que ENTREGA, FAZ ou POSSUI algo que
  * não está na lista confirmada. Por isso a maior parte das regras abaixo tem
  * escopo `primeira-pessoa`: elas só disparam quando a mesma frase também diz
  * que somos nós.
@@ -65,7 +65,7 @@ export const REGRA_DE_ENTREGA =
   "Entregamos em todo o Brasil por transporte aéreo, conforme a rota, a idade e as condições do filhote, ou com retirada em Bragança Paulista. Prazo, custo e requisitos são confirmados antes da reserva.";
 
 export const FATOS_PUBLICOS: readonly FatoPublico[] = [
-  { id: "marca", status: "CONFIRMADO", texto: "By Império Dog" },
+  { id: "marca", status: "CONFIRMADO", texto: "By Imperio Dog" },
   { id: "base", status: "CONFIRMADO", texto: "Bragança Paulista, São Paulo" },
   {
     id: "inicio",
@@ -147,7 +147,7 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
  * `primeira-pessoa` dispara.
  */
 export const MARCADORES_DE_PRIMEIRA_PESSOA =
-  /\b(somos|nosso|nossos|nossa|nossas|entrevistamos|selecionamos|entregamos|oferecemos|fornecemos|realizamos|fazemos|possuímos|possuimos|temos|criamos|trabalhamos|acompanha|acompanham|inclus[oa]|inclusos|inclusas|incluído|incluido|incluídos|incluidos|inclui|incluem|todos os filhotes|cada filhote|o filhote (sai|vai|chega)|saem com|sai com|vem com|vêm com|vao com|aqui na by|by império dog|by imperio dog)\b/i;
+  /\b(somos|nosso|nossos|nossa|nossas|entrevistamos|selecionamos|entregamos|oferecemos|fornecemos|realizamos|fazemos|possuímos|possuimos|temos|criamos|trabalhamos|acompanha|acompanham|inclus[oa]|inclusos|inclusas|incluído|incluido|incluídos|incluidos|inclui|incluem|todos os filhotes|cada filhote|o filhote (sai|vai|chega)|saem com|sai com|vem com|vêm com|vao com|aqui na by|by imperio dog|by imperio dog)\b/i;
 
 /**
  * Quando a frase PROÍBE em vez de afirmar.

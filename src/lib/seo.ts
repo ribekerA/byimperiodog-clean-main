@@ -44,7 +44,7 @@ export const OG_DEFAULT_IMAGE: Required<OgImage> = {
   url: "/og-default.jpg",
   width: 1200,
   height: 630,
-  alt: "Spitz Alemão Anão (Lulu da Pomerânia) — By Império Dog",
+  alt: "Spitz Alemão Anão (Lulu da Pomerânia) — By Imperio Dog",
 };
 
 const DEFAULT_IMAGE = OG_DEFAULT_IMAGE;

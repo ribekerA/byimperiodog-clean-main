@@ -1,7 +1,7 @@
 # 🔍 Relatório de Auditoria SEO e Core Web Vitals
 
 **Data:** ${new Date().toISOString().split('T')[0]}  
-**Projeto:** By Império Dog  
+**Projeto:** By Imperio Dog  
 **Escopo:** SEO técnico, Core Web Vitals, acessibilidade básica
 
 ---

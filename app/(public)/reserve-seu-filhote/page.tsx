@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     images: [OG_DEFAULT_IMAGE],
     type: "website",
     url: "/reserve-seu-filhote",
-    title: "Reserve seu Filhote de Spitz Alemão Anão (Lulu da Pomerânia) | By Império Dog",
+    title: "Reserve seu Filhote de Spitz Alemão Anão (Lulu da Pomerânia) | By Imperio Dog",
     description:
       "Processo de reserva transparente: conversa inicial, sinal, acompanhamento até a entrega e suporte pós-venda.",
   },
@@ -180,7 +180,7 @@ export default function ReserveSeuFilhotePage() {
 
       {/* Benefits */}
       <section className="mx-auto max-w-6xl space-y-6 px-5 py-16">
-        <h2 className="text-2xl font-semibold text-[var(--text)]">Por que reservar com a By Império Dog?</h2>
+        <h2 className="text-2xl font-semibold text-[var(--text)]">Por que reservar com a By Imperio Dog?</h2>
         <div className="grid gap-4 md:grid-cols-2">
           {benefits.map((benefit) => (
             <article key={benefit.title} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm">

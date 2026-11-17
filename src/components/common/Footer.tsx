@@ -59,7 +59,7 @@ export default function Footer() {
   }, []);
 
   const baseWhatsapp = buildWhatsAppLink({
-    message: "Olá! Quero falar com a By Império Dog sobre disponibilidade de Spitz Alemão Anão (Lulu da Pomerânia).",
+    message: "Olá! Quero falar com a By Imperio Dog sobre disponibilidade de Spitz Alemão Anão (Lulu da Pomerânia).",
     utmSource: "site",
     utmMedium: "footer",
     utmCampaign: "footer_whatsapp",
@@ -110,7 +110,7 @@ export default function Footer() {
           <Link href={routes.home} className="rp-logo">
             <Image src="/images/home/coroa.webp" alt="" width={230} height={148} unoptimized loading="lazy" />
             <span>
-              <span className="rp-logo-nome">By Império Dog<sup>®</sup></span>{" "}
+              <span className="rp-logo-nome">By Imperio Dog<sup>®</sup></span>{" "}
               <span className="rp-logo-lema">Sementinhas de Amor</span>
             </span>
           </Link>
@@ -181,7 +181,7 @@ export default function Footer() {
       {/* Linha final */}
       <div className="rp-final">
         <div>
-          <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Império Dog. Todos os direitos reservados. Registro CBKC nº {BRAND.registroCbkc}.</p>
+          <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Imperio Dog. Todos os direitos reservados. Registro CBKC nº {BRAND.registroCbkc}.</p>
           <p>Spitz Alemão Anão (Lulu da Pomerânia) — acompanhamento veterinário e suporte direto com a criadora.</p>
         </div>
       </div>

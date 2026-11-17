@@ -1,12 +1,12 @@
 /**
  * Documentação - Sistema de Tracking/Pixels Avançado
- * By Império Dog - Guia Completo
+ * By Imperio Dog - Guia Completo
  * 
  * Este documento descreve todas as funcionalidades avançadas implementadas
  * no módulo de tracking/pixels.
  */
 
-# Sistema Avançado de Tracking/Pixels - By Império Dog
+# Sistema Avançado de Tracking/Pixels - By Imperio Dog
 
 ## 📊 Funcionalidades Implementadas
 

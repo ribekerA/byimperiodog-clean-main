@@ -44,7 +44,7 @@ type Puppy = (typeof staticPuppies)[number];
 const OPENING_MESSAGE: Message = {
   id:      "opening",
   role:    "assistant",
-  content: "Olá! Aqui é a equipe da By Império Dog. Para entendermos o que você procura, conte pra gente: você mora em casa ou apartamento? Há crianças ou outros animais no ambiente?",
+  content: "Olá! Aqui é a equipe da By Imperio Dog. Para entendermos o que você procura, conte pra gente: você mora em casa ou apartamento? Há crianças ou outros animais no ambiente?",
 };
 
 const MATCHES_REGEX      = /<MATCHES>([\s\S]*?)<\/MATCHES>/;
@@ -609,7 +609,7 @@ export default function AiMatchmakerChat() {
             🐾
           </div>
           <div>
-            <p className="text-sm font-bold text-zinc-900">By Império Dog</p>
+            <p className="text-sm font-bold text-zinc-900">By Imperio Dog</p>
             {/* Aqui havia bolinha verde e "respondendo agora". Era texto fixo:
                 nada no componente, na API ou no banco sabe se existe alguém do
                 outro lado — o mesmo aviso aparecia às três da manhã.
@@ -641,7 +641,7 @@ export default function AiMatchmakerChat() {
           className="flex max-h-[420px] min-h-[220px] flex-col gap-4 overflow-y-auto p-4 [scrollbar-width:thin] sm:max-h-[500px] sm:min-h-[240px]"
           role="log"
           aria-live="polite"
-          aria-label="Conversa com o atendimento da By Império Dog"
+          aria-label="Conversa com o atendimento da By Imperio Dog"
         >
           <AnimatePresence initial={false}>
             {messages.map((msg, idx) => (

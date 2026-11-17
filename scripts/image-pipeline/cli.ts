@@ -18,7 +18,7 @@ interface ImageFile {
 }
 
 async function main() {
-  console.log('🎨 Pipeline de Processamento de Imagens - By Império Dog\n');
+  console.log('🎨 Pipeline de Processamento de Imagens - By Imperio Dog\n');
 
   // 1. Verificar pasta de entrada
   const inputDir = IMAGE_CONFIG.paths.input;

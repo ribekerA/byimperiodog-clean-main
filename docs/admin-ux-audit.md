@@ -2,7 +2,7 @@
 
 **Data:** 1 de dezembro de 2025  
 **Auditor:** Lead Product Engineer  
-**Escopo:** Admin Dashboard - By Império Dog  
+**Escopo:** Admin Dashboard - By Imperio Dog  
 **Metodologia:** Nielsen Heuristics + WCAG 2.2 AA/AAA + Best Practices
 
 ---

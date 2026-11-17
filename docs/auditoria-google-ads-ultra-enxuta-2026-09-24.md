@@ -53,17 +53,17 @@ Nenhum outro campo deve mudar. Aplicação depende de autorização exata e de v
 
 Headlines: `Spitz Alemão Fêmea Branca`; `Conheça as Fêmeas Brancas`; `Filhote em Bragança Paulista`; `Fotos e Informações no Site`; `Atendimento Direto no WhatsApp`.
 
-Descrições: `Veja fotos reais, preço confirmado e informações das fêmeas brancas no site.`; `By Império Dog em Bragança Paulista. Tire dúvidas diretamente pelo WhatsApp.`
+Descrições: `Veja fotos reais, preço confirmado e informações das fêmeas brancas no site.`; `By Imperio Dog em Bragança Paulista. Tire dúvidas diretamente pelo WhatsApp.`
 
 ### RSA 2 — correspondência e transparência
 
 Headlines: `Spitz Alemão Anão Branco`; `Fêmeas Brancas Disponíveis`; `Preço e Fotos no Site`; `Canil em Bragança Paulista`; `Consulte a Disponibilidade`.
 
-Descrições: `Confira cada fêmea, o valor atual e as condições informadas pela By Império Dog.`; `Acesse a página específica e fale com a equipe para confirmar a disponibilidade.`
+Descrições: `Confira cada fêmea, o valor atual e as condições informadas pela By Imperio Dog.`; `Acesse a página específica e fale com a equipe para confirmar a disponibilidade.`
 
 ### RSA 3 — marca e atendimento
 
-Headlines: `By Império Dog Desde 2013`; `Spitz Alemão Fêmea Branca`; `Atendimento Direto`; `Conheça Antes de Reservar`; `Bragança Paulista SP`.
+Headlines: `By Imperio Dog Desde 2013`; `Spitz Alemão Fêmea Branca`; `Atendimento Direto`; `Conheça Antes de Reservar`; `Bragança Paulista SP`.
 
 Descrições: `Conheça as fêmeas brancas com fotos reais e informações objetivas no site.`; `Confirme preço, documentação e disponibilidade atual diretamente com a equipe.`
 

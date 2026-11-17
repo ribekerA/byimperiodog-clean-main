@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: "video.other",
       url: canonical,
-      title: `${video.title} | By Império Dog`,
+      title: `${video.title} | By Imperio Dog`,
       description: video.description,
       images: [
         {
@@ -66,7 +66,7 @@ export default async function GaleriaVideoPage({ params }: Props) {
   const medida = medidaDoVideo(video.slug);
   const pageUrl = `${SITE_URL}/galeria/${video.slug}`;
   const whatsappUrl = buildWhatsAppLink({
-    message: `Olá! Assisti ao vídeo "${video.title}" na galeria da By Império Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
+    message: `Olá! Assisti ao vídeo "${video.title}" na galeria da By Imperio Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
     utmSource: "galeria",
     utmMedium: "video_page",
     utmCampaign: "video_interest",
@@ -149,7 +149,7 @@ export default async function GaleriaVideoPage({ params }: Props) {
 
         <header className="mx-auto mt-6 max-w-3xl">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-emerald-400">
-            Vídeo real · By Império Dog
+            Vídeo real · By Imperio Dog
           </p>
           <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-5xl">
             {video.title}

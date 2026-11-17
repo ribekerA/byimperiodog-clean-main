@@ -1,6 +1,6 @@
 /**
  * Tipos para Analytics Dashboard
- * By Império Dog - Sistema de Analytics
+ * By Imperio Dog - Sistema de Analytics
  */
 
 /**

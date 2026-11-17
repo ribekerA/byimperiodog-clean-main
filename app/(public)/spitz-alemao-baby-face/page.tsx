@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/spitz-alemao-baby-face" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
-    title: "Spitz Alemão (Lulu da Pomerânia) Baby Face — O que é e Como Identificar | By Império Dog",
+    title: "Spitz Alemão (Lulu da Pomerânia) Baby Face — O que é e Como Identificar | By Imperio Dog",
     description: "O que é o Baby Face, por que não é reconhecido pela FCI, cuidados especiais e preço.",
     type: "article",
   },
@@ -50,7 +50,7 @@ const FAQS = [
   {
     question: "O Baby Face é mais caro?",
     answer:
-      "Alguns criadores cobram mais pelo apelo estético. Porém, a By Império Dog não escolhe filhotes com base em conformação achatada extrema — priorizamos saúde, temperamento e padrão FCI. Os filhotes que apresentamos têm o perfil 'foxface' saudável, com faces arredondadas naturais, sem exageros estruturais.",
+      "Alguns criadores cobram mais pelo apelo estético. Porém, a By Imperio Dog não escolhe filhotes com base em conformação achatada extrema — priorizamos saúde, temperamento e padrão FCI. Os filhotes que apresentamos têm o perfil 'foxface' saudável, com faces arredondadas naturais, sem exageros estruturais.",
   },
   {
     question: "Como identificar um Baby Face legítimo vs marketing enganoso?",
@@ -62,7 +62,7 @@ const FAQS = [
 export default function SpitzAlemaobabyFacePage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão (Lulu da Pomerânia) Baby Face no site da By Império Dog. Pode me dar mais informações sobre as opções atuais?")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Olá! Vi a página sobre Spitz Alemão (Lulu da Pomerânia) Baby Face no site da By Imperio Dog. Pode me dar mais informações sobre as opções atuais?")}`
     : "#";
 
   const breadcrumbLd = buildBreadcrumbLD([
@@ -118,7 +118,7 @@ export default function SpitzAlemaobabyFacePage() {
           ))}
         </ul>
         <p className="text-xs text-zinc-500">
-          A By Império Dog prioriza saúde e padrão racial. Os filhotes que apresentamos têm conformação facial saudável com aparência naturalmente arredondada sem os riscos da braquicefalia extrema.
+          A By Imperio Dog prioriza saúde e padrão racial. Os filhotes que apresentamos têm conformação facial saudável com aparência naturalmente arredondada sem os riscos da braquicefalia extrema.
         </p>
       </section>
 
@@ -153,7 +153,7 @@ export default function SpitzAlemaobabyFacePage() {
 
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
-        <h2 className="text-xl font-bold text-zinc-900">Ver filhotes saudáveis da By Império Dog</h2>
+        <h2 className="text-xl font-bold text-zinc-900">Ver filhotes saudáveis da By Imperio Dog</h2>
         <p className="mt-2 text-sm text-zinc-600">Filhotes com aparência naturalmente arredondada, saúde documentada e atendimento especializado.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">

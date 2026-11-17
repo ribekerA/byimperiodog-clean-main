@@ -1,4 +1,4 @@
-# Instruções de desenvolvimento — By Império Dog
+# Instruções de desenvolvimento — By Imperio Dog
 
 Resumo rápido para rodar, aplicar migrations e testar localmente.
 

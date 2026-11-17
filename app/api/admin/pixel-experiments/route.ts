@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 /**
  * API Admin - Pixel Experiments (A/B Testing)
- * By Império Dog - Gerenciamento de experimentos de pixels
+ * By Imperio Dog - Gerenciamento de experimentos de pixels
  *
  * GET /api/admin/pixel-experiments - Lista todos os experimentos
  * POST /api/admin/pixel-experiments - Cria novo experimento

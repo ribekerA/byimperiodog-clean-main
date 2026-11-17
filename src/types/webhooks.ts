@@ -1,6 +1,6 @@
 /**
  * Tipos para Sistema de Webhooks
- * By Império Dog - Sistema de Notificações de Conversões
+ * By Imperio Dog - Sistema de Notificações de Conversões
  */
 
 export type WebhookEvent =

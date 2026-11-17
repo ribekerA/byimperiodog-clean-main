@@ -87,7 +87,7 @@ export function VideoLightbox({ videos, initialIndex, onClose }: VideoLightboxPr
   }
 
   const baseWaLink = video.waLink ?? buildWhatsAppLink({
-    message: `Olá! Assisti ao vídeo "${video.title}" no site da By Império Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
+    message: `Olá! Assisti ao vídeo "${video.title}" no site da By Imperio Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
     utmSource: "galeria",
     utmMedium: "video_lightbox",
     utmCampaign: "video_interest",

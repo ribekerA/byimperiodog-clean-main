@@ -51,7 +51,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 function waFor(video: GalleryVideo) {
   return buildWhatsAppLink({
-    message: `Olá! Assisti ao vídeo "${video.title}" na galeria da By Império Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
+    message: `Olá! Assisti ao vídeo "${video.title}" na galeria da By Imperio Dog. Quero conhecer os filhotes atuais, os valores e como funciona a reserva.`,
     utmSource: "galeria",
     utmMedium: "video_gallery",
     utmCampaign: "video_interest",
@@ -285,7 +285,7 @@ export default function GaleriaClient({ videos }: Props) {
   return (
     <>
       <div className="mb-6 flex flex-col gap-2 sm:mb-8">
-        <h2 className="text-2xl font-bold text-white sm:text-3xl">{videos.length} vídeos da By Império Dog</h2>
+        <h2 className="text-2xl font-bold text-white sm:text-3xl">{videos.length} vídeos da By Imperio Dog</h2>
         <p className="text-sm text-zinc-400">
           <span className="sm:hidden">Toque para assistir em tela cheia e deslize para o próximo.</span>
           <span className="hidden sm:inline">Toque ou clique para assistir em tela cheia.</span>
@@ -330,7 +330,7 @@ export default function GaleriaClient({ videos }: Props) {
           initialIndex={reelsIndex}
           onClose={() => setReelsIndex(null)}
           backLabel="Ver grade"
-          ariaLabel="Vídeos da By Império Dog"
+          ariaLabel="Vídeos da By Imperio Dog"
           ctaLabel="Quero conhecer os filhotes"
           curtidas={curtidas}
         />

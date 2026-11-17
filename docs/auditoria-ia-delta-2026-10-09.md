@@ -36,7 +36,7 @@ Nenhum preço individual, imagem, capa, ordem, slug ou estado do catálogo foi a
 
 ## 4. JÁ CORRETO — NÃO MEXI
 
-Domínio oficial non-www, identidade By Império Dog/Sementinhas de Amor, localização Bragança Paulista/SP, telefone público, preços individuais branca R$7.500 e preta R$9.500, reserva de 50%, cláusulas protegidas, caminhos de WhatsApp e consentimento. Capa e primeiras posições da vitrine preservadas. Não se recriou tabela por cor/sexo nem disponibilidade.
+Domínio oficial non-www, identidade By Imperio Dog/Sementinhas de Amor, localização Bragança Paulista/SP, telefone público, preços individuais branca R$7.500 e preta R$9.500, reserva de 50%, cláusulas protegidas, caminhos de WhatsApp e consentimento. Capa e primeiras posições da vitrine preservadas. Não se recriou tabela por cor/sexo nem disponibilidade.
 
 O HTML inicial já contém conteúdo principal, títulos e links. FAQ usa conteúdo público existente e apresentação acessível por texto. Páginas regionais existentes não foram multiplicadas. A exclusão deliberada de wolf-sable das listagens continua preservada. As correções anteriores de prioridade de imagem e contraste não foram refeitas.
 
@@ -113,8 +113,8 @@ Consultas reais em ferramenta de busca web em 09/10/2026, aproximadamente 21:59 
 | Consulta | Marca observada | URLs retornadas no domínio oficial |
 | --- | --- | --- |
 | Onde encontro Spitz Alemão Anão em Bragança Paulista? | Sim | `/`, `/lulu-da-pomerania-braganca-paulista`, `/filhotes/sao-paulo`, `/contato` |
-| Tem Lulu da Pomerânia fêmea branca By Império Dog? | Sim | `/lulu-da-pomerania`, `/`, `/pomeranian` e conteúdo de cores |
-| Quanto custa um Spitz Alemão Anão By Império Dog? | Sim | `/`, `/blog/preco-spitz-alemao-anao`, `/filhotes/sexo/femea` |
+| Tem Lulu da Pomerânia fêmea branca By Imperio Dog? | Sim | `/lulu-da-pomerania`, `/`, `/pomeranian` e conteúdo de cores |
+| Quanto custa um Spitz Alemão Anão By Imperio Dog? | Sim | `/`, `/blog/preco-spitz-alemao-anao`, `/filhotes/sexo/femea` |
 
 Resultados incluíram fragmentos antigos com branca R$8.500, enquanto HTML atual mostra R$7.500. É divergência entre índice consultado e produção atual, **não prova de defeito atual no preço do site**. Não reescrever conteúdo correto nem forçar atualização em massa. Não se inferiu estoque por uma consulta.
 
@@ -165,7 +165,7 @@ Plano de testes: preço individual de dois filhotes de mesma cor/sexo; vendido/r
 
 ## 16. SEO local e presença digital
 
-Site/código: By Império Dog, Spitz Alemão Anão/Lulu da Pomerânia, Bragança Paulista/SP, WhatsApp +55 11 96863-3239 e contato@byimperiodog.com.br consistentes nas fontes inspecionadas. «Desde 2013» vem da fonte de negócio existente; não houve comprovação documental externa nesta etapa. Sementinhas de Amor já integra a identidade; preservada.
+Site/código: By Imperio Dog, Spitz Alemão Anão/Lulu da Pomerânia, Bragança Paulista/SP, WhatsApp +55 11 96863-3239 e contato@byimperiodog.com.br consistentes nas fontes inspecionadas. «Desde 2013» vem da fonte de negócio existente; não houve comprovação documental externa nesta etapa. Sementinhas de Amor já integra a identidade; preservada.
 
 Google Business Profile, Instagram e Facebook: acesso direto pela ferramenta não permitiu confirmar dados atuais completos nem administração. **NÃO VERIFICADOS externamente**, não declarados errados. `sameAs` existente não foi ampliado com relações não verificadas.
 

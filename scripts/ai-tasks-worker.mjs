@@ -251,7 +251,7 @@ function fallbackOptimize(topic, draft, research) {
     seo_description: `Aprenda ${topic.toLowerCase()} com orientações práticas para tutores de Spitz Alemão: rotina, saúde, grooming e muito mais.`,
     slug: slugSuggestion,
     h1: draft?.title || topic,
-    cta: 'Fale com a equipe By Império Dog e receba vídeo exclusivo dos filhotes disponíveis.',
+    cta: 'Fale com a equipe By Imperio Dog e receba vídeo exclusivo dos filhotes disponíveis.',
     alt_texts: [
       `Spitz Alemão feliz durante ${topic.toLowerCase()}`,
       'Tutor cuidando do Lulu da Pomerânia',
@@ -259,7 +259,7 @@ function fallbackOptimize(topic, draft, research) {
     ],
     internal_links: research?.internal_links || [],
     meta: {
-      'article:section': 'Blog By Império Dog',
+      'article:section': 'Blog By Imperio Dog',
       'article:tag': research?.primary_keyword || topic,
     },
   };
