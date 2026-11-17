@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   // para caber inteira, mantendo "Lulu da Pomerânia" — que sai do título por
   // falta de espaço, mas é o nome pelo qual a raça é de fato pesquisada.
   description:
-    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Veja fotos, preços, documentação e atendimento para famílias de todo o Brasil.",
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Veja fotos, preços iniciais no Pix, documentação e atendimento especializado.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
@@ -82,7 +82,7 @@ const DIFFERENTIALS = [
   { emoji: "🩺", title: "Saúde documentada", body: "Consulta veterinária e hemograma completo antes da entrega, com protocolo vacinal em dia conforme a idade do filhote e carteira assinada pelo médico-veterinário." },
   { emoji: "🏡", title: "Socialização guiada", body: "Convivência com pessoas, sons e rotinas domésticas, com orientação de ambientação para a chegada na nova casa." },
   { emoji: "💬", title: "Mentoria pós-venda", body: "Suporte direto com a criadora via WhatsApp para rotina, nutrição e comportamento." },
-  { emoji: "🚗", title: "Transporte orientado", body: REGRA_DE_ENTREGA },
+  { emoji: "🚗", title: "Retirada ou entrega", body: REGRA_DE_ENTREGA },
   { emoji: "📋", title: "Lista de enxoval", body: "Lista de itens, alimentação e rotina entregue antes da chegada do filhote." },
 ] as const;
 
@@ -210,6 +210,7 @@ export default function HomePage() {
               </p>
               <p className="hm-chamada so-fora-do-natal">Escolha o seu novo companheiro hoje mesmo!</p>
               <p className="hm-chamada so-no-natal">Família nova: escolha o seu Lulu da Pomerânia!</p>
+              <p className="sr-only">Spitz Alemão Anão, conhecido como Lulu da Pomerânia. A By Imperio Dog atua desde 2013 em Bragança Paulista, SP. Conheça as fotografias, os preços iniciais no Pix e consulte as opções atuais.</p>
             </div>
             <span className="neve-natal" aria-hidden="true" />
           </section>
