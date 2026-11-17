@@ -13,15 +13,15 @@ import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import LeadForm from "@/components/LeadForm";
 import TrustBar from "@/components/TrustBar";
 import ViewEventTracker from "@/components/ViewEventTracker";
-import { GOOGLE_MAPS_PROFILE_URL, GOOGLE_REVIEWS_URL } from "@/domain/config";
+import { BRAND, DELIVERY_POLICY_COPY, GOOGLE_MAPS_PROFILE_URL, GOOGLE_REVIEWS_URL } from "@/domain/config";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
+const SITE_URL = BRAND.urls.site;
 
-// Phone normalization — priority to env vars
-const RAW_FULL = (process.env.NEXT_PUBLIC_WA_PHONE || "5511968633239").replace(/\D/g, "");
+// Telefone único de referência: src/domain/config.ts.
+const RAW_FULL = BRAND.contact.phone.replace(/\D/g, "");
 const RAW_LOCAL = RAW_FULL.startsWith("55") ? RAW_FULL.slice(2) : RAW_FULL;
 
 function formatDisplayPhone(p: string): string {
@@ -33,8 +33,8 @@ function formatDisplayPhone(p: string): string {
   return `(${area}) ${rest}`;
 }
 
-const DISPLAY_PHONE = process.env.NEXT_PUBLIC_WA_DISPLAY || formatDisplayPhone(RAW_LOCAL);
-const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "contato@byimperiodog.com.br";
+const DISPLAY_PHONE = formatDisplayPhone(RAW_LOCAL);
+const EMAIL = BRAND.contact.email;
 const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://instagram.com/byimperiodog";
 const YOUTUBE_URL = process.env.NEXT_PUBLIC_YOUTUBE_URL ?? "https://youtube.com/@byimperiodog";
 
@@ -63,7 +63,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Vocês entregam em outras cidades?",
-    a: "O tutor pode retirar o filhote em Bragança Paulista ou consultar opções de transporte especializado, definidas conforme destino, idade e condições do filhote. Consulte disponibilidade e valores.",
+    a: DELIVERY_POLICY_COPY,
   },
   {
     q: "Como funciona a reserva de um filhote?",
@@ -92,21 +92,6 @@ export default function ContatoPage() {
     utmCampaign: "contato-hero",
   });
 
-  const orgLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "By Império Dog",
-    url: SITE_URL,
-    contactPoint: {
-      "@type": "ContactPoint",
-      contactType: "customer support",
-      telephone: RAW_FULL ? (RAW_FULL.startsWith("55") ? `+${RAW_FULL}` : `+55${RAW_FULL}`) : undefined,
-      email: EMAIL,
-      areaServed: "BR",
-      availableLanguage: ["Portuguese"],
-    },
-  };
-
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -118,7 +103,6 @@ export default function ContatoPage() {
 
   return (
     <div>
-      <script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
       <script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <ViewEventTracker tipo="contato" />
 
