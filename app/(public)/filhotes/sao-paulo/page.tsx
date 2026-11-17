@@ -6,6 +6,7 @@ import StaticCatalog from "@/components/catalog/StaticCatalog";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { buttonVariants } from "@/components/ui/button";
 import { puppiesPublicados } from "@/content/puppies-static";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
 import { buildWebPageLD } from "@/lib/structured-data";
@@ -63,9 +64,9 @@ const spCities = [
 // depois.
 const faqSP = [
   {
-    question: "Vocês fazem entrega em São Paulo capital?",
+    question: "Como funciona a retirada ou entrega?",
     answer:
-      "Sim! Atendemos famílias da capital paulista e de toda a Grande São Paulo. O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote.",
+      REGRA_DE_ENTREGA,
   },
   {
     question: "Posso visitar o criatorio em Bragança Paulista antes de comprar?",
@@ -73,9 +74,9 @@ const faqSP = [
       "Visitas são combinadas caso a caso com a criadora, no criatório em Bragança Paulista (SP). Fale pelo WhatsApp para alinhar data e horário.",
   },
   {
-    question: "Qual o valor da entrega para São Paulo?",
+    question: "Quando o custo é informado?",
     answer:
-      "O valor varia conforme a região e a distância, porque depende do transporte contratado para o trajeto. Consulte a criadora pelo WhatsApp para saber o valor até a sua cidade.",
+      REGRA_DE_ENTREGA,
   },
   {
     question: "Os filhotes já vêm vacinados e vermifugados?",
@@ -167,7 +168,7 @@ export default function FilhotesSaoPauloPage() {
         {/* Atendimento em São Paulo */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
           <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">
-            Atendemos Toda a Região de São Paulo
+            Informações para interessados de São Paulo
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {spCities.map((city) => (
@@ -189,9 +190,9 @@ export default function FilhotesSaoPauloPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Retirada ou entrega</h3>
               <p className="text-sm text-[var(--text-muted)]">
-                Transporte sob consulta de destino, idade e viabilidade
+                {REGRA_DE_ENTREGA}
               </p>
             </div>
             <div className="text-center">
