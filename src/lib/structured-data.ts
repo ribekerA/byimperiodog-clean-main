@@ -1,5 +1,5 @@
 import { BRAND, FOUNDING_YEAR } from "@/domain/config";
-import { FAIXA_PUBLICA, formatarPreco } from "@/domain/pricing";
+import { FAIXA_PUBLICA_TEXTO } from "@/domain/pricing";
 import { lastmodFor } from "@/lib/_generated-lastmod";
 import type { CatalogItem } from "@/lib/catalog-utils";
 import { descricaoDoFilhote } from "@/lib/nome-do-filhote";
@@ -19,7 +19,10 @@ const SITE_URL = BRAND.urls.site;
 export const BUSINESS_ID = `${SITE_URL}/#business`;
 
 /** Área efetivamente atendida, sem cidades escolhidas por volume de busca. */
-export const SERVED_AREAS = [{ "@type": "Country", name: "Brasil" }] as const;
+export const SERVED_AREAS = [
+  { "@type": "City", name: "Bragança Paulista", containedInPlace: { "@type": "AdministrativeArea", name: "SP" } },
+  { "@type": "Country", name: "Brasil" },
+] as const;
 
 /**
  * No `WebPage` de uma pagina institucional ou de destino.
@@ -302,7 +305,7 @@ export function buildLocalBusinessLD() {
     email: BRAND.contact.email,
     // Derivado da tabela: o JSON-LD é lido pelo Google e não pode continuar
     // anunciando uma faixa que a página já desmentiu.
-    priceRange: `${formatarPreco(FAIXA_PUBLICA.minCents)} – ${formatarPreco(FAIXA_PUBLICA.maxCents)}`,
+    priceRange: FAIXA_PUBLICA_TEXTO
     currenciesAccepted: "BRL",
     foundingDate: String(FOUNDING_YEAR),
     image: [
@@ -320,13 +323,8 @@ export function buildLocalBusinessLD() {
       width: 150,
       height: 150,
     },
-    // Sem rua, CEP ou coordenadas: somente a localidade que se pode comprovar.
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Bragança Paulista",
-      addressRegion: "SP",
-      addressCountry: "BR",
-    },
+    // Sem endereço físico confirmado, não publicamos PostalAddress, rua nem CEP.
+    // areaServed descreve as localidades atendidas, sem inventar uma sede.
     areaServed: SERVED_AREAS,
     // O mesmo horário que /contato publica ("todos os dias, das 8h às 22h"),
     // confirmado pela responsável em 10/11/2026 como o do negócio. É horário
