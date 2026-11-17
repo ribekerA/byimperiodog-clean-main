@@ -197,7 +197,7 @@ export function shouldLoadImmediate(ids: TrackingIDs) {
 export function buildSiteNavigationLD(_siteUrl: string) {
   const base = BRAND.urls.site;
   const items = [
-    { name: "Inicio", path: "/" },
+    { name: "Início", path: "/" },
     { name: "Filhotes", path: "/filhotes" },
     { name: "Processo", path: "/sobre" },
     { name: "Blog", path: "/blog" },
