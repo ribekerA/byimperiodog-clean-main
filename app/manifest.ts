@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
-  const name = 'By Imperio Dog';
+  const name = 'By Imperio Dog - Canil Spitz Alemão Anão Lulu da Pomerânia';
   const short_name = 'Imperio Dog';
   const theme_color = '#052e2b';
   const background_color = '#ffffff';

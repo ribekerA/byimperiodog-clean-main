@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LastUpdated } from "@/components/common/LastUpdated";
 import { TOC } from "@/components/common/TOC";
 import { pageMetadata } from "@/lib/seo";
-import { buildWebPageLD } from "@/lib/structured-data";
+import { buildFaqPageLD, buildWebPageLD } from "@/lib/structured-data";
 
 const path = "/faq-do-tutor";
 const lastUpdated = "2026-08-06T09:00:00.000Z";
@@ -68,10 +68,8 @@ export function generateMetadata(): Metadata {
 
 export default function FaqDoTutorPage() {
   const siteBase = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://byimperiodog.com.br").replace(/\/$/, "");
-  // Sem FAQPage: o rich result de FAQ foi encerrado pelo Google em
-  // 07/05/2026 e o markup deixou de produzir resultado na busca. A pagina
-  // continua descrita por WebPage + BreadcrumbList, e as perguntas seguem
-  // visiveis no HTML -- que e o que os sistemas de busca e de IA leem hoje.
+  // FAQPage voltou em 17/11/2026 (decisão do responsável), com as mesmas
+  // perguntas visíveis abaixo.
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -198,6 +196,7 @@ export default function FaqDoTutorPage() {
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqPageLD(path, faqItems)) }} />
     </div>
   );
 }

@@ -34,7 +34,7 @@ function canonicalOnCurrentDomain(value: string | undefined, fallback: string): 
 
 /** Metadados base do site público (home / institucionais). */
 export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
-  const title = overrides.title || { default: 'Spitz Alemão Anão (Lulu da Pomerânia) | By Imperio Dog', template: '%s | By Imperio Dog' };
+  const title = overrides.title || { default: 'By Imperio Dog - Canil Spitz Alemão Anão Lulu da Pomerânia', template: '%s | By Imperio Dog' };
   const description = overrides.description || 'Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com consulta veterinária, hemograma completo e pedigree.';
   return {
     metadataBase: new URL(SITE_ORIGIN),
@@ -65,7 +65,7 @@ export function baseSiteMetadata(overrides: Partial<Metadata> = {}): Metadata {
     // se perde ao tirar daqui.
     openGraph: {
       type: 'website',
-      siteName: 'By Imperio Dog',
+      siteName: 'By Imperio Dog - Canil Spitz Alemão Anão Lulu da Pomerânia',
       images: [{ url: '/spitz-hero-desktop.webp', width: 1400, height: 933, alt: 'Spitz Alemão Anão (Lulu da Pomerânia) — By Imperio Dog' }],
       ...overrides.openGraph,
     },

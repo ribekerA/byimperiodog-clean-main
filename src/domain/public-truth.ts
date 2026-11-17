@@ -57,12 +57,14 @@ export type FatoPublico = {
  * negócio precisa caber aqui dentro.
  */
 /**
- * Regra única de entrega, aprovada pelo usuário em 17/11/2026. Todo texto do
- * site que explica como o filhote chega ao tutor usa esta frase, e os artigos
- * .mdx (que não importam código) repetem a mesma frase, palavra por palavra.
+ * Texto único de retirada e entrega, pedido pelo usuário em 17/11/2026 no
+ * lugar da frase anterior ("Entregamos em todo o Brasil por transporte
+ * aéreo..."). O site não cita mais "todo o Brasil", avião nem cidades de
+ * entrega ou retirada; Bragança Paulista aparece só como sede do canil. Os
+ * artigos .mdx (que não importam código) repetem a frase palavra por palavra.
  */
 export const REGRA_DE_ENTREGA =
-  "Entregamos em todo o Brasil por transporte aéreo, conforme a rota, a idade e as condições do filhote, ou com retirada em Bragança Paulista. Prazo, custo e requisitos são confirmados antes da reserva.";
+  "Retirada ou entrega, conforme a disponibilidade. Local, prazo e condições são combinados antes da reserva.";
 
 export const FATOS_PUBLICOS: readonly FatoPublico[] = [
   { id: "marca", status: "CONFIRMADO", texto: "By Imperio Dog" },
@@ -120,7 +122,7 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
     id: "transporte",
     status: "CONDICIONAL",
     texto: REGRA_DE_ENTREGA,
-    nota: "Entrega aérea nacional confirmada pela proprietária em 09/10/2026. Prazo, custo e requisitos da viagem são confirmados antes da reserva. Sem afirmar frota própria, empresa parceira, prazo fixo ou frete grátis.",
+    nota: "Texto neutro pedido em 17/11/2026. Sem citar todo o Brasil, transporte aéreo, cidades de entrega, frota própria, empresa parceira, prazo fixo ou frete grátis.",
   },
   {
     id: "contrato",
@@ -335,7 +337,19 @@ export const REGRAS_DE_VERDADE: readonly RegraDeVerdade[] = [
     padrao:
       /\bfrota\s+pr[oó]pria\b|\btransporte\s+a[ée]reo\s+pr[oó]prio\b|\btransporte\s+humanizado\b|\bnunca\s+viaja\s+sozinh[oa]\b|\ba\s+entrega\s+[ée]\s+segura\b|\bentrega\s+humanizada\b/i,
     motivo:
-      "Entrega aérea nacional foi confirmada em 09/10/2026, mas não há confirmação de frota própria, acompanhamento durante todo o trajeto ou garantia absoluta de segurança.",
+      "Não há confirmação de frota própria, acompanhamento durante todo o trajeto ou garantia absoluta de segurança.",
+    alternativa: REGRA_DE_ENTREGA,
+  },
+  {
+    // Pedido de 17/11/2026: o site fala de retirada ou entrega só pelo texto
+    // neutro, sem área de alcance e sem meio de transporte.
+    id: "entrega-fora-do-texto-neutro",
+    status: "PROIBIDO_SEM_EVIDENCIA",
+    escopo: "sempre",
+    padrao:
+      /\b(?:entreg|envi|atend|atu)\w*\s+(?:\S+\s+){0,4}?(?:em|para|de)\s+todo\s+o\s+brasil\b|\btransporte\s+a[ée]reo\b|\bde\s+avi[ãa]o(?![\wà-ú])/i,
+    motivo:
+      "Retirada e entrega aparecem só pelo texto neutro, sem citar todo o Brasil, avião ou cidades.",
     alternativa: REGRA_DE_ENTREGA,
   },
   {

@@ -12,13 +12,6 @@ export const metadata: Metadata = {
   title: "Vídeos de Spitz Alemão Anão e Lulu da Pomerânia",
   description:
     "Assista a vídeos reais de Spitz Alemão Anão (Lulu da Pomerânia): filhotes creme, laranja e branco, ninhadas e a By Imperio Dog em Bragança Paulista, SP.",
-  keywords: [
-    "vídeos Spitz Alemão Anão",
-    "galeria Lulu da Pomerânia",
-    "filhotes Spitz vídeo",
-    "By Imperio Dog galeria",
-    "canil Spitz vídeos",
-  ],
   alternates: { canonical: `${SITE_URL}/galeria` },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],

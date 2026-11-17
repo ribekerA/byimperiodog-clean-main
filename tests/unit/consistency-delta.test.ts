@@ -49,7 +49,8 @@ describe("delta de consistência interna", () => {
     // Se alguém recriar aquela função, este teste cai.
     expect(tracking).not.toHaveProperty("buildOrganizationLD");
 
-    expect(business.areaServed).toEqual([{ "@type": "Country", name: "Brasil" }]);
+    // Sem areaServed desde 17/11/2026: o site nao declara area de entrega.
+    expect(business).not.toHaveProperty("areaServed");
     expect(business).not.toHaveProperty("serviceArea");
     expect(business.address).toEqual({
       "@type": "PostalAddress",

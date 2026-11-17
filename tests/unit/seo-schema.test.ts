@@ -132,8 +132,8 @@ describe("resolveRobots", () => {
 // O rich result de FAQ foi encerrado pelo Google em 07/05/2026 para todos os
 // sites — o markup continua valido em schema.org, mas nao rende mais nenhum
 // resultado na busca. O projeto removeu FAQPage em 26/08/2026, de JSON-LD e de
-// microdata, mantendo as perguntas visiveis. Este teste existe para que o
-// markup nao volte por copiar-e-colar de uma pagina antiga.
+// microdata, mantendo as perguntas visiveis. Em 17/11/2026 o JSON-LD voltou por
+// decisao do responsavel, saindo so de buildFaqPageLD; microdata segue fora.
 const EXTENSOES_DE_CODIGO = new Set([".ts", ".tsx", ".js", ".jsx"]);
 
 /** Todo arquivo de codigo sob `dir`, ignorando build e dependencias. */
@@ -151,17 +151,18 @@ function arquivosDeCodigo(dir: string): string[] {
   return saida;
 }
 
-describe("FAQPage nao volta ao codigo", () => {
+describe("FAQPage num lugar só", () => {
   const raiz = process.cwd();
   const pastas = ["app", "src", "content"];
 
-  it("nenhum arquivo de codigo emite FAQPage", () => {
+  // Em 17/11/2026 o responsável pediu o FAQPage de volta em JSON-LD. O teste
+  // agora garante só que ele sai de um lugar: buildFaqPageLD.
+  it("FAQPage só é emitido por buildFaqPageLD", () => {
     const culpados: string[] = [];
     for (const pasta of pastas) {
       for (const caminho of arquivosDeCodigo(join(raiz, pasta))) {
+        if (caminho.endsWith(join("lib", "structured-data.ts"))) continue;
         const texto = readFileSync(caminho, "utf8");
-        // So conta linha de codigo: os comentarios que registram a remocao
-        // citam o termo de proposito e nao emitem nada.
         const acusa = texto
           .split(/\r?\n/)
           .some((linha) => /FAQPage/.test(linha) && !/^\s*(\/\/|\*|\/\*)/.test(linha));

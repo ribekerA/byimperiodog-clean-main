@@ -20,17 +20,6 @@ export const metadata: Metadata = {
     // em 153 sem perder nenhum termo de busca — só a repetição do que já está
     // no title e no H1.
     `Como escolher um criador confiável de Spitz Alemão Anão (Lulu da Pomerânia): o que exigir, como evitar golpes e o que a By Imperio Dog entrega desde ${FOUNDING_YEAR}.`,
-  keywords: [
-    "criador Spitz Alemão Anão confiável SP",
-    "melhor canil Lulu da Pomerânia interior SP",
-    "criador responsável Spitz Alemão Bragança Paulista",
-    "canil Spitz Alemão Anão com registro oficial",
-    "como escolher criador Lulu da Pomerânia",
-    "By Imperio Dog criador confiável",
-    "canil responsável cachorro pequeno SP",
-    "Pomeranian",
-    "Pomeranian Brasil",
-  ],
   alternates: { canonical: "/criador-spitz-confiavel" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
@@ -45,7 +34,7 @@ export const metadata: Metadata = {
 // verificadas do canil, então qualquer média exibida aqui seria inventada.
 const CREDENTIALS = [
   { label: "Desde",        value: String(FOUNDING_YEAR), note: "Criação especializada em Spitz Alemão Anão (Lulu da Pomerânia)" },
-  { label: "Atendimento",  value: "Todo o Brasil", note: "Envio e acompanhamento para famílias de qualquer estado" },
+  { label: "Atendimento",  value: "Pelo WhatsApp", note: "Retirada ou entrega combinadas antes da reserva" },
   { label: "Registro",     value: "Incluso", note: "Emissão e entrega conforme o prazo da entidade responsável" },
   { label: "Mentoria",     value: "Pós-venda", note: "Suporte direto com a criadora após a entrega" },
 ] as const;
@@ -103,7 +92,7 @@ const PAGE_FAQS = [
   {
     question: "Quantos anos de experiência tem a By Imperio Dog?",
     answer:
-      `A By Imperio Dog iniciou a criação de Spitz Alemão Anão (Lulu da Pomerânia) em ${FOUNDING_YEAR} e se dedica exclusivamente à raça desde então. Ao longo desse período, atendeu famílias em todo o Brasil com filhotes documentados e com suporte pós-venda.`,
+      `A By Imperio Dog iniciou a criação de Spitz Alemão Anão (Lulu da Pomerânia) em ${FOUNDING_YEAR} e se dedica exclusivamente à raça desde então. Ao longo desse período, atendeu famílias com filhotes documentados e com suporte pós-venda.`,
   },
   {
     question: "Qual a diferença entre um canil e um criador responsável?",
@@ -256,7 +245,7 @@ export default function CriadorConfiavelPage() {
           Conheça os filhotes da By Imperio Dog
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
-          Acesse nosso catálogo atualizado ou entre em contato diretamente com a criadora para conhecer os filhotes, tirar dúvidas e iniciar o processo.
+          Veja as referências de cor e sexo na vitrine e fale com a criadora para saber o que está disponível, tirar dúvidas e iniciar o processo.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link

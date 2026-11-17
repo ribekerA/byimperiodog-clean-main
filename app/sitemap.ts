@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { DISPONIVEIS } from "@/content/disponiveis";
 import { guides } from "@/content/guides";
 import { staticPuppies } from "@/content/puppies-static";
 import { GALLERY_VIDEOS } from "@/domain/gallery-videos";
@@ -46,6 +47,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     entrada("/",                    "daily",   1.00),
     entrada("/filhotes",            "daily",   0.95),
+    // Só entra com filhote listado; vazia, a página é noindex.
+    ...(DISPONIVEIS.length > 0 ? [entrada("/disponiveis", "daily", 0.9)] : []),
     entrada("/sobre",               "monthly", 0.80),
     entrada("/contato",             "monthly", 0.75),
     entrada("/faq-do-tutor",        "monthly", 0.80),

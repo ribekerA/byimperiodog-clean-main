@@ -18,15 +18,6 @@ export const metadata: Metadata = {
     // Aproveitei para encurtar: com o ano, a description passava de 190 caracteres
     // e o Google cortava antes de "Bragança Paulista".
     "Guia do Lulu da Pomerânia (Spitz Alemão Anão): características, temperamento, preços, cuidados e cores. Atendimento especializado em Bragança Paulista, SP.",
-  keywords: [
-    "Lulu da Pomerânia",
-    "Lulu da Pomerânia preço",
-    "Lulu da Pomerânia filhotes",
-    "Lulu da Pomerânia cuidados",
-    "Lulu da Pomerânia características",
-    "comprar Lulu da Pomerânia",
-    "Lulu da Pomerânia SP",
-  ],
   alternates: { canonical: "/lulu-da-pomerania" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
@@ -193,7 +184,7 @@ export default function LuluDaPomeraniaPage() {
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">Pronto para conhecer os filhotes?</h2>
-        <p className="mt-2 text-sm text-zinc-600">Acesse o catálogo atualizado ou fale com a criadora diretamente.</p>
+        <p className="mt-2 text-sm text-zinc-600">Veja as referências na vitrine e confirme a disponibilidade com a criadora.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
             Ver a vitrine de filhotes

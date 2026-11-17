@@ -160,8 +160,8 @@ export function buildWebsiteLD(_siteUrl: string) {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": `${clean}/#website`,
-    name: "By Imperio Dog",
-    alternateName: "Canil By Imperio Dog — Spitz Alemão Anão",
+    name: BRAND.fullName,
+    alternateName: [BRAND.name, "Canil By Imperio Dog — Spitz Alemão Anão"],
     description:
       "Site da By Imperio Dog com conteúdos e filhotes de Spitz Alemão Anão (Lulu da Pomerânia).",
     url: `${clean}/`,

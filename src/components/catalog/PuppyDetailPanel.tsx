@@ -263,7 +263,7 @@ export default function PuppyDetailPanel({
             { icon: "📄", text: "Contrato de compra e venda" },
             // "Entregamos em todo o Brasil" descrevia uma operacao de transporte que
             // o canil nao tem. O alcance e verdade; a operacao e do tutor.
-            { icon: "✈️", text: "Atendemos todo o Brasil" },
+            { icon: "🤝", text: "Retirada ou entrega combinadas antes da reserva" },
           ].map((item) => (
             <div key={item.text} className="flex items-center gap-1.5 text-xs text-zinc-600">
               <span aria-hidden="true">{item.icon}</span>

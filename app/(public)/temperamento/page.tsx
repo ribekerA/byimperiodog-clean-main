@@ -13,7 +13,6 @@ const guide = guides.find((g) => g.slug.includes("vs-lulu") || g.slug.includes("
 export const metadata: Metadata = {
   title: "Temperamento do Spitz Alemão Anão (Lulu da Pomerânia)",
   description: guide.metaDescription,
-  keywords: ["temperamento spitz alemão", "temperamento lulu da pomerania", "comportamento filhote"],
   // Esta pagina reaproveita integralmente o corpo do guia /guias/spitz-alemao-anao-vs-lulu-pomerania.
   // Conteudo identico em duas URLs: o canonical aponta para o guia original
   // (ja indexado e no sitemap) para nao competir consigo mesmo na busca.

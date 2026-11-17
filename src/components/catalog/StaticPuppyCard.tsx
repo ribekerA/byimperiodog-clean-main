@@ -174,7 +174,7 @@ export default function StaticPuppyCard({
           </h3>
 
           {/* Os {" "} entre os spans nao sao enfeite: sem eles o textContent
-              viraria "A partir deR$ 4.500,00no PIX" e o portao e2e de
+              viraria "A partir deR$ 4.500no PIX" e o portao e2e de
               smoke.spec.ts, que casa a forma completa, nao a encontraria. */}
           {price && partes ? (
             <p className="cartao-filhote-preco" aria-label={textoAPartirDeNoPix(price)}>

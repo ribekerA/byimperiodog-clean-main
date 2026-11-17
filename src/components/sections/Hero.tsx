@@ -36,7 +36,7 @@ const SELLING_POINTS = [
 // O ano de fundação é fato fixo e não precisa de manutenção.
 const STATS = [
   { value: `Desde ${FOUNDING_YEAR}`, label: "criando Spitz Alemão Anão (Lulu da Pomerânia)" },
-  { value: "Todo o Brasil", label: "área de atendimento" },
+  { value: "Bragança Paulista", label: "sede do canil" },
   { value: "24h", label: "suporte humano dedicado" },
 ] as const;
 

@@ -19,15 +19,6 @@ export const metadata: Metadata = {
     // 226 caracteres: o Google cortava a partir de "como evitar golpes".
     // Reescrita em 141.
     "Como comprar um filhote de Spitz Alemão Anão (Lulu da Pomerânia) com segurança: documentos a exigir, sinais de golpe e como avaliar o criador.",
-  keywords: [
-    "comprar Spitz Alemão Anão",
-    "onde comprar Lulu da Pomerânia confiável",
-    "como comprar filhote Spitz Alemão com documentação",
-    "Lulu da Pomerânia à venda SP",
-    "canil Spitz Alemão responsável interior SP",
-    "comprar Pomeranian no Brasil",
-    "filhote Lulu da Pomerânia documentado",
-  ],
   alternates: { canonical: "/comprar-spitz-anao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
@@ -70,7 +61,7 @@ const PAGE_FAQS = [
   {
     question: "Onde comprar Spitz Alemão Anão (Lulu da Pomerânia) com segurança?",
     answer:
-      `A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com atuação desde ${FOUNDING_YEAR}. Os filhotes saem com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, histórico de vermifugação, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
+      `A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP, com atuação desde ${FOUNDING_YEAR}. Os filhotes saem com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, histórico de vermifugação, contrato e mentoria pós-venda. Retirada ou entrega combinadas antes da reserva.`,
   },
   {
     question: "Quais documentos são obrigatórios ao comprar um Spitz Alemão Anão (Lulu da Pomerânia)?",
@@ -227,7 +218,7 @@ export default function ComprarSpitzPage() {
           Pronto para conhecer a vitrine de filhotes?
         </h2>
         <p className="mt-2 text-sm text-zinc-600">
-          Acesse nosso catálogo atualizado ou fale diretamente com a criadora para tirar dúvidas e iniciar o processo.
+          Veja as referências de cor e sexo na vitrine e confirme com a criadora o que está disponível para reserva.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link
@@ -253,7 +244,7 @@ export default function ComprarSpitzPage() {
       <RelatedPages links={[
         { label: "Como funciona a reserva", href: "/reserve-seu-filhote", desc: "Consulte as etapas e as condições de reserva" },
         { label: "Criador Confiável — Como Identificar", href: "/criador-spitz-confiavel",  desc: "O que exigir antes de fechar negócio" },
-        { label: "Entrega para todo o Brasil", href: "/blog/spitz-alemao-anao-entrega-brasil", desc: "Documentos, etapas e logística para outros estados" },
+        { label: "Retirada ou entrega", href: "/blog/spitz-alemao-anao-entrega-brasil", desc: "Como se combinam local, prazo e condições" },
         { label: "Filhote de Spitz Alemão (Lulu da Pomerânia)",              href: "/filhote-de-spitz-alemao",  desc: "Primeiros cuidados e o que verificar" },
       ]} />
 

@@ -13,7 +13,6 @@ const guide = guides.find((g) => g.slug.includes("cuidados-basicos")) ?? guides[
 export const metadata: Metadata = {
   title: "Cuidados com o Spitz Alemão Anão (Lulu da Pomerânia)",
   description: guide.metaDescription,
-  keywords: ["cuidados spitz alemão", "escovação lulu da pomerania", "banho spitz"],
   // Esta pagina reaproveita integralmente o corpo do guia /guias/cuidados-basicos-spitz-alemao-anao.
   // Conteudo identico em duas URLs: o canonical aponta para o guia original
   // (ja indexado e no sitemap) para nao competir consigo mesmo na busca.

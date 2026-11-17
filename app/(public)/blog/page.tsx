@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import BlogCard from "@/components/blog/BlogCard";
 import SeoJsonLd from "@/components/SeoJsonLd";
-import { FOUNDING_YEAR } from "@/domain/config";
+import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import {
   BLOG_CATEGORIES,
   matchesCategory,
@@ -444,7 +444,7 @@ function buildBlogSchema({
     description,
     publisher: {
       "@type": "Organization",
-      name: "By Imperio Dog",
+      name: BRAND.fullName,
       url: base,
     },
     blogPost: posts.map((post) => ({

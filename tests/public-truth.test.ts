@@ -13,6 +13,7 @@ import {
   FATOS_PUBLICOS,
   MARCADORES_DE_PRIMEIRA_PESSOA,
   REGRAS_DE_VERDADE,
+  REGRA_DE_ENTREGA,
   verificarTexto,
 } from "@/domain/public-truth";
 
@@ -107,13 +108,12 @@ describe("verificarTexto — o que NÃO pode passar", () => {
     );
   });
 
-  it("permite entrega aérea nacional confirmada com condições claras", () => {
-    expect(
-      idsDe("Entregamos em todo o Brasil via transporte aéreo, conforme viabilidade da rota, idade e condições do filhote. Prazo, custo e requisitos são confirmados antes da reserva."),
-    ).not.toContain("entrega-como-servico-proprio");
-    expect(idsDe("Realizamos entregas via transporte aéreo conforme viabilidade.")).not.toContain(
-      "entrega-como-servico-proprio",
-    );
+  it("aceita só o texto neutro de retirada ou entrega", () => {
+    expect(idsDe(REGRA_DE_ENTREGA)).toEqual([]);
+    expect(idsDe("Entregamos em todo o Brasil via transporte aéreo.")).toContain("entrega-fora-do-texto-neutro");
+    expect(idsDe("Atendemos famílias de todo o Brasil.")).toContain("entrega-fora-do-texto-neutro");
+    expect(idsDe("O filhote pode ir de avião.")).toContain("entrega-fora-do-texto-neutro");
+    expect(idsDe("A vacina antirrábica é obrigatória por lei em todo o Brasil.")).not.toContain("entrega-fora-do-texto-neutro");
     expect(idsDe("Temos transporte aéreo próprio.")).toContain("entrega-como-servico-proprio");
   });
 

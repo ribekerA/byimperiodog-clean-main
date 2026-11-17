@@ -145,10 +145,10 @@ describe("regras de negocio", () => {
       ["lulu-por-frase", "O Spitz Alemão gosta de rotina."],
       ["lulu-por-frase", "## Pelagem do Spitz Alemão"],
       ["preco-forma", "Machos custam R$ 4.500 no Pix."],
-      ["preco-forma", "A partir de R$ 6.500 no PIX."],
+      ["preco-forma", "A partir de R$ 6.500,00 no PIX."],
       ["preco-forma", "Fêmeas por R$ 6.500,00 no PIX."],
       ["preco-fora-da-tabela", "Filhotes por R$ 12.000."],
-      ["parcelamento", "A partir de R$ 4.500,00 no PIX ou 3x no cartão."],
+      ["parcelamento", "A partir de R$ 4.500 no PIX ou 3x no cartão."],
       ["parcelamento", "Pagamento em até 10x."],
       ["parcelamento", "Parcelas sem juros."],
       ["termo-proibido", "Evite a adoção por impulso."],
@@ -169,8 +169,8 @@ describe("regras de negocio", () => {
   describe("aceita", () => {
     const casos = [
       "O Spitz Alemão (Lulu da Pomerânia) gosta de rotina.",
-      "A partir de R$ 4.500,00 no PIX para machos.",
-      "A partir de **R$ 6.500,00 no PIX** para fêmeas.",
+      "A partir de R$ 4.500 no PIX para machos.",
+      "A partir de **R$ 6.500 no PIX** para fêmeas.",
       "A consulta custa cerca de R$ 1.200 por ano.",
       "Ofereça a ração em porções, 3x ao dia.",
       "Divida a ração em 2x por dia.",

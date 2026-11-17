@@ -239,7 +239,7 @@ export const SEARCH_TOPICS: readonly SearchTopic[] = [
     queries: ["filhotes Spitz Alemão Rio de Janeiro", "Lulu da Pomerânia Rio de Janeiro"], related: ["transporte", "filhotes", "comprar"],
   },
   {
-    id: "transporte", cluster: "regiao", href: "/blog/spitz-alemao-anao-entrega-brasil", label: "Entrega de Spitz para todo o Brasil",
+    id: "transporte", cluster: "regiao", href: "/blog/spitz-alemao-anao-entrega-brasil", label: "Retirada ou entrega do filhote",
     description: "Compra pelo WhatsApp, documentos e organização do transporte para qualquer estado.",
     queries: ["Spitz Alemão entrega Brasil", "Lulu da Pomerânia entrega nacional", "comprar Spitz de outro estado"], related: ["comprar", "documentacao", "chegada"],
   },

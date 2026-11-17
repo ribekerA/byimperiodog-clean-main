@@ -18,20 +18,11 @@ export const metadata: Metadata = {
     // 222 caracteres, com "Bragança Paulista" duas vezes. Reescrita em 144, e o
     // ano deixa de ser literal: passa a vir do FOUNDING_YEAR como no resto do site.
     `Canil de Lulu da Pomerânia em Bragança Paulista, SP. Especialistas desde ${FOUNDING_YEAR}, com registro oficial, consulta veterinária e hemograma completo.`,
-  keywords: [
-    "Lulu da Pomerânia Bragança Paulista",
-    "Spitz Alemão Anão Bragança Paulista",
-    "canil Lulu da Pomerânia interior SP",
-    "filhote Spitz Alemão Bragança Paulista SP",
-    "criador Spitz Alemão perto de mim interior SP",
-    "Pomeranian",
-    "Pomeranian Brasil",
-  ],
   alternates: { canonical: "/lulu-da-pomerania-braganca-paulista" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
     title: "Lulu da Pomerânia em Bragança Paulista SP — By Imperio Dog",
-    description: `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Atende Bragança Paulista e todo o Brasil.`,
+    description: `Especialistas em Spitz Alemão Anão (Lulu da Pomerânia) desde ${FOUNDING_YEAR}. Retirada ou entrega combinadas antes da reserva.`,
     type: "website",
   },
 };
@@ -87,7 +78,7 @@ export default function LuluBragancaPage() {
           Lulu da Pomerânia em Bragança Paulista, SP
         </h1>
         <p className="text-base text-zinc-600 sm:text-lg">
-          A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Atuamos com a raça desde {FOUNDING_YEAR} e atendemos famílias de toda a região e de todo o Brasil.
+          A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) localizado em Bragança Paulista, SP. Atuamos com a raça desde {FOUNDING_YEAR} e atendemos famílias pelo WhatsApp, com retirada ou entrega combinadas antes da reserva.
         </p>
       </header>
 
@@ -104,7 +95,7 @@ export default function LuluBragancaPage() {
             { label: "Distância de SP Capital", value: "≈ 100 km / 1h30" },
             { label: "Visitas", value: "Por agendamento (WhatsApp)" },
             { label: "Desde", value: String(FOUNDING_YEAR) },
-            { label: "Envio", value: "Todo o Brasil" },
+            { label: "Retirada ou entrega", value: "Combinadas antes" },
           ].map((info) => (
             <div key={info.label} className="rounded-xl bg-white border border-zinc-200 p-4">
               <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">{info.label}</p>
@@ -146,7 +137,7 @@ export default function LuluBragancaPage() {
       {/* CTA */}
       <section className="rounded-3xl border border-zinc-200 bg-white p-6 text-center shadow-sm sm:p-10">
         <h2 className="text-xl font-bold text-zinc-900">Ver a vitrine de filhotes ou agendar visita</h2>
-        <p className="mt-2 text-sm text-zinc-600">Catálogo atualizado ou contato direto com a criadora em Bragança Paulista.</p>
+        <p className="mt-2 text-sm text-zinc-600">Referências na vitrine e disponibilidade confirmada com a criadora em Bragança Paulista.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
             Ver filhotes

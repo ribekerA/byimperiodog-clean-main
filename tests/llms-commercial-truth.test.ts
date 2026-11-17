@@ -20,10 +20,11 @@ describe("llms.txt — fatos comerciais públicos", () => {
   it("não promete estoque ou transporte irrestrito nem inclui áreas privadas", async () => {
     const text = await (await GET()).text();
     expect(text).toContain("disponibilidade atual e as condições são confirmadas");
-    // Regra única de entrega, aprovada em 17/11/2026 (REGRA_DE_ENTREGA).
-    expect(text).toContain("Entregamos em todo o Brasil por transporte aéreo");
-    expect(text).toContain("conforme a rota, a idade e as condições do filhote");
-    expect(text).toContain("Prazo, custo e requisitos são confirmados antes da reserva");
+    // Texto neutro de retirada ou entrega, pedido em 17/11/2026 (REGRA_DE_ENTREGA).
+    expect(text).toContain("Retirada ou entrega, conforme a disponibilidade.");
+    expect(text).toContain("Local, prazo e condições são combinados antes da reserva.");
+    expect(text).not.toContain("todo o Brasil");
+    expect(text).not.toMatch(/transporte a[ée]reo/);
     expect(text).toContain("Vacinação e vermifugação conforme a idade");
     expect(text).not.toContain("entrega em todo o Brasil");
     expect(text).not.toMatch(/\]\(https?:\/\/[^)]+\/(?:admin|contract|api\/admin)\//);

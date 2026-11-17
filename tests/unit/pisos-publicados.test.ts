@@ -8,6 +8,7 @@ import {
   PREFIXO_A_PARTIR_DE,
   RESERVA_FRACAO,
   SUFIXO_NO_PIX,
+  formatarPreco,
   formatarPrecoComCentavos,
   partesDoPrecoDaVitrine,
   partesDoPrecoNoPix,
@@ -122,9 +123,9 @@ describe("preço com centavos", () => {
     expect(formatarPrecoComCentavos(216667)).toBe("R$ 2.166,67");
   });
 
-  it("os dois pisos saem na forma pedida", () => {
-    expect(textoAPartirDeNoPix(450000)).toBe("A partir de R$ 4.500,00 no PIX");
-    expect(textoAPartirDeNoPix(650000)).toBe("A partir de R$ 6.500,00 no PIX");
+  it("os dois pisos saem na forma pedida, sem centavos desde 17/11/2026", () => {
+    expect(textoAPartirDeNoPix(450000)).toBe("A partir de R$ 4.500 no PIX");
+    expect(textoAPartirDeNoPix(650000)).toBe("A partir de R$ 6.500 no PIX");
   });
 });
 
@@ -155,13 +156,13 @@ describe("preço do card em três partes", () => {
     const partes = partesDoPrecoNoPix(450000);
     expect(partes.prefixo).toBe(PREFIXO_A_PARTIR_DE);
     expect(partes.sufixo).toBe(SUFIXO_NO_PIX);
-    expect(partes.valor).toBe(formatarPrecoComCentavos(450000));
+    expect(partes.valor).toBe(formatarPreco(450000));
   });
 
   it("a forma publicada é a que o portão e2e procura", () => {
     // Mesma expressão de tests/e2e/smoke.spec.ts. Se o prefixo virar "A partir
     // de apenas" ou o sufixo virar "no Pix", quebra aqui e não no Playwright.
-    const comoNoPortao = /A partir de R\$\s*[\d.]+,\d{2} no PIX/;
+    const comoNoPortao = /A partir de R\$\s*[\d.]+ no PIX/;
     for (const cents of Object.values(PRECO_POR_SLUG)) {
       const { prefixo, valor, sufixo } = partesDoPrecoNoPix(cents);
       expect([prefixo, valor, sufixo].join(" ")).toMatch(comoNoPortao);

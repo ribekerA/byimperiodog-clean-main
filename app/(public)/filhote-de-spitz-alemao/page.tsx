@@ -16,16 +16,6 @@ export const metadata: Metadata = {
     // 192 caracteres, e sem o sinônimo pelo qual a raça é mais pesquisada.
     // Reescrita em 155, agora com "Lulu da Pomerânia".
       "Filhote de Spitz Alemão Anão (Lulu da Pomerânia): como escolher, adaptar a casa e organizar alimentação, vacinação, socialização e primeiros cuidados.",
-  keywords: [
-    "filhote de Spitz Alemão Anão",
-    "filhote Lulu da Pomerânia",
-    "como escolher filhote Spitz Alemão",
-    "filhote Spitz Alemão com documentação Brasil",
-    "cuidados filhote Spitz Alemão",
-    "filhote Lulu da Pomerânia disponível SP",
-    "Pomeranian",
-    "Pomeranian Brasil",
-  ],
   alternates: { canonical: "/filhote-de-spitz-alemao" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],

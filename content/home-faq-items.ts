@@ -36,7 +36,7 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
   {
     question: "Qual melhor canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista e interior de SP?",
     answer:
-      `Não existe um ranking oficial de canis, e desconfie de quem se anuncia como o melhor. O que dá para comparar é objetivo: registro oficial, contrato por escrito, acompanhamento veterinário e o que o criador apresenta antes do pagamento. A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, contrato e mentoria pós-venda. Atendemos famílias de todo o Brasil.`,
+      `Não existe um ranking oficial de canis, e desconfie de quem se anuncia como o melhor. O que dá para comparar é objetivo: registro oficial, contrato por escrito, acompanhamento veterinário e o que o criador apresenta antes do pagamento. A By Imperio Dog é um canil familiar especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, cria a raça desde ${FOUNDING_YEAR} e entrega os filhotes com registro oficial, consulta veterinária, hemograma completo, protocolo vacinal em dia conforme a idade, contrato e mentoria pós-venda.`,
   },
   {
     question: "Qual a diferença entre Spitz Alemão Anão e Lulu da Pomerânia?",
@@ -50,9 +50,9 @@ export const HOME_FAQ_ITEMS: FaqItem[] = [
     answer: RESPOSTA_PRETO,
   },
   {
-    question: "Vocês entregam o filhote em todo o Brasil?",
+    question: "Como funciona a retirada ou a entrega do filhote?",
     answer:
-      `Sim. ${REGRA_DE_ENTREGA} A negociação pode ser conduzida pelo WhatsApp.`,
+      `${REGRA_DE_ENTREGA} A negociação pode ser conduzida pelo WhatsApp.`,
   },
   {
     question: "Quais documentos acompanham o filhote?",

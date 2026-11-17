@@ -168,7 +168,8 @@ test.describe("Smoke publico", () => {
 
   /**
    * O valor em /filhotes aparece como "A partir de R$ X no Pix", no desenho
-   * aprovado em 06/11/2026. As outras paginas seguem com "R$ X,00 no PIX".
+   * aprovado em 06/11/2026. As outras paginas mostram "A partir de R$ X no PIX",
+ * sem centavos desde 17/11/2026.
    *
    * Esta asercao ja foi o contrario. Em 27/08/2026 a auditoria de conversao
    * registrou "os valores de filhote sao exibidos sem 'A partir de'" e o portao
@@ -284,14 +285,12 @@ test.describe("Smoke publico", () => {
     }
   });
 
-  test("nenhuma pagina publica FAQPage", async ({ page }) => {
-    // O Google aposentou o rich result de FAQ em maio de 2026. O markup deixou
-    // de render resultado e passou a ser so superficie de erro no Search
-    // Console. As perguntas continuam na tela; o que saiu foi o JSON-LD.
-    for (const rota of ["/", "/filhotes", "/preco-spitz-anao", "/contato"]) {
+  test("home, contato e FAQ do tutor publicam um FAQPage cada", async ({ page }) => {
+    // FAQPage voltou em 17/11/2026, por decisão do responsável.
+    for (const rota of ["/", "/contato", "/faq-do-tutor"]) {
       await page.goto(rota);
       const tipos = (await jsonLd(page)).map((b) => String(b["@type"]));
-      expect(tipos, `${rota} ainda publica FAQPage`).not.toContain("FAQPage");
+      expect(tipos.filter((t) => t === "FAQPage"), `${rota} sem FAQPage`).toHaveLength(1);
     }
   });
 
@@ -376,8 +375,8 @@ test.describe("Portao das superficies criticas", () => {
       // portao da vitrine, acima, sobre a decisao anterior que isto substitui.
       expect(
         corpo,
-        `${vitrine.slug} nao mostra o valor como "A partir de ${esperado},00 no PIX"`,
-      ).toContain(`A partir de ${esperado},00 no PIX`);
+        `${vitrine.slug} nao mostra o valor como "A partir de ${esperado} no PIX"`,
+      ).toContain(`A partir de ${esperado} no PIX`);
     });
   }
 

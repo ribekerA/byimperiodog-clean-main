@@ -62,6 +62,10 @@ export function yearsOfExperience(now: Date = new Date()): number {
  */
 export const BRAND = {
   name: "By Imperio Dog",
+  // Nome completo pedido em 17/11/2026 para schema, título, manifest e rodapé.
+  // `name` segue curto nas frases ("Sobre a By Imperio Dog") e no sufixo dos
+  // títulos, que passaria de 60 caracteres com o nome longo.
+  fullName: "By Imperio Dog - Canil Spitz Alemão Anão Lulu da Pomerânia",
   legalName: "By Imperio Dog Criação de Spitz Alemão",
   slogan: "Criadora especializada em Spitz Alemão Anão (Lulu da Pomerânia)",
 
@@ -76,6 +80,8 @@ export const BRAND = {
   contact: {
     phone: "+55 11 96863-3239",
     whatsapp: "+55 11 96863-3239",
+    // Forma unica de exibir o numero na pagina, pedida em 17/11/2026.
+    phoneDisplay: "(11) 96863-3239",
     email: "contato@byimperiodog.com.br",
   },
 

@@ -66,7 +66,7 @@ PARCELAMENTO: consultar condições com a equipe via WhatsApp
 // assinou "By Imperio Dog", e quem continua a conversa no WhatsApp é a
 // criadora. Um nome próprio inventado cria uma pessoa que a família nunca vai
 // encontrar. O chat passa a falar em nome do canil.
-const SYSTEM_PROMPT = `Você responde pelo chat do site da By Imperio Dog — um canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, em atividade desde ${FOUNDING_YEAR}, que atende famílias em todo o Brasil.
+const SYSTEM_PROMPT = `Você responde pelo chat do site da By Imperio Dog — um canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, em atividade desde ${FOUNDING_YEAR}. Sobre retirada ou entrega, diga só: "Retirada ou entrega, conforme a disponibilidade. Local, prazo e condições são combinados antes da reserva."
 
 Você conversa com pessoas interessadas em levar um filhote para casa. Sua missão é tirar todas as dúvidas com clareza e, no momento certo, convidar a pessoa a deixar o contato para continuar a conversa com a criadora pelo WhatsApp.
 

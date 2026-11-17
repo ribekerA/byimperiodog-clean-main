@@ -16,9 +16,11 @@ import NinhadaAlert from "@/components/sections/NinhadaAlert";
 import PriceTransparency from "@/components/sections/PriceTransparency";
 import TextTestimonials from "@/components/sections/TextTestimonials";
 import { puppiesPublicados } from "@/content/puppies-static";
-import { FOUNDING_YEAR } from "@/domain/config";
-import { PISOS_POR_SEXO, partesDoPrecoNoPix } from "@/domain/pricing";
+import { BRAND, FOUNDING_YEAR } from "@/domain/config";
+import { PISOS_POR_SEXO, formatarPreco, partesDoPrecoNoPix, pisoPorSexo } from "@/domain/pricing";
 import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
+import { HOME_FAQ_ITEMS } from "@/content/home-faq-items";
+import { buildFaqPageLD } from "@/lib/structured-data";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
 import { faseDoNatal } from "@/lib/temporada";
 
@@ -34,19 +36,19 @@ export const metadata: Metadata = {
   // não geravam clique, porque o nome não estava no título do resultado.
   // Escrever a marca aqui não duplica nada, justamente porque o template não
   // se aplica a esta página.
-  title: "Canil Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista | By Imperio Dog",
+  title: { absolute: BRAND.fullName },
   // A description tinha 218 caracteres. O Google corta perto de 155 (menos
   // ainda no celular, de onde vêm 90% dos cliques), então "13 anos, 180+
   // famílias. Entregamos em todo o Brasil." nunca chegava a ser lido. Encurtada
   // para caber inteira, mantendo "Lulu da Pomerânia" — que sai do título por
   // falta de espaço, mas é o nome pelo qual a raça é de fato pesquisada.
   description:
-    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Veja fotos, preços, documentação e atendimento para famílias de todo o Brasil.",
+    "Canil de Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Veja fotos, preços, documentação e como combinar a retirada ou a entrega.",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     url: "/",
-    title: "By Imperio Dog | Spitz Alemão Anão (Lulu da Pomerânia) — Bragança Paulista, SP",
+    title: BRAND.fullName,
     description:
       `Canil especializado em Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos. Especialistas desde ${FOUNDING_YEAR}, com contrato.`,
     // `/og/home.jpg` nunca existiu: a pasta public/og/ não existe no repositório
@@ -56,7 +58,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "By Imperio Dog | Spitz Alemão Anão (Lulu da Pomerânia)",
+    title: BRAND.fullName,
     description: "Atendimento especializado em Bragança Paulista, SP. Registro oficial, consulta veterinária e hemograma completo inclusos.",
     images: [OG_DEFAULT_IMAGE.url],
   },
@@ -116,6 +118,11 @@ const ABREM_A_VITRINE = [
 // O contactPoint tinha `contactOption: "TollFree"` — o WhatsApp de atendimento
 // não é gratuito, então a propriedade foi removida em vez de migrada.
 
+const pisoMacho = pisoPorSexo("macho");
+const pisoFemea = pisoPorSexo("femea");
+const PRECO_MACHO = pisoMacho ? formatarPreco(pisoMacho) : null;
+const PRECO_FEMEA = pisoFemea ? formatarPreco(pisoFemea) : null;
+
 export default function HomePage() {
 
   // A vitrine inteira, sem corte e sem filtro de estoque.
@@ -153,6 +160,7 @@ export default function HomePage() {
 
   return (
     <>
+      <script id="ld-faq-home" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqPageLD("/", HOME_FAQ_ITEMS)) }} />
 
       <div className="tema-verde relative flex flex-col">
 
@@ -222,7 +230,6 @@ export default function HomePage() {
               <ul className="hm-miolo hm-pilulas">
                 {PISOS_POR_SEXO.map((piso) => {
                   const partes = partesDoPrecoNoPix(piso.cents);
-                  const [inteiro, centavos] = partes.valor.split(",");
                   return (
                     <li key={piso.sexo}>
                       <Link href={`/filhotes/sexo/${piso.sexo}`} className={`hm-pilula ${piso.sexo === "macho" ? "hm-pilula-macho" : "hm-pilula-femea"}`}>
@@ -241,7 +248,7 @@ export default function HomePage() {
                               <path d="M30 36v22M19 47h22" />
                             </svg>
                           )}
-                          <span className="hm-pilula-valor">{inteiro}<span className="hm-pilula-centavos">,{centavos}</span></span>
+                          <span className="hm-pilula-valor">{partes.valor}</span>
                         </span>{" "}
                         <span className="hm-pilula-pix"><PixIcon />{partes.sufixo}</span>
                       </Link>
@@ -276,6 +283,13 @@ export default function HomePage() {
             mockup, e a frase de abertura veio junto. */}
         <section className="home-deferred-section overflow-hidden bg-[var(--bg-2)] py-14 sm:py-20" aria-label="Como a By Imperio Dog trabalha">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            {/* Resumo citável de três frases (pedido de 17/11/2026). Fica fora do
+                mockup para não mexer na primeira dobra; os valores saem da tabela. */}
+            <p className="mx-auto mb-4 max-w-2xl text-center text-sm text-[var(--text-muted)] sm:text-base">
+              A By Imperio Dog é um canil de Spitz Alemão Anão (Lulu da Pomerânia) com sede em Bragança Paulista (SP), em atividade desde {FOUNDING_YEAR}.{" "}
+              {PRECO_MACHO && PRECO_FEMEA && <>Os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) saem a partir de {PRECO_MACHO} nos machos e {PRECO_FEMEA} nas fêmeas, no Pix, com contrato, registro oficial e protocolo vacinal.{" "}</>}
+              {REGRA_DE_ENTREGA}
+            </p>
             <p className="mx-auto mb-10 max-w-2xl text-center text-sm text-[var(--text-muted)] sm:text-base">
               Desde {FOUNDING_YEAR} cuidando de cada detalhe para que você receba um filhote saudável, com documentação em ordem e mentoria pós-venda direta com a criadora.
             </p>

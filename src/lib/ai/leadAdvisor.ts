@@ -128,9 +128,7 @@ function buildMessages(input: LeadAdvisorInput, compatibility: AdvisorCompatibil
   // "Entregamos em X sem burocracia" e "entrega segura para todo Brasil" iam
   // para a sugestao de mensagem que a criadora envia no WhatsApp — prometendo,
   // em primeira pessoa, um transporte que o canil nao opera nem pode garantir.
-  const cityLine = input.city
-    ? ` Atendemos ${input.city}: a retirada é em Bragança Paulista (SP) ou por transporte especializado.`
-    : " Atendemos famílias de todo o Brasil.";
+  const cityLine = " Retirada ou entrega, conforme a disponibilidade. Local, prazo e condições são combinados antes da reserva.";
   const intro = "Aqui é da By Imperio Dog.";
   const interest = `Vi seu interesse em um ${BREED}${contextColor}`;
 

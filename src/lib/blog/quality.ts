@@ -170,10 +170,11 @@ function reprovacoesDeNegocio(texto: string): Reprovacao[] {
       continue;
     }
     const antes = texto.slice(0, preco.index);
-    if (!/a\s+partir\s+de\s+$/.test(antes) || !/,00\s+no\s+pix$/.test(preco[0])) {
+    // Sem centavos desde 17/11/2026: "A partir de R$ 4.500 no PIX".
+    if (!/a\s+partir\s+de\s+$/.test(antes) || !/^r\$\s*[\d.]+\s+no\s+pix$/.test(preco[0])) {
       reprovacoes.push({
         regra: "preco-forma",
-        detalhe: `"${preco[0]}" fora da forma "A partir de R$ 0.000,00 no PIX"`,
+        detalhe: `"${preco[0]}" fora da forma "A partir de R$ 0.000 no PIX"`,
       });
     }
   }

@@ -77,7 +77,7 @@ export default function TermosDeUsoPage() {
               contato@byimperiodog.com.br
             </a>
           </li>
-          <li>WhatsApp e telefone: (11) 9 6863-3239</li>
+          <li>WhatsApp e telefone: (11) 96863-3239</li>
           <li>Município de operação: Bragança Paulista/SP</li>
           <li>CNPJ: 22.587.478/0001-00</li>
         </ul>

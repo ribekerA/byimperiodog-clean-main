@@ -13,7 +13,6 @@ const guide = guides.find((g) => g.slug.includes("alimentacao")) ?? guides[0];
 export const metadata: Metadata = {
   title: "Alimentação do Spitz Alemão Anão (Lulu da Pomerânia)",
   description: guide.metaDescription,
-  keywords: ["alimentacao spitz alemao", "racao lulu da pomerania", "dieta filhote spitz"],
   // Esta pagina reaproveita integralmente o corpo do guia /guias/spitz-alemao-anao-alimentacao.
   // Conteudo identico em duas URLs: o canonical aponta para o guia original
   // (ja indexado e no sitemap) para nao competir consigo mesmo na busca.

@@ -16,20 +16,11 @@ export const metadata: Metadata = {
   title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco ou Creme",
   description:
     "Entenda a diferença entre Spitz Alemão Anão (Lulu da Pomerânia) Branco e creme claro, como comparar a pelagem e onde consultar filhotes, preços e disponibilidade.",
-  keywords: [
-    "Spitz Alemão branco",
-    "Spitz Alemão Anão branco",
-    "Lulu da Pomerânia branco",
-    "Spitz branco ou creme",
-    "filhote de Spitz branco",
-    "Spitz branco preço",
-    "Pomeranian branco",
-  ],
   alternates: { canonical: "/spitz-alemao-branco" },
   openGraph: {
     title: "Spitz Alemão Anão (Lulu da Pomerânia) Branco: diferenças do creme claro",
     description:
-      "Veja como comparar branco e creme claro e consulte o catálogo atualizado de filhotes da By Imperio Dog.",
+      "Veja como comparar branco e creme claro e veja as referências de filhotes da By Imperio Dog.",
     url: PAGE_URL,
     siteName: "By Imperio Dog",
     type: "article",
@@ -244,7 +235,7 @@ export default function SpitzAlemaoBrancoPage() {
       </section>
 
       <RelatedPages links={[
-        { label: "Filhotes Brancos", href: "/filhotes/cor/branco", desc: "Catálogo atualizado por cor" },
+        { label: "Filhotes Brancos", href: "/filhotes/cor/branco", desc: "Referências por cor" },
         { label: "Filhotes e Valores", href: "/filhotes", desc: "Fotos, vídeos e valores individuais" },
         { label: "Spitz Alemão Anão (Lulu da Pomerânia)", href: "/spitz-alemao", desc: "Guia completo da raça" },
       ]} />

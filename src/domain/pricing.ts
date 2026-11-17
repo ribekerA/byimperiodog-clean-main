@@ -142,11 +142,11 @@ export function aPartirDe(cor: CorDivulgada): number {
  *
  * Recebe centavos porque quem chama já tem o valor da combinação em mãos
  * (`precoDe`, ou o `priceCents` da vitrine, que o pricing-guard confere contra
- * a tabela). O texto é montado sobre {@link formatarPrecoComCentavos} pelo mesmo
+ * a tabela). O texto é montado sobre {@link formatarPreco} pelo mesmo
  * motivo de sempre: um único formato de preço publicado no site inteiro.
  */
 export function textoAPartirDe(cents: number): string {
-  return `${PREFIXO_A_PARTIR_DE} ${formatarPrecoComCentavos(cents)}`;
+  return `${PREFIXO_A_PARTIR_DE} ${formatarPreco(cents)}`;
 }
 
 /**
@@ -166,7 +166,9 @@ export const PREFIXO_A_PARTIR_DE = "A partir de";
 export const SUFIXO_NO_PIX = "no PIX";
 
 /**
- * "R$ 4.500,00" — com centavos, como o preço aparece no card, na ficha e na home.
+ * "R$ 4.500,00" — com centavos. Saiu do card, da ficha e da home em 17/11/2026,
+ * quando o usuário pediu o valor redondo ("R$ 4.500"); fica para quem precisar
+ * escrever um valor que não seja inteiro.
  *
  * Montado à mão, e não com Intl style "currency", pela razão de sempre: aquele
  * formato separa "R$" do número com espaço sem quebra (U+00A0) e nenhuma
@@ -184,7 +186,7 @@ export function partesDoPrecoNoPix(cents: number): {
   valor: string;
   sufixo: string;
 } {
-  return { prefixo: PREFIXO_A_PARTIR_DE, valor: formatarPrecoComCentavos(cents), sufixo: SUFIXO_NO_PIX };
+  return { prefixo: PREFIXO_A_PARTIR_DE, valor: formatarPreco(cents), sufixo: SUFIXO_NO_PIX };
 }
 
 /**
@@ -203,10 +205,11 @@ export function partesDoPrecoDaVitrine(cents: number): {
 }
 
 /**
- * "A partir de R$ 6.500,00 no PIX" — a forma como o preço aparece na vitrine.
- * Os centavos entraram por pedido da responsável em 06/11/2026, junto com a
- * retirada da linha "ou 3x": o cartão destaca só o valor no PIX, e parcelamento
- * se confirma no atendimento.
+ * "A partir de R$ 6.500 no PIX" — a forma como o preço aparece na vitrine.
+ * Os centavos entraram em 06/11/2026 e saíram em 17/11/2026, a pedido do
+ * usuário: valor redondo lê como preço de marca, ",00" lê como etiqueta de
+ * promoção. A linha "ou 3x" saiu em 06/11/2026; parcelamento se confirma no
+ * atendimento.
  *
  * A condição de pagamento passou a ser publicada por decisão da responsável em
  * 05/11/2026: o valor cadastrado é o do PIX, e dizer isso evita que alguém

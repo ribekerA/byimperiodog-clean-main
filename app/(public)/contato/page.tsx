@@ -13,7 +13,8 @@ import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import LeadForm from "@/components/LeadForm";
 import TrustBar from "@/components/TrustBar";
 import ViewEventTracker from "@/components/ViewEventTracker";
-import { GOOGLE_MAPS_PROFILE_URL, GOOGLE_REVIEWS_URL } from "@/domain/config";
+import { BRAND, GOOGLE_MAPS_PROFILE_URL, GOOGLE_REVIEWS_URL } from "@/domain/config";
+import { buildFaqPageLD } from "@/lib/structured-data";
 import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { routes } from "@/lib/route";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
@@ -63,7 +64,7 @@ const FAQ_ITEMS = [
     a: "A possibilidade e o formato da visita são combinados diretamente com a criadora pelo WhatsApp, conforme a disponibilidade.",
   },
   {
-    q: "Vocês entregam em outras cidades?",
+    q: "Como funciona a retirada ou a entrega?",
     a: REGRA_DE_ENTREGA,
   },
   {
@@ -96,14 +97,13 @@ export default function ContatoPage() {
   const orgLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "By Imperio Dog",
+    name: BRAND.fullName,
     url: SITE_URL,
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",
       telephone: RAW_FULL ? (RAW_FULL.startsWith("55") ? `+${RAW_FULL}` : `+55${RAW_FULL}`) : undefined,
       email: EMAIL,
-      areaServed: "BR",
       availableLanguage: ["Portuguese"],
     },
   };
@@ -120,6 +120,7 @@ export default function ContatoPage() {
   return (
     <div>
       <script id="ld-org-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
+      <script id="ld-faq-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(buildFaqPageLD("/contato", FAQ_ITEMS.map((i) => ({ question: i.q, answer: i.a })))) }} />
       <script id="ld-breadcrumb-contato" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       <ViewEventTracker tipo="contato" />
 

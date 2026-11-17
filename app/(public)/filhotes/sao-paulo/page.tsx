@@ -1,4 +1,4 @@
-import { CheckCircle, MapPin, Phone, Shield, Star, Truck } from "lucide-react";
+import { MapPin, Phone, Shield, Star, Truck } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -8,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { puppiesPublicados } from "@/content/puppies-static";
 import { cn } from "@/lib/cn";
 import { canonical } from "@/lib/seo.core";
+import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildWebPageLD } from "@/lib/structured-data";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://byimperiodog.com.br";
@@ -21,30 +22,16 @@ export const metadata: Metadata = {
   description:
     // 184 caracteres. Reescrita em 134. Sai "criadora de referência": é um
     // superlativo sem nada que o comprove.
-    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) para famílias de São Paulo: consulte opções, registro oficial e viabilidade de transporte.",
+    "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) para famílias de São Paulo: fotos, registro oficial e atendimento direto com a criadora.",
   alternates: { canonical: canonical("/filhotes/sao-paulo") },
   openGraph: {
     type: "website",
     url: canonical("/filhotes/sao-paulo"),
     title: "Filhotes de Spitz Alemão Anão (Lulu da Pomerânia) em São Paulo",
-    description: "Spitz Alemão Anão (Lulu da Pomerânia) para São Paulo. Consulte disponibilidade e condições de transporte com a criadora.",
+    description: "Spitz Alemão Anão (Lulu da Pomerânia) para famílias de São Paulo. Retirada ou entrega combinadas antes da reserva.",
     images: [{ url: "/spitz-hero-desktop.webp", width: 1400, height: 933 }],
   },
 };
-
-const spCities = [
-  "São Paulo Capital",
-  "Zona Sul (Moema, Brooklin, Vila Mariana)",
-  "Zona Norte (Santana, Tucuruvi)",
-  "Zona Leste (Tatuapé, Mooca)",
-  "Zona Oeste (Pinheiros, Vila Madalena)",
-  "ABC Paulista (Santo André, São Bernardo, São Caetano)",
-  "Campinas e Região",
-  "São José dos Campos",
-  "Sorocaba",
-  "Ribeirão Preto",
-  "Santos e Litoral",
-];
 
 // Tres respostas foram reescritas nesta lista.
 //
@@ -63,19 +50,13 @@ const spCities = [
 // depois.
 const faqSP = [
   {
-    question: "Vocês fazem entrega em São Paulo capital?",
-    answer:
-      "Sim! Atendemos famílias da capital paulista e de toda a Grande São Paulo. O tutor retira o filhote em Bragança Paulista (SP) ou consulta opções de transporte especializado, definidas conforme destino, idade e condições do filhote.",
+    question: "Como funciona a retirada ou a entrega?",
+    answer: REGRA_DE_ENTREGA,
   },
   {
     question: "Posso visitar o criatorio em Bragança Paulista antes de comprar?",
     answer:
       "Visitas são combinadas caso a caso com a criadora, no criatório em Bragança Paulista (SP). Fale pelo WhatsApp para alinhar data e horário.",
-  },
-  {
-    question: "Qual o valor da entrega para São Paulo?",
-    answer:
-      "O valor varia conforme a região e a distância, porque depende do transporte contratado para o trajeto. Consulte a criadora pelo WhatsApp para saber o valor até a sua cidade.",
   },
   {
     question: "Os filhotes já vêm vacinados e vermifugados?",
@@ -139,14 +120,14 @@ export default function FilhotesSaoPauloPage() {
         <section className="faixa-topo mx-auto max-w-6xl px-5 text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 py-1.5 text-sm font-semibold">
             <MapPin className="h-4 w-4 text-[var(--marca-texto)]" />
-            Atendemos toda São Paulo
+            Canil em Bragança Paulista (SP)
           </div>
           <h1 className="mt-6 text-4xl font-bold tracking-tight text-[var(--text)] sm:text-5xl lg:text-6xl">
             Filhotes de Spitz Alemão Anão (Lulu da Pomerânia)
             <span className="block text-[var(--marca-texto)]">em São Paulo (SP)</span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-lg text-[var(--text-muted)]">
-            Conheça o Spitz Alemão Anão (Lulu da Pomerânia) para famílias da capital paulista, Grande SP e interior. Modalidade, destino, prazo e viabilidade de transporte são confirmados caso a caso, conforme a idade do animal e as exigências aplicáveis.
+            Conheça o Spitz Alemão Anão (Lulu da Pomerânia) para famílias de São Paulo. {REGRA_DE_ENTREGA}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <a
@@ -164,24 +145,6 @@ export default function FilhotesSaoPauloPage() {
           </div>
         </section>
 
-        {/* Atendimento em São Paulo */}
-        <section className="mx-auto mt-20 max-w-6xl px-5">
-          <h2 className="mb-8 text-center text-3xl font-bold text-[var(--text)]">
-            Atendemos Toda a Região de São Paulo
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {spCities.map((city) => (
-              <div
-                key={city}
-                className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4"
-              >
-                <CheckCircle className="h-5 w-5 flex-shrink-0 text-[var(--marca-texto)]" />
-                <span className="font-medium text-[var(--text)]">{city}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Diferenciais */}
         <section className="mx-auto mt-20 max-w-6xl px-5">
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -189,9 +152,9 @@ export default function FilhotesSaoPauloPage() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/10">
                 <Truck className="h-8 w-8 text-[var(--marca-texto)]" />
               </div>
-              <h3 className="mb-2 font-bold text-[var(--text)]">Entrega Segura</h3>
+              <h3 className="mb-2 font-bold text-[var(--text)]">Retirada ou entrega</h3>
               <p className="text-sm text-[var(--text-muted)]">
-                Transporte sob consulta de destino, idade e viabilidade
+                Local, prazo e condições combinados antes da reserva
               </p>
             </div>
             <div className="text-center">
@@ -259,7 +222,7 @@ export default function FilhotesSaoPauloPage() {
           <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 lg:p-12">
             <h2 className="text-3xl font-bold text-[var(--text)]">Pronto para ter seu Spitz Alemão Anão (Lulu da Pomerânia) em São Paulo?</h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--text-muted)]">
-              Fale com nossa equipe e consulte as opções de transporte para sua cidade em São Paulo
+              Fale com a criadora e combine a retirada ou a entrega antes da reserva.
             </p>
             <a
               href={waLink}

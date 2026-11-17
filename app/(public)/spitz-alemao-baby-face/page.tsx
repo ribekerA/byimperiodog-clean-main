@@ -14,14 +14,6 @@ export const metadata: Metadata = {
   title: "Spitz Alemão (Lulu da Pomerânia) Baby Face — O que É e Preço",
   description:
     "Spitz Alemão (Lulu da Pomerânia) Baby Face: focinho curto e aparência infantil. O que é, se a FCI reconhece, preço e como identificar um filhote legítimo.",
-  keywords: [
-    "Spitz Alemão Baby Face",
-    "Lulu da Pomerânia Baby Face",
-    "Spitz Baby Face o que é",
-    "Spitz Alemão focinho curto",
-    "Pomeranian Baby Face",
-    "Spitz Alemão Baby Face preço",
-  ],
   alternates: { canonical: "/spitz-alemao-baby-face" },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],

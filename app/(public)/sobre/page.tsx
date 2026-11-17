@@ -27,13 +27,6 @@ export const metadata: Metadata = {
     // 202 caracteres. Reescrita em 152, e o ano deixa de ser literal: passa a
     // vir do FOUNDING_YEAR como no resto do site.
     `By Imperio Dog: desde ${FOUNDING_YEAR} dedicada ao Spitz Alemão Anão (Lulu da Pomerânia) em Bragança Paulista, SP, com atendimento especializado e registro oficial.`,
-  keywords: [
-    "criador Spitz Alemão Anão confiável",
-    "canil Lulu da Pomerânia Bragança Paulista",
-    "By Imperio Dog sobre",
-    "história canil Spitz Alemão SP",
-    "canil responsável interior SP",
-  ],
   alternates: { canonical: `${SITE_URL}/sobre` },
   openGraph: {
     images: [OG_DEFAULT_IMAGE],
@@ -79,9 +72,9 @@ const TIMELINE = [
     // virada do ano a linha do tempo passaria a anunciar que o ultimo
     // acontecimento do canil foi no ano passado. "Hoje" nao envelhece.
     year: "Hoje",
-    title: "Famílias em todo o Brasil",
+    title: "Famílias atendidas",
     description:
-      "Hoje, famílias espalhadas pelo Brasil confiam na By Imperio Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria pós-venda.",
+      "Hoje, muitas famílias confiam na By Imperio Dog para escolher seu Spitz Alemão Anão (Lulu da Pomerânia). E cada uma recebe mentoria pós-venda.",
     emoji: "💚",
   },
 ] as const;

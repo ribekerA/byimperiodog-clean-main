@@ -19,8 +19,6 @@ const SITE_URL = BRAND.urls.site;
 export const BUSINESS_ID = `${SITE_URL}/#business`;
 
 /** Área efetivamente atendida, sem cidades escolhidas por volume de busca. */
-export const SERVED_AREAS = [{ "@type": "Country", name: "Brasil" }] as const;
-
 /**
  * No `WebPage` de uma pagina institucional ou de destino.
  *
@@ -33,6 +31,30 @@ export const SERVED_AREAS = [{ "@type": "Country", name: "Brasil" }] as const;
  *
  * `about` aponta para o no unico da empresa em vez de repetir os dados dela.
  */
+/**
+ * FAQPage das perguntas que a página mostra na tela.
+ *
+ * Voltou em 17/11/2026 por decisão do responsável: o rich result de FAQ acabou,
+ * mas o markup segue válido em schema.org e é lido por buscadores e IAs. Só
+ * entra pergunta visível na mesma página, com a resposta igual à da tela.
+ */
+export function buildFaqPageLD(path: string, itens: ReadonlyArray<{ question: string; answer: string }>) {
+  const caminho = path.startsWith("/") ? path : `/${path}`;
+  const url = `${SITE_URL}${caminho === "/" ? "" : caminho}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    url,
+    inLanguage: "pt-BR",
+    mainEntity: itens.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+
 export function buildWebPageLD(input: {
   path: string;
   name: string;
@@ -56,7 +78,7 @@ export function buildWebPageLD(input: {
     name: input.name,
     ...(input.description ? { description: input.description } : {}),
     inLanguage: "pt-BR",
-    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.name },
+    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.fullName },
     about: { "@id": BUSINESS_ID },
     primaryImageOfPage: {
       "@type": "ImageObject",
@@ -119,7 +141,7 @@ export function buildVitrinePageLD(puppy: CatalogItem) {
     name: puppy.name,
     ...(registro.description ? { description: registro.description } : {}),
     inLanguage: "pt-BR",
-    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.name },
+    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.fullName },
     about: { "@id": BUSINESS_ID },
     ...(imagens.length > 0
       ? {
@@ -185,7 +207,7 @@ export function buildCollectionPageLD(input: {
     name: input.name,
     ...(input.description ? { description: input.description } : {}),
     inLanguage: "pt-BR",
-    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.name },
+    isPartOf: { "@type": "WebSite", url: SITE_URL, name: BRAND.fullName },
     about: { "@id": BUSINESS_ID },
     ...(input.itemListId ? { mainEntity: { "@id": input.itemListId } } : {}),
     ...(input.image
@@ -294,8 +316,8 @@ export function buildLocalBusinessLD() {
     // regra do projeto que bane "adoção"/"adotar" do conteúdo.
     "@type": "LocalBusiness",
     "@id": BUSINESS_ID,
-    name: BRAND.name,
-    alternateName: BRAND.schema.alternateNames,
+    name: BRAND.fullName,
+    alternateName: [BRAND.name, ...BRAND.schema.alternateNames],
     description: BRAND.schema.description,
     url: SITE_URL,
     telephone: BRAND.contact.phone,
@@ -332,7 +354,6 @@ export function buildLocalBusinessLD() {
       addressRegion: "SP",
       addressCountry: "BR",
     },
-    areaServed: SERVED_AREAS,
     // O mesmo horário que /contato publica ("todos os dias, das 8h às 22h"),
     // confirmado pela responsável em 10/11/2026 como o do negócio. É horário
     // de atendimento: a visita continua sendo com hora marcada.
@@ -351,7 +372,6 @@ export function buildLocalBusinessLD() {
         "@type": "ContactPoint",
         telephone: BRAND.contact.phone,
         contactType: "customer service",
-        areaServed: "BR",
         availableLanguage: ["pt-BR"],
       },
     ],
@@ -369,7 +389,6 @@ export function buildLocalBusinessLD() {
           "Filhote de Spitz Alemão Anão (Lulu da Pomerânia) vacinado e vermifugado, com consulta veterinária, hemograma completo e pedigree. Atendimento com base em Bragança Paulista, SP.",
         priceCurrency: "BRL",
         url: `${SITE_URL}/filhotes`,
-        areaServed: { "@type": "Country", name: "Brasil" },
       },
     ],
     hasOfferCatalog: {

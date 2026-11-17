@@ -551,7 +551,6 @@ body.admin-shell [data-site-shell="cta"] {
   .hm-pilula-femea svg { width: calc(80 * var(--u)); height: calc(80 * var(--u)); }
   .hm-pilula-valor { font-family: var(--font-display); font-weight: 700; font-size: calc(62 * var(--u)); line-height: 1.12; white-space: nowrap; font-variant-numeric: lining-nums; }
   .hm-pilula-macho .hm-pilula-valor { background: linear-gradient(180deg, #fff0c0, #e6b854); -webkit-background-clip: text; background-clip: text; color: #eec873; -webkit-text-fill-color: transparent; }
-  .hm-pilula-centavos { font-size: 0.5em; }
   .hm-pilula-pix { display: inline-flex; align-items: center; justify-content: center; gap: calc(6 * var(--u)); font-size: max(9.5px, calc(25 * var(--u))); }
   .hm-pilula-pix svg { flex: none; width: max(11px, calc(28 * var(--u))); height: max(11px, calc(28 * var(--u))); }
 
@@ -1076,7 +1075,7 @@ body.admin-shell [data-site-shell="cta"] {
 
 /* ── Tema de Natal (aprovado em 17/11/2026) ─────────────────────────────────────
    Liga com data-tema="natal" no <html>, posto antes da primeira pintura pelo
-   script de src/lib/temporada.ts (1º/12 a 6/1; prévia com ?tema=natal).
+   script de src/lib/temporada.ts (1º/12 a 31/12, sai em 1º/1; prévia com ?tema=natal).
    Fora disso nada aqui se aplica e o site é o de sempre. Fica fora das camadas
    de propósito: precisa vencer as regras de .hm e .vt sem !important. */
 .so-no-natal { display: none; }

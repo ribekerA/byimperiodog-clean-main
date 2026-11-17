@@ -41,7 +41,7 @@ const RACA_ITEMS = [
   { label: "Spitz Alemão (Lulu da Pomerânia) Baby Face", href: "/spitz-alemao-baby-face" },
   { label: "Ninhadas", href: "/ninhadas" },
   { label: "Como Comprar", href: "/comprar-spitz-anao" },
-  { label: "Entrega em todo o Brasil", href: "/blog/spitz-alemao-anao-entrega-brasil" },
+  { label: "Retirada ou entrega", href: "/blog/spitz-alemao-anao-entrega-brasil" },
 ];
 
 const SUPPORT_ITEMS = [
@@ -119,7 +119,7 @@ export default function Footer() {
           </p>
           <address>
             <a href={`mailto:contato@byimperiodog.com.br`}>contato@byimperiodog.com.br</a>
-            <a href={whatsapp} target="_blank" rel="noreferrer">(11) 9 6863-3239</a>
+            <a href={whatsapp} target="_blank" rel="noreferrer">{BRAND.contact.phoneDisplay}</a>
           </address>
           <div className="rp-google">
             <a href={GOOGLE_MAPS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
@@ -181,7 +181,7 @@ export default function Footer() {
       {/* Linha final */}
       <div className="rp-final">
         <div>
-          <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} By Imperio Dog. Todos os direitos reservados. Registro CBKC nº {BRAND.registroCbkc}.</p>
+          <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} {BRAND.fullName}. Todos os direitos reservados. Registro CBKC nº {BRAND.registroCbkc}.</p>
           <p>Spitz Alemão Anão (Lulu da Pomerânia) — acompanhamento veterinário e suporte direto com a criadora.</p>
         </div>
       </div>
