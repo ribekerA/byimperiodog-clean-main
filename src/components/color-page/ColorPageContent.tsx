@@ -21,6 +21,7 @@ import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { temPedigreeCbkc } from "@/domain/pedigree";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { COLOR_SEO, CORES_EXIBIDAS, type CatalogItem, type ColorSeo, formatPrice } from "@/lib/catalog-utils";
 
@@ -336,6 +337,8 @@ interface Props {
 export default function ColorPageContent({ color, seo, puppies, waLink }: Props) {
   const theme    = THEMES[color as ColorKey] ?? THEMES.creme;
   const ilustracao = ILUSTRACAO_DA_COR[color];
+  // Merle e Chocolate não saem com pedigree CBKC: nada de "Registro oficial".
+  const comPedigree = temPedigreeCbkc(color);
   const reduced  = useReducedMotion();
   const { heroDark } = theme;
   const trackedWaLink = useWhatsAppLink(waLink);
@@ -446,7 +449,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   : null,
                 // Numa cor que só tem ilustração, "Fotos reais" seria falso.
                 ilustracao ? null : { value: "Fotos reais", label: "de cada filhote" },
-                { value: "Registro oficial", label: "incluso" },
+                comPedigree ? { value: "Registro oficial", label: "incluso" } : null,
                 { value: "Mentoria", label: "pós-venda" },
               ]
                 .filter(Boolean)
@@ -537,7 +540,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                   Incluso
                 </p>
                 <p className={`mt-0.5 font-bold ${heroDark ? "text-white" : "text-zinc-900"}`}>
-                  Registro oficial
+                  {comPedigree ? "Registro oficial" : "Consulta veterinária"}
                 </p>
                 <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
                   + Mentoria pós-venda

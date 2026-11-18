@@ -171,7 +171,7 @@ export default function Footer() {
         <div className="rp-coluna rp-coluna-criacao">
           <h3>Nosso compromisso</h3>
           <ul className="rp-selos">
-            {["Registro oficial incluso", "Consulta veterinária e hemograma", "Mentoria pós-venda", `Especialistas desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
+            {["Pedigree CBKC nas cores aceitas", "Consulta veterinária e hemograma", "Mentoria pós-venda", `Especialistas desde ${FOUNDING_YEAR}`, "Bragança Paulista, SP"].map((item) => (
               <li key={item}>
                 <span aria-hidden="true">✓</span>
                 {item}

@@ -84,15 +84,15 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
     id: "entrega",
     status: "CONFIRMADO",
     texto:
-      "A entrega inclui vacinação conforme a idade, vermifugação, consulta veterinária antes da entrega, hemograma completo, pedigree/registro oficial e contrato",
+      "A entrega inclui vacinação conforme a idade, vermifugação, consulta veterinária antes da entrega, hemograma completo, pedigree/registro oficial (nas cores aceitas pela CBKC) e contrato",
     nota: "Esta é a lista fechada. O que não está aqui não é 'incluso'.",
   },
   {
     id: "pedigree",
     status: "CONDICIONAL",
     texto:
-      "Pedigree emitido pela CBKC ou por clube filiado à FCI, conforme os prazos e as condições da entidade",
-    nota: "A condição é parte da afirmação: sem ela vira promessa de prazo.",
+      "Pedigree emitido pela CBKC ou por clube filiado à FCI, conforme os prazos e as condições da entidade, nas cores aceitas pela CBKC",
+    nota: "A condição é parte da afirmação: sem ela vira promessa de prazo. Chocolate e Merle não saem com pedigree CBKC (domain/pedigree, 18/11/2026).",
   },
   {
     id: "identificacao",

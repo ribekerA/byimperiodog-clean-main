@@ -31,7 +31,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
         Ver a vitrine de filhotes →
       </Link>
       <p className="mt-3 text-center text-xs text-zinc-500">
-        Registro oficial · Contrato digital
+        Pedigree CBKC nas cores aceitas · Contrato digital
       </p>
     </div>
   );

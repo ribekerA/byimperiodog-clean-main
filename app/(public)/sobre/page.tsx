@@ -128,7 +128,7 @@ const VALUES = [
 const DIFERENCIAIS = [
   {
     label: "Registro oficial",
-    us: `Canil com registro CBKC nº ${BRAND.registroCbkc}. Pedigree emitido pela CBKC ou por clube filiado, dentro do sistema FCI`,
+    us: `Canil com registro CBKC nº ${BRAND.registroCbkc}. Pedigree emitido pela CBKC ou por clube filiado, dentro do sistema FCI, nas cores aceitas pela CBKC (Chocolate e Merle não saem com pedigree CBKC)`,
     check: "Peça o número do registro e confirme qual entidade emitiu",
   },
   {

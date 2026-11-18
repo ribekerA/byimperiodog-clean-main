@@ -50,7 +50,7 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Transparência na documentação",
-    body: "Todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável.",
+    body: "Nas cores aceitas pela CBKC, todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Os filhotes Chocolate e Merle não saem com pedigree da CBKC; a documentação deles é informada no atendimento e escrita no contrato.",
   },
   {
     title: "Suporte real depois da entrega",
@@ -87,7 +87,7 @@ const PAGE_FAQS = [
   {
     question: "A By Imperio Dog tem criação com registro oficial?",
     answer:
-      "Sim. Todo filhote sai com pedigree emitido pela CBKC ou por clube filiado, dentro do sistema FCI. A emissão e a entrega seguem o prazo da entidade responsável e as condições previstas em contrato.",
+      "Sim. O canil tem registro na CBKC, e os filhotes das cores aceitas pela CBKC saem com pedigree emitido por ela ou por clube filiado, dentro do sistema FCI. A emissão e a entrega seguem o prazo da entidade responsável e as condições previstas em contrato. Os filhotes Chocolate e Merle não saem com pedigree da CBKC; a documentação deles é informada no atendimento e escrita no contrato.",
   },
   {
     question: "Quantos anos de experiência tem a By Imperio Dog?",

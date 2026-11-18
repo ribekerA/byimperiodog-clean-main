@@ -168,6 +168,7 @@ const IMAGE_SIZES: Record<string, readonly [number, number]> = {
   "/images/blog/cores-spitz-alemao-anao-qual-mais-cara.jpg": [1280, 853],
   "/images/blog/cuidados-pelo-spitz-alemao-anao.jpg": [1280, 853],
   "/images/blog/guia-spitz-alemao.jpg": [1280, 853],
+  "/images/blog/lulu-da-pomerania-merle.jpg": [1200, 630],
   "/images/blog/preco-spitz-alemao-anao.jpg": [1280, 853],
   "/images/blog/quanto-custa-manter-spitz-alemao.jpg": [1280, 853],
   "/images/blog/saude-spitz-alemao-anao.jpg": [1280, 853],

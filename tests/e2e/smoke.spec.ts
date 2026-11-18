@@ -491,13 +491,18 @@ test.describe("Portao das superficies criticas", () => {
     }
   }
 
-  test("a pagina do Merle nao cita o padrao FCI nem saude da cor", async ({ page }) => {
-    await page.goto("/filhotes/cor/merle");
-    const corpo = await page.locator("body").innerText();
-    expect(corpo).not.toMatch(/padrão FCI/i);
-    expect(corpo).not.toMatch(/inteligência ou saúde/i);
-    expect(corpo).toContain("CBKC");
-  });
+  // Merle esta fora do padrao FCI n. 97 e o Chocolate oferecido hoje nao sai
+  // com pedigree CBKC (domain/pedigree). Nenhuma das duas paginas pode prometer
+  // "Registro oficial".
+  for (const cor of ["chocolate", "merle"]) {
+    test(`a pagina do ${cor} diz que nao sai com pedigree CBKC`, async ({ page }) => {
+      await page.goto(`/filhotes/cor/${cor}`);
+      const corpo = await page.locator("body").innerText();
+      expect(corpo).toMatch(/não (sai|saem) com pedigree da CBKC/);
+      expect(corpo).not.toContain("Registro oficial");
+      expect(corpo).not.toMatch(/inteligência ou saúde/i);
+    });
+  }
 
   // Estes botoes dependiam so de NEXT_PUBLIC_WA_PHONE e sumiam em silencio quando
   // a variavel nao entrava no build. Agora ha numero de reserva. Este teste roda

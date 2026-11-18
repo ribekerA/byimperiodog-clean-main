@@ -277,19 +277,21 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       },
     ],
   },
+  // Chocolate: o marrom está no padrão FCI nº 97, mas os filhotes Chocolate
+  // oferecidos hoje não saem com pedigree da CBKC (responsável, 18/11/2026).
   chocolate: {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate — Filhotes",
     metaDescription:
-      "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate em Bragança Paulista, SP. Pelagem marrom uniforme e registro oficial. Consulte opções e valores individuais.",
+      "Lulu da Pomerânia Chocolate (Spitz Alemão Anão marrom) em Bragança Paulista, SP. Sem pedigree CBKC; documentação informada no atendimento e no contrato.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate",
     intro:
-      "O Chocolate é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem marrom uniforme. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.",
+      "O Chocolate é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem marrom uniforme. Os filhotes Chocolate oferecidos hoje não saem com pedigree da CBKC; a documentação de cada um é informada no atendimento e escrita no contrato. O valor depende de cada filhote e da oferta atual.",
     characteristics: [
       "Pelagem marrom, também chamada de chocolate",
       "Marrom consta entre as cores previstas no padrão FCI nº 97 da raça",
+      "Os filhotes Chocolate oferecidos hoje não saem com pedigree da CBKC",
       "Temperamento típico da raça — a cor não altera o comportamento",
-      "Tamanho dentro do padrão FCI nº 97 (21 cm ± 3 cm na cernelha (altura))",
-      "A cor não muda o valor de partida",
+      "Tamanho de referência da variedade anã: 21 cm ± 3 cm na cernelha (altura)",
     ],
     faqs: [
       {
@@ -302,9 +304,9 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
           "Sim. Chocolate é o nome popular da pelagem marrom, que aparece como marrom no padrão FCI nº 97 do Spitz Alemão (Lulu da Pomerânia).",
       },
       {
-        question: "O Chocolate tem registro?",
+        question: "O Lulu da Pomerânia Chocolate tem pedigree?",
         answer:
-          "Sim. Todo filhote da By Imperio Dog sai com registro oficial e pedigree, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
+          "Os filhotes Chocolate oferecidos hoje pela By Imperio Dog não saem com pedigree da CBKC. A documentação de cada filhote é informada no atendimento e escrita no contrato, antes de qualquer reserva.",
       },
       {
         question: "Como vejo um filhote Chocolate?",
@@ -313,22 +315,23 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       },
     ],
   },
-  // A página do Merle cita a CBKC porque o dono confirmou em 06/11/2026 que o
-  // registro sai por ela. Isso não confirma que o padrão FCI aceite a cor, então
-  // aqui não se diz que o Merle está no padrão nem que a cor não pesa na saúde.
+  // Merle: a cor não consta do padrão FCI nº 97 (20/09/2024), que a CBKC segue,
+  // e "qualquer cor não mencionada" é falta desqualificante. Logo, sem pedigree
+  // CBKC. A página diz isso e explica o risco do cruzamento merle × merle; não
+  // promete saúde nem papel que não existe.
   merle: {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Merle — Filhotes",
     metaDescription:
-      "Spitz Alemão Anão (Lulu da Pomerânia) Merle em Bragança Paulista, SP. Pelagem com manchas marmorizadas e registro CBKC. Consulte opções e valores individuais.",
+      "Lulu da Pomerânia Merle (Spitz Alemão Anão merle) em Bragança Paulista, SP. Cor fora do padrão FCI: sem pedigree CBKC. Veja cuidados e consulte filhotes.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Merle",
     intro:
-      "O Merle é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem com manchas marmorizadas, com registro emitido pela CBKC. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.",
+      "O Merle é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem com manchas marmorizadas. A cor não consta do padrão FCI nº 97, que a CBKC segue, então o Lulu da Pomerânia Merle não sai com pedigree da CBKC. A documentação de cada filhote é informada no atendimento e escrita no contrato, e o valor depende de cada filhote e da oferta atual.",
     characteristics: [
       "Pelagem com manchas marmorizadas — o desenho é único em cada filhote",
-      "Registro emitido pela CBKC",
+      "Cor fora do padrão FCI nº 97: não sai com pedigree da CBKC",
+      "Não se cruza merle com merle, por causa do risco do duplo merle",
       "Temperamento típico da raça — cada filhote tem a sua individualidade",
       "Porte de referência da variedade anã: 21 cm ± 3 cm na cernelha (altura)",
-      "A cor não muda o valor de partida",
     ],
     faqs: [
       {
@@ -338,12 +341,22 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "O que é um Lulu da Pomerânia Merle?",
         answer:
-          "Merle descreve a pelagem com manchas marmorizadas, irregulares, sobre um tom mais claro. O desenho muda de filhote para filhote.",
+          "Merle é um padrão de pelagem com manchas marmorizadas, irregulares, sobre um tom mais claro. Ele vem de um gene que dilui parte da cor de base, e o desenho muda de filhote para filhote.",
       },
       {
-        question: "O Merle tem registro?",
+        question: "O Lulu da Pomerânia Merle tem pedigree?",
         answer:
-          "Sim. O registro do Merle é emitido pela CBKC, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato.",
+          "Não pela CBKC. O padrão FCI nº 97, seguido pela CBKC, só aceita as cores listadas nele e desqualifica qualquer outra; o merle não está na lista. A documentação de cada filhote é informada no atendimento e escrita no contrato.",
+      },
+      {
+        question: "O Lulu da Pomerânia Merle é saudável?",
+        answer:
+          "O risco conhecido está no cruzamento de dois merles: cerca de um quarto da ninhada pode nascer duplo merle, com risco alto de surdez e de problemas nos olhos. Por isso não se cruza merle com merle. Cada filhote passa por consulta veterinária antes da entrega.",
+      },
+      {
+        question: "Merle de olho azul é normal?",
+        answer:
+          "O gene merle pode deixar um ou os dois olhos azuis, ou com partes azuis. Olho azul sozinho não é doença, mas vale a avaliação do veterinário, principalmente em filhote com muito branco.",
       },
       {
         question: "Como vejo um filhote Merle?",

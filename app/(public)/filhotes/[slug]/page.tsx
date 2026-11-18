@@ -16,6 +16,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import ViewEventTracker from "@/components/ViewEventTracker";
 import { puppiesPublicados, staticPuppies } from "@/content/puppies-static";
 import { puppySearchCopy } from "@/content/puppy-search-copy";
+import { temPedigreeCbkc } from "@/domain/pedigree";
 import { textoAPartirDeNoPix } from "@/domain/pricing";
 import { getPuppyBySlug } from "@/lib/catalog-utils";
 import { perguntarPeloFilhote } from "@/lib/nome-do-filhote";
@@ -81,7 +82,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     : tituloCompleto.length <= 45 ? tituloCompleto : puppy.name;
   const description =
     (puppy as any).description ??
-    `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
+    `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. ${temPedigreeCbkc(puppy.color ?? (puppy as any).cor) ? "Registro oficial, consulta veterinária" : "Consulta veterinária"} e mentoria pós-venda.`;
   const descricaoBusca = resumirParaBusca(searchCopy?.metadataDescription ?? description);
   const firstImage = puppy.images?.find((img: string) => !img.endsWith(".mp4"));
 
@@ -152,7 +153,7 @@ export default async function PuppyPage(props: Props) {
   const searchCopy = puppySearchCopy(puppy);
   const description =
     (puppy as any).description ??
-    `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. Registro oficial, consulta veterinária e mentoria pós-venda.`;
+    `Filhote de Spitz Alemão Anão (Lulu da Pomerânia) ${corLabel} ${sexLabel} em Bragança Paulista, SP. ${temPedigreeCbkc(puppy.color ?? (puppy as any).cor) ? "Registro oficial, consulta veterinária" : "Consulta veterinária"} e mentoria pós-venda.`;
 
   const waLink = buildWhatsAppLink({
     message: `Olá! Vi ${puppy.name} (${corLabel}, ${sexLabel}) na vitrine do site e gostaria de conhecer as opções atuais dessa combinação.`,
@@ -280,7 +281,9 @@ export default async function PuppyPage(props: Props) {
                 <div className="rounded-2xl bg-zinc-50 p-4">
                   <h3 className="font-semibold text-zinc-900">Saúde e documentação</h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                    Registro oficial, consulta veterinária, hemograma completo e protocolo vacinal em dia conforme a idade.
+                    {temPedigreeCbkc(colorSlug)
+                      ? "Registro oficial, consulta veterinária, hemograma completo e protocolo vacinal em dia conforme a idade."
+                      : "Consulta veterinária, hemograma completo e protocolo vacinal em dia conforme a idade. Esta cor não sai com pedigree da CBKC; a documentação é informada no atendimento e escrita no contrato."}
                   </p>
                 </div>
                 <div className="rounded-2xl bg-zinc-50 p-4">

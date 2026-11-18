@@ -36,6 +36,7 @@ import { PawConfettiButton } from "@/components/motion/PawConfetti";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
+import { TEXTO_SEM_PEDIGREE, temPedigreeCbkc } from "@/domain/pedigree";
 import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoReserva } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { perguntarPeloFilhote } from "@/lib/nome-do-filhote";
@@ -68,8 +69,11 @@ interface Props {
 
 // ─── Configurações ────────────────────────────────────────────────────────────
 
+// Merle e Chocolate não saem com pedigree CBKC (domain/pedigree): para eles o
+// "Registro oficial" sai da lista.
+const REGISTRO_OFICIAL = { icon: "📋", title: "Registro oficial", desc: "Documento oficial da raça" };
+
 const INCLUDED = [
-  { icon: "📋", title: "Registro oficial",     desc: "Documento oficial da raça"        },
   { icon: "❤️", title: "Consulta veterinária", desc: "Avaliação clínica e hemograma completo" },
   { icon: "💉", title: "Protocolo vacinal",   desc: "Em dia conforme a idade, carteira assinada pelo médico-veterinário" },
   { icon: "🔖", title: "Identificação do animal", desc: "Identificação individual, conforme os requisitos da legislação aplicável" },
@@ -103,6 +107,8 @@ export default function PuppyDetailPanel({
 }: Props) {
   const trackedWaLink = useWhatsAppLink(waLink);
   const price = formatPrice(priceCents);
+  const comPedigree = temPedigreeCbkc(colorSlug);
+  const incluidos = comPedigree ? [REGISTRO_OFICIAL, ...INCLUDED] : INCLUDED;
 
   return (
     <div className="flex flex-col gap-4">
@@ -168,7 +174,10 @@ export default function PuppyDetailPanel({
             {priceCents != null && priceCents > 0 && (
               <p className="mt-1 text-sm font-medium text-[var(--text-muted)]">{textoReserva(priceCents)}</p>
             )}
-            <p className="mt-0.5 text-xs text-zinc-500">Registro oficial, consulta veterinária e mentoria inclusos</p>
+            <p className="mt-0.5 text-xs text-zinc-500">
+              {comPedigree ? "Registro oficial, consulta veterinária e mentoria inclusos" : "Consulta veterinária e mentoria inclusas"}
+            </p>
+            {!comPedigree && <p className="mt-0.5 text-xs text-zinc-500">{TEXTO_SEM_PEDIGREE}</p>}
             <p className="mt-0.5 text-xs text-zinc-500">Parcelamento e condições confirmados no atendimento</p>
           </div>
         </motion.div>
@@ -240,7 +249,7 @@ export default function PuppyDetailPanel({
 
           <StaggerContainer stagger={0.07} delay={0.1} margin="-20px">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {INCLUDED.map((item) => (
+              {incluidos.map((item) => (
                 <StaggerItem key={item.title}>
                   <div className="group flex items-start gap-2.5 rounded-xl border border-zinc-100 bg-zinc-50/80 px-3 py-3 transition hover:border-emerald-100 hover:bg-emerald-50/60">
                     <span className="mt-0.5 text-lg leading-none" aria-hidden="true">{item.icon}</span>

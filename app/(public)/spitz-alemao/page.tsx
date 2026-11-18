@@ -61,7 +61,7 @@ const FAQS = [
   {
     question: "Quais são as cores do Spitz Alemão Anão (Lulu da Pomerânia)?",
     answer:
-      "O padrão da raça admite várias cores, entre elas marrom e preto e castanho. A By Imperio Dog divulga sete: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. A cor não altera o temperamento.",
+      "O padrão da raça admite várias cores, entre elas marrom e preto e castanho. A By Imperio Dog divulga sete: Particolor, Laranja, Creme, Preto, Branco, Chocolate e Merle. O merle fica fora do padrão FCI nº 97 e, como o Chocolate oferecido hoje, não sai com pedigree da CBKC. A cor não altera o temperamento.",
   },
   {
     question: "O Spitz Alemão Anão (Lulu da Pomerânia) é hipoalergênico?",

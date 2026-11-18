@@ -60,7 +60,7 @@ const FAQ: Array<{ q: string; a: string }> = [
   },
   {
     q: "registro incluso",
-    a: "Sim! Todos os filhotes que apresentamos têm registro oficial incluso no valor, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O pedigree é emitido pela CBKC ou por clube filiado, dentro do sistema FCI.",
+    a: "Nas cores aceitas pela CBKC, sim: o registro oficial vem incluso no valor, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O pedigree é emitido pela CBKC ou por clube filiado, dentro do sistema FCI. Os filhotes Chocolate e Merle não saem com pedigree da CBKC; a documentação deles é informada no atendimento e escrita no contrato.",
   },
   {
     q: "entrega transporte frete envio",

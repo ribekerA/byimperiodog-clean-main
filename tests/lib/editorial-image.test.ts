@@ -22,7 +22,7 @@ describe("contrato automático de imagem editorial", () => {
     expect(remote.largeImage).toBeUndefined();
   });
   it("os 30 artigos mantêm a mesma capa em OG, Article e primaryImageOfPage", () => {
-    expect(generatedPosts.length).toBe(30);
+    expect(generatedPosts.length).toBe(31);
     for (const p of generatedPosts) {
       const post = { id: p.slug, slug: p.slug, title: p.title, cover_url: p.cover };
       const meta = buildBlogMetadata(post);
