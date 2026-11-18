@@ -436,7 +436,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             <div
               className={`flex flex-wrap items-center gap-5 rounded-2xl px-5 py-4 backdrop-blur-sm ring-1 ${
                 heroDark
-                  ? "bg-white/8 ring-white/10"
+                  ? "bg-white/10 ring-white/10"
                   : "bg-white/70 ring-zinc-900/5"
               }`}
             >

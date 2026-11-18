@@ -49,7 +49,7 @@ export function NewsletterSignup() {
         </button>
       </div>
       <label className="flex items-start gap-2 text-xs leading-relaxed text-text-muted">
-        <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} required className="mt-0.5 h-4 w-4" />
+        <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} required className="mt-0.5 h-5 w-5 shrink-0" />
         <span>
           Aceito receber conteúdo por e-mail conforme a <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline">Política de Privacidade</a>. Posso cancelar quando quiser.
         </span>

@@ -192,7 +192,7 @@ export default function AvisoDeNinhada({ cor, sexo, origem, className }: Props) 
 
           <label className="flex items-start gap-3 text-sm text-[var(--text-muted)]">
             <input type="checkbox" checked={consentimento} onChange={(e) => setConsentimento(e.target.checked)}
-              className="mt-1 h-4 w-4 shrink-0" />
+              className="mt-0.5 h-5 w-5 shrink-0" />
             <span>
               Autorizo o contato pelo WhatsApp sobre ninhadas de Lulu da Pomerânia, conforme a{" "}
               <a href="/politica-de-privacidade" target="_blank" rel="noopener noreferrer" className="underline">

@@ -57,7 +57,7 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
       <button
         onClick={dismiss}
         aria-label="Fechar"
-        className="absolute right-2 top-2 rounded-full p-1 text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-600"
+        className="absolute right-1.5 top-1.5 rounded-full p-2 text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-600"
       >
         <X className="h-3.5 w-3.5" aria-hidden />
       </button>

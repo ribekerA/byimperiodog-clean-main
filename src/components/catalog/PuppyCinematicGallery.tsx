@@ -271,7 +271,7 @@ export default function PuppyCinematicGallery({
         // `object-cover` cortava cabeca e patas e sobrava so uma faixa do meio.
         // O quadro quadrado reduz a altura no celular; object-contain mantém
         // a foto inteira, sem cortar cabeça ou patas.
-        className="group relative aspect-square overflow-hidden rounded-2xl bg-zinc-900 shadow-xl ring-1 ring-zinc-900/8"
+        className="group relative aspect-square overflow-hidden rounded-2xl bg-zinc-900 shadow-xl ring-1 ring-zinc-900/10"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -350,9 +350,11 @@ export default function PuppyCinematicGallery({
         {/* Curtida da mídia em exibição. Canto de baixo à esquerda: o contador
             ocupa a direita, o aviso de zoom o alto à esquerda e o atalho de
             vídeo o alto à direita. O botão para o clique nele mesmo, então
-            curtir não abre o lightbox nem troca de foto. */}
+            curtir não abre o lightbox nem troca de foto.
+            No celular ele sobe acima da fileira de bolinhas: com muitas fotos
+            ela ocupa a largura toda e cobria metade do botão. */}
         {idDaMidiaAtual && (
-          <div className="absolute bottom-3 left-3 z-10">
+          <div className="absolute bottom-12 left-3 z-20 sm:bottom-3">
             <MediaLikeButton
               curtidas={curtidas}
               alvo={{

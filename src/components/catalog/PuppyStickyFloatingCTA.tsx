@@ -95,9 +95,12 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
     <AnimatePresence>
       {visible && (
         <>
+          {/* Fundo em bg-white/95: até 18/11/2026 era bg-white/96, passo que o
+              Tailwind 3 não tem. A classe não gerava CSS, o cartão ficava
+              transparente e o preço sumia sobre o rodapé verde. */}
           {/* ── Mobile: barra inferior ─────────────────────────────────────── */}
           <motion.div
-            className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-100 bg-white/96 px-4 py-3 backdrop-blur-md lg:hidden"
+            className="fixed inset-x-0 bottom-0 z-40 border-t border-zinc-100 bg-white/95 px-4 py-3 backdrop-blur-md lg:hidden"
             style={{ bottom: 'var(--consent-banner-height, 0px)' }}
             initial={{ y: reduced ? 0 : 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -121,7 +124,7 @@ export default function PuppyStickyFloatingCTA({ name, coverImage, priceCents, w
 
           {/* ── Desktop: card flutuante ────────────────────────────────────── */}
           <motion.div
-            className="fixed bottom-6 right-6 z-40 hidden w-72 overflow-hidden rounded-2xl border border-zinc-200 bg-white/96 shadow-2xl backdrop-blur-md lg:block"
+            className="fixed bottom-6 right-6 z-40 hidden w-72 overflow-hidden rounded-2xl border border-zinc-200 bg-white/95 shadow-2xl backdrop-blur-md lg:block"
             initial={{ y: reduced ? 0 : 40, opacity: 0, scale: 0.97 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: reduced ? 0 : 40, opacity: 0, scale: 0.97 }}
