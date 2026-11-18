@@ -14,12 +14,15 @@ import {
   type DashboardStock,
   type Recommendation,
   type RecommendationSeverity,
+  type AdsConversoesLoad,
   type WhatsAppClicksLoad,
 } from "@/lib/admin/dashboardMetrics";
+import type { CodigosLoad } from "@/lib/admin/whatsappRefs";
 import { cn } from "@/lib/cn";
 
 import { Jornada } from "../_ui/Jornada";
 
+import { CodigosDoWhatsApp } from "./CodigosDoWhatsApp";
 import { LeadsByDayChart, PipelineList, StockBreakdown } from "./DashboardFigures";
 
 /**
@@ -305,7 +308,99 @@ function WhatsAppNumbers({ data }: { data: Extract<WhatsAppClicksLoad, { status:
         {data.last7 === 1 ? "clique" : "cliques"} em 7 dias, {comparacao}. Hoje: {numero.format(data.today)}.
       </p>
       <LeadsByDayChart days={data.days} unidade={{ um: "clique", varios: "cliques" }} titulo="Cliques no WhatsApp por dia" />
+      <WhatsAppPorOrigem linhas={data.porOrigem} />
     </>
+  );
+}
+
+/**
+ * De onde veio quem clicou, pela origem da sessao no GA4. Linha zerada fica de
+ * fora, menos as tres que importam para a decisao de anuncio.
+ */
+function WhatsAppPorOrigem({ linhas }: { linhas: Extract<WhatsAppClicksLoad, { status: "ok" }>["data"]["porOrigem"] }) {
+  const fixas = new Set(["google_ads", "google_organico", "instagram"]);
+  const visiveis = linhas.filter((linha) => fixas.has(linha.origem) || linha.last14 > 0);
+  return (
+    <div className="mt-4">
+      <h3 className="mb-1 text-sm font-semibold text-[var(--text)]">De onde veio quem clicou</h3>
+      <ScrollTable label="Cliques no WhatsApp por origem">
+        <table className="w-full text-left text-sm">
+          <caption className="sr-only">Cliques no WhatsApp por origem, 7 e 14 dias</caption>
+          <thead>
+            <tr className="border-b border-[var(--border)]">
+              <th scope="col" className={TH}>
+                Origem
+              </th>
+              <th scope="col" className={cn(TH, "text-right")}>
+                7 dias
+              </th>
+              <th scope="col" className={cn(TH, "text-right")}>
+                14 dias
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {visiveis.map((linha) => (
+              <tr key={linha.origem} className="border-b border-[var(--border)] last:border-0">
+                <th scope="row" className={cn(TD, "font-normal text-[var(--text)]")}>
+                  {linha.rotulo}
+                </th>
+                <td className={cn(TD, "text-right tabular-nums")}>{numero.format(linha.last7)}</td>
+                <td className={cn(TD, "text-right tabular-nums")}>{numero.format(linha.last14)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ScrollTable>
+      <p className="mt-1 text-xs text-[var(--text-muted)]">Pela origem da visita no Google Analytics.</p>
+    </div>
+  );
+}
+
+/**
+ * Conversoes "Lead WhatsApp Site" contadas pelo Google Ads. Ficam abaixo dos
+ * cliques vindos de anuncio no GA4: o Ads so conta quem aceitou cookies e
+ * leva ate um dia para fechar os numeros.
+ */
+function AdsBlock({ load }: { load: AdsConversoesLoad }) {
+  return (
+    <section aria-labelledby="dash-ads" className={CARD}>
+      <h2 id="dash-ads" className="text-base font-semibold text-[var(--text)]">
+        Conversões de WhatsApp no Google Ads
+      </h2>
+      <p className="mb-3 text-sm text-[var(--text-muted)]">
+        O que o Google Ads contou nos últimos 14 dias, no dia do clique. É clique de quem veio de anúncio, não venda. O
+        dia de hoje e o de ontem ainda podem subir.
+      </p>
+      {load.status === "ok" ? (
+        <>
+          <p className="mb-2 text-sm text-[var(--text)]">
+            <span className="text-2xl font-semibold tabular-nums">{numero.format(load.last7)}</span>{" "}
+            {load.last7 === 1 ? "conversão" : "conversões"} em 7 dias; {numero.format(load.prev7)} nos 7 dias
+            anteriores.
+          </p>
+          <LeadsByDayChart
+            days={load.days}
+            unidade={{ um: "conversão", varios: "conversões" }}
+            titulo="Conversões do Ads por dia"
+          />
+          <p className="mt-2 text-xs text-[var(--text-muted)]">
+            Ação de conversão: {load.acao}. Só leitura; nada é alterado na conta.
+          </p>
+        </>
+      ) : load.status === "nao_conectado" ? (
+        <p role="status" className="rounded-xl border border-dashed border-[var(--border)] px-4 py-6 text-sm text-[var(--text-muted)]">
+          O Google Ads não está conectado a este usuário do painel, então as conversões não foram lidas.
+        </p>
+      ) : (
+        <div role="status" className="flex gap-3 rounded-xl border border-[#ecd09a] bg-[#fff8e8] p-4 text-sm text-[#4f3000]">
+          <AlertTriangle aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0" />
+          <p>
+            <span className="font-semibold">Conversões não verificadas agora.</span> {load.motivo}
+          </p>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -527,9 +622,13 @@ export type DashboardViewProps = DashboardLoad & {
   refreshSlot?: ReactNode;
   /** Cliques no WhatsApp lidos do GA4; sem ele o bloco nao aparece. */
   whatsapp?: WhatsAppClicksLoad;
+  /** Conversoes de WhatsApp lidas do Google Ads; sem ele o bloco nao aparece. */
+  ads?: AdsConversoesLoad;
+  /** Codigos curtos do WhatsApp (anuncio); sem ele o bloco nao aparece. */
+  codigos?: CodigosLoad;
 };
 
-export function DashboardView({ data, configured, errors, refreshSlot, whatsapp }: DashboardViewProps) {
+export function DashboardView({ data, configured, errors, refreshSlot, whatsapp, ads, codigos }: DashboardViewProps) {
   const { leads, stock, recommendations } = data;
   const rotina = buildRotina(leads, stock);
   const rotinaEmDia = rotina ? rotina.filter((item) => item.feito).length : 0;
@@ -643,6 +742,10 @@ export function DashboardView({ data, configured, errors, refreshSlot, whatsapp 
           </section>
 
           {whatsapp ? <WhatsAppBlock load={whatsapp} /> : null}
+
+          {ads ? <AdsBlock load={ads} /> : null}
+
+          {codigos ? <CodigosDoWhatsApp load={codigos} /> : null}
 
           {leads ? <LeadDetails leads={leads} /> : null}
 

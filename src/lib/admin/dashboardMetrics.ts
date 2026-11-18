@@ -802,7 +802,41 @@ export type WhatsAppClicks = {
   today: number;
   last7: number;
   prev7: number;
+  /** Cliques por origem da visita, sempre na mesma ordem (ver ORIGENS_DO_CLIQUE). */
+  porOrigem: WhatsAppOrigemLinha[];
 };
+
+/**
+ * De onde veio a visita em que o clique aconteceu, pela origem/midia da sessao
+ * no GA4. Instagram so aparece quando o link (bio, story) leva ao site: link
+ * direto para o wa.me nao passa pelo site e o GA4 nao ve.
+ */
+export type OrigemDoClique = "google_ads" | "google_organico" | "instagram" | "direto" | "outros" | "nao_identificado";
+
+export const ORIGENS_DO_CLIQUE: ReadonlyArray<{ origem: OrigemDoClique; rotulo: string }> = [
+  { origem: "google_ads", rotulo: "Anúncio do Google" },
+  { origem: "google_organico", rotulo: "Busca do Google (orgânico)" },
+  { origem: "instagram", rotulo: "Instagram" },
+  { origem: "direto", rotulo: "Direto (digitou ou tinha salvo)" },
+  { origem: "outros", rotulo: "Outros sites e buscas" },
+  { origem: "nao_identificado", rotulo: "Origem não identificada" },
+];
+
+export type WhatsAppOrigemLinha = { origem: OrigemDoClique; rotulo: string; last7: number; last14: number };
+
+/** Uma linha do relatorio do GA4: dia AAAA-MM-DD, origem e midia da sessao. */
+export type WhatsAppOrigemBruta = { day: string; source: string; medium: string; count: number };
+
+export function origemDoClique(sourceBruto: string, mediumBruto: string): OrigemDoClique {
+  const source = (sourceBruto ?? "").trim().toLowerCase();
+  const medium = (mediumBruto ?? "").trim().toLowerCase();
+  if (!source || source === "(not set)") return "nao_identificado";
+  if (source === "(direct)") return "direto";
+  if (/(^|\.)instagram\.com$|^instagram$|^ig$/.test(source)) return "instagram";
+  if (source === "google" && ["cpc", "ppc", "paid", "paidsearch"].includes(medium)) return "google_ads";
+  if (source === "google" && medium === "organic") return "google_organico";
+  return "outros";
+}
 
 export type WhatsAppClicksLoad =
   | { status: "ok"; data: WhatsAppClicks; /** Nome da propriedade do GA4 lida. */ propriedade?: string }
@@ -814,7 +848,11 @@ export type WhatsAppClicksLoad =
  * e dia sem clique: o GA4 omite linhas zeradas, entao aqui elas viram 0.
  * `counts` usa a chave AAAA-MM-DD.
  */
-export function buildWhatsAppClicks(counts: Record<string, number>, now: Date): WhatsAppClicks {
+export function buildWhatsAppClicks(
+  counts: Record<string, number>,
+  now: Date,
+  linhasPorOrigem: WhatsAppOrigemBruta[] = [],
+): WhatsAppClicks {
   const todayKey = dayKey(now) as string;
   const days: DayPoint[] = [];
   for (let offset = 13; offset >= 0; offset -= 1) {
@@ -823,5 +861,42 @@ export function buildWhatsAppClicks(counts: Record<string, number>, now: Date): 
     days.push({ key, label: dayLabel(key), weekday: weekdayLabel(key), value: Number.isFinite(raw) && raw > 0 ? raw : 0 });
   }
   const sum = (from: number, to: number) => days.slice(from, to).reduce((total, day) => total + day.value, 0);
-  return { days, today: days[13].value, last7: sum(7, 14), prev7: sum(0, 7) };
+  const inicio7 = days[7].key;
+  const inicio14 = days[0].key;
+  const porOrigem = ORIGENS_DO_CLIQUE.map(({ origem, rotulo }) => ({ origem, rotulo, last7: 0, last14: 0 }));
+  for (const linha of linhasPorOrigem) {
+    const n = Number(linha.count);
+    if (!Number.isFinite(n) || n <= 0 || linha.day < inicio14 || linha.day > todayKey) continue;
+    const alvo = porOrigem.find((item) => item.origem === origemDoClique(linha.source, linha.medium));
+    if (!alvo) continue;
+    alvo.last14 += n;
+    if (linha.day >= inicio7) alvo.last7 += n;
+  }
+  return { days, today: days[13].value, last7: sum(7, 14), prev7: sum(0, 7), porOrigem };
+}
+
+/* ------------------------------------------------------------------ */
+/* Conversoes de WhatsApp no Google Ads                                 */
+/* ------------------------------------------------------------------ */
+
+/**
+ * O que o Google Ads contou como conversao "Lead WhatsApp Site", por dia.
+ * Usa all_conversions_by_conversion_date: cada conversao cai no dia em que o
+ * clique no WhatsApp aconteceu, como no GA4, e nao no dia do anuncio.
+ * O Ads so conta quem veio de anuncio e aceitou cookies, entao fica abaixo
+ * dos cliques do GA4 e nao e numero de vendas.
+ */
+export type AdsConversoesLoad =
+  | { status: "ok"; acao: string; days: DayPoint[]; last7: number; prev7: number; today: number }
+  | { status: "nao_conectado" }
+  | { status: "erro"; motivo: string };
+
+/** Monta os 14 dias com o mesmo recorte dos cliques; conversao fracionada vira inteiro mais proximo. */
+export function buildAdsConversoes(acao: string, counts: Record<string, number>, now: Date): AdsConversoesLoad {
+  const arredondado: Record<string, number> = {};
+  for (const [dia, valor] of Object.entries(counts)) {
+    if (Number.isFinite(valor) && valor > 0) arredondado[dia] = Math.round(valor);
+  }
+  const { days, last7, prev7, today } = buildWhatsAppClicks(arredondado, now);
+  return { status: "ok", acao, days, last7, prev7, today };
 }

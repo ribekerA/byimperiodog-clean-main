@@ -3,7 +3,13 @@ import "server-only";
 import { getPixelsSettings, resolveActiveEnvironment } from "@/lib/pixels";
 import { getIntegrationForUser } from "@/lib/tracking/integrations";
 
-import { buildWhatsAppClicks, dayKey, shiftDayKey, type WhatsAppClicksLoad } from "./dashboardMetrics";
+import {
+  buildWhatsAppClicks,
+  dayKey,
+  shiftDayKey,
+  type WhatsAppClicksLoad,
+  type WhatsAppOrigemBruta,
+} from "./dashboardMetrics";
 
 /**
  * Leitura dos cliques no WhatsApp no GA4, para o dashboard.
@@ -116,22 +122,34 @@ export async function loadWhatsAppClicks(userId: string | null | undefined, now:
       method: "POST",
       body: JSON.stringify({
         dateRanges: [{ startDate: shiftDayKey(todayKey, -13), endDate: todayKey }],
-        dimensions: [{ name: "date" }],
+        // Um relatorio so: o total do dia sai da soma das origens daquele dia.
+        dimensions: [{ name: "date" }, { name: "sessionSource" }, { name: "sessionMedium" }],
         metrics: [{ name: "eventCount" }],
         dimensionFilter: { filter: { fieldName: "eventName", stringFilter: { value: EVENTO } } },
+        limit: 10000,
       }),
     });
 
     const counts: Record<string, number> = {};
+    const porOrigem: WhatsAppOrigemBruta[] = [];
     for (const linha of (relatorio.rows ?? []) as Array<{
       dimensionValues?: Array<{ value?: string }>;
       metricValues?: Array<{ value?: string }>;
     }>) {
       const dia = linha.dimensionValues?.[0]?.value ?? "";
       if (!/^\d{8}$/.test(dia)) continue;
-      counts[`${dia.slice(0, 4)}-${dia.slice(4, 6)}-${dia.slice(6, 8)}`] = Number(linha.metricValues?.[0]?.value ?? 0);
+      const chave = `${dia.slice(0, 4)}-${dia.slice(4, 6)}-${dia.slice(6, 8)}`;
+      const n = Number(linha.metricValues?.[0]?.value ?? 0);
+      if (!Number.isFinite(n) || n <= 0) continue;
+      counts[chave] = (counts[chave] ?? 0) + n;
+      porOrigem.push({
+        day: chave,
+        source: linha.dimensionValues?.[1]?.value ?? "",
+        medium: linha.dimensionValues?.[2]?.value ?? "",
+        count: n,
+      });
     }
-    return { status: "ok", data: buildWhatsAppClicks(counts, now), propriedade: nome };
+    return { status: "ok", data: buildWhatsAppClicks(counts, now, porOrigem), propriedade: nome };
   } catch (error) {
     const motivo =
       error instanceof LeituraGa4

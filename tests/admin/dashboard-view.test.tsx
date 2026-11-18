@@ -9,6 +9,7 @@ import { DashboardView, formatClock } from "../../app/(admin)/admin/(protected)/
 import { RefreshButton } from "../../app/(admin)/admin/(protected)/dashboard/RefreshButton";
 import type { DashboardLoad } from "../../src/lib/admin/dashboardData";
 import {
+  buildAdsConversoes,
   buildDashboard,
   buildRotina,
   buildWhatsAppClicks,
@@ -253,6 +254,80 @@ describe("base pequena e cliques no WhatsApp", () => {
     expect(bloco).toHaveTextContent("O Google respondeu 403");
     expect(within(bloco).queryByRole("img")).not.toBeInTheDocument();
     expect(await violacoes(container)).toEqual([]);
+  });
+
+  it("separa os cliques por origem em 7 e 14 dias", () => {
+    const data = buildWhatsAppClicks({ "2026-11-10": 4 }, AGORA, [
+      { day: "2026-11-10", source: "google", medium: "cpc", count: 3 },
+      { day: "2026-11-10", source: "instagram.com", medium: "referral", count: 1 },
+    ]);
+    render(<DashboardView {...carga()} whatsapp={{ status: "ok", data }} />);
+    const tabela = screen.getByRole("table", { name: /por origem/ });
+    expect(within(tabela).getByRole("rowheader", { name: "Anúncio do Google" }).parentElement).toHaveTextContent("33");
+    expect(within(tabela).getByRole("rowheader", { name: "Busca do Google (orgânico)" })).toBeInTheDocument();
+    // Origem zerada que nao e das tres principais fica de fora.
+    expect(within(tabela).queryByRole("rowheader", { name: /Direto/ })).not.toBeInTheDocument();
+  });
+
+  it("conversoes do Ads aparecem como conversao, nunca como venda contada", async () => {
+    const ads = buildAdsConversoes("Lead | WhatsApp | Site", { "2026-11-10": 2, "2026-11-01": 1 }, AGORA);
+    const { container } = render(<DashboardView {...carga()} ads={ads} />);
+    const bloco = screen.getByRole("region", { name: "Conversões de WhatsApp no Google Ads" });
+    expect(bloco).toHaveTextContent("2 conversões em 7 dias; 1 nos 7 dias anteriores");
+    expect(bloco).toHaveTextContent("Lead | WhatsApp | Site");
+    expect(bloco).toHaveTextContent("não venda");
+    expect(await violacoes(container)).toEqual([]);
+  });
+
+  it("sem leitura do Ads, diz o motivo", () => {
+    render(<DashboardView {...carga()} ads={{ status: "erro", motivo: "O Google Ads recusou a leitura agora." }} />);
+    expect(screen.getByRole("region", { name: "Conversões de WhatsApp no Google Ads" })).toHaveTextContent(
+      "Conversões não verificadas agora.",
+    );
+  });
+
+  it("lista os codigos e so oferece marcar venda com a coluna no banco", async () => {
+    const codigo = { ref: "K7M2Q", criadoEm: "2026-11-10T13:00:00Z", pagina: "/filhotes", filhote: null, clique: "wbraid" as const, vendaEm: null };
+    const resumo = { codigos7: 1, codigos14: 1, vendas14: 0, vendasTotal: 0 };
+    const { container, unmount } = render(
+      <DashboardView {...carga()} codigos={{ status: "ok", codigos: [codigo], resumo, vendaDisponivel: true }} />,
+    );
+    const bloco = screen.getByRole("region", { name: "Códigos do WhatsApp (anúncio)" });
+    expect(bloco).toHaveTextContent("Anúncio (iPhone)");
+    expect(bloco).toHaveTextContent("nada vai para o Google Ads");
+    expect(within(bloco).getByRole("button", { name: "Marcar venda no código K7M2Q" })).toBeInTheDocument();
+    expect(await violacoes(container)).toEqual([]);
+    unmount();
+
+    render(<DashboardView {...carga()} codigos={{ status: "ok", codigos: [codigo], resumo, vendaDisponivel: false }} />);
+    const semColuna = screen.getByRole("region", { name: "Códigos do WhatsApp (anúncio)" });
+    expect(semColuna).toHaveTextContent("20261118160000_whatsapp_refs_venda.sql");
+    expect(within(semColuna).queryByRole("button", { name: /Marcar venda/ })).not.toBeInTheDocument();
+  });
+
+  it("marcar venda chama a rota e atualiza a linha", async () => {
+    const codigo = { ref: "K7M2Q", criadoEm: "2026-11-10T13:00:00Z", pagina: "/filhotes", filhote: null, clique: "gclid" as const, vendaEm: null };
+    const fetchMock = vi.fn(async () =>
+      new Response(JSON.stringify({ codigo: { ...codigo, vendaEm: "2026-11-10T15:00:00Z" } }), { status: 200 }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      render(
+        <DashboardView
+          {...carga()}
+          codigos={{ status: "ok", codigos: [codigo], resumo: { codigos7: 1, codigos14: 1, vendas14: 0, vendasTotal: 0 }, vendaDisponivel: true }}
+        />,
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Marcar venda no código K7M2Q" }));
+      expect(await screen.findByRole("button", { name: "Desfazer venda do código K7M2Q" })).toBeInTheDocument();
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/admin/whatsapp/codigos",
+        expect.objectContaining({ method: "POST", body: JSON.stringify({ ref: "K7M2Q", vendido: true }) }),
+      );
+      expect(screen.getByText("Venda marcada no código K7M2Q.")).toBeInTheDocument();
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it("sem conexao com o GA4, avisa que nao leu", () => {

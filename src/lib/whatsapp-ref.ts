@@ -24,6 +24,19 @@ export function gerarRef(aleatorio: (n: number) => Uint8Array = (n) => crypto.ge
   return ref;
 }
 
+/**
+ * Acha o código no que foi colado no painel: "K7M2Q", "k7m2q" ou o trecho
+ * inteiro da conversa, "(cód. K7M2Q)". Devolve null quando não há código.
+ */
+export function codigoDigitado(texto: string): string | null {
+  const maiusculo = (texto ?? "").toUpperCase();
+  // Com "cód." na frente vale em qualquer ponto do texto; sem ele, só o código
+  // sozinho. Procurar qualquer palavra de 5 letras pegaria "GENTE" da conversa.
+  const marcado = maiusculo.match(/C[OÓ]D\.?\s*([A-Z0-9]+)/);
+  const candidato = marcado ? marcado[1] : maiusculo.trim();
+  return FORMATO_DO_REF.test(candidato) ? candidato : null;
+}
+
 /** Acrescenta o código ao texto do link wa.me / api.whatsapp.com. Devolve null se não der. */
 export function hrefComRef(href: string, ref: string): string | null {
   let url: URL;

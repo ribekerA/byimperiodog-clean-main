@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
 
+import { loadAdsWhatsAppConversions } from "@/lib/admin/adsWhatsAppConversions";
 import { loadDashboard } from "@/lib/admin/dashboardData";
 import { loadWhatsAppClicks } from "@/lib/admin/whatsappClicks";
+import { loadCodigos } from "@/lib/admin/whatsappRefs";
 import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/adminSession";
 
 import { DashboardView, formatClock } from "./DashboardView";
@@ -26,12 +28,19 @@ export const metadata: Metadata = {
 export default async function AdminDashboardPage() {
   // A integracao do GA4 e por usuario do painel: quem abriu a tela.
   const session = await verifyAdminSession((await cookies()).get(ADMIN_SESSION_COOKIE)?.value);
-  const [load, whatsapp] = await Promise.all([loadDashboard(), loadWhatsAppClicks(session?.userId)]);
+  const [load, whatsapp, ads, codigos] = await Promise.all([
+    loadDashboard(),
+    loadWhatsAppClicks(session?.userId),
+    loadAdsWhatsAppConversions(session?.userId),
+    loadCodigos(),
+  ]);
 
   return (
     <DashboardView
       {...load}
       whatsapp={whatsapp}
+      ads={ads}
+      codigos={codigos}
       refreshSlot={
         <RefreshButton generatedAt={load.data.generatedAt} timeLabel={formatClock(load.data.generatedAt)} />
       }
