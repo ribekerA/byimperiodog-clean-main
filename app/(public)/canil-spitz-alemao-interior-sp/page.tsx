@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
-import { FOUNDING_YEAR } from "@/domain/config";
+import GoogleReviewsSection from "@/components/reviews/GoogleReviewsSection";
+import { googleReviews, googleReviewSnapshot } from "@/content/google-reviews";
+import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildArticleLD } from "@/lib/schema";
 import { OG_DEFAULT_IMAGE } from "@/lib/seo";
@@ -52,6 +54,22 @@ const FAQS = [
   },
 ];
 
+// Texto de "Quem somos" e "O que você recebe" aprovado pelo usuário em
+// 18/11/2026 para o grupo "Canil" do Google Ads. Sem parceiros, e sem dizer que
+// todo filhote nasceu aqui (nem todos nasceram). Só fatos já confirmados.
+const O_QUE_VOCE_RECEBE = [
+  "Registro oficial",
+  "Consulta veterinária e hemograma antes da entrega",
+  "Carteira de vacinação assinada",
+  "Contrato",
+  "Atendimento pelo WhatsApp depois da entrega, direto com a criadora e sem prazo para acabar",
+];
+
+// Trechos de avaliações reais do Google, lidos de content/google-reviews.ts.
+const TRECHOS = ["fernando-amaral", "nathalia-medeiros", "leone-gustavo"]
+  .map((id) => googleReviews.find((r) => r.id === id))
+  .filter((r): r is (typeof googleReviews)[number] & { text: string } => Boolean(r?.text));
+
 export default function CanilInteriorSPPage() {
   const phone = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") || WHATSAPP_NUMBER;
   const waHref = phone
@@ -77,7 +95,55 @@ export default function CanilInteriorSPPage() {
         <p className="text-base text-zinc-600 sm:text-lg">
           Se você mora no interior de São Paulo e procura um criador responsável de Spitz Alemão Anão (Lulu da Pomerânia), a By Imperio Dog fica em Bragança Paulista e cria a raça desde {FOUNDING_YEAR}.
         </p>
+        <div className="flex flex-wrap gap-3 pt-2">
+          <Link href="/filhotes" className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-emerald-600 px-6 text-sm font-semibold text-white shadow hover:bg-emerald-700">
+            Ver filhotes disponíveis
+          </Link>
+          {phone && (
+            <a href={waHref} target="_blank" rel="noreferrer" data-wa-placement="canil_interior_topo" className="inline-flex min-h-[48px] items-center justify-center rounded-full border border-emerald-200 px-6 text-sm font-semibold text-emerald-700 hover:bg-emerald-50">
+              Falar com a Karen no WhatsApp
+            </a>
+          )}
+        </div>
       </header>
+
+      <section aria-labelledby="quem-somos-isp-heading" className="space-y-4">
+        <h2 id="quem-somos-isp-heading" className="text-2xl font-bold text-zinc-900">Quem somos</h2>
+        <p className="text-base leading-relaxed text-zinc-700">
+          A By Imperio Dog é o canil da criadora Karen Cristina, em Bragança Paulista, no interior de SP. Desde {FOUNDING_YEAR} ela trabalha com uma única raça, o Spitz Alemão Anão (Lulu da Pomerânia). O canil tem registro na CBKC, nº {BRAND.registroCbkc}. Enquanto estão com a Karen, os filhotes de Spitz Alemão Anão (Lulu da Pomerânia) vivem dentro de casa, junto da família.
+        </p>
+      </section>
+
+      <section aria-labelledby="recebe-isp-heading" className="space-y-4">
+        <h2 id="recebe-isp-heading" className="text-2xl font-bold text-zinc-900">O que você recebe com o seu Lulu da Pomerânia</h2>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {O_QUE_VOCE_RECEBE.map((item) => (
+            <li key={item} className="flex items-start gap-3 rounded-2xl border border-zinc-200 bg-white p-4 text-sm text-zinc-700 shadow-sm">
+              <span aria-hidden className="mt-0.5 text-emerald-600">✓</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="avaliacoes-isp-heading" className="space-y-6">
+        <h2 id="avaliacoes-isp-heading" className="text-2xl font-bold text-zinc-900">O que dizem as famílias</h2>
+        <p className="text-sm text-zinc-500">Nota e total conferidos no Google em {googleReviewSnapshot.checkedAtLabel}.</p>
+        <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-start">
+          <ul className="space-y-4">
+            {TRECHOS.map((r) => (
+              <li key={r.id}>
+                <figure className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+                  <p role="img" aria-label="5 de 5 estrelas" className="text-[#fbbc04]">★★★★★</p>
+                  <blockquote className="mt-2 whitespace-pre-line text-sm leading-relaxed text-zinc-700">“{r.text}”</blockquote>
+                  <figcaption className="mt-3 text-xs font-semibold text-zinc-500">{r.name} · Google</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+          <GoogleReviewsSection />
+        </div>
+      </section>
 
       {/* Credenciais */}
       <section aria-labelledby="cred-isp-heading">
