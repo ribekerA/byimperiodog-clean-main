@@ -2,12 +2,12 @@ import {
   CheckCircle,
   Heart,
   Shield,
-  Sparkles,
   Users,
 } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { SeloDeRegistro } from "@/components/brand/SeloDeRegistro";
 import { WhatsAppIcon as WAIcon } from "@/components/icons/WhatsAppIcon";
 import TextTestimonials from "@/components/sections/TextTestimonials";
 import { BRAND, FOUNDING_YEAR } from "@/domain/config";
@@ -190,7 +190,8 @@ export default function SobrePage() {
           }}
           aria-hidden
         />
-        <div className="relative mx-auto max-w-4xl">
+        <div className="relative mx-auto flex max-w-5xl flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-3xl">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-700/50 bg-emerald-900/40 px-4 py-1 text-xs font-bold uppercase tracking-widest text-emerald-300">
             Nossa história
           </span>
@@ -224,6 +225,9 @@ export default function SobrePage() {
               Ver a vitrine de filhotes
             </Link>
           </div>
+          </div>
+          {/* A assinatura do site: o registro como carimbo (SeloDeRegistro). */}
+          <SeloDeRegistro tom="escuro" tamanho={168} className="shrink-0 self-center" />
         </div>
       </section>
 
@@ -239,11 +243,11 @@ export default function SobrePage() {
           <ol className="relative space-y-0" aria-label="Linha do tempo da By Imperio Dog">
             {TIMELINE.map((item, i) => (
               <li key={item.year} className="relative flex gap-6 pb-10 last:pb-0">
-                {/* Vertical line */}
+                {/* Linha vertical */}
                 {i < TIMELINE.length - 1 && (
                   <div className="absolute left-[19px] top-10 bottom-0 w-0.5 bg-emerald-100" aria-hidden />
                 )}
-                {/* Circle */}
+                {/* Círculo */}
                 <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-emerald-200 bg-emerald-50 shadow-sm">
                   <span className="text-base" aria-hidden>{item.emoji}</span>
                 </div>
@@ -259,7 +263,7 @@ export default function SobrePage() {
       </section>
 
       {/* ── Valores ──────────────────────────────────────────────────────────── */}
-      <section className="bg-zinc-50 px-5 py-20">
+      <section className="border-t border-[#d4a84b]/30 bg-white px-5 py-20">
         <div className="mx-auto max-w-6xl">
           <div className="mb-10 text-center">
             <span className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">O que nos guia</span>
@@ -285,9 +289,10 @@ export default function SobrePage() {
       </section>
 
       {/* ── Diferenciais comparativos ─────────────────────────────────────────── */}
-      <section className="bg-white px-5 py-20">
+      <section className="border-t border-[#d4a84b]/30 bg-white px-5 py-20">
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
+            <SeloDeRegistro tom="claro" tamanho={96} className="mx-auto mb-4" />
             <span className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Comparativo</span>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
               O que verificar antes de escolher
@@ -351,7 +356,7 @@ export default function SobrePage() {
       </section>
 
       {/* ── Depoimentos ──────────────────────────────────────────────────────── */}
-      <section className="bg-emerald-50 px-5 py-4">
+      <section className="border-t border-[#d4a84b]/30 bg-white px-5 py-4">
         <div className="mx-auto max-w-6xl">
           <div className="mb-2 text-center">
             <span className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">Famílias reais</span>
@@ -360,35 +365,9 @@ export default function SobrePage() {
         <TextTestimonials />
       </section>
 
-      {/* ── CTA final ────────────────────────────────────────────────────────── */}
-      <section className="bg-gradient-to-br from-emerald-600 to-emerald-800 px-5 py-20 text-center text-white">
-        <div className="mx-auto max-w-2xl">
-          <Sparkles className="mx-auto mb-4 h-8 w-8 text-emerald-200" aria-hidden />
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Veja a vitrine de filhotes
-          </h2>
-          <p className="mt-4 text-emerald-100">
-            Cada filhote é único. Não deixe para amanhã a conversa que pode mudar a vida da sua família.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/filhotes"
-              className="rounded-full bg-white px-8 py-3 text-sm font-bold text-emerald-800 hover:bg-emerald-50 transition shadow-lg"
-            >
-              Ver a vitrine de filhotes
-            </Link>
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-8 py-3 text-sm font-semibold text-white hover:bg-emerald-700 transition"
-            >
-              <WAIcon size={18} aria-hidden />
-              Conversar no WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* O CTA final em verde-esmeralda saiu em 17/11/2026: vinha colado na
+          chamada do rodapé ("Cada filhote tem uma família..."), e as duas faixas
+          seguidas pediam a mesma coisa. A vitrine continua a um clique no topo. */}
     </div>
   );
 }

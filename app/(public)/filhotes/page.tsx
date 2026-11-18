@@ -85,8 +85,8 @@ export default function FilhotesPage() {
 
       <VitrineFilhotes puppies={puppiesPublicados as any[]} faixaDePreco={<FaixaDePrecoDaVitrine />} />
 
-      <div className="mx-auto max-w-6xl px-5 pb-12 sm:px-8">
-        <SearchTopicDirectory clusters={["compra", "escolha"]} currentPath="/filhotes" />
+      <div className="mx-auto max-w-6xl px-5 pb-12 pt-14 sm:px-8">
+        <SearchTopicDirectory clusters={["compra", "escolha"]} currentPath="/filhotes" variante="lista" />
         <Link href="/guias" className="mt-6 inline-flex min-h-11 items-center text-sm font-semibold text-emerald-700 underline underline-offset-4">
           Explore também os guias de rotina, cuidados e transporte
         </Link>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+import { SeloDeRegistro } from "@/components/brand/SeloDeRegistro";
 import Festao from "@/components/common/Festao";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import {
@@ -121,6 +122,8 @@ export default function Footer() {
             <a href={`mailto:byimperiodog@gmail.com`}>byimperiodog@gmail.com</a>
             <a href={whatsapp} target="_blank" rel="noreferrer">{BRAND.contact.phoneDisplay}</a>
           </address>
+          {/* Terceiro e último lugar do selo de registro (SeloDeRegistro). */}
+          <SeloDeRegistro tom="escuro" tamanho={104} className="rp-selo" />
           <div className="rp-google">
             <a href={GOOGLE_MAPS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
             <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer">Avaliar no Google</a>
