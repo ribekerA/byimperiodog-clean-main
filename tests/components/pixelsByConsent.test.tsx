@@ -65,7 +65,9 @@ describe("fonte única das tags Google", () => {
     expect(container.querySelector("#google-ads-init")).toBeNull();
   });
 
-  it("sem consentimento não baixa GTM nem gtag", () => {
+  // Consent Mode avançado (18/11/2026): o GTM sobe para todos e o estado
+  // "denied" de ConsentModeDefault é que segura cookies e identificadores.
+  it("sem consentimento baixa só o GTM, sem gtag direto", () => {
     localStorage.clear();
 
     const { container } = render(
@@ -75,6 +77,24 @@ describe("fonte única das tags Google", () => {
         GTM_ID="GTM-TESTE123"
         GA4_ID="G-TESTE12345"
         ADS_ID="AW-123456789"
+      />,
+    );
+
+    expect(container.querySelectorAll("script")).toHaveLength(1);
+    expect(container.querySelector("#gtm-consent")).not.toBeNull();
+  });
+
+  it("sem GTM e sem consentimento não baixa nada", () => {
+    localStorage.clear();
+
+    const { container } = render(
+      <PixelsByConsent
+        isAdminRoute={false}
+        useGTM={false}
+        GA4_ID="G-TESTE12345"
+        ADS_ID="AW-123456789"
+        FB_ID="123"
+        PIN_ID="456"
       />,
     );
 

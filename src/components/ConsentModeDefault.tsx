@@ -19,9 +19,9 @@
  * Roda como <script> cru no <head> (mesmo padrão do scrollRestoration) porque
  * precisa ser síncrono e anterior ao GTM, que entra em `lazyOnload`.
  *
- * O site usa consentimento básico: enquanto o visitante não escolhe uma
- * categoria, a biblioteca correspondente nem é baixada. Este script apenas
- * deixa o estado correto preparado para quando PixelsByConsent a carregar.
+ * Desde 18/11/2026 o site usa o modo avançado: o GTM carrega para todos
+ * (PixelsByConsent, depois do onLoad) e é este estado "denied" que impede
+ * cookies e identificadores de publicidade até o aceite.
  *
  * A chave e a versão abaixo precisam continuar iguais às de src/lib/consent.ts
  * (CONSENT_STORAGE_KEY e CURRENT_POLICY_VERSION).
@@ -47,8 +47,8 @@ const INLINE_SCRIPT = `
       wait_for_update:500
     });
 
-    // Se as tags forem carregadas depois do aceite, mantenha identificadores de
-    // publicidade redigidos sempre que o consentimento estiver negado.
+    // Com o GTM carregando antes do aceite, os identificadores de publicidade
+    // ficam redigidos enquanto ad_storage estiver negado.
     gtag('set','ads_data_redaction',true);
     gtag('set','url_passthrough',true);
 

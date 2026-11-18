@@ -9,6 +9,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { getFirstTouch, getLastTouch } from "@/lib/attribution";
 import { cn } from "@/lib/cn";
 import { rememberLeadConversion, trackLeadAdsConversion } from "@/lib/conversions";
+import { publicarTelefoneParaConversao } from "@/lib/enhanced-conversions";
 import { trackLeadFormSubmit } from "@/lib/events";
 import { getClickId } from "@/lib/gclid";
 import { confirmedLeadId } from "@/lib/lead-confirmation";
@@ -139,6 +140,9 @@ export default function LeadForm({ context, className }: Props) {
       // seja contado de novo por outro caminho.
       const leadId = await confirmedLeadId(response);
 
+      // Telefone em hash para as conversões otimizadas do Ads; só com aceite
+      // de marketing (ver src/lib/enhanced-conversions.ts).
+      await publicarTelefoneParaConversao(data.telefone);
       trackLeadFormSubmit("lead-form-main", leadId);
       trackLeadAdsConversion({ transactionId: leadId });
       rememberLeadConversion(leadId);

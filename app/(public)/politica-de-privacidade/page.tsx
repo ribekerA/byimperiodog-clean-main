@@ -172,15 +172,21 @@ export default function PoliticaDePrivacidadePage() {
           de forma cifrada, sem possibilidade de leitura reversa. O cookie só é criado no momento em que você curte alguma coisa —
           navegar pelo site sem curtir não cria nada — e é lido apenas pelo servidor, nunca por scripts da página.
         </p>
-        {/* Esta frase era falsa ate esta revisao: o GTM subia em producao sem
-            nenhuma checagem de consentimento. O texto so volta a ser verdadeiro
-            porque o Consent Mode v2 passou a entrar em "denied" por padrao,
-            antes de qualquer tag carregar (ver ConsentModeDefault). */}
+        {/* Texto aprovado pelo usuario em 18/11/2026, junto com o Consent Mode
+            avancado: as tags do Google carregam para todos depois da foto do
+            topo, ja com tudo "denied" (ver ConsentModeDefault e PixelsByConsent).
+            Se o site voltar a carregar o GTM so depois do aceite, revise isto. */}
         <p className="text-zinc-600">
           Você pode revisar ou revogar o consentimento a qualquer momento pelo link &ldquo;Preferências de cookies&rdquo; no
-          rodapé do site ou entrando em contato conosco. Enquanto não houver aceite, as ferramentas de medição e de marketing
-          operam em modo restrito: não gravam cookies de analytics nem de publicidade e não registram identificadores de
-          publicidade. O armazenamento nessas categorias só é habilitado depois que você aceita.
+          rodapé do site ou entrando em contato conosco. Sem o seu aceite, as ferramentas do Google funcionam em modo restrito:
+          não gravam cookies de análise nem de publicidade e não usam identificadores de publicidade. Elas podem enviar sinais
+          sem cookies, como &ldquo;a página foi aberta&rdquo;, que o Google usa somados aos de outras pessoas para estimar o
+          resultado dos anúncios.
+        </p>
+        <p className="text-zinc-600">
+          Se você aceitar os cookies de marketing e enviar o formulário, o seu telefone vira um código que não pode ser desfeito
+          (hash SHA-256) ainda no seu navegador, antes de ir para o Google Ads. O Google usa esse código só para saber se o
+          contato veio de um anúncio. O número em si não é enviado.
         </p>
       </section>
 

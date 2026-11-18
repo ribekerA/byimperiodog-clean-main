@@ -38,8 +38,14 @@ function getConsentSnapshot() {
 }
 
 /**
- * Carrega pixels apenas após consentimento.
- * - Analytics: GA4 (ou GTM), Hotjar, Clarity
+ * Carrega pixels.
+ * - GTM: para todos, depois do onLoad (já depois da foto do topo), com o
+ *   Consent Mode em "denied" até a pessoa aceitar. É o modo avançado aprovado
+ *   em 18/11/2026: sem aceite, as tags do Google só mandam sinais sem cookie.
+ *   As tags que não são do Google (Pinterest) exigem consentimento dentro do
+ *   container e não disparam sem ele. A política de privacidade descreve isso.
+ * - Sem GTM, o resto continua só depois do aceite:
+ * - Analytics: GA4, Hotjar, Clarity
  * - Marketing: Facebook, TikTok, Pinterest
  * Evita carregar scripts desnecessários antes do consentimento → melhora TTI/TBT.
  */
@@ -74,16 +80,17 @@ export default function PixelsByConsent(props: PixelsProps) {
   if (isAdminRoute || !isProductionTrackingHost()) return null;
 
   const { analytics, marketing } = consent;
-  // Basic consent mode: optional libraries are not downloaded before the
-  // visitor explicitly opts in. Admin settings cannot bypass this guarantee.
+  // Fora do GTM, nenhuma biblioteca opcional é baixada antes do aceite.
   const allowAnalytics = analytics;
   const allowMarketing = marketing;
   const { useGTM, GTM_ID, GA4_ID, FB_ID, TT_ID, PIN_ID, HOTJAR_ID, CLARITY_ID, ADS_ID } = props;
-  const allowGTM = useGTM && Boolean(GTM_ID) && (allowAnalytics || allowMarketing);
+  // O GTM sobe para todos: quem decide o que cada tag pode fazer é o estado do
+  // Consent Mode, que ConsentModeDefault deixa em "denied" antes daqui.
+  const allowGTM = useGTM && Boolean(GTM_ID);
 
   return (
     <>
-      {/* Analytics: GTM (preferencial) ou GA4 direto, somente com consent.analytics */}
+      {/* GTM para todos (Consent Mode avançado); GA4 direto só com consent.analytics */}
       {/* strategy="lazyOnload" para evitar bloqueio de TBT/TTI (carrega após onLoad) */}
       {allowGTM && GTM_ID && (
         <Script id="gtm-consent" strategy="lazyOnload">
