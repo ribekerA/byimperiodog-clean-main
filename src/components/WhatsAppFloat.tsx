@@ -16,7 +16,6 @@
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import ReviewRequestPrompt from "@/components/ReviewRequestPrompt";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 
 const WA_PHONE = process.env.NEXT_PUBLIC_WA_PHONE?.replace(/\D/g, "") ?? "5511968633239";
@@ -90,7 +89,6 @@ export function WhatsAppFloat() {
   const pathname = usePathname() ?? "/";
   const [visible, setVisible] = useState(false);
   const [pulse, setPulse] = useState(false);
-  const [showReview, setShowReview] = useState(false);
   const [scrolling, setScrolling] = useState(false);
   const [overlapping, setOverlapping] = useState(false);
   const firstPulse = useRef(false);
@@ -203,9 +201,10 @@ export function WhatsAppFloat() {
     // Um toque, um evento — e o evento sai do <WhatsAppClickTracker />, que
     // reconhece este botão pelo `data-wa-cta`. Ver o comentário sobre medição
     // no topo do arquivo antes de acrescentar qualquer disparo aqui.
+    // Sem pedido de avaliação aqui: quem clica ainda não comprou, e o Google
+    // só aceita avaliação de quem foi cliente. O pedido vai pelo WhatsApp,
+    // depois da entrega do filhote.
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-    // Solicita review 5s após o clique — growth loop: visita → WhatsApp → review → mais visibilidade
-    setTimeout(() => setShowReview(true), 5000);
   }, [whatsappUrl]);
 
   if (!visible || hasOwnWhatsAppCta(pathname)) return null;
@@ -214,7 +213,6 @@ export function WhatsAppFloat() {
 
   return (
     <>
-    {showReview && <ReviewRequestPrompt trigger="whatsapp" />}
     {/* Único CTA de WhatsApp que não é <a href>: abre por window.open, então
         não tem href para o ouvinte delegado casar. data-wa-cta é o que o
         coloca no mesmo caminho de medição dos outros — sem onClick de

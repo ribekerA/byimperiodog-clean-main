@@ -1143,7 +1143,7 @@ body:has(.hm-cabecalho:not(.pg-cabecalho)) { padding-top: 28px; }
 
 
 
-/* ── slide-up — usado no ReviewRequestPrompt e toasts flutuantes ─────────── */
+/* ── slide-up — usado nos toasts flutuantes ─────────── */
 @keyframes slide-up {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
