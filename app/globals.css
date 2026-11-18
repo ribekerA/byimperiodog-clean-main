@@ -814,7 +814,12 @@ body.admin-shell [data-site-shell="cta"] {
 @media (prefers-reduced-motion: no-preference) {
   .vc-preco-caixa::after { animation: vc-reflexo 2.6s ease-in-out var(--vc-atraso) infinite; }
   .vc-acao::after { animation: vc-reflexo 2.6s ease-in-out calc(var(--vc-atraso) + 0.3s) infinite; }
-  .vc-acao { animation: vc-halo 1.8s ease-out var(--vc-atraso) infinite; }
+  /* Halo so no computador: box-shadow animado nao roda na placa de video e,
+     com 10 cartoes, deixava o celular redesenhando a pagina 50 vezes por
+     segundo (86% do tempo ocupado, medido em 18/11/2026). */
+  @media (min-width: 1024px) {
+    .vc-acao { animation: vc-halo 1.8s ease-out var(--vc-atraso) infinite; }
+  }
   .vc-acao svg:last-child { animation: vc-seta 1.8s ease-in-out var(--vc-atraso) infinite; }
   /* "scale" e "transform" sao propriedades separadas: o respiro continuo usa
      scale e o hover usa transform, entao um nao anula o outro. */
@@ -836,7 +841,10 @@ body.admin-shell [data-site-shell="cta"] {
   }
 }
 
-@keyframes vc-reflexo { 0%, 40% { left: -60%; } 75%, 100% { left: 130%; } }
+/* Reflexo anda com translate (placa de video), nao com left (recalcula a pagina).
+   Mesmo caminho de antes: de -60% a 130% da largura do pai = 190% / 55% da
+   largura do proprio reflexo = 345,45%. */
+@keyframes vc-reflexo { 0%, 40% { translate: 0 0; } 75%, 100% { translate: 345.45% 0; } }
 @keyframes vc-halo { 0% { box-shadow: 0 0 0 0 rgba(15, 74, 45, 0.6), 0 0 0 0 rgba(232, 197, 111, 0.5); } 70%, 100% { box-shadow: 0 0 0 12px rgba(15, 74, 45, 0), 0 0 0 20px rgba(232, 197, 111, 0); } }
 @keyframes vc-seta { 0%, 60%, 100% { transform: translateX(0); } 72% { transform: translateX(6px); } 84% { transform: translateX(0); } 92% { transform: translateX(3px); } }
 @keyframes vc-respiro { from { scale: 1; } to { scale: 1.07; } }
