@@ -27,7 +27,7 @@ export const LASTMOD: Record<string, string> = {
   "/lulu-da-pomerania-braganca-paulista": "2026-11-17T23:50:41.000Z",
   "/ninhadas": "2026-11-17T09:46:26.000Z",
   "/obrigado": "2026-11-17T09:46:26.000Z",
-  "/politica-de-privacidade": "2026-11-18T19:21:56.000Z",
+  "/politica-de-privacidade": "2026-11-18T19:39:58.000Z",
   "/politica-editorial": "2026-11-17T09:46:26.000Z",
   "/pomeranian": "2026-11-17T23:50:41.000Z",
   "/preco-spitz-anao": "2026-11-10T17:26:43.000Z",
