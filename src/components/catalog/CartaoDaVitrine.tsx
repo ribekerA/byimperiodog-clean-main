@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, Info } from "lucide-react";
+import { CircleCheck, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -15,8 +15,9 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // Cartão horizontal de /filhotes, no desenho aprovado em 06/11/2026. As outras
 // páginas continuam com StaticPuppyCard.
 //
-// O selo diz "Disponibilidade a confirmar" em todos os cartões porque é o que a
-// vitrine sabe: ela não lê estoque, e quem confirma é o atendimento.
+// O selo diz "Disponível agora" em todos os cartões por decisão do canil em
+// 18/11/2026, que confirmou os 10 da vitrine como disponíveis. Quando um for
+// vendido, tire-o da vitrine para o selo não ficar errado.
 
 type Props = {
   slug: string;
@@ -82,8 +83,8 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
             preço do cartão (auditoria de UX de 17/11/2026); sobre o texto ela sai da frente. */}
         <div data-wa-safe-zone className="vc-painel">
           <p className="vc-selo">
-            <Info aria-hidden="true" strokeWidth={2.2} />
-            <span>Disponibilidade a confirmar</span>
+            <CircleCheck aria-hidden="true" strokeWidth={2.2} />
+            <span>Disponível agora</span>
           </p>
 
           <h3 className="vc-nome">
