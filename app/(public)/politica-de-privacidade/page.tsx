@@ -188,6 +188,12 @@ export default function PoliticaDePrivacidadePage() {
           (hash SHA-256) ainda no seu navegador, antes de ir para o Google Ads. O Google usa esse código só para saber se o
           contato veio de um anúncio. O número em si não é enviado.
         </p>
+        <p className="text-zinc-600">
+          Se você chegou por um anúncio do Google, aceitou os cookies de marketing e tocou em um botão de WhatsApp, a mensagem
+          leva no final um código curto, como &quot;(cód. K7M2Q)&quot;. Guardamos esse código junto com o identificador do
+          clique no anúncio, a página e o filhote que você viu, para saber qual anúncio trouxe a conversa. Não guardamos seu
+          telefone nem seu nome nesse registro, e o identificador do anúncio não aparece na mensagem.
+        </p>
       </section>
 
       <section id="retencao" className="space-y-3">

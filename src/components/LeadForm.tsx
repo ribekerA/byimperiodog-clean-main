@@ -91,9 +91,10 @@ export default function LeadForm({ context, className }: Props) {
 
   useEffect(() => {
     // O gclid vai para o banco junto com o lead — é ali que a origem do
-    // contato fica registrada. Ele NÃO entra na mensagem do WhatsApp: nada do
-    // outro lado lê esse código, e o cliente não precisa ver identificador de
-    // anúncio dentro da própria mensagem.
+    // contato fica registrada. Ele NÃO entra na mensagem do WhatsApp: o
+    // cliente não precisa ver identificador de anúncio na própria mensagem.
+    // Nos botões de WhatsApp o que vai é um código curto que aponta para o
+    // gclid no banco (src/lib/whatsapp-ref.ts).
     setValue("gclid", getClickId() ?? "");
   }, [setValue]);
 

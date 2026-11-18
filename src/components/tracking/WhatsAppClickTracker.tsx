@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import { trackWhatsAppClick, type WhatsAppPlacement } from "@/lib/events";
 import { WHATSAPP_LINK, WHATSAPP_NUMBER } from "@/lib/whatsapp";
+import { anexarRefAoLink } from "@/lib/whatsapp-ref";
 
 /**
  * Mede o clique em WhatsApp com UM ouvinte delegado, montado uma única vez.
@@ -24,6 +25,11 @@ import { WHATSAPP_LINK, WHATSAPP_NUMBER } from "@/lib/whatsapp";
  * segue com o link normalmente e o WhatsApp abre sem atraso perceptível. Se
  * `trackWhatsAppClick` lançar, o try/catch garante que o link abre do mesmo
  * jeito — medição nunca pode ficar na frente do atendimento.
+ *
+ * Desde 18/11/2026 é também aqui que entra o código curto na mensagem
+ * (src/lib/whatsapp-ref.ts): só para quem veio de anúncio do Google com
+ * aceite de marketing. O href do <a> é reescrito antes do navegador seguir o
+ * link; o botão sem href (flutuante) fica sem código.
  */
 
 /** Só conta link que fala com o número do canil. */
@@ -185,11 +191,20 @@ export default function WhatsAppClickTracker() {
       if (!gatilho) return;
       if (!ehGatilhoDeContato(gatilho)) return;
       anotarGatilho(gatilho);
+      const puppySlug = lerPuppySlug(gatilho);
+
+      if (gatilho instanceof HTMLAnchorElement) {
+        try {
+          anexarRefAoLink(gatilho, puppySlug);
+        } catch {
+          // Sem código o WhatsApp abre com a mensagem de sempre.
+        }
+      }
 
       try {
         trackWhatsAppClick({
           placement: lerPlacement(gatilho),
-          puppySlug: lerPuppySlug(gatilho),
+          puppySlug,
         });
       } catch {
         // Medição quebrada não pode impedir o WhatsApp de abrir.

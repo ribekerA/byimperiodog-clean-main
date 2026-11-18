@@ -431,3 +431,34 @@ describe("botão flutuante real — um toque, um evento", () => {
     vi.unstubAllGlobals();
   }, 10_000);
 });
+
+describe("código curto na mensagem do WhatsApp", () => {
+  it("veio de anúncio: o link clicado leva o código; sem anúncio, o link fica igual", async () => {
+    const { captureClickId } = await import("@/lib/gclid");
+    Object.defineProperty(navigator, "sendBeacon", { value: vi.fn(() => true), configurable: true });
+
+    const { getByText } = render(
+      <>
+        <WhatsAppClickTracker />
+        <a href={LINK_DO_CANIL} data-wa-placement="hero">
+          Fale pelo WhatsApp
+        </a>
+      </>,
+    );
+    const link = getByText("Fale pelo WhatsApp") as HTMLAnchorElement;
+
+    link.click();
+    expect(link.href).toBe(LINK_DO_CANIL);
+
+    window.history.replaceState(null, "", "/?gclid=Cj0KCQabc_DEF-123");
+    captureClickId();
+    window.history.replaceState(null, "", "/");
+
+    link.click();
+    const texto = new URL(link.href).searchParams.get("text") ?? "";
+    expect(texto).toMatch(/^Olá \(cód\. [2-9A-Z]{5}\)$/);
+    expect(link.href).not.toContain("Cj0KCQ");
+    // O código não mexe na contagem: dois cliques, duas medições.
+    expect(eventos("whatsapp_click")).toHaveLength(2);
+  });
+});
