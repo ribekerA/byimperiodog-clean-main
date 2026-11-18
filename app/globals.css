@@ -848,20 +848,6 @@ body.admin-shell [data-site-shell="cta"] {
 .vf-vazio .vc-acao { width: 100%; max-width: 300px; font-size: 14px; }
 .vf-vazio-limpar { min-height: 36px; padding-inline: 12px; font-weight: 600; color: #0a3420; text-decoration: underline; }
 
-.vf-compromissos { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 14px; padding-block: 10px; border-radius: 14px; background: linear-gradient(180deg, #0c3f26, #082c1a); color: #fff; }
-.vf-compromissos > li { display: flex; align-items: center; justify-content: center; gap: 5px; padding-inline: 6px; font-size: clamp(9.5px, 2.8cqw, 15px); line-height: 1.16; }
-.vf-compromissos > li + li { border-inline-start: 1px solid rgba(232, 197, 111, 0.45); }
-.vf-compromissos svg { flex: none; width: 22px; height: 22px; color: #e8c56f; }
-
-.vf-cta {
-  display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; margin-top: 12px; padding: 8px 12px; border-radius: 999px; border: 2px solid #e3bb64;
-  background: linear-gradient(180deg, #17663d, #0a3f25); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: clamp(12.5px, 3.85cqw, 19px); line-height: 1.15; text-align: center; text-wrap: balance;
-  box-shadow: 0 4px 12px rgba(5, 30, 16, 0.3);
-}
-.vf-cta svg { flex: none; width: 24px; height: 24px; }
-.vf-cta svg:last-child { width: 18px; height: 18px; }
-.vf-cta:focus-visible { outline: 2px solid #0a3420; outline-offset: 2px; }
-
 /* Cabeçalho da vitrine: marca à esquerda, menu dourado à direita e um filete. */
 .vt-cabecalho .hm-cabecalho-miolo { min-height: calc(122 * var(--u)); padding-inline: calc(30 * var(--u)) calc(30 * var(--u)); }
 .vt-cabecalho .hm-logo { order: 1; margin-inline-start: 0; }

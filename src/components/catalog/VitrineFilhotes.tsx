@@ -1,6 +1,6 @@
 "use client";
 
-import { Award, ChevronRight, FileText, Headset, Heart, ShieldCheck } from "lucide-react";
+import { ChevronRight, FileText, Headset, Heart, ShieldCheck } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { ComponentType, ReactNode, SVGProps } from "react";
 
@@ -40,12 +40,6 @@ const PILARES: { icone: Icone; texto: string }[] = [
   { icone: Headset, texto: "Atendimento humanizado" },
 ];
 
-const COMPROMISSOS: { icone: Icone; texto: string }[] = [
-  { icone: Award, texto: "Compromisso com o bem-estar" },
-  { icone: PataIcon, texto: "Filhotes com alto padrão" },
-  { icone: Heart, texto: "Todo o carinho que você e seu pet merecem" },
-];
-
 // A ordem é a do desenho. Cor sem filhote publicado continua no filtro: a pessoa
 // escolhe, vê que não há foto agora e é levada ao WhatsApp para perguntar.
 const CORES_DO_FILTRO = ["branco", "preto", "chocolate", "laranja", "creme", "merle", "particolor"];
@@ -56,13 +50,6 @@ const SEXOS_DO_FILTRO = [
 
 const corDoFilhote = (p: Filhote) => p.color ?? p.cor?.toLowerCase() ?? "";
 const sexoDoFilhote = (p: Filhote) => p.sex ?? p.gender ?? "";
-
-const linkDoPe = buildWhatsAppLink({
-  message: "Olá! Vi a vitrine do site e gostaria de tirar dúvidas sobre os filhotes de Spitz Alemão Anão (Lulu da Pomerânia).",
-  utmSource: "site",
-  utmMedium: "vitrine_pe",
-  utmCampaign: "filhotes",
-});
 
 // `faixaDePreco` chega pronta do servidor (FaixaDePrecoDaVitrine): assim a tabela
 // de preços não entra no pacote do navegador.
@@ -104,7 +91,6 @@ export default function VitrineFilhotes({ puppies, faixaDePreco }: { puppies: Fi
     });
   }, [filtroCor, filtroSexo]);
   const waSemFoto = useWhatsAppLink(linkSemFoto);
-  const waPe = useWhatsAppLink(linkDoPe);
 
   return (
     <>
@@ -205,20 +191,11 @@ export default function VitrineFilhotes({ puppies, faixaDePreco }: { puppies: Fi
             </div>
           )}
 
-          <ul className="vf-compromissos">
-            {COMPROMISSOS.map(({ icone: Icone, texto }) => (
-              <li key={texto}>
-                <Icone aria-hidden="true" strokeWidth={1.6} />
-                <span>{texto}</span>
-              </li>
-            ))}
-          </ul>
-
-          <a href={waPe} target="_blank" rel="noopener noreferrer" data-wa-placement="hero" className="vf-cta">
-            <WhatsAppIcon aria-hidden="true" />
-            <span>Seu novo amor está a uma conversa</span>
-            <ChevronRight aria-hidden="true" strokeWidth={2.4} />
-          </a>
+          {/* Até 18/11/2026 a vitrine fechava com uma faixa verde de três
+              compromissos e uma barra "Seu novo amor está a uma conversa". A
+              faixa repetia os pilares do topo com outras palavras, e a barra era
+              mais um botão de WhatsApp logo abaixo de cartões que já têm o seu.
+              Saíram as duas (crítica de design de 17/11/2026). */}
         </div>
       </section>
 
