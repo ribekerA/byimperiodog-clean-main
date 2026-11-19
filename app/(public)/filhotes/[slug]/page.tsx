@@ -202,11 +202,17 @@ export default async function PuppyPage(props: Props) {
         </nav>
 
         {/* ── Grid principal ─────────────────────────────────────────────── */}
-        <div className="grid gap-5 lg:grid-cols-2 lg:items-start lg:gap-x-10">
+        {/* Ordem no celular desde 18/11/2026: título, foto, preço e WhatsApp,
+            detalhes. Antes o preço e o botão vinham antes da galeria e a foto
+            começava perto de 650 px, quase fora da primeira tela de quem chega
+            pelo anúncio. No computador nada muda de lugar: galeria à esquerda,
+            título, oferta e detalhes empilhados à direita. A terceira linha é
+            1fr para a altura da galeria não abrir espaço entre título e oferta. */}
+        <div className="grid gap-5 lg:grid-cols-2 lg:grid-rows-[auto_auto_1fr] lg:items-start lg:gap-x-10">
 
           <div className="min-w-0 lg:col-start-2 lg:row-start-1">
             <PuppyDetailPanel
-              summaryOnly
+              parte="titulo"
               name={puppy.name}
               heading={searchCopy?.heading}
               corLabel={corLabel}
@@ -221,7 +227,7 @@ export default async function PuppyPage(props: Props) {
           </div>
 
           {/* Galeria cinematográfica */}
-          <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2">
+          <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-3">
           <PuppyCinematicGallery
             images={puppy.images ?? []}
             puppyName={puppy.name}
@@ -231,12 +237,29 @@ export default async function PuppyPage(props: Props) {
           />
           </div>
 
+          {/* Preço e WhatsApp */}
+          <div className="min-w-0 lg:col-start-2 lg:row-start-2">
+            <PuppyDetailPanel
+              parte="oferta"
+              name={puppy.name}
+              heading={searchCopy?.heading}
+              corLabel={corLabel}
+              colorSlug={colorSlug}
+              sexLabel={sexLabel}
+              sexSlug={sexSlug}
+              priceCents={puppy.priceCents ?? puppy.price_cents}
+              description={description}
+              waLink={waLink}
+              slug={puppy.slug}
+            />
+          </div>
+
           {/* Painel de detalhes */}
           {/* `min-w-0`: a coluna da galeria já tinha, esta não. Sem ela a
               trilha do grid cresce até o min-content do conteúdo mais rígido
               do painel, e qualquer texto que não quebre volta a estourar a
               largura da tela no celular. */}
-          <div className="flex min-w-0 flex-col gap-4 lg:col-start-2 lg:row-start-2">
+          <div className="flex min-w-0 flex-col gap-4 lg:col-start-2 lg:row-start-3">
             <PuppyDetailPanel
               detailsOnly
               name={puppy.name}

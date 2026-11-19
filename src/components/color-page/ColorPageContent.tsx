@@ -3,10 +3,10 @@
 /**
  * ColorPageContent — Experiência épica por cor de Spitz Alemão Anão.
  *
- * Seções:
- *  1. Hero fullscreen — gradiente por cor, imagem flutuante, stats, CTA
- *  2. Personalidade — trait bars animadas com useInView
- *  3. Catálogo — grid de filhotes com hover cinematográfico
+ * Seções (ordem desde 18/11/2026, com os filhotes logo depois do topo):
+ *  1. Hero — título, foto da cor, texto, stats e CTA
+ *  2. Catálogo — grid de filhotes da cor
+ *  3. Personalidade — trait bars animadas com useInView
  *  4. Navegação por cor — swatches visuais
  *  5. FAQ accordion — smooth AnimatePresence
  *  6. CTA final
@@ -362,7 +362,7 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
     <>
       {/* ── 1. HERO ───────────────────────────────────────────────────────────── */}
       <section
-        className={`faixa-topo faixa-topo-lado relative overflow-hidden ${theme.heroGradient} py-12 sm:py-28`}
+        className={`faixa-topo faixa-topo-lado relative overflow-hidden ${theme.heroGradient} pb-12 pt-6 sm:py-28`}
         aria-labelledby="color-h1"
       >
         {/* Decorative blur orb */}
@@ -376,15 +376,18 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
           aria-hidden="true"
         />
 
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
+        {/* Ordem desde 18/11/2026. No celular vêm o título, a foto e só depois
+            o texto, os números e os botões: antes o texto inteiro vinha primeiro
+            e a foto começava perto de 850 px, fora da primeira tela de quem
+            chega pelo anúncio procurando a cor. No computador o desenho é o de
+            sempre, texto à esquerda e foto à direita.
+            A entrada animada do topo também saiu. Ela partia de opacidade zero,
+            então até o JavaScript carregar a faixa ficava vazia, sem título e
+            sem foto. */}
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-6 px-5 sm:gap-8 sm:px-8 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-6">
 
-          {/* ── LEFT: copy ── */}
-          <motion.div
-            className="flex flex-col gap-6"
-            initial={reduced ? {} : { opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          >
+          {/* ── Título: trilha, selo da cor e H1 ── */}
+          <div className="flex flex-col gap-4 sm:gap-6 lg:col-start-1 lg:row-start-1 lg:self-end">
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-xs">
               {[
@@ -407,14 +410,9 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             </nav>
 
             {/* Badge */}
-            <motion.span
-              className={`w-fit rounded-full px-3.5 py-1.5 text-xs font-bold ${theme.badgeCss}`}
-              initial={reduced ? {} : { opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.18, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <span className={`w-fit rounded-full px-3.5 py-1.5 text-xs font-bold ${theme.badgeCss}`}>
               {theme.badge}
-            </motion.span>
+            </span>
 
             {/* H1 */}
             <h1
@@ -425,7 +423,86 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
             >
               {seo.h1}
             </h1>
+          </div>
 
+          {/* ── Foto ── */}
+          <div className="relative flex justify-center lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
+            <div className="relative w-full max-w-md">
+              <div className="overflow-hidden rounded-3xl shadow-2xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={theme.heroImg}
+                  alt={ilustracao?.alt ?? `${seo.h1} — By Imperio Dog`}
+                  className="aspect-[3/4] w-full object-cover"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+                {/* Gradient overlay */}
+                <div
+                  className={`absolute inset-0 rounded-3xl ${
+                    heroDark
+                      ? "bg-gradient-to-t from-zinc-900/30 to-transparent"
+                      : "bg-gradient-to-t from-black/10 to-transparent"
+                  }`}
+                  aria-hidden="true"
+                />
+              </div>
+
+              {/* Floating "incluso" badge */}
+              <motion.div
+                className={`absolute bottom-3 left-3 sm:-bottom-5 sm:-left-8 rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md ring-1 ${
+                  heroDark ? "bg-zinc-900/90 ring-white/10" : "bg-white/95 ring-zinc-900/5"
+                }`}
+                animate={reduced ? {} : { y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
+              >
+                <p className={`text-[10px] font-bold uppercase tracking-wider ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
+                  Incluso
+                </p>
+                <p className={`mt-0.5 font-bold ${heroDark ? "text-white" : "text-zinc-900"}`}>
+                  {comPedigree ? "Registro oficial" : "Consulta veterinária"}
+                </p>
+                <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
+                  + Mentoria pós-venda
+                </p>
+              </motion.div>
+
+              {/* Floating "Desde {FOUNDING_YEAR}" badge */}
+              <motion.div
+                className={`absolute right-3 top-3 sm:-right-8 sm:top-8 rounded-2xl px-3 py-2.5 shadow-xl backdrop-blur-md ring-1 ${
+                  heroDark ? "bg-zinc-900/90 ring-white/10" : "bg-white/95 ring-zinc-900/5"
+                }`}
+                animate={reduced ? {} : { y: [0, 8, 0] }}
+                transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 0.6 }}
+              >
+                <p className={`text-[10px] font-bold uppercase tracking-wider ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
+                  By Imperio Dog
+                </p>
+                <p className={`mt-0.5 font-bold text-emerald-600`}>
+                  Desde {FOUNDING_YEAR}
+                </p>
+                <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
+                  especialistas na raça
+                </p>
+              </motion.div>
+
+              {/* Fora do card da imagem para não ficar atrás do selo "Incluso".
+                  A partir de sm o selo sai do card pela esquerda e passa por
+                  esta linha: centralizada, ele cobria o início do aviso. */}
+              {ilustracao && (
+                <p
+                  className={`mt-3 text-center text-xs sm:mt-8 sm:text-right ${
+                    heroDark ? "text-zinc-400" : "text-zinc-600"
+                  }`}
+                >
+                  Ilustração da pelagem, não é foto de filhote.
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* ── Texto, números e botões ── */}
+          <div className="flex flex-col gap-4 sm:gap-6 lg:col-start-1 lg:row-start-2 lg:self-start">
             {/* Intro */}
             <p
               className={`max-w-lg text-base leading-relaxed sm:text-lg ${
@@ -499,165 +576,16 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
                 Ver todos os filhotes →
               </Link>
             </div>
-          </motion.div>
-
-          {/* ── RIGHT: hero image ── */}
-          <motion.div
-            className="relative flex justify-center"
-            initial={reduced ? {} : { opacity: 0, scale: 0.94, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-          >
-            <div className="relative w-full max-w-md">
-              <div className="overflow-hidden rounded-3xl shadow-2xl">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={theme.heroImg}
-                  alt={ilustracao?.alt ?? `${seo.h1} — By Imperio Dog`}
-                  className="aspect-[3/4] w-full object-cover"
-                  loading="eager"
-                />
-                {/* Gradient overlay */}
-                <div
-                  className={`absolute inset-0 rounded-3xl ${
-                    heroDark
-                      ? "bg-gradient-to-t from-zinc-900/30 to-transparent"
-                      : "bg-gradient-to-t from-black/10 to-transparent"
-                  }`}
-                  aria-hidden="true"
-                />
-              </div>
-
-              {/* Floating "incluso" badge */}
-              <motion.div
-                className={`absolute bottom-3 left-3 sm:-bottom-5 sm:-left-8 rounded-2xl px-4 py-3 shadow-xl backdrop-blur-md ring-1 ${
-                  heroDark ? "bg-zinc-900/90 ring-white/10" : "bg-white/95 ring-zinc-900/5"
-                }`}
-                animate={reduced ? {} : { y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
-              >
-                <p className={`text-[10px] font-bold uppercase tracking-wider ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  Incluso
-                </p>
-                <p className={`mt-0.5 font-bold ${heroDark ? "text-white" : "text-zinc-900"}`}>
-                  {comPedigree ? "Registro oficial" : "Consulta veterinária"}
-                </p>
-                <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  + Mentoria pós-venda
-                </p>
-              </motion.div>
-
-              {/* Floating "Desde {FOUNDING_YEAR}" badge */}
-              <motion.div
-                className={`absolute right-3 top-3 sm:-right-8 sm:top-8 rounded-2xl px-3 py-2.5 shadow-xl backdrop-blur-md ring-1 ${
-                  heroDark ? "bg-zinc-900/90 ring-white/10" : "bg-white/95 ring-zinc-900/5"
-                }`}
-                animate={reduced ? {} : { y: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 0.6 }}
-              >
-                <p className={`text-[10px] font-bold uppercase tracking-wider ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  By Imperio Dog
-                </p>
-                <p className={`mt-0.5 font-bold text-emerald-600`}>
-                  Desde {FOUNDING_YEAR}
-                </p>
-                <p className={`text-xs ${heroDark ? "text-zinc-400" : "text-zinc-500"}`}>
-                  especialistas na raça
-                </p>
-              </motion.div>
-
-              {/* Fora do card da imagem para não ficar atrás do selo "Incluso".
-                  A partir de sm o selo sai do card pela esquerda e passa por
-                  esta linha: centralizada, ele cobria o início do aviso. */}
-              {ilustracao && (
-                <p
-                  className={`mt-3 text-center text-xs sm:mt-8 sm:text-right ${
-                    heroDark ? "text-zinc-400" : "text-zinc-600"
-                  }`}
-                >
-                  Ilustração da pelagem, não é foto de filhote.
-                </p>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ── 2. PERSONALIDADE ──────────────────────────────────────────────────── */}
-      <section
-        className={`py-14 sm:py-28 ${theme.sectionBg}`}
-        aria-labelledby="personality-heading"
-      >
-        <div className="mx-auto max-w-6xl px-5 sm:px-8">
-          <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-start">
-
-            {/* Trait bars */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
-                Temperamento
-              </p>
-              <h2
-                id="personality-heading"
-                className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl"
-              >
-                Personalidade e Temperamento
-              </h2>
-              {/* Antes repetia {seo.intro}, que já aparece no hero: o mesmo
-                  parágrafo saía duas vezes no HTML da página. Aqui o texto
-                  precisa falar de temperamento, que é o assunto da seção. */}
-              <p className="mt-4 text-base leading-relaxed text-zinc-600">
-                O temperamento varia conforme genética, socialização, ambiente e
-                características individuais do cão.
-              </p>
-              <div className="mt-8 space-y-6">
-                {BREED_TRAITS.map((trait) => (
-                  <TraitItem
-                    key={trait.label}
-                    label={trait.label}
-                    desc={trait.desc}
-                    icon={trait.icon}
-                    accentLight={theme.accentLight}
-                  />
-                ))}
-              </div>
-              <p className="mt-6 text-sm leading-relaxed text-zinc-500">
-                O temperamento descrito acima é característico da raça. A cor da
-                pelagem é uma característica estética e não determina
-                comportamento nem inteligência — cada filhote tem a sua
-                individualidade.
-              </p>
-            </div>
-
-            {/* Characteristics list */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
-                Diferenciais
-              </p>
-              <h3 className="mt-3 text-2xl font-bold text-zinc-900">
-                O que torna essa cor especial
-              </h3>
-              <ul className="mt-6 space-y-3">
-                {seo.characteristics.map((item, i) => (
-                  <motion.li
-                    key={item}
-                    className="flex items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-zinc-900/5 shadow-sm"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-30px" }}
-                    transition={{ duration: 0.45, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <span className="mt-0.5 shrink-0 text-emerald-500" aria-hidden="true">✓</span>
-                    <span className="text-sm leading-relaxed text-zinc-700">{item}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* ── 3. FILHOTES ───────────────────────────────────────────────────────── */}
-      <section className="bg-white py-20 sm:py-28" aria-labelledby="puppies-heading">
+      {/* ── 2. FILHOTES ───────────────────────────────────────────────────────── */}
+      {/* Desde 18/11/2026 a vitrine da cor vem logo depois do topo. Antes dela
+          ficava a seção de personalidade, que é a mesma em todas as cores:
+          quem chega pelo anúncio procurando a cor via um texto genérico da
+          raça antes das fotos dos filhotes daquela cor. */}
+      <section className="bg-white pb-20 pt-12 sm:py-28" aria-labelledby="puppies-heading">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
 
           <motion.div
@@ -741,8 +669,84 @@ export default function ColorPageContent({ color, seo, puppies, waLink }: Props)
         <AvisoDeNinhada cor={color} origem="cor" />
       </div>
 
+      {/* ── 3. PERSONALIDADE ──────────────────────────────────────────────────── */}
+      <section
+        className={`py-14 sm:py-28 ${theme.sectionBg}`}
+        aria-labelledby="personality-heading"
+      >
+        <div className="mx-auto max-w-6xl px-5 sm:px-8">
+          <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-start">
+
+            {/* Trait bars */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
+                Temperamento
+              </p>
+              <h2
+                id="personality-heading"
+                className="mt-3 text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl"
+              >
+                Personalidade e Temperamento
+              </h2>
+              {/* Antes repetia {seo.intro}, que já aparece no hero: o mesmo
+                  parágrafo saía duas vezes no HTML da página. Aqui o texto
+                  precisa falar de temperamento, que é o assunto da seção. */}
+              <p className="mt-4 text-base leading-relaxed text-zinc-600">
+                O temperamento varia conforme genética, socialização, ambiente e
+                características individuais do cão.
+              </p>
+              <div className="mt-8 space-y-6">
+                {BREED_TRAITS.map((trait) => (
+                  <TraitItem
+                    key={trait.label}
+                    label={trait.label}
+                    desc={trait.desc}
+                    icon={trait.icon}
+                    accentLight={theme.accentLight}
+                  />
+                ))}
+              </div>
+              <p className="mt-6 text-sm leading-relaxed text-zinc-500">
+                O temperamento descrito acima é característico da raça. A cor da
+                pelagem é uma característica estética e não determina
+                comportamento nem inteligência — cada filhote tem a sua
+                individualidade.
+              </p>
+            </div>
+
+            {/* Characteristics list */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
+                Diferenciais
+              </p>
+              <h3 className="mt-3 text-2xl font-bold text-zinc-900">
+                O que torna essa cor especial
+              </h3>
+              <ul className="mt-6 space-y-3">
+                {seo.characteristics.map((item, i) => (
+                  <motion.li
+                    key={item}
+                    className="flex items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-zinc-900/5 shadow-sm"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-30px" }}
+                    transition={{ duration: 0.45, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <span className="mt-0.5 shrink-0 text-emerald-500" aria-hidden="true">✓</span>
+                    <span className="text-sm leading-relaxed text-zinc-700">{item}</span>
+                  </motion.li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── 4. COLOR NAV ──────────────────────────────────────────────────────── */}
-      <section className="bg-zinc-50 py-14" aria-label="Navegar por cor">
+      {/* O filete de cima é de 18/11/2026: com a vitrine subindo, esta faixa
+          passou a vir logo depois da personalidade, no mesmo cinza, e as duas
+          viravam um bloco só. */}
+      <section className="border-t border-zinc-200 bg-zinc-50 py-14" aria-label="Navegar por cor">
         <div className="mx-auto max-w-3xl px-5 sm:px-8">
           <p className="mb-6 text-center text-xs font-bold uppercase tracking-[0.3em] text-zinc-500">
             Explorar outras cores

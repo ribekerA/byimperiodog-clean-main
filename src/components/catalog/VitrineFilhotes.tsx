@@ -98,24 +98,11 @@ export default function VitrineFilhotes({ puppies, faixaDePreco }: { puppies: Fi
       {faixaDePreco}
 
       <section className="vf tema-claro">
-        <div className="vf-miolo">
-          <h2 className="vf-titulo">
-            Um amor para chamar de seu <Heart aria-hidden="true" strokeWidth={2} />
-          </h2>
-          <p className="vf-subtitulo">Filhotes legítimos, saudáveis e com suporte em cada etapa.</p>
-          <svg className="vf-traco" viewBox="0 0 165 14" fill="none" aria-hidden="true">
-            <path d="M1 12C45 3 110 1 164 2C110 4 55 7 1 12Z" fill="#d6a748" />
-          </svg>
-
-          <ul className="vf-pilares">
-            {PILARES.map(({ icone: Icone, texto }) => (
-              <li key={texto}>
-                <Icone aria-hidden="true" strokeWidth={1.6} />
-                <span>{texto}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {/* Desde 18/11/2026 os filtros e os cartões vêm logo depois da faixa de
+            preço. O bloco "Um amor para chamar de seu" e os quatro pilares
+            ficavam aqui e empurravam o primeiro cartão para fora da primeira
+            tela do celular: quem chega pelo anúncio procurando o filhote via
+            texto antes da foto. Ele continua na página, depois da grade. */}
 
         {/* data-wa-safe-zone: a bolha do WhatsApp voltou à vitrine em 17/11/2026
             e cobria o último chip visível; sobre a fileira ela sai da frente. */}
@@ -196,6 +183,25 @@ export default function VitrineFilhotes({ puppies, faixaDePreco }: { puppies: Fi
               faixa repetia os pilares do topo com outras palavras, e a barra era
               mais um botão de WhatsApp logo abaixo de cartões que já têm o seu.
               Saíram as duas (crítica de design de 17/11/2026). */}
+        </div>
+
+        <div className="vf-miolo mt-10">
+          <h2 className="vf-titulo">
+            Um amor para chamar de seu <Heart aria-hidden="true" strokeWidth={2} />
+          </h2>
+          <p className="vf-subtitulo">Filhotes legítimos, saudáveis e com suporte em cada etapa.</p>
+          <svg className="vf-traco" viewBox="0 0 165 14" fill="none" aria-hidden="true">
+            <path d="M1 12C45 3 110 1 164 2C110 4 55 7 1 12Z" fill="#d6a748" />
+          </svg>
+
+          <ul className="vf-pilares">
+            {PILARES.map(({ icone: Icone, texto }) => (
+              <li key={texto}>
+                <Icone aria-hidden="true" strokeWidth={1.6} />
+                <span>{texto}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

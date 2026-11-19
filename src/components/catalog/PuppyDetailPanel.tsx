@@ -65,6 +65,13 @@ interface Props {
   slug: string;
   summaryOnly?: boolean;
   detailsOnly?: boolean;
+  /**
+   * Desde 18/11/2026 a página do filhote monta o resumo em duas partes, com a
+   * galeria entre elas: "titulo" (cor, sexo e nome) e "oferta" (preço e
+   * WhatsApp). Quem chega pelo anúncio lê o que procurou e vê a foto na
+   * primeira tela do celular. Sem `parte`, valem summaryOnly e detailsOnly.
+   */
+  parte?: "titulo" | "oferta";
 }
 
 // ─── Configurações ────────────────────────────────────────────────────────────
@@ -104,16 +111,20 @@ export default function PuppyDetailPanel({
   slug,
   summaryOnly = false,
   detailsOnly = false,
+  parte,
 }: Props) {
   const trackedWaLink = useWhatsAppLink(waLink);
   const price = formatPrice(priceCents);
   const comPedigree = temPedigreeCbkc(colorSlug);
   const incluidos = comPedigree ? [REGISTRO_OFICIAL, ...INCLUDED] : INCLUDED;
+  const mostraTitulo = !detailsOnly && parte !== "oferta";
+  const mostraOferta = !detailsOnly && parte !== "titulo";
+  const mostraDetalhes = !summaryOnly && !parte;
 
   return (
     <div className="flex flex-col gap-4">
 
-      {!detailsOnly && <>
+      {mostraTitulo && <>
 
       {/* ── Taxonomia ────────────────────────────────────────────────────── */}
       <motion.div
@@ -150,6 +161,10 @@ export default function PuppyDetailPanel({
           Lulu da Pomerânia · Bragança Paulista, SP
         </p>
       </motion.div>
+
+      </>}
+
+      {mostraOferta && <>
 
       {/* ── Preço ────────────────────────────────────────────────────────── */}
       {price && (
@@ -237,7 +252,7 @@ export default function PuppyDetailPanel({
 
       </>}
 
-      {!summaryOnly && <>
+      {mostraDetalhes && <>
       <p className="text-base leading-relaxed text-zinc-700">{description}</p>
 
       {/* ── Incluído no valor ────────────────────────────────────────────── */}
