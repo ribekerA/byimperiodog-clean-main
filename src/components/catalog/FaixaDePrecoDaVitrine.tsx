@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-import { PISOS_POR_SEXO, partesDoPrecoNoPix } from "@/domain/pricing";
+import { PISOS_POR_SEXO, partesDoPrecoNoPix, textoNoCartao } from "@/domain/pricing";
 
 // Faixa de preço logo abaixo do topo de /filhotes (crítica de design de 17/11/2026).
 // /preco-spitz-anao redireciona para cá, e quem chegava buscando preço via só o
@@ -42,6 +42,11 @@ export default function FaixaDePrecoDaVitrine() {
           <ChevronRight aria-hidden="true" strokeWidth={2.4} />
         </Link>
       </div>
+      {/* Cartão: preço total antes das parcelas (CDC art. 52). Fora de .vp-miolo
+          porque no desktop a faixa é uma linha só, sem quebra. */}
+      <p className="vp-cartao">
+        {PISOS_POR_SEXO.map((piso) => `${piso.rotulo}: ${textoNoCartao(piso.cents)}`).join(" · ")}
+      </p>
     </section>
   );
 }

@@ -710,6 +710,7 @@ body.admin-shell [data-site-shell="cta"] {
 .vp-preco strong { font-size: 16px; font-weight: 700; color: #fff; }
 .vp-guia { display: inline-flex; align-items: center; gap: 2px; min-height: 32px; font-size: 13px; font-weight: 600; color: #f4dfa8; text-decoration: underline; text-underline-offset: 3px; }
 .vp-guia svg { width: 16px; height: 16px; }
+.vp-cartao { max-width: 1320px; margin: 0 auto; padding: 0 12px 10px; text-align: center; font-size: 12px; line-height: 1.35; color: #f4dfa8; }
 @media (min-width: 1025px) {
   .vp-miolo { flex-wrap: nowrap; gap: 16px; padding-block: 8px; }
   .vp-titulo, .vp-item, .vp-guia { flex: none; white-space: nowrap; }

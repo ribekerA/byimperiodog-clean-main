@@ -37,7 +37,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { TEXTO_SEM_PEDIGREE, temPedigreeCbkc } from "@/domain/pedigree";
-import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoReserva } from "@/domain/pricing";
+import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoNoCartao, textoReserva } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { perguntarPeloFilhote } from "@/lib/nome-do-filhote";
 
@@ -193,7 +193,9 @@ export default function PuppyDetailPanel({
               {comPedigree ? "Registro oficial, consulta veterinária e mentoria inclusos" : "Consulta veterinária e mentoria inclusas"}
             </p>
             {!comPedigree && <p className="mt-0.5 text-xs text-zinc-500">{TEXTO_SEM_PEDIGREE}</p>}
-            <p className="mt-0.5 text-xs text-zinc-500">Parcelamento e condições confirmados no atendimento</p>
+            {priceCents != null && priceCents > 0 && (
+              <p className="mt-0.5 text-sm text-zinc-600">ou {textoNoCartao(priceCents)}</p>
+            )}
           </div>
         </motion.div>
       )}

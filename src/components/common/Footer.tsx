@@ -185,6 +185,8 @@ export default function Footer() {
       <div className="rp-final">
         <div>
           <p>&copy; {FOUNDING_YEAR}–{year ?? new Date().getFullYear()} {BRAND.fullName}. Todos os direitos reservados. Registro CBKC nº {BRAND.registroCbkc}.</p>
+          {/* Decreto 7.962/2013, art. 2º: razão social e CNPJ em destaque. Endereço físico entra quando houver sede (previsão 2027). */}
+          <p>By Imperio Dog LTDA · CNPJ 22.587.478/0001-00 · Bragança Paulista/SP</p>
           <p>Spitz Alemão Anão (Lulu da Pomerânia) — acompanhamento veterinário e suporte direto com a criadora.</p>
         </div>
       </div>

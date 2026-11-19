@@ -226,6 +226,34 @@ export function textoAPartirDeNoPix(cents: number): string {
 }
 
 /**
+ * Cartão de crédito: o valor do PIX mais R$ 500, em até 10 parcelas iguais.
+ *
+ * Decisão do usuário em 19/11/2026 (macho R$ 4.500 no PIX ou R$ 5.000 no
+ * cartão; fêmea R$ 6.500 ou R$ 7.000). A Lei 13.455/2017 permite preço
+ * diferente por forma de pagamento desde que informado com clareza, e o CDC
+ * (art. 52) pede o total do parcelado à vista do consumidor: por isso a frase
+ * diz o preço no cartão antes das parcelas. "Sem juros" é verdadeiro porque
+ * dez parcelas somam exatamente esse preço.
+ */
+export const ACRESCIMO_CARTAO = 50000;
+export const PARCELAS_CARTAO = 10;
+
+export function precoNoCartao(cents: number): number {
+  return cents + ACRESCIMO_CARTAO;
+}
+
+export function parcelaNoCartao(cents: number): number {
+  return Math.round(precoNoCartao(cents) / PARCELAS_CARTAO);
+}
+
+/** "R$ 5.000 no cartão, em até 10x de R$ 500 sem juros" */
+export function textoNoCartao(cents: number): string {
+  return `${formatarPreco(precoNoCartao(cents))} no cartão, em até ${PARCELAS_CARTAO}x de ${formatarPreco(
+    parcelaNoCartao(cents),
+  )} sem juros`;
+}
+
+/**
  * Fração do valor individual que a reserva representa, conforme contrato.
  *
  * Autorizada pela responsável em 05/11/2026 para publicação. Fica como número

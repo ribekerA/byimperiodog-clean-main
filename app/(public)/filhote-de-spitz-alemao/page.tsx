@@ -98,7 +98,7 @@ export default function FilhoteDeSpitzPage() {
         </p>
         <ul className="space-y-3">
           {[
-            { t: "Procedência documentada", b: "Registro oficial nos pais e garantia de registro no filhote — é o que permite conferir a linhagem por escrito." },
+            { t: "Procedência documentada", b: "Registro oficial nos pais e pedigree do filhote nas cores aceitas pela CBKC — é o que permite conferir a linhagem por escrito." },
             { t: "Laudos veterinários dos pais", b: "Pergunte quais exames os reprodutores fizeram e peça os laudos por escrito." },
             { t: "Socialização em ambiente familiar", b: "Filhotes criados dentro de casa, com contato humano diário, sons e rotinas domésticas tendem a se adaptar melhor à rotina da nova família." },
             { t: "Carteira de vacinação em dia", b: "Protocolo vacinal em dia conforme a idade do filhote, com carteira de vacinação assinada pelo médico-veterinário e orientação para as doses seguintes." },
