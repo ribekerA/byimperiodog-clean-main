@@ -7,14 +7,15 @@
  * admite as cores listadas nele e desqualifica qualquer outra.
  *
  * - Merle: não consta do padrão FCI nº 97, então não há pedigree CBKC.
- * - Chocolate: o marrom consta do padrão, mas os filhotes Chocolate oferecidos
- *   hoje não saem com pedigree CBKC (confirmado pela responsável em 18/11/2026).
+ * - Chocolate: o marrom consta do padrão e é aceito pela CBKC, então sai com
+ *   pedigree. Em 18/11/2026 ele entrou na lista por engano; a responsável
+ *   corrigiu em 19/11/2026: só o Merle fica sem pedigree.
  *
  * Toda tela que diz "registro oficial incluso" pergunta aqui antes. O número de
  * canil na CBKC (980/15) continua valendo: ele é do canil, não de cada filhote.
  */
 
-export const CORES_SEM_PEDIGREE_CBKC = ["chocolate", "merle"] as const;
+export const CORES_SEM_PEDIGREE_CBKC = ["merle"] as const;
 
 export type CorSemPedigree = (typeof CORES_SEM_PEDIGREE_CBKC)[number];
 

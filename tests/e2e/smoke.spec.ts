@@ -491,18 +491,25 @@ test.describe("Portao das superficies criticas", () => {
     }
   }
 
-  // Merle esta fora do padrao FCI n. 97 e o Chocolate oferecido hoje nao sai
-  // com pedigree CBKC (domain/pedigree). Nenhuma das duas paginas pode prometer
-  // "Registro oficial".
-  for (const cor of ["chocolate", "merle"]) {
-    test(`a pagina do ${cor} diz que nao sai com pedigree CBKC`, async ({ page }) => {
-      await page.goto(`/filhotes/cor/${cor}`);
-      const corpo = await page.locator("body").innerText();
-      expect(corpo).toMatch(/não (sai|saem) com pedigree da CBKC/);
-      expect(corpo).not.toContain("Registro oficial");
-      expect(corpo).not.toMatch(/inteligência ou saúde/i);
-    });
-  }
+  // Merle esta fora do padrao FCI n. 97 e nao sai com pedigree CBKC
+  // (domain/pedigree): a pagina nao pode prometer "Registro oficial".
+  test("a pagina do merle diz que nao sai com pedigree CBKC", async ({ page }) => {
+    await page.goto("/filhotes/cor/merle");
+    const corpo = await page.locator("body").innerText();
+    expect(corpo).toMatch(/não (sai|saem) com pedigree da CBKC/);
+    expect(corpo).not.toContain("Registro oficial");
+    expect(corpo).not.toMatch(/inteligência ou saúde/i);
+  });
+
+  // Chocolate e o marrom do padrao e e aceito pela CBKC: sai com pedigree
+  // (corrigido em 19/11/2026; ate entao a pagina dizia o contrario).
+  test("a pagina do chocolate diz que sai com pedigree", async ({ page }) => {
+    await page.goto("/filhotes/cor/chocolate");
+    const corpo = await page.locator("body").innerText();
+    expect(corpo).toContain("Registro oficial");
+    expect(corpo).toMatch(/Chocolate sai com pedigree/);
+    expect(corpo).not.toMatch(/Chocolate[^.]*não (sai|saem) com pedigree/);
+  });
 
   // Estes botoes dependiam so de NEXT_PUBLIC_WA_PHONE e sumiam em silencio quando
   // a variavel nao entrava no build. Agora ha numero de reserva. Este teste roda

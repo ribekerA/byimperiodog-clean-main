@@ -277,19 +277,19 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       },
     ],
   },
-  // Chocolate: o marrom está no padrão FCI nº 97, mas os filhotes Chocolate
-  // oferecidos hoje não saem com pedigree da CBKC (responsável, 18/11/2026).
+  // Chocolate: o marrom está no padrão FCI nº 97 e é aceito pela CBKC, então
+  // sai com pedigree (corrigido pela responsável em 19/11/2026).
   chocolate: {
     seoTitle: "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate — Filhotes",
     metaDescription:
-      "Lulu da Pomerânia Chocolate (Spitz Alemão Anão marrom) em Bragança Paulista, SP. Sem pedigree CBKC; documentação informada no atendimento e no contrato.",
+      "Lulu da Pomerânia Chocolate (Spitz Alemão Anão marrom) em Bragança Paulista, SP. Cor aceita pela CBKC, com pedigree. Consulte os filhotes.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate",
     intro:
-      "O Chocolate é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem marrom uniforme. Os filhotes Chocolate oferecidos hoje não saem com pedigree da CBKC; a documentação de cada um é informada no atendimento e escrita no contrato. O valor depende de cada filhote e da oferta atual.",
+      "O Chocolate é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem marrom uniforme. O marrom consta do padrão FCI nº 97 e é aceito pela CBKC, então o filhote Chocolate sai com pedigree, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O valor depende de cada filhote e da oferta atual.",
     characteristics: [
       "Pelagem marrom, também chamada de chocolate",
       "Marrom consta entre as cores previstas no padrão FCI nº 97 da raça",
-      "Os filhotes Chocolate oferecidos hoje não saem com pedigree da CBKC",
+      "Cor aceita pela CBKC: o filhote Chocolate sai com pedigree",
       "Temperamento típico da raça — a cor não altera o comportamento",
       "Tamanho de referência da variedade anã: 21 cm ± 3 cm na cernelha (altura)",
     ],
@@ -306,7 +306,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "O Lulu da Pomerânia Chocolate tem pedigree?",
         answer:
-          "Os filhotes Chocolate oferecidos hoje pela By Imperio Dog não saem com pedigree da CBKC. A documentação de cada filhote é informada no atendimento e escrita no contrato, antes de qualquer reserva.",
+          "Sim. O marrom consta do padrão FCI nº 97, que a CBKC segue, e o Lulu da Pomerânia Chocolate sai com pedigree emitido pela CBKC ou por clube filiado. A emissão e a entrega seguem o prazo da entidade responsável e as condições previstas em contrato.",
       },
       {
         question: "Como vejo um filhote Chocolate?",

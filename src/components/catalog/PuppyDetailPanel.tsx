@@ -76,7 +76,7 @@ interface Props {
 
 // ─── Configurações ────────────────────────────────────────────────────────────
 
-// Merle e Chocolate não saem com pedigree CBKC (domain/pedigree): para eles o
+// Merle não sai com pedigree CBKC (domain/pedigree): para eles o
 // "Registro oficial" sai da lista.
 const REGISTRO_OFICIAL = { icon: "📋", title: "Registro oficial", desc: "Documento oficial da raça" };
 

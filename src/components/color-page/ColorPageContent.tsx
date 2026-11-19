@@ -337,7 +337,7 @@ interface Props {
 export default function ColorPageContent({ color, seo, puppies, waLink }: Props) {
   const theme    = THEMES[color as ColorKey] ?? THEMES.creme;
   const ilustracao = ILUSTRACAO_DA_COR[color];
-  // Merle e Chocolate não saem com pedigree CBKC: nada de "Registro oficial".
+  // Merle não sai com pedigree CBKC: nada de "Registro oficial" (o Chocolate sai).
   const comPedigree = temPedigreeCbkc(color);
   const reduced  = useReducedMotion();
   const { heroDark } = theme;

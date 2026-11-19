@@ -92,7 +92,7 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
     status: "CONDICIONAL",
     texto:
       "Pedigree emitido pela CBKC ou por clube filiado à FCI, conforme os prazos e as condições da entidade, nas cores aceitas pela CBKC",
-    nota: "A condição é parte da afirmação: sem ela vira promessa de prazo. Chocolate e Merle não saem com pedigree CBKC (domain/pedigree, 18/11/2026).",
+    nota: "A condição é parte da afirmação: sem ela vira promessa de prazo. Só o Merle não sai com pedigree CBKC; o Chocolate sai (domain/pedigree, corrigido em 19/11/2026).",
   },
   {
     id: "identificacao",

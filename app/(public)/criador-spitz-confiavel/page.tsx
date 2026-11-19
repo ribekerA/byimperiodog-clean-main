@@ -50,7 +50,7 @@ const WHAT_MAKES_RESPONSIBLE = [
   },
   {
     title: "Transparência na documentação",
-    body: "Nas cores aceitas pela CBKC, todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável. Os filhotes Chocolate e Merle não saem com pedigree da CBKC; a documentação deles é informada no atendimento e escrita no contrato.",
+    body: "Nas cores aceitas pela CBKC, todo filhote sai com registro oficial incluso — com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato —, consulta veterinária, hemograma completo, carteira de vacinação assinada pelo médico-veterinário e contrato detalhado. A identificação do animal segue os requisitos exigidos pela legislação aplicável. O Chocolate, que é o marrom do padrão, é aceito pela CBKC e sai com pedigree. Só o Merle não sai: a cor não consta do padrão FCI nº 97, e a documentação dele é informada no atendimento e escrita no contrato.",
   },
   {
     title: "Suporte real depois da entrega",
@@ -87,7 +87,7 @@ const PAGE_FAQS = [
   {
     question: "A By Imperio Dog tem criação com registro oficial?",
     answer:
-      "Sim. O canil tem registro na CBKC, e os filhotes das cores aceitas pela CBKC saem com pedigree emitido por ela ou por clube filiado, dentro do sistema FCI. A emissão e a entrega seguem o prazo da entidade responsável e as condições previstas em contrato. Os filhotes Chocolate e Merle não saem com pedigree da CBKC; a documentação deles é informada no atendimento e escrita no contrato.",
+      "Sim. O canil tem registro na CBKC, e os filhotes das cores aceitas pela CBKC saem com pedigree emitido por ela ou por clube filiado, dentro do sistema FCI. A emissão e a entrega seguem o prazo da entidade responsável e as condições previstas em contrato. O Chocolate, que é o marrom do padrão, é aceito pela CBKC e sai com pedigree. Só o Merle não sai: a cor não consta do padrão FCI nº 97, e a documentação dele é informada no atendimento e escrita no contrato.",
   },
   {
     question: "Quantos anos de experiência tem a By Imperio Dog?",
