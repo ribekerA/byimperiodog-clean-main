@@ -80,38 +80,45 @@ async function generatePost(topic: string, withImage: boolean): Promise<{ ok: bo
     const data = await res.json();
     if (!res.ok || !data.ok) return { ok: false, error: data.error ?? "Falha na geração" };
 
-    const post = data.post ?? {};
+    const post = data.post ?? data;
+    const postId = post.id ?? data.post_id;
+    const postSlug = post.slug ?? data.slug;
+    if (!postId) {
+      return { ok: false, error: "O artigo foi gerado, mas a resposta não trouxe o identificador. Verifique a lista de artigos antes de tentar novamente." };
+    }
     let coverUrl = "";
     let warning: string | undefined;
 
-    if (withImage && post.id) {
+    if (withImage) {
       try {
         const prompt = `Foto profissional de Spitz Alemão Anão para artigo: ${topic}. Estilo editorial, fundo neutro.`;
         const ri = await adminFetch("/api/admin/blog/ai/image", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, alt: post.title ?? topic }),
+          body: JSON.stringify({ prompt, alt: post.title ?? data.title ?? topic }),
         });
         const ji = await ri.json();
+        if (!ri.ok || !ji?.url) throw new Error(ji?.error ?? "Falha na geração da imagem.");
         coverUrl = ji?.url ?? "";
       } catch {
         warning = "Imagem de capa não gerada — adicione manualmente antes de publicar.";
       }
     }
 
-    if (coverUrl && post.id) {
+    if (coverUrl) {
       try {
-        await adminFetch("/api/admin/blog", {
+        const saveResponse = await adminFetch("/api/admin/blog", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: post.id, cover_url: coverUrl, og_image_url: coverUrl }),
+          body: JSON.stringify({ id: postId, cover_url: coverUrl, og_image_url: coverUrl }),
         });
+        if (!saveResponse.ok) throw new Error("Falha ao salvar a imagem no artigo.");
       } catch {
         warning = "Imagem foi gerada mas não pôde ser salva no artigo — adicione manualmente.";
       }
     }
 
-    return { ok: true, postId: post.id, postSlug: post.slug, warning };
+    return { ok: true, postId, postSlug, warning };
   } catch (e) {
     return { ok: false, error: String(e) };
   }

@@ -200,7 +200,18 @@ export default function WizardPage() {
       const j = await r.json();
       if (!r.ok || !j?.ok) throw new Error(j?.error || "Falha na geração");
 
-      const p = j.post ?? {};
+      let p = j.post ?? j;
+      const postId = p.id ?? j.post_id;
+      if (!postId) throw new Error("O artigo foi gerado, mas a resposta não trouxe o identificador.");
+      if (!p.content_mdx) {
+        const postResponse = await adminFetch(`/api/admin/blog?id=${encodeURIComponent(postId)}`, { cache: "no-store" });
+        const savedPost = await postResponse.json();
+        if (!postResponse.ok || !savedPost?.content_mdx) {
+          throw new Error(savedPost?.error || "O artigo foi gerado, mas não foi possível carregar o conteúdo salvo.");
+        }
+        p = savedPost;
+      }
+      p = { ...p, id: p.id ?? postId, slug: p.slug ?? j.slug };
       completedSteps = 1;
       advance("Otimizando SEO...");
 
@@ -212,6 +223,7 @@ export default function WizardPage() {
           body:    JSON.stringify({ title: p.title, excerpt: p.excerpt, content_mdx: p.content_mdx }),
         });
         const js = await rs.json();
+        if (!rs.ok || !js?.suggestions) throw new Error(js?.error || "Falha ao gerar sugestões de SEO.");
         seoTitle = js?.suggestions?.seo_title       ?? p.title   ?? "";
         seoDesc  = js?.suggestions?.seo_description ?? p.excerpt ?? "";
       } catch {
@@ -234,6 +246,7 @@ export default function WizardPage() {
             }),
           });
           const ji = await ri.json();
+          if (!ri.ok || !ji?.url) throw new Error(ji?.error || "Falha ao gerar imagem de capa.");
           imageUrl = ji?.url ?? "";
         } catch {
           setWarnings((w) => [...w, "Não foi possível gerar a imagem de capa automaticamente — você pode adicionar uma manualmente depois."]);

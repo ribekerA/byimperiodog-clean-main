@@ -23,6 +23,7 @@ const EVENT_LABELS: Record<WebhookEvent, string> = {
 export default function WebhooksPage() {
   const [webhooks, setWebhooks] = useState<Webhook[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -35,12 +36,16 @@ export default function WebhooksPage() {
   }, []);
 
   async function fetchWebhooks() {
+    setLoading(true);
+    setLoadError(null);
     try {
       const response = await fetch('/api/admin/webhooks');
-      const data = await response.json();
-      setWebhooks(data.webhooks || []);
+      const data = await response.json().catch(() => null);
+      if (!response.ok) throw new Error(data?.error || 'Não foi possível carregar os webhooks.');
+      if (!Array.isArray(data?.webhooks)) throw new Error('A API retornou uma lista inválida de webhooks.');
+      setWebhooks(data.webhooks);
     } catch (error) {
-      console.error('Error fetching webhooks:', error);
+      setLoadError(error instanceof Error ? error.message : String(error));
     } finally {
       setLoading(false);
     }
@@ -56,14 +61,14 @@ export default function WebhooksPage() {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
+      const result = await response.json().catch(() => null);
+      if (response.ok && result?.webhook) {
         alert('Webhook criado com sucesso!');
         setShowCreateForm(false);
         setFormData({ name: '', url: '', events: [] });
-        fetchWebhooks();
+        await fetchWebhooks();
       } else {
-        const error = await response.json();
-        alert(`Erro: ${error.error}`);
+        alert(`Erro: ${result?.error || 'Não foi possível confirmar a criação do webhook.'}`);
       }
     } catch (error) {
       console.error('Error creating webhook:', error);
@@ -77,12 +82,14 @@ export default function WebhooksPage() {
         method: 'POST',
       });
 
-      const result = await response.json();
+      const result = await response.json().catch(() => null);
 
-      if (result.success) {
+      if (!response.ok) {
+        alert(`❌ ${result?.error || 'Não foi possível testar o webhook.'}`);
+      } else if (result?.success) {
         alert(`✅ ${result.message}\nTempo: ${result.response_time_ms}ms`);
       } else {
-        alert(`❌ ${result.message}`);
+        alert(`❌ ${result?.message || result?.error || 'O teste do webhook não foi concluído.'}`);
       }
     } catch (error) {
       console.error('Error testing webhook:', error);
@@ -100,7 +107,10 @@ export default function WebhooksPage() {
 
       if (response.ok) {
         alert('Webhook removido com sucesso!');
-        fetchWebhooks();
+        await fetchWebhooks();
+      } else {
+        const result = await response.json().catch(() => null);
+        alert(`Erro: ${result?.error || 'Não foi possível remover o webhook.'}`);
       }
     } catch (error) {
       console.error('Error deleting webhook:', error);
@@ -132,6 +142,15 @@ export default function WebhooksPage() {
           {showCreateForm ? 'Cancelar' : '+ Novo Webhook'}
         </button>
       </div>
+
+      {loadError && (
+        <div role="alert" className="mb-6 rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-800">
+          <p>Falha ao carregar os webhooks: {loadError}</p>
+          <button type="button" onClick={() => void fetchWebhooks()} className="mt-2 underline">
+            Tentar novamente
+          </button>
+        </div>
+      )}
 
       {showCreateForm && (
         <form onSubmit={handleCreate} className="bg-white p-6 rounded-lg shadow mb-8">
@@ -192,11 +211,11 @@ export default function WebhooksPage() {
       )}
 
       <div className="space-y-4">
-        {webhooks.length === 0 ? (
+        {!loadError && webhooks.length === 0 ? (
           <div className="bg-white p-8 rounded-lg shadow text-center text-gray-500">
             Nenhum webhook configurado
           </div>
-        ) : (
+        ) : !loadError ? (
           webhooks.map((webhook) => (
             <div key={webhook.id} className="bg-white p-6 rounded-lg shadow">
               <div className="flex justify-between items-start mb-4">
@@ -266,7 +285,7 @@ export default function WebhooksPage() {
               </div>
             </div>
           ))
-        )}
+        ) : null}
       </div>
     </div>
   );

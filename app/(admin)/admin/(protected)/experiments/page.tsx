@@ -35,35 +35,51 @@ export default function Experiments() {
   const [experiments, setExperiments] = useState<Experiment[]>([]);
   const [loading, setLoading] = useState(false);
   const [metricsMap, setMetricsMap] = useState<Record<string, VariantMetrics[]>>({});
+  const [metricsErrors, setMetricsErrors] = useState<Record<string, string>>({});
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   async function loadMetrics(key: string) {
     try {
       const res = await fetch(`/api/admin/experiments/metrics?key=${encodeURIComponent(key)}`, {
         cache: "no-store",
       });
-      const json = await res.json();
-      if (Array.isArray(json.metrics)) {
-        setMetricsMap((prev) => ({ ...prev, [key]: json.metrics }));
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !Array.isArray(json?.metrics)) {
+        throw new Error(json?.error || "Não foi possível carregar as métricas.");
       }
+      setMetricsMap((prev) => ({ ...prev, [key]: json.metrics }));
+      setMetricsErrors((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
     } catch (e) {
-      console.error(e);
+      setMetricsErrors((prev) => ({
+        ...prev,
+        [key]: e instanceof Error ? e.message : String(e),
+      }));
     }
   }
 
   useEffect(() => {
     async function loadExperiments() {
       setLoading(true);
+      setLoadError(null);
       try {
         const res = await fetch("/api/admin/experiments?limit=50", { cache: "no-store" });
-        const json = await res.json();
-        const items = Array.isArray(json.items) ? json.items : [];
+        const json = await res.json().catch(() => null);
+        if (!res.ok || !Array.isArray(json?.items)) {
+          throw new Error(json?.error || "Não foi possível carregar os experimentos.");
+        }
+        const items = json.items;
         setExperiments(items);
         // Carregar métricas para cada experimento
         for (const exp of items) {
           loadMetrics(exp.key);
         }
       } catch (e) {
-        console.error(e);
+        setLoadError(e instanceof Error ? e.message : String(e));
       } finally {
         setLoading(false);
       }
@@ -81,6 +97,7 @@ export default function Experiments() {
     const variantBLabel = prompt("Nome da variante B:") || "Variant B";
 
     try {
+      setActionError(null);
       const res = await fetch("/api/admin/experiments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -94,29 +111,28 @@ export default function Experiments() {
           ],
         }),
       });
-      const json = await res.json();
-      if (json.item) {
-        setExperiments((prev) => [json.item, ...prev]);
-      }
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.item) throw new Error(json?.error || "Não foi possível criar o experimento.");
+      setExperiments((prev) => [json.item, ...prev]);
     } catch (e) {
-      console.error(e);
+      setActionError(e instanceof Error ? e.message : String(e));
     }
   }
 
   async function toggleStatus(exp: Experiment) {
     const newStatus: ExperimentStatus = exp.status === "running" ? "paused" : "running";
     try {
+      setActionError(null);
       const res = await fetch("/api/admin/experiments", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: exp.id, status: newStatus }),
       });
-      const json = await res.json();
-      if (json.item) {
-        setExperiments((prev) => prev.map((e) => (e.id === exp.id ? json.item : e)));
-      }
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.item) throw new Error(json?.error || "Não foi possível atualizar o experimento.");
+      setExperiments((prev) => prev.map((e) => (e.id === exp.id ? json.item : e)));
     } catch (e) {
-      console.error(e);
+      setActionError(e instanceof Error ? e.message : String(e));
     }
   }
 
@@ -140,6 +156,8 @@ export default function Experiments() {
           Novo Experimento
         </button>
       </header>
+
+      {actionError && <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800">{actionError}</div>}
 
       {/* Métricas Gerais */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -174,7 +192,9 @@ export default function Experiments() {
 
       {/* Lista de Experimentos */}
       <div className="space-y-4">
-        {loading ? (
+        {loadError ? (
+          <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-800">{loadError}</div>
+        ) : loading ? (
           <div className="p-4 text-sm text-[var(--brand)]">Carregando experimentos…</div>
         ) : experiments.length === 0 ? (
           <div className="rounded-2xl border border-[var(--brand-tint-100)] bg-white p-12 text-center shadow-sm">
@@ -197,6 +217,7 @@ export default function Experiments() {
             const metricsB = metrics.find((m) => m.variant === "B");
             const winner =
               metricsA && metricsB && metricsA.conversionRate > metricsB.conversionRate ? "A" : "B";
+            const metricsError = metricsErrors[exp.key];
 
             return (
               <div
@@ -236,6 +257,7 @@ export default function Experiments() {
                       <p className="mt-1 text-sm text-[var(--brand)]">{exp.description}</p>
                     )}
                     <p className="mt-1 text-xs text-[var(--brand)]">Chave: {exp.key}</p>
+                    {metricsError && <p role="alert" className="mt-2 text-sm text-red-700">Falha ao carregar métricas: {metricsError}</p>}
                   </div>
                   {exp.status !== "completed" && (
                     <button
@@ -293,7 +315,7 @@ export default function Experiments() {
                           </div>
                         </div>
                       ) : (
-                        <p className="mt-3 text-sm text-[var(--brand)]">Sem dados ainda</p>
+                          metricsError ? null : <p className="mt-3 text-sm text-[var(--brand)]">Sem dados ainda</p>
                       )}
                     </div>
                   )}
@@ -335,7 +357,7 @@ export default function Experiments() {
                           </div>
                         </div>
                       ) : (
-                        <p className="mt-3 text-sm text-blue-500">Sem dados ainda</p>
+                          metricsError ? null : <p className="mt-3 text-sm text-blue-500">Sem dados ainda</p>
                       )}
                     </div>
                   )}

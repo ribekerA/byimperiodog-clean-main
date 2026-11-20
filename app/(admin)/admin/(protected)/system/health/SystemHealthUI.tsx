@@ -30,7 +30,7 @@ export type HealthData = {
   overallStatus: OverallStatus;
   services: {
     database: { status: "ok" | "degraded" | "down"; latencyMs: number };
-    analytics: { status: "ok" | "no_data"; eventsInRange: number };
+    analytics: { status: "ok" | "no_data" | "unavailable"; eventsInRange: number };
     storage: { status: "ok" | "not_configured" };
     ai: { status: "configured" | "not_configured" };
     whatsapp: { status: "configured" | "not_configured" };
@@ -91,7 +91,7 @@ function statusBadge(s: string) {
   return s === "ok" || s === "configured" ? "bg-[var(--brand-tint-100)] text-[var(--brand)]" : s === "degraded" || s === "no_data" ? "bg-yellow-100 text-yellow-700" : s === "down" ? "bg-red-100 text-red-700" : "bg-slate-100 text-slate-500";
 }
 function statusLabel(s: string) {
-  const m: Record<string, string> = { ok: "Online", configured: "Configurado", not_configured: "Não configurado", degraded: "Degradado", down: "Offline", no_data: "Sem dados" };
+  const m: Record<string, string> = { ok: "Online", configured: "Configurado", not_configured: "Não configurado", degraded: "Degradado", down: "Offline", no_data: "Sem dados", unavailable: "Indisponível" };
   return m[s] ?? s;
 }
 function overallBanner(status: OverallStatus) {
@@ -109,17 +109,26 @@ export function SystemHealthUI({ initialData, initialRange }: Props) {
   const [range, setRange] = useState<Range>(initialRange);
   const [data, setData] = useState<HealthData>(initialData);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [countdown, setCountdown] = useState(AUTO_REFRESH_S);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const fetchData = useCallback(async (r: Range) => {
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch(`/api/admin/system/health?range=${r}`, { cache: "no-store" });
-      setData(await res.json());
+      const nextData = await res.json().catch(() => null);
+      if (!res.ok || !nextData?.generatedAt) {
+        throw new Error(nextData?.error || "Não foi possível atualizar a saúde do sistema.");
+      }
+      setData(nextData as HealthData);
       setCountdown(AUTO_REFRESH_S);
-    } catch {}
-    setLoading(false);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : String(reason));
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -170,6 +179,17 @@ export function SystemHealthUI({ initialData, initialRange }: Props) {
           </button>
         </div>
       </div>
+
+      {error && (
+        <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800">
+          Não foi possível atualizar os dados; os valores exibidos podem estar desatualizados. {error}
+        </div>
+      )}
+      {data.services.analytics.status === "unavailable" && (
+        <div role="alert" className="rounded-lg border border-yellow-300 bg-yellow-50 p-3 text-sm text-yellow-900">
+          A fonte de Analytics está indisponível. As métricas desta tela podem estar incompletas.
+        </div>
+      )}
 
       {/* Status banner */}
       <div className={`flex items-center gap-3 rounded-xl border px-5 py-3 ${banner.bg}`}>
@@ -254,7 +274,7 @@ export function SystemHealthUI({ initialData, initialRange }: Props) {
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {[
                   { name: "Database", icon: Database, status: data.services.database.status, detail: `Latência: ${data.services.database.latencyMs}ms`, desc: "Supabase PostgreSQL" },
-                  { name: "Analytics", icon: Activity, status: data.services.analytics.status, detail: `${data.services.analytics.eventsInRange.toLocaleString("pt-BR")} eventos`, desc: "Coleta de eventos" },
+                  { name: "Analytics", icon: Activity, status: data.services.analytics.status, detail: data.services.analytics.status === "unavailable" ? "Dados indisponíveis" : `${data.services.analytics.eventsInRange.toLocaleString("pt-BR")} eventos`, desc: "Coleta de eventos" },
                   { name: "Storage", icon: HardDrive, status: data.services.storage.status, detail: data.services.storage.status === "ok" ? "Supabase Storage" : "Verificar SUPABASE_URL", desc: "Armazenamento de arquivos" },
                   { name: "AI / LLM", icon: Bot, status: data.services.ai.status, detail: data.services.ai.status === "configured" ? "API key configurada" : "Verificar OPENAI_API_KEY", desc: "Geração de conteúdo IA" },
                   { name: "WhatsApp", icon: MessageSquare, status: data.services.whatsapp.status, detail: data.services.whatsapp.status === "configured" ? "Número configurado" : "Verificar WA_PHONE", desc: "Canal de atendimento" },

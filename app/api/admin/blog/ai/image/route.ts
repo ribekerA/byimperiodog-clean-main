@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 
 import { requireAdminApi } from "@/lib/adminAuth";
+import { chaveIA, respostaSemChaveIA } from "@/lib/ai/require-key";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type ImageReq = { prompt: string; alt?: string };
@@ -31,29 +32,31 @@ export async function POST(req: Request) {
     const prompt = (body.prompt || "").trim();
     if (!prompt) return NextResponse.json({ error: "prompt é obrigatório" }, { status: 400 });
 
-    const openaiKey = process.env.OPENAI_API_KEY;
+    const openaiKey = chaveIA();
+    if (!openaiKey) return respostaSemChaveIA();
     const bucket = process.env.NEXT_PUBLIC_SUPABASE_BUCKET || "media";
     const sb = supabaseAdmin();
 
-  // Generate image via AI or fallback to placeholder
-  let fileData: Blob | Buffer | null = null;
-  if (openaiKey) {
-      const res = await fetch("https://api.openai.com/v1/images/generations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${openaiKey}` },
-        body: JSON.stringify({ model: "gpt-image-1", prompt, size: "1200x630" }),
-      });
-      if (res.ok) {
-        const j = await res.json();
-        const b64 = j.data?.[0]?.b64_json as string | undefined;
-        if (b64) fileData = base64ToUploadData(b64, "image/png");
-      }
+    const res = await fetch("https://api.openai.com/v1/images/generations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${openaiKey}` },
+      body: JSON.stringify({ model: "gpt-image-1", prompt, size: "1200x630" }),
+    });
+    if (!res.ok) {
+      return NextResponse.json(
+        { error: `Falha no provedor de imagem (HTTP ${res.status}). Nenhuma imagem foi criada.` },
+        { status: 502 }
+      );
     }
-    if (!fileData) {
-      // fallback: 1200x630 solid color png
-      const fallback = `https://dummyimage.com/1200x630/111827/ffffff.png&text=${encodeURIComponent(prompt.slice(0, 48))}`;
-      return NextResponse.json({ url: fallback });
+    const j = await res.json();
+    const b64 = j.data?.[0]?.b64_json as string | undefined;
+    if (!b64) {
+      return NextResponse.json(
+        { error: "O provedor de imagem retornou uma resposta vazia." },
+        { status: 502 }
+      );
     }
+    const fileData = base64ToUploadData(b64, "image/png");
 
   const filename = `covers/${Date.now()}-${Math.random().toString(36).slice(2)}.png`;
   // fileData is Blob (Edge) or Buffer (Node) — pass directly to Supabase storage
@@ -64,6 +67,7 @@ export async function POST(req: Request) {
   if (upErr) throw upErr;
   const { data: pub } = (sb as any).storage.from(bucket).getPublicUrl(filename);
   const url = (pub as any)?.publicUrl || (pub as any)?.public_url || "";
+  if (!url) throw new Error("O armazenamento não retornou uma URL pública para a imagem.");
 
     // Persist in media table
   const { data: media, error: mediaErr } = await sb
@@ -71,10 +75,7 @@ export async function POST(req: Request) {
     .insert([{ url, alt: body.alt || prompt, width: 1200, height: 630 }])
     .select("id, url")
     .single();
-  if (mediaErr) {
-    // do not fail the whole request if DB insert errors — still return the uploaded url
-    return NextResponse.json({ url, warning: mediaErr.message }, { status: 200 });
-  }
+  if (mediaErr) throw mediaErr;
 
   return NextResponse.json({ url, media_id: (media as any)?.id }, { status: 200 });
   } catch (err: any) {

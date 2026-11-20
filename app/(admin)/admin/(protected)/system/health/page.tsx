@@ -5,35 +5,48 @@ import { useEffect, useState } from "react";
 import type { HealthData, Range } from "./SystemHealthUI";
 import { SystemHealthUI } from "./SystemHealthUI";
 
-const EMPTY: HealthData = {
-  generatedAt: new Date().toISOString(),
-  range: "24h",
-  overallStatus: "healthy",
-  services: {
-    database: { status: "ok", latencyMs: 0 },
-    analytics: { status: "no_data", eventsInRange: 0 },
-    storage: { status: "ok" },
-    ai: { status: "not_configured" },
-    whatsapp: { status: "not_configured" },
-  },
-  metrics: { responseTimeP50: 0, responseTimeP95: 0, errorRate: 0, activeUsers: 0, totalEvents: 0 },
-  webVitals: { lcp: 0, inp: 0, cls: 0, samples: 0 },
-  tableStats: { blog_posts: 0, puppies: 0, leads: 0 },
-  recentErrors: [],
-  errorByPath: {},
-};
-
 export default function SystemHealthPage() {
   const [data, setData] = useState<HealthData | null>(null);
   const [range] = useState<Range>("24h");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
-    fetch(`/api/admin/system/health?range=${range}`, { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d) => setData(d && d.generatedAt ? d : EMPTY))
-      .catch(() => setData(EMPTY));
-  }, [range]);
+    let active = true;
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(`/api/admin/system/health?range=${range}`, { cache: "no-store" });
+        const result = await response.json().catch(() => null);
+        if (!response.ok || !result?.generatedAt) {
+          throw new Error(result?.error || "Não foi possível carregar a saúde do sistema.");
+        }
+        if (active) setData(result as HealthData);
+      } catch (reason) {
+        if (active) setError(reason instanceof Error ? reason.message : String(reason));
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+    void load();
+    return () => { active = false; };
+  }, [range, retry]);
 
+  if (!data && loading) return <div role="status" className="p-6">Carregando saúde do sistema...</div>;
+  if (!data && error) {
+    return (
+      <div className="p-6">
+        <div role="alert" className="rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-800">
+          <p>Falha ao carregar os dados: {error}</p>
+          <button type="button" onClick={() => setRetry((value) => value + 1)} className="mt-2 underline">
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
+  }
   if (!data) return null;
 
   return <SystemHealthUI initialData={data} initialRange={range} />;

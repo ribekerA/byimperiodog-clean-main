@@ -80,9 +80,9 @@ export async function GET(req: Request) {
     }
 
     // ── H1 ──────────────────────────────────────────────────────────────────────
-    const hasH1 = /^#\s+.+/m.test(content) || /<h1[\s>]/i.test(content);
+    const hasH1 = Boolean(p.title?.trim());
     if (!hasH1) {
-      issues.push({ type: "warning", page, issue: "Heading H1 faltando no conteúdo", priority: "Média" });
+      issues.push({ type: "warning", page, issue: "Título H1 faltando na página", priority: "Média" });
     }
 
     // ── Word count ──────────────────────────────────────────────────────────────
@@ -95,11 +95,6 @@ export async function GET(req: Request) {
     const hasImage = (p as any).coverUrl || (p as any).og_image_url || (p as any).ogImage;
     if (!hasImage) {
       issues.push({ type: "warning", page, issue: "Sem imagem OG/capa — prejudica CTR em compartilhamentos", priority: "Média" });
-    }
-
-    // ── Structured data / FAQ ───────────────────────────────────────────────────
-    if (!(p as any).faq) {
-      issues.push({ type: "warning", page, issue: "Sem FAQ estruturado — perde rich snippets no Google", priority: "Baixa" });
     }
 
     // ── Redirect chain ──────────────────────────────────────────────────────────

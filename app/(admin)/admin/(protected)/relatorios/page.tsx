@@ -32,32 +32,33 @@ type PlatformStat = {
   last_lead?: string;
 };
 
-// ─── Data fetching ────────────────────────────────────────────────────────────
-
-async function fetchStats(): Promise<{
+type ReportStats = {
   byPlatform: PlatformStat[];
   total: number;
   totalThisMonth: number;
   topPages: { page: string; count: number }[];
   recentLeads: LeadRow[];
   organicPages: { page: string; leads: number; sales: number }[];
-}> {
+};
+
+// ─── Data fetching ────────────────────────────────────────────────────────────
+
+async function fetchStats(): Promise<{ stats: ReportStats | null; error: string | null }> {
   try {
     const sb = supabaseAdmin();
 
     const since = new Date();
     since.setFullYear(since.getFullYear() - 1);
 
-    const { data: leads } = await sb
+    const { data: leads, error } = await sb
       .from("leads")
       .select("id,created_at,utm_source,utm_medium,utm_campaign,page,page_slug,status,source,referer")
       .gte("created_at", since.toISOString())
       .order("created_at", { ascending: false })
       .limit(2000);
 
-    if (!leads) {
-      return { byPlatform: [], total: 0, totalThisMonth: 0, topPages: [], recentLeads: [], organicPages: [] };
-    }
+    if (error) throw error;
+    if (!leads) throw new Error("A consulta de leads não retornou dados.");
 
     const now = new Date();
     const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
@@ -110,15 +111,21 @@ async function fetchStats(): Promise<{
     const organicPages = [...organicMap.entries()].map(([page, values]) => ({ page, ...values })).sort((a, b) => b.leads - a.leads).slice(0, 15);
 
     return {
-      byPlatform,
-      total: leads.length,
-      totalThisMonth,
-      topPages,
-      recentLeads: leads.slice(0, 15),
-      organicPages,
+      stats: {
+        byPlatform,
+        total: leads.length,
+        totalThisMonth,
+        topPages,
+        recentLeads: leads.slice(0, 15),
+        organicPages,
+      },
+      error: null,
     };
-  } catch {
-    return { byPlatform: [], total: 0, totalThisMonth: 0, topPages: [], recentLeads: [], organicPages: [] };
+  } catch (reason) {
+    return {
+      stats: null,
+      error: reason instanceof Error ? reason.message : String(reason),
+    };
   }
 }
 
@@ -156,7 +163,16 @@ const UTM_GUIDE = [
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export default async function RelatoriosPage() {
-  const { byPlatform, total, totalThisMonth, topPages, recentLeads, organicPages } = await fetchStats();
+  const { stats, error } = await fetchStats();
+  if (!stats) {
+    return (
+      <div role="alert" className="rounded-xl border border-red-300 bg-red-50 p-5 text-sm text-red-800">
+        <p className="font-semibold">Não foi possível gerar os relatórios.</p>
+        <p className="mt-1">{error}</p>
+      </div>
+    );
+  }
+  const { byPlatform, total, totalThisMonth, topPages, recentLeads, organicPages } = stats;
 
   return (
     <div className="space-y-8 pb-12">

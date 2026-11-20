@@ -54,13 +54,20 @@ export async function GET(req: Request) {
   } catch { /* ignore */ }
 
   // ── Analytics events ─────────────────────────────────────────────────────────
-  const { data: raw } = await sb
-    .from("analytics_events")
-    .select("name,value,created_at,path,meta")
-    .gte("created_at", since)
-    .order("created_at", { ascending: false })
-    .limit(5000)
-    .catch(() => ({ data: [] as EvRow[] }));
+  let raw: EvRow[] | null = null;
+  let analyticsUnavailable = false;
+  try {
+    const { data, error } = await sb
+      .from("analytics_events")
+      .select("name,value,created_at,path,meta")
+      .gte("created_at", since)
+      .order("created_at", { ascending: false })
+      .limit(5000);
+    if (error) analyticsUnavailable = true;
+    else raw = data as EvRow[] | null;
+  } catch {
+    analyticsUnavailable = true;
+  }
 
   const evts = (raw || []) as EvRow[];
   const byName = new Map<string, EvRow[]>();
@@ -110,7 +117,7 @@ export async function GET(req: Request) {
   const services = {
     database: { status: dbStatus, latencyMs: dbLatencyMs },
     analytics: {
-      status: (totalEvents > 0 ? "ok" : "no_data") as "ok" | "no_data",
+      status: analyticsUnavailable ? "unavailable" as const : totalEvents > 0 ? "ok" as const : "no_data" as const,
       eventsInRange: totalEvents,
     },
     storage: {
@@ -123,7 +130,7 @@ export async function GET(req: Request) {
   const overallStatus =
     dbStatus === "down"
       ? "critical"
-      : dbStatus === "degraded" || responseTimeP95 > 3000 || errorRate > 5
+      : dbStatus === "degraded" || analyticsUnavailable || responseTimeP95 > 3000 || errorRate > 5
         ? "degraded"
         : "healthy";
 
