@@ -150,6 +150,7 @@ export default function HomePage() {
     id: p.id,
     slug: p.slug,
     name: p.name,
+    cardTitle: p.cardTitle,
     color: p.color,
     cor: p.cor,
     sex: p.sex,

@@ -99,8 +99,7 @@ export async function GET() {
     // CORES_EXIBIDAS, nao ALL_COLORS: o indice lista o que esta sendo
     // divulgado. As URLs de cor fora dessa lista continuam no ar e acessiveis,
     // so nao sao mais anunciadas aqui.
-    // "filhotes desta cor no catalogo" era falso para Chocolate e Merle, que
-    // sao divulgadas mas ainda nao tem ficha publicada.
+    // A página da cor pode existir mesmo sem uma ficha de filhote publicada.
     ...CORES_EXIBIDAS.map((cor) =>
       linha(NOME_DA_COR[cor] ?? cor, `/filhotes/cor/${cor}`, "página desta cor")
     ),

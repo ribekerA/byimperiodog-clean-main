@@ -441,54 +441,35 @@ test.describe("Portao das superficies criticas", () => {
     );
   });
 
-  // Chocolate e Merle entraram sem foto de filhote. O que nao pode acontecer e a
-  // ilustracao passar por foto: ela precisa da legenda visivel, e o "Fotos reais"
-  // das outras cores nao pode aparecer aqui.
-  for (const { cor, selo } of [
-    { cor: "chocolate", selo: "Pelagem marrom uniforme" },
-    { cor: "merle", selo: "Pelagem com manchas marmorizadas" },
+  test("merle mostra a fêmea de olhos azuis e abre a galeria real", async ({ page }) => {
+    const resposta = await page.goto("/filhotes/cor/merle");
+    expect(resposta!.status()).toBe(200);
+    await expect(page.locator('img[src="/filhotes/merle/merle-femea-20261120-01.jpg"]')).toBeVisible();
+    await expect(page.getByText("Ilustração da pelagem, não é foto de filhote.")).toHaveCount(0);
+    await expect(page.getByText("Ainda sem fotos publicadas nesta cor")).toHaveCount(0);
+    await page.locator('a[href="/filhotes/spitz-alemao-anao-merle-femea"]').first().click();
+    await expect(page.locator("h1")).toContainText("Fêmea Merle Olhos Azuis");
+    await expect(page.getByRole("button", { name: /^Ver foto \d+$/ })).toHaveCount(13);
+    await page.getByRole("button", { name: "Ver foto 13", exact: true }).click();
+    const foto = page.locator('img[src*="merle-femea-20261120-13.jpg"]').first();
+    await expect.poll(() => foto.evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  });
+
+  for (const { color, key, name } of [
+    { color: "chocolate", key: "chocotan", name: "Macho ChocoTan" },
+    { color: "particolor", key: "particolor-chocolate", name: "Macho Particolor Chocolate" },
   ]) {
-    test(`${cor} tem pagina propria e identifica a ilustracao`, async ({ page }) => {
-      const resposta = await page.goto(`/filhotes/cor/${cor}`);
-      expect(resposta!.status()).toBe(200);
-      await expect(page.locator("h1").first()).toBeVisible();
-
-      const corpo = await page.locator("body").innerText();
-      expect(corpo).toContain(selo);
-      expect(corpo, `${cor} caiu no tema do creme`).not.toContain("Pelagem cor de marfim");
-      expect(corpo).toContain("Ilustração da pelagem, não é foto de filhote.");
-      expect(corpo, `${cor} promete foto real sem ter foto`).not.toContain("Fotos reais");
-      await expect(page.locator(`img[src="/images/cores/${cor}-ilustracao.svg"]`)).toHaveAttribute(
-        "alt",
-        /^Ilustração da pelagem/,
-      );
+    test(color + " apresenta o novo macho e sua galeria real", async ({ page }) => {
+      await page.goto("/filhotes/cor/" + color);
+      await expect(page.locator('img[src="/filhotes/' + color + '/' + key + '-macho-20261120-01.jpg"]').first()).toBeVisible();
+      await expect(page.getByText("Ilustração da pelagem, não é foto de filhote.")).toHaveCount(0);
+      await page.locator('a[href="/filhotes/spitz-alemao-anao-' + key + '-macho"]').first().click();
+      await expect(page.locator("h1")).toContainText(name);
+      await expect(page.getByRole("button", { name: /^Ver foto \d+$/ })).toHaveCount(8);
+      await page.getByRole("button", { name: "Ver foto 8", exact: true }).click();
+      const foto = page.locator('img[src*="' + key + '-macho-20261120-08.jpg"]').first();
+      await expect.poll(() => foto.evaluate((img) => (img as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
     });
-  }
-
-  // O selo "Incluso" sai do card pela esquerda a partir de 640 px. Com a legenda
-  // centralizada, ele cobria o inicio do aviso de que a imagem nao e foto.
-  for (const cor of ["chocolate", "merle"]) {
-    for (const largura of [768, 1024, 1366]) {
-      test(`${cor} em ${largura}: o selo nao cobre o aviso da ilustracao`, async ({ page }) => {
-        await page.setViewportSize({ width: largura, height: 900 });
-        await page.goto(`/filhotes/cor/${cor}`);
-        const legenda = page.getByText("Ilustração da pelagem, não é foto de filhote.");
-        await legenda.scrollIntoViewIfNeeded();
-        // A entrada animada desloca o selo; mede depois que ela termina.
-        await page.waitForTimeout(2500);
-
-        const folga = await legenda.evaluate((p) => {
-          const texto = document.createRange();
-          texto.selectNodeContents(p);
-          const selo = [...document.querySelectorAll("p")]
-            .find((e) => e.textContent?.trim() === "Incluso")
-            ?.parentElement?.getBoundingClientRect();
-          return selo ? texto.getBoundingClientRect().left - selo.right : null;
-        });
-        expect(folga, "o selo Incluso nao foi encontrado").not.toBeNull();
-        expect(folga!, "o selo cobre o inicio do aviso").toBeGreaterThanOrEqual(0);
-      });
-    }
   }
 
   // Merle esta fora do padrao FCI n. 97 e nao sai com pedigree CBKC

@@ -15,6 +15,7 @@ type AnyPuppy = {
   id: string;
   slug: string;
   name: string;
+  cardTitle?: string;
   color?: string;
   cor?: string;
   sex?: string;
@@ -52,7 +53,7 @@ const COLOR_LABELS: Record<string, string> = {};
 
 // Cores que o filtro oferece mesmo sem filhote publicado: a pessoa escolhe, vê que
 // não há foto agora e é levada ao WhatsApp para perguntar.
-const CORES_SEMPRE_NO_FILTRO = ["chocolate", "merle"];
+const CORES_SEMPRE_NO_FILTRO = ["particolor", "chocolate", "merle"];
 
 // Catálogo das páginas regionais (SP, RJ, MG). /filhotes usa VitrineFilhotes.
 export default function StaticCatalog({ puppies }: Props) {
@@ -199,6 +200,7 @@ export default function StaticCatalog({ puppies }: Props) {
                 id={puppy.id}
                 slug={puppy.slug}
                 name={puppy.name}
+                cardTitle={puppy.cardTitle}
                 color={puppy.color}
                 cor={puppy.cor as string | undefined}
                 sex={puppy.sex}

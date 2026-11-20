@@ -22,6 +22,7 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 type Props = {
   slug: string;
   name: string;
+  cardTitle?: string;
   color?: string;
   cor?: string;
   sex?: string;
@@ -36,7 +37,7 @@ const capitalizar = (texto: string) => texto.charAt(0).toUpperCase() + texto.sli
 // O botão fala do filhote da foto ("Perguntar pela Branca"): o texto sai de
 // perguntarPeloFilhote, o mesmo dos outros botões de filhote do site.
 
-export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, priceCents, price_cents, images }: Props) {
+export default function CartaoDaVitrine({ slug, name, cardTitle, color, cor, sex, gender, priceCents, price_cents, images }: Props) {
   const corLabel = capitalizar(cor ?? color ?? "");
   const sexRaw = sex ?? gender ?? "";
   const femea = sexRaw === "female" || sexRaw === "femea";
@@ -49,13 +50,13 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
   const baseWaLink = useMemo(
     () =>
       buildWhatsAppLink({
-        message: `Olá! Vi no site a galeria de ${corLabel} ${sexLabel} e gostaria de conhecer as opções atuais.`,
+        message: `Olá! Vi no site a galeria de ${cardTitle ?? `${corLabel} ${sexLabel}`} e gostaria de conhecer as opções atuais.`,
         utmSource: "site",
         utmMedium: "catalog_card",
         utmCampaign: "filhote_card",
         utmContent: slug,
       }),
-    [corLabel, sexLabel, slug],
+    [cardTitle, corLabel, sexLabel, slug],
   );
   const waLink = useWhatsAppLink(baseWaLink);
 
@@ -89,7 +90,7 @@ export default function CartaoDaVitrine({ slug, name, color, cor, sex, gender, p
 
           <h3 className="vc-nome">
             <Link href={`/filhotes/${slug}`} aria-label={`Ver galeria e detalhes de ${name}`}>
-              Spitz Alemão Anão {corLabel} • {sexLabel}{" "}
+              Spitz Alemão Anão {cardTitle ?? `${corLabel} • ${sexLabel}`}{" "}
               <span className="vc-nome-lulu">(Lulu da Pomerânia)</span>
             </Link>
           </h3>

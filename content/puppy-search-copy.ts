@@ -8,6 +8,27 @@ export function puppySearchCopy(puppy: PuppySearchInput) {
   const color = TABELA_DE_PRECOS[puppy.color as CorDivulgada].label;
   const sex = puppy.sex === "female" ? "Fêmea" : "Macho";
   const price = formatarPreco(puppy.priceCents);
+  if (puppy.slug === "spitz-alemao-anao-merle-femea") {
+    return {
+      heading: "Lulu da Pomerânia Fêmea Merle Olhos Azuis",
+      metadataDescription: `Fêmea Merle Olhos Azuis, Lulu da Pomerânia (Spitz Alemão Anão), a partir de ${price} no PIX. Fotos reais, sem pedigree CBKC; consulte as opções atuais.`,
+      sectionTitle: "Fêmea Merle Olhos Azuis: fotos, preço e reserva",
+      introduction: `${puppy.description} O valor publicado é a partir de ${price} no PIX. Disponibilidade e condições da reserva são confirmadas no atendimento.`,
+    };
+  }
+  const maleName = puppy.slug === "spitz-alemao-anao-chocotan-macho"
+    ? "Macho ChocoTan"
+    : puppy.slug === "spitz-alemao-anao-particolor-chocolate-macho"
+      ? "Macho Particolor Chocolate"
+      : undefined;
+  if (maleName) {
+    return {
+      heading: "Lulu da Pomerânia " + maleName,
+      metadataDescription: maleName + ", Lulu da Pomerânia (Spitz Alemão Anão), a partir de " + price + " no PIX. Galeria com 8 fotos reais; consulte as opções atuais.",
+      sectionTitle: maleName + ": fotos, preço e reserva",
+      introduction: puppy.description + " O valor publicado é a partir de " + price + " no PIX. Disponibilidade e condições da reserva são confirmadas no atendimento.",
+    };
+  }
   // Acessorio nao entra no nome publicado. Sao duas fichas de femea laranja e
   // duas de femea branca, e sem esta troca cada par teria o mesmo title, H1 e
   // description.

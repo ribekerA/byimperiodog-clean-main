@@ -24,7 +24,7 @@ const DEFAULT_COLORS = [
   "Laranja",
   "Creme",
   "Chocolate",
-  "Parti",
+  "Particolor",
   "Merle",
   "Fogo",
   "Bege",

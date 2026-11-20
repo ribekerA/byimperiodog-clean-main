@@ -3,14 +3,26 @@ import Link from "next/link";
 
 import { type CorDivulgada } from "@/domain/pricing";
 
-// Esta vitrine mostra as quatro cores escolhidas para a home. Cinza-Lobo já não
-// era divulgado e o Particolor foi retirado daqui por decisão comercial. O
-// valor de cada card vem de domain/pricing em vez de ser digitado no componente.
-//
-// A ordem é a da tabela de preços, do valor mais acessível ao mais caro: quem
-// chega por esta seção lê os cards antes de abrir a tabela, e as duas listas
-// discordarem de ordem faz a mais barata parecer estar em lugares diferentes.
+// Todas as cores divulgadas têm fotos reais e acesso à sua página.
 const COLORS = [
+  {
+    slug: "particolor", cor: "particolor", label: "Particolor",
+    tagline: "Chocolate e branco",
+    image: "/filhotes/particolor/particolor-chocolate-macho-20261120-01.jpg",
+    glowColor: "rgba(123,63,0,0.18)",
+  },
+  {
+    slug: "chocolate", cor: "chocolate", label: "Chocolate",
+    tagline: "Conheça o Macho ChocoTan",
+    image: "/filhotes/chocolate/chocotan-macho-20261120-01.jpg",
+    glowColor: "rgba(123,63,0,0.18)",
+  },
+  {
+    slug: "merle", cor: "merle", label: "Merle",
+    tagline: "Fêmea Merle Olhos Azuis",
+    image: "/filhotes/merle/merle-femea-20261120-01.jpg",
+    glowColor: "rgba(100,116,139,0.18)",
+  },
   {
     slug: "laranja",
     cor: "laranja",
@@ -68,7 +80,6 @@ export default function ColorGallery() {
         </div>
 
         {/* Grid de cores — cada card com delay individual */}
-        {/* Quatro cores divulgadas nesta vitrine, em uma única linha no desktop. */}
         <ul className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {COLORS.map((cor) => (
             <li key={cor.slug}>

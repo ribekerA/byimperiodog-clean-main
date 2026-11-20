@@ -25,7 +25,7 @@
 // Preço: a tabela-base e os valores definidos para páginas específicas vivem
 // em src/domain/pricing.ts. Os `priceCents` daqui aplicam uma dessas regras, e
 // tests/pricing-guard.test.ts confere um contra o outro. Nos cards e nas
-// páginas de filhote, o valor é publicado sem o prefixo "a partir de".
+// páginas de filhote, o valor é publicado com o prefixo "a partir de".
 //
 // Esta linha já creditou a conferência ao content-guard do prebuild, que não a
 // fazia: este arquivo está na lista de SKIP do guard, e o que ele procura é o
@@ -38,6 +38,101 @@
 import { CORES_DIVULGADAS, precoDoFilhote, type CorDivulgada } from "../src/domain/pricing";
 
 const referenciasVisuais = [
+  {
+    id: "spitz-chocotan-macho-20261120",
+    name: "Lulu da Pomerânia Macho ChocoTan",
+    cardTitle: "Macho ChocoTan",
+    slug: "spitz-alemao-anao-chocotan-macho",
+    title: "Lulu da Pomerânia Macho ChocoTan | By Imperio Dog",
+    color: "chocolate",
+    cor: "Chocolate",
+    sex: "male",
+    gender: "male",
+    breed: "Spitz Alemão Anão",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/chocolate/chocotan-macho-20261120-01.jpg",
+      "/filhotes/chocolate/chocotan-macho-20261120-02.jpg",
+      "/filhotes/chocolate/chocotan-macho-20261120-03.jpg",
+      "/filhotes/chocolate/chocotan-macho-20261120-04.jpg",
+      "/filhotes/chocolate/chocotan-macho-20261120-05.jpg",
+      "/filhotes/chocolate/chocotan-macho-20261120-06.jpg",
+      "/filhotes/chocolate/chocotan-macho-20261120-07.jpg",
+      "/filhotes/chocolate/chocotan-macho-20261120-08.jpg"
+    ],
+    currency: "BRL",
+    description: "Filhote de Lulu da Pomerânia (Spitz Alemão Anão) Macho ChocoTan, com pelagem chocolate e marcações castanhas, fotografado no gramado. Galeria com 8 fotos do mesmo filhote. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    isHighlighted: true,
+    isFeatured: true
+  },
+
+  {
+    id: "spitz-particolor-chocolate-macho-20261120",
+    name: "Lulu da Pomerânia Macho Particolor Chocolate",
+    cardTitle: "Macho Particolor Chocolate",
+    slug: "spitz-alemao-anao-particolor-chocolate-macho",
+    title: "Lulu da Pomerânia Macho Particolor Chocolate | By Imperio Dog",
+    color: "particolor",
+    cor: "Particolor",
+    sex: "male",
+    gender: "male",
+    breed: "Spitz Alemão Anão",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-01.jpg",
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-02.jpg",
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-03.jpg",
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-04.jpg",
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-05.jpg",
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-06.jpg",
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-07.jpg",
+      "/filhotes/particolor/particolor-chocolate-macho-20261120-08.jpg"
+    ],
+    currency: "BRL",
+    description: "Filhote de Lulu da Pomerânia (Spitz Alemão Anão) Macho Particolor Chocolate, com pelagem chocolate e branca, fotografado no gramado. Galeria com 8 fotos do mesmo filhote. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    isHighlighted: true,
+    isFeatured: true
+  },
+
+  // Fêmea Merle Olhos Azuis: fotos e valor-base confirmados em 20/11/2026.
+  {
+    id: "spitz-merle-femea-20261120",
+    name: "Lulu da Pomerânia Fêmea Merle Olhos Azuis",
+    cardTitle: "Fêmea Merle Olhos Azuis",
+    slug: "spitz-alemao-anao-merle-femea",
+    title: "Lulu da Pomerânia Fêmea Merle Olhos Azuis | By Imperio Dog",
+    color: "merle",
+    cor: "Merle",
+    sex: "female",
+    gender: "female",
+    breed: "Spitz Alemão Anão",
+    city: "braganca-paulista",
+    state: "SP",
+    images: [
+      "/filhotes/merle/merle-femea-20261120-01.jpg",
+      "/filhotes/merle/merle-femea-20261120-02.jpg",
+      "/filhotes/merle/merle-femea-20261120-03.jpg",
+      "/filhotes/merle/merle-femea-20261120-04.jpg",
+      "/filhotes/merle/merle-femea-20261120-05.jpg",
+      "/filhotes/merle/merle-femea-20261120-06.jpg",
+      "/filhotes/merle/merle-femea-20261120-07.jpg",
+      "/filhotes/merle/merle-femea-20261120-08.jpg",
+      "/filhotes/merle/merle-femea-20261120-09.jpg",
+      "/filhotes/merle/merle-femea-20261120-10.jpg",
+      "/filhotes/merle/merle-femea-20261120-11.jpg",
+      "/filhotes/merle/merle-femea-20261120-12.jpg",
+      "/filhotes/merle/merle-femea-20261120-13.jpg",
+    ],
+    currency: "BRL",
+    description:
+      "Filhote de Lulu da Pomerânia (Spitz Alemão Anão) fêmea Merle de olhos azuis, fotografada no gramado. Galeria com 13 fotos da mesma filhote. O Merle não sai com pedigree CBKC. Consulte a equipe para confirmar disponibilidade, documentação e condições da reserva.",
+    hasPedigree: false,
+    isHighlighted: true,
+    isFeatured: true,
+  },
+
   // Macho branco cadastrado com fotos e preço confirmados em 05/11/2026.
   {
     id: "spitz-branco-macho-20261105",

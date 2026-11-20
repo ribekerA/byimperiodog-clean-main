@@ -21,6 +21,7 @@ type Filhote = {
   id: string;
   slug: string;
   name: string;
+  cardTitle?: string;
   color?: string;
   cor?: string;
   sex?: string;
@@ -153,6 +154,7 @@ export default function VitrineFilhotes({ puppies, faixaDePreco }: { puppies: Fi
                   <CartaoDaVitrine
                     slug={p.slug}
                     name={p.name}
+                    cardTitle={p.cardTitle}
                     color={p.color}
                     cor={p.cor}
                     sex={p.sex}

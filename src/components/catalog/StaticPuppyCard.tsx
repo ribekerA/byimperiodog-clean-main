@@ -63,6 +63,7 @@ type StaticPuppyCardProps = {
   id: string;
   slug: string;
   name: string;
+  cardTitle?: string;
   color?: string;
   cor?: string;
   sex?: string;
@@ -85,6 +86,9 @@ type StaticPuppyCardProps = {
 
 /** Glow colorido por pelagem do filhote */
 const COLOR_GLOW: Record<string, string> = {
+  particolor:   "rgba(123,63,0,0.30)",
+  chocolate:    "rgba(123,63,0,0.40)",
+  merle:        "rgba(100,116,139,0.35)",
   creme:        "rgba(243,181,98,0.45)",
   laranja:      "rgba(249,115,22,0.40)",
   preto:        "rgba(161,161,170,0.30)",
@@ -105,6 +109,7 @@ export default function StaticPuppyCard({
   gender,
   priceCents,
   price_cents,
+  cardTitle,
   images,
   priority = false,
   waMedium = "catalog_card",
@@ -121,19 +126,19 @@ export default function StaticPuppyCard({
   const foto = images.find((img) => !img.endsWith(".mp4")) ?? images[0];
   const capa = capaDoCartao(foto);
   const glowColor = COLOR_GLOW[corKey] ?? DEFAULT_GLOW;
-  const segundaLinha = [corLabel, sexLabel].filter(Boolean).join(" • ");
+  const segundaLinha = cardTitle ?? [corLabel, sexLabel].filter(Boolean).join(" • ");
   const partes = price ? partesDoPrecoNoPix(price) : null;
 
   const baseWaLink = useMemo(
     () =>
       buildWhatsAppLink({
-        message: `Olá! Vi no site a galeria de ${corLabel} ${sexLabel} e gostaria de conhecer as opções atuais.`,
+        message: `Olá! Vi no site a galeria de ${cardTitle ?? `${corLabel} ${sexLabel}`} e gostaria de conhecer as opções atuais.`,
         utmSource: "site",
         utmMedium: waMedium,
         utmCampaign: waCampaign,
         utmContent: slug,
       }),
-    [corLabel, sexLabel, slug, waMedium, waCampaign],
+    [cardTitle, corLabel, sexLabel, slug, waMedium, waCampaign],
   );
   const waLink = useWhatsAppLink(baseWaLink);
 

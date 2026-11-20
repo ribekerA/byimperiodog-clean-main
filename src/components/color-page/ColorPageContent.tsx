@@ -96,7 +96,7 @@ const THEMES = {
     // A amostra é bicolor de propósito: uma cor chapada não representa uma
     // pelagem que é, por definição, branca com manchas.
     swatchCss:    "bg-gradient-to-br from-white via-white to-amber-500 ring-amber-300",
-    heroImg:      "/filhotes/particolor/particolor-macho-jardim-01.jpeg",
+    heroImg:      "/filhotes/particolor/particolor-chocolate-macho-20261120-01.jpg",
   },
   preto: {
     heroGradient: "bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-800",
@@ -115,9 +115,7 @@ const THEMES = {
     swatchCss:    "bg-zinc-900 ring-zinc-600",
     heroImg:      "/filhotes/preto/preto-filhote-flores-01.jpg",
   },
-  // Chocolate e Merle ainda não têm foto de filhote: o heroImg é uma ilustração,
-  // identificada na imagem e na legenda (ver ILUSTRACAO_DA_COR). Quando a foto
-  // real chegar, troque o heroImg e retire a cor de ILUSTRACAO_DA_COR.
+  // Macho ChocoTan: fotos reais cadastradas em 20/11/2026.
   chocolate: {
     heroGradient: "bg-gradient-to-br from-amber-100 via-orange-50 to-stone-100",
     heroDark:     false,
@@ -127,10 +125,10 @@ const THEMES = {
     accentLight:  "bg-emerald-100",
     accentBorder: "border-amber-200",
     progressBar:  "bg-amber-800",
-    badge:        "🤎 Pelagem marrom uniforme",
+    badge:        "🤎 Chocolate e marcações ChocoTan",
     badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-amber-900 ring-amber-700",
-    heroImg:      "/images/cores/chocolate-ilustracao.svg",
+    heroImg:      "/filhotes/chocolate/chocotan-macho-20261120-01.jpg",
   },
   merle: {
     heroGradient: "bg-gradient-to-br from-slate-200 via-slate-100 to-zinc-50",
@@ -144,7 +142,7 @@ const THEMES = {
     badge:        "🎨 Pelagem com manchas marmorizadas",
     badgeCss:     "border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
     swatchCss:    "bg-gradient-to-br from-slate-300 via-slate-500 to-slate-900 ring-slate-400",
-    heroImg:      "/images/cores/merle-ilustracao.svg",
+    heroImg:      "/filhotes/merle/merle-femea-20261120-01.jpg",
   },
   "wolf-sable": {
     heroGradient: "bg-gradient-to-br from-zinc-300 via-zinc-100/80 to-zinc-50",
@@ -166,14 +164,7 @@ type ColorKey = keyof typeof THEMES;
 
 // Cores cujo hero é uma ilustração. A entrada aqui é o que faz a página avisar
 // que não é foto: legenda visível, alt próprio e sem o "Fotos reais" do resumo.
-const ILUSTRACAO_DA_COR: Readonly<Record<string, { alt: string }>> = {
-  chocolate: {
-    alt: "Ilustração da pelagem chocolate do Spitz Alemão Anão (Lulu da Pomerânia). Não é foto de filhote.",
-  },
-  merle: {
-    alt: "Ilustração da pelagem merle do Spitz Alemão Anão (Lulu da Pomerânia). Não é foto de filhote.",
-  },
-};
+const ILUSTRACAO_DA_COR: Readonly<Record<string, { alt: string }>> = {};
 
 // ─── Temperamento da raça ─────────────────────────────────────────────────────
 

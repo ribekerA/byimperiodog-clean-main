@@ -26,6 +26,15 @@ describe("busca da vitrine sem inferir estoque", () => {
   it.each(["não quero branco", "entre 5000 e 7500", "acima de 7000", "unicórnio"])("pede reformulação para %s", (text) => {
     expect(parseCatalogQuery(text).unsupported).toBe(true);
   });
+  it.each(["Particolor", "parti color", "parti-color", "particolores", "PartiColor Chocolate"])("encontra a categoria Particolor: %s", (text) => {
+    const query = parseCatalogQuery(text);
+    expect(query.colors).toEqual(["particolor"]);
+    expect(matchesCatalogQuery({ color: "particolor", sex: "male" }, query)).toBe(true);
+    expect(matchesCatalogQuery({ color: "chocolate", sex: "male" }, query)).toBe(false);
+  });
+  it.each(["ChocoTan", "choco tan", "choco-tan"])("encontra ChocoTan na categoria chocolate: %s", (text) => {
+    expect(parseCatalogQuery(text).colors).toEqual(["chocolate"]);
+  });
   it("entrada vazia mantém a vitrine e não altera dados", () => {
     const puppy = Object.freeze({ color: "preto", sex: "male", price_cents: 650000 });
     expect(matchesCatalogQuery(puppy, parseCatalogQuery(""))).toBe(true);

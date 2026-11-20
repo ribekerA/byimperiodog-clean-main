@@ -210,7 +210,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Filhotes de Spitz Alemão Anão Particolor (Lulu da Pomerânia) em Bragança Paulista, SP. Pelagem branca com manchas definidas. Consulte opções e valores individuais.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Particolor",
     intro:
-      `O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.`,
+      `O Particolor é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem branca com manchas bem definidas de outra cor, distribuídas pela cabeça, orelhas e dorso. Conheça nesta página o Macho Particolor Chocolate e sua galeria com 8 fotos reais. O valor depende de cada filhote e da oferta atual; consulte as opções no atendimento.`,
     characteristics: [
       "Base branca com manchas definidas de outra cor — o desenho é único em cada filhote",
       "Coloração reconhecida pelo padrão FCI nº 97 da raça",
@@ -285,7 +285,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       "Lulu da Pomerânia Chocolate (Spitz Alemão Anão marrom) em Bragança Paulista, SP. Cor aceita pela CBKC, com pedigree. Consulte os filhotes.",
     h1: "Spitz Alemão Anão (Lulu da Pomerânia) Chocolate",
     intro:
-      "O Chocolate é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem marrom uniforme. O marrom consta do padrão FCI nº 97 e é aceito pela CBKC, então o filhote Chocolate sai com pedigree, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O valor depende de cada filhote e da oferta atual.",
+      "O Chocolate é o Spitz Alemão Anão — o Lulu da Pomerânia — de pelagem marrom. Nesta página, o Macho ChocoTan apresenta marcações castanhas sobre o chocolate, diferentes da pelagem marrom uniforme. O marrom consta do padrão FCI nº 97 e é aceito pela CBKC, então o filhote Chocolate sai com pedigree, com emissão e entrega conforme o prazo da entidade responsável e as condições previstas em contrato. O valor depende de cada filhote e da oferta atual.",
     characteristics: [
       "Pelagem marrom, também chamada de chocolate",
       "Marrom consta entre as cores previstas no padrão FCI nº 97 da raça",
@@ -311,7 +311,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Como vejo um filhote Chocolate?",
         answer:
-          "As fotos desta cor ainda não foram publicadas. Fale com a equipe pelo WhatsApp para conhecer as opções atuais no atendimento.",
+          "Veja nesta página o Macho ChocoTan e abra sua galeria com 8 fotos reais. Ele tem pelagem chocolate com marcações castanhas. Fale com a equipe pelo WhatsApp para conhecer as opções atuais no atendimento.",
       },
     ],
   },
@@ -361,7 +361,7 @@ export const COLOR_SEO: Record<string, ColorSeo> = {
       {
         question: "Como vejo um filhote Merle?",
         answer:
-          "As fotos desta cor ainda não foram publicadas. Fale com a equipe pelo WhatsApp para conhecer as opções atuais no atendimento.",
+          "Veja nesta página a Fêmea Merle Olhos Azuis e abra a ficha para conferir as 13 fotos da galeria. Fale com a equipe pelo WhatsApp para confirmar as opções atuais e as condições da reserva.",
       },
     ],
   },

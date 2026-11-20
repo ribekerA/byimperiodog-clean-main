@@ -19,6 +19,9 @@
 // pode mudar de foto sem que o valor deixe de valer para a foto antiga, e um
 // filhote vindo do banco (sem entrada aqui) simplesmente cai no padrão.
 const FOCO_POR_FOTO: Record<string, string> = {
+  "/filhotes/chocolate/chocotan-macho-20261120-01.jpg": "50% 55%",
+  "/filhotes/particolor/particolor-chocolate-macho-20261120-01.jpg": "50% 63%",
+  "/filhotes/merle/merle-femea-20261120-01.jpg": "50% 43%",
   "/filhotes/branco/branco-macho-20261105-01.jpg": "50% 48%",
   // Duas fêmeas no gramado, pequenas no quadro: o corte quadrado só funciona
   // centrado nelas, senão vira foto de grama.

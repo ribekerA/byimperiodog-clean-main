@@ -15,7 +15,7 @@ export function parseCatalogQuery(input: string): CatalogQuery {
   const colors = [
     ["branco", /\bbranc[oa]s?\b/], ["preto", /\bpret[oa]s?\b/],
     ["laranja", /\blaranjas?\b/], ["creme", /\bcremes?\b/],
-    ["chocolate", /\bchocolates?\b/], ["particolor", /\bparticolors?\b/],
+    ["chocolate", /\b(chocolates?|choco[ -]?tan)\b/], ["particolor", /\b(parti[ -]?colou?r(?:es|s)?|parti)\b/],
     ["merle", /\bmerles?\b/],
     ["wolf-sable", /\b(wolf[ -]sable|cinza[ -]lobo)\b/],
   ] as const;
@@ -32,7 +32,9 @@ export function parseCatalogQuery(input: string): CatalogQuery {
   const topic = /\b(onde|localizacao|perto|atibaia|campinas|sao paulo|braganca|visita)\b/.test(text) ? "location"
     : /\breserv/.test(text) ? "reservation"
     : /\b(document|pedigree|vacina|hemograma)/.test(text) ? "documents" : undefined;
-  const matchedColors = colors.filter(([, regex]) => regex.test(text)).map(([color]) => color);
+  // Particolor Chocolate é uma pelagem composta, não duas alternativas de cor.
+  const colorText = text.replace(/\b(parti[ -]?colou?r(?:es|s)?)\s+chocolate\b/g, "$1");
+  const matchedColors = colors.filter(([, regex]) => regex.test(colorText)).map(([color]) => color);
   const available = /\b(disponiveis|disponivel|disponibilidade|tem|estoque)\b/.test(text);
   // Não interpretar negações/limites inferiores silenciosamente como preferência positiva.
   const unsupported = /\b(nao|exceto|sem|acima|mais de|entre)\b/.test(text)

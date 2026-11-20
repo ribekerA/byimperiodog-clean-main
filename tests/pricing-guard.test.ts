@@ -62,6 +62,9 @@ describe("catálogo de referência derivado da fonte comercial", () => {
   });
   it("mantém somente os preços individuais confirmados", () => {
     expect(PRECO_POR_SLUG).toEqual({
+      "spitz-alemao-anao-chocotan-macho": 450000,
+      "spitz-alemao-anao-particolor-chocolate-macho": 450000,
+      "spitz-alemao-anao-merle-femea": 650000,
       "spitz-alemao-anao-branco-macho": 450000,
       "spitz-alemao-anao-branco-femea": 650000,
       "spitz-alemao-anao-branco-femea-2": 650000,

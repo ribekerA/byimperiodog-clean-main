@@ -34,8 +34,8 @@
  * que o teste de regressão exige preço oficial para todo filhote publicado.
  * Uma cor com filhote na vitrine e sem linha na tabela não tem valor a cobrar.
  *
- * Chocolate e Merle entraram por decisão da responsável em 06/11/2026. Ainda não
- * têm filhote publicado: PRECO_POR_SLUG continua sendo a lista real de ofertas.
+ * Chocolate e Merle entraram por decisão da responsável em 06/11/2026.
+ * A fêmea Merle foi cadastrada em 20/11/2026 com o valor-base das fêmeas.
  */
 export const CORES_DIVULGADAS = ["particolor", "laranja", "creme", "preto", "branco", "chocolate", "merle"] as const;
 
@@ -100,6 +100,9 @@ export function precoDeCadastro(cor?: string | null, sexo?: string | null): numb
  * tem entrada aqui e não recebe preço. O valor é o do sexo declarado no slug.
  */
 export const PRECO_POR_SLUG: Readonly<Record<string, number>> = {
+  "spitz-alemao-anao-chocotan-macho": PISO_MACHO,
+  "spitz-alemao-anao-particolor-chocolate-macho": PISO_MACHO,
+  "spitz-alemao-anao-merle-femea": PISO_FEMEA,
   "spitz-alemao-anao-branco-macho": PISO_MACHO,
   "spitz-alemao-anao-branco-femea": PISO_FEMEA,
   "spitz-alemao-anao-branco-femea-2": PISO_FEMEA,

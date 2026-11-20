@@ -18,6 +18,7 @@ export type FilhoteDaHome = {
   id: string;
   slug: string;
   name: string;
+  cardTitle?: string;
   color: string;
   cor?: string;
   sex?: string;
@@ -87,7 +88,7 @@ export default function GradeDaHome({ filhotes }: { filhotes: FilhoteDaHome[] })
           ))}
         </ul>
       ) : (
-        /* Particolor, chocolate e merle não têm filhote publicado hoje: o filtro
+        /* Cores sem filhote publicado permanecem no filtro, que
            diz a verdade em vez de abrir uma grade vazia. */
         <p className="hm-vazio">
           Não há filhote {rotuloAtivo.toLowerCase()} na vitrine agora.{" "}
