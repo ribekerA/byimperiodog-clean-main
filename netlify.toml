@@ -52,6 +52,23 @@
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 # "Pomerániai" em húngaro → Redireciona para catálogo de filhotes
+# ---------------------------------------------------------------------------
+# 0) CANONICAL HOST (SEO): www -> apex
+# ---------------------------------------------------------------------------
+# Consolidar em https://byimperiodog.com.br (apex), alinhado aos defaults do repo
+# (SITE_ORIGIN, sitemap, robots, canonicals). 301 permanente preserva path/query.
+[[redirects]]
+  from = "https://www.byimperiodog.com.br/*"
+  to = "https://byimperiodog.com.br/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.byimperiodog.com.br/*"
+  to = "https://byimperiodog.com.br/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/pomeraniai"
   to = "/filhotes"
