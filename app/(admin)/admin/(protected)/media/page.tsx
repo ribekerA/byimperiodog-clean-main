@@ -17,8 +17,11 @@ interface MediaFile {
 const PAGE_SIZE = 60;
 
 function mapMediaItems(items: Record<string, unknown>[]): MediaFile[] {
-  return items.map((it) => ({
-    id: (it["id"] as string) || (it["asset_id"] as string) || crypto.randomUUID(),
+  return items.map((it) => {
+    const id = it["id"] ?? it["asset_id"] ?? it["media_id"];
+    if (typeof id !== "string" || !id) throw new Error("A API retornou um arquivo sem identificador.");
+    return {
+    id,
     name:
       (it["name"] as string) ||
       (it["file_name"] as string) ||
@@ -26,11 +29,12 @@ function mapMediaItems(items: Record<string, unknown>[]): MediaFile[] {
       (typeof it["file_path"] === "string" ? (it["file_path"] as string).split("/").pop() : undefined) ||
       "arquivo",
     url: (it["url"] as string) || (it["public_url"] as string) || (it["src"] as string) || "",
-    size: Number((it["size"] as number) || 0),
+    size: Number((it["size"] as number) || (it["size_in_bytes"] as number) || 0),
     type: (it["type"] as string) || (it["mime_type"] as string) || "",
     uploadedAt: (it["created_at"] as string) || (it["uploaded_at"] as string) || new Date().toISOString(),
     file_path: it["file_path"] as string | undefined,
-  }));
+  };
+  });
 }
 
 export default function MediaLibrary() {
@@ -39,11 +43,15 @@ export default function MediaLibrary() {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   const loadPage = async (offset: number) => {
     const res = await fetch(`/api/admin/media?limit=${PAGE_SIZE}&offset=${offset}`, { cache: "no-store" });
-    const json = await res.json();
-    const items = Array.isArray(json) ? json : json.items || json.data || [];
+    const json = await res.json().catch(() => null);
+    if (!res.ok) throw new Error(json?.error || "Não foi possível carregar a biblioteca de mídia.");
+    const items = Array.isArray(json) ? json : Array.isArray(json?.items) ? json.items : Array.isArray(json?.data) ? json.data : null;
+    if (!items) throw new Error("A API retornou um formato inválido para a biblioteca de mídia.");
     const mapped = mapMediaItems(items as Record<string, unknown>[]);
     setTotal(typeof json.total === "number" ? json.total : mapped.length);
     return mapped;
@@ -52,11 +60,12 @@ export default function MediaLibrary() {
   useEffect(() => {
     const load = async () => {
       setLoading(true);
+      setError(null);
       try {
         const mapped = await loadPage(0);
         setFiles(mapped);
       } catch (e) {
-        console.error(e);
+        setError(e instanceof Error ? e.message : String(e));
       } finally {
         setLoading(false);
       }
@@ -66,11 +75,12 @@ export default function MediaLibrary() {
 
   const handleLoadMore = async () => {
     setLoadingMore(true);
+    setError(null);
     try {
       const mapped = await loadPage(files.length);
       setFiles((prev) => [...prev, ...mapped]);
     } catch (e) {
-      console.error(e);
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
       setLoadingMore(false);
     }

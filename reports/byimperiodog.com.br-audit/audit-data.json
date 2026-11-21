@@ -1,0 +1,54 @@
+{
+  "summary": {
+    "health_score": 72,
+    "business_type": "Criador local híbrido (Bragança Paulista-SP) com vitrine de filhotes e blog",
+    "top_findings": [
+      "CTR de 0,88% com posição média 5,9: cluster de preço no topo e quase sem cliques",
+      "Canibalização em 9-11 temas entre /guias e /blog; /temperamento com canonical errado",
+      "Home contradiz a regra de preço por cor (ColorGallery.tsx:66)",
+      "TBT de 640-1070 ms no celular por hidratação; LCP 3,3-4,4 s em laboratório",
+      "Autores sem página, posts sem experiência própria e datas de reserva"
+    ],
+    "quick_wins": [
+      "Reescrever título e descrição de /blog/preco-spitz-alemao-anao e /blog/spitz-alemao-anao-preto",
+      "301 de /temperamento, /cuidados e /alimentacao",
+      "Corrigir a frase de preço por cor na home",
+      "Remover Organization duplicado e makesOffer do schema",
+      "Bolha de WhatsApp em /filhotes no celular"
+    ]
+  },
+  "categories": [
+    {"name": "SEO técnico", "score": 90, "what_works": ["Canonical para a própria página e index na amostra de 30 URLs", "Redirecionamento ao apex em um salto", "Cabeçalhos de segurança completos", "Páginas pré-renderizadas"], "findings": [
+      {"title": "HSTS sem includeSubDomains/preload", "severity": "Medium", "description": "max-age=31536000 apenas", "recommendation": "Ajustar netlify.toml depois de confirmar os subdomínios"},
+      {"title": "Posts listados em dois sitemaps", "severity": "Medium", "description": "163 entradas para 96 URLs únicas", "recommendation": "Listar os posts em um só sitemap"},
+      {"title": "Robots duplicado na 404", "severity": "Low", "description": "noindex e index juntos", "recommendation": "Não herdar o robots do layout na not-found"}]},
+    {"name": "Qualidade do conteúdo", "score": 60, "what_works": ["Fontes citadas em todos os posts", "Política editorial transparente sobre IA", "Pouca cópia entre posts"], "findings": [
+      {"title": "Quantidades de ração conflitantes", "severity": "High", "description": "100-130 g, 80-100 g e 40-80 g para cão de 3 kg em três páginas", "recommendation": "Unificar uma faixa e refazer o custo mensal"},
+      {"title": "Contradição de preço por cor", "severity": "High", "description": "Home diz que cada cor tem seu valor; /filhotes diz que não", "recommendation": "Corrigir ColorGallery.tsx:66"},
+      {"title": "Páginas por estado quase duplicadas", "severity": "High", "description": "SP e MG com 78% de texto igual", "recommendation": "Detalhe real por estado ou juntar em /filhotes"},
+      {"title": "Pouca experiência própria e autores sem página", "severity": "Medium", "description": "24 de 31 posts sem conteúdo em primeira mão; /autores dá 404", "recommendation": "Página de autores com fatos confirmados pelo dono"}]},
+    {"name": "On-page SEO", "score": 66, "what_works": ["Títulos únicos", "Posição média 5,9"], "findings": [
+      {"title": "CTR baixo no cluster de preço", "severity": "High", "description": "12,7 mil impressões e CTR 0,26% no post de preço; 'lulu da pomerania preto' na posição 1,4 com 0 cliques", "recommendation": "Reescrever títulos e descrições"},
+      {"title": "Canibalização /guias x /blog", "severity": "High", "description": "9-11 grupos de páginas disputam a mesma busca", "recommendation": "Uma página por tema, 301 nas demais"},
+      {"title": "/temperamento com conteúdo e canonical de outro guia", "severity": "High", "description": "Título de temperamento, texto do guia de nomes", "recommendation": "301 para /blog/spitz-alemao-anao-temperamento"},
+      {"title": "Links internos quase ausentes no blog", "severity": "Medium", "description": "1 link entre posts em 31 artigos", "recommendation": "Aplicar a matriz de cluster.md"}]},
+    {"name": "Dados estruturados", "score": 80, "what_works": ["LocalBusiness coerente com as decisões do dono", "VideoObject completo na galeria", "Nenhuma avaliação inventada"], "findings": [
+      {"title": "Organization duplicado em /contato", "severity": "Medium", "description": "Sem @id e com outro formato de telefone", "recommendation": "Apontar para #business"},
+      {"title": "makesOffer sem preço e priceRange enganoso", "severity": "Medium", "description": "6.500 é piso, não teto", "recommendation": "Remover makesOffer e reescrever o priceRange"}]},
+    {"name": "Desempenho (CWV)", "score": 65, "what_works": ["CLS 0", "Terceiros só carregam depois do consentimento"], "findings": [
+      {"title": "Hidratação longa", "severity": "High", "description": "TBT 640-1070 ms; LCP 3,3-4,4 s em laboratório no celular", "recommendation": "Carregar sob demanda os widgets não essenciais"},
+      {"title": "TTFB variável", "severity": "High", "description": "45 ms a 1,4 s; cache da edge de cerca de 217 s", "recommendation": "s-maxage + stale-while-revalidate"}]},
+    {"name": "Prontidão para busca por IA", "score": 72, "what_works": ["Todos os robôs de IA com acesso", "llms.txt válido", "Texto no HTML"], "findings": [
+      {"title": "Sem vídeo nas páginas principais", "severity": "Medium", "description": "68 vídeos no canal, nenhum embutido", "recommendation": "Embutir vídeos com VideoObject"},
+      {"title": "Afirmação errada em guia citado pelo llms.txt", "severity": "Medium", "description": "content/guides/index.ts:192", "recommendation": "Corrigir o texto"}]},
+    {"name": "Imagens", "score": 78, "what_works": ["AVIF/WebP via next/image"], "findings": [
+      {"title": "JPGs pesados e alt repetido", "severity": "Medium", "description": "6 JPGs acima de 400 KB; alt igual em toda a galeria", "recommendation": "Comprimir e variar o alt"}]}
+  ],
+  "action_plan": {"phases": [
+    {"name": "Fase 1: Correções rápidas", "timeframe": "Semana 1", "items": ["Preço por cor na home", "301 de /temperamento, /cuidados, /alimentacao", "Títulos do cluster de preço", "Unificar ração", "Schema de /contato e makesOffer"]},
+    {"name": "Fase 2: Alto impacto", "timeframe": "Semanas 2-3", "items": ["Consolidar canibalização", "Links internos do blog", "Hidratação e cache", "WhatsApp na primeira tela do celular", "Intenção de busca de filhote e spitz alemão anão"]},
+    {"name": "Fase 3: Conteúdo e autoridade", "timeframe": "Mês 2", "items": ["Página dos autores", "Páginas por estado", "Descrições dos filhotes", "Vídeos embutidos", "Posts das lacunas"]},
+    {"name": "Fase 4: Monitoramento", "timeframe": "Contínuo", "items": ["Perfil da Empresa no Google", "Drift após mudanças", "CWV de campo por volta de 04/12", "Chaves gratuitas PSI e Moz"]}
+  ]},
+  "artifacts": {"findings_dir": "findings/", "screenshots_dir": "screenshots/"}
+}

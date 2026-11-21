@@ -1,0 +1,89 @@
+{
+  "base": "http://localhost:3000",
+  "results": [
+    {
+      "width": 390,
+      "path": "/",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "path": "/filhotes",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "path": "/filhotes/sexo/femea",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "path": "/filhotes/cor/merle",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "path": "/filhotes/spitz-alemao-anao-merle-femea",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "path": "/blog/lulu-da-pomerania-merle",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "path": "/blog/cores-spitz-alemao-anao-qual-mais-cara",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "path": "/",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "path": "/filhotes",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "path": "/filhotes/sexo/femea",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "path": "/filhotes/cor/merle",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "path": "/filhotes/spitz-alemao-anao-merle-femea",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "path": "/blog/lulu-da-pomerania-merle",
+      "status": 200,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "path": "/blog/cores-spitz-alemao-anao-qual-mais-cara",
+      "status": 200,
+      "overflow": false
+    }
+  ]
+}

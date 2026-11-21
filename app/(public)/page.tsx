@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import Festao from "@/components/common/Festao";
 import { PixIcon } from "@/components/icons/PixIcon";
-import AvaliacoesRotativas from "@/components/reviews/AvaliacoesRotativas";
 import ColorGallery from "@/components/sections/ColorGallery";
 import GradeDaHome, { type FilhoteDaHome } from "@/components/sections/GradeDaHome";
 import {
@@ -272,8 +271,6 @@ export default function HomePage() {
               <h2 id="featured-heading" className="sr-only">Conheça os filhotes</h2>
               <GradeDaHome filhotes={filhotesDaHome} />
             </section>
-
-            <AvaliacoesRotativas className="hm-avaliacoes" />
           </div>
         </div>
 
@@ -396,7 +393,11 @@ export default function HomePage() {
               Preço, escolha e rotina do Lulu da Pomerânia
             </h2>
             <p className="mt-3 text-zinc-600">
-              Compare cores e valores, conheça os cuidados e veja como preparar a chegada do filhote. Os guias estão organizados por assunto para ajudar em cada etapa.
+              Compare{" "}
+              <Link href="/blog/preco-spitz-alemao-anao">
+                cores e valores
+              </Link>
+              , conheça os cuidados e veja como preparar a chegada do filhote. Os guias estão organizados por assunto para ajudar em cada etapa.
             </p>
             <Link
               href="/guias"

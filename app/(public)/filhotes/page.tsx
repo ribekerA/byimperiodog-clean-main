@@ -47,7 +47,7 @@ const CATALOG_FAQS = [
 // deste arquivo carregava "filhotes Spitz Alemão Anão disponíveis" e
 // "Lulu da Pomerânia à venda" — a mesma promessa, no lugar onde ninguém a lê.
 export const metadata: Metadata = {
-  title:       "Filhotes de Spitz e Lulu: Cores, Sexos e Preços",
+  title:       "Filhotes de Spitz Alemão Anão: fotos e preços",
   // 226 caracteres: o Google cortava antes da entrega em todo o Brasil, que é
   // o que diferencia esta página para quem busca de fora de SP. Reescrita em 156.
   description: "Compare fotos e preços de filhotes Spitz Alemão Anão (Lulu da Pomerânia) por cor e sexo. Consulte opções atuais com a By Imperio Dog em Bragança Paulista.",
