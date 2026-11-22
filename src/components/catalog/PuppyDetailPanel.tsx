@@ -162,6 +162,15 @@ export default function PuppyDetailPanel({
         </p>
       </motion.div>
 
+      <section aria-label="Ficha do filhote" className="rounded-xl border border-emerald-100 bg-white/80 p-4 shadow-sm">
+        <h2 className="text-sm font-semibold text-zinc-900">Ficha do filhote</h2>
+        <p className="mt-1 text-sm leading-relaxed text-zinc-700">{description}</p>
+        <dl className="mt-3 grid gap-3 border-t border-zinc-100 pt-3 text-sm sm:grid-cols-2">
+          <div><dt className="font-semibold text-zinc-800">Idade</dt><dd className="mt-0.5 text-zinc-600">3 meses</dd></div>
+          <div><dt className="font-semibold text-zinc-800">Temperamento</dt><dd className="mt-0.5 text-zinc-600">Perfil típico da raça: alerta, inteligente, afetuoso e vivaz. O comportamento individual varia conforme genética, socialização e experiências.</dd></div>
+        </dl>
+      </section>
+
       </>}
 
       {mostraOferta && <>
