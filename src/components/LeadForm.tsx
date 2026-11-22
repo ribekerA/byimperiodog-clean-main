@@ -248,7 +248,7 @@ export default function LeadForm({ context, className }: Props) {
             {...register("cidade")}
             aria-invalid={errors.cidade ? "true" : "false"}
             className="w-full rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm placeholder:text-[var(--text-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
-            placeholder="Ex: Bragança Paulista"
+            placeholder="Sua cidade"
           />
           {errors.cidade && (
             <p className="text-sm text-rose-600" role="alert">
@@ -292,7 +292,7 @@ export default function LeadForm({ context, className }: Props) {
             {...register("sexo_preferido")}
             className="w-full select-styled rounded-xl border border-[var(--border)] bg-white/90 px-3 py-2 text-sm text-[var(--text)] shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]/40"
           >
-            <option value="">Selecione...</option>
+            <option value="">Selecione seu estado (UF)</option>
             <option value="macho">Macho</option>
             <option value="femea">Fêmea</option>
             <option value="tanto_faz">Tanto faz</option>
