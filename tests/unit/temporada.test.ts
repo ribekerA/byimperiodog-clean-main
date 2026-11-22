@@ -31,14 +31,14 @@ function rodarScript(dataIso: string, busca = "") {
 }
 
 describe("tema de Natal", () => {
-  it("segue as datas aprovadas: 1º/12 a 25/12 família, 26/12 a 6/1 festas", () => {
+  it("segue as datas aprovadas: 1º/12 a 25/12 família, 26/12 a 31/12 festas", () => {
     expect(faseNoDia(1130)).toBeNull();
     expect(faseNoDia(1201)).toBe("familia");
     expect(faseNoDia(1225)).toBe("familia");
     expect(faseNoDia(1226)).toBe("festas");
     expect(faseNoDia(1231)).toBe("festas");
-    expect(faseNoDia(101)).toBe("festas");
-    expect(faseNoDia(106)).toBe("festas");
+    expect(faseNoDia(101)).toBeNull();
+    expect(faseNoDia(106)).toBeNull();
     expect(faseNoDia(107)).toBeNull();
     expect(faseNoDia(715)).toBeNull();
   });
@@ -47,8 +47,8 @@ describe("tema de Natal", () => {
     // 02:00 UTC de 1º/12 ainda é 30/11 em Brasília.
     expect(faseDoNatal(new Date("2026-12-01T02:00:00Z"))).toBeNull();
     expect(faseDoNatal(new Date("2026-12-01T03:00:00Z"))).toBe("familia");
-    expect(faseDoNatal(new Date("2027-01-07T02:59:00Z"))).toBe("festas");
-    expect(faseDoNatal(new Date("2027-01-07T03:00:00Z"))).toBeNull();
+    expect(faseDoNatal(new Date("2027-01-01T02:59:00Z"))).toBe("festas");
+    expect(faseDoNatal(new Date("2027-01-01T03:00:00Z"))).toBeNull();
   });
 
   it("o script do <head> concorda com faseDoNatal em todos os dias do ano", () => {
