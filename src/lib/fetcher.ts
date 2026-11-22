@@ -43,7 +43,7 @@ export async function fetcher<TSchema extends ZodTypeAny | undefined = undefined
           details: parsed.error.flatten(),
         });
       }
-      return parsed.data;
+      return parsed.data as FetcherResult<TSchema>;
     }
 
     return data as FetcherResult<TSchema>;

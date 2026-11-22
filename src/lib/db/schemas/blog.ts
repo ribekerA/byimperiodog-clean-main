@@ -31,7 +31,7 @@ function enforceContentRules(
   return true;
 }
 
-const trim = (schema: z.ZodTypeAny) => schema.transform((value: string) => value.trim());
+const trim = <T extends z.ZodType<string>>(schema: T) => schema.transform((value) => value.trim());
 
 export const postContentSchema = z
   .object({

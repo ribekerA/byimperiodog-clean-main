@@ -10,7 +10,7 @@ async function loadDbWithSupabase(mock: () => unknown) {
 
 describe("db repositories", () => {
   afterEach(() => {
-    vi.unmock("@/lib/supabaseAdmin");
+    vi.doUnmock("@/lib/supabaseAdmin");
     vi.resetModules();
     vi.clearAllMocks();
   });

@@ -42,23 +42,24 @@ const schema = z.object({
   ]).optional(),
   sexo_preferido: z
     .enum(["macho", "femea", "tanto_faz"], {
-      errorMap: () => ({ message: "Selecione uma preferência" }),
+      error: "Selecione uma preferência",
     })
     .optional().or(z.literal("")).transform((value) => value || undefined),
   cor_preferida: z.string().optional(),
   prazo_aquisicao: z
     .enum(["imediato", "1_mes", "2_3_meses", "3_mais"], {
-      errorMap: () => ({ message: "Selecione um prazo" }),
+      error: "Selecione um prazo",
     })
     .optional().or(z.literal("")).transform((value) => value || undefined),
   mensagem: z.string().optional(),
   gclid: z.string().optional(),
   consent_lgpd: z.literal(true, {
-    errorMap: () => ({ message: "É necessário aceitar a Política de Privacidade" }),
+    error: "É necessário aceitar a Política de Privacidade",
   }),
 });
 
 type FormValues = z.infer<typeof schema>;
+type FormInput = z.input<typeof schema>;
 type SubmitStatus = "idle" | "success" | "error";
 
 export default function LeadForm({ context, className }: Props) {
@@ -71,7 +72,7 @@ export default function LeadForm({ context, className }: Props) {
     formState: { errors, isSubmitting },
     reset,
     setValue,
-  } = useForm<FormValues>({
+  } = useForm<FormInput, undefined, FormValues>({
     resolver: zodResolver(schema),
   });
 

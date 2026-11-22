@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
 
     const validation = leadSchema.safeParse(body);
     if (!validation.success) {
-      return NextResponse.json({ error: "Dados inválidos", details: validation.error.errors }, { status: 400 });
+      return NextResponse.json({ error: "Dados inválidos", details: validation.error.issues }, { status: 400 });
     }
 
     const data = validation.data;

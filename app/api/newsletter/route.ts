@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     if (!result.success) {
       return NextResponse.json(
-        { message: result.error.errors[0]?.message || "E-mail inválido" },
+        { message: result.error.issues[0]?.message || "E-mail inválido" },
         { status: 400 }
       );
     }

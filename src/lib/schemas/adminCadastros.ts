@@ -18,7 +18,7 @@ export const adminCadastroSchema = z.object({
   }),
 });
 
-export const adminCadastroAutosaveSchema = adminCadastroSchema.deepPartial();
+export const adminCadastroAutosaveSchema = adminCadastroSchema.partial().extend({ perfil: adminCadastroSchema.shape.perfil.partial(), preferencia: adminCadastroSchema.shape.preferencia.partial(), checklist: adminCadastroSchema.shape.checklist.partial() });
 
 export type AdminCadastroInput = z.infer<typeof adminCadastroSchema>;
 export type AdminCadastroAutosaveInput = z.infer<typeof adminCadastroAutosaveSchema>;
