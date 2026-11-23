@@ -115,6 +115,7 @@ const FAIXA_DE_PRECO_DE_FILHOTE = { min: 4500, max: 20000 };
 const PRECOS_QUE_NAO_SAO_FILHOTE = new Map([
   ["content/posts/quanto-custa-manter-spitz-alemao.mdx", new Set([5000, 6000])],
   ["content/guides/index.ts", new Set([5000])],
+  [`content/posts/lulu-da-pomerania-merle.mdx`, new Set([10500, 11500, 12500])],
 ]);
 
 const PRECO_PATTERN = /R\$\s*(\d{1,3}(?:\.\d{3})+)/g;
