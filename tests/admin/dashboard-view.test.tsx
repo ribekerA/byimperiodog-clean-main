@@ -306,7 +306,7 @@ describe("base pequena e cliques no WhatsApp", () => {
   });
 
   it("marcar venda chama a rota e atualiza a linha", async () => {
-    const codigo = { ref: "K7M2Q", criadoEm: "2026-11-10T13:00:00Z", pagina: "/filhotes", filhote: null, clique: "gclid" as const, vendaEm: null };
+    const codigo = { ref: "K7M2Q", criadoEm: "2026-11-10T13:00:00Z", pagina: "/filhotes", filhote: null, clique: "gclid" as const, vendaEm: null, vendaValor: null };
     const fetchMock = vi.fn(async () =>
       new Response(JSON.stringify({ codigo: { ...codigo, vendaEm: "2026-11-10T15:00:00Z" } }), { status: 200 }),
     );
@@ -322,7 +322,7 @@ describe("base pequena e cliques no WhatsApp", () => {
       expect(await screen.findByRole("button", { name: "Desfazer venda do código K7M2Q" })).toBeInTheDocument();
       expect(fetchMock).toHaveBeenCalledWith(
         "/api/admin/whatsapp/codigos",
-        expect.objectContaining({ method: "POST", body: JSON.stringify({ ref: "K7M2Q", vendido: true }) }),
+        expect.objectContaining({ method: "POST", body: JSON.stringify({ ref: "K7M2Q", vendido: true, valor: null }) }),
       );
       expect(screen.getByText("Venda marcada no código K7M2Q.")).toBeInTheDocument();
     } finally {

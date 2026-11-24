@@ -99,6 +99,7 @@ const CODIGO = {
   filhote: null,
   clique: "gclid",
   vendaEm: null,
+  vendaValor: null,
 };
 
 describe("rota dos codigos", () => {
@@ -134,8 +135,18 @@ describe("rota dos codigos", () => {
     );
     expect(res.status).toBe(200);
     expect(guarda.mock.calls[0][1]).toEqual({ permission: "cadastros:write" });
-    expect(marcarVenda).toHaveBeenCalledWith("K7M2Q", true);
+    expect(marcarVenda).toHaveBeenCalledWith("K7M2Q", true, null);
     expect(logAdminAction).toHaveBeenCalledTimes(1);
+  });
+
+  it("marca venda com o valor em reais informado", async () => {
+    marcarVenda.mockResolvedValue({ ...CODIGO, vendaEm: "2026-11-10T15:00:00Z", vendaValor: 4500.5 });
+    const { POST } = await import("../../app/api/admin/whatsapp/codigos/route");
+    const res = await POST(
+      makeNextRequestStub("https://x/api/admin/whatsapp/codigos", { method: "POST", body: { ref: "K7M2Q", vendido: true, valor: 4500.5 } }),
+    );
+    expect(res.status).toBe(200);
+    expect(marcarVenda).toHaveBeenCalledWith("K7M2Q", true, 4500.5);
   });
 
   it("sem a coluna da venda pede para rodar o SQL", async () => {
