@@ -71,8 +71,20 @@ function BotaoVenda({
   );
 }
 
+/** Valor digitado em reais: null se vazio, "invalido" se não for um número positivo. */
+function lerValor(texto: string): number | null | "invalido" {
+  const limpo = texto.trim();
+  if (!limpo) return null;
+  // "4.500" e "4.500,50" são milhar com ponto; "4500.5" e "4500,5" são decimal.
+  const padraoMilhar = /^\d{1,3}(\.\d{3})+(,\d{1,2})?$/.test(limpo);
+  const normalizado = padraoMilhar ? limpo.replace(/\./g, "").replace(",", ".") : limpo.replace(",", ".");
+  const numero = Number(normalizado);
+  return Number.isFinite(numero) && numero > 0 ? numero : "invalido";
+}
+
 export function CodigosDoWhatsApp({ load }: { load: CodigosLoad }) {
   const [codigos, setCodigos] = useState<CodigoDoWhatsApp[]>(load.status === "ok" ? load.codigos : []);
+  const [valorVenda, setValorVenda] = useState("");
   const [achado, setAchado] = useState<CodigoDoWhatsApp | null>(null);
   const [texto, setTexto] = useState("");
   const [aviso, setAviso] = useState("");
@@ -103,13 +115,18 @@ export function CodigosDoWhatsApp({ load }: { load: CodigosLoad }) {
   }
 
   async function alternar(codigo: CodigoDoWhatsApp) {
+    const valor = codigo.vendaEm ? null : lerValor(valorVenda);
+    if (valor === "invalido") {
+      setAviso("Valor da venda inválido. Use algo como 4500 ou 4500,50.");
+      return;
+    }
     setOcupado(codigo.ref);
     setAviso("");
     try {
       const res = await fetch("/api/admin/whatsapp/codigos", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ref: codigo.ref, vendido: !codigo.vendaEm }),
+        body: JSON.stringify({ ref: codigo.ref, vendido: !codigo.vendaEm, valor }),
       });
       if (!res.ok) {
         if (res.status === 409) setVendaDisponivel(false);
@@ -159,11 +176,37 @@ export function CodigosDoWhatsApp({ load }: { load: CodigosLoad }) {
               : ""}
           </p>
 
+          {vendaDisponivel ? (
+            <p className="mb-3 text-sm text-[var(--text)]">
+              <a href="/api/admin/whatsapp/vendas-csv" download className="btn-outline inline-flex text-sm">
+                Exportar vendas para o Google Ads (CSV)
+              </a>{" "}
+              <span className="text-[var(--text-muted)]">
+                Últimos 90 dias. Só entra venda com clique do Google (computador ou Android) e com valor.
+              </span>
+            </p>
+          ) : null}
+
           {!vendaDisponivel ? (
             <p role="note" className="mb-3 rounded-xl border border-[#ecd09a] bg-[#fff8e8] p-3 text-sm text-[#4f3000]">
               Para marcar venda, falta rodar no banco o SQL{" "}
               <span className="font-mono text-xs">20261118160000_whatsapp_refs_venda.sql</span>. A lista funciona sem ele.
             </p>
+          ) : null}
+
+          {vendaDisponivel ? (
+            <label className="mb-3 flex max-w-xs flex-col text-sm text-[var(--text)]">
+              Valor da venda em R$ (opcional, para marcar venda)
+              <input
+                type="text"
+                inputMode="decimal"
+                value={valorVenda}
+                onChange={(e) => setValorVenda(e.target.value)}
+                placeholder="4500"
+                autoComplete="off"
+                className="mt-1 rounded-lg border border-[var(--border)] px-3 py-2 text-sm"
+              />
+            </label>
           ) : null}
 
           <form role="search" onSubmit={procurar} className="mb-3 flex flex-wrap items-end gap-2">

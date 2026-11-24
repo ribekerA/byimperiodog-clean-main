@@ -25,6 +25,8 @@ export type CodigoDoWhatsApp = {
   /** Qual id de clique veio junto: gclid (computador e Android) ou wbraid/gbraid (iPhone). */
   clique: "gclid" | "wbraid" | "gbraid" | null;
   vendaEm: string | null;
+  /** Valor da venda em reais; null quando marcada sem valor. */
+  vendaValor: number | null;
 };
 
 export type ResumoDosCodigos = { codigos7: number; codigos14: number; vendas14: number; vendasTotal: number };
@@ -43,6 +45,7 @@ type Linha = {
   wbraid: string | null;
   gbraid: string | null;
   venda_em?: string | null;
+  venda_valor?: number | string | null;
 };
 
 const COLUNAS = "ref,created_at,page,puppy_slug,gclid,wbraid,gbraid";
@@ -55,6 +58,7 @@ function paraCodigo(linha: Linha): CodigoDoWhatsApp {
     filhote: linha.puppy_slug,
     clique: linha.gclid ? "gclid" : linha.wbraid ? "wbraid" : linha.gbraid ? "gbraid" : null,
     vendaEm: linha.venda_em ?? null,
+    vendaValor: linha.venda_valor == null ? null : Number(linha.venda_valor),
   };
 }
 
@@ -88,7 +92,7 @@ export async function loadCodigos(now: Date = new Date()): Promise<CodigosLoad> 
     let vendaDisponivel = true;
     let resposta = await supabaseAdmin()
       .from("whatsapp_refs")
-      .select(`${COLUNAS},venda_em`)
+      .select(`${COLUNAS},venda_em,venda_valor`)
       .order("created_at", { ascending: false })
       .limit(LIMITE_DE_CODIGOS);
     if (semColunaDeVenda(resposta.error)) {
@@ -122,7 +126,7 @@ export async function loadCodigos(now: Date = new Date()): Promise<CodigosLoad> 
 /** Um código pelo valor exato (já normalizado por codigoDigitado). */
 export async function buscarCodigo(ref: string): Promise<{ codigo: CodigoDoWhatsApp | null; vendaDisponivel: boolean }> {
   let vendaDisponivel = true;
-  let resposta = await supabaseAdmin().from("whatsapp_refs").select(`${COLUNAS},venda_em`).eq("ref", ref).maybeSingle();
+  let resposta = await supabaseAdmin().from("whatsapp_refs").select(`${COLUNAS},venda_em,venda_valor`).eq("ref", ref).maybeSingle();
   if (semColunaDeVenda(resposta.error)) {
     vendaDisponivel = false;
     resposta = await supabaseAdmin().from("whatsapp_refs").select(COLUNAS).eq("ref", ref).maybeSingle();
@@ -135,14 +139,47 @@ export async function buscarCodigo(ref: string): Promise<{ codigo: CodigoDoWhats
  * Marca ou desmarca a venda. Devolve o código atualizado, null se ele não
  * existe, ou "sem_coluna" se a migração da venda ainda não rodou.
  */
-export async function marcarVenda(ref: string, vendido: boolean, agora: Date = new Date()): Promise<CodigoDoWhatsApp | null | "sem_coluna"> {
+export async function marcarVenda(
+  ref: string,
+  vendido: boolean,
+  valor: number | null = null,
+  agora: Date = new Date(),
+): Promise<CodigoDoWhatsApp | null | "sem_coluna"> {
   const { data, error } = await supabaseAdmin()
     .from("whatsapp_refs")
-    .update({ venda_em: vendido ? agora.toISOString() : null })
+    .update({
+      venda_em: vendido ? agora.toISOString() : null,
+      venda_valor: vendido ? valor : null,
+    })
     .eq("ref", ref)
-    .select(`${COLUNAS},venda_em`)
+    .select(`${COLUNAS},venda_em,venda_valor`)
     .maybeSingle();
   if (semColunaDeVenda(error)) return "sem_coluna";
   if (error) throw new Error(erroDoBanco("marcar venda", error));
   return data ? paraCodigo(data as Linha) : null;
+}
+
+/**
+ * Vendas marcadas nos últimos `dias` dias, para o export do Google Ads.
+ * A separação entre exportáveis e de fora fica em whatsappVendasCsv.ts.
+ */
+export async function listarVendasMarcadas(dias: number, agora: Date = new Date()) {
+  const desde = new Date(agora.getTime() - dias * DIA_MS).toISOString();
+  const { data, error } = await supabaseAdmin()
+    .from("whatsapp_refs")
+    .select("gclid,wbraid,gbraid,venda_em,venda_valor")
+    .not("venda_em", "is", null)
+    .gte("venda_em", desde)
+    .order("venda_em", { ascending: true })
+    .limit(10_000);
+  if (error) throw new Error(erroDoBanco("export de vendas", error));
+  return ((data ?? []) as { gclid: string | null; wbraid: string | null; gbraid: string | null; venda_em: string; venda_valor: number | string | null }[]).map(
+    (linha) => ({
+      gclid: linha.gclid,
+      wbraid: linha.wbraid,
+      gbraid: linha.gbraid,
+      vendaEm: linha.venda_em,
+      valor: linha.venda_valor == null ? null : Number(linha.venda_valor),
+    }),
+  );
 }

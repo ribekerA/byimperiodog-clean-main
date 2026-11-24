@@ -38,6 +38,7 @@ const corpoSchema = z
   .object({
     ref: z.string().trim().min(1).max(40),
     vendido: z.boolean(),
+    valor: z.number().positive().max(1_000_000).nullable().optional(),
   })
   .strict();
 
@@ -53,7 +54,8 @@ export async function POST(req: NextRequest) {
   if (!parsed.success || !ref) return NextResponse.json({ error: "Pedido inválido." }, { status: 400 });
 
   try {
-    const resultado = await marcarVenda(ref, parsed.data.vendido);
+    const valor = parsed.data.valor == null ? null : Math.round(parsed.data.valor * 100) / 100;
+    const resultado = await marcarVenda(ref, parsed.data.vendido, valor);
     if (resultado === "sem_coluna") {
       return NextResponse.json(
         { error: "Falta rodar o SQL 20261118160000_whatsapp_refs_venda.sql no banco para marcar venda." },
