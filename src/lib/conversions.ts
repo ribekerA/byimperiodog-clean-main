@@ -104,16 +104,9 @@ export function trackAdsConversion(
   const alvo = limpar(label);
   if (!alvo || !adsId) return false;
 
-  // Consentimento de marketing é condição, não detalhe: sem ele o gtag do Ads
-  // nem chega a ser carregado, e disparar assim mesmo só geraria erro no
-  // console. Reaproveita a mesma leitura que o banner de cookies grava.
-  let permitido = false;
-  try {
-    permitido = getCurrentConsent().marketing === true;
-  } catch {
-    permitido = false;
-  }
-  if (!permitido) return false;
+  // Sem trava de consentimento de marketing aqui: o Consent Mode v2 começa em
+  // "denied", então o Google envia o ping sem cookie e modela a conversão. Quem
+  // decide o que é gravado é o próprio Consent Mode, não este helper.
 
   const payload: Record<string, unknown> = { send_to: `${adsId}/${alvo}` };
   // `value` sem `currency` faz o Ads assumir a moeda da conta; sendo um canil

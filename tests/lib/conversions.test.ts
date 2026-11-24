@@ -45,14 +45,13 @@ describe("conversões de lead", () => {
     delete (window as unknown as { gtag?: unknown }).gtag;
   });
 
-  it("não envia conversão do Ads sem consentimento de marketing", () => {
+  it("envia conversão do Ads sem consentimento de marketing (Consent Mode cuida da gravação)", () => {
     const gtag = vi.fn();
     (window as unknown as { gtag: typeof gtag }).gtag = gtag;
     vi.mocked(getCurrentConsent).mockReturnValue(consent(false));
 
-    expect(trackAdsConversion("lead-label")).toBe(false);
-    expect(gtag).not.toHaveBeenCalled();
-    expect(safePushToDataLayer).not.toHaveBeenCalled();
+    expect(trackAdsConversion("lead-label")).toBe(true);
+    expect(gtag).toHaveBeenCalledWith("event", "conversion", expect.objectContaining({ send_to: "AW-123456789/lead-label" }));
   });
 
   it("não envia generate_lead sem consentimento de analytics", () => {
