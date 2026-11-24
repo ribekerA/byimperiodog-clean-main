@@ -73,8 +73,12 @@ export function trackWhatsAppClick(params: {
   if (typeof window === 'undefined') return;
 
   const consent = getCurrentConsent();
-  if (!consent.analytics && !consent.marketing) return;
   const useGTM = isGoogleTagManagerEnabled();
+  // Com GTM, o whatsapp_click vai ao dataLayer sem consentimento: é ele que
+  // dispara a conversão do Ads no contêiner, e o Consent Mode v2 (default
+  // denied) cuida do envio sem cookie. Sem GTM, GA4 direto e fbq continuam
+  // exigindo consentimento.
+  if (!useGTM && !consent.analytics && !consent.marketing) return;
 
   const payload: Record<string, unknown> = {
     channel: 'whatsapp',
