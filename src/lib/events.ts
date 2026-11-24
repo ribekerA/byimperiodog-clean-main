@@ -176,7 +176,9 @@ export function trackLeadFormSubmit(formName: string, transactionId?: string | n
   if (typeof window === 'undefined') return;
 
   const consent = getCurrentConsent();
-  if (!consent.analytics && !consent.marketing) return;
+  // Com GTM, o generate_lead vai ao dataLayer sem consentimento; as tags do
+  // contêiner só enviam com o Consent Mode liberado. Sem GTM, a trava continua.
+  if (!isGoogleTagManagerEnabled() && !consent.analytics && !consent.marketing) return;
 
   const payload = {
     event_category: 'conversion',

@@ -178,7 +178,8 @@ export function trackGenerateLead(options?: {
   if (typeof window === "undefined") return false;
 
   try {
-    if (!getCurrentConsent().analytics) return false;
+    // Com GTM, o evento vai ao dataLayer sem consentimento (Consent Mode v2 cuida do envio).
+    if (!isGoogleTagManagerEnabled() && !getCurrentConsent().analytics) return false;
   } catch {
     return false;
   }

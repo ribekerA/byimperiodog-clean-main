@@ -6,6 +6,7 @@ import { getCurrentConsent } from "@/lib/consent";
 import {
   clearPendingLeadConversion,
   GOOGLE_ADS_READY_EVENT,
+  isGoogleTagManagerEnabled,
   readPendingLeadConversion,
   registerAdsAccount,
   trackAdsConversion,
@@ -44,7 +45,7 @@ export function ObrigadoConversionTracker({
 
       const pendente = readPendingLeadConversion();
       if (!pendente) return;
-      if (!getCurrentConsent().marketing) return;
+      if (!isGoogleTagManagerEnabled() && !getCurrentConsent().marketing) return;
 
       const transactionId = pendente.id ?? undefined;
       const temConfigDoAds = Boolean(adsId?.trim() && leadLabel?.trim());
