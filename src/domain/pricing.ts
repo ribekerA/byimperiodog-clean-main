@@ -243,22 +243,22 @@ export function textoAPartirDeNoPix(cents: number): string {
  * usuário em 25/11/2026 (o CDC, art. 52, pede esse total; ficou registrado).
  *
  * Taxa em centésimos de ponto percentual (1339 = 13,39%), por número de
- * parcelas. `null` = taxa ainda não informada: essa quantidade de parcelas não
- * é oferecida no site. A de 12x veio do simulador da maquininha em 25/11/2026
- * (R$ 6.500 a receber → R$ 7.504,90 a cobrar).
+ * parcelas, tiradas do simulador da maquininha em 25/11/2026 (recebimento no
+ * mesmo dia; R$ 6.500 a receber → 1x R$ 6.781,42 … 12x R$ 7.504,90). Vale a
+ * mesma taxa para qualquer valor de filhote. `null` = parcela não oferecida.
  */
 export const TAXAS_CARTAO: Readonly<Record<number, number | null>> = {
-  1: null,
-  2: null,
-  3: null,
-  4: null,
-  5: null,
-  6: null,
-  7: null,
-  8: null,
-  9: null,
-  10: null,
-  11: null,
+  1: 415,
+  2: 663,
+  3: 719,
+  4: 799,
+  5: 899,
+  6: 999,
+  7: 1059,
+  8: 1099,
+  9: 1199,
+  10: 1249,
+  11: 1335,
   12: 1339,
 };
 

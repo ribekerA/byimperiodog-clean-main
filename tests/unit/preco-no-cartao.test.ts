@@ -27,6 +27,24 @@ describe("preço no cartão", () => {
     expect(dividirEmParcelas(650000, 12)).toMatchObject({ primeiraCents: 54174, demaisCents: 54166 });
   });
 
+  it("1x a 12x batem com o simulador da maquininha (R$ 6.500)", () => {
+    const simulador = [
+      "1x de R$ 6.781,42",
+      "2x (1x de R$ 3.480,78 e 1x de R$ 3.480,77)",
+      "3x (1x de R$ 2.334,53 e 2x de R$ 2.334,51)",
+      "4x de R$ 1.766,11",
+      "5x (1x de R$ 1.428,43 e 4x de R$ 1.428,41)",
+      "6x (1x de R$ 1.203,61 e 5x de R$ 1.203,56)",
+      "7x (1x de R$ 1.038,58 e 6x de R$ 1.038,55)",
+      "8x (1x de R$ 912,88 e 7x de R$ 912,81)",
+      "9x (1x de R$ 820,64 e 8x de R$ 820,61)",
+      "10x (1x de R$ 742,79 e 9x de R$ 742,77)",
+      "11x (1x de R$ 682,04 e 10x de R$ 681,94)",
+      "12x (1x de R$ 625,50 e 11x de R$ 625,40)",
+    ];
+    expect(opcoesNoCartao(650000).map(textoDasParcelas)).toEqual(simulador);
+  });
+
   it("texto da fêmea no piso", () => {
     expect(textoNoCartao(PISO_FEMEA)).toBe("em até 12x no cartão");
     const doze = opcoesNoCartao(PISO_FEMEA).find((o) => o.parcelas === 12);
