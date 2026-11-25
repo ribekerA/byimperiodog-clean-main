@@ -1015,7 +1015,8 @@ body:has(.hm-cabecalho:not(.pg-cabecalho)) { padding-top: 28px; }
 .rp-logo-lema { display: block; text-align: center; font-family: var(--font-playfair-italica), Georgia, serif; font-style: italic; font-size: 14px; line-height: 1.2; color: #e8c56f; }
 .rp-marca p { margin-top: 14px; max-width: 42ch; font-size: 14.5px; line-height: 1.6; }
 .rp-marca address { margin-top: 8px; font-style: normal; }
-.rp-selo { display: block; margin: 18px 0 6px; }
+.rp-selo { display: flex; flex-direction: column; align-items: center; width: max-content; margin: 18px 0 6px; }
+.rp-selo-numero { margin-top: 6px; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: #e8c56f; }
 .rp-marca address a, .rp-google a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14.5px; color: #f8f0d8; }
 .rp-marca address a { display: flex; width: fit-content; }
 .rp-google { display: flex; flex-wrap: wrap; gap: 0 18px; }
