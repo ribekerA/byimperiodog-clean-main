@@ -1,27 +1,60 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  PARCELAS_CARTAO,
   PISO_FEMEA,
-  PISO_MACHO,
   PRECO_POR_SLUG,
-  parcelaNoCartao,
-  precoNoCartao,
+  TAXAS_CARTAO,
+  dividirEmParcelas,
+  opcoesNoCartao,
+  textoDasParcelas,
   textoNoCartao,
+  totalNoCartao,
 } from "@/domain/pricing";
 
-// Condição do cartão decidida em 19/11/2026: PIX + R$ 500, em até 10x iguais.
-// O CDC (art. 52) pede o total do parcelado; "sem juros" só é verdade se as
-// parcelas somarem exatamente o preço no cartão.
+// Regra do cartão decidida em 25/11/2026: valor do PIX + taxa da maquininha,
+// por conta do cliente; nada "sem juros". Os números de referência são os do
+// simulador da maquininha: R$ 6.500 a receber em 12x → cobrar R$ 7.504,90,
+// 1x de R$ 625,50 e 11x de R$ 625,40.
 describe("preço no cartão", () => {
-  it("macho e fêmea batem com a tabela combinada", () => {
-    expect(textoNoCartao(PISO_MACHO)).toBe("R$ 5.000 no cartão, em até 10x de R$ 500 sem juros");
-    expect(textoNoCartao(PISO_FEMEA)).toBe("R$ 7.000 no cartão, em até 10x de R$ 700 sem juros");
+  it("12x bate com o simulador da maquininha", () => {
+    expect(totalNoCartao(650000, 1339)).toBe(750490);
+    expect(dividirEmParcelas(750490, 12)).toEqual({
+      parcelas: 12,
+      totalCents: 750490,
+      primeiraCents: 62550,
+      demaisCents: 62540,
+    });
+    expect(dividirEmParcelas(650000, 12)).toMatchObject({ primeiraCents: 54174, demaisCents: 54166 });
   });
 
-  it("as parcelas somam o preço no cartão, sem resto", () => {
+  it("texto da fêmea no piso", () => {
+    expect(textoNoCartao(PISO_FEMEA)).toBe("em até 12x no cartão, total de R$ 7.504,90");
+    const doze = opcoesNoCartao(PISO_FEMEA).find((o) => o.parcelas === 12);
+    expect(doze && textoDasParcelas(doze)).toBe("12x (1x de R$ 625,50 e 11x de R$ 625,40)");
+  });
+
+  it("parcela sem taxa cadastrada não é oferecida", () => {
+    const comTaxa = Object.entries(TAXAS_CARTAO)
+      .filter(([, taxa]) => taxa !== null)
+      .map(([n]) => Number(n));
+    expect(opcoesNoCartao(PISO_FEMEA).map((o) => o.parcelas)).toEqual(comTaxa.sort((a, b) => a - b));
+  });
+
+  it("as parcelas somam o total e o total cobre o PIX depois da taxa", () => {
     for (const cents of Object.values(PRECO_POR_SLUG)) {
-      expect(parcelaNoCartao(cents) * PARCELAS_CARTAO).toBe(precoNoCartao(cents));
+      for (const opcao of opcoesNoCartao(cents)) {
+        const taxa = TAXAS_CARTAO[opcao.parcelas] as number;
+        expect(opcao.primeiraCents + opcao.demaisCents * (opcao.parcelas - 1)).toBe(opcao.totalCents);
+        expect(opcao.primeiraCents).toBeGreaterThanOrEqual(opcao.demaisCents);
+        // Cortar no centavo pode deixar a loja até 1 centavo abaixo do PIX, como na maquininha.
+        expect(Math.abs((opcao.totalCents * (10000 - taxa)) / 10000 - cents)).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+
+  it("nunca promete sem juros", () => {
+    for (const cents of Object.values(PRECO_POR_SLUG)) {
+      expect(textoNoCartao(cents) ?? "").not.toMatch(/sem juros/i);
     }
   });
 });

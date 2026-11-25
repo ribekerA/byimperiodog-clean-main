@@ -12,6 +12,10 @@ import { PISOS_POR_SEXO, partesDoPrecoNoPix, textoNoCartao } from "@/domain/pric
 // preços não ir para o pacote do navegador.
 export default function FaixaDePrecoDaVitrine() {
   if (PISOS_POR_SEXO.length === 0) return null;
+  const cartao = PISOS_POR_SEXO.flatMap((piso) => {
+    const texto = textoNoCartao(piso.cents);
+    return texto ? [`${piso.rotulo}: ${texto}`] : [];
+  });
   return (
     <section className="vp" aria-labelledby="vp-titulo">
       <div className="vp-miolo">
@@ -42,11 +46,10 @@ export default function FaixaDePrecoDaVitrine() {
           <ChevronRight aria-hidden="true" strokeWidth={2.4} />
         </Link>
       </div>
-      {/* Cartão: preço total antes das parcelas (CDC art. 52). Fora de .vp-miolo
-          porque no desktop a faixa é uma linha só, sem quebra. */}
-      <p className="vp-cartao">
-        {PISOS_POR_SEXO.map((piso) => `${piso.rotulo}: ${textoNoCartao(piso.cents)}`).join(" · ")}
-      </p>
+      {/* Cartão: total junto das parcelas (CDC art. 52). Fora de .vp-miolo
+          porque no desktop a faixa é uma linha só, sem quebra. Sem taxa de
+          cartão cadastrada, a linha não aparece. */}
+      {cartao.length > 0 && <p className="vp-cartao">{cartao.join(" · ")}</p>}
     </section>
   );
 }
