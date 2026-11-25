@@ -615,7 +615,6 @@ body.admin-shell [data-site-shell="cta"] {
   /* Cabeçalho da home, sobre a foto. Fica fora de `.hm`: mede pela tela. */
   .hm-cabecalho { --u: calc(min(100vw, 1180px) / 1024); position: absolute; inset: 0 0 auto; z-index: 50; color: #fff; }
   .hm-cabecalho-miolo { min-height: calc(96 * var(--u)); padding-inline: calc(22 * var(--u)) calc(16 * var(--u)); }
-  .hm-coroa { width: calc(112 * var(--u)); min-width: 36px; height: auto; flex: none; }
   .hm-marca { display: block; text-align: center; font-family: var(--font-display); font-weight: 600; color: #fff; font-size: max(16px, calc(50 * var(--u))); line-height: 1.1; white-space: nowrap; }
   .hm-marca sup { font-size: 0.42em; }
   .hm-lema { display: block; text-align: center; font-family: var(--font-playfair-italica), Georgia, serif; font-style: italic; font-weight: 400; color: #f8f0d8; font-size: max(10px, calc(24 * var(--u))); letter-spacing: 0.02em; line-height: 1.15; white-space: nowrap; }
@@ -1001,7 +1000,6 @@ body:has(.hm-cabecalho:not(.pg-cabecalho)) { padding-top: 28px; }
 .rp-corpo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 20px; max-width: 80rem; margin-inline: auto; padding: 44px 20px; }
 .rp-marca, .rp-coluna-raca, .rp-coluna-criacao { grid-column: 1 / -1; }
 .rp-logo { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; }
-.rp-logo img { flex: none; width: 58px; height: auto; }
 .rp-logo-nome { display: block; text-align: center; font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.1; color: #fff; white-space: nowrap; }
 .rp-logo-nome sup { font-size: 0.42em; }
 .rp-logo-lema { display: block; text-align: center; font-family: var(--font-playfair-italica), Georgia, serif; font-style: italic; font-size: 14px; line-height: 1.2; color: #e8c56f; }
