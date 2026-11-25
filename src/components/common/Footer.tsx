@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -109,7 +108,6 @@ export default function Footer() {
       <div className="rp-corpo">
         <div className="rp-marca">
           <Link href={routes.home} className="rp-logo">
-            <Image src="/images/home/coroa.webp" alt="" width={230} height={148} unoptimized loading="lazy" />
             <span>
               <span className="rp-logo-nome">By Imperio Dog<sup>®</sup></span>{" "}
               <span className="rp-logo-lema">Sementinhas de Amor</span>

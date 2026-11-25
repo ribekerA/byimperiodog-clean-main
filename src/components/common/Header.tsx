@@ -110,15 +110,6 @@ export default function Header() {
             href={routes.home}
             className="hm-logo order-2 flex min-h-[48px] items-center gap-2 rounded-full px-2 text-base font-semibold tracking-tight text-[var(--text-light)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-dark)] lg:order-1"
           >
-            <Image
-              src="/images/home/coroa.webp"
-              alt=""
-              width={230}
-              height={148}
-              unoptimized
-              loading="eager"
-              className="hm-coroa"
-            />
             <span>
               <span className="hm-marca">By Imperio Dog<sup>®</sup></span>{" "}
               <span className="hm-lema">Sementinhas de Amor</span>
