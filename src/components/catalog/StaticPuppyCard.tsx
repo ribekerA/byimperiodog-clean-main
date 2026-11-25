@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
+import { SimuladorDeParcelas } from "@/components/catalog/SimuladorDeParcelas";
 import { PixIcon } from "@/components/icons/PixIcon";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
@@ -46,8 +47,9 @@ import { buildWhatsAppLink } from "@/lib/whatsapp";
 // da grade: "A vitrine nao confirma estoque. Consulte a disponibilidade atual
 // pelo WhatsApp."
 
-// O cartao destaca so o valor no PIX: a linha "ou 3x" saiu por pedido da
-// responsavel em 06/11/2026. Parcelamento se confirma no atendimento.
+// O cartao destaca o valor no PIX. Embaixo dele, desde 25/11/2026 a pedido do
+// usuario, vem "ou em ate 12x no cartao. Ver parcelas", o mesmo simulador da
+// ficha do filhote (SimuladorDeParcelas).
 
 // O cartao unico.
 //
@@ -190,6 +192,7 @@ export default function StaticPuppyCard({
           ) : (
             <p className="cartao-filhote-preco"><strong>Sob consulta</strong></p>
           )}
+          {price ? <SimuladorDeParcelas priceCents={price} className="cartao-filhote-parcelas" rotulo={name} /> : null}
 
           {/* CTA — sempre o mesmo: quem informa o que existe hoje e o atendimento */}
           <PawConfettiButton

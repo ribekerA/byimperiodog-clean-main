@@ -229,31 +229,98 @@ export function textoAPartirDeNoPix(cents: number): string {
 }
 
 /**
- * Cartão de crédito: o valor do PIX mais R$ 500, em até 10 parcelas iguais.
+ * Cartão de crédito: o valor do PIX mais a taxa da maquininha, por conta do
+ * cliente.
  *
- * Decisão do usuário em 19/11/2026 (macho R$ 4.500 no PIX ou R$ 5.000 no
- * cartão; fêmea R$ 6.500 ou R$ 7.000). A Lei 13.455/2017 permite preço
- * diferente por forma de pagamento desde que informado com clareza, e o CDC
- * (art. 52) pede o total do parcelado à vista do consumidor: por isso a frase
- * diz o preço no cartão antes das parcelas. "Sem juros" é verdadeiro porque
- * dez parcelas somam exatamente esse preço.
+ * Decisão do usuário em 25/11/2026, que substitui a de 19/11/2026 (PIX + R$ 500
+ * em até 10x "sem juros"): nada no cartão é "sem juros". O valor no cartão é o
+ * que faz a loja receber o preço do PIX depois da taxa da maquininha, com
+ * recebimento no mesmo dia. A taxa não é publicada; o cliente vê só o valor
+ * das parcelas e o total.
+ *
+ * A Lei 13.455/2017 permite preço diferente por forma de pagamento desde que
+ * informado com clareza. O total do parcelado não é publicado, por decisão do
+ * usuário em 25/11/2026 (o CDC, art. 52, pede esse total; ficou registrado).
+ *
+ * Taxa em centésimos de ponto percentual (1339 = 13,39%), por número de
+ * parcelas, tiradas do simulador da maquininha em 25/11/2026 (recebimento no
+ * mesmo dia; R$ 6.500 a receber → 1x R$ 6.781,42 … 12x R$ 7.504,90). Vale a
+ * mesma taxa para qualquer valor de filhote. `null` = parcela não oferecida.
  */
-export const ACRESCIMO_CARTAO = 50000;
-export const PARCELAS_CARTAO = 10;
+export const TAXAS_CARTAO: Readonly<Record<number, number | null>> = {
+  1: 415,
+  2: 663,
+  3: 719,
+  4: 799,
+  5: 899,
+  6: 999,
+  7: 1059,
+  8: 1099,
+  9: 1199,
+  10: 1249,
+  11: 1335,
+  12: 1339,
+};
 
-export function precoNoCartao(cents: number): number {
-  return cents + ACRESCIMO_CARTAO;
+export type OpcaoNoCartao = {
+  parcelas: number;
+  /** Total cobrado no cartão, em centavos. */
+  totalCents: number;
+  /** 1ª parcela: leva o centavo que sobra da divisão. */
+  primeiraCents: number;
+  /** Cada uma das demais parcelas. */
+  demaisCents: number;
+};
+
+/**
+ * Total no cartão para a loja receber `cents` depois da taxa.
+ *
+ * Corta no centavo, como o simulador da maquininha: R$ 6.500 a 13,39% dá
+ * R$ 7.504,90, e não R$ 7.504,91.
+ */
+export function totalNoCartao(cents: number, taxa: number): number {
+  return Math.floor((cents * 10000) / (10000 - taxa));
 }
 
-export function parcelaNoCartao(cents: number): number {
-  return Math.round(precoNoCartao(cents) / PARCELAS_CARTAO);
+/** Divide o total como a maquininha: parcelas cortadas no centavo e a sobra na 1ª. */
+export function dividirEmParcelas(totalCents: number, parcelas: number): OpcaoNoCartao {
+  const demaisCents = Math.floor(totalCents / parcelas);
+  return {
+    parcelas,
+    totalCents,
+    primeiraCents: totalCents - demaisCents * (parcelas - 1),
+    demaisCents,
+  };
 }
 
-/** "R$ 5.000 no cartão, em até 10x de R$ 500 sem juros" */
-export function textoNoCartao(cents: number): string {
-  return `${formatarPreco(precoNoCartao(cents))} no cartão, em até ${PARCELAS_CARTAO}x de ${formatarPreco(
-    parcelaNoCartao(cents),
-  )} sem juros`;
+/** Todas as opções no cartão com taxa cadastrada, de 1x para cima. */
+export function opcoesNoCartao(cents: number): OpcaoNoCartao[] {
+  return Object.entries(TAXAS_CARTAO)
+    .filter((entrada): entrada is [string, number] => entrada[1] !== null)
+    .map(([parcelas, taxa]) => dividirEmParcelas(totalNoCartao(cents, taxa), Number(parcelas)))
+    .sort((a, b) => a.parcelas - b.parcelas);
+}
+
+/** "12x de R$ 625,40" ou "12x (1x de R$ 625,50 e 11x de R$ 625,40)". */
+export function textoDasParcelas(opcao: OpcaoNoCartao): string {
+  const { parcelas, primeiraCents, demaisCents } = opcao;
+  if (parcelas === 1) return `1x de ${formatarPrecoComCentavos(primeiraCents)}`;
+  if (primeiraCents === demaisCents) return `${parcelas}x de ${formatarPrecoComCentavos(demaisCents)}`;
+  return `${parcelas}x (1x de ${formatarPrecoComCentavos(primeiraCents)} e ${parcelas - 1}x de ${formatarPrecoComCentavos(
+    demaisCents,
+  )})`;
+}
+
+/**
+ * "em até 12x no cartão" — a maior opção cadastrada. Sem total: o usuário
+ * pediu em 25/11/2026 que o total do cartão não seja publicado.
+ * `null` quando nenhuma taxa foi informada: aí o site não fala de cartão.
+ */
+export function textoNoCartao(cents: number): string | null {
+  const opcoes = opcoesNoCartao(cents);
+  const maior = opcoes[opcoes.length - 1];
+  if (!maior) return null;
+  return `em até ${maior.parcelas}x no cartão`;
 }
 
 /**

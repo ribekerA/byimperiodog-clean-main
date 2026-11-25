@@ -29,6 +29,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+import { SimuladorDeParcelas } from "@/components/catalog/SimuladorDeParcelas";
 import { PixIcon } from "@/components/icons/PixIcon";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { HeartBurstButton } from "@/components/motion/HeartBurst";
@@ -37,7 +38,7 @@ import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/motion/StaggerContainer";
 import { FOUNDING_YEAR } from "@/domain/config";
 import { TEXTO_SEM_PEDIGREE, temPedigreeCbkc } from "@/domain/pedigree";
-import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoNoCartao, textoReserva } from "@/domain/pricing";
+import { partesDoPrecoNoPix, textoAPartirDeNoPix, textoReserva } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { perguntarPeloFilhote } from "@/lib/nome-do-filhote";
 
@@ -203,7 +204,7 @@ export default function PuppyDetailPanel({
             </p>
             {!comPedigree && <p className="mt-0.5 text-xs text-zinc-500">{TEXTO_SEM_PEDIGREE}</p>}
             {priceCents != null && priceCents > 0 && (
-              <p className="mt-0.5 text-sm text-zinc-600">ou {textoNoCartao(priceCents)}</p>
+              <SimuladorDeParcelas priceCents={priceCents} />
             )}
           </div>
         </motion.div>
