@@ -5,10 +5,7 @@ import type { ComponentProps } from "react";
 
 import AvisoDeNinhada from "@/components/catalog/AvisoDeNinhada";
 import PuppyCinematicGallery from "@/components/catalog/PuppyCinematicGallery";
-import {
-  ClientOnlyPuppyReviews,
-  ClientOnlyPuppyStickyFloatingCTA,
-} from "@/components/catalog/PuppyClientOnly";
+import { ClientOnlyPuppyStickyFloatingCTA } from "@/components/catalog/PuppyClientOnly";
 import PuppyDetailPanel from "@/components/catalog/PuppyDetailPanel";
 import StaticPuppyCard from "@/components/catalog/StaticPuppyCard";
 import { RelatedPages } from "@/components/common/RelatedPages";
@@ -348,8 +345,9 @@ export default async function PuppyPage(props: Props) {
           ]} />
         </div>
 
-        {/* ── Avaliações das famílias ────────────────────────────────────── */}
-        <ClientOnlyPuppyReviews puppySlug={puppy.slug} puppyName={puppy.name} />
+        {/* A seção "Avaliações reais" (PuppyReviews) saiu da ficha em 25/11/2026,
+            a pedido do usuário: aparecia vazia ("Seja o primeiro a avaliar!").
+            O componente continua em src/components/reviews para voltar se quiser. */}
 
         {/* ── Filhotes relacionados ──────────────────────────────────────── */}
         {related.length > 0 && (

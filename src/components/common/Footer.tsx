@@ -120,8 +120,12 @@ export default function Footer() {
             <a href={`mailto:byimperiodog@gmail.com`}>byimperiodog@gmail.com</a>
             <a href={whatsapp} target="_blank" rel="noreferrer">{BRAND.contact.phoneDisplay}</a>
           </address>
-          {/* Terceiro e último lugar do selo de registro (SeloDeRegistro). */}
-          <SeloDeRegistro tom="escuro" tamanho={104} className="rp-selo" />
+          {/* Terceiro e último lugar do selo de registro (SeloDeRegistro). O número
+              aparece escrito embaixo do selo desde 25/11/2026, a pedido do usuário. */}
+          <figure className="rp-selo">
+            <SeloDeRegistro tom="escuro" tamanho={104} />
+            <figcaption className="rp-selo-numero">Registro CBKC nº {BRAND.registroCbkc}</figcaption>
+          </figure>
           <div className="rp-google">
             <a href={GOOGLE_MAPS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
             <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer">Avaliar no Google</a>
