@@ -239,8 +239,8 @@ export function textoAPartirDeNoPix(cents: number): string {
  * das parcelas e o total.
  *
  * A Lei 13.455/2017 permite preço diferente por forma de pagamento desde que
- * informado com clareza, e o CDC (art. 52) pede o total do parcelado: por isso
- * toda simulação mostra o total junto das parcelas.
+ * informado com clareza. O total do parcelado não é publicado, por decisão do
+ * usuário em 25/11/2026 (o CDC, art. 52, pede esse total; ficou registrado).
  *
  * Taxa em centésimos de ponto percentual (1339 = 13,39%), por número de
  * parcelas. `null` = taxa ainda não informada: essa quantidade de parcelas não
@@ -312,14 +312,15 @@ export function textoDasParcelas(opcao: OpcaoNoCartao): string {
 }
 
 /**
- * "em até 12x no cartão, total de R$ 7.504,90" — a maior opção cadastrada.
+ * "em até 12x no cartão" — a maior opção cadastrada. Sem total: o usuário
+ * pediu em 25/11/2026 que o total do cartão não seja publicado.
  * `null` quando nenhuma taxa foi informada: aí o site não fala de cartão.
  */
 export function textoNoCartao(cents: number): string | null {
   const opcoes = opcoesNoCartao(cents);
   const maior = opcoes[opcoes.length - 1];
   if (!maior) return null;
-  return `em até ${maior.parcelas}x no cartão, total de ${formatarPrecoComCentavos(maior.totalCents)}`;
+  return `em até ${maior.parcelas}x no cartão`;
 }
 
 /**

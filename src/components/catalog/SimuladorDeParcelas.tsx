@@ -4,9 +4,9 @@
  * "Ver parcelas" da ficha do filhote.
  *
  * Mostra o valor no PIX e, para cada quantidade de parcelas com taxa
- * cadastrada em domain/pricing.TAXAS_CARTAO, o valor das parcelas e o total.
- * A taxa da maquininha já está dentro do valor e não aparece: decisão do
- * usuário em 25/11/2026. O total sai sempre junto das parcelas (CDC art. 52).
+ * cadastrada em domain/pricing.TAXAS_CARTAO, o valor das parcelas.
+ * A taxa da maquininha já está dentro do valor e não aparece, e o total do
+ * cartão também não: decisões do usuário em 25/11/2026.
  *
  * Sem nenhuma taxa cadastrada, o componente não renderiza nada.
  */
@@ -48,25 +48,16 @@ export function SimuladorDeParcelas({ priceCents }: { priceCents: number }) {
             No PIX: <strong className="text-zinc-900">{formatarPrecoComCentavos(priceCents)}</strong>
           </Dialog.Description>
 
-          <table className="mt-4 w-full text-sm">
-            <caption className="sr-only">Parcelas no cartão de crédito e total de cada opção</caption>
-            <thead>
-              <tr className="border-b border-zinc-200 text-left text-xs uppercase tracking-wide text-zinc-500">
-                <th scope="col" className="py-2 font-semibold">Cartão de crédito</th>
-                <th scope="col" className="py-2 text-right font-semibold">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {opcoes.map((opcao) => (
-                <tr key={opcao.parcelas} className="border-b border-zinc-100 last:border-0">
-                  <td className="py-2.5 pr-3 font-medium text-zinc-900">{textoDasParcelas(opcao)}</td>
-                  <td className="whitespace-nowrap py-2.5 text-right text-zinc-700">
-                    {formatarPrecoComCentavos(opcao.totalCents)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h3 className="mt-4 border-b border-zinc-200 pb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            Cartão de crédito
+          </h3>
+          <ul className="text-sm">
+            {opcoes.map((opcao) => (
+              <li key={opcao.parcelas} className="border-b border-zinc-100 py-2.5 font-medium text-zinc-900 last:border-0">
+                {textoDasParcelas(opcao)}
+              </li>
+            ))}
+          </ul>
 
           <p className="mt-4 text-xs leading-relaxed text-zinc-500">
             Simulação para o valor desta página. Disponibilidade e condições são confirmadas no atendimento e no

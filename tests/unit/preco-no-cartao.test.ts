@@ -28,7 +28,7 @@ describe("preço no cartão", () => {
   });
 
   it("texto da fêmea no piso", () => {
-    expect(textoNoCartao(PISO_FEMEA)).toBe("em até 12x no cartão, total de R$ 7.504,90");
+    expect(textoNoCartao(PISO_FEMEA)).toBe("em até 12x no cartão");
     const doze = opcoesNoCartao(PISO_FEMEA).find((o) => o.parcelas === 12);
     expect(doze && textoDasParcelas(doze)).toBe("12x (1x de R$ 625,50 e 11x de R$ 625,40)");
   });
@@ -52,9 +52,9 @@ describe("preço no cartão", () => {
     }
   });
 
-  it("nunca promete sem juros", () => {
+  it("nunca promete sem juros nem publica o total", () => {
     for (const cents of Object.values(PRECO_POR_SLUG)) {
-      expect(textoNoCartao(cents) ?? "").not.toMatch(/sem juros/i);
+      expect(textoNoCartao(cents) ?? "").not.toMatch(/sem juros|total|R\$/i);
     }
   });
 });
