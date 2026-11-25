@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
 
+import { SimuladorDeParcelas } from "@/components/catalog/SimuladorDeParcelas";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { partesDoPrecoDaVitrine, textoAPartirDeNoPix } from "@/domain/pricing";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
@@ -109,6 +110,8 @@ export default function CartaoDaVitrine({ slug, name, cardTitle, color, cor, sex
               <span className="vc-preco-caixa"><strong>Sob consulta</strong></span>
             </p>
           )}
+          {/* "Ver parcelas": o mesmo simulador da ficha do filhote (25/11/2026). */}
+          {price ? <SimuladorDeParcelas priceCents={price} className="vc-parcelas" rotulo={name} /> : null}
         </div>
       </div>
 

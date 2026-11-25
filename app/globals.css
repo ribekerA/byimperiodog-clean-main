@@ -463,6 +463,11 @@ body.admin-shell [data-site-shell="cta"] {
   .cartao-filhote-preco .cartao-filhote-prefixo { flex-basis: 100%; font-size: max(11px, calc(18 * var(--c))); font-weight: 600; line-height: 1.2; }
   .cartao-filhote-preco .cartao-filhote-pix { display: inline-flex; align-items: center; gap: max(4px, calc(5 * var(--c))); align-self: center; font-weight: 600; }
   .cartao-filhote-pix svg { flex: none; width: max(15px, calc(21 * var(--c))); height: max(15px, calc(21 * var(--c))); }
+  /* "ou em até 12x no cartão. Ver parcelas" (SimuladorDeParcelas), logo abaixo do preço. */
+  .cartao-filhote-parcelas { margin-top: max(2px, calc(4 * var(--c))); font-size: max(11px, calc(16 * var(--c))); line-height: 1.3; color: #4b5348; }
+  .cartao-filhote-parcelas button { display: inline-flex; align-items: center; min-height: 24px; font-weight: 700; color: #0a6b45; text-decoration: underline; text-underline-offset: 2px; }
+  .cartao-filhote-parcelas button:hover { color: #08502f; }
+  .cartao-filhote-parcelas button:focus-visible { outline: 2px solid #10b981; outline-offset: 2px; border-radius: 4px; }
   .cartao-filhote-acao-caixa { width: 100%; margin-top: auto; padding-top: max(9px, calc(16 * var(--c))); }
   .cartao-filhote-acao {
     /* "Perguntar pela Laranja" tem 22 letras: em 24 px por unidade de cartão
@@ -774,6 +779,11 @@ body.admin-shell [data-site-shell="cta"] {
 .vc-preco-caixa { display: block; margin-top: 2px; padding: 3px 2px; text-align: center; border-radius: 8px; background: #fdeecb; color: #0a3420; }
 .vc-preco-caixa strong { display: block; font-family: var(--font-display); font-weight: 700; font-size: clamp(14px, 8.8cqw, 36px); line-height: 1.05; white-space: nowrap; font-variant-numeric: lining-nums; }
 .vc-preco-caixa span { display: block; font-size: clamp(8.5px, 5cqw, 13px); line-height: 1.15; }
+/* "ou em até 12x no cartão. Ver parcelas" (SimuladorDeParcelas), logo abaixo do preço. */
+.vc-parcelas { width: 100%; margin-top: 2px; text-align: center; font-size: clamp(8.5px, 4.8cqw, 13px); line-height: 1.25; color: #4b5348; }
+.vc-parcelas button { display: inline-flex; align-items: center; min-height: 24px; font-weight: 700; color: #0a6b45; text-decoration: underline; text-underline-offset: 2px; }
+.vc-parcelas button:hover { color: #08502f; }
+.vc-parcelas button:focus-visible { outline: 2px solid #10b981; outline-offset: 2px; border-radius: 4px; }
 .vc-acao {
   display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 46px; padding: 8px 12px; border-radius: 999px;
   background: linear-gradient(180deg, #0f4a2d, #0a3420); color: #fff; font-weight: 700; font-size: clamp(11px, 6.4cqw, 19px); line-height: 1.1;

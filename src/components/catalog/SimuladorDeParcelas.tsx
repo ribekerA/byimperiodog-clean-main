@@ -21,19 +21,36 @@ import {
   textoNoCartao,
 } from "@/domain/pricing";
 
-export function SimuladorDeParcelas({ priceCents }: { priceCents: number }) {
+type Props = {
+  priceCents: number;
+  /**
+   * Classe da linha "ou em até 12x no cartão. Ver parcelas". Sem ela, vale o
+   * estilo da ficha do filhote; os cartões da vitrine passam a sua
+   * (.cartao-filhote-parcelas, .vc-parcelas em globals.css).
+   */
+  className?: string;
+  /** Nome do filhote para o leitor de tela, quando há vários botões na página. */
+  rotulo?: string;
+};
+
+const LINHA_DA_FICHA = "mt-0.5 text-sm text-zinc-600";
+const BOTAO_DA_FICHA =
+  "font-semibold text-emerald-700 underline underline-offset-2 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500";
+
+export function SimuladorDeParcelas({ priceCents, className, rotulo }: Props) {
   const resumo = textoNoCartao(priceCents);
   if (!resumo) return null;
   const opcoes = opcoesNoCartao(priceCents);
 
   return (
     <Dialog.Root>
-      <p className="mt-0.5 text-sm text-zinc-600">
+      <p className={className ?? LINHA_DA_FICHA}>
         ou {resumo}.{" "}
         <Dialog.Trigger asChild>
           <button
             type="button"
-            className="font-semibold text-emerald-700 underline underline-offset-2 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            className={className ? undefined : BOTAO_DA_FICHA}
+            aria-label={rotulo ? `Ver parcelas de ${rotulo}` : undefined}
           >
             Ver parcelas
           </button>
