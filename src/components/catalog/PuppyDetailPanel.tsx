@@ -191,7 +191,10 @@ export default function PuppyDetailPanel({
               <span className="inline-flex items-center gap-1.5 whitespace-nowrap align-middle text-base font-semibold"><PixIcon size={18} />{partesDoPrecoNoPix(priceCents ?? 0).sufixo}</span>
             </p>
             {slug === "spitz-alemao-anao-preto-macho" && (
-              <p className="mt-1 text-sm text-zinc-600">Valor cadastrado desta referência visual; não confirma uma oferta disponível. Consulte o preço e as opções atuais no atendimento.</p>
+              // Era "Valor cadastrado desta referência visual; não confirma uma oferta
+              // disponível". Trocado em 25/11/2026 a pedido do usuário: o Preto Macho
+              // está disponível, e o aviso antigo lia como "não tem o filhote".
+              <p className="mt-1 text-sm font-semibold text-emerald-700">Disponível — confirme pelo WhatsApp.</p>
             )}
             {/* A reserva de 50% é cláusula de contrato, não promoção: por isso
                 aparece junto do preço, calculada sobre o valor deste filhote

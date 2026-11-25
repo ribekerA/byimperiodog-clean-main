@@ -37,14 +37,9 @@ export function puppySearchCopy(puppy: PuppySearchInput) {
     ? ["Lulu da Pomerânia", "Spitz Alemão Anão"]
     : ["Spitz Alemão Anão", "Lulu da Pomerânia"];
   const heading = `${segundaFicha ? "Lulu da Pomerânia (Spitz Alemão Anão)" : "Spitz Alemão Anão (Lulu da Pomerânia)"} ${color} ${sex}`;
-  if (puppy.slug === "spitz-alemao-anao-preto-macho") {
-    return {
-      heading,
-      metadataDescription: "Referência visual de Spitz Alemão Anão preto macho (Lulu da Pomerânia). Fotos reais; consulte opções e valores atuais em Bragança Paulista, SP.",
-      sectionTitle: "Lulu da Pomerânia preto macho: fotos e consulta de opções",
-      introduction: "Esta galeria é uma referência visual permanente. O valor cadastrado não confirma uma oferta atual nem a disponibilidade do animal fotografado. Consulte os filhotes e seus preços no atendimento.",
-    };
-  }
+  // O Preto Macho tinha um texto próprio ("referência visual", "não confirma uma
+  // oferta atual", sem preço). Saiu em 25/11/2026 a pedido do usuário: ele está
+  // disponível e segue o mesmo texto das outras fichas.
   return {
     heading,
     metadataDescription: `${nomePrincipal} ${color.toLowerCase()} ${sex.toLowerCase()} (${outroNome}) a partir de ${price} no PIX. Fotos reais; consulte as opções em Bragança Paulista, SP.`,
