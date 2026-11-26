@@ -35,7 +35,7 @@ export default function TrustBar({ className = "", variant = "light" }: TrustBar
       {/* Resposta rápida */}
       <span className="flex items-center gap-1">
         <span aria-hidden="true">⚡</span>
-        <span>Atendimento das 8h às 22h</span>
+        <span>Atendimento todos os dias</span>
       </span>
 
       <span className={dividerColor} aria-hidden="true">·</span>

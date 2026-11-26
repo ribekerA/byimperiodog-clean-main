@@ -68,7 +68,7 @@ export default function PriceTransparency() {
           <WhatsAppIcon className="h-5 w-5" aria-hidden="true" />
           Conhecer a vitrine de filhotes
         </a>
-        <p className="mt-3 text-xs text-zinc-500">Atendimento todos os dias, 8h–22h.</p>
+        <p className="mt-3 text-xs text-zinc-500">Atendimento todos os dias.</p>
       </div>
     </section>
   );

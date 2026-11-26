@@ -85,7 +85,7 @@ export default function HomeFAQ() {
             Não encontrou sua dúvida?
           </p>
           <p className="mt-1 text-xs text-zinc-600">
-            Nossa criadora responde pessoalmente no WhatsApp, todos os dias das 8h às 22h.
+            Nossa criadora responde pessoalmente no WhatsApp, todos os dias.
           </p>
           <a
             href="https://wa.me/5511968633239?text=Ol%C3%A1!+Tenho+uma+d%C3%BAvida+sobre+o+Spitz+Alem%C3%A3o+An%C3%A3o+(Lulu+da+Pomer%C3%A2nia)."

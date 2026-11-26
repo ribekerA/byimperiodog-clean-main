@@ -128,6 +128,11 @@ export default function CartaoDaVitrine({ slug, name, cardTitle, color, cor, sex
         <span>{perguntarPeloFilhote(corLabel, sexLabel)}</span>
         <ChevronRight aria-hidden="true" strokeWidth={2.4} />
       </a>
+
+      {/* Botão para abrir a ficha do filhote, pedido pelo usuário em 26/11/2026. */}
+      <Link href={`/filhotes/${slug}`} className="vc-ver" aria-label={`Ver o filhote: ${name}`}>
+        Ver o filhote
+      </Link>
     </article>
   );
 }

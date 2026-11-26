@@ -213,7 +213,7 @@ export default function ReserveSeuFilhotePage() {
         <div className="rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-8 shadow-sm">
           <h2 className="text-2xl font-semibold text-[var(--text)]">Inicie sua reserva</h2>
           <p className="mt-2 text-sm text-[var(--text-muted)]">
-            Preencha o formulário abaixo e entraremos em contato no horário de atendimento (todos os dias, das 8h às 22h) para falar sobre as opções atuais.
+            Preencha o formulário abaixo e entraremos em contato pelo WhatsApp para falar sobre as opções atuais.
           </p>
           <TrustBar className="mt-4" />
           <div className="mt-6">

@@ -353,17 +353,8 @@ export function buildLocalBusinessLD() {
       addressRegion: "SP",
       addressCountry: "BR",
     },
-    // O mesmo horário que /contato publica ("todos os dias, das 8h às 22h"),
-    // confirmado pela responsável em 10/11/2026 como o do negócio. É horário
-    // de atendimento: a visita continua sendo com hora marcada.
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        opens: "08:00",
-        closes: "22:00",
-      },
-    ],
+    // Sem openingHoursSpecification desde 26/11/2026: o usuário tirou o horário
+    // do site e deixa o Google Meu Negócio como fonte (24 horas).
     // Vinham do buildOrganizationLD que este nó substituiu.
     publishingPrinciples: `${SITE_URL}/politica-editorial`,
     contactPoint: [

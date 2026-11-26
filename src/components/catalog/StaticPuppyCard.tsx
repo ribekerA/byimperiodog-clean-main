@@ -212,6 +212,12 @@ export default function StaticPuppyCard({
                 (crítica de design de 17/11/2026). */}
             <span className="cartao-filhote-acao-texto">{perguntarPeloFilhote(corLabel, sexLabel)}</span>
           </PawConfettiButton>
+
+          {/* Botão para abrir a ficha (fotos, vídeos, temperamento e valor), pedido
+              pelo usuário em 26/11/2026: só a foto e o título levavam até ela. */}
+          <Link href={`/filhotes/${slug}`} className="cartao-filhote-ver" aria-label={`Ver o filhote: ${name}`}>
+            Ver o filhote
+          </Link>
         </div>
       </article>
     </TiltCard>

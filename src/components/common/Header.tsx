@@ -87,14 +87,10 @@ export default function Header() {
       </a>
 
       <header className={`hm-cabecalho${ehHome ? "" : " vt-cabecalho"}${ehHome || ehVitrine ? "" : " pg-cabecalho"}`} role="banner">
-        {/* Faixa de horário e visita (17/11/2026), confirmada pela responsável:
-            atendimento todos os dias das 8h às 22h, visita com horário agendado.
-            É o mesmo horário do openingHoursSpecification de structured-data.
-            No celular a frase encurta e a cidade sai, para caber em 320 px. */}
+        {/* Faixa de visita e cidade. O horário "8h às 22h" saiu em 26/11/2026, a
+            pedido do usuário: o Google Meu Negócio passou a 24 horas e o site não
+            publica horário, para não divergir. No celular a cidade sai. */}
         <p className="hm-horario">
-          <span className="hm-horario-larga">Atendimento todos os dias, das 8h às 22h</span>
-          <span className="hm-horario-curta">Todos os dias, 8h às 22h</span>
-          <span aria-hidden="true" className="hm-horario-ponto">·</span>
           <span>Visitas com horário agendado</span>
           <span aria-hidden="true" className="hm-horario-ponto hm-horario-larga">·</span>
           <span className="hm-horario-larga">Bragança Paulista/SP</span>

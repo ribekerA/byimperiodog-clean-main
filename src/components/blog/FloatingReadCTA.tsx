@@ -83,7 +83,7 @@ export default function FloatingReadCTA({ whatsappUrl }: Props) {
       </a>
 
       <p className="mt-2 text-center text-xs text-zinc-500">
-        ⚡ Atendimento das 8h às 22h · Sem compromisso
+        ⚡ Atendimento todos os dias · Sem compromisso
       </p>
     </div>
   );

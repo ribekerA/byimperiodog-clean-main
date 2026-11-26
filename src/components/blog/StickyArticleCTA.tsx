@@ -12,7 +12,7 @@ export default function StickyArticleCTA({ whatsappUrl }: Props) {
         Interesse em um filhote?
       </p>
       <p className="mt-2 text-sm leading-snug text-zinc-700">
-        Conversa sem compromisso. Atendimento todos os dias, das 8h às 22h.
+        Conversa sem compromisso. Atendimento todos os dias.
       </p>
       <a
         href={whatsappUrl}

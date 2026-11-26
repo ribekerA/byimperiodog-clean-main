@@ -1,5 +1,4 @@
 import {
-  Clock,
   Instagram,
   Mail,
   MapPin,
@@ -56,12 +55,8 @@ export const metadata: Metadata = {
 
 const FAQ_ITEMS = [
   {
-    q: "Qual o horário de atendimento pelo WhatsApp?",
-    a: "Atendemos todos os dias, das 8h às 22h. Mensagens enviadas fora desse horário são respondidas no atendimento seguinte.",
-  },
-  {
     q: "Posso visitar o canil presencialmente?",
-    a: "Sim. Recebemos visitas todos os dias, das 8h às 22h, com horário agendado com a criadora pelo WhatsApp.",
+    a: "Sim. Recebemos visitas com horário agendado com a criadora pelo WhatsApp.",
   },
   {
     q: "Como funciona a retirada ou a entrega?",
@@ -75,16 +70,6 @@ const FAQ_ITEMS = [
     q: "É possível ver vídeos e fotos antes de decidir?",
     a: "Sim. Enviamos fotos e vídeos do filhote pelo WhatsApp. A frequência é combinada diretamente com a criadora.",
   },
-] as const;
-
-const SCHEDULE_DAYS = [
-  { day: "Segunda", hours: "8h – 22h", open: true },
-  { day: "Terça", hours: "8h – 22h", open: true },
-  { day: "Quarta", hours: "8h – 22h", open: true },
-  { day: "Quinta", hours: "8h – 22h", open: true },
-  { day: "Sexta", hours: "8h – 22h", open: true },
-  { day: "Sábado", hours: "8h – 22h", open: true },
-  { day: "Domingo", hours: "8h – 22h", open: true },
 ] as const;
 
 export default function ContatoPage() {
@@ -141,9 +126,6 @@ export default function ContatoPage() {
             Fale diretamente pelo WhatsApp ou, se preferir, envie seus dados
             pelo formulário abaixo.
           </p>
-          <p className="mt-2 text-zinc-400">
-            Atendemos todos os dias, das 8h às 22h.
-          </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a
               href={waMainLink}
@@ -184,7 +166,7 @@ export default function ContatoPage() {
               <div>
                 <p className="font-bold text-zinc-900">WhatsApp</p>
                 <p className="mt-1 text-sm text-zinc-500">
-                  Atendimento todos os dias, das 8h às 22h
+                  Atendimento direto com a criadora
                 </p>
                 <p className="mt-2 text-sm font-semibold text-emerald-700">{DISPLAY_PHONE}</p>
               </div>
@@ -245,12 +227,10 @@ export default function ContatoPage() {
                 <p className="mt-1 text-sm text-zinc-500">
                   Bragança Paulista, SP
                 </p>
-                {/* Dizia "Visitas com agendamento prévio (sáb)" e depois "caso a
-                    caso". Em 17/11/2026 a responsável confirmou visitas todos os
-                    dias, das 8h às 22h, com horário agendado: o mesmo texto da
-                    faixa do cabeçalho e do card de baixo. */}
+                {/* Sem horário desde 26/11/2026, a pedido do usuário: o Google
+                    Meu Negócio passou a 24 horas e o site não repete horário. */}
                 <p className="mt-2 text-sm text-zinc-600">
-                  Visitas todos os dias, das 8h às 22h, com horário agendado
+                  Visitas com horário agendado
                 </p>
               </div>
               <a
@@ -262,48 +242,6 @@ export default function ContatoPage() {
                 Ver perfil e avaliações no Google →
               </a>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Horários de atendimento ───────────────────────────────────────────── */}
-      <section className="bg-zinc-50 px-5 py-16">
-        <div className="mx-auto max-w-4xl">
-          <div className="mb-8 text-center">
-            <span className="text-xs font-bold uppercase tracking-[0.3em] text-emerald-600">
-              Disponibilidade
-            </span>
-            <h2 className="mt-2 text-2xl font-bold text-zinc-900 sm:text-3xl">
-              Horários de atendimento
-            </h2>
-          </div>
-          <div className="overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm">
-            {SCHEDULE_DAYS.map((item, i) => (
-              <div
-                key={item.day}
-                className={`flex items-center justify-between px-6 py-3.5 ${i > 0 ? "border-t border-zinc-100" : ""}`}
-              >
-                <div className="flex items-center gap-3">
-                  <Clock
-                    className={`h-4 w-4 ${item.open ? "text-emerald-500" : "text-zinc-500"}`}
-                    aria-hidden
-                  />
-                  <span className={`text-sm font-semibold ${item.open ? "text-zinc-800" : "text-zinc-500"}`}>
-                    {item.day}
-                  </span>
-                </div>
-                <span
-                  className={`text-sm ${item.open ? "text-zinc-600" : "text-zinc-500"}`}
-                >
-                  {item.hours}
-                </span>
-                <span
-                  className={`hidden sm:inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${item.open ? "bg-emerald-50 text-emerald-700" : "bg-zinc-100 text-zinc-500"}`}
-                >
-                  {item.open ? "Aberto" : "Fechado"}
-                </span>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -359,7 +297,7 @@ export default function ContatoPage() {
               <p className="text-sm text-zinc-600">
                 Bragança Paulista, SP<br />
                 Região Bragantina · Interior de São Paulo<br />
-                <span className="text-zinc-500">Visitas todos os dias, das 8h às 22h, com horário agendado</span>
+                <span className="text-zinc-500">Visitas com horário agendado</span>
               </p>
               <a
                 href={GOOGLE_MAPS_PROFILE_URL}
