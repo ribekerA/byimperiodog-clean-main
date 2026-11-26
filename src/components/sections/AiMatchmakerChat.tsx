@@ -152,7 +152,7 @@ function LeadInlineForm({ onSubmit }: { onSubmit: (nome: string, telefone: strin
         </button>
       </div>
       <p className="mt-2 text-center text-xs text-zinc-500">
-        Seus dados são protegidos. Atendemos todos os dias, das 8h às 22h.
+        Seus dados são protegidos. Atendemos todos os dias.
       </p>
     </motion.form>
   );

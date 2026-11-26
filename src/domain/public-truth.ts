@@ -115,8 +115,8 @@ export const FATOS_PUBLICOS: readonly FatoPublico[] = [
   {
     id: "visitas",
     status: "CONFIRMADO",
-    texto: "Visitas todos os dias, das 8h às 22h, com horário agendado com a criadora",
-    nota: "Confirmado pela responsável em 17/11/2026. Sempre com horário agendado: visita sem agendamento não é promessa.",
+    texto: "Visitas com horário agendado com a criadora",
+    nota: "Confirmado pela responsável em 17/11/2026; o horário de atendimento saiu do site em 26/11/2026, a pedido do usuário. Sempre com horário agendado: visita sem agendamento não é promessa.",
   },
   {
     id: "transporte",

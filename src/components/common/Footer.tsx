@@ -9,8 +9,6 @@ import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import {
   BRAND,
   FOUNDING_YEAR,
-  GOOGLE_MAPS_PROFILE_URL,
-  GOOGLE_REVIEW_URL,
 } from "@/domain/config";
 import { useWhatsAppLink } from "@/hooks/useWhatsAppLink";
 import { openConsentPreferences } from "@/lib/consent";
@@ -126,10 +124,8 @@ export default function Footer() {
             <SeloDeRegistro tom="escuro" tamanho={104} />
             <figcaption className="rp-selo-numero">Registro CBKC nº {BRAND.registroCbkc}</figcaption>
           </figure>
-          <div className="rp-google">
-            <a href={GOOGLE_MAPS_PROFILE_URL} target="_blank" rel="noopener noreferrer">Perfil no Google</a>
-            <a href={GOOGLE_REVIEW_URL} target="_blank" rel="noopener noreferrer">Avaliar no Google</a>
-          </div>
+          {/* "Perfil no Google" e "Avaliar no Google" saíram em 26/11/2026, a
+              pedido do usuário: a home já mostra as avaliações do Google. */}
         </div>
 
         <nav aria-label="Navegação" className="rp-coluna">

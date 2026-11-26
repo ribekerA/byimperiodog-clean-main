@@ -183,7 +183,7 @@ export default function HeroSection() {
                 <p className="text-sm font-semibold text-zinc-900">Atendimento humano pelo WhatsApp</p>
                 <p className="text-xs leading-relaxed text-zinc-600">
                   Tire dúvidas sobre disponibilidade, documentação e valores direto com a criadora.
-                  Atendimento todos os dias, das 8h às 22h.
+                  Atendimento todos os dias.
                 </p>
               </div>
               <a

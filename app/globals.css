@@ -482,6 +482,10 @@ body.admin-shell [data-site-shell="cta"] {
   .cartao-filhote-acao-texto { min-width: 0; text-align: center; text-wrap: balance; }
   .cartao-filhote-acao::after { content: ""; position: absolute; inset: -4px 0; }
   .cartao-filhote-acao-icone { width: max(16px, calc(26 * var(--c))); height: max(16px, calc(26 * var(--c))); flex: none; }
+  /* "Ver o filhote": abre a ficha. Contorno verde, abaixo do botão do WhatsApp. */
+  .cartao-filhote-ver { display: flex; align-items: center; justify-content: center; width: 100%; min-height: max(36px, calc(48 * var(--c))); margin-top: max(6px, calc(10 * var(--c))); padding: 6px 12px; border: 2px solid #0f7040; border-radius: 999px; color: #0a5a33; font-weight: 700; font-size: max(12.5px, calc(18 * var(--c))); line-height: 1.15; background: #fffaf0; }
+  .cartao-filhote-ver:hover { background: #eaf5ee; }
+  .cartao-filhote-ver:focus-visible { outline: 2px solid #10b981; outline-offset: 2px; }
 
   /* A grade na composição da home */
   .hm-grade { margin: calc(14 * var(--u)) calc(22 * var(--u)) 0; padding: calc(10 * var(--u)) calc(4 * var(--u)) 0; }
@@ -792,6 +796,10 @@ body.admin-shell [data-site-shell="cta"] {
 .vc-acao svg:last-child { margin-inline-start: auto; width: 1.05em; height: 1.05em; }
 .vc-acao > span { margin-inline-start: 1px; white-space: nowrap; }
 .vc-acao:focus-visible { outline: 2px solid #0a3420; outline-offset: 2px; }
+/* "Ver o filhote": abre a ficha, abaixo do botão do WhatsApp. */
+.vc-ver { display: flex; align-items: center; justify-content: center; min-height: 42px; padding: 6px 12px; border: 2px solid #0a3420; border-radius: 999px; color: #0a3420; font-weight: 700; font-size: clamp(11px, 6cqw, 17px); line-height: 1.1; background: #fffaf0; }
+.vc-ver:hover { background: #f3ead2; }
+.vc-ver:focus-visible { outline: 2px solid #0a3420; outline-offset: 2px; }
 
 /* Movimento da vitrine (17/11/2026). So movimento: cores, fontes, fotos e precos
    sao os do desenho aprovado. Nada de contador, "ultimas unidades" ou gente
