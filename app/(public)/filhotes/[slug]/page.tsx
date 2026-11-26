@@ -293,9 +293,7 @@ export default async function PuppyPage(props: Props) {
                 <div className="rounded-2xl bg-zinc-50 p-4">
                   <h3 className="font-semibold text-zinc-900">Valor transparente</h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-                    {puppy.slug === "spitz-alemao-anao-preto-macho"
-                      ? "O valor cadastrado é uma referência; consulte o preço das opções atuais antes de reservar."
-                      : `${textoAPartirDeNoPix((puppy as any).priceCents ?? (puppy as any).price_cents)}, publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.`}
+                    {`${textoAPartirDeNoPix((puppy as any).priceCents ?? (puppy as any).price_cents)}, publicado na página, sem esconder o preço. Condições de reserva são explicadas no atendimento.`}
                   </p>
                 </div>
                 <div className="rounded-2xl bg-zinc-50 p-4">
