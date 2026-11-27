@@ -212,9 +212,7 @@ export default function HomePage() {
                 {" "}<span className="hm-titulo-lulu">(Lulu da Pomerânia)</span>
               </h1>
               <p className="hm-exclusivos">
-                <Image src="/images/home/pata-esq.webp" alt="" width={88} height={76} unoptimized loading="eager" />
                 <span>Filhotes Exclusivos</span>
-                <Image src="/images/home/pata-dir.webp" alt="" width={88} height={76} unoptimized loading="eager" />
               </p>
               <p className="hm-chamada so-fora-do-natal">Escolha o seu novo companheiro hoje mesmo!</p>
               <p className="hm-chamada so-no-natal">Família nova: escolha o seu Lulu da Pomerânia!</p>
@@ -261,7 +259,11 @@ export default function HomePage() {
             <ul className="hm-miolo hm-selos">
               {SELOS.map((selo) => (
                 <li key={selo.linha1}>
-                  <Image src={selo.icone} alt="" width={selo.w} height={selo.h} unoptimized loading="eager" />
+                  <span
+                    className="hm-selo-icone"
+                    aria-hidden="true"
+                    style={{ aspectRatio: `${selo.w} / ${selo.h}`, backgroundImage: `url(${selo.icone})` }}
+                  />
                   <span>{selo.linha1}{" "}<br />{selo.linha2}</span>
                 </li>
               ))}
