@@ -2,13 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-import { ConsultaFilhotes, DiferencaPrecosSexo, FaixaPrecos, PrecoFilhote, TabelaPrecos } from '@/components/blog/CommercialPricing';
+import { ConsultaFilhotes, DiferencaPrecosSexo, FaixaPrecos, PrecoFilhote, PrecoInicialDosFilhotes, TabelaPrecos } from '@/components/blog/CommercialPricing';
 import { getImageSize } from "@/lib/_generated-image-sizes";
 
 export const mdxComponents = {
   TabelaPrecos,
   FaixaPrecos,
   PrecoFilhote,
+  PrecoInicialDosFilhotes,
   DiferencaPrecosSexo,
   ConsultaFilhotes,
   // Links use Next.js Link for internal routes; external fall back to <a>

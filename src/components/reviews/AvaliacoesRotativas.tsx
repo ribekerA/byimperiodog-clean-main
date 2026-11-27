@@ -58,7 +58,9 @@ export default function AvaliacoesRotativas({ className = "" }: { className?: st
         <p>
           <span className="ar-nota-titulo">Avaliações reais</span>{" "}
           <span className="ar-nota-numero"><strong>{NOTA}/5</strong> no Google</span>{" "}
-          <span className="ar-nota-resumo">{googleReviewSnapshot.total} no perfil</span>
+          <span className="ar-nota-resumo">
+            {googleReviewSnapshot.total} no perfil · <time dateTime={googleReviewSnapshot.checkedAt}>{googleReviewSnapshot.checkedAtLabel}</time>
+          </span>
         </p>
       </div>
 
