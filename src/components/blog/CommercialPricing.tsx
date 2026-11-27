@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import {
-  CORES_DIVULGADAS, FAIXA_PUBLICA_TEXTO, RESPOSTA_MACHO_VS_FEMEA,
-  formatarPreco, precoDe, type CorDivulgada, type Sexo,
+  CORES_DIVULGADAS, FAIXA_PUBLICA_TEXTO, PISO_FEMEA, PISO_MACHO, RESPOSTA_MACHO_VS_FEMEA,
+  formatarPreco, precoDe, textoNoCartao, type CorDivulgada, type Sexo,
 } from '@/domain/pricing';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
 
@@ -24,6 +24,22 @@ export function DiferencaPrecosSexo() {
 
 export function FaixaPrecos() {
   return <span>{FAIXA_PUBLICA_TEXTO}</span>;
+}
+
+export function PrecoInicialDosFilhotes() {
+  const parcelamento = textoNoCartao(PISO_MACHO);
+  return (
+    <>
+      <p>
+        Na By Imperio Dog, os machos partem de <strong>{formatarPreco(PISO_MACHO)}</strong> e
+        as fêmeas de <strong>{formatarPreco(PISO_FEMEA)}</strong> no Pix.
+        Consulte o preço individual na ficha e confirme a disponibilidade no atendimento.
+      </p>
+      {parcelamento && (
+        <p>Você pode pagar {parcelamento}. Use <strong>Ver parcelas</strong> na ficha do filhote para simular.</p>
+      )}
+    </>
+  );
 }
 
 export function ConsultaFilhotes({ placement = 'blog' }: { placement?: 'blog' | 'content' }) {

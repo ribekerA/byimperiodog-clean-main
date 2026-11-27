@@ -1,7 +1,7 @@
 import { googleReviewSnapshot } from "@/content/google-reviews";
 import { GOOGLE_REVIEWS_URL } from "@/domain/config";
 
-/** Resumo conferido nos prints da proprietária, sem inferir média da amostra. */
+/** Nota e total conferidos no perfil do Google. */
 export default function GoogleReviewsSection({ compact = false }: { compact?: boolean }) {
   if (compact) return (
     <div data-google-review-summary="compact" className="flex max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-2xl border border-white/25 bg-zinc-950/75 px-4 py-2 text-sm text-white">
@@ -12,6 +12,7 @@ export default function GoogleReviewsSection({ compact = false }: { compact?: bo
         <span className="sr-only"> — ver avaliações nesta página</span>
       </a>
       <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Conferir no Google<span className="sr-only"> (abre em nova aba)</span></a>
+      <time dateTime={googleReviewSnapshot.checkedAt} className="text-xs">Conferido em {googleReviewSnapshot.checkedAtLabel}</time>
     </div>
   );
   return (
@@ -23,6 +24,9 @@ export default function GoogleReviewsSection({ compact = false }: { compact?: bo
           <span aria-hidden="true" className="absolute inset-y-0 left-0 overflow-hidden whitespace-nowrap text-[#fbbc04]" style={{ width: `${googleReviewSnapshot.rating / 5 * 100}%` }}>★★★★★</span>
         </div>
         <p className="mt-3 text-sm font-semibold text-zinc-800">{googleReviewSnapshot.total} avaliações no Google</p>
+        <time dateTime={googleReviewSnapshot.checkedAt} className="mt-1 block text-xs text-[var(--text-muted)]">
+          Conferido em {googleReviewSnapshot.checkedAtLabel}
+        </time>
         <div role="img" aria-label="Google" className="mt-4 text-4xl font-semibold tracking-tight">
           <span aria-hidden="true"><span className="text-[#4285f4]">G</span><span className="text-[#ea4335]">o</span><span className="text-[#fbbc05]">o</span><span className="text-[#4285f4]">g</span><span className="text-[#34a853]">l</span><span className="text-[#ea4335]">e</span></span>
         </div>

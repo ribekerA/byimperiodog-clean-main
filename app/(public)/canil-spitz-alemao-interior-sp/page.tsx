@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { RelatedPages } from "@/components/common/RelatedPages";
 import GoogleReviewsSection from "@/components/reviews/GoogleReviewsSection";
-import { googleReviews, googleReviewSnapshot } from "@/content/google-reviews";
+import { googleReviews } from "@/content/google-reviews";
 import { BRAND, FOUNDING_YEAR } from "@/domain/config";
 import { REGRA_DE_ENTREGA } from "@/domain/public-truth";
 import { buildArticleLD } from "@/lib/schema";
@@ -128,7 +128,6 @@ export default function CanilInteriorSPPage() {
 
       <section aria-labelledby="avaliacoes-isp-heading" className="space-y-6">
         <h2 id="avaliacoes-isp-heading" className="text-2xl font-bold text-zinc-900">O que dizem as famílias</h2>
-        <p className="text-sm text-zinc-500">Nota e total conferidos no Google em {googleReviewSnapshot.checkedAtLabel}.</p>
         <div className="grid gap-6 lg:grid-cols-[1fr_18rem] lg:items-start">
           <ul className="space-y-4">
             {TRECHOS.map((r) => (

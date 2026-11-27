@@ -1,12 +1,12 @@
-/** Transcrição dos prints fornecidos pela proprietária em 03/11/2026.
+/** A amostra de depoimentos foi transcrita dos prints de 03/11/2026.
  * Datas relativas são preservadas como vistas na captura, não convertidas em datas exatas.
  * O total do perfil não é a contagem desta amostra. Sem atualização automática.
  */
 export const googleReviewSnapshot = {
-  checkedAt: "2026-11-03",
-  checkedAtLabel: "03/11/2026",
+  checkedAt: "2026-11-27",
+  checkedAtLabel: "27/11/2026",
   rating: 4.9,
-  total: 35,
+  total: 38,
   sourceUrl: "https://share.google/kwfewUnCk1vm2IPmw",
 } as const;
 
