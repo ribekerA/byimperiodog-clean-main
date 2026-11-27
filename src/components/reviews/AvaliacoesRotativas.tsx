@@ -22,7 +22,6 @@
  * texto precisa ser cortado.
  */
 
-import Image from "next/image";
 import { useState } from "react";
 
 import { usePassagemAutomatica } from "@/components/reviews/usePassagemAutomatica";
@@ -54,7 +53,6 @@ export default function AvaliacoesRotativas({ className = "" }: { className?: st
       className={`avaliacoes-rotativas ${className}`}
     >
       <div className="ar-nota">
-        <Image src="/images/home/estrela.webp" alt="" width={140} height={136} unoptimized />
         <p>
           <span className="ar-nota-titulo">Avaliações reais</span>{" "}
           <span className="ar-nota-numero"><strong>{NOTA}/5</strong> no Google</span>{" "}

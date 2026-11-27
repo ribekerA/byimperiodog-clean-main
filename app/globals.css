@@ -391,7 +391,13 @@ body.admin-shell [data-site-shell="cta"] {
     border: 1.5px solid #e9c873; border-radius: 18px; background: rgba(3, 26, 15, 0.88); box-shadow: 0 0 10px rgba(255, 216, 120, 0.45);
   }
   .ar-nota { display: flex; align-items: center; gap: 10px; }
-  .ar-nota img { width: 32px; height: auto; flex: none; }
+  .ar-nota::before {
+    content: "";
+    flex: none;
+    width: 32px;
+    aspect-ratio: 140 / 136;
+    background: url("/images/home/estrela.webp") center / contain no-repeat;
+  }
   .ar-nota-titulo { display: block; color: var(--ouro-400); font-weight: 700; font-size: 15px; line-height: 1.2; }
   .ar-nota-numero { display: block; font-size: 14px; line-height: 1.25; }
   .ar-nota-numero strong { font-weight: 700; }
@@ -423,7 +429,7 @@ body.admin-shell [data-site-shell="cta"] {
   @media (min-width: 768px) {
     .avaliacoes-rotativas { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 20px; padding: 14px 22px; border-radius: 22px; }
     .ar-nota { padding-inline-end: 20px; border-inline-end: 1px solid rgba(226, 204, 150, 0.3); }
-    .ar-nota img { width: 44px; }
+    .ar-nota::before { width: 44px; }
     .ar-nota-titulo { font-size: 18px; white-space: nowrap; }
     .ar-nota-numero { font-size: 17px; white-space: nowrap; }
     .ar-inicial { width: 58px; height: 58px; font-size: 28px; }
@@ -544,7 +550,14 @@ body.admin-shell [data-site-shell="cta"] {
     font-family: var(--font-playfair-italica), Georgia, serif; font-style: italic; font-weight: 700; font-size: calc(55 * var(--u)); line-height: 1.12;
     color: #fbe9bd; text-shadow: 0 1px calc(3 * var(--u)) rgba(0, 0, 0, 0.6);
   }
-  .hm-exclusivos img { width: calc(44 * var(--u)); height: auto; }
+  .hm-exclusivos::before, .hm-exclusivos::after {
+    content: "";
+    width: calc(44 * var(--u));
+    aspect-ratio: 88 / 76;
+    background: center / contain no-repeat;
+  }
+  .hm-exclusivos::before { background-image: url("/images/home/pata-esq.webp"); }
+  .hm-exclusivos::after { background-image: url("/images/home/pata-dir.webp"); }
   .hm-chamada { font-size: max(10.5px, calc(29 * var(--u))); line-height: 1.2; margin-top: calc(6 * var(--u)); color: #fff; }
 
   .hm-corpo { padding-bottom: calc(22 * var(--u)); }
@@ -593,7 +606,7 @@ body.admin-shell [data-site-shell="cta"] {
   .hm-selos { display: grid; grid-template-columns: minmax(max-content, 173fr) minmax(max-content, 220fr) minmax(max-content, 192fr) minmax(max-content, 164fr) minmax(max-content, 175fr); padding: calc(16 * var(--u)) max(6px, calc(48 * var(--u))) 0 max(6px, calc(52 * var(--u))); }
   .hm-selos li { display: flex; flex-direction: column; align-items: center; gap: calc(6 * var(--u)); text-align: center; color: #f6f1e2; font-size: max(9px, calc(19.5 * var(--u))); line-height: 1.16; }
   .hm-selos li + li { border-inline-start: 1px solid rgba(226, 204, 150, 0.32); }
-  .hm-selos img { height: max(20px, calc(44 * var(--u))); width: auto; }
+  .hm-selo-icone { height: max(20px, calc(44 * var(--u))); background: center / contain no-repeat; }
 
   /* Filtros */
   .hm-filtros { display: flex; flex-wrap: wrap; justify-content: center; gap: max(4px, calc(16 * var(--u))); padding: calc(22 * var(--u)) 8px 0; }
@@ -630,7 +643,15 @@ body.admin-shell [data-site-shell="cta"] {
   .hm-menu { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: max(4px, calc(10 * var(--u))); width: 44px; height: 44px; flex: none; }
   .hm-menu > span { display: block; width: max(20px, calc(42 * var(--u))); height: max(2px, calc(5 * var(--u))); border-radius: 999px; background: #fff; }
   .hm-desde { display: flex; align-items: center; flex: none; gap: max(1px, calc(3 * var(--u))); text-align: center; color: #f8f0d8; font-size: max(9.5px, calc(25 * var(--u))); font-weight: 500; line-height: 1.12; }
-  .hm-desde img { width: max(11px, calc(36 * var(--u))); height: auto; flex: none; }
+  .hm-desde::before, .hm-desde::after {
+    content: "";
+    flex: none;
+    width: max(11px, calc(36 * var(--u)));
+    aspect-ratio: 80 / 136;
+    background: center / contain no-repeat;
+  }
+  .hm-desde::before { background-image: url("/images/home/louro-esq.webp"); }
+  .hm-desde::after { background-image: url("/images/home/louro-dir.webp"); }
   .hm-desde-ano { display: block; font-family: var(--font-display); font-weight: 600; color: #e8c56f; font-size: 1.12em; font-variant-numeric: lining-nums; }
   /* O bloco da marca fica mais perto do centro, como no mockup. */
   @media (max-width: 1023px) { .hm-logo { margin-inline-start: calc(60 * var(--u)); } }

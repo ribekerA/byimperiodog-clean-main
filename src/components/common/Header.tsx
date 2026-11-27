@@ -2,7 +2,6 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChevronDown, X } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
@@ -116,9 +115,7 @@ export default function Header() {
               seguem o cabeçalho da vitrine, sem selo; o ano segue no rodapé. */}
           {ehHome ? (
             <span className="hm-desde order-3 lg:hidden">
-              <Image src="/images/home/louro-esq.webp" alt="" width={80} height={136} unoptimized loading="eager" />
               <span>Desde{" "}<span className="hm-desde-ano">2013</span></span>
-              <Image src="/images/home/louro-dir.webp" alt="" width={80} height={136} unoptimized loading="eager" />
             </span>
           ) : null}
 
